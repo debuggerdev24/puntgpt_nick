@@ -20,12 +20,12 @@ TextStyle _baseTextStyle({
   TextDecorationStyle? decorationStyle,
   double? decorationThickness,
   double? letterSpacing,
-  FontStyle? fontStyle, // ✅ Added for italic support
+  FontStyle? fontStyle,
 }) {
   return TextStyle(
     fontSize: fontSize,
     height: height,
-    color: color ?? AppColors.secondary,
+    color: color ?? AppColors.primary,
     fontFamily: fontFamily,
     fontWeight: fontWeight,
     fontStyle: fontStyle ?? FontStyle.normal, // ✅ default normal

@@ -3,6 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:puntgpt_nick/core/router/app_routes.dart';
+import 'package:puntgpt_nick/features/onboarding/age_confirmation_screen.dart';
+import 'package:puntgpt_nick/features/onboarding/onboarding_screen.dart';
 import 'package:puntgpt_nick/features/splash/splash_screen.dart';
 
 class AppRouter {
@@ -40,6 +42,20 @@ class AppRouter {
         name: AppRoutes.splash,
         pageBuilder: (context, state) =>
             NoTransitionPage(child: SplashScreen()),
+      ),
+
+      GoRoute(
+        path: AppRoutes.ageConfirmationScreen,
+        name: AppRoutes.ageConfirmationScreen,
+        pageBuilder: (context, state) =>
+            NoTransitionPage(child: AgeConfirmationScreen()),
+      ),
+      
+      GoRoute(
+        path: AppRoutes.onboardingScreen,
+        name: AppRoutes.onboardingScreen,
+        pageBuilder: (context, state) =>
+            NoTransitionPage(child: OnboardingScreen()),
       ),
 
       // ==================== AUTH ROUTES ====================

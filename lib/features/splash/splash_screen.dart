@@ -1,10 +1,13 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:puntgpt_nick/core/constants/app_assets.dart';
-import 'package:puntgpt_nick/core/constants/app_colors.dart';
+import 'package:go_router/go_router.dart';
+import 'package:puntgpt_nick/core/constants/constants.dart';
 import 'package:puntgpt_nick/core/constants/text_style.dart';
-import 'package:puntgpt_nick/core/extensions/double_extensions.dart';
+import 'package:puntgpt_nick/core/router/app_routes.dart';
 import 'package:puntgpt_nick/core/widgets/image_widget.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -15,6 +18,36 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  Timer? _timer;
+  int currentIndex = -1;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      _startTimer();
+      Future.delayed(
+        3.seconds,
+      ).then((value) => context.go(AppRoutes.ageConfirmationScreen));
+    });
+  }
+
+  void _startTimer() {
+    _timer = Timer.periodic(Duration(milliseconds: 800), (timer) {
+      currentIndex++;
+      if (currentIndex > 2) {
+        currentIndex = -1;
+      }
+      setState(() {});
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,27 +82,40 @@ class _SplashScreenState extends State<SplashScreen> {
         mainAxisSize: MainAxisSize.min,
         children: [
           Padding(
-            padding:  EdgeInsets.all(8.0),
+            padding: EdgeInsets.only(
+              bottom: context.bottomPadding > 0
+                  ? context.bottomPadding + 20
+                  : 30,
+            ),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Container(
-                  height: 15.w.flexClamp(15, 25),
-                  width: 15.w.flexClamp(15, 25),
-                  color: AppColors.primary,
+                AnimatedContainer(
+                  duration: 280.ms,
+                  height: 15.w.flexClamp(15, 20),
+                  width: 15.w.flexClamp(15, 20),
+                  color: currentIndex >= 0
+                      ? AppColors.primary
+                      : AppColors.primary.setOpacity(0.1),
                 ),
                 SizedBox(width: 8.w.flexClamp(8, 12)),
-                Container(
-                  height: 15.w.flexClamp(15, 25),
-                  width: 15.w.flexClamp(15, 25),
-                  color: AppColors.primary,
+                AnimatedContainer(
+                  duration: 280.ms,
+                  height: 15.w.flexClamp(15, 20),
+                  width: 15.w.flexClamp(15, 20),
+                  color: currentIndex >= 1
+                      ? AppColors.primary
+                      : AppColors.primary.setOpacity(0.1),
                 ),
                 SizedBox(width: 8.w.flexClamp(8, 12)),
-                Container(
-                  height: 15.w.flexClamp(15, 25),
-                  width: 15.w.flexClamp(15, 25),
-                  color: AppColors.primary,
+                AnimatedContainer(
+                  duration: 280.ms,
+                  height: 15.w.flexClamp(15, 20),
+                  width: 15.w.flexClamp(15, 20),
+                  color: currentIndex == 2
+                      ? AppColors.primary
+                      : AppColors.primary.setOpacity(0.1),
                 ),
               ],
             ),
