@@ -1,10 +1,14 @@
 // lib/routes/app_router.dart
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:puntgpt_nick/core/router/app_routes.dart';
+import 'package:puntgpt_nick/features/auth/screens/login_screen.dart';
+import 'package:puntgpt_nick/features/auth/screens/sign_up_screen.dart';
 import 'package:puntgpt_nick/features/onboarding/age_confirmation_screen.dart';
 import 'package:puntgpt_nick/features/onboarding/onboarding_screen.dart';
+import 'package:puntgpt_nick/features/onboarding/web_onboarding_screen.dart';
 import 'package:puntgpt_nick/features/splash/splash_screen.dart';
 
 class AppRouter {
@@ -40,42 +44,36 @@ class AppRouter {
       GoRoute(
         path: AppRoutes.splash,
         name: AppRoutes.splash,
-        pageBuilder: (context, state) =>
-            NoTransitionPage(child: SplashScreen()),
+        builder: (context, state) => SplashScreen(),
       ),
 
       GoRoute(
         path: AppRoutes.ageConfirmationScreen,
         name: AppRoutes.ageConfirmationScreen,
-        pageBuilder: (context, state) =>
-            NoTransitionPage(child: AgeConfirmationScreen()),
+        builder: (context, state) => AgeConfirmationScreen(),
       ),
-      
+
       GoRoute(
         path: AppRoutes.onboardingScreen,
         name: AppRoutes.onboardingScreen,
-        pageBuilder: (context, state) =>
-            NoTransitionPage(child: OnboardingScreen()),
+        builder: (context, state) =>
+            kIsWeb ? WebOnboardingScreen() : OnboardingScreen(),
       ),
 
       // ==================== AUTH ROUTES ====================
-      // GoRoute(
-      //   path: AppRoutes.login,
-      //   name: AppRoutes.login,
-      //   pageBuilder: (context, state) => NoTransitionPage(child: LoginScreen()),
-      // ),
-      // GoRoute(
-      //   path: AppRoutes.signup,
-      //   name: AppRoutes.signup,
-      //   pageBuilder: (context, state) =>
-      //       NoTransitionPage(child: SignupScreen()),
-      // ),
-      // GoRoute(
-      //   path: AppRoutes.forgotPassword,
-      //   name: AppRoutes.forgotPassword,
-      //   pageBuilder: (context, state) =>
-      //       NoTransitionPage(child: ForgotPasswordScreen()),
-      // ),
+      GoRoute(
+        path: AppRoutes.login,
+        name: AppRoutes.login,
+        builder: (context, state) =>
+            LoginScreen(isFreeSignUp: (state.extra as Map)['is_free_sign_up']),
+      ),
+
+      GoRoute(
+        path: AppRoutes.signup,
+        name: AppRoutes.signup,
+        builder: (context, state) =>
+            SignUpScreen(isFreeSignUp: (state.extra as Map)['is_free_sign_up']),
+      ),
 
       // ==================== MAIN APP WITH SHELL (Bottom Nav) ====================
       // ShellRoute(

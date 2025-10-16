@@ -1,0 +1,248 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
+import 'package:puntgpt_nick/core/constants/constants.dart';
+import 'package:puntgpt_nick/core/constants/text_style.dart';
+import 'package:puntgpt_nick/core/router/app_routes.dart';
+import 'package:puntgpt_nick/core/widgets/app_filed_button.dart';
+import 'package:puntgpt_nick/core/widgets/image_widget.dart';
+import 'package:puntgpt_nick/core/widgets/web_top_section.dart';
+import 'package:puntgpt_nick/features/onboarding/widgets/video_widget.dart';
+import 'package:puntgpt_nick/responsive/responsive_builder.dart';
+
+class WebOnboardingScreen extends StatelessWidget {
+  const WebOnboardingScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    List<Map> planData = [
+      {
+        "title": "Free 'Mug Punter' Account",
+        "price": "",
+        "points": [
+          {"icon": AppAssets.delete, "text": "No chat function with PuntGPT"},
+          {
+            "icon": AppAssets.delete,
+            "text": "No access to PuntGPT Punters Club",
+          },
+          {
+            "icon": AppAssets.done,
+            "text": "Limited PuntGPT Search Engine Filters",
+          },
+          {"icon": AppAssets.done, "text": "Limited AI analysis of horses"},
+          {"icon": AppAssets.done, "text": "Access to Classic Form Guide"},
+        ],
+      },
+      {
+        "title": "Monthly",
+        "price": "9.99",
+        "points": [
+          {"icon": AppAssets.done, "text": "Chat function with PuntGPT"},
+          {"icon": AppAssets.done, "text": "Access to PuntGPT Punters Club"},
+          {"icon": AppAssets.done, "text": "Full use of PuntGPT Search Engine"},
+          {"icon": AppAssets.done, "text": "Access to Classic Form Guide"},
+        ],
+      },
+      {
+        "title": "Yearly",
+        "price": "59.99",
+        "points": [
+          {"icon": AppAssets.done, "text": "Chat function with PuntGPT"},
+          {"icon": AppAssets.done, "text": "Access to PuntGPT Punters Club"},
+          {"icon": AppAssets.done, "text": "Full use of PuntGPT Search Engine"},
+          {"icon": AppAssets.done, "text": "Access to Classic Form Guide"},
+        ],
+      },
+      {
+        "title": "Lifetime",
+        "price": "159.99",
+        "points": [
+          {"icon": AppAssets.done, "text": "Chat function with PuntGPT"},
+          {"icon": AppAssets.done, "text": "Access to PuntGPT Punters Club"},
+          {"icon": AppAssets.done, "text": "Full use of PuntGPT Search Engine"},
+          {"icon": AppAssets.done, "text": "Access to Classic Form Guide"},
+        ],
+      },
+    ];
+
+    return Scaffold(
+      appBar:  WebTopSection(),
+      body: Align(
+        alignment: Alignment.topCenter,
+        child: SingleChildScrollView(
+          padding: EdgeInsets.symmetric(horizontal: 15),
+          child: Column(
+            children: [
+              SizedBox(height: 30),
+              Wrap(
+                alignment: WrapAlignment.center,
+                crossAxisAlignment: WrapCrossAlignment.center,
+                spacing: 50.w.flexClamp(40, 50),
+                children: [
+                  VideoWidget(
+                    height: 240.w.flexClamp(220, 260),
+                    width: 390.w.flexClamp(370, 410),
+                  ),
+                  Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Mug Punter?",
+                        style: regular(
+                          fontSize: 38.sp.flexClamp(36, 40),
+                          fontFamily: AppFontFamily.secondary,
+                        ),
+                      ),
+                      Text(
+                        "Become Pro with AI.",
+                        style: regular(
+                          fontSize: 38.sp.flexClamp(36, 40),
+                          fontFamily: AppFontFamily.secondary,
+                          color: AppColors.premiumYellow,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              SizedBox(height: 50),
+              Wrap(
+                alignment: WrapAlignment.center,
+                crossAxisAlignment: WrapCrossAlignment.center,
+                runSpacing: 25,
+                children: List.generate(planData.length, (index) {
+                  return Container(
+                    width: 280.w.flexClamp(260, 300),
+                    height: 500.w.flexClamp(500, 550),
+                    margin: EdgeInsets.symmetric(horizontal: 16),
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: AppColors.primary.setOpacity(0.2),
+                      ),
+                    ),
+                    padding: EdgeInsets.symmetric(vertical: 20, horizontal: 17),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        planData[index]['title'].toString().split(" ").length !=
+                                1
+                            ? Text(
+                                planData[index]['title'],
+                                style: regular(
+                                  fontSize: 24.sp.flexClamp(18, 26),
+                                  fontFamily: AppFontFamily.secondary,
+                                ),
+                              )
+                            : RichText(
+                                textAlign: TextAlign.left,
+                                text: TextSpan(
+                                  children: [
+                                    TextSpan(
+                                      text: planData[index]['title'].toString(),
+                                      style: regular(
+                                        fontSize: 24.sp.flexClamp(20, 26),
+                                        fontFamily: AppFontFamily.secondary,
+                                        color: AppColors.primary,
+                                      ),
+                                    ),
+                                    TextSpan(
+                                      text: ' ‘Pro Punter’ ',
+                                      style: regular(
+                                        fontSize: 24.sp.flexClamp(20, 26),
+                                        fontFamily: AppFontFamily.secondary,
+                                        color: AppColors.premiumYellow,
+                                      ),
+                                    ),
+                                    TextSpan(
+                                      text: 'Account',
+                                      style: regular(
+                                        fontSize: 24.sp.flexClamp(20, 26),
+                                        fontFamily: AppFontFamily.secondary,
+                                        color: AppColors.primary,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                        SizedBox(height: 12),
+                        ListView.separated(
+                          shrinkWrap: true,
+                          padding: EdgeInsets.all(0),
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemBuilder: (context, i) {
+                            Map item = planData[index]['points'][i];
+                            return Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                ImageWidget(
+                                  type: ImageType.svg,
+                                  path: item['icon'],
+                                  height: 20.w.clamp(18, 25),
+                                ),
+                                SizedBox(width: 10),
+                                Flexible(
+                                  child: Text(
+                                    item['text'],
+                                    style: regular(
+                                      fontSize: 16.sp.clamp(14, 18),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            );
+                          },
+                          separatorBuilder: (context, index) =>
+                              SizedBox(height: 5),
+                          itemCount: (planData[index]['points'] as List).length,
+                        ),
+                        SizedBox(height: 12),
+                        const Spacer(),
+                        planData[index]['price'].toString().isEmpty
+                            ? const SizedBox()
+                            : Row(
+                                children: [
+                                  Text(
+                                    "\$ ${planData[index]['price'].toString()}",
+                                    style: bold(
+                                      fontSize: 24.sp.flexClamp(20, 26),
+                                    ),
+                                  ),
+                                  Text(
+                                    " /${planData[index]['title'].toString().toLowerCase()}",
+                                    style: bold(
+                                      fontSize: 14.sp.flexClamp(12, 16),
+                                      color: AppColors.primary.setOpacity(0.6),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                        AppFiledButton(
+                          text: planData[index]['price'].toString().isEmpty
+                              ? "Create a Free Account"
+                              : "Subscribe",
+                          onTap: () {
+                            context.push(
+                              AppRoutes.signup,
+                              extra: {
+                                'is_free_sign_up': planData[index]['price']
+                                    .toString()
+                                    .isEmpty,
+                              },
+                            );
+                          },
+                        ),
+                      ],
+                    ),
+                  );
+                }),
+              ),
+              SizedBox(height: 30),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}

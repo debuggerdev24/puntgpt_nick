@@ -5,14 +5,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 enum ImageType { asset, svg, network }
 
 class ImageWidget extends StatelessWidget {
-  final ImageType type;
-  final String path;
-  final double? height;
-  final double? width;
-  final BoxFit fit;
-  final Widget? placeholder;
-  final Widget? errorWidget;
-
   const ImageWidget({
     super.key,
     required this.path,
@@ -22,7 +14,17 @@ class ImageWidget extends StatelessWidget {
     this.fit = BoxFit.contain,
     this.placeholder,
     this.errorWidget,
+    this.color,
   });
+
+  final ImageType type;
+  final String path;
+  final double? height;
+  final double? width;
+  final BoxFit fit;
+  final Widget? placeholder;
+  final Widget? errorWidget;
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +36,7 @@ class ImageWidget extends StatelessWidget {
           height: height,
           width: width,
           fit: fit,
+          color: color,
           errorBuilder: (_, __, ___) => errorWidget ?? _defaultErrorWidget(),
         );
         break;
@@ -45,6 +48,9 @@ class ImageWidget extends StatelessWidget {
             height: height,
             width: width,
             fit: fit,
+            colorFilter: color != null
+                ? ColorFilter.mode(color!, BlendMode.srcIn)
+                : null,
             placeholderBuilder: (_) => placeholder ?? _defaultPlaceholder(),
           );
         } else {
@@ -53,6 +59,9 @@ class ImageWidget extends StatelessWidget {
             height: height,
             width: width,
             fit: fit,
+            colorFilter: color != null
+                ? ColorFilter.mode(color!, BlendMode.srcIn)
+                : null,
           );
         }
         break;
@@ -63,6 +72,7 @@ class ImageWidget extends StatelessWidget {
           height: height,
           width: width,
           fit: fit,
+          color: color,
           loadingBuilder: (context, child, loadingProgress) {
             if (loadingProgress == null) return child;
             return placeholder ?? _defaultPlaceholder();
@@ -79,7 +89,7 @@ class ImageWidget extends StatelessWidget {
     child: SizedBox(
       height: 24.w.clamp(20, 30),
       width: 24.w.clamp(20, 30),
-      child: CircularProgressIndicator(strokeWidth: 2),
+      child: const CircularProgressIndicator(strokeWidth: 2),
     ),
   );
 

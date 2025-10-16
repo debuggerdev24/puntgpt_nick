@@ -10,7 +10,7 @@ extension FlexibleClamp on double {
   /// ```
   /// 280.w.flexClamp(min: 200, max: 350)
   /// ```
-  double flexClamp(double? min, double? max) {
+  double flexClamp([double? min, double? max]) {
     double value = this;
 
     if (min != null && value < min) value = min;

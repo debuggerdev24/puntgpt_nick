@@ -5,47 +5,56 @@ import 'package:puntgpt_nick/core/constants/text_style.dart';
 import 'package:puntgpt_nick/core/widgets/image_widget.dart';
 
 class Plans extends StatefulWidget {
-  const Plans({super.key});
+  const Plans({super.key, required this.currentPlan, required this.data});
+
+  final Function(int) currentPlan;
+  final List<Map> data;
 
   @override
   State<Plans> createState() => _PlansState();
 }
 
 class _PlansState extends State<Plans> {
-  final PageController _pageController = PageController();
-  int _currentPage = 0;
+  int _currentIndex = 0;
+  double swipeOffset = 0;
 
-  final List<Map> data = [
-    {
-      "title": "Free 'Mug Punter' Account",
-      "price": "",
-      "points": [
-        {"icon": AppAssets.delete, "text": "No chat function with PuntGPT"},
-        {"icon": AppAssets.delete, "text": "No access to PuntGPT Punters Club"},
-        {
-          "icon": AppAssets.done,
-          "text": "Limited PuntGPT Search Engine Filters",
-        },
-        {"icon": AppAssets.done, "text": "Limited AI analysis of horses"},
-        {"icon": AppAssets.done, "text": "Access to Classic Form Guide"},
-      ],
-    },
-    {
-      "title": "Pro Punter Account",
-      "price": "9.99",
-      "points": [
-        {"icon": AppAssets.done, "text": "Chat function with PuntGPT"},
-        {"icon": AppAssets.done, "text": "Access to PuntGPT Punters Club"},
-        {"icon": AppAssets.done, "text": "Full use of PuntGPT Search Engine"},
-        {"icon": AppAssets.done, "text": "Access to Classic Form Guide"},
-      ],
-    },
-  ];
+  List<Map> data = [];
 
   @override
-  void dispose() {
-    _pageController.dispose();
-    super.dispose();
+  void initState() {
+    super.initState();
+    data = widget.data;
+  }
+
+  void _handleSwipe(DragEndDetails details) {
+    if (details.primaryVelocity! < 0) {
+      if (_currentIndex < data.length - 1) {
+        setState(() {
+          _currentIndex++;
+          swipeOffset = 0;
+        });
+      }
+    } else if (details.primaryVelocity! > 0) {
+      if (_currentIndex > 0) {
+        setState(() {
+          _currentIndex--;
+          swipeOffset = 0;
+        });
+      }
+    }
+    widget.currentPlan.call(_currentIndex);
+  }
+
+  void _handleSwipeUpdate(DragUpdateDetails details) {
+    setState(() {
+      swipeOffset += details.delta.dx;
+    });
+  }
+
+  void _handleSwipeStart(DragStartDetails details) {
+    setState(() {
+      swipeOffset = 0;
+    });
   }
 
   @override
@@ -57,43 +66,42 @@ class _PlansState extends State<Plans> {
           'Mug Punter?\nBecome Pro with AI.',
           textAlign: TextAlign.center,
           style: regular(
-            fontSize: 35.sp.clamp(20, 50),
+            fontSize: 28.sp.clamp(20, 30),
             height: 1.2,
             fontFamily: AppFontFamily.secondary,
           ),
         ),
         SizedBox(height: 40.w.flexClamp(35, 40)),
+        GestureDetector(
+          onHorizontalDragStart: _handleSwipeStart,
+          onHorizontalDragUpdate: _handleSwipeUpdate,
+          onHorizontalDragEnd: _handleSwipe,
+          child: AnimatedSwitcher(
+            duration: Duration(milliseconds: 300),
+            // transitionBuilder: (Widget child, Animation<double> animation) {
+            //   final offsetAnimation =
+            //       Tween<Offset>(
+            //         begin: Offset(_swipeOffset > 0 ? -1.0 : 1.0, 0.0),
+            //         end: Offset.zero,
+            //       ).animate(
+            //         CurvedAnimation(parent: animation, curve: Curves.easeInOut),
+            //       );
 
-        _buildPlanCard(data[1]),
-        SizedBox(height: 16),
-        _buildPageIndicators(),
-      ],
-    );
-  }
-
-  Widget _buildPageIndicators() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: List.generate(
-        data.length,
-        (index) => AnimatedContainer(
-          duration: Duration(milliseconds: 300),
-          margin: EdgeInsets.symmetric(horizontal: 4),
-          width: _currentPage == index ? 24 : 8,
-          height: 8,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(4),
-            color: _currentPage == index
-                ? AppColors.primary
-                : AppColors.primary.setOpacity(0.3),
+            //   return SlideTransition(
+            //     position: offsetAnimation,
+            //     child: FadeTransition(opacity: animation, child: child),
+            //   );
+            // },
+            child: _buildPlanCard(data[_currentIndex]),
           ),
         ),
-      ),
+      ],
     );
   }
 
   Widget _buildPlanCard(Map planData) {
     return Container(
+      key: ValueKey(_currentIndex),
       margin: EdgeInsets.symmetric(horizontal: 16),
       decoration: BoxDecoration(
         border: Border.all(color: AppColors.primary.setOpacity(0.2)),
@@ -102,8 +110,7 @@ class _PlansState extends State<Plans> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          // Display title or price
-          planData['title'].toString().isNotEmpty
+          planData['title'].toString().split(" ").length != 1
               ? Text(
                   planData['title'],
                   textAlign: TextAlign.center,
@@ -112,30 +119,48 @@ class _PlansState extends State<Plans> {
                     fontFamily: AppFontFamily.secondary,
                   ),
                 )
-              : planData['price'].toString().isNotEmpty
-              ? RichText(
+              : RichText(
                   textAlign: TextAlign.center,
                   text: TextSpan(
                     children: [
                       TextSpan(
-                        text: '\$${planData['price']}',
+                        text: planData['title'].toString(),
                         style: regular(
-                          fontSize: 32.sp.flexClamp(24, 36),
+                          fontSize: 24.sp.flexClamp(20, 26),
                           fontFamily: AppFontFamily.secondary,
                           color: AppColors.primary,
                         ),
                       ),
                       TextSpan(
-                        text: '/month',
-                        style: regular(fontSize: 16.sp.clamp(14, 18)),
+                        text: ' ‘Pro Punter’ ',
+                        style: regular(
+                          fontSize: 24.sp.flexClamp(20, 26),
+                          fontFamily: AppFontFamily.secondary,
+                          color: AppColors.premiumYellow,
+                        ),
+                      ),
+                      TextSpan(
+                        text: 'Account',
+                        style: regular(
+                          fontSize: 24.sp.flexClamp(20, 26),
+                          fontFamily: AppFontFamily.secondary,
+                          color: AppColors.primary,
+                        ),
                       ),
                     ],
                   ),
-                )
-              : SizedBox.shrink(),
-          SizedBox(height: 15),
+                ),
+          SizedBox(height: 12),
+          planData['price'].toString().isEmpty
+              ? const SizedBox()
+              : Text(
+                  "\$ ${planData['price'].toString()}",
+                  style: bold(fontSize: 24.sp.flexClamp(20, 26)),
+                ),
+          SizedBox(height: 12),
           ListView.separated(
             shrinkWrap: true,
+            padding: EdgeInsets.all(0),
             physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (context, i) {
               Map item = planData['points'][i];
