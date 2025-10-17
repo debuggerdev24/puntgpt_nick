@@ -9,6 +9,7 @@ class AppAssets {
   static const hide = "$_iconPath/hide.svg";
   static const show = "$_iconPath/show.svg";
   static const arrowDown = "$_iconPath/arrow_down.svg";
+  static const appBarLogo = "$_iconPath/app_bar_logo.svg";
 
   // images
   static const _imagePath = "assets/images";

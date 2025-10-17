@@ -4,12 +4,14 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:puntgpt_nick/core/router/app_routes.dart';
-import 'package:puntgpt_nick/features/auth/screens/login_screen.dart';
-import 'package:puntgpt_nick/features/auth/screens/sign_up_screen.dart';
-import 'package:puntgpt_nick/features/onboarding/age_confirmation_screen.dart';
-import 'package:puntgpt_nick/features/onboarding/onboarding_screen.dart';
-import 'package:puntgpt_nick/features/onboarding/web_onboarding_screen.dart';
-import 'package:puntgpt_nick/features/splash/splash_screen.dart';
+import 'package:puntgpt_nick/screens/auth/screens/login_screen.dart';
+import 'package:puntgpt_nick/screens/auth/screens/sign_up_screen.dart';
+import 'package:puntgpt_nick/screens/dashboard/dashboard.dart';
+import 'package:puntgpt_nick/screens/home/home_screen.dart';
+import 'package:puntgpt_nick/screens/onboarding/age_confirmation_screen.dart';
+import 'package:puntgpt_nick/screens/onboarding/onboarding_screen.dart';
+import 'package:puntgpt_nick/screens/onboarding/web_onboarding_screen.dart';
+import 'package:puntgpt_nick/screens/splash/splash_screen.dart';
 
 class AppRouter {
   static final _rootNavigatorKey = GlobalKey<NavigatorState>();
@@ -76,13 +78,23 @@ class AppRouter {
       ),
 
       // ==================== MAIN APP WITH SHELL (Bottom Nav) ====================
-      // ShellRoute(
-      //   navigatorKey: _shellNavigatorKey,
-      //   builder: (context, state, child) {
-      //     return SizedBox(child: child);
-      //   },
-      //   routes: [],
-      // ),
+      StatefulShellRoute.indexedStack(
+        builder: (context, state, navigationShell) {
+          return Dashboard(navigationShell: navigationShell);
+        },
+        branches: [
+          // home screen
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: AppRoutes.home,
+                name: AppRoutes.home,
+                builder: (context, state) => HomeScreen(),
+              ),
+            ],
+          ),
+        ],
+      ),
     ],
 
     // Error page

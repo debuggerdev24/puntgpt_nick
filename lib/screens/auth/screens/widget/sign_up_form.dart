@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:puntgpt_nick/core/constants/constants.dart';
+import 'package:puntgpt_nick/core/helper/date_picker.dart';
 import 'package:puntgpt_nick/core/utils/date_formater.dart';
 import 'package:puntgpt_nick/core/utils/field_validators.dart';
 import 'package:puntgpt_nick/core/widgets/app_text_field_drop_down.dart';
@@ -13,6 +14,23 @@ class SignUpForm extends StatelessWidget {
   const SignUpForm({super.key, required this.formKey});
 
   final GlobalKey<FormState> formKey;
+
+  void _pickBob(BuildContext context, AuthProvider provider) async {
+    final DateTime today = DateTime.now();
+
+    final DateTime lastDate = DateTime(today.year - 18, today.month, today.day);
+    final DateTime firstDate = DateTime(1900);
+
+    DateTime? selectedDate = await showAppDatePicker(
+      context,
+      firstDate: firstDate,
+      lastDate: lastDate,
+    );
+    LogHelper.info("selected date: $selectedDate");
+    if (selectedDate != null) {
+      provider.dobCtr.text = DateFormatter.formatDateShort(selectedDate);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,26 +59,7 @@ class SignUpForm extends StatelessWidget {
                       trailingIcon: AppAssets.arrowDown,
                       enabled: false,
                       validator: FieldValidators().required,
-                      onTap: () async {
-                        final DateTime today = DateTime.now();
-                        final DateTime lastDate = DateTime(
-                          today.year - 18,
-                          today.month,
-                          today.day,
-                        );
-                        final DateTime firstDate = DateTime(1900);
-                        DateTime? selectedDate = await showDatePicker(
-                          context: context,
-                          firstDate: firstDate,
-                          lastDate: lastDate,
-                        );
-                        LogHelper.info("selected date: $selectedDate");
-                        if (selectedDate != null) {
-                          provider.dobCtr.text = DateFormatter.formatDateShort(
-                            selectedDate,
-                          );
-                        }
-                      },
+                      onTap: () => _pickBob(context, provider),
                     ),
                     SizedBox(height: 8),
                     AppTextFieldDropdown(
@@ -123,19 +122,25 @@ class SignUpForm extends StatelessWidget {
                         children: [
                           Expanded(
                             child: AppTextField(
-                              controller: TextEditingController(),
+                              controller: provider.dobCtr,
                               hintText: "Date of birth",
                               trailingIcon: AppAssets.arrowDown,
-                              validator: (value) => FieldValidators()
-                                  .dateValidator(DateTime.parse(value ?? "")),
+                              enabled: false,
+                              validator: FieldValidators().required,
+                              onTap: () => _pickBob(context, provider),
                             ),
                           ),
                           SizedBox(width: 24.w.flexClamp(20, 24)),
                           Expanded(
-                            child: AppTextField(
-                              controller: TextEditingController(),
-                              hintText: "State",
-                              trailingIcon: AppAssets.arrowDown,
+                            child: AppTextFieldDropdown(
+                              items: List.generate(
+                                20,
+                                (index) => "State ${index + 1}",
+                              ),
+                              hintText: 'State',
+                              onChange: (value) =>
+                                  provider.selectedState = value,
+                              selectedValue: provider.selectedState,
                               validator: FieldValidators().required,
                             ),
                           ),

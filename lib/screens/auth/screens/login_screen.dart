@@ -95,6 +95,7 @@ class LoginScreen extends StatelessWidget {
                         text: "Login",
                         onTap: () {
                           if (_formKey.currentState!.validate()) {}
+                          context.go(AppRoutes.home);
                         },
                       ),
                       SizedBox(height: 15),

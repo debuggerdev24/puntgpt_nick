@@ -5,8 +5,8 @@ import 'package:puntgpt_nick/core/constants/constants.dart';
 import 'package:puntgpt_nick/core/constants/text_style.dart';
 import 'package:puntgpt_nick/core/router/app_routes.dart';
 import 'package:puntgpt_nick/core/widgets/app_filed_button.dart';
-import 'package:puntgpt_nick/features/onboarding/widgets/plans.dart';
-import 'package:puntgpt_nick/features/onboarding/widgets/video_widget.dart';
+import 'package:puntgpt_nick/screens/onboarding/widgets/plans.dart';
+import 'package:puntgpt_nick/screens/onboarding/widgets/video_widget.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});

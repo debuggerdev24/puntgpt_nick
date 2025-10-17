@@ -8,9 +8,9 @@ import 'package:puntgpt_nick/core/constants/text_style.dart';
 import 'package:puntgpt_nick/core/router/app_routes.dart';
 import 'package:puntgpt_nick/core/widgets/app_check_box.dart';
 import 'package:puntgpt_nick/core/widgets/web_top_section.dart';
-import 'package:puntgpt_nick/features/auth/screens/widget/sign_up_bottom_section.dart';
-import 'package:puntgpt_nick/features/auth/screens/widget/sign_up_form.dart';
-import 'package:puntgpt_nick/features/auth/screens/widget/sign_up_title.dart';
+import 'package:puntgpt_nick/screens/auth/screens/widget/sign_up_bottom_section.dart';
+import 'package:puntgpt_nick/screens/auth/screens/widget/sign_up_form.dart';
+import 'package:puntgpt_nick/screens/auth/screens/widget/sign_up_title.dart';
 import 'package:puntgpt_nick/provider/auth_provider.dart';
 import 'package:puntgpt_nick/responsive/responsive_builder.dart';
 
@@ -70,9 +70,11 @@ class SignUpScreen extends StatelessWidget {
                     );
                   },
                   onSignUpTap: () {
-                    if (_formKey.currentState!.validate()) {
-                      
-                    }
+                    if (_formKey.currentState!.validate()) {}
+                    context.pushReplacement(
+                      AppRoutes.login,
+                      extra: {"is_free_sign_up": isFreeSignUp},
+                    );
                   },
                 ),
               ],
