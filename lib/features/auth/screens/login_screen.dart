@@ -94,9 +94,7 @@ class LoginScreen extends StatelessWidget {
                       AppFiledButton(
                         text: "Login",
                         onTap: () {
-                          if (_formKey.currentState!.validate()) {
-                            _formKey.currentState!.save();
-                          }
+                          if (_formKey.currentState!.validate()) {}
                         },
                       ),
                       SizedBox(height: 15),

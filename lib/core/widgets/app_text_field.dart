@@ -19,6 +19,8 @@ class AppTextField extends StatefulWidget {
     this.onTrailingIconTap,
     this.validator,
     this.autovalidateMode,
+    this.onTap,
+    this.enabled = true,
   });
 
   final TextEditingController controller;
@@ -32,6 +34,8 @@ class AppTextField extends StatefulWidget {
   final VoidCallback? onTrailingIconTap;
   final FormFieldValidator<String>? validator;
   final AutovalidateMode? autovalidateMode;
+  final VoidCallback? onTap;
+  final bool enabled;
 
   @override
   State<AppTextField> createState() => _AppTextFieldState();
@@ -42,94 +46,98 @@ class _AppTextFieldState extends State<AppTextField> {
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      controller: widget.controller,
-      cursorColor: AppColors.primary,
-      style: widget.textStyle ?? medium(fontSize: 16.sp.clamp(14, 18)),
-      obscureText: widget.obscureText,
-      autovalidateMode: widget.autovalidateMode,
-      validator: (value) {
-        final error = widget.validator?.call(value);
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          if (mounted && _currentError != error) {
-            setState(() {
-              _currentError = error;
-            });
-          }
-        });
-        return null;
-      },
-      decoration: InputDecoration(
-        helperText: "",
-        suffixIconConstraints: BoxConstraints(
-          maxHeight: 26.w.flexClamp(24, 28),
-          minHeight: 26.w.flexClamp(24, 28),
-          maxWidth: 26.w.flexClamp(24, 28) + 20,
-          minWidth: 26.w.flexClamp(24, 28) + 20,
-        ),
-        suffixIcon: widget.trailingIcon == null
-            ? const SizedBox()
-            : Align(
-                alignment: Alignment.centerLeft,
-                child: OnButtonTap(
-                  onTap: widget.onTrailingIconTap,
-                  child: ImageWidget(
-                    type: ImageType.svg,
-                    path: widget.trailingIcon!,
+    return GestureDetector(
+      onTap: widget.onTap,
+      child: TextFormField(
+        controller: widget.controller,
+        cursorColor: AppColors.primary,
+        style: widget.textStyle ?? medium(fontSize: 16.sp.clamp(14, 18)),
+        obscureText: widget.obscureText,
+        autovalidateMode: widget.autovalidateMode,
+        enabled: widget.enabled,
+        validator: (value) {
+          final error = widget.validator?.call(value);
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            if (mounted && _currentError != error) {
+              setState(() {
+                _currentError = error;
+              });
+            }
+          });
+          return null;
+        },
+        decoration: InputDecoration(
+          helperText: "",
+          suffixIconConstraints: BoxConstraints(
+            maxHeight: 26.w.flexClamp(24, 28),
+            minHeight: 26.w.flexClamp(24, 28),
+            maxWidth: 26.w.flexClamp(24, 28) + 20,
+            minWidth: 26.w.flexClamp(24, 28) + 20,
+          ),
+          suffixIcon: widget.trailingIcon == null
+              ? const SizedBox()
+              : Align(
+                  alignment: Alignment.centerLeft,
+                  child: OnButtonTap(
+                    onTap: widget.onTrailingIconTap,
+                    child: ImageWidget(
+                      type: ImageType.svg,
+                      path: widget.trailingIcon!,
+                    ),
                   ),
                 ),
+          hintText: widget.hintText,
+          hintStyle:
+              widget.hintStyle ??
+              medium(
+                fontSize: 16.sp.clamp(14, 18),
+                color: AppColors.primary.setOpacity(0.4),
               ),
-        hintText: widget.hintText,
-        hintStyle:
-            widget.hintStyle ??
-            medium(
-              fontSize: 16.sp.clamp(14, 18),
-              color: AppColors.primary.setOpacity(0.4),
-            ),
-        errorStyle:
-            widget.errorStyle ??
-            medium(fontSize: 12.sp.clamp(10, 14), color: AppColors.red),
-        errorMaxLines: 5,
-        error: _currentError == null
-            ? null
-            : Transform.translate(
-                offset: const Offset(-20, 0),
-                child: Text(
-                  _currentError!,
-                  style:
-                      widget.errorStyle ??
-                      medium(
-                        fontSize: 12.sp.clamp(10, 14),
-                        color: AppColors.red,
-                      ),
+          errorStyle:
+              widget.errorStyle ??
+              medium(fontSize: 12.sp.clamp(10, 14), color: AppColors.red),
+          errorMaxLines: 5,
+          error: _currentError == null
+              ? null
+              : Transform.translate(
+                  offset: const Offset(-20, 0),
+                  child: Text(
+                    _currentError!,
+                    style:
+                        widget.errorStyle ??
+                        medium(
+                          fontSize: 12.sp.clamp(10, 14),
+                          color: AppColors.red,
+                        ),
+                  ),
                 ),
-              ),
-        contentPadding: const EdgeInsets.symmetric(
-          horizontal: 20,
-          vertical: 17,
-        ),
-        isDense: true,
-        filled: true,
-        fillColor: AppColors.white,
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(widget.borderRadius ?? 0),
-          borderSide: BorderSide(color: AppColors.primary.setOpacity(0.1)),
-        ),
-        disabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(widget.borderRadius ?? 0),
-          borderSide: BorderSide(color: AppColors.primary.setOpacity(0.1)),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(widget.borderRadius ?? 0),
-          borderSide: BorderSide(color: AppColors.primary),
-        ),
-        errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(widget.borderRadius ?? 0),
-          borderSide: BorderSide(color: AppColors.red),
-        ),
-        focusedErrorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(widget.borderRadius ?? 0),
-          borderSide: BorderSide(color: AppColors.red),
+          contentPadding: const EdgeInsets.symmetric(
+            horizontal: 20,
+            vertical: 17,
+          ),
+          isDense: true,
+          filled: true,
+          fillColor: AppColors.white,
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(widget.borderRadius ?? 0),
+            borderSide: BorderSide(color: AppColors.primary.setOpacity(0.1)),
+          ),
+          disabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(widget.borderRadius ?? 0),
+            borderSide: BorderSide(color: AppColors.primary.setOpacity(0.05)),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(widget.borderRadius ?? 0),
+            borderSide: BorderSide(color: AppColors.primary),
+          ),
+          errorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(widget.borderRadius ?? 0),
+            borderSide: BorderSide(color: AppColors.red),
+          ),
+          focusedErrorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(widget.borderRadius ?? 0),
+            borderSide: BorderSide(color: AppColors.red),
+          ),
         ),
       ),
     );

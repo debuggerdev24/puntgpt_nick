@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:puntgpt_nick/core/constants/constants.dart';
+import 'package:puntgpt_nick/core/utils/date_formater.dart';
 import 'package:puntgpt_nick/core/utils/field_validators.dart';
+import 'package:puntgpt_nick/core/widgets/app_text_field_drop_down.dart';
 import 'package:puntgpt_nick/core/widgets/app_text_field.dart';
 import 'package:puntgpt_nick/provider/auth_provider.dart';
 import 'package:puntgpt_nick/responsive/responsive_builder.dart';
@@ -34,18 +36,38 @@ class SignUpForm extends StatelessWidget {
                     ),
                     SizedBox(height: 8),
                     AppTextField(
-                      controller: TextEditingController(),
+                      controller: provider.dobCtr,
                       hintText: "Date of birth",
                       trailingIcon: AppAssets.arrowDown,
-                      validator: (value) => FieldValidators().dateValidator(
-                        DateTime.parse(value ?? ""),
-                      ),
+                      enabled: false,
+                      validator: FieldValidators().required,
+                      onTap: () async {
+                        final DateTime today = DateTime.now();
+                        final DateTime lastDate = DateTime(
+                          today.year - 18,
+                          today.month,
+                          today.day,
+                        );
+                        final DateTime firstDate = DateTime(1900);
+                        DateTime? selectedDate = await showDatePicker(
+                          context: context,
+                          firstDate: firstDate,
+                          lastDate: lastDate,
+                        );
+                        LogHelper.info("selected date: $selectedDate");
+                        if (selectedDate != null) {
+                          provider.dobCtr.text = DateFormatter.formatDateShort(
+                            selectedDate,
+                          );
+                        }
+                      },
                     ),
                     SizedBox(height: 8),
-                    AppTextField(
-                      controller: TextEditingController(),
-                      hintText: "State",
-                      trailingIcon: AppAssets.arrowDown,
+                    AppTextFieldDropdown(
+                      items: List.generate(20, (index) => "State ${index + 1}"),
+                      hintText: 'State',
+                      onChange: (value) => provider.selectedState = value,
+                      selectedValue: provider.selectedState,
                       validator: FieldValidators().required,
                     ),
                     SizedBox(height: 8),
