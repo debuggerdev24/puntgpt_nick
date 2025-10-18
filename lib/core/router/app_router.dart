@@ -17,10 +17,12 @@ class AppRouter {
   static final _rootNavigatorKey = GlobalKey<NavigatorState>();
   static final _shellNavigatorKey = GlobalKey<NavigatorState>();
 
+  static StatefulNavigationShell? indexedStackNavigationShell;
+
   static final GoRouter router = GoRouter(
     navigatorKey: _rootNavigatorKey,
     debugLogDiagnostics: true,
-    initialLocation: AppRoutes.splash,
+    initialLocation: AppRoutes.home,
 
     // Redirect logic for authentication
     // redirect: (context, state) {
@@ -80,16 +82,23 @@ class AppRouter {
       // ==================== MAIN APP WITH SHELL (Bottom Nav) ====================
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) {
-          return Dashboard(navigationShell: navigationShell);
+          indexedStackNavigationShell = navigationShell;
+          return Dashboard(
+            // key: state.pageKey,
+            navigationShell: navigationShell,
+          );
         },
-        branches: [
-          // home screen
+        branches: <StatefulShellBranch>[
+          // customer home page
           StatefulShellBranch(
-            routes: [
+            // navigatorKey: _shellNavigatorCustomerHome,
+            routes: <RouteBase>[
               GoRoute(
+                name: AppRoutes.home.name,
                 path: AppRoutes.home,
-                name: AppRoutes.home,
-                builder: (context, state) => HomeScreen(),
+                builder: (BuildContext context, GoRouterState state) {
+                  return HomeScreen();
+                },
               ),
             ],
           ),
