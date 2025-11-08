@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import 'package:puntgpt_nick/core/constants/constants.dart';
 import 'package:puntgpt_nick/core/constants/text_style.dart';
+import 'package:puntgpt_nick/core/router/app_routes.dart';
 import 'package:puntgpt_nick/core/widgets/app_filed_button.dart';
 import 'package:puntgpt_nick/core/widgets/image_widget.dart';
-import 'package:puntgpt_nick/responsive/responsive_builder.dart';
 import 'package:puntgpt_nick/screens/home/widgets/filters_list.dart';
 import 'package:puntgpt_nick/screens/home/widgets/home_screen_tab.dart';
 import 'package:puntgpt_nick/screens/home/widgets/race_start_timing_options.dart';
+import 'package:puntgpt_nick/screens/home/widgets/runners_list.dart';
+
+import '../../provider/search_engine_provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -46,171 +51,124 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      body: Stack(
-        children: [
-          Column(
-            children: [
-              Padding(
-                padding: EdgeInsets.fromLTRB(35, 16, 35, 0),
-                child: HomeScreenTab(selectedTap: (index) {}),
-              ),
-              SizedBox(height: 16),
-              RaceStartTimingOptions(),
-              SizedBox(height: 16),
-              Expanded(
-                child: Stack(
-                  alignment: Alignment.topCenter,
-                  children: [
-                    SingleChildScrollView(
-                      padding: EdgeInsets.fromLTRB(
-                        25,
-                        0,
-                        25,
-                        Responsive.isMobile(context)
-                            ? !_keyboardVisible
-                                  ? 150
-                                  : 20
-                            : 30,
+      body: Consumer<SearchEngineProvider>(
+        builder:
+            (
+              BuildContext context,
+              SearchEngineProvider provider,
+              Widget? child,
+            ) {
+              return Stack(
+                children: [
+                  Column(
+                    spacing: 16,
+                    children: [
+                      //todo top 2 switch button
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(25, 16, 25, 0),
+                        child: HomeScreenTab(selectedTap: (index) {}),
                       ),
-                      child: Column(
-                        children: [
-                          FilterList(formKey: formKey),
-                          SizedBox(height: 50.w.flexClamp(40, 50)),
-                          Text(
-                            "Pick as many or few filters, hit search, find YOUR horses and\nask PuntGPT to analyse and compare to the field",
-                            textAlign: TextAlign.center,
-                            style: medium(
-                              fontSize: 14.sp.clamp(12, 16),
-                              color: AppColors.black.setOpacity(0.6),
+                      //todo timing buttons
+                      RaceStartTimingOptions(),
+                      Expanded(
+                        child: (provider.isSearched)
+                            ? RunnersList(runnerList: provider.runnersList)
+                            : FilterList(formKey: formKey),
+                      ),
+                    ],
+                  ),
+                  if (provider.isSearched)
+                    Align(
+                      alignment: AlignmentGeometry.bottomCenter,
+                      child: GestureDetector(
+                        onTap: () {
+                          context.pushNamed(AppRoutes.searchFilter.name);
+                        },
+                        child: IntrinsicHeight(
+                          child: Container(
+                            decoration: BoxDecoration(color: AppColors.white),
+                            alignment: AlignmentDirectional.bottomCenter,
+                            padding: EdgeInsets.symmetric(vertical: 12.h),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                ImageWidget(
+                                  type: ImageType.svg,
+                                  path: AppAssets.filter,
+                                  height: 20.w.flexClamp(18, 22),
+                                ),
+                                Text("Filter", style: medium(fontSize: 16.sp)),
+                              ],
                             ),
                           ),
-                          SizedBox(height: 60.w.flexClamp(50, 70)),
-                          AppFiledButton(
-                            width: 120.w.flexClamp(110, 130),
-                            text: "Search",
-                            onTap: () {},
-                          ),
-                          SizedBox(height: 20.w.flexClamp(15, 25)),
-                          Text(
-                            "Search Results: (20)",
-                            textAlign: TextAlign.center,
-                            style: medium(
-                              fontSize: 16.sp.clamp(14, 18),
-                              color: AppColors.black.setOpacity(0.6),
-                            ),
-                          ),
-                        ],
+                        ),
                       ),
-                    ),
-
-                    // ✅ Hide buttons when keyboard is visible
-                    if (!_keyboardVisible &&
-                        (Responsive.isMobile(context) ||
-                            Responsive.isTablet(context)))
-                      Align(
-                        alignment: Alignment.bottomCenter,
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 25),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              MouseRegion(
-                                cursor: SystemMouseCursors.click,
-                                child: GestureDetector(
-                                  onTap: () {},
-                                  child: Container(
-                                    padding: EdgeInsets.symmetric(
-                                      vertical: 12.r.flexClamp(12, 15),
-                                      horizontal: 15.r.flexClamp(15, 18),
+                    )
+                  else
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 20),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            MouseRegion(
+                              cursor: SystemMouseCursors.click,
+                              child: GestureDetector(
+                                onTap: () {
+                                  context.pushNamed(AppRoutes.askPuntGpt.name);
+                                },
+                                child: Container(
+                                  padding: EdgeInsets.symmetric(
+                                    vertical: 12.r.flexClamp(12, 15),
+                                    horizontal: 15.r.flexClamp(15, 18),
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: AppColors.white,
+                                    border: Border.all(
+                                      color: AppColors.primary,
                                     ),
-                                    decoration: BoxDecoration(
-                                      color: AppColors.white,
-                                      border: Border.all(
-                                        color: AppColors.primary,
+                                  ),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      ImageWidget(
+                                        path: AppAssets.horse,
+                                        height: 30.w.flexClamp(28, 33),
                                       ),
-                                    ),
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        ImageWidget(
-                                          path: AppAssets.horse,
-                                          height: 30.w.flexClamp(28, 33),
+                                      10.horizontalSpace,
+                                      Text(
+                                        "Ask @ PuntGPT",
+                                        textAlign: TextAlign.center,
+                                        style: semiBold(
+                                          fontSize: 20.sp.flexClamp(18, 22),
+                                          fontFamily: AppFontFamily.secondary,
                                         ),
-                                        SizedBox(width: 10),
-                                        Text(
-                                          "Ask @ PuntGPT",
-                                          textAlign: TextAlign.center,
-                                          style: semiBold(
-                                            fontSize: 20.sp.flexClamp(18, 22),
-                                            fontFamily: AppFontFamily.secondary,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ),
-                              SizedBox(height: 10),
-                              IntrinsicWidth(
-                                child: AppFiledButton(
-                                  text: "Search",
-                                  onTap: () {
-                                    formKey.currentState!.validate();
-                                  },
-                                ),
+                            ),
+                            10.verticalSpace,
+                            IntrinsicWidth(
+                              child: AppFiledButton(
+                                text: "Search",
+                                onTap: () {
+                                  // formKey.currentState!.validate();
+                                  provider.setIsSearched(value: true);
+                                },
                               ),
-                              SizedBox(height: 10),
-                            ],
-                          ),
+                            ),
+                            10.verticalSpace,
+                          ],
                         ),
                       ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-          if (Responsive.isDesktop(context)) ...[
-            Positioned(
-              bottom: 30,
-              right: 30,
-              child: MouseRegion(
-                cursor: SystemMouseCursors.click,
-                child: GestureDetector(
-                  onTap: () {},
-                  child: Container(
-                    padding: EdgeInsets.symmetric(
-                      vertical: 12.r.flexClamp(12, 15),
-                      horizontal: 15.r.flexClamp(15, 18),
                     ),
-                    decoration: BoxDecoration(
-                      color: AppColors.white,
-                      border: Border.all(color: AppColors.primary),
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        ImageWidget(
-                          path: AppAssets.horse,
-                          height: 30.w.flexClamp(28, 33),
-                        ),
-                        SizedBox(width: 10),
-                        Text(
-                          "Ask @ PuntGPT",
-                          textAlign: TextAlign.center,
-                          style: semiBold(
-                            fontSize: 20.sp.flexClamp(18, 22),
-                            fontFamily: AppFontFamily.secondary,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ],
+                ],
+              );
+            },
       ),
     );
   }

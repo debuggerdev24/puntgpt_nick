@@ -12,7 +12,12 @@ class AppRoutes {
   static const String forgotPassword = '/forgot-password';
 
   // Main tabs (Shell routes)
+  static const String dashBoard = '/dashboard';
   static const String home = '/home';
+  static const String searchFilter = '/search-filter';
+  static const String savedSearched = '/saved-search';
+  static const String searchDetail = '/search-detail';
+  static const String askPuntGpt = '/ask-punt-gpt';
 }
 
 extension AppRoutesExtension on String {

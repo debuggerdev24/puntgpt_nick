@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:puntgpt_nick/core/constants/constants.dart';
 import 'package:puntgpt_nick/core/constants/text_style.dart';
+import 'package:puntgpt_nick/core/router/app_routes.dart';
 import 'package:puntgpt_nick/core/widgets/app_text_field.dart';
 import 'package:puntgpt_nick/core/widgets/app_text_field_drop_down.dart';
 import 'package:puntgpt_nick/core/widgets/image_widget.dart';
@@ -29,15 +30,6 @@ class _FilterListState extends State<FilterList> {
   void initState() {
     super.initState();
     _formKey = widget.formKey;
-    final filters = context.read<SearchEngineProvider>().puntGptFilters;
-
-    for (var filter in filters) {
-      if (filter["type"] == "number") {
-        _controllers[filter["label"]] = TextEditingController();
-      } else if (filter["type"] == "dropdown") {
-        _dropdownValues[filter["label"]] = null;
-      }
-    }
   }
 
   @override
@@ -48,13 +40,12 @@ class _FilterListState extends State<FilterList> {
     super.dispose();
   }
 
-  void onSaveSearchTap() {}
+  void onSaveSearchTap() {
+    context.pushNamed(AppRoutes.savedSearched.name);
+  }
 
   @override
   Widget build(BuildContext context) {
-    final provider = context.watch<SearchEngineProvider>();
-    final filters = provider.puntGptFilters;
-
     return SizedBox(
       width: Responsive.isMobile(context)
           ? double.maxFinite
@@ -63,93 +54,128 @@ class _FilterListState extends State<FilterList> {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(
-            "Search for a horse that meets your criteria:",
-            style: bold(fontSize: 16.sp.flexClamp(14, 18), height: 1.2),
-          ),
-          SizedBox(height: 5),
-          Text(
-            "Applying too strict a criteria or too many filters may retrieve no results",
-            style: medium(
-              height: 1.2,
-              fontSize: 14.sp.flexClamp(12, 16),
-              color: AppColors.primary.setOpacity(0.8),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 25),
+            child: Text(
+              "Search for a horse that meets your criteria:",
+              style: bold(fontSize: 14.sp.flexClamp(12, 16), height: 1.2),
             ),
           ),
-          SizedBox(height: 10),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                "Search Result: (20)",
-                style: bold(fontSize: 16.sp.flexClamp(14, 16)),
-              ),
-              OnButtonTap(
-                onTap: onSaveSearchTap,
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    ImageWidget(
-                      type: ImageType.svg,
-                      path: AppAssets.bookmark,
-                      height: 16.w.flexClamp(14, 18),
-                    ),
-                    SizedBox(width: 5),
-                    Text(
-                      "Saved Searches",
-                      style: bold(
-                        fontSize: 16.sp.clamp(14, 18),
-                        decoration: TextDecoration.underline,
-                      ),
-                    ),
-                  ],
+          5.verticalSpace,
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 25),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "Total Runners: (20)",
+                  style: bold(fontSize: 14.sp.flexClamp(12, 14)),
                 ),
-              ),
-            ],
+                OnButtonTap(
+                  onTap: onSaveSearchTap,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      ImageWidget(
+                        type: ImageType.svg,
+                        path: AppAssets.bookmark,
+                        height: 16.w.flexClamp(14, 18),
+                      ),
+                      SizedBox(width: 5),
+                      Text(
+                        "Saved Searches",
+                        style: bold(
+                          fontSize: 14.sp.clamp(12, 16),
+                          decoration: TextDecoration.underline,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
-          SizedBox(height: 10),
+          10.verticalSpace,
 
           /// FORM AREA
-          Form(
-            key: _formKey,
-            child: Responsive.isMobile(context)
-                ? _buildListView(filters)
-                : _buildGridView(filters),
-          ),
+          _buildListView(),
         ],
       ),
     );
   }
 
   /// For Mobile
-  Widget _buildListView(List filters) {
-    return ListView.separated(
-      padding: EdgeInsets.zero,
-      shrinkWrap: true,
-      physics: const BouncingScrollPhysics(),
-      itemCount: filters.length,
-      separatorBuilder: (_, __) => SizedBox(height: 8.h),
-      itemBuilder: (context, index) {
-        final filter = filters[index];
-        return _buildFilterField(filter);
-      },
-    );
-  }
+  Widget _buildListView() {
+    final provider = context.watch<SearchEngineProvider>();
 
-  /// For Web / Tablet
-  Widget _buildGridView(List filters) {
-    return MasonryGridView.count(
-      padding: EdgeInsets.zero,
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      crossAxisCount: 4,
-      mainAxisSpacing: 5,
-
-      itemCount: filters.length,
-      itemBuilder: (context, index) {
-        final filter = filters[index];
-        return _buildFilterField(filter);
-      },
+    return Column(
+      children: [
+        Theme(
+          data: Theme.of(context).copyWith(
+            dividerColor: AppColors.dividerColor.withValues(alpha: 0.2),
+          ),
+          child: ExpansionTile(
+            childrenPadding: EdgeInsets.only(
+              left: 25.w,
+              right: 25.w,
+              bottom: 8.h,
+            ),
+            tilePadding: EdgeInsets.symmetric(horizontal: 25.w),
+            iconColor: AppColors.dividerColor,
+            title: Text("Track", style: semiBold(fontSize: 16)),
+            children: provider.trackItems.map((item) {
+              bool isChecked = item["checked"];
+              return InkWell(
+                onTap: () {
+                  provider.toggleTrackItem(item["label"], !isChecked);
+                },
+                splashColor: Colors.transparent,
+                highlightColor: Colors.transparent,
+                child: Column(
+                  children: [
+                    Divider(
+                      color: AppColors.dividerColor.withValues(alpha: 0.2),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(vertical: 8.h),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(item["label"], style: semiBold(fontSize: 16)),
+                          AnimatedContainer(
+                            duration: const Duration(milliseconds: 250),
+                            curve: Curves.easeInOut,
+                            width: 22,
+                            height: 22,
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: isChecked
+                                    ? Colors.green
+                                    : AppColors.primary.setOpacity(0.15),
+                              ),
+                              borderRadius: BorderRadius.circular(1),
+                              color: isChecked
+                                  ? Colors.green
+                                  : Colors.transparent,
+                            ),
+                            child: isChecked
+                                ? const Icon(
+                                    Icons.check,
+                                    color: Colors.white,
+                                    size: 16,
+                                  )
+                                : null,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            }).toList(),
+          ),
+        ),
+      ],
     );
   }
 

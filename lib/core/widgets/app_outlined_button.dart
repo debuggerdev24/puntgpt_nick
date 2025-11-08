@@ -14,9 +14,10 @@ class AppOutlinedButton extends StatelessWidget {
     this.borderRadius,
     this.color,
     this.textStyle,
+    this.margin,
   });
 
-  final EdgeInsetsGeometry? padding;
+  final EdgeInsetsGeometry? padding, margin;
   final double? height;
   final double? width;
   final double? borderRadius;
@@ -32,6 +33,7 @@ class AppOutlinedButton extends StatelessWidget {
       child: GestureDetector(
         onTap: onTap,
         child: Container(
+          margin: margin,
           padding:
               padding ??
               EdgeInsets.symmetric(

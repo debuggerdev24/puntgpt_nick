@@ -6,12 +6,17 @@ import 'package:go_router/go_router.dart';
 import 'package:puntgpt_nick/core/router/app_routes.dart';
 import 'package:puntgpt_nick/screens/auth/screens/login_screen.dart';
 import 'package:puntgpt_nick/screens/auth/screens/sign_up_screen.dart';
-import 'package:puntgpt_nick/screens/dashboard/dashboard.dart';
+import 'package:puntgpt_nick/screens/home/ask_punt_gpt.dart';
 import 'package:puntgpt_nick/screens/home/home_screen.dart';
+import 'package:puntgpt_nick/screens/home/saved_search_screen.dart';
+import 'package:puntgpt_nick/screens/home/search_detail_screen.dart';
+import 'package:puntgpt_nick/screens/home/search_filter_screen.dart';
 import 'package:puntgpt_nick/screens/onboarding/age_confirmation_screen.dart';
 import 'package:puntgpt_nick/screens/onboarding/onboarding_screen.dart';
 import 'package:puntgpt_nick/screens/onboarding/web_onboarding_screen.dart';
 import 'package:puntgpt_nick/screens/splash/splash_screen.dart';
+
+import '../../screens/dashboard/dashboard.dart';
 
 class AppRouter {
   static final _rootNavigatorKey = GlobalKey<NavigatorState>();
@@ -47,7 +52,7 @@ class AppRouter {
     routes: [
       GoRoute(
         path: AppRoutes.splash,
-        name: AppRoutes.splash,
+        name: AppRoutes.splash.name,
         builder: (context, state) => SplashScreen(),
       ),
 
@@ -79,6 +84,14 @@ class AppRouter {
             SignUpScreen(isFreeSignUp: (state.extra as Map)['is_free_sign_up']),
       ),
 
+      GoRoute(
+        name: AppRoutes.searchFilter.name,
+        path: AppRoutes.searchFilter,
+        builder: (context, state) {
+          return SearchFilterScreen();
+        },
+      ),
+
       // ==================== MAIN APP WITH SHELL (Bottom Nav) ====================
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) {
@@ -98,6 +111,27 @@ class AppRouter {
                 path: AppRoutes.home,
                 builder: (BuildContext context, GoRouterState state) {
                   return HomeScreen();
+                },
+              ),
+              GoRoute(
+                name: AppRoutes.savedSearched.name,
+                path: AppRoutes.savedSearched,
+                builder: (BuildContext context, GoRouterState state) {
+                  return SavedSearchScreen();
+                },
+              ),
+              GoRoute(
+                name: AppRoutes.searchDetail.name,
+                path: AppRoutes.searchDetail,
+                builder: (BuildContext context, GoRouterState state) {
+                  return SearchDetailScreen();
+                },
+              ),
+              GoRoute(
+                name: AppRoutes.askPuntGpt.name,
+                path: AppRoutes.askPuntGpt,
+                builder: (BuildContext context, GoRouterState state) {
+                  return AskPuntGpt();
                 },
               ),
             ],

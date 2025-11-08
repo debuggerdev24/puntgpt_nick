@@ -14,9 +14,10 @@ class AppFiledButton extends StatelessWidget {
     this.borderRadius,
     this.color,
     this.textStyle,
+    this.margin,
   });
 
-  final EdgeInsetsGeometry? padding;
+  final EdgeInsetsGeometry? padding, margin;
   final double? height;
   final double? width;
   final double? borderRadius;
@@ -32,11 +33,12 @@ class AppFiledButton extends StatelessWidget {
       child: GestureDetector(
         onTap: onTap,
         child: Container(
+          margin: margin,
           padding:
               padding ??
               EdgeInsets.symmetric(
-                vertical: 12.r.flexClamp(12, 15),
-                horizontal: 15.r.flexClamp(15, 18),
+                vertical: 12.r.flexClamp(10, 14),
+                horizontal: 15.r.flexClamp(13, 17),
               ),
           height: height,
           width: width ?? double.maxFinite,

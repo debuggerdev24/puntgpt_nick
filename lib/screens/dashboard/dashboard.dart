@@ -5,10 +5,13 @@ import 'package:puntgpt_nick/core/constants/constants.dart';
 import 'package:puntgpt_nick/core/constants/text_style.dart';
 import 'package:puntgpt_nick/core/widgets/image_widget.dart';
 import 'package:puntgpt_nick/core/widgets/on_button_tap.dart';
-import 'package:puntgpt_nick/responsive/responsive_builder.dart';
 import 'package:puntgpt_nick/screens/dashboard/widgets/dashboard_app_bar.dart';
 
+import '../home/home_screen.dart';
+
 final GlobalKey<_DashboardState> dashboardKey = GlobalKey<_DashboardState>();
+ValueNotifier<int> indexOfTab = ValueNotifier(0);
+List<Widget> pages = [HomeScreen(), HomeScreen(), HomeScreen(), HomeScreen()];
 
 class Dashboard extends StatefulWidget {
   Dashboard({required this.navigationShell}) : super(key: dashboardKey);
@@ -30,56 +33,63 @@ class _DashboardState extends State<Dashboard> {
         child: Column(
           children: [
             DashboardAppBar(),
+
+            // Expanded(child: pages[value]),
             Expanded(child: widget.navigationShell),
           ],
         ),
       ),
-
-      bottomNavigationBar: !Responsive.isDesktop(context)
-          ? Column(
-              mainAxisSize: MainAxisSize.min,
+      bottomNavigationBar: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            width: context.screenWidth,
+            color: AppColors.primary,
+            padding: EdgeInsets.fromLTRB(
+              15,
+              15,
+              15,
+              context.bottomPadding + 15,
+            ),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              spacing: 15.w.flexClamp(12, 18),
               children: [
-                Container(
-                  width: context.screenWidth,
-                  color: AppColors.primary,
-                  padding: EdgeInsets.fromLTRB(
-                    15,
-                    15,
-                    15,
-                    context.bottomPadding + 15,
-                  ),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    spacing: 15.w.flexClamp(12, 18),
-                    children: [
-                      _navItem(
-                        onTap: () {},
-                        text: "Subscribe to\nPro Punter",
-                        icon: AppAssets.trophy,
-                        color: AppColors.premiumYellow,
-                      ),
-                      _navItem(
-                        onTap: () {},
-                        text: "PuntGPT Punter Club",
-                        icon: AppAssets.group,
-                        hasLock: true,
-                      ),
-                      _navItem(
-                        onTap: () {},
-                        text: "Bookies",
-                        icon: AppAssets.bookings,
-                      ),
-                      _navItem(
-                        onTap: () {},
-                        text: "Account",
-                        icon: AppAssets.profile,
-                      ),
-                    ],
-                  ),
+                _navItem(
+                  onTap: () {
+                    indexOfTab.value = 0;
+                  },
+                  text: "Subscribe to\nPro Punter",
+                  icon: AppAssets.trophy,
+                  color: AppColors.premiumYellow,
+                ),
+                _navItem(
+                  onTap: () {
+                    indexOfTab.value = 1;
+                  },
+                  text: "PuntGPT Punter Club",
+                  icon: AppAssets.group,
+                  hasLock: true,
+                ),
+                _navItem(
+                  onTap: () {
+                    indexOfTab.value = 2;
+                  },
+                  text: "Bookies",
+                  icon: AppAssets.bookings,
+                ),
+                _navItem(
+                  onTap: () {
+                    indexOfTab.value = 3;
+                  },
+                  text: "Account",
+                  icon: AppAssets.profile,
                 ),
               ],
-            )
-          : const SizedBox(),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
