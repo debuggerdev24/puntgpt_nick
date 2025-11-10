@@ -68,7 +68,7 @@ class _HomeScreenTabState extends State<HomeScreenTab> {
             text,
             textAlign: TextAlign.center,
             style: semiBold(
-              fontSize: 14.sp.flexClamp(12, 16),
+              fontSize: 14,
               color: isSelected ? AppColors.white : AppColors.primary,
             ),
           ),

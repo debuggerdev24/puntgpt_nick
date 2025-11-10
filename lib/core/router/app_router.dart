@@ -4,12 +4,15 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:puntgpt_nick/core/router/app_routes.dart';
+import 'package:puntgpt_nick/screens/account/account_screen.dart';
+import 'package:puntgpt_nick/screens/account/manage_subscription.dart';
+import 'package:puntgpt_nick/screens/account/personal_details_screen.dart';
 import 'package:puntgpt_nick/screens/auth/screens/login_screen.dart';
 import 'package:puntgpt_nick/screens/auth/screens/sign_up_screen.dart';
 import 'package:puntgpt_nick/screens/home/ask_punt_gpt.dart';
 import 'package:puntgpt_nick/screens/home/home_screen.dart';
+import 'package:puntgpt_nick/screens/home/manage_saved_search.dart';
 import 'package:puntgpt_nick/screens/home/saved_search_screen.dart';
-import 'package:puntgpt_nick/screens/home/search_detail_screen.dart';
 import 'package:puntgpt_nick/screens/home/search_filter_screen.dart';
 import 'package:puntgpt_nick/screens/onboarding/age_confirmation_screen.dart';
 import 'package:puntgpt_nick/screens/onboarding/onboarding_screen.dart';
@@ -98,11 +101,11 @@ class AppRouter {
           indexedStackNavigationShell = navigationShell;
           return Dashboard(
             // key: state.pageKey,
-            navigationShell: navigationShell,
+            navigationShell: indexedStackNavigationShell!,
           );
         },
         branches: <StatefulShellBranch>[
-          // customer home page
+          //todo ----------> Customer Home Tab
           StatefulShellBranch(
             // navigatorKey: _shellNavigatorCustomerHome,
             routes: <RouteBase>[
@@ -121,8 +124,8 @@ class AppRouter {
                 },
               ),
               GoRoute(
-                name: AppRoutes.searchDetail.name,
-                path: AppRoutes.searchDetail,
+                name: AppRoutes.searchDetails.name,
+                path: AppRoutes.searchDetails,
                 builder: (BuildContext context, GoRouterState state) {
                   return SearchDetailScreen();
                 },
@@ -132,6 +135,32 @@ class AppRouter {
                 path: AppRoutes.askPuntGpt,
                 builder: (BuildContext context, GoRouterState state) {
                   return AskPuntGpt();
+                },
+              ),
+            ],
+          ),
+          //todo ----------> Customer Account Tab
+          StatefulShellBranch(
+            routes: <RouteBase>[
+              GoRoute(
+                name: AppRoutes.account.name,
+                path: AppRoutes.account,
+                builder: (BuildContext context, GoRouterState state) {
+                  return AccountScreen();
+                },
+              ),
+              GoRoute(
+                name: AppRoutes.personalDetails.name,
+                path: AppRoutes.personalDetails,
+                builder: (BuildContext context, GoRouterState state) {
+                  return PersonalDetailsScreen();
+                },
+              ),
+              GoRoute(
+                name: AppRoutes.manageSubscription.name,
+                path: AppRoutes.manageSubscription,
+                builder: (BuildContext context, GoRouterState state) {
+                  return ManageSubscriptionScreen();
                 },
               ),
             ],

@@ -45,6 +45,9 @@ class MyApp extends StatelessWidget {
             systemNavigationBarIconBrightness: Brightness.light,
           ),
           child: ScreenUtilInit(
+            minTextAdapt: true,
+            splitScreenMode: true,
+            designSize: const Size(430, 932),
             child: MaterialApp.router(
               debugShowCheckedModeBanner: false,
               theme: AppTheme.appThemeData,

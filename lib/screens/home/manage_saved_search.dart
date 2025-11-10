@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:puntgpt_nick/core/constants/app_colors.dart';
 import 'package:puntgpt_nick/core/constants/text_style.dart';
+import 'package:puntgpt_nick/core/widgets/app_devider.dart';
 import 'package:puntgpt_nick/core/widgets/app_filed_button.dart';
 import 'package:puntgpt_nick/core/widgets/app_outlined_button.dart';
 
@@ -16,19 +17,18 @@ class SearchDetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        12.h.verticalSpace,
         topBar(context),
-        Divider(color: AppColors.dividerColor.withValues(alpha: 0.2)),
+        appDivider(),
         _buildListView(context: context),
         Spacer(),
         AppFiledButton(
-          textStyle: semiBold(fontSize: 16.spMin, color: AppColors.white),
+          textStyle: semiBold(fontSize: 16, color: AppColors.white),
           text: "Edit",
           onTap: () {},
           margin: EdgeInsets.fromLTRB(25.w, 0, 25.w, 6.h),
         ),
         AppOutlinedButton(
-          textStyle: semiBold(fontSize: 16.spMin, color: AppColors.black),
+          textStyle: semiBold(fontSize: 16, color: AppColors.black),
           text: "Delete",
           onTap: () {},
           margin: EdgeInsets.fromLTRB(25.w, 0, 25.w, 16.h),
@@ -37,9 +37,9 @@ class SearchDetailScreen extends StatelessWidget {
     );
   }
 
-  Padding topBar(BuildContext context) {
+  Widget topBar(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.fromLTRB(25.w, 0, 25.w, 8.h),
+      padding: EdgeInsets.fromLTRB(25.w, 12.h, 25.w, 7.h),
       child: Row(
         spacing: 16.w,
         children: [
@@ -47,7 +47,7 @@ class SearchDetailScreen extends StatelessWidget {
             onTap: () {
               context.pop();
             },
-            child: Icon(Icons.arrow_back_ios_rounded, size: 12.h),
+            child: Icon(Icons.arrow_back_ios_rounded, size: 14.h),
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -62,7 +62,7 @@ class SearchDetailScreen extends StatelessWidget {
               Text(
                 "Manage your saved search",
                 style: medium(
-                  fontSize: 14.sp,
+                  fontSize: 14,
                   color: AppColors.greyColor.withValues(alpha: 0.6),
                 ),
               ),
@@ -141,7 +141,7 @@ class SearchDetailScreen extends StatelessWidget {
             }).toList(),
           ),
         ),
-        Divider(color: AppColors.dividerColor.withValues(alpha: 0.2)),
+        appDivider(),
       ],
     );
   }

@@ -49,126 +49,134 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
     GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
-    return Scaffold(
-      resizeToAvoidBottomInset: true,
-      body: Consumer<SearchEngineProvider>(
-        builder:
-            (
-              BuildContext context,
-              SearchEngineProvider provider,
-              Widget? child,
-            ) {
-              return Stack(
-                children: [
-                  Column(
-                    spacing: 16,
-                    children: [
-                      //todo top 2 switch button
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(25, 16, 25, 0),
-                        child: HomeScreenTab(selectedTap: (index) {}),
-                      ),
-                      //todo timing buttons
-                      RaceStartTimingOptions(),
-                      Expanded(
-                        child: (provider.isSearched)
-                            ? RunnersList(runnerList: provider.runnersList)
-                            : FilterList(formKey: formKey),
-                      ),
-                    ],
-                  ),
-                  if (provider.isSearched)
-                    Align(
-                      alignment: AlignmentGeometry.bottomCenter,
-                      child: GestureDetector(
-                        onTap: () {
-                          context.pushNamed(AppRoutes.searchFilter.name);
-                        },
-                        child: IntrinsicHeight(
-                          child: Container(
-                            decoration: BoxDecoration(color: AppColors.white),
-                            alignment: AlignmentDirectional.bottomCenter,
-                            padding: EdgeInsets.symmetric(vertical: 12.h),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                ImageWidget(
-                                  type: ImageType.svg,
-                                  path: AppAssets.filter,
-                                  height: 20.w.flexClamp(18, 22),
-                                ),
-                                Text("Filter", style: medium(fontSize: 16.sp)),
-                              ],
+    return PopScope(
+      canPop: context.watch<SearchEngineProvider>().isSearched ? false : true,
+      onPopInvokedWithResult: (didPop, result) {
+        if(context.read<SearchEngineProvider>().isSearched){
+          context.read<SearchEngineProvider>().setIsSearched(value: false);
+        }
+      },
+      child: Scaffold(
+        resizeToAvoidBottomInset: true,
+        body: Consumer<SearchEngineProvider>(
+          builder:
+              (
+                BuildContext context,
+                SearchEngineProvider provider,
+                Widget? child,
+              ) {
+                return Stack(
+                  children: [
+                    Column(
+                      spacing: 16,
+                      children: [
+                        //todo top 2 switch button
+                        Padding(
+                          padding: EdgeInsets.fromLTRB(25, 16, 25, 0),
+                          child: HomeScreenTab(selectedTap: (index) {}),
+                        ),
+                        //todo timing buttons
+                        RaceStartTimingOptions(),
+                        Expanded(
+                          child: (provider.isSearched)
+                              ? RunnersList(runnerList: provider.runnersList)
+                              : FilterList(formKey: formKey),
+                        ),
+                      ],
+                    ),
+                    if (provider.isSearched)
+                      Align(
+                        alignment: AlignmentGeometry.bottomCenter,
+                        child: GestureDetector(
+                          onTap: () {
+                            context.pushNamed(AppRoutes.searchFilter.name);
+                          },
+                          child: IntrinsicHeight(
+                            child: Container(
+                              decoration: BoxDecoration(color: AppColors.white),
+                              alignment: AlignmentDirectional.bottomCenter,
+                              padding: EdgeInsets.symmetric(vertical: 12.h),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  ImageWidget(
+                                    type: ImageType.svg,
+                                    path: AppAssets.filter,
+                                    height: 20.w.flexClamp(18, 22),
+                                  ),
+                                  Text("Filter", style: medium(fontSize: 16)),
+                                ],
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    )
-                  else
-                    Align(
-                      alignment: Alignment.bottomCenter,
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 20),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            MouseRegion(
-                              cursor: SystemMouseCursors.click,
-                              child: GestureDetector(
-                                onTap: () {
-                                  context.pushNamed(AppRoutes.askPuntGpt.name);
-                                },
-                                child: Container(
-                                  padding: EdgeInsets.symmetric(
-                                    vertical: 12.r.flexClamp(12, 15),
-                                    horizontal: 15.r.flexClamp(15, 18),
-                                  ),
-                                  decoration: BoxDecoration(
-                                    color: AppColors.white,
-                                    border: Border.all(
-                                      color: AppColors.primary,
+                      )
+                    else
+                      Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 20),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              MouseRegion(
+                                cursor: SystemMouseCursors.click,
+                                child: GestureDetector(
+                                  onTap: () {
+                                    context.pushNamed(AppRoutes.askPuntGpt.name);
+                                  },
+                                  child: Container(
+                                    padding: EdgeInsets.symmetric(
+                                      vertical: 12.r.flexClamp(12, 15),
+                                      horizontal: 15.r.flexClamp(15, 18),
                                     ),
-                                  ),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      ImageWidget(
-                                        path: AppAssets.horse,
-                                        height: 30.w.flexClamp(28, 33),
+                                    decoration: BoxDecoration(
+                                      color: AppColors.white,
+                                      border: Border.all(
+                                        color: AppColors.primary,
                                       ),
-                                      10.horizontalSpace,
-                                      Text(
-                                        "Ask @ PuntGPT",
-                                        textAlign: TextAlign.center,
-                                        style: semiBold(
-                                          fontSize: 20.sp.flexClamp(18, 22),
-                                          fontFamily: AppFontFamily.secondary,
+                                    ),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        ImageWidget(
+                                          path: AppAssets.horse,
+                                          height: 30.w.flexClamp(28, 33),
                                         ),
-                                      ),
-                                    ],
+                                        10.horizontalSpace,
+                                        Text(
+                                          "Ask @ PuntGPT",
+                                          textAlign: TextAlign.center,
+                                          style: semiBold(
+                                            fontSize: 20,
+                                            fontFamily: AppFontFamily.secondary,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                            10.verticalSpace,
-                            IntrinsicWidth(
-                              child: AppFiledButton(
-                                text: "Search",
-                                onTap: () {
-                                  // formKey.currentState!.validate();
-                                  provider.setIsSearched(value: true);
-                                },
+                              10.verticalSpace,
+                              IntrinsicWidth(
+                                child: AppFiledButton(
+                                  text: "Search",
+                                  onTap: () {
+                                    // formKey.currentState!.validate();
+                                    provider.setIsSearched(value: true);
+                                  },
+                                ),
                               ),
-                            ),
-                            10.verticalSpace,
-                          ],
+                              10.verticalSpace,
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                ],
-              );
-            },
+                  ],
+                );
+              },
+        ),
       ),
     );
   }

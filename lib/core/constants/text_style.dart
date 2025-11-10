@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:puntgpt_nick/core/constants/app_colors.dart';
 
 class AppFontFamily {
@@ -23,7 +24,7 @@ TextStyle _baseTextStyle({
   FontStyle? fontStyle,
 }) {
   return TextStyle(
-    fontSize: fontSize,
+    fontSize: fontSize.spMin,
     height: height,
     color: color ?? AppColors.primary,
     fontFamily: fontFamily,
@@ -51,7 +52,7 @@ TextStyle light({
   FontStyle? fontStyle,
 }) => _baseTextStyle(
   fontWeight: FontWeight.w300,
-  fontSize: fontSize,
+  fontSize: fontSize.spMin,
   height: height,
   color: color,
   fontFamily: fontFamily,
@@ -77,7 +78,7 @@ TextStyle regular({
   FontStyle? fontStyle,
 }) => _baseTextStyle(
   fontWeight: FontWeight.w400,
-  fontSize: fontSize,
+  fontSize: fontSize.spMin,
   height: height,
   color: color,
   fontFamily: fontFamily,
@@ -103,7 +104,7 @@ TextStyle medium({
   FontStyle? fontStyle,
 }) => _baseTextStyle(
   fontWeight: FontWeight.w500,
-  fontSize: fontSize,
+  fontSize: fontSize.spMin,
   height: height,
   color: color,
   fontFamily: fontFamily,
@@ -129,7 +130,7 @@ TextStyle semiBold({
   FontStyle? fontStyle,
 }) => _baseTextStyle(
   fontWeight: FontWeight.w600,
-  fontSize: fontSize,
+  fontSize: fontSize.spMin,
   height: height,
   color: color,
   fontFamily: fontFamily,
@@ -155,7 +156,7 @@ TextStyle bold({
   FontStyle? fontStyle,
 }) => _baseTextStyle(
   fontWeight: FontWeight.w700,
-  fontSize: fontSize,
+  fontSize: fontSize.spMin,
   height: height,
   color: color,
   fontFamily: fontFamily,

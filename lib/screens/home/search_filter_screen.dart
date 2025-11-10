@@ -24,7 +24,7 @@ class SearchFilterScreen extends StatelessWidget {
                 Text(
                   "Search filters",
                   style: regular(
-                    fontSize: 24.sp,
+                    fontSize: 24,
                     color: AppColors.primary,
                     fontFamily: AppFontFamily.secondary,
                   ),
@@ -46,7 +46,7 @@ class SearchFilterScreen extends StatelessWidget {
               alignment: Alignment.centerRight,
               child: Text(
                 "Total Runners : (20)",
-                style: semiBold(fontSize: 16.sp),
+                style: semiBold(fontSize: 16),
               ),
             ),
           ),
@@ -60,7 +60,7 @@ class SearchFilterScreen extends StatelessWidget {
               textStyle: semiBold(fontSize: 16, color: Colors.white),
             ),
           ),
-          // Divider(color: AppColors.dividerColor.withValues(alpha: 0.2)),
+          // appDivider(),
           45.h.verticalSpace,
         ],
       ),

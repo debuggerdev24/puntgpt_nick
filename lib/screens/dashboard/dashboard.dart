@@ -1,12 +1,14 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:puntgpt_nick/core/constants/constants.dart';
 import 'package:puntgpt_nick/core/constants/text_style.dart';
 import 'package:puntgpt_nick/core/widgets/image_widget.dart';
-import 'package:puntgpt_nick/core/widgets/on_button_tap.dart';
 import 'package:puntgpt_nick/screens/dashboard/widgets/dashboard_app_bar.dart';
 
+import '../../core/router/app_router.dart';
 import '../home/home_screen.dart';
 
 final GlobalKey<_DashboardState> dashboardKey = GlobalKey<_DashboardState>();
@@ -53,37 +55,38 @@ class _DashboardState extends State<Dashboard> {
             ),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
-              spacing: 15.w.flexClamp(12, 18),
+              spacing: 15.w,
               children: [
                 _navItem(
                   onTap: () {
-                    indexOfTab.value = 0;
+                    AppRouter.indexedStackNavigationShell?.goBranch(0);
                   },
                   text: "Subscribe to\nPro Punter",
                   icon: AppAssets.trophy,
                   color: AppColors.premiumYellow,
+                  index: 0,
                 ),
                 _navItem(
-                  onTap: () {
-                    indexOfTab.value = 1;
-                  },
+                  onTap: () {},
                   text: "PuntGPT Punter Club",
                   icon: AppAssets.group,
                   hasLock: true,
+                  index: 1,
                 ),
                 _navItem(
-                  onTap: () {
-                    indexOfTab.value = 2;
-                  },
+                  onTap: () {},
                   text: "Bookies",
                   icon: AppAssets.bookings,
+                  color: AppColors.green,
+                  index: 2,
                 ),
                 _navItem(
                   onTap: () {
-                    indexOfTab.value = 3;
+                    AppRouter.indexedStackNavigationShell?.goBranch(1);
                   },
                   text: "Account",
                   icon: AppAssets.profile,
+                  index: 3,
                 ),
               ],
             ),
@@ -97,11 +100,16 @@ class _DashboardState extends State<Dashboard> {
     required VoidCallback onTap,
     required String text,
     required String icon,
+    required int index,
     Color? color,
     bool hasLock = false,
   }) {
+    log(AppRouter.indexedStackNavigationShell!.currentIndex.toString());
+    final currentIndex = AppRouter.indexedStackNavigationShell?.currentIndex;
+    final opacity = 0.65;
     return Expanded(
-      child: OnButtonTap(
+      child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
         onTap: onTap,
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -113,7 +121,13 @@ class _DashboardState extends State<Dashboard> {
                 ImageWidget(
                   path: icon,
                   type: ImageType.svg,
-                  color: color ?? AppColors.white.setOpacity(.4),
+                  color:
+                      color?.withValues(
+                        alpha: currentIndex == index ? 1 : opacity,
+                      ) ??
+                      AppColors.white.withValues(
+                        alpha: currentIndex == index ? 1 : opacity,
+                      ),
                   height: 32.w.flexClamp(28, 36),
                 ),
                 if (hasLock) ...[
@@ -128,7 +142,13 @@ class _DashboardState extends State<Dashboard> {
                       ImageWidget(
                         path: AppAssets.lock,
                         type: ImageType.svg,
-                        color: color ?? AppColors.white.setOpacity(.4),
+                        color:
+                            color?.withValues(
+                              alpha: currentIndex == index ? 1 : opacity,
+                            ) ??
+                            AppColors.white.withValues(
+                              alpha: currentIndex == index ? 1 : opacity,
+                            ),
                         height: 16.w.flexClamp(14, 18),
                       ),
                     ],
@@ -141,8 +161,14 @@ class _DashboardState extends State<Dashboard> {
                 text,
                 textAlign: TextAlign.center,
                 style: medium(
-                  fontSize: 10.sp.flexClamp(8, 12),
-                  color: color ?? AppColors.white.setOpacity(.4),
+                  fontSize: 10,
+                  color:
+                      color?.withValues(
+                        alpha: currentIndex == index ? 1 : opacity,
+                      ) ??
+                      AppColors.white.withValues(
+                        alpha: currentIndex == index ? 1 : opacity,
+                      ),
                 ),
               ),
             ),

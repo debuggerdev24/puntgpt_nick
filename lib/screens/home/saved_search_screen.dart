@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:puntgpt_nick/core/constants/text_style.dart';
 import 'package:puntgpt_nick/core/router/app_routes.dart';
+import 'package:puntgpt_nick/core/widgets/app_devider.dart';
 
 import '../../core/constants/app_colors.dart';
 
@@ -13,35 +14,14 @@ class SavedSearchScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Padding(
-          padding: EdgeInsets.fromLTRB(25.w, 18.h, 23.w, 12.h),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                "Saved Searches",
-                style: TextStyle(
-                  fontFamily: AppFontFamily.secondary,
-                  fontSize: 24.sp,
-                ),
-              ),
-              GestureDetector(
-                onTap: () {
-                  context.pop();
-                },
-                child: Icon(Icons.close_rounded),
-              ),
-            ],
-          ),
-        ),
-        Divider(color: AppColors.dividerColor.withValues(alpha: 0.2)),
+        topBar(context),
+        appDivider(),
+
         Expanded(
           child: ListView.separated(
             shrinkWrap: true,
             separatorBuilder: (context, index) {
-              return Divider(
-                color: AppColors.dividerColor.withValues(alpha: 0.2),
-              );
+              return appDivider();
             },
             itemCount: 2,
             itemBuilder: (context, index) {
@@ -49,8 +29,9 @@ class SavedSearchScreen extends StatelessWidget {
                 children: [
                   SearchedItem(),
                   if (index == 1)
-                    Divider(
-                      color: AppColors.dividerColor.withValues(alpha: 0.2),
+                    Padding(
+                      padding: EdgeInsets.only(bottom: 14.h),
+                      child: appDivider(),
                     ),
                 ],
               );
@@ -58,6 +39,27 @@ class SavedSearchScreen extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+
+  Widget topBar(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.fromLTRB(25.w, 16.h, 23.w, 16.h),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            "Saved Searches",
+            style: TextStyle(fontFamily: AppFontFamily.secondary, fontSize: 24),
+          ),
+          GestureDetector(
+            onTap: () {
+              context.pop();
+            },
+            child: Icon(Icons.close_rounded),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -68,12 +70,11 @@ class SearchedItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.fromLTRB(25.w, 8.h, 25.w, 10.h),
+      padding: EdgeInsets.fromLTRB(25.w, 14.h, 25.w, 14.h),
       child: GestureDetector(
         onTap: () {
-          context.pushNamed(AppRoutes.searchDetail.name);
+          context.pushNamed(AppRoutes.searchDetails.name);
         },
-        // behavior: HitTestBehavior.opaque,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -84,7 +85,7 @@ class SearchedItem extends StatelessWidget {
                 Text(
                   "Sep 30, 2025",
                   style: semiBold(
-                    fontSize: 12.sp,
+                    fontSize: 12,
                     color: AppColors.greyColor.withValues(alpha: 0.6),
                   ),
                 ),

@@ -16,8 +16,11 @@ class AppRoutes {
   static const String home = '/home';
   static const String searchFilter = '/search-filter';
   static const String savedSearched = '/saved-search';
-  static const String searchDetail = '/search-detail';
+  static const String searchDetails = '/search-detail';
   static const String askPuntGpt = '/ask-punt-gpt';
+  static const String account = '/account';
+  static const String personalDetails = '/personal-details';
+  static const String manageSubscription = '/manage-subscription';
 }
 
 extension AppRoutesExtension on String {

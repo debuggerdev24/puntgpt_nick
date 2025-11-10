@@ -51,7 +51,7 @@ class _AppTextFieldState extends State<AppTextField> {
       child: TextFormField(
         controller: widget.controller,
         cursorColor: AppColors.primary,
-        style: widget.textStyle ?? medium(fontSize: 16.sp.clamp(14, 18)),
+        style: widget.textStyle ?? medium(fontSize: 16),
         obscureText: widget.obscureText,
         autovalidateMode: widget.autovalidateMode,
         enabled: widget.enabled,
@@ -90,12 +90,12 @@ class _AppTextFieldState extends State<AppTextField> {
           hintStyle:
               widget.hintStyle ??
               medium(
-                fontSize: 16.sp.clamp(14, 18),
+                fontSize: 16,
                 color: AppColors.primary.setOpacity(0.4),
               ),
           errorStyle:
               widget.errorStyle ??
-              medium(fontSize: 12.sp.clamp(10, 14), color: AppColors.red),
+              medium(fontSize: 12, color: AppColors.red),
           errorMaxLines: 5,
           error: _currentError == null
               ? null
@@ -106,7 +106,7 @@ class _AppTextFieldState extends State<AppTextField> {
                     style:
                         widget.errorStyle ??
                         medium(
-                          fontSize: 12.sp.clamp(10, 14),
+                          fontSize: 12,
                           color: AppColors.red,
                         ),
                   ),

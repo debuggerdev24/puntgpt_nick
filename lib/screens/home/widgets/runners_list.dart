@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:puntgpt_nick/core/constants/constants.dart';
 import 'package:puntgpt_nick/core/constants/text_style.dart';
+import 'package:puntgpt_nick/core/router/app_routes.dart';
 import 'package:puntgpt_nick/core/widgets/app_filed_button.dart';
 import 'package:puntgpt_nick/models/runner_model.dart';
 
@@ -22,25 +24,30 @@ class RunnersList extends StatelessWidget {
             children: [
               Text(
                 "Total Runners: (20)",
-                style: bold(fontSize: 14.sp.flexClamp(12, 14)),
+                style: bold(fontSize: 14),
               ),
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  ImageWidget(
-                    type: ImageType.svg,
-                    path: AppAssets.bookmark,
-                    height: 16.w.flexClamp(14, 18),
-                  ),
-                  SizedBox(width: 5),
-                  Text(
-                    "Saved Searches",
-                    style: bold(
-                      fontSize: 14.sp.clamp(12, 16),
-                      decoration: TextDecoration.underline,
+              GestureDetector(
+                onTap: () {
+                  context.pushNamed(AppRoutes.savedSearched.name);
+                },
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    ImageWidget(
+                      type: ImageType.svg,
+                      path: AppAssets.bookmark,
+                      height: 16.w.flexClamp(14, 18),
                     ),
-                  ),
-                ],
+                    SizedBox(width: 5),
+                    Text(
+                      "Saved Searches",
+                      style: bold(
+                        fontSize: 14,
+                        decoration: TextDecoration.underline,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
@@ -92,16 +99,16 @@ class RunnersList extends StatelessWidget {
                           15.horizontalSpace,
                           Text(
                             "${runner.number.toString()}. ",
-                            style: bold(fontSize: 18.spMin),
+                            style: bold(fontSize: 18),
                           ),
                           Text(
                             runner.label,
-                            style: semiBold(fontSize: 18.spMin),
+                            style: semiBold(fontSize: 18),
                           ),
                           Spacer(),
                           Text(
                             "\$${runner.price}",
-                            style: bold(fontSize: 18.spMin),
+                            style: bold(fontSize: 18),
                           ),
                         ],
                       ),
@@ -113,7 +120,7 @@ class RunnersList extends StatelessWidget {
                       padding: EdgeInsets.fromLTRB(12, 6, 12, 2),
                       child: Text(
                         "${runner.date}. ",
-                        style: medium(fontSize: 16.sp),
+                        style: medium(fontSize: 16),
                       ),
                     ),
                     Divider(
@@ -123,7 +130,7 @@ class RunnersList extends StatelessWidget {
                       padding: EdgeInsets.fromLTRB(12, 6, 12, 2),
                       child: Text(
                         "${runner.numberOfRace} Races",
-                        style: medium(fontSize: 16.spMin),
+                        style: medium(fontSize: 16),
                       ),
                     ),
                     Divider(
@@ -133,7 +140,7 @@ class RunnersList extends StatelessWidget {
                       padding: EdgeInsets.fromLTRB(12, 6, 12, 2),
                       child: Text(
                         "Next race ${runner.nextRaceRemainTime}",
-                        style: medium(fontSize: 16.spMin),
+                        style: medium(fontSize: 16),
                       ),
                     ),
                     Divider(
@@ -192,7 +199,7 @@ class RunnersList extends StatelessWidget {
                                             child: Text(
                                               "Analysis and Field Comparison",
                                               style: semiBold(
-                                                fontSize: 16.spMin,
+                                                fontSize: 16,
                                               ),
                                             ),
                                           ),
@@ -210,7 +217,7 @@ class RunnersList extends StatelessWidget {
                                             child: Text(
                                               "‘Delicacy’ @8.50  might offer value as a top 3 contender, especially if the favourite gets caught wide or overworks early. Look for  signs like a strong final 400m that it's shown in recent form. I like your simple formula, not overthinking things. Keep in mind the favourite, ‘Makybe Diva’ is short odds @2.10 I can take you to the manual form guide for a look at the other runners in this race?",
                                               style: regular(
-                                                fontSize: 16.spMin,
+                                                fontSize: 16,
                                               ),
                                             ),
                                           ),
@@ -240,7 +247,7 @@ class RunnersList extends StatelessWidget {
                                       child: Text(
                                         "Ask @ PuntGPT",
                                         textAlign: TextAlign.center,
-                                        style: bold(fontSize: 16.spMin),
+                                        style: bold(fontSize: 16),
                                       ),
                                     ),
                                   ],

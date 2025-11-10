@@ -58,7 +58,7 @@ class _FilterListState extends State<FilterList> {
             padding: EdgeInsets.symmetric(horizontal: 25),
             child: Text(
               "Search for a horse that meets your criteria:",
-              style: bold(fontSize: 14.sp.flexClamp(12, 16), height: 1.2),
+              style: bold(fontSize: 14, height: 1.2),
             ),
           ),
           5.verticalSpace,
@@ -69,7 +69,7 @@ class _FilterListState extends State<FilterList> {
               children: [
                 Text(
                   "Total Runners: (20)",
-                  style: bold(fontSize: 14.sp.flexClamp(12, 14)),
+                  style: bold(fontSize: 14),
                 ),
                 OnButtonTap(
                   onTap: onSaveSearchTap,
@@ -85,7 +85,7 @@ class _FilterListState extends State<FilterList> {
                       Text(
                         "Saved Searches",
                         style: bold(
-                          fontSize: 14.sp.clamp(12, 16),
+                          fontSize: 14,
                           decoration: TextDecoration.underline,
                         ),
                       ),

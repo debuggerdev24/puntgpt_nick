@@ -52,7 +52,7 @@ class AppFiledButton extends StatelessWidget {
             style:
                 textStyle ??
                 semiBold(
-                  fontSize: 20.sp.flexClamp(18, 22),
+                  fontSize: 20,
                   color: AppColors.white,
                 ),
           ),
