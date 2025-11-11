@@ -21,6 +21,7 @@ class AppTextField extends StatefulWidget {
     this.autovalidateMode,
     this.onTap,
     this.enabled = true,
+    this.suffix,
   });
 
   final TextEditingController controller;
@@ -28,9 +29,10 @@ class AppTextField extends StatefulWidget {
   final TextStyle? hintStyle;
   final TextStyle? textStyle;
   final TextStyle? errorStyle;
+  final Widget? suffix;
   final double? borderRadius;
   final bool obscureText;
-  final String? trailingIcon;
+  final dynamic? trailingIcon;
   final VoidCallback? onTrailingIconTap;
   final FormFieldValidator<String>? validator;
   final AutovalidateMode? autovalidateMode;
@@ -66,8 +68,9 @@ class _AppTextFieldState extends State<AppTextField> {
           });
           return null;
         },
+
         decoration: InputDecoration(
-          helperText: "",
+          // helperText: "",
           suffixIconConstraints: BoxConstraints(
             maxHeight: 26.w.flexClamp(24, 28),
             minHeight: 26.w.flexClamp(24, 28),
@@ -76,7 +79,8 @@ class _AppTextFieldState extends State<AppTextField> {
           ),
           suffixIcon: widget.trailingIcon == null
               ? const SizedBox()
-              : Align(
+              : (widget.trailingIcon.runtimeType is String)
+              ? Align(
                   alignment: Alignment.centerLeft,
                   child: OnButtonTap(
                     onTap: widget.onTrailingIconTap,
@@ -85,17 +89,14 @@ class _AppTextFieldState extends State<AppTextField> {
                       path: widget.trailingIcon!,
                     ),
                   ),
-                ),
+                )
+              : widget.trailingIcon,
           hintText: widget.hintText,
           hintStyle:
               widget.hintStyle ??
-              medium(
-                fontSize: 16,
-                color: AppColors.primary.setOpacity(0.4),
-              ),
+              medium(fontSize: 16, color: AppColors.primary.setOpacity(0.4)),
           errorStyle:
-              widget.errorStyle ??
-              medium(fontSize: 12, color: AppColors.red),
+              widget.errorStyle ?? medium(fontSize: 12, color: AppColors.red),
           errorMaxLines: 5,
           error: _currentError == null
               ? null
@@ -105,10 +106,7 @@ class _AppTextFieldState extends State<AppTextField> {
                     _currentError!,
                     style:
                         widget.errorStyle ??
-                        medium(
-                          fontSize: 12,
-                          color: AppColors.red,
-                        ),
+                        medium(fontSize: 12, color: AppColors.red),
                   ),
                 ),
           contentPadding: const EdgeInsets.symmetric(

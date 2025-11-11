@@ -67,10 +67,7 @@ class _FilterListState extends State<FilterList> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  "Total Runners: (20)",
-                  style: bold(fontSize: 14),
-                ),
+                Text("Total Runners: (20)", style: bold(fontSize: 14)),
                 OnButtonTap(
                   onTap: onSaveSearchTap,
                   child: Row(
@@ -111,9 +108,9 @@ class _FilterListState extends State<FilterList> {
     return Column(
       children: [
         Theme(
-          data: Theme.of(context).copyWith(
-            dividerColor: AppColors.dividerColor.withValues(alpha: 0.2),
-          ),
+          data: Theme.of(
+            context,
+          ).copyWith(dividerColor: AppColors.greyColor.withValues(alpha: 0.2)),
           child: ExpansionTile(
             childrenPadding: EdgeInsets.only(
               left: 25.w,
@@ -121,7 +118,7 @@ class _FilterListState extends State<FilterList> {
               bottom: 8.h,
             ),
             tilePadding: EdgeInsets.symmetric(horizontal: 25.w),
-            iconColor: AppColors.dividerColor,
+            iconColor: AppColors.greyColor,
             title: Text("Track", style: semiBold(fontSize: 16)),
             children: provider.trackItems.map((item) {
               bool isChecked = item["checked"];
@@ -133,9 +130,7 @@ class _FilterListState extends State<FilterList> {
                 highlightColor: Colors.transparent,
                 child: Column(
                   children: [
-                    Divider(
-                      color: AppColors.dividerColor.withValues(alpha: 0.2),
-                    ),
+                    Divider(color: AppColors.greyColor.withValues(alpha: 0.2)),
                     Padding(
                       padding: EdgeInsets.symmetric(vertical: 8.h),
                       child: Row(

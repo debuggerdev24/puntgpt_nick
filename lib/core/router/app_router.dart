@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:puntgpt_nick/core/router/app_routes.dart';
 import 'package:puntgpt_nick/screens/account/account_screen.dart';
-import 'package:puntgpt_nick/screens/account/manage_subscription.dart';
+import 'package:puntgpt_nick/screens/account/change_password_screen.dart';
+import 'package:puntgpt_nick/screens/account/manage_subscription_screen.dart';
 import 'package:puntgpt_nick/screens/account/personal_details_screen.dart';
 import 'package:puntgpt_nick/screens/auth/screens/login_screen.dart';
 import 'package:puntgpt_nick/screens/auth/screens/sign_up_screen.dart';
@@ -14,12 +15,14 @@ import 'package:puntgpt_nick/screens/home/home_screen.dart';
 import 'package:puntgpt_nick/screens/home/manage_saved_search.dart';
 import 'package:puntgpt_nick/screens/home/saved_search_screen.dart';
 import 'package:puntgpt_nick/screens/home/search_filter_screen.dart';
+import 'package:puntgpt_nick/screens/home/selected_race_screen.dart';
 import 'package:puntgpt_nick/screens/onboarding/age_confirmation_screen.dart';
 import 'package:puntgpt_nick/screens/onboarding/onboarding_screen.dart';
 import 'package:puntgpt_nick/screens/onboarding/web_onboarding_screen.dart';
 import 'package:puntgpt_nick/screens/splash/splash_screen.dart';
 
 import '../../screens/dashboard/dashboard.dart';
+import '../../screens/home/tip_slip_screen.dart';
 
 class AppRouter {
   static final _rootNavigatorKey = GlobalKey<NavigatorState>();
@@ -137,6 +140,13 @@ class AppRouter {
                   return AskPuntGpt();
                 },
               ),
+              GoRoute(
+                name: AppRoutes.selectedRace.name,
+                path: AppRoutes.selectedRace,
+                builder: (BuildContext context, GoRouterState state) {
+                  return SelectedRaceScreen();
+                },
+              ),
             ],
           ),
           //todo ----------> Customer Account Tab
@@ -161,6 +171,20 @@ class AppRouter {
                 path: AppRoutes.manageSubscription,
                 builder: (BuildContext context, GoRouterState state) {
                   return ManageSubscriptionScreen();
+                },
+              ),
+              GoRoute(
+                name: AppRoutes.changePassword.name,
+                path: AppRoutes.changePassword,
+                builder: (BuildContext context, GoRouterState state) {
+                  return ChangePasswordScreen();
+                },
+              ),
+              GoRoute(
+                name: AppRoutes.tipSlip.name,
+                path: AppRoutes.tipSlip,
+                builder: (BuildContext context, GoRouterState state) {
+                  return TipSlipScreen();
                 },
               ),
             ],

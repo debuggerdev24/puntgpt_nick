@@ -22,10 +22,7 @@ class RunnersList extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                "Total Runners: (20)",
-                style: bold(fontSize: 14),
-              ),
+              Text("Total Runners: (20)", style: bold(fontSize: 14)),
               GestureDetector(
                 onTap: () {
                   context.pushNamed(AppRoutes.savedSearched.name);
@@ -61,7 +58,7 @@ class RunnersList extends StatelessWidget {
                 margin: EdgeInsets.fromLTRB(25.w, 0, 25.w, 16),
                 decoration: BoxDecoration(
                   border: Border.all(
-                    color: AppColors.dividerColor.withValues(alpha: 0.15),
+                    color: AppColors.greyColor.withValues(alpha: 0.15),
                   ),
                 ),
                 child: Column(
@@ -101,21 +98,13 @@ class RunnersList extends StatelessWidget {
                             "${runner.number.toString()}. ",
                             style: bold(fontSize: 18),
                           ),
-                          Text(
-                            runner.label,
-                            style: semiBold(fontSize: 18),
-                          ),
+                          Text(runner.label, style: semiBold(fontSize: 18)),
                           Spacer(),
-                          Text(
-                            "\$${runner.price}",
-                            style: bold(fontSize: 18),
-                          ),
+                          Text("\$${runner.price}", style: bold(fontSize: 18)),
                         ],
                       ),
                     ),
-                    Divider(
-                      color: AppColors.dividerColor.withValues(alpha: 0.15),
-                    ),
+                    Divider(color: AppColors.greyColor.withValues(alpha: 0.15)),
                     Padding(
                       padding: EdgeInsets.fromLTRB(12, 6, 12, 2),
                       child: Text(
@@ -123,9 +112,7 @@ class RunnersList extends StatelessWidget {
                         style: medium(fontSize: 16),
                       ),
                     ),
-                    Divider(
-                      color: AppColors.dividerColor.withValues(alpha: 0.15),
-                    ),
+                    Divider(color: AppColors.greyColor.withValues(alpha: 0.15)),
                     Padding(
                       padding: EdgeInsets.fromLTRB(12, 6, 12, 2),
                       child: Text(
@@ -133,9 +120,7 @@ class RunnersList extends StatelessWidget {
                         style: medium(fontSize: 16),
                       ),
                     ),
-                    Divider(
-                      color: AppColors.dividerColor.withValues(alpha: 0.15),
-                    ),
+                    Divider(color: AppColors.greyColor.withValues(alpha: 0.15)),
                     Padding(
                       padding: EdgeInsets.fromLTRB(12, 6, 12, 2),
                       child: Text(
@@ -143,9 +128,7 @@ class RunnersList extends StatelessWidget {
                         style: medium(fontSize: 16),
                       ),
                     ),
-                    Divider(
-                      color: AppColors.dividerColor.withValues(alpha: 0.15),
-                    ),
+                    Divider(color: AppColors.greyColor.withValues(alpha: 0.15)),
                     Padding(
                       padding: EdgeInsets.fromLTRB(8, 6, 8, 16),
                       child: Row(
@@ -182,8 +165,9 @@ class RunnersList extends StatelessWidget {
                                       ),
                                       decoration: BoxDecoration(
                                         border: Border.all(
-                                          color: AppColors.dividerColor
-                                              .withValues(alpha: 0.15),
+                                          color: AppColors.greyColor.withValues(
+                                            alpha: 0.15,
+                                          ),
                                         ),
                                       ),
                                       child: Column(
@@ -198,13 +182,11 @@ class RunnersList extends StatelessWidget {
                                             ),
                                             child: Text(
                                               "Analysis and Field Comparison",
-                                              style: semiBold(
-                                                fontSize: 16,
-                                              ),
+                                              style: semiBold(fontSize: 16),
                                             ),
                                           ),
                                           Divider(
-                                            color: AppColors.dividerColor
+                                            color: AppColors.greyColor
                                                 .withValues(alpha: 0.2),
                                           ),
                                           Padding(
@@ -216,9 +198,7 @@ class RunnersList extends StatelessWidget {
                                             ),
                                             child: Text(
                                               "‘Delicacy’ @8.50  might offer value as a top 3 contender, especially if the favourite gets caught wide or overworks early. Look for  signs like a strong final 400m that it's shown in recent form. I like your simple formula, not overthinking things. Keep in mind the favourite, ‘Makybe Diva’ is short odds @2.10 I can take you to the manual form guide for a look at the other runners in this race?",
-                                              style: regular(
-                                                fontSize: 16,
-                                              ),
+                                              style: regular(fontSize: 16),
                                             ),
                                           ),
                                         ],

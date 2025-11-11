@@ -87,7 +87,7 @@ class SearchDetailScreen extends StatelessWidget {
               bottom: 8.h,
             ),
             tilePadding: EdgeInsets.symmetric(horizontal: 25.w),
-            iconColor: AppColors.dividerColor,
+            iconColor: AppColors.greyColor,
             title: Text("Track", style: semiBold(fontSize: 16)),
             children: provider.trackItems.map((item) {
               bool isChecked = item["checked"];
@@ -99,9 +99,7 @@ class SearchDetailScreen extends StatelessWidget {
                 highlightColor: Colors.transparent,
                 child: Column(
                   children: [
-                    Divider(
-                      color: AppColors.dividerColor.withValues(alpha: 0.2),
-                    ),
+                    Divider(color: AppColors.greyColor.withValues(alpha: 0.2)),
                     Padding(
                       padding: EdgeInsets.symmetric(vertical: 8.h),
                       child: Row(

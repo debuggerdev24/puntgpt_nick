@@ -29,6 +29,7 @@ class _DashboardState extends State<Dashboard> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: true,
+      backgroundColor: AppColors.backGroundColor,
       extendBody: false,
       body: SafeArea(
         bottom: false,

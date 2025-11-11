@@ -21,6 +21,9 @@ class AppRoutes {
   static const String account = '/account';
   static const String personalDetails = '/personal-details';
   static const String manageSubscription = '/manage-subscription';
+  static const String changePassword = '/change-password';
+  static const String tipSlip = '/tip-slip';
+  static const String selectedRace = '/selected-race';
 }
 
 extension AppRoutesExtension on String {

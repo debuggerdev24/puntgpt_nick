@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:puntgpt_nick/core/constants/constants.dart';
 import 'package:puntgpt_nick/core/constants/text_style.dart';
+import 'package:puntgpt_nick/core/router/app_routes.dart';
 import 'package:puntgpt_nick/core/widgets/image_widget.dart';
 import 'package:puntgpt_nick/responsive/responsive_builder.dart';
 import 'package:puntgpt_nick/screens/dashboard/widgets/web_dashboard_app_bar.dart';
@@ -63,39 +65,45 @@ class _DashboardAppBarState extends State<DashboardAppBar> {
   Widget _tipSlip() {
     return SizedBox(
       height: (20.sp.flexClamp(18, 22) * 1.2) + 25,
-      child: Stack(
-        alignment: Alignment.center,
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(right: 10),
-            child: Text(
-              "Tip Slip",
-              style: bold(
-                height: 1.2,
-                fontSize: 18.sp.flexClamp(16, 20),
-                color: AppColors.white,
-              ),
-            ),
-          ),
-          Positioned(
-            top: 0,
-            right: 0,
-            child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 2.h),
-              decoration: BoxDecoration(
-                color: AppColors.white,
-                borderRadius: BorderRadius.circular(4),
-              ),
+      child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: () {
+          context.pushNamed(AppRoutes.tipSlip.name);
+        },
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(right: 10),
               child: Text(
-                "10",
-                style: semiBold(
-                  fontSize: 12.sp.clamp(10, 12),
-                  color: AppColors.black,
+                "Tip Slip",
+                style: bold(
+                  height: 1.2,
+                  fontSize: 18.sp.flexClamp(16, 20),
+                  color: AppColors.white,
                 ),
               ),
             ),
-          ),
-        ],
+            Positioned(
+              top: 0,
+              right: 0,
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 2.h),
+                decoration: BoxDecoration(
+                  color: AppColors.white,
+                  borderRadius: BorderRadius.circular(4),
+                ),
+                child: Text(
+                  "10",
+                  style: semiBold(
+                    fontSize: 12.sp.clamp(10, 12),
+                    color: AppColors.black,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

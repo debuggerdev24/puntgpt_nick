@@ -73,9 +73,9 @@ class SearchFilterScreen extends StatelessWidget {
     return Column(
       children: [
         Theme(
-          data: Theme.of(context).copyWith(
-            dividerColor: AppColors.dividerColor.withValues(alpha: 0.2),
-          ),
+          data: Theme.of(
+            context,
+          ).copyWith(dividerColor: AppColors.greyColor.withValues(alpha: 0.2)),
           child: ExpansionTile(
             childrenPadding: EdgeInsets.only(
               left: 25.w,
@@ -83,7 +83,7 @@ class SearchFilterScreen extends StatelessWidget {
               bottom: 8.h,
             ),
             tilePadding: EdgeInsets.symmetric(horizontal: 25.w),
-            iconColor: AppColors.dividerColor,
+            iconColor: AppColors.greyColor,
             title: Text("Track", style: semiBold(fontSize: 16)),
             children: provider.trackItems.map((item) {
               bool isChecked = item["checked"];
@@ -95,9 +95,7 @@ class SearchFilterScreen extends StatelessWidget {
                 highlightColor: Colors.transparent,
                 child: Column(
                   children: [
-                    Divider(
-                      color: AppColors.dividerColor.withValues(alpha: 0.2),
-                    ),
+                    Divider(color: AppColors.greyColor.withValues(alpha: 0.2)),
                     Padding(
                       padding: EdgeInsets.symmetric(vertical: 8.h),
                       child: Row(

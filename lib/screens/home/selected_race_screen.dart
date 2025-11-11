@@ -1,0 +1,242 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
+import 'package:puntgpt_nick/core/widgets/app_filed_button.dart';
+import 'package:puntgpt_nick/provider/search_engine_provider.dart';
+import 'package:puntgpt_nick/screens/home/widgets/home_screen_tab.dart';
+
+import '../../core/constants/app_colors.dart';
+import '../../core/constants/text_style.dart';
+import '../../core/widgets/app_devider.dart';
+
+class SelectedRaceScreen extends StatelessWidget {
+  const SelectedRaceScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<SearchEngineProvider>(
+      builder: (context, provider, child) {
+        return Column(
+          children: [
+            Padding(
+              padding: EdgeInsets.fromLTRB(25, 16, 25, 0),
+              child: HomeScreenTab(selectedIndex: provider.selectedTab),
+            ),
+            topBar(context),
+            25.h.verticalSpace,
+
+            RaceTable(),
+          ],
+        );
+      },
+    );
+  }
+
+  Widget topBar(BuildContext context) {
+    return Column(
+      children: [
+        Padding(
+          padding: EdgeInsets.fromLTRB(25.w, 25.h, 25.w, 20.h),
+          child: Row(
+            spacing: 14.w,
+            children: [
+              GestureDetector(
+                onTap: () {
+                  context.pop();
+                },
+                child: Icon(Icons.arrow_back_ios_rounded, size: 16.h),
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Flemington",
+                    style: regular(
+                      fontSize: 24,
+                      fontFamily: AppFontFamily.secondary,
+                      height: 1.35,
+                    ),
+                  ),
+                  Text(
+                    "PuntGPT Legends Stakes 3200m. Date. Time",
+                    style: semiBold(
+                      fontSize: 14,
+                      color: AppColors.greyColor.withValues(alpha: 0.6),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+        appDivider(),
+      ],
+    );
+  }
+}
+
+class RaceTable extends StatefulWidget {
+  const RaceTable({super.key});
+
+  @override
+  State<RaceTable> createState() => _RaceTableState();
+}
+
+class _RaceTableState extends State<RaceTable> {
+  int? expandedIndex;
+
+  final List<Map<String, String>> horses = [
+    {"name": "Prince of Penzance"},
+    {"name": "Makybe Diva"},
+    {"name": "Fiorente"},
+    {"name": "Gold Trip"},
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Container(
+        margin: EdgeInsets.symmetric(horizontal: 25.w),
+        width: 1.4.sw,
+        decoration: BoxDecoration(
+          border: Border.all(color: AppColors.primary.withValues(alpha: 0.3)),
+        ),
+        child: Table(
+          border: TableBorder.symmetric(
+            inside: BorderSide(color: AppColors.primary.withValues(alpha: 0.2)),
+          ),
+          columnWidths: {0: FlexColumnWidth(1.6.w), 1: FlexColumnWidth(3.w)},
+          defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+          children: List.generate(horses.length, (index) {
+            final isExpanded = expandedIndex == index;
+            return TableRow(
+              decoration: BoxDecoration(),
+              children: [
+                IntrinsicHeight(
+                  child: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        expandedIndex = isExpanded ? null : index;
+                      });
+                    },
+                    child: Container(
+                      color: isExpanded
+                          ? AppColors.primary
+                          : Colors.transparent,
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                          vertical: 12.h,
+                          horizontal: 16.w,
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "${index + 1}. ${horses[index]["name"]!}",
+                              style: semiBold(
+                                fontSize: 16,
+                                color: isExpanded ? Colors.white : null,
+                              ),
+                            ),
+                            if (isExpanded) ...[
+                              12.h.verticalSpace,
+                              Text(
+                                "\$2.10",
+                                style: semiBold(
+                                  fontSize: 16,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              AppFiledButton(
+                                margin: EdgeInsets.only(top: 4),
+                                text: "Add to Tip Slip",
+                                textStyle: semiBold(
+                                  fontSize: 14,
+                                  color: AppColors.primary,
+                                ),
+                                padding: EdgeInsets.symmetric(vertical: 9.h),
+                                color: AppColors.white,
+                                onTap: () {},
+                              ),
+                            ],
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    vertical: 8.h,
+                    horizontal: 12.w,
+                  ),
+                  child: isExpanded
+                      ? Align(
+                          alignment: AlignmentGeometry.topLeft,
+                          child: Wrap(
+                            alignment: WrapAlignment.start,
+                            runSpacing: 14.h,
+                            spacing: 12.w,
+                            children: [
+                              ...[
+                                "Weight",
+                                "Jockey",
+                                "Form",
+                                "Trainer",
+                                "Career",
+                                "Track",
+                                "Distance",
+                                "1st up",
+                                "2nd up",
+                                "3rd up",
+                                "Firm",
+                                "Soft",
+                                "Heavy",
+                              ].map(
+                                (label) => Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text(
+                                      label,
+                                      style: medium(
+                                        fontSize: 14,
+                                        color: AppColors.primary,
+                                      ),
+                                    ),
+                                    VerticalDivider(color: AppColors.primary),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                      : Text(
+                          "W: J: F: T:",
+                          style: medium(fontSize: 14, color: AppColors.primary),
+                        ),
+                ),
+              ],
+            );
+          }),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDetailBox(String label) {
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 6.h, horizontal: 10.w),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        border: Border.all(color: AppColors.primary.withValues(alpha: 0.2)),
+        borderRadius: BorderRadius.circular(6.r),
+      ),
+      child: Text(
+        label,
+        style: semiBold(fontSize: 13, color: AppColors.primary),
+      ),
+    );
+  }
+}

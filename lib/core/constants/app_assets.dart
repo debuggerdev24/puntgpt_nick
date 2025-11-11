@@ -17,6 +17,7 @@ class AppAssets {
   static const bookmark = "$_iconPath/bookmark.svg";
   static const filter = "$_iconPath/filter.svg";
   static const edit = "$_iconPath/edit.svg";
+  // static const horse = "$_iconPath/horse.svg";
 
   // images
   static const _imagePath = "assets/images";

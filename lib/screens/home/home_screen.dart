@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -5,13 +6,13 @@ import 'package:provider/provider.dart';
 import 'package:puntgpt_nick/core/constants/constants.dart';
 import 'package:puntgpt_nick/core/constants/text_style.dart';
 import 'package:puntgpt_nick/core/router/app_routes.dart';
-import 'package:puntgpt_nick/core/widgets/app_filed_button.dart';
 import 'package:puntgpt_nick/core/widgets/image_widget.dart';
 import 'package:puntgpt_nick/screens/home/widgets/filters_list.dart';
 import 'package:puntgpt_nick/screens/home/widgets/home_screen_tab.dart';
 import 'package:puntgpt_nick/screens/home/widgets/race_start_timing_options.dart';
 import 'package:puntgpt_nick/screens/home/widgets/runners_list.dart';
 
+import '../../core/widgets/app_filed_button.dart';
 import '../../provider/search_engine_provider.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -52,7 +53,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     return PopScope(
       canPop: context.watch<SearchEngineProvider>().isSearched ? false : true,
       onPopInvokedWithResult: (didPop, result) {
-        if(context.read<SearchEngineProvider>().isSearched){
+        if (context.read<SearchEngineProvider>().isSearched) {
           context.read<SearchEngineProvider>().setIsSearched(value: false);
         }
       },
@@ -65,114 +66,261 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                 SearchEngineProvider provider,
                 Widget? child,
               ) {
-                return Stack(
+                return Column(
                   children: [
-                    Column(
-                      spacing: 16,
-                      children: [
-                        //todo top 2 switch button
-                        Padding(
-                          padding: EdgeInsets.fromLTRB(25, 16, 25, 0),
-                          child: HomeScreenTab(selectedTap: (index) {}),
-                        ),
-                        //todo timing buttons
-                        RaceStartTimingOptions(),
-                        Expanded(
-                          child: (provider.isSearched)
-                              ? RunnersList(runnerList: provider.runnersList)
-                              : FilterList(formKey: formKey),
-                        ),
-                      ],
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(25, 16, 25, 0),
+                      child: HomeScreenTab(selectedIndex: provider.selectedTab),
                     ),
-                    if (provider.isSearched)
-                      Align(
-                        alignment: AlignmentGeometry.bottomCenter,
-                        child: GestureDetector(
-                          onTap: () {
-                            context.pushNamed(AppRoutes.searchFilter.name);
-                          },
-                          child: IntrinsicHeight(
-                            child: Container(
-                              decoration: BoxDecoration(color: AppColors.white),
-                              alignment: AlignmentDirectional.bottomCenter,
-                              padding: EdgeInsets.symmetric(vertical: 12.h),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
+                    16.h.verticalSpace,
+                    Expanded(
+                      child: FadeInUp(
+                        from: 0,
+                        child: (provider.selectedTab == 0)
+                            ? Column(
+                                spacing: 16,
                                 children: [
-                                  ImageWidget(
-                                    type: ImageType.svg,
-                                    path: AppAssets.filter,
-                                    height: 20.w.flexClamp(18, 22),
+                                  //todo timing buttons
+                                  RaceStartTimingOptions(),
+                                  Expanded(
+                                    child: (provider.isSearched)
+                                        ? RunnersList(
+                                            runnerList: provider.runnersList,
+                                          )
+                                        : FilterList(formKey: formKey),
                                   ),
-                                  Text("Filter", style: medium(fontSize: 16)),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      )
-                    else
-                      Align(
-                        alignment: Alignment.bottomCenter,
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 20),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              MouseRegion(
-                                cursor: SystemMouseCursors.click,
-                                child: GestureDetector(
-                                  onTap: () {
-                                    context.pushNamed(AppRoutes.askPuntGpt.name);
-                                  },
-                                  child: Container(
-                                    padding: EdgeInsets.symmetric(
-                                      vertical: 12.r.flexClamp(12, 15),
-                                      horizontal: 15.r.flexClamp(15, 18),
-                                    ),
-                                    decoration: BoxDecoration(
-                                      color: AppColors.white,
-                                      border: Border.all(
-                                        color: AppColors.primary,
-                                      ),
-                                    ),
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        ImageWidget(
-                                          path: AppAssets.horse,
-                                          height: 30.w.flexClamp(28, 33),
-                                        ),
-                                        10.horizontalSpace,
-                                        Text(
-                                          "Ask @ PuntGPT",
-                                          textAlign: TextAlign.center,
-                                          style: semiBold(
-                                            fontSize: 20,
-                                            fontFamily: AppFontFamily.secondary,
+                                  if (provider.isSearched)
+                                    Align(
+                                      alignment: Alignment.bottomCenter,
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          context.pushNamed(
+                                            AppRoutes.searchFilter.name,
+                                          );
+                                        },
+                                        child: IntrinsicHeight(
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              color: AppColors.white,
+                                            ),
+                                            alignment: AlignmentDirectional
+                                                .bottomCenter,
+                                            padding: EdgeInsets.symmetric(
+                                              vertical: 12.h,
+                                            ),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                ImageWidget(
+                                                  type: ImageType.svg,
+                                                  path: AppAssets.filter,
+                                                  height: 20.w.flexClamp(
+                                                    18,
+                                                    22,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  "Filter",
+                                                  style: medium(fontSize: 16),
+                                                ),
+                                              ],
+                                            ),
                                           ),
                                         ),
-                                      ],
+                                      ),
+                                    )
+                                  else
+                                    Align(
+                                      alignment: Alignment.bottomCenter,
+                                      child: Padding(
+                                        padding: EdgeInsets.symmetric(
+                                          horizontal: 20,
+                                        ),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.end,
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            askPuntGPTButton(context),
+                                            10.verticalSpace,
+                                            IntrinsicWidth(
+                                              child: AppFiledButton(
+                                                text: "Search",
+                                                onTap: () {
+                                                  // formKey.currentState!.validate();
+                                                  provider.setIsSearched(
+                                                    value: true,
+                                                  );
+                                                },
+                                              ),
+                                            ),
+                                            10.verticalSpace,
+                                          ],
+                                        ),
+                                      ),
                                     ),
+                                ],
+                              )
+                            : Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 25.w),
+                                child: SingleChildScrollView(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "Next to go",
+                                        style: bold(fontSize: 16),
+                                      ),
+                                      10.h.verticalSpace,
+                                      SingleChildScrollView(
+                                        scrollDirection: Axis.horizontal,
+                                        child: Row(
+                                          spacing: 8.w,
+                                          children: [raceItem(), raceItem()],
+                                        ),
+                                      ),
+                                      SingleChildScrollView(
+                                        scrollDirection: Axis.horizontal,
+
+                                        child: Container(
+                                          width: 1.6.sw,
+                                          margin: EdgeInsets.only(
+                                            top: 24.h,
+                                            bottom: 55.h,
+                                          ),
+                                          decoration: BoxDecoration(
+                                            border: Border.all(
+                                              color: AppColors.primary
+                                                  .withValues(alpha: 0.3),
+                                            ),
+                                          ),
+                                          child: Table(
+                                            border: TableBorder.symmetric(
+                                              inside: BorderSide(
+                                                color: AppColors.primary
+                                                    .withValues(alpha: 0.2),
+                                              ),
+                                            ),
+                                            columnWidths: {
+                                              0: FlexColumnWidth(3.5.w),
+                                              1: FlexColumnWidth(6.w),
+                                              2: FlexColumnWidth(3.w),
+                                              3: FlexColumnWidth(3.w),
+                                            },
+                                            defaultVerticalAlignment:
+                                                TableCellVerticalAlignment
+                                                    .middle,
+                                            children: [
+                                              _buildRow(
+                                                col1: "Randwick",
+                                                col2:
+                                                    "R1. PuntGPT Legends Stakes 3200m",
+                                                col3: "2025-09-28",
+                                                col4: "14:35",
+                                                onTap: () {
+                                                  context.pushNamed(
+                                                    AppRoutes.selectedRace.name,
+                                                  );
+                                                },
+                                              ),
+                                              _buildRow(
+                                                col1: "Flemington",
+                                                col2: "R2. Race Sponsor",
+                                                col3: "2025-09-28",
+                                                col4: "14:35",
+                                                onTap: () {
+                                                  context.pushNamed(
+                                                    AppRoutes.selectedRace.name,
+                                                  );
+                                                },
+                                              ),
+                                              _buildRow(
+                                                col1: "Morphettville",
+                                                col2: "R3. Race Sponsor",
+                                                col3: "2025-09-28",
+                                                col4: "14:35",
+                                                onTap: () {
+                                                  context.pushNamed(
+                                                    AppRoutes.selectedRace.name,
+                                                  );
+                                                },
+                                              ),
+                                              _buildRow(
+                                                col1: "Doomben",
+                                                col2: "R4. Race Sponsor",
+                                                col3: "2025-09-28",
+                                                col4: "14:35",
+                                                onTap: () {
+                                                  context.pushNamed(
+                                                    AppRoutes.selectedRace.name,
+                                                  );
+                                                  context.pushNamed(
+                                                    AppRoutes.selectedRace.name,
+                                                  );
+                                                },
+                                              ),
+                                              _buildRow(
+                                                col1: "Gold Coast",
+                                                col2: "R5. Race Sponsor",
+                                                col3: "2025-09-28",
+                                                col4: "14:35",
+                                                onTap: () {
+                                                  context.pushNamed(
+                                                    AppRoutes.selectedRace.name,
+                                                  );
+                                                },
+                                              ),
+                                              _buildRow(
+                                                col1: "Ascot",
+                                                col2: "R6. Race Sponsor",
+                                                col3: "2025-09-28",
+                                                col4: "14:35",
+                                                onTap: () {
+                                                  context.pushNamed(
+                                                    AppRoutes.selectedRace.name,
+                                                  );
+                                                },
+                                              ),
+                                              _buildRow(
+                                                col1: "Newcastle",
+                                                col2: "R7. Race Sponsor",
+                                                col3: "2025-09-28",
+                                                col4: "14:35",
+                                                onTap: () {
+                                                  context.pushNamed(
+                                                    AppRoutes.selectedRace.name,
+                                                  );
+                                                },
+                                              ),
+                                              _buildRow(
+                                                col1: "etc...",
+                                                col2: "etc...",
+                                                col3: "etc...",
+                                                col4: "etc...",
+                                                onTap: () {
+                                                  context.pushNamed(
+                                                    AppRoutes.selectedRace.name,
+                                                  );
+                                                },
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                      Align(
+                                        alignment:
+                                            AlignmentGeometry.bottomRight,
+                                        child: askPuntGPTButton(context),
+                                      ),
+                                      25.h.verticalSpace,
+                                    ],
                                   ),
                                 ),
                               ),
-                              10.verticalSpace,
-                              IntrinsicWidth(
-                                child: AppFiledButton(
-                                  text: "Search",
-                                  onTap: () {
-                                    // formKey.currentState!.validate();
-                                    provider.setIsSearched(value: true);
-                                  },
-                                ),
-                              ),
-                              10.verticalSpace,
-                            ],
-                          ),
-                        ),
                       ),
+                    ),
                   ],
                 );
               },
@@ -180,4 +328,119 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       ),
     );
   }
+
+  TableRow _buildRow({
+    required String col1,
+    required String col2,
+    required String col3,
+    required String col4,
+    required VoidCallback onTap,
+  }) {
+    return TableRow(
+      children: [
+        GestureDetector(
+          onTap: onTap,
+          child: Padding(
+            padding: EdgeInsets.only(left: 16.w, top: 8.h, bottom: 8.h),
+            child: Text(col1, style: semiBold(fontSize: 16)),
+          ),
+        ),
+        GestureDetector(
+          onTap: onTap,
+          child: Padding(
+            padding: EdgeInsets.only(left: 16.w, top: 8.h, bottom: 8.h),
+
+            child: Text(col2, style: semiBold(fontSize: 16)),
+          ),
+        ),
+        GestureDetector(
+          onTap: onTap,
+
+          child: Padding(
+            padding: EdgeInsets.only(left: 16.w, top: 8.h, bottom: 8.h),
+
+            child: Text(col3, style: semiBold(fontSize: 16)),
+          ),
+        ),
+        GestureDetector(
+          onTap: onTap,
+          child: Padding(
+            padding: EdgeInsets.only(left: 16.w, top: 8.h, bottom: 8.h),
+
+            child: Text(col4, style: semiBold(fontSize: 16)),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget raceItem() {
+    return Container(
+      padding: EdgeInsets.fromLTRB(16.w, 12.h, 14.w, 14.h),
+      decoration: BoxDecoration(
+        border: Border.all(color: AppColors.primary.withValues(alpha: 0.6)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text("Morphettville", style: semiBold(fontSize: 16)),
+          6.h.verticalSpace,
+          Row(
+            spacing: 85.w,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                "Race 1",
+                style: semiBold(
+                  fontSize: 14,
+                  color: AppColors.primary.withValues(alpha: 0.6),
+                ),
+              ),
+              Text(
+                "13:15",
+                style: semiBold(
+                  fontSize: 14,
+                  color: AppColors.primary.withValues(alpha: 0.6),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+Widget askPuntGPTButton(BuildContext context) {
+  return GestureDetector(
+    onTap: () {
+      context.pushNamed(AppRoutes.askPuntGpt.name);
+    },
+    child: Container(
+      padding: EdgeInsets.symmetric(
+        vertical: 12.r.flexClamp(12, 15),
+        horizontal: 15.r.flexClamp(15, 18),
+      ),
+      decoration: BoxDecoration(
+        color: AppColors.white,
+        border: Border.all(color: AppColors.primary),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          // SvgPicture.asset(
+          //   AppAssets.horse,
+          //   color: AppColors.black,
+          // ),
+          ImageWidget(path: AppAssets.horse, height: 30.w.flexClamp(28, 33)),
+          10.horizontalSpace,
+          Text(
+            "Ask @ PuntGPT",
+            textAlign: TextAlign.center,
+            style: semiBold(fontSize: 20, fontFamily: AppFontFamily.secondary),
+          ),
+        ],
+      ),
+    ),
+  );
 }

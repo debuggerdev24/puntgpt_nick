@@ -3,8 +3,13 @@ import 'package:puntgpt_nick/models/runner_model.dart';
 
 class SearchEngineProvider extends ChangeNotifier {
   bool isSearched = false;
-  int _selectedRaceTimingIndex = 0;
+  int _selectedRaceTimingIndex = 0, _selectedTab = 0;
   int get selectedRaceTimingIndex => _selectedRaceTimingIndex;
+  int get selectedTab => _selectedTab;
+  set changeTab(int value) {
+    _selectedTab = value;
+    notifyListeners();
+  }
 
   set selectedRaceTimingIndex(int value) {
     _selectedRaceTimingIndex = value;
@@ -18,14 +23,14 @@ class SearchEngineProvider extends ChangeNotifier {
     "Jumps tomorrow",
   ];
 
-  /// Track Section (Checkboxes)
+  // Track Section (Checkboxes)
   final List<Map<String, dynamic>> trackItems = [
     {"label": "Placed last start", "checked": false},
     {"label": "Placed at distance", "checked": false},
     {"label": "Placed at track", "checked": false},
   ];
 
-  /// Toggle method for track checkboxes
+  // Toggle method for track checkboxes
   void toggleTrackItem(String label, bool value) {
     final index = trackItems.indexWhere((item) => item["label"] == label);
     if (index != -1) {

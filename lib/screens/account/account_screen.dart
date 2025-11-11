@@ -34,6 +34,21 @@ class AccountScreen extends StatelessWidget {
               context.pushNamed(AppRoutes.manageSubscription.name);
             },
           ),
+          Spacer(),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 10.w),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Text("Terms & Conditions", style: bold(fontSize: 14)),
+                Text(" | ", style: bold(fontSize: 14)),
+                Text("AI Disclaimer", style: bold(fontSize: 14)),
+                Text(" | ", style: bold(fontSize: 14)),
+                Text("Terms & Conditions", style: bold(fontSize: 14)),
+              ],
+            ),
+          ),
+          26.h.verticalSpace,
         ],
       ),
     );
@@ -43,7 +58,7 @@ class AccountScreen extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 25.w, vertical: 16.h),
+        padding: EdgeInsets.symmetric(horizontal: 25.w, vertical: 18.h),
         child: GestureDetector(
           behavior: HitTestBehavior.opaque,
           child: Row(
@@ -62,7 +77,7 @@ class AccountScreen extends StatelessWidget {
     return Column(
       children: [
         Padding(
-          padding: EdgeInsets.fromLTRB(25.w, 12.h, 25.w, 12.h),
+          padding: EdgeInsets.fromLTRB(25.w, 12.h, 25.w, 16.h),
           child: Row(
             spacing: 14.w,
             children: [
