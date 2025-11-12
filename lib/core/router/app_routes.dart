@@ -18,12 +18,21 @@ class AppRoutes {
   static const String savedSearched = '/saved-search';
   static const String searchDetails = '/search-detail';
   static const String askPuntGpt = '/ask-punt-gpt';
-  static const String account = '/account';
-  static const String personalDetails = '/personal-details';
-  static const String manageSubscription = '/manage-subscription';
+
   static const String changePassword = '/change-password';
   static const String tipSlip = '/tip-slip';
   static const String selectedRace = '/selected-race';
+
+  //2nd tab
+  static const String puntGptClub = '/punt-gpt-club';
+
+  //3nd tab
+  static const String bookies = '/bookies';
+
+  //4th Account Tab
+  static const String account = '/account';
+  static const String personalDetails = '/personal-details';
+  static const String manageSubscription = '/manage-subscription';
 }
 
 extension AppRoutesExtension on String {

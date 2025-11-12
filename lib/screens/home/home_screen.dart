@@ -75,7 +75,8 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                     16.h.verticalSpace,
                     Expanded(
                       child: FadeInUp(
-                        from: 0,
+                        from: 1,
+                        key: ValueKey(provider.selectedTab),
                         child: (provider.selectedTab == 0)
                             ? Column(
                                 spacing: 16,

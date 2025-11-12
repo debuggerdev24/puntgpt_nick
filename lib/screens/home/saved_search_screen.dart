@@ -16,7 +16,6 @@ class SavedSearchScreen extends StatelessWidget {
       children: [
         topBar(context),
         appDivider(),
-
         Expanded(
           child: ListView.separated(
             shrinkWrap: true,

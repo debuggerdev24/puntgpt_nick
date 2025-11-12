@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -9,11 +10,9 @@ import 'package:puntgpt_nick/core/widgets/image_widget.dart';
 import 'package:puntgpt_nick/screens/dashboard/widgets/dashboard_app_bar.dart';
 
 import '../../core/router/app_router.dart';
-import '../home/home_screen.dart';
 
 final GlobalKey<_DashboardState> dashboardKey = GlobalKey<_DashboardState>();
 ValueNotifier<int> indexOfTab = ValueNotifier(0);
-List<Widget> pages = [HomeScreen(), HomeScreen(), HomeScreen(), HomeScreen()];
 
 class Dashboard extends StatefulWidget {
   Dashboard({required this.navigationShell}) : super(key: dashboardKey);
@@ -38,7 +37,17 @@ class _DashboardState extends State<Dashboard> {
             DashboardAppBar(),
 
             // Expanded(child: pages[value]),
-            Expanded(child: widget.navigationShell),
+            Expanded(
+              child: ValueListenableBuilder<int>(
+                valueListenable: indexOfTab,
+                builder: (context, value, child) => FadeInUp(
+                  from: 2,
+                  duration: Duration(milliseconds: 450),
+                  key: ValueKey(value),
+                  child: widget.navigationShell,
+                ),
+              ),
+            ),
           ],
         ),
       ),
@@ -60,6 +69,7 @@ class _DashboardState extends State<Dashboard> {
               children: [
                 _navItem(
                   onTap: () {
+                    indexOfTab.value = 0;
                     AppRouter.indexedStackNavigationShell?.goBranch(0);
                   },
                   text: "Subscribe to\nPro Punter",
@@ -68,14 +78,20 @@ class _DashboardState extends State<Dashboard> {
                   index: 0,
                 ),
                 _navItem(
-                  onTap: () {},
+                  onTap: () {
+                    indexOfTab.value = 1;
+                    AppRouter.indexedStackNavigationShell?.goBranch(1);
+                  },
                   text: "PuntGPT Punter Club",
                   icon: AppAssets.group,
                   hasLock: true,
                   index: 1,
                 ),
                 _navItem(
-                  onTap: () {},
+                  onTap: () {
+                    indexOfTab.value = 2;
+                    AppRouter.indexedStackNavigationShell?.goBranch(2);
+                  },
                   text: "Bookies",
                   icon: AppAssets.bookings,
                   color: AppColors.green,
@@ -83,7 +99,8 @@ class _DashboardState extends State<Dashboard> {
                 ),
                 _navItem(
                   onTap: () {
-                    AppRouter.indexedStackNavigationShell?.goBranch(1);
+                    indexOfTab.value = 3;
+                    AppRouter.indexedStackNavigationShell?.goBranch(3);
                   },
                   text: "Account",
                   icon: AppAssets.profile,
@@ -107,7 +124,7 @@ class _DashboardState extends State<Dashboard> {
   }) {
     log(AppRouter.indexedStackNavigationShell!.currentIndex.toString());
     final currentIndex = AppRouter.indexedStackNavigationShell?.currentIndex;
-    final opacity = 0.65;
+    final opacity = 0.62;
     return Expanded(
       child: GestureDetector(
         behavior: HitTestBehavior.opaque,
@@ -157,20 +174,18 @@ class _DashboardState extends State<Dashboard> {
                 ],
               ],
             ),
-            Flexible(
-              child: Text(
-                text,
-                textAlign: TextAlign.center,
-                style: medium(
-                  fontSize: 10,
-                  color:
-                      color?.withValues(
-                        alpha: currentIndex == index ? 1 : opacity,
-                      ) ??
-                      AppColors.white.withValues(
-                        alpha: currentIndex == index ? 1 : opacity,
-                      ),
-                ),
+            Text(
+              text,
+              textAlign: TextAlign.center,
+              style: medium(
+                fontSize: 12,
+                color:
+                    color?.withValues(
+                      alpha: currentIndex == index ? 1 : opacity,
+                    ) ??
+                    AppColors.white.withValues(
+                      alpha: currentIndex == index ? 1 : opacity,
+                    ),
               ),
             ),
           ],

@@ -10,6 +10,7 @@ import 'package:puntgpt_nick/screens/account/manage_subscription_screen.dart';
 import 'package:puntgpt_nick/screens/account/personal_details_screen.dart';
 import 'package:puntgpt_nick/screens/auth/screens/login_screen.dart';
 import 'package:puntgpt_nick/screens/auth/screens/sign_up_screen.dart';
+import 'package:puntgpt_nick/screens/bookies/bookies_screen.dart';
 import 'package:puntgpt_nick/screens/home/ask_punt_gpt.dart';
 import 'package:puntgpt_nick/screens/home/home_screen.dart';
 import 'package:puntgpt_nick/screens/home/manage_saved_search.dart';
@@ -19,6 +20,7 @@ import 'package:puntgpt_nick/screens/home/selected_race_screen.dart';
 import 'package:puntgpt_nick/screens/onboarding/age_confirmation_screen.dart';
 import 'package:puntgpt_nick/screens/onboarding/onboarding_screen.dart';
 import 'package:puntgpt_nick/screens/onboarding/web_onboarding_screen.dart';
+import 'package:puntgpt_nick/screens/punt_gpt_club/punter_club_screen.dart';
 import 'package:puntgpt_nick/screens/splash/splash_screen.dart';
 
 import '../../screens/dashboard/dashboard.dart';
@@ -26,14 +28,13 @@ import '../../screens/home/tip_slip_screen.dart';
 
 class AppRouter {
   static final _rootNavigatorKey = GlobalKey<NavigatorState>();
-  static final _shellNavigatorKey = GlobalKey<NavigatorState>();
 
   static StatefulNavigationShell? indexedStackNavigationShell;
 
   static final GoRouter router = GoRouter(
     navigatorKey: _rootNavigatorKey,
     debugLogDiagnostics: true,
-    initialLocation: AppRoutes.home,
+    initialLocation: AppRoutes.splash,
 
     // Redirect logic for authentication
     // redirect: (context, state) {
@@ -146,6 +147,28 @@ class AppRouter {
                 builder: (BuildContext context, GoRouterState state) {
                   return SelectedRaceScreen();
                 },
+              ),
+            ],
+          ),
+
+          //todo ----------> PuntGPT Punter Club Tab
+          StatefulShellBranch(
+            routes: <RouteBase>[
+              GoRoute(
+                path: AppRoutes.puntGptClub,
+                name: AppRoutes.puntGptClub.name,
+                builder: (context, state) => PunterClubScreen(),
+              ),
+            ],
+          ),
+
+          //todo ----------> Bookies Tab
+          StatefulShellBranch(
+            routes: <RouteBase>[
+              GoRoute(
+                path: AppRoutes.bookies,
+                name: AppRoutes.bookies.name,
+                builder: (context, state) => BookiesScreen(),
               ),
             ],
           ),

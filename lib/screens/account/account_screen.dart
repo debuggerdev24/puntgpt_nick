@@ -77,16 +77,24 @@ class AccountScreen extends StatelessWidget {
     return Column(
       children: [
         Padding(
-          padding: EdgeInsets.fromLTRB(25.w, 12.h, 25.w, 16.h),
+          padding: EdgeInsets.fromLTRB(5.w, 12.h, 25.w, 16.h),
           child: Row(
-            spacing: 14.w,
             children: [
-              GestureDetector(
-                onTap: () {
+              IconButton(
+                padding: EdgeInsets.zero,
+
+                onPressed: () {
+                  AppRouter.indexedStackNavigationShell!.goBranch(0);
                   context.pop();
                 },
-                child: Icon(Icons.arrow_back_ios_rounded, size: 16.h),
+                icon: Icon(Icons.arrow_back_ios_rounded, size: 16.h),
               ),
+              // GestureDetector(
+              //   onTap: () {
+              //     context.pop();
+              //   },
+              //   child: Icon(Icons.arrow_back_ios_rounded, size: 16.h),
+              // ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

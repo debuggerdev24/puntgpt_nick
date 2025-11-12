@@ -5,17 +5,23 @@ import 'package:puntgpt_nick/core/constants/text_style.dart';
 import 'package:puntgpt_nick/core/widgets/image_widget.dart';
 
 class Plans extends StatefulWidget {
-  const Plans({super.key, required this.currentPlan, required this.data});
+  const Plans({
+    super.key,
+    required this.currentPlan,
+    required this.data,
+    required this.selectedIndex,
+  });
 
   final Function(int) currentPlan;
   final List<Map> data;
+  final int selectedIndex;
 
   @override
   State<Plans> createState() => _PlansState();
 }
 
 class _PlansState extends State<Plans> {
-  int _currentIndex = 0;
+  // int _currentIndex = 0;
   double swipeOffset = 0;
 
   List<Map> data = [];
@@ -27,6 +33,7 @@ class _PlansState extends State<Plans> {
   }
 
   void _handleSwipe(DragEndDetails details) {
+    int _currentIndex = widget.selectedIndex;
     if (details.primaryVelocity! < 0) {
       if (_currentIndex < data.length - 1) {
         setState(() {
@@ -92,7 +99,7 @@ class _PlansState extends State<Plans> {
             //     child: FadeTransition(opacity: animation, child: child),
             //   );
             // },
-            child: _buildPlanCard(data[_currentIndex]),
+            child: _buildPlanCard(data[widget.selectedIndex]),
           ),
         ),
       ],
@@ -101,7 +108,7 @@ class _PlansState extends State<Plans> {
 
   Widget _buildPlanCard(Map planData) {
     return Container(
-      key: ValueKey(_currentIndex),
+      key: ValueKey(planData['title']),
       margin: EdgeInsets.symmetric(horizontal: 16),
       decoration: BoxDecoration(
         border: Border.all(color: AppColors.primary.setOpacity(0.2)),

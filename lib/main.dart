@@ -11,7 +11,6 @@ import 'package:puntgpt_nick/provider/search_engine_provider.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
-
   SystemChrome.setSystemUIOverlayStyle(
     SystemUiOverlayStyle(
       statusBarColor: AppColors.primary,
@@ -21,7 +20,6 @@ void main() {
       systemNavigationBarIconBrightness: Brightness.light,
     ),
   );
-
   runApp(const MyApp());
 }
 
@@ -63,6 +61,6 @@ class MyApp extends StatelessWidget {
 }
 
 /*
-todo daily update
 
+->
 */

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import 'package:puntgpt_nick/core/constants/constants.dart';
 import 'package:puntgpt_nick/core/router/app_routes.dart';
 import 'package:puntgpt_nick/core/widgets/app_filed_button.dart';
+import 'package:puntgpt_nick/provider/auth_provider.dart';
 import 'package:puntgpt_nick/screens/onboarding/widgets/plans.dart';
 import 'package:puntgpt_nick/screens/onboarding/widgets/video_widget.dart';
 
@@ -72,7 +74,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             // Video area fills remaining height
             SizedBox(height: 40),
             VideoWidget(),
-
             SizedBox(height: 40.w.flexClamp(35, 40)),
             Plans(
               currentPlan: (index) {
@@ -80,6 +81,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 setState(() {});
               },
               data: planData,
+              selectedIndex: _currentIndex,
             ),
           ],
         ),
@@ -94,26 +96,36 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   ? "Continue with Free Account"
                   : "Subscribe",
               onTap: () {
+                context.read<AuthProvider>().clearSignUpControllers();
+
                 context.push(
                   AppRoutes.signup,
                   extra: {'is_free_sign_up': _currentIndex == 0},
                 );
+                context.read<AuthProvider>().clearSignUpControllers();
               },
             ),
-            SizedBox(height: 12),
+            12.h.verticalSpace,
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: List.generate(
                 planData.length,
-                (index) => AnimatedContainer(
-                  duration: Duration(milliseconds: 300),
-                  margin: EdgeInsets.symmetric(horizontal: 4),
-                  height: 15.w.flexClamp(15, 20),
-                  width: 15.w.flexClamp(15, 20),
-                  decoration: BoxDecoration(
-                    color: _currentIndex == index
-                        ? AppColors.primary
-                        : AppColors.primary.setOpacity(0.3),
+                (index) => GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      _currentIndex = index;
+                    });
+                  },
+                  child: AnimatedContainer(
+                    duration: Duration(milliseconds: 300),
+                    margin: EdgeInsets.symmetric(horizontal: 4),
+                    height: 15.w,
+                    width: 15.w,
+                    decoration: BoxDecoration(
+                      color: _currentIndex == index
+                          ? AppColors.primary
+                          : AppColors.primary.setOpacity(0.3),
+                    ),
                   ),
                 ),
               ),

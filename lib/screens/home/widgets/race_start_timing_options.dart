@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'package:puntgpt_nick/core/constants/app_colors.dart';
 import 'package:puntgpt_nick/core/constants/constants.dart';
 import 'package:puntgpt_nick/core/constants/text_style.dart';
 import 'package:puntgpt_nick/core/widgets/on_button_tap.dart';
@@ -77,7 +76,7 @@ class RaceStartTimingOptions extends StatelessWidget {
     return OnButtonTap(
       onTap: onTap,
       child: AnimatedContainer(
-        duration: 600.ms,
+        duration: 450.ms,
         curve: Curves.decelerate,
         decoration: BoxDecoration(
           color: isSelected ? AppColors.primary : AppColors.white,
@@ -87,11 +86,11 @@ class RaceStartTimingOptions extends StatelessWidget {
                 : AppColors.primary.setOpacity(0.15),
           ),
         ),
-        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 18),
+        padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 18.w),
         child: Text(
           text,
           style: semiBold(
-            fontSize: 16.sp.flexClamp(14, 18),
+            fontSize: 16,
             color: isSelected ? AppColors.white : AppColors.primary,
           ),
         ),

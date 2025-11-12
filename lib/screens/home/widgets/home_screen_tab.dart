@@ -4,13 +4,15 @@ import 'package:provider/provider.dart';
 import 'package:puntgpt_nick/core/constants/constants.dart';
 import 'package:puntgpt_nick/core/constants/text_style.dart';
 import 'package:puntgpt_nick/core/widgets/on_button_tap.dart';
-import 'package:puntgpt_nick/provider/search_engine_provider.dart';
 import 'package:puntgpt_nick/responsive/responsive_builder.dart';
 
+import '../../../provider/search_engine_provider.dart';
+
 class HomeScreenTab extends StatelessWidget {
-  const HomeScreenTab({super.key, required this.selectedIndex});
+  const HomeScreenTab({super.key, required this.selectedIndex, this.onTap});
 
   final int selectedIndex;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -49,8 +51,12 @@ class HomeScreenTab extends StatelessWidget {
       child: OnButtonTap(
         onTap: () {
           context.read<SearchEngineProvider>().changeTab = index;
+          if (onTap != null && index == 0) {
+            onTap!.call();
+          }
         },
-        child: Container(
+        child: AnimatedContainer(
+          duration: Duration(milliseconds: 400),
           alignment: Alignment.center,
           padding: EdgeInsets.symmetric(vertical: 7, horizontal: 10),
           decoration: BoxDecoration(

@@ -15,29 +15,28 @@ class SignUpTitle extends StatelessWidget {
     if (Responsive.isMobile(context)) {
       return Column(
         mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: Responsive.isMobile(context)
-            ? CrossAxisAlignment.start
-            : CrossAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          SizedBox(height: 30),
+          30.h.verticalSpace,
           isFreeSignUp
               ? Text(
                   "Create Free “Mug Punter” Account",
+                  textAlign: TextAlign.center,
                   style: regular(
                     height: 1.2,
-                    fontSize: 38.sp.flexClamp(36, 40),
+                    fontSize: 38,
                     fontFamily: AppFontFamily.secondary,
                   ),
                 )
               : RichText(
-                  textAlign: TextAlign.start,
+                  textAlign: TextAlign.center,
                   text: TextSpan(
                     children: [
                       TextSpan(
                         text: "Create",
                         style: regular(
                           height: 1.2,
-                          fontSize: 38.sp.flexClamp(36, 40),
+                          fontSize: 38,
                           fontFamily: AppFontFamily.secondary,
                         ),
                       ),
@@ -45,7 +44,7 @@ class SignUpTitle extends StatelessWidget {
                         text: " “Pro Punter” ",
                         style: regular(
                           height: 1.2,
-                          fontSize: 38.sp.flexClamp(36, 40),
+                          fontSize: 38,
                           fontFamily: AppFontFamily.secondary,
                           color: AppColors.premiumYellow,
                         ),
@@ -54,20 +53,21 @@ class SignUpTitle extends StatelessWidget {
                         text: "Account",
                         style: regular(
                           height: 1.2,
-                          fontSize: 38.sp.flexClamp(36, 40),
+                          fontSize: 38,
                           fontFamily: AppFontFamily.secondary,
                         ),
                       ),
                     ],
                   ),
                 ),
-          SizedBox(height: 20),
+          20.h.verticalSpace,
           Text(
+            textAlign: TextAlign.center,
             isFreeSignUp
                 ? "No Payment Details required.*"
                 : "Cancel Subscription anytime*",
             style: regular(
-              fontSize: 16.sp.clamp(14, 18),
+              fontSize: 16,
               color: AppColors.primary.setOpacity(0.8),
             ),
           ),
@@ -92,7 +92,7 @@ class SignUpTitle extends StatelessWidget {
                             "Create Free “Mug Punter” Account",
                             style: regular(
                               height: 1.2,
-                              fontSize: 38.sp.flexClamp(36, 40),
+                              fontSize: 38,
                               fontFamily: AppFontFamily.secondary,
                             ),
                           )
@@ -104,7 +104,7 @@ class SignUpTitle extends StatelessWidget {
                                   text: "Create",
                                   style: regular(
                                     height: 1.2,
-                                    fontSize: 38.sp.flexClamp(36, 40),
+                                    fontSize: 38,
                                     fontFamily: AppFontFamily.secondary,
                                   ),
                                 ),
@@ -112,7 +112,7 @@ class SignUpTitle extends StatelessWidget {
                                   text: " “Pro Punter” ",
                                   style: regular(
                                     height: 1.2,
-                                    fontSize: 38.sp.flexClamp(36, 40),
+                                    fontSize: 38,
                                     fontFamily: AppFontFamily.secondary,
                                     color: AppColors.premiumYellow,
                                   ),
@@ -121,7 +121,7 @@ class SignUpTitle extends StatelessWidget {
                                   text: "Account",
                                   style: regular(
                                     height: 1.2,
-                                    fontSize: 38.sp.flexClamp(36, 40),
+                                    fontSize: 38,
                                     fontFamily: AppFontFamily.secondary,
                                   ),
                                 ),
@@ -134,7 +134,7 @@ class SignUpTitle extends StatelessWidget {
                           ? "No Payment Details required.*"
                           : "Cancel Subscription anytime*",
                       style: regular(
-                        fontSize: 16.sp.clamp(14, 18),
+                        fontSize: 16,
                         color: AppColors.primary.setOpacity(0.8),
                       ),
                     ),
@@ -184,7 +184,7 @@ class SignUpTitle extends StatelessWidget {
                         "Create Free “Mug Punter” Account",
                         style: regular(
                           height: 1.2,
-                          fontSize: 38.sp.flexClamp(36, 40),
+                          fontSize: 38,
                           fontFamily: AppFontFamily.secondary,
                         ),
                       )
@@ -196,7 +196,7 @@ class SignUpTitle extends StatelessWidget {
                               text: "Create",
                               style: regular(
                                 height: 1.2,
-                                fontSize: 38.sp.flexClamp(36, 40),
+                                fontSize: 38,
                                 fontFamily: AppFontFamily.secondary,
                               ),
                             ),
@@ -204,7 +204,7 @@ class SignUpTitle extends StatelessWidget {
                               text: " “Pro Punter” ",
                               style: regular(
                                 height: 1.2,
-                                fontSize: 38.sp.flexClamp(36, 40),
+                                fontSize: 38,
                                 fontFamily: AppFontFamily.secondary,
                                 color: AppColors.premiumYellow,
                               ),
@@ -213,20 +213,20 @@ class SignUpTitle extends StatelessWidget {
                               text: "Account",
                               style: regular(
                                 height: 1.2,
-                                fontSize: 38.sp.flexClamp(36, 40),
+                                fontSize: 38,
                                 fontFamily: AppFontFamily.secondary,
                               ),
                             ),
                           ],
                         ),
                       ),
-                SizedBox(height: 20),
+                20.h.verticalSpace,
                 Text(
                   isFreeSignUp
                       ? "No Payment Details required.*"
                       : "Cancel Subscription anytime*",
                   style: regular(
-                    fontSize: 16.sp.clamp(14, 18),
+                    fontSize: 16,
                     color: AppColors.primary.setOpacity(0.8),
                   ),
                 ),

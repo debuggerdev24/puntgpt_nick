@@ -3,16 +3,24 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:puntgpt_nick/core/widgets/app_filed_button.dart';
+import 'package:puntgpt_nick/core/widgets/app_text_field_drop_down.dart';
 import 'package:puntgpt_nick/provider/search_engine_provider.dart';
+import 'package:puntgpt_nick/screens/home/home_screen.dart';
 import 'package:puntgpt_nick/screens/home/widgets/home_screen_tab.dart';
 
 import '../../core/constants/app_colors.dart';
 import '../../core/constants/text_style.dart';
 import '../../core/widgets/app_devider.dart';
 
-class SelectedRaceScreen extends StatelessWidget {
+class SelectedRaceScreen extends StatefulWidget {
   const SelectedRaceScreen({super.key});
 
+  @override
+  State<SelectedRaceScreen> createState() => _SelectedRaceScreenState();
+}
+
+class _SelectedRaceScreenState extends State<SelectedRaceScreen> {
+  String selItem = "R1";
   @override
   Widget build(BuildContext context) {
     return Consumer<SearchEngineProvider>(
@@ -21,32 +29,105 @@ class SelectedRaceScreen extends StatelessWidget {
           children: [
             Padding(
               padding: EdgeInsets.fromLTRB(25, 16, 25, 0),
-              child: HomeScreenTab(selectedIndex: provider.selectedTab),
+              child: HomeScreenTab(
+                selectedIndex: provider.selectedTab,
+                onTap: () {
+                  context.pop();
+                },
+              ),
             ),
             topBar(context),
-            25.h.verticalSpace,
+
+            //todo dropdown here
+            // Container(
+            //   child: DropdownButtonFormField<String>(
+            //     initialValue: "R1",
+            //     items: List.generate(
+            //       10,
+            //       (index) => DropdownMenuItem(
+            //         value: 'R${index + 1}',
+            //         child: Text('R${index + 1}'),
+            //       ),
+            //     ),
+            //     onChanged: (value) {
+            //       debugPrint('Selected race: $value');
+            //     },
+            //     decoration: InputDecoration(
+            //       contentPadding: EdgeInsets.symmetric(horizontal: 16.w),
+            //       enabledBorder: OutlineInputBorder(
+            //         borderSide: BorderSide(
+            //           color: AppColors.primary.withValues(alpha: 0.15),
+            //         ),
+            //       ),
+            //       focusedBorder: OutlineInputBorder(
+            //         borderSide: BorderSide(color: AppColors.primary),
+            //       ),
+            //       // ✅ Add padding around the suffix icon
+            //       suffixIcon: Padding(
+            //         padding: EdgeInsets.only(right: 12.w), // margin from right
+            //         child: Icon(
+            //           Icons.keyboard_arrow_down_rounded,
+            //           color: AppColors.primary,
+            //         ),
+            //       ),
+            //       suffixIconConstraints: BoxConstraints(
+            //         minWidth: 24.w,
+            //         minHeight: 24.h,
+            //       ),
+            //     ),
+            //     style: semiBold(fontSize: 16, color: AppColors.primary),
+            //     dropdownColor: Colors.white,
+            //   ),
+            // ),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 25.h, horizontal: 25.w),
+
+              child: AppTextFieldDropdown(
+                items: List.generate(10, (index) {
+                  return "R ${index + 1}";
+                }),
+                selectedValue: selItem,
+                onChange: (value) {
+                  setState(() {
+                    selItem = value;
+                  });
+                },
+                hintText: "R1",
+              ),
+            ),
 
             RaceTable(),
+            Spacer(),
+            Align(
+              alignment: Alignment.bottomRight,
+              child: Padding(
+                padding: EdgeInsets.only(bottom: 25.h, right: 25.w),
+                child: askPuntGPTButton(context),
+              ),
+            ),
           ],
         );
       },
     );
   }
 
+  List item = ["sjkb"];
+
   Widget topBar(BuildContext context) {
     return Column(
       children: [
         Padding(
-          padding: EdgeInsets.fromLTRB(25.w, 25.h, 25.w, 20.h),
+          padding: EdgeInsets.fromLTRB(6.w, 25.h, 25.w, 20.h),
           child: Row(
-            spacing: 14.w,
             children: [
-              GestureDetector(
-                onTap: () {
+              IconButton(
+                padding: EdgeInsets.zero,
+                onPressed: () {
                   context.pop();
                 },
-                child: Icon(Icons.arrow_back_ios_rounded, size: 16.h),
+                icon: Icon(Icons.arrow_back_ios_rounded, size: 16.h),
               ),
+
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

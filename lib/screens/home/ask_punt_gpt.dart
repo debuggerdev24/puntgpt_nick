@@ -13,17 +13,14 @@ class AskPuntGpt extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children:[
+      children: [
         topBar(context),
         Expanded(
           child: Stack(
             children: [
               ListView(
                 padding: EdgeInsets.zero,
-                children: [
-                  userChat(),
-                  userChat(),
-                ],
+                children: [userChat(), userChat()],
               ),
               Padding(
                 padding: EdgeInsets.only(bottom: 0),
@@ -34,32 +31,30 @@ class AskPuntGpt extends StatelessWidget {
                     children: [
                       appDivider(),
                       TextField(
-
                         decoration: InputDecoration(
-                            border: InputBorder.none,
-                            // OutlineInputBorder(
-                            //   borderSide: BorderSide(
-                            //     color: AppColors.greyColor.withValues(alpha: 0.4), // Set your color
-                            //
-                            //   ),
-                            // ),
-                          prefix: SizedBox(width: 25.w,),
+                          border: InputBorder.none,
+                          // OutlineInputBorder(
+                          //   borderSide: BorderSide(
+                          //     color: AppColors.greyColor.withValues(alpha: 0.4), // Set your color
+                          //
+                          //   ),
+                          // ),
+                          prefix: SizedBox(width: 25.w),
                           hintText: "Type your message...",
                           hintStyle: medium(
                             fontStyle: FontStyle.italic,
                             fontSize: 14,
-                            color: AppColors.greyColor.withValues(alpha: 0.6)
-                          )
+                            color: AppColors.greyColor.withValues(alpha: 0.6),
+                          ),
                         ),
                       ),
                     ],
                   ),
                 ),
-              )
+              ),
             ],
           ),
         ),
-
       ],
     );
   }
@@ -68,23 +63,24 @@ class AskPuntGpt extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.fromLTRB(25.w, 12.h, 25.w, 0),
       child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text("@you",style: semiBold(fontSize: 17),),
-            Text(
-              "12:41 PM",
-              style: semiBold(
-                fontSize: 14.5,
-                color: AppColors.greyColor.withValues(alpha: 0.6)
-              ),
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text("@you", style: semiBold(fontSize: 17)),
+          Text(
+            "12:41 PM",
+            style: semiBold(
+              fontSize: 14.5,
+              color: AppColors.greyColor.withValues(alpha: 0.6),
             ),
-            3.h.verticalSpace,
-            Text("mdsndjkjvdjkvbdjkfvbdf c mnbbnxmnfklfjkfjkdm,nnm,nbm,cnvm,bncmnbmcb"),
-            16.h.verticalSpace,
-            appDivider(),
-
-          ],
-        ),
+          ),
+          3.h.verticalSpace,
+          Text(
+            "mdsndjkjvdjkvbdjkfvbdf c mnbbnxmnfklfjkfjkdm,nnm,nbm,cnvm,bncmnbmcb",
+          ),
+          16.h.verticalSpace,
+          appDivider(),
+        ],
+      ),
     );
   }
 
@@ -92,42 +88,42 @@ class AskPuntGpt extends StatelessWidget {
     return Column(
       children: [
         Padding(
-            padding: EdgeInsets.fromLTRB(25.w, 12.h, 25.w, 12.h),
-            child: Row(
-              spacing: 14.w,
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    context.pop();
-                  },
-                  child: Icon(Icons.arrow_back_ios_rounded, size: 16.h),
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Ask @PuntGPT",
-                      style: regular(
-                        fontFamily: AppFontFamily.secondary,
-                        height: 1.35,
-                      ),
-                    ),
-                    Text(
-                      "Chat with AI",
-                      style: medium(
-                        fontSize: 14.sp,
-                        color: AppColors.greyColor.withValues(alpha: 0.6),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        appDivider(),
+          padding: EdgeInsets.fromLTRB(5.w, 12.h, 25.w, 12.h),
+          child: Row(
+            children: [
+              IconButton(
+                padding: EdgeInsets.zero,
 
+                onPressed: () {
+                  context.pop();
+                },
+                icon: Icon(Icons.arrow_back_ios_rounded, size: 16.h),
+              ),
+
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Ask @PuntGPT",
+                    style: regular(
+                      fontFamily: AppFontFamily.secondary,
+                      height: 1.35,
+                    ),
+                  ),
+                  Text(
+                    "Chat with AI",
+                    style: medium(
+                      fontSize: 14.sp,
+                      color: AppColors.greyColor.withValues(alpha: 0.6),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+        appDivider(),
       ],
     );
   }
-
 }

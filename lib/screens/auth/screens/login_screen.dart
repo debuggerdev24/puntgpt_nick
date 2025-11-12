@@ -38,28 +38,35 @@ class LoginScreen extends StatelessWidget {
                       : 500.w.flexClamp(null, 500),
                   child: Column(
                     children: [
-                      50.verticalSpace,
+                      120.h.verticalSpace,
                       ImageWidget(path: AppAssets.splashAppLogo),
-                      SizedBox(height: 12),
+                      16.h.verticalSpace,
                       RichText(
                         textAlign: TextAlign.center,
                         text: TextSpan(
                           children: [
                             TextSpan(
                               text: "'@PuntGPT'",
-                              style: bold(fontSize: 20.sp.flexClamp(18, 22)),
+                              style: regular(
+                                fontSize: 20,
+                                fontFamily: AppFontFamily.secondary,
+                              ),
                             ),
                             TextSpan(
                               text: " the talking from guide",
-                              style: bold(fontSize: 20.sp.flexClamp(18, 22)),
+                              style: regular(
+                                fontSize: 20,
+                                fontFamily: AppFontFamily.secondary,
+                              ),
                             ),
                           ],
                         ),
                       ),
-                      50.verticalSpace,
+                      80.h.verticalSpace,
                       Form(
                         key: _formKey,
                         child: Column(
+                          spacing: 8.h,
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             AppTextField(
@@ -67,7 +74,6 @@ class LoginScreen extends StatelessWidget {
                               hintText: "Email",
                               validator: FieldValidators().email,
                             ),
-                            SizedBox(height: 8),
                             AppTextField(
                               controller: provider.loginPasswordCtr,
                               hintText: "Password",
@@ -82,15 +88,15 @@ class LoginScreen extends StatelessWidget {
                           ],
                         ),
                       ),
-                      SizedBox(height: 10),
+                      10.h.verticalSpace,
                       Align(
                         alignment: Alignment.centerRight,
                         child: Text(
                           "Forget Password?",
-                          style: bold(fontSize: 14.sp.flexClamp(12, 16)),
+                          style: bold(fontSize: 14),
                         ),
                       ),
-                      80.verticalSpace,
+                      100.verticalSpace,
                       AppFiledButton(
                         text: "Login",
                         onTap: () {
@@ -98,14 +104,14 @@ class LoginScreen extends StatelessWidget {
                           context.go(AppRoutes.home);
                         },
                       ),
-                      SizedBox(height: 15),
+                      15.h.verticalSpace,
                       Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Text(
                             "New to PuntGPT? ",
                             style: medium(
-                              fontSize: 14.sp.flexClamp(12, 16),
+                              fontSize: 14,
                               color: AppColors.primary.setOpacity(.8),
                             ),
                           ),
@@ -116,10 +122,7 @@ class LoginScreen extends StatelessWidget {
                                 extra: {'is_free_sign_up': isFreeSignUp},
                               );
                             },
-                            child: Text(
-                              " Sign up",
-                              style: bold(fontSize: 14.sp.flexClamp(12, 16)),
-                            ),
+                            child: Text(" Sign up", style: bold(fontSize: 14)),
                           ),
                         ],
                       ),

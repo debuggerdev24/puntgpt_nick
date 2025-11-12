@@ -22,7 +22,7 @@ class RunnersList extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text("Total Runners: (20)", style: bold(fontSize: 14)),
+              Text("Total Runners: (20)", style: bold(fontSize: 16)),
               GestureDetector(
                 onTap: () {
                   context.pushNamed(AppRoutes.savedSearched.name);
@@ -39,7 +39,7 @@ class RunnersList extends StatelessWidget {
                     Text(
                       "Saved Searches",
                       style: bold(
-                        fontSize: 14,
+                        fontSize: 16,
                         decoration: TextDecoration.underline,
                       ),
                     ),
@@ -209,9 +209,13 @@ class RunnersList extends StatelessWidget {
                               },
                               child: Container(
                                 padding: EdgeInsets.symmetric(
-                                  vertical: 8.h,
+                                  vertical: 12.h,
                                   horizontal: 6.w,
                                 ),
+                                // padding: EdgeInsets.symmetric(
+                                //   vertical: 8.h,
+                                //   horizontal: 6.w,
+                                // ),
                                 decoration: BoxDecoration(
                                   color: AppColors.white,
                                   border: Border.all(color: AppColors.primary),

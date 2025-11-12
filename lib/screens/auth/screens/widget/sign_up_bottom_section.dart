@@ -27,52 +27,41 @@ class SignUpBottomSection extends StatelessWidget {
             Text(
               "Already Registered?",
               style: regular(
-                fontSize: 14.sp.clamp(12, 16),
-                color: AppColors.primary.setOpacity(0.8),
+                fontSize: 14,
+                color: AppColors.primary.withValues(alpha: 0.8),
               ),
             ),
             OnButtonTap(
               onTap: onLoginTap,
-              child: Text(" Login", style: bold(fontSize: 14.sp.clamp(12, 16))),
+              child: Text(" Login", style: bold(fontSize: 14)),
             ),
           ],
         ),
-        SizedBox(height: 10),
+        10.h.verticalSpace,
         SizedBox(
-          width: Responsive.isMobile(context)
-              ? double.maxFinite
-              : 500.w.flexClamp(null, 500),
+          width: Responsive.isMobile(context) ? double.maxFinite : 500.w,
           child: AppFiledButton(text: "Create Account", onTap: onSignUpTap),
         ),
-        SizedBox(height: 10),
+        10.h.verticalSpace,
         Wrap(
           alignment: WrapAlignment.center,
           crossAxisAlignment: WrapCrossAlignment.center,
           children: [
-            Text(
-              "Terms & Conditions",
-              style: bold(fontSize: 14.sp.flexClamp(12, 16)),
-            ),
+            Text("Terms & Conditions", style: bold(fontSize: 14)),
             Container(
               width: 1,
               height: 20,
               color: AppColors.primary,
               margin: EdgeInsets.symmetric(horizontal: 10),
             ),
-            Text(
-              "AI disclaimer",
-              style: bold(fontSize: 14.sp.flexClamp(12, 16)),
-            ),
+            Text("AI disclaimer", style: bold(fontSize: 14)),
             Container(
               width: 1,
               height: 20,
               color: AppColors.primary,
               margin: EdgeInsets.symmetric(horizontal: 10),
             ),
-            Text(
-              "Privacy Policy",
-              style: bold(fontSize: 14.sp.flexClamp(12, 16)),
-            ),
+            Text("Privacy Policy", style: bold(fontSize: 14)),
           ],
         ),
       ],

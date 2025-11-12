@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:puntgpt_nick/core/constants/constants.dart';
 import 'package:puntgpt_nick/core/constants/text_style.dart';
 import 'package:puntgpt_nick/core/router/app_routes.dart';
+import 'package:puntgpt_nick/core/widgets/app_devider.dart';
 import 'package:puntgpt_nick/core/widgets/app_text_field.dart';
 import 'package:puntgpt_nick/core/widgets/app_text_field_drop_down.dart';
 import 'package:puntgpt_nick/core/widgets/image_widget.dart';
@@ -58,16 +59,15 @@ class _FilterListState extends State<FilterList> {
             padding: EdgeInsets.symmetric(horizontal: 25),
             child: Text(
               "Search for a horse that meets your criteria:",
-              style: bold(fontSize: 14, height: 1.2),
+              style: bold(fontSize: 16, height: 1.2),
             ),
           ),
-          5.verticalSpace,
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 25),
+            padding: EdgeInsets.fromLTRB(25.w, 12.h, 20.h, 25.w),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text("Total Runners: (20)", style: bold(fontSize: 14)),
+                Text("Total Runners: (20)", style: bold(fontSize: 16)),
                 OnButtonTap(
                   onTap: onSaveSearchTap,
                   child: Row(
@@ -78,11 +78,11 @@ class _FilterListState extends State<FilterList> {
                         path: AppAssets.bookmark,
                         height: 16.w.flexClamp(14, 18),
                       ),
-                      SizedBox(width: 5),
+                      5.w.horizontalSpace,
                       Text(
                         "Saved Searches",
                         style: bold(
-                          fontSize: 14,
+                          fontSize: 16,
                           decoration: TextDecoration.underline,
                         ),
                       ),
@@ -92,9 +92,8 @@ class _FilterListState extends State<FilterList> {
               ],
             ),
           ),
-          10.verticalSpace,
 
-          /// FORM AREA
+          // FORM AREA
           _buildListView(),
         ],
       ),
@@ -107,10 +106,11 @@ class _FilterListState extends State<FilterList> {
 
     return Column(
       children: [
+        appDivider(),
         Theme(
-          data: Theme.of(
-            context,
-          ).copyWith(dividerColor: AppColors.greyColor.withValues(alpha: 0.2)),
+          data: Theme.of(context).copyWith(
+            dividerColor: AppColors.transparent,
+          ), //AppColors.greyColor.withValues(alpha: 0.2)
           child: ExpansionTile(
             childrenPadding: EdgeInsets.only(
               left: 25.w,
@@ -170,11 +170,12 @@ class _FilterListState extends State<FilterList> {
             }).toList(),
           ),
         ),
+        appDivider(),
       ],
     );
   }
 
-  /// Builds a single filter field (either text or dropdown)
+  // Builds a single filter field (either text or dropdown)
   Widget _buildFilterField(Map filter) {
     final label = filter["label"];
     final type = filter["type"];

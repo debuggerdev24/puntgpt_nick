@@ -16,7 +16,7 @@ class AppTextFieldDropdown extends StatelessWidget {
     this.errorStyle,
     this.borderRadius,
     this.validator,
-    this.autovalidateMode,
+    this.autoValidateMode,
   });
 
   final List<String> items;
@@ -28,7 +28,7 @@ class AppTextFieldDropdown extends StatelessWidget {
   final TextStyle? errorStyle;
   final double? borderRadius;
   final FormFieldValidator<String>? validator;
-  final AutovalidateMode? autovalidateMode;
+  final AutovalidateMode? autoValidateMode;
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +45,7 @@ class AppTextFieldDropdown extends StatelessWidget {
           hintStyle: hintStyle,
           errorStyle: errorStyle,
           borderRadius: borderRadius,
-          autovalidateMode: autovalidateMode,
+          autovalidateMode: autoValidateMode,
           trailingIcon: AppAssets.arrowDown,
         ),
       ),

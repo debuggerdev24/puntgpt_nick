@@ -22,43 +22,44 @@ class PersonalDetailsScreen extends StatelessWidget {
         28.h.verticalSpace,
         //todo form
         Expanded(
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 25.h),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                //todo --------------> name
-                Text("Name", style: semiBold(fontSize: 14)),
-                6.h.verticalSpace,
-                AppTextField(
-                  controller: TextEditingController(),
-                  hintText: "Enter Your Name",
-                ),
-                //todo --------------> email
-                14.h.verticalSpace,
-                Text("Email", style: semiBold(fontSize: 14)),
-                6.h.verticalSpace,
-                AppTextField(
-                  controller: TextEditingController(),
-                  hintText: "Enter Your Email",
-                ),
-                //todo --------------> phone
-                14.h.verticalSpace,
-                Text("Phone", style: semiBold(fontSize: 14)),
-                6.h.verticalSpace,
-                AppTextField(
-                  controller: TextEditingController(),
-                  hintText: "Enter Your Phone",
-                ),
-                Spacer(),
-                AppOutlinedButton(
-                  text: "Change Password",
-                  onTap: () {
-                    context.pushNamed(AppRoutes.changePassword.name);
-                  },
-                  margin: EdgeInsets.only(bottom: 30.h),
-                ),
-              ],
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 25.h),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  //todo --------------> name
+                  Text("Name", style: semiBold(fontSize: 14)),
+                  6.h.verticalSpace,
+                  AppTextField(
+                    controller: TextEditingController(),
+                    hintText: "Enter Your Name",
+                  ),
+                  //todo --------------> email
+                  14.h.verticalSpace,
+                  Text("Email", style: semiBold(fontSize: 14)),
+                  6.h.verticalSpace,
+                  AppTextField(
+                    controller: TextEditingController(),
+                    hintText: "Enter Your Email",
+                  ),
+                  //todo --------------> phone
+                  14.h.verticalSpace,
+                  Text("Phone", style: semiBold(fontSize: 14)),
+                  6.h.verticalSpace,
+                  AppTextField(
+                    controller: TextEditingController(),
+                    hintText: "Enter Your Phone",
+                  ),
+                  AppOutlinedButton(
+                    text: "Change Password",
+                    onTap: () {
+                      context.pushNamed(AppRoutes.changePassword.name);
+                    },
+                    margin: EdgeInsets.only(bottom: 30.h, top: 200.h),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -70,16 +71,18 @@ class PersonalDetailsScreen extends StatelessWidget {
     return Column(
       children: [
         Padding(
-          padding: EdgeInsets.fromLTRB(25.w, 12.h, 25.w, 16.h),
+          padding: EdgeInsets.fromLTRB(5.w, 12.h, 25.w, 16.h),
           child: Row(
-            spacing: 14.w,
             children: [
-              GestureDetector(
-                onTap: () {
+              IconButton(
+                padding: EdgeInsets.zero,
+
+                onPressed: () {
                   context.pop();
                 },
-                child: Icon(Icons.arrow_back_ios_rounded, size: 16.h),
+                icon: Icon(Icons.arrow_back_ios_rounded, size: 16.h),
               ),
+
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

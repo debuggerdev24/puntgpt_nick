@@ -24,7 +24,7 @@ TextStyle _baseTextStyle({
   FontStyle? fontStyle,
 }) {
   return TextStyle(
-    fontSize: fontSize.spMin,
+    fontSize: fontSize.sp,
     height: height,
     color: color ?? AppColors.primary,
     fontFamily: fontFamily,
@@ -52,7 +52,7 @@ TextStyle light({
   FontStyle? fontStyle,
 }) => _baseTextStyle(
   fontWeight: FontWeight.w300,
-  fontSize: fontSize.spMin,
+  fontSize: fontSize.sp,
   height: height,
   color: color ?? AppColors.primary,
   fontFamily: fontFamily,
@@ -78,7 +78,7 @@ TextStyle regular({
   FontStyle? fontStyle,
 }) => _baseTextStyle(
   fontWeight: FontWeight.w400,
-  fontSize: fontSize.spMin,
+  fontSize: fontSize.sp,
   height: height,
   color: color ?? AppColors.primary,
   fontFamily: fontFamily,
@@ -104,7 +104,7 @@ TextStyle medium({
   FontStyle? fontStyle,
 }) => _baseTextStyle(
   fontWeight: FontWeight.w500,
-  fontSize: fontSize.spMin,
+  fontSize: fontSize.sp,
   height: height,
   color: color ?? AppColors.primary,
   fontFamily: fontFamily,
@@ -130,7 +130,7 @@ TextStyle semiBold({
   FontStyle? fontStyle,
 }) => _baseTextStyle(
   fontWeight: FontWeight.w600,
-  fontSize: fontSize.spMin,
+  fontSize: fontSize.sp,
   height: height,
   color: color ?? AppColors.primary,
   fontFamily: fontFamily,
@@ -156,7 +156,7 @@ TextStyle bold({
   FontStyle? fontStyle,
 }) => _baseTextStyle(
   fontWeight: FontWeight.w700,
-  fontSize: fontSize.spMin,
+  fontSize: fontSize.sp,
   height: height,
   color: color,
   fontFamily: fontFamily,

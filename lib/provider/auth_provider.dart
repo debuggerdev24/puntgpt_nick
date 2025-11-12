@@ -38,4 +38,18 @@ class AuthProvider extends ChangeNotifier {
     _isReadTermsAndConditions = value;
     notifyListeners();
   }
+
+  void clearSignUpControllers() {
+    fistNameCtr.clear();
+    lastNameCtr.clear();
+    emailCtr.clear();
+    phoneCtr.clear();
+    passwordCtr.clear();
+    dobCtr.clear();
+  }
+
+  void clearLoginControllers() {
+    loginEmailCtr.clear();
+    loginPasswordCtr.clear();
+  }
 }

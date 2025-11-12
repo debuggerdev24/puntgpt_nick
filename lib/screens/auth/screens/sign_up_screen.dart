@@ -8,11 +8,11 @@ import 'package:puntgpt_nick/core/constants/text_style.dart';
 import 'package:puntgpt_nick/core/router/app_routes.dart';
 import 'package:puntgpt_nick/core/widgets/app_check_box.dart';
 import 'package:puntgpt_nick/core/widgets/web_top_section.dart';
+import 'package:puntgpt_nick/provider/auth_provider.dart';
+import 'package:puntgpt_nick/responsive/responsive_builder.dart';
 import 'package:puntgpt_nick/screens/auth/screens/widget/sign_up_bottom_section.dart';
 import 'package:puntgpt_nick/screens/auth/screens/widget/sign_up_form.dart';
 import 'package:puntgpt_nick/screens/auth/screens/widget/sign_up_title.dart';
-import 'package:puntgpt_nick/provider/auth_provider.dart';
-import 'package:puntgpt_nick/responsive/responsive_builder.dart';
 
 class SignUpScreen extends StatelessWidget {
   const SignUpScreen({super.key, required this.isFreeSignUp});
@@ -35,9 +35,9 @@ class SignUpScreen extends StatelessWidget {
             child: Column(
               children: [
                 SignUpTitle(isFreeSignUp: isFreeSignUp),
-                SizedBox(height: 20),
+                20.h.verticalSpace,
                 SignUpForm(formKey: _formKey),
-                SizedBox(height: 12),
+                12.h.verticalSpace,
                 Consumer<AuthProvider>(
                   builder: (context, provider, _) {
                     return SizedBox(
@@ -52,16 +52,16 @@ class SignUpScreen extends StatelessWidget {
                         label: Text(
                           "I have read and accept the Terms & Conditions, AI disclaimer and understand my personal information will be handled in accordance with the Privacy Policy.",
                           style: regular(
-                            fontSize: 14.sp.clamp(12, 16),
+                            fontSize: 14,
                             height: 1.2,
-                            color: AppColors.primary.setOpacity(0.8),
+                            color: AppColors.primary.withValues(alpha: 0.8),
                           ),
                         ),
                       ),
                     );
                   },
                 ),
-                SizedBox(height: 30),
+                30.h.verticalSpace,
                 SignUpBottomSection(
                   onLoginTap: () {
                     context.pushReplacement(

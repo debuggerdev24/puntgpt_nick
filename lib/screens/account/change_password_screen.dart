@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:puntgpt_nick/core/widgets/app_filed_button.dart';
 
+import '../../core/constants/app_assets.dart';
 import '../../core/constants/app_colors.dart';
 import '../../core/constants/text_style.dart';
 import '../../core/widgets/app_devider.dart';
@@ -59,18 +60,14 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                           obscureText: provider.currentPassObscure,
                           hintText: "Enter Current Password",
 
-                          trailingIcon: GestureDetector(
-                            child: Icon(
-                              provider.currentPassObscure
-                                  ? Icons.visibility_off_outlined
-                                  : Icons.visibility_outlined,
-                              size: 20.h,
-                            ),
-                            onTap: () {
-                              provider.currentPassObscure =
-                                  !provider.currentPassObscure;
-                            },
-                          ),
+                          trailingIcon: provider.confirmPassObscure
+                              ? AppAssets.hide
+                              : AppAssets.show,
+
+                          onTrailingIconTap: () {
+                            provider.confirmPassObscure =
+                                !provider.confirmPassObscure;
+                          },
                         ),
 
                         //todo ------------> New Password
@@ -81,18 +78,14 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                           controller: _newPassword,
                           obscureText: provider.newPassObscure,
                           hintText: "Enter New Password",
-                          trailingIcon: GestureDetector(
-                            child: Icon(
-                              provider.newPassObscure
-                                  ? Icons.visibility_off_outlined
-                                  : Icons.visibility_outlined,
-                              size: 20.h,
-                            ),
-                            onTap: () {
-                              provider.newPassObscure =
-                                  !provider.newPassObscure;
-                            },
-                          ),
+                          trailingIcon: provider.confirmPassObscure
+                              ? AppAssets.hide
+                              : AppAssets.show,
+
+                          onTrailingIconTap: () {
+                            provider.confirmPassObscure =
+                                !provider.confirmPassObscure;
+                          },
                         ),
 
                         //todo ------------> Confirm Password
@@ -103,19 +96,14 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                           controller: _confirmPassword,
                           obscureText: provider.confirmPassObscure,
                           hintText: "Re-enter New Password",
+                          trailingIcon: provider.confirmPassObscure
+                              ? AppAssets.hide
+                              : AppAssets.show,
 
-                          trailingIcon: GestureDetector(
-                            child: Icon(
-                              provider.confirmPassObscure
-                                  ? Icons.visibility_off_outlined
-                                  : Icons.visibility_outlined,
-                              size: 20.h,
-                            ),
-                            onTap: () {
-                              provider.confirmPassObscure =
-                                  !provider.confirmPassObscure;
-                            },
-                          ),
+                          onTrailingIconTap: () {
+                            provider.confirmPassObscure =
+                                !provider.confirmPassObscure;
+                          },
                         ),
 
                         AppFiledButton(
@@ -147,7 +135,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                             // Save password logic here
                             context.pop();
                           },
-                          margin: EdgeInsets.only(bottom: 30.h,top: 210.h),
+                          margin: EdgeInsets.only(bottom: 30.h, top: 210.h),
                         ),
                       ],
                     );
@@ -165,15 +153,16 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
     return Column(
       children: [
         Padding(
-          padding: EdgeInsets.fromLTRB(25.w, 12.h, 25.w, 16.h),
+          padding: EdgeInsets.fromLTRB(5.w, 12.h, 25.w, 16.h),
           child: Row(
-            spacing: 14.w,
             children: [
-              GestureDetector(
-                onTap: () {
+              IconButton(
+                padding: EdgeInsets.zero,
+
+                onPressed: () {
                   context.pop();
                 },
-                child: Icon(Icons.arrow_back_ios_rounded, size: 16.h),
+                icon: Icon(Icons.arrow_back_ios_rounded, size: 16.h),
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

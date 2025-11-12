@@ -32,7 +32,7 @@ class AppTextField extends StatefulWidget {
   final Widget? suffix;
   final double? borderRadius;
   final bool obscureText;
-  final dynamic? trailingIcon;
+  final dynamic trailingIcon;
   final VoidCallback? onTrailingIconTap;
   final FormFieldValidator<String>? validator;
   final AutovalidateMode? autovalidateMode;
@@ -79,7 +79,7 @@ class _AppTextFieldState extends State<AppTextField> {
           ),
           suffixIcon: widget.trailingIcon == null
               ? const SizedBox()
-              : (widget.trailingIcon.runtimeType is String)
+              : (widget.trailingIcon is String)
               ? Align(
                   alignment: Alignment.centerLeft,
                   child: OnButtonTap(

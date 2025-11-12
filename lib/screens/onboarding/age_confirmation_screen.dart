@@ -26,7 +26,7 @@ class AgeConfirmationScreen extends StatelessWidget {
     return Scaffold(
       appBar: !kIsWeb ? null : WebTopSection(),
       body: Padding(
-        padding: const EdgeInsets.all(20),
+        padding: EdgeInsets.all(20),
         child: Center(
           child: Column(
             mainAxisSize: MainAxisSize.min,
