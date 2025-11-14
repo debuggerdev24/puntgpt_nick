@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:puntgpt_nick/core/constants/constants.dart';
 import 'package:puntgpt_nick/core/router/app_routes.dart';
 import 'package:puntgpt_nick/core/widgets/app_filed_button.dart';
-import 'package:puntgpt_nick/provider/auth_provider.dart';
+import 'package:puntgpt_nick/provider/auth/auth_provider.dart';
 import 'package:puntgpt_nick/screens/onboarding/widgets/plans.dart';
 import 'package:puntgpt_nick/screens/onboarding/widgets/video_widget.dart';
 
@@ -72,9 +72,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         child: Column(
           children: [
             // Video area fills remaining height
-            SizedBox(height: 40),
+            40.h.verticalSpace,
             VideoWidget(),
-            SizedBox(height: 40.w.flexClamp(35, 40)),
+            40.h.verticalSpace,
             Plans(
               currentPlan: (index) {
                 _currentIndex = index;

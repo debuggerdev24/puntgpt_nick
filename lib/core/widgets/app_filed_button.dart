@@ -37,8 +37,8 @@ class AppFiledButton extends StatelessWidget {
           padding:
               padding ??
               EdgeInsets.symmetric(
-                vertical: 12.r.flexClamp(10, 14),
-                horizontal: 15.r.flexClamp(13, 17),
+                vertical: 12.h, //r.flexClamp(10, 14),
+                horizontal: 15.w, //r.flexClamp(13, 17),
               ),
           height: height,
           width: width ?? double.maxFinite,
@@ -49,12 +49,7 @@ class AppFiledButton extends StatelessWidget {
           child: Text(
             text,
             textAlign: TextAlign.center,
-            style:
-                textStyle ??
-                semiBold(
-                  fontSize: 20,
-                  color: AppColors.white,
-                ),
+            style: textStyle ?? semiBold(fontSize: 20, color: AppColors.white),
           ),
         ),
       ),

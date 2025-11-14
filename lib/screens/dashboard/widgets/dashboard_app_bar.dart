@@ -39,20 +39,16 @@ class _DashboardAppBarState extends State<DashboardAppBar> {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        ImageWidget(
-          type: ImageType.asset,
-          path: AppAssets.appBarLogo,
-          color: AppColors.white,
-          // height: 50.w.flexClamp(45, 55),
+        ImageWidget(path: AppAssets.horse, width: 32.w, color: AppColors.white),
+
+        Text(
+          "PuntGPT",
+          style: regular(
+            fontSize: 15,
+            fontFamily: AppFontFamily.secondary,
+            color: AppColors.white,
+          ),
         ),
-        // Text(
-        //   "Pro",
-        //   style: regular(
-        //     fontSize: 14.sp.flexClamp(12, 16),
-        //     fontFamily: AppFontFamily.secondary,
-        //     color: AppColors.premiumYellow,
-        //   ),
-        // ),
       ],
     );
   }

@@ -1,0 +1,107 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
+import 'package:puntgpt_nick/core/constants/constants.dart';
+import 'package:puntgpt_nick/screens/home/home_screen.dart';
+import 'package:puntgpt_nick/screens/home/widgets/chat_section.dart';
+
+import '../../core/constants/text_style.dart';
+import '../../core/widgets/app_devider.dart';
+
+class PuntClubChatScreen extends StatelessWidget {
+  const PuntClubChatScreen({super.key, required this.title});
+  final String title;
+
+  @override
+  Widget build(BuildContext context) {
+    LogHelper.info(title);
+    return Column(
+      children: [
+        topBar(context),
+
+        Expanded(
+          child: Stack(
+            children: [
+              ListView(children: [ChatSection(), ChatSection()]),
+              Padding(
+                padding: EdgeInsets.only(bottom: 25.h, right: 25.w),
+                child: Align(
+                  alignment: AlignmentGeometry.bottomRight,
+
+                  child: askPuntGPTButton(context),
+                ),
+              ),
+            ],
+          ),
+        ),
+        Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            appDivider(),
+            TextField(
+              decoration: InputDecoration(
+                border: InputBorder.none,
+                // OutlineInputBorder(
+                //   borderSide: BorderSide(
+                //     color: AppColors.greyColor.withValues(alpha: 0.4), // Set your color
+                //
+                //   ),
+                // ),
+                prefix: SizedBox(width: 25.w),
+                hintText: "Type your message...",
+                hintStyle: medium(
+                  fontStyle: FontStyle.italic,
+                  fontSize: 14,
+                  color: AppColors.greyColor.withValues(alpha: 0.6),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget topBar(BuildContext context) {
+    return Column(
+      children: [
+        Padding(
+          padding: EdgeInsets.fromLTRB(5.w, 12.h, 25.w, 16.h),
+          child: Row(
+            children: [
+              IconButton(
+                padding: EdgeInsets.zero,
+
+                onPressed: () {
+                  context.pop();
+                },
+                icon: Icon(Icons.arrow_back_ios_rounded, size: 16.h),
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: regular(
+                      fontSize: 24,
+                      fontFamily: AppFontFamily.secondary,
+                      height: 1.35,
+                    ),
+                  ),
+                  Text(
+                    "11 Member",
+                    style: semiBold(
+                      fontSize: 14,
+                      color: AppColors.greyColor.withValues(alpha: 0.6),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+        appDivider(),
+      ],
+    );
+  }
+}

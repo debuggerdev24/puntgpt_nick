@@ -4,17 +4,35 @@ class FieldValidators {
   factory FieldValidators() => _instance;
   static final FieldValidators _instance = FieldValidators._();
 
-  String? required(String? val) {
+  String? required(String? val, String? fieldName) {
     if (val == null || val.isEmpty) {
-      return "Filed is Required";
+      return "$fieldName is Required!";
     }
     return null;
+  }
+
+  String name(String? val, String? fieldName) {
+    RegExp namePattern = RegExp(r"^[A-Za-z]+(?: [A-Za-z]+)*$");
+
+    if (val == null || val.isEmpty) {
+      return "$fieldName is Required!";
+    }
+
+    if (!namePattern.hasMatch(val) && val.isNotEmpty) {
+      return "Enter a valid name (Only alphabets allowed)!"; //Enter a valid name (Only alphabets allowed).
+    }
+
+    return "";
   }
 
   String? email(String? val) {
     RegExp emailPattern = RegExp(
       r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$",
     );
+
+    if (val == null || val.isEmpty) {
+      return "Email is Required";
+    }
 
     if (!emailPattern.hasMatch(val ?? "")) {
       return "Enter valid Email.";
@@ -32,7 +50,7 @@ class FieldValidators {
     );
 
     if (!passwordPattern.hasMatch(val)) {
-      return "Password must be at least 8 characters, include a capital letter, a number, and a special character.";
+      return "Password must be at least 8 characters, include a capital letter, a number, and a special character!";
     }
     return null;
   }
@@ -43,7 +61,7 @@ class FieldValidators {
     }
 
     if (val.length > max) {
-      return "Field must not exceed $max characters.";
+      return "Field must not exceed $max characters!";
     }
     return null;
   }
@@ -54,7 +72,7 @@ class FieldValidators {
     }
 
     if (val.length < min) {
-      return "Field must be at least $min characters.";
+      return "Field must be at least $min characters!";
     }
     return null;
   }
@@ -75,7 +93,7 @@ class FieldValidators {
     if (val == null) return null;
 
     if (val < min || val > max) {
-      return "Value must be between $min and $max.";
+      return "Value must be between $min and $max!";
     }
 
     return null;
@@ -85,10 +103,10 @@ class FieldValidators {
     if (date == null) return null;
 
     if (min != null && date.isBefore(min)) {
-      return "Date must be after ${min.toIso8601String()}";
+      return "Date must be after ${min.toIso8601String()}!";
     }
     if (max != null && date.isAfter(max)) {
-      return "Date must be before ${max.toIso8601String()}";
+      return "Date must be before ${max.toIso8601String()}!";
     }
     return null;
   }
@@ -99,7 +117,7 @@ class FieldValidators {
     }
 
     if (val.length != length) {
-      return "Field must be exactly $length characters.";
+      return "Field must be exactly $length characters!";
     }
 
     return null;
@@ -117,7 +135,7 @@ class FieldValidators {
 
   String? mobileNumber(String? val) {
     if (val == null || val.trim().isEmpty) {
-      return 'Please enter your mobile number';
+      return 'Mobile number is required!';
     }
 
     // final pattern = r'^\+?[1-9]\d{10,15}$';
@@ -126,15 +144,15 @@ class FieldValidators {
     // }
 
     if (!RegExp(r'^\d{10,15}$').hasMatch(val)) {
-      return 'Please enter a valid mobile number';
+      return 'Please enter a valid mobile number!';
     }
 
     return null;
   }
 
-  String? match(String? val, String secondValue, String errorMessage) {
+  String? match(String? val, String matchValue, String errorMessage) {
     if (val == null || val.trim().isEmpty) {
-      return 'Please enter the password';
+      return 'Please enter the password!';
     }
 
     // final pattern = r'^\+?[1-9]\d{10,15}$';
@@ -142,7 +160,7 @@ class FieldValidators {
     //   return 'Please enter a valid international phone number';
     // }
 
-    if (val != secondValue) {
+    if (val != matchValue) {
       return errorMessage;
     }
 

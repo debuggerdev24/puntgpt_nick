@@ -429,11 +429,7 @@ Widget askPuntGPTButton(BuildContext context) {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          // SvgPicture.asset(
-          //   AppAssets.horse,
-          //   color: AppColors.black,
-          // ),
-          ImageWidget(path: AppAssets.horse, height: 30.w.flexClamp(28, 33)),
+          ImageWidget(path: AppAssets.horse, height: 30.w),
           10.horizontalSpace,
           Text(
             "Ask @ PuntGPT",

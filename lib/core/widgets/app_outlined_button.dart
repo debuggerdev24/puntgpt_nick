@@ -37,8 +37,8 @@ class AppOutlinedButton extends StatelessWidget {
           padding:
               padding ??
               EdgeInsets.symmetric(
-                vertical: 12.r.flexClamp(12, 15),
-                horizontal: 15.r.flexClamp(15, 18),
+                vertical: 12.h, //r.flexClamp(12, 15)
+                horizontal: 15.w, //r.flexClamp(15, 18)
               ),
           height: height,
           width: width ?? double.maxFinite,
@@ -51,11 +51,7 @@ class AppOutlinedButton extends StatelessWidget {
             text,
             textAlign: TextAlign.center,
             style:
-                textStyle ??
-                semiBold(
-                  fontSize: 20,
-                  color: AppColors.primary,
-                ),
+                textStyle ?? semiBold(fontSize: 20, color: AppColors.primary),
           ),
         ),
       ),

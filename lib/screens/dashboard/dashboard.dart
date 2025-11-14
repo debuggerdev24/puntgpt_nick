@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -84,7 +82,8 @@ class _DashboardState extends State<Dashboard> {
                   },
                   text: "PuntGPT Punter Club",
                   icon: AppAssets.group,
-                  hasLock: true,
+
+                  hasLock: false,
                   index: 1,
                 ),
                 _navItem(
@@ -122,7 +121,7 @@ class _DashboardState extends State<Dashboard> {
     Color? color,
     bool hasLock = false,
   }) {
-    log(AppRouter.indexedStackNavigationShell!.currentIndex.toString());
+    // log(AppRouter.indexedStackNavigationShell!.currentIndex.toString());
     final currentIndex = AppRouter.indexedStackNavigationShell?.currentIndex;
     final opacity = 0.62;
     return Expanded(

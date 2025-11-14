@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -69,11 +70,17 @@ class _SplashScreenState extends State<SplashScreen> {
                 children: [
                   TextSpan(
                     text: "'@PuntGPT'",
-                    style: bold(fontSize: 20.sp.flexClamp(18, 22)),
+                    style: regular(
+                      fontSize: 20,
+                      fontFamily: AppFontFamily.secondary,
+                    ),
                   ),
                   TextSpan(
                     text: " the talking from guide",
-                    style: bold(fontSize: 20.sp.flexClamp(18, 22)),
+                    style: regular(
+                      fontSize: 20,
+                      fontFamily: AppFontFamily.secondary,
+                    ),
                   ),
                 ],
               ),

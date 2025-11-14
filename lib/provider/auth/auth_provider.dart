@@ -46,6 +46,7 @@ class AuthProvider extends ChangeNotifier {
     phoneCtr.clear();
     passwordCtr.clear();
     dobCtr.clear();
+    _isReadTermsAndConditions = false;
   }
 
   void clearLoginControllers() {

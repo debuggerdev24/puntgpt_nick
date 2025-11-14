@@ -25,6 +25,7 @@ import 'package:puntgpt_nick/screens/splash/splash_screen.dart';
 
 import '../../screens/dashboard/dashboard.dart';
 import '../../screens/home/tip_slip_screen.dart';
+import '../../screens/punt_gpt_club/punt_club_chat_screen.dart';
 
 class AppRouter {
   static final _rootNavigatorKey = GlobalKey<NavigatorState>();
@@ -34,8 +35,7 @@ class AppRouter {
   static final GoRouter router = GoRouter(
     navigatorKey: _rootNavigatorKey,
     debugLogDiagnostics: true,
-    initialLocation: AppRoutes.splash,
-
+    initialLocation: AppRoutes.home, //home
     // Redirect logic for authentication
     // redirect: (context, state) {
     //   final isLoggedIn = AuthService.instance.isLoggedIn;
@@ -158,6 +158,12 @@ class AppRouter {
                 path: AppRoutes.puntGptClub,
                 name: AppRoutes.puntGptClub.name,
                 builder: (context, state) => PunterClubScreen(),
+              ),
+              GoRoute(
+                path: AppRoutes.punterClubChat,
+                name: AppRoutes.punterClubChat.name,
+                builder: (context, state) =>
+                    PuntClubChatScreen(title: state.extra as String),
               ),
             ],
           ),

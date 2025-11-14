@@ -4,7 +4,6 @@ import 'package:puntgpt_nick/core/constants/constants.dart';
 import 'package:puntgpt_nick/core/constants/text_style.dart';
 import 'package:puntgpt_nick/core/widgets/app_filed_button.dart';
 import 'package:puntgpt_nick/core/widgets/on_button_tap.dart';
-import 'package:puntgpt_nick/responsive/responsive_builder.dart';
 
 class SignUpBottomSection extends StatelessWidget {
   const SignUpBottomSection({
@@ -38,10 +37,7 @@ class SignUpBottomSection extends StatelessWidget {
           ],
         ),
         10.h.verticalSpace,
-        SizedBox(
-          width: Responsive.isMobile(context) ? double.maxFinite : 500.w,
-          child: AppFiledButton(text: "Create Account", onTap: onSignUpTap),
-        ),
+        AppFiledButton(text: "Create Account", onTap: onSignUpTap),
         10.h.verticalSpace,
         Wrap(
           alignment: WrapAlignment.center,

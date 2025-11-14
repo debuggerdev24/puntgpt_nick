@@ -78,7 +78,7 @@ class _PlansState extends State<Plans> {
             fontFamily: AppFontFamily.secondary,
           ),
         ),
-        SizedBox(height: 40.w.flexClamp(35, 40)),
+        40.w.horizontalSpace,
         GestureDetector(
           onHorizontalDragStart: _handleSwipeStart,
           onHorizontalDragUpdate: _handleSwipeUpdate,
@@ -133,7 +133,7 @@ class _PlansState extends State<Plans> {
                       TextSpan(
                         text: planData['title'].toString(),
                         style: regular(
-                          fontSize: 24.sp.flexClamp(20, 26),
+                          fontSize: 24,
                           fontFamily: AppFontFamily.secondary,
                           color: AppColors.primary,
                         ),
@@ -157,14 +157,14 @@ class _PlansState extends State<Plans> {
                     ],
                   ),
                 ),
-          SizedBox(height: 12),
+          12.h.verticalSpace,
           planData['price'].toString().isEmpty
               ? const SizedBox()
               : Text(
                   "\$ ${planData['price'].toString()}",
-                  style: bold(fontSize: 24.sp.flexClamp(20, 26)),
+                  style: bold(fontSize: 24),
                 ),
-          SizedBox(height: 12),
+          12.h.verticalSpace,
           ListView.separated(
             shrinkWrap: true,
             padding: EdgeInsets.all(0),

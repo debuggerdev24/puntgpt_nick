@@ -4,8 +4,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:puntgpt_nick/core/constants/constants.dart';
 import 'package:puntgpt_nick/core/router/app_router.dart';
-import 'package:puntgpt_nick/provider/account_provider.dart';
-import 'package:puntgpt_nick/provider/auth_provider.dart';
+import 'package:puntgpt_nick/provider/account/account_provider.dart';
+import 'package:puntgpt_nick/provider/auth/auth_provider.dart';
+import 'package:puntgpt_nick/provider/punter_club_provider.dart';
 import 'package:puntgpt_nick/provider/search_engine_provider.dart';
 
 void main() {
@@ -35,6 +36,7 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (context) => AuthProvider()),
           ChangeNotifierProvider(create: (context) => SearchEngineProvider()),
           ChangeNotifierProvider(create: (context) => AccountProvider()),
+          ChangeNotifierProvider(create: (context) => PunterClubProvider()),
         ],
         child: AnnotatedRegion<SystemUiOverlayStyle>(
           value: SystemUiOverlayStyle(
@@ -61,6 +63,4 @@ class MyApp extends StatelessWidget {
 }
 
 /*
-
-->
 */

@@ -12,7 +12,7 @@ import 'package:puntgpt_nick/core/widgets/app_text_field.dart';
 import 'package:puntgpt_nick/core/widgets/image_widget.dart';
 import 'package:puntgpt_nick/core/widgets/on_button_tap.dart';
 import 'package:puntgpt_nick/core/widgets/web_top_section.dart';
-import 'package:puntgpt_nick/provider/auth_provider.dart';
+import 'package:puntgpt_nick/provider/auth/auth_provider.dart';
 import 'package:puntgpt_nick/responsive/responsive_builder.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -100,8 +100,11 @@ class LoginScreen extends StatelessWidget {
                       AppFiledButton(
                         text: "Login",
                         onTap: () {
-                          if (_formKey.currentState!.validate()) {}
-                          context.go(AppRoutes.home);
+                          if (_formKey.currentState!.validate()) {
+                            context.go(AppRoutes.home);
+
+                            return;
+                          }
                         },
                       ),
                       15.h.verticalSpace,
@@ -126,7 +129,7 @@ class LoginScreen extends StatelessWidget {
                           ),
                         ],
                       ),
-                      SizedBox(height: 20),
+                      20.h.verticalSpace,
                     ],
                   ),
                 );

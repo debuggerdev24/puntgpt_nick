@@ -56,7 +56,7 @@ class PersonalDetailsScreen extends StatelessWidget {
                     onTap: () {
                       context.pushNamed(AppRoutes.changePassword.name);
                     },
-                    margin: EdgeInsets.only(bottom: 30.h, top: 200.h),
+                    margin: EdgeInsets.only(bottom: 30.h, top: 230.h),
                   ),
                 ],
               ),

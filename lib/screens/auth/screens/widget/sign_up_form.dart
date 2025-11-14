@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:puntgpt_nick/core/constants/constants.dart';
@@ -7,7 +8,7 @@ import 'package:puntgpt_nick/core/utils/date_formater.dart';
 import 'package:puntgpt_nick/core/utils/field_validators.dart';
 import 'package:puntgpt_nick/core/widgets/app_text_field.dart';
 import 'package:puntgpt_nick/core/widgets/app_text_field_drop_down.dart';
-import 'package:puntgpt_nick/provider/auth_provider.dart';
+import 'package:puntgpt_nick/provider/auth/auth_provider.dart';
 import 'package:puntgpt_nick/responsive/responsive_builder.dart';
 
 class SignUpForm extends StatelessWidget {
@@ -44,19 +45,23 @@ class SignUpForm extends StatelessWidget {
                     AppTextField(
                       controller: provider.fistNameCtr,
                       hintText: "First Name",
-                      validator: FieldValidators().required,
+                      validator: (value) =>
+                          FieldValidators().required(value, "First Name"),
                     ),
                     AppTextField(
                       controller: provider.lastNameCtr,
                       hintText: "Last Name",
-                      validator: FieldValidators().required,
+                      validator: (value) =>
+                          FieldValidators().required(value, "Last Name"),
                     ),
                     AppTextField(
                       controller: provider.dobCtr,
                       hintText: "Date of birth",
                       trailingIcon: AppAssets.arrowDown,
                       enabled: false,
-                      validator: FieldValidators().required,
+                      validator: (value) =>
+                          FieldValidators().required(value, "Date of birth"),
+
                       onTap: () => _pickBob(context, provider),
                     ),
                     AppTextFieldDropdown(
@@ -64,14 +69,18 @@ class SignUpForm extends StatelessWidget {
                       hintText: 'State',
                       onChange: (value) => provider.selectedState = value,
                       selectedValue: provider.selectedState,
-                      validator: FieldValidators().required,
+                      validator: (value) =>
+                          FieldValidators().required(value, "State"),
                     ),
                     AppTextField(
                       controller: provider.emailCtr,
                       hintText: "Email",
                       validator: FieldValidators().email,
                     ),
+
                     AppTextField(
+                      keyboardType: TextInputType.number,
+                      inputFormatter: [FilteringTextInputFormatter.digitsOnly],
                       controller: provider.phoneCtr,
                       hintText: "Phone",
                       validator: FieldValidators().mobileNumber,
@@ -99,7 +108,10 @@ class SignUpForm extends StatelessWidget {
                             child: AppTextField(
                               controller: provider.fistNameCtr,
                               hintText: "First Name",
-                              validator: FieldValidators().required,
+                              validator: (value) => FieldValidators().required(
+                                value,
+                                "First Name",
+                              ),
                             ),
                           ),
                           SizedBox(width: 24.w.flexClamp(20, 24)),
@@ -107,7 +119,10 @@ class SignUpForm extends StatelessWidget {
                             child: AppTextField(
                               controller: provider.lastNameCtr,
                               hintText: "Last Name",
-                              validator: FieldValidators().required,
+                              validator: (value) => FieldValidators().required(
+                                value,
+                                "Last Name",
+                              ),
                             ),
                           ),
                         ],
@@ -120,7 +135,11 @@ class SignUpForm extends StatelessWidget {
                               hintText: "Date of birth",
                               trailingIcon: AppAssets.arrowDown,
                               enabled: false,
-                              validator: FieldValidators().required,
+                              validator: (value) => FieldValidators().required(
+                                value,
+                                "Date of birth",
+                              ),
+
                               onTap: () => _pickBob(context, provider),
                             ),
                           ),
@@ -135,7 +154,8 @@ class SignUpForm extends StatelessWidget {
                               onChange: (value) =>
                                   provider.selectedState = value,
                               selectedValue: provider.selectedState,
-                              validator: FieldValidators().required,
+                              validator: (value) =>
+                                  FieldValidators().required(value, "State"),
                             ),
                           ),
                         ],
