@@ -8,7 +8,7 @@ import 'package:puntgpt_nick/core/widgets/app_devider.dart';
 import 'package:puntgpt_nick/core/widgets/app_filed_button.dart';
 import 'package:puntgpt_nick/core/widgets/app_outlined_button.dart';
 
-import '../../provider/search_engine_provider.dart';
+import '../../../provider/search_engine_provider.dart';
 
 class SearchDetailScreen extends StatelessWidget {
   const SearchDetailScreen({super.key});

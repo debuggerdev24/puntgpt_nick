@@ -1,13 +1,16 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:puntgpt_nick/core/constants/constants.dart';
-import 'package:puntgpt_nick/core/router/app_router.dart';
+import 'package:puntgpt_nick/core/router/web/web_router.dart';
 import 'package:puntgpt_nick/provider/account/account_provider.dart';
 import 'package:puntgpt_nick/provider/auth/auth_provider.dart';
 import 'package:puntgpt_nick/provider/punter_club_provider.dart';
 import 'package:puntgpt_nick/provider/search_engine_provider.dart';
+
+import 'core/router/app/app_router.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -53,7 +56,7 @@ class MyApp extends StatelessWidget {
             child: MaterialApp.router(
               debugShowCheckedModeBanner: false,
               theme: AppTheme.appThemeData,
-              routerConfig: AppRouter.router,
+              routerConfig: (kIsWeb) ? WebRouter.router : AppRouter.router,
             ),
           ),
         ),
@@ -63,4 +66,5 @@ class MyApp extends StatelessWidget {
 }
 
 /*
+
 */

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:puntgpt_nick/screens/home/widgets/chat_section.dart';
+import 'package:puntgpt_nick/screens/home/mobile/widgets/chat_section.dart';
 
-import '../../core/constants/app_colors.dart';
-import '../../core/constants/text_style.dart';
-import '../../core/widgets/app_devider.dart';
+import '../../../core/constants/app_colors.dart';
+import '../../../core/constants/text_style.dart';
+import '../../../core/widgets/app_devider.dart';
 
 class AskPuntGpt extends StatelessWidget {
   const AskPuntGpt({super.key});

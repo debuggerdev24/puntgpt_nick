@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:puntgpt_nick/core/constants/constants.dart';
 import 'package:puntgpt_nick/core/constants/text_style.dart';
 import 'package:puntgpt_nick/core/widgets/image_widget.dart';
-import 'package:puntgpt_nick/core/widgets/on_button_tap.dart';
 
 class AppTextField extends StatefulWidget {
   const AppTextField({
@@ -77,29 +76,24 @@ class _AppTextFieldState extends State<AppTextField> {
 
       decoration: InputDecoration(
         suffixIconConstraints: BoxConstraints(
-          maxHeight: 26.w.flexClamp(24, 28),
-          minHeight: 26.w.flexClamp(24, 28),
+          maxHeight: 26.h.flexClamp(24, 28),
+          minHeight: 26.h.flexClamp(24, 28),
           maxWidth: 26.w.flexClamp(24, 28) + 20,
           minWidth: 26.w.flexClamp(24, 28) + 20,
         ),
         suffixIcon: widget.trailingIcon == null
             ? const SizedBox()
-            : (widget.trailingIcon is String)
-            ? Align(
-                alignment: Alignment.centerLeft,
-                child: OnButtonTap(
-                  onTap: widget.onTrailingIconTap,
-                  child: ImageWidget(
-                    type: ImageType.svg,
-                    path: widget.trailingIcon!,
-                  ),
+            : GestureDetector(
+                onTap: widget.onTrailingIconTap,
+                child: ImageWidget(
+                  type: ImageType.svg,
+                  path: widget.trailingIcon!,
                 ),
-              )
-            : widget.trailingIcon,
+              ),
         hintText: widget.hintText,
         hintStyle:
             widget.hintStyle ??
-            medium(fontSize: 16, color: AppColors.primary.setOpacity(0.4)),
+            medium(fontSize: 14, color: AppColors.primary.setOpacity(0.4)),
         errorStyle:
             widget.errorStyle ?? medium(fontSize: 13, color: AppColors.red),
         errorMaxLines: 5,

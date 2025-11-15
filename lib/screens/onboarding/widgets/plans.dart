@@ -122,7 +122,7 @@ class _PlansState extends State<Plans> {
                   planData['title'],
                   textAlign: TextAlign.center,
                   style: regular(
-                    fontSize: 24.sp.flexClamp(18, 26),
+                    fontSize: 24,
                     fontFamily: AppFontFamily.secondary,
                   ),
                 )
@@ -141,7 +141,7 @@ class _PlansState extends State<Plans> {
                       TextSpan(
                         text: ' ‘Pro Punter’ ',
                         style: regular(
-                          fontSize: 24.sp.flexClamp(20, 26),
+                          fontSize: 24,
                           fontFamily: AppFontFamily.secondary,
                           color: AppColors.premiumYellow,
                         ),
@@ -149,7 +149,7 @@ class _PlansState extends State<Plans> {
                       TextSpan(
                         text: 'Account',
                         style: regular(
-                          fontSize: 24.sp.flexClamp(20, 26),
+                          fontSize: 24,
                           fontFamily: AppFontFamily.secondary,
                           color: AppColors.primary,
                         ),

@@ -11,18 +11,18 @@ class FieldValidators {
     return null;
   }
 
-  String name(String? val, String? fieldName) {
-    RegExp namePattern = RegExp(r"^[A-Za-z]+(?: [A-Za-z]+)*$");
+  String? name(String? val, String fieldName) {
+    final namePattern = RegExp(r"^[A-Za-z]+(?: [A-Za-z]+)*$");
 
-    if (val == null || val.isEmpty) {
-      return "$fieldName is Required!";
+    if (val == null || val.trim().isEmpty) {
+      return "$fieldName is required!";
     }
 
-    if (!namePattern.hasMatch(val) && val.isNotEmpty) {
-      return "Enter a valid name (Only alphabets allowed)!"; //Enter a valid name (Only alphabets allowed).
+    if (!namePattern.hasMatch(val.trim())) {
+      return "Enter a valid name (only alphabets allowed)!";
     }
 
-    return "";
+    return null; // <-- The main fix
   }
 
   String? email(String? val) {

@@ -1,9 +1,9 @@
-// lib/routes/app_router.dart
+// lib/routes/web_router.dart
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:puntgpt_nick/core/router/app_routes.dart';
+import 'package:puntgpt_nick/core/router/app/app_routes.dart';
 import 'package:puntgpt_nick/screens/account/account_screen.dart';
 import 'package:puntgpt_nick/screens/account/change_password_screen.dart';
 import 'package:puntgpt_nick/screens/account/manage_subscription_screen.dart';
@@ -11,21 +11,21 @@ import 'package:puntgpt_nick/screens/account/personal_details_screen.dart';
 import 'package:puntgpt_nick/screens/auth/screens/login_screen.dart';
 import 'package:puntgpt_nick/screens/auth/screens/sign_up_screen.dart';
 import 'package:puntgpt_nick/screens/bookies/bookies_screen.dart';
-import 'package:puntgpt_nick/screens/home/ask_punt_gpt.dart';
-import 'package:puntgpt_nick/screens/home/home_screen.dart';
-import 'package:puntgpt_nick/screens/home/manage_saved_search.dart';
-import 'package:puntgpt_nick/screens/home/saved_search_screen.dart';
-import 'package:puntgpt_nick/screens/home/search_filter_screen.dart';
-import 'package:puntgpt_nick/screens/home/selected_race_screen.dart';
+import 'package:puntgpt_nick/screens/home/mobile/ask_punt_gpt.dart';
+import 'package:puntgpt_nick/screens/home/mobile/home_screen.dart';
 import 'package:puntgpt_nick/screens/onboarding/age_confirmation_screen.dart';
 import 'package:puntgpt_nick/screens/onboarding/onboarding_screen.dart';
 import 'package:puntgpt_nick/screens/onboarding/web_onboarding_screen.dart';
 import 'package:puntgpt_nick/screens/punt_gpt_club/punter_club_screen.dart';
 import 'package:puntgpt_nick/screens/splash/splash_screen.dart';
 
-import '../../screens/dashboard/dashboard.dart';
-import '../../screens/home/tip_slip_screen.dart';
-import '../../screens/punt_gpt_club/punt_club_chat_screen.dart';
+import '../../../screens/dashboard/dashboard.dart';
+import '../../../screens/home/mobile/manage_saved_search.dart';
+import '../../../screens/home/mobile/saved_search_screen.dart';
+import '../../../screens/home/mobile/search_filter_screen.dart';
+import '../../../screens/home/mobile/selected_race_screen.dart';
+import '../../../screens/home/mobile/tip_slip_screen.dart';
+import '../../../screens/punt_gpt_club/punt_club_chat_screen.dart';
 
 class AppRouter {
   static final _rootNavigatorKey = GlobalKey<NavigatorState>();
@@ -35,27 +35,7 @@ class AppRouter {
   static final GoRouter router = GoRouter(
     navigatorKey: _rootNavigatorKey,
     debugLogDiagnostics: true,
-    initialLocation: AppRoutes.home, //home
-    // Redirect logic for authentication
-    // redirect: (context, state) {
-    //   final isLoggedIn = AuthService.instance.isLoggedIn;
-    //   final isLoggingIn =
-    //       state.matchedLocation == AppRoutes.login ||
-    //       state.matchedLocation == AppRoutes.signup ||
-    //       state.matchedLocation == AppRoutes.forgotPassword;
-
-    //   // If not logged in and not on auth pages, redirect to login
-    //   if (!isLoggedIn && !isLoggingIn) {
-    //     return AppRoutes.login;
-    //   }
-
-    //   // If logged in and on auth pages, redirect to home
-    //   if (isLoggedIn && isLoggingIn) {
-    //     return AppRoutes.home;
-    //   }
-
-    //   return null; // No redirect neededY
-    // },
+    initialLocation: AppRoutes.splash,
     routes: [
       GoRoute(
         path: AppRoutes.splash,

@@ -2,72 +2,105 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import 'package:puntgpt_nick/core/constants/app_assets.dart';
-import 'package:puntgpt_nick/core/router/app_routes.dart';
+import 'package:puntgpt_nick/core/router/app/app_routes.dart';
+import 'package:puntgpt_nick/core/utils/field_validators.dart';
+import 'package:puntgpt_nick/core/widgets/app_filed_button.dart';
 import 'package:puntgpt_nick/core/widgets/app_outlined_button.dart';
 import 'package:puntgpt_nick/core/widgets/app_text_field.dart';
+import 'package:puntgpt_nick/provider/account/account_provider.dart';
 
 import '../../core/constants/app_colors.dart';
 import '../../core/constants/text_style.dart';
 import '../../core/widgets/app_devider.dart';
 
-class PersonalDetailsScreen extends StatelessWidget {
+class PersonalDetailsScreen extends StatefulWidget {
   const PersonalDetailsScreen({super.key});
 
   @override
+  State<PersonalDetailsScreen> createState() => _PersonalDetailsScreenState();
+}
+
+class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        topBar(context),
-        28.h.verticalSpace,
-        //todo form
-        Expanded(
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 25.h),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  //todo --------------> name
-                  Text("Name", style: semiBold(fontSize: 14)),
-                  6.h.verticalSpace,
-                  AppTextField(
-                    controller: TextEditingController(),
-                    hintText: "Enter Your Name",
+    return Form(
+      key: _formKey,
+      child: Consumer<AccountProvider>(
+        builder: (context, provider, child) {
+          return Column(
+            children: [
+              topBar(context, provider),
+              //todo form
+              Expanded(
+                child: SingleChildScrollView(
+                  padding: EdgeInsets.symmetric(horizontal: 25.h),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      28.h.verticalSpace,
+                      //todo --------------> name
+                      Text("Name", style: semiBold(fontSize: 14)),
+                      6.h.verticalSpace,
+                      AppTextField(
+                        controller: TextEditingController(),
+                        hintText: "Enter Your Name",
+                        validator: (value) =>
+                            FieldValidators().name(value, "Name"),
+                      ),
+                      //todo --------------> email
+                      14.h.verticalSpace,
+                      Text("Email", style: semiBold(fontSize: 14)),
+                      6.h.verticalSpace,
+                      AppTextField(
+                        controller: TextEditingController(),
+                        hintText: "Enter Your Email",
+                        validator: (value) => FieldValidators().email(value),
+                      ),
+                      //todo --------------> phone
+                      14.h.verticalSpace,
+                      Text("Phone", style: semiBold(fontSize: 14)),
+                      6.h.verticalSpace,
+                      AppTextField(
+                        controller: TextEditingController(),
+                        hintText: "Enter Your Phone",
+                        validator: (value) =>
+                            FieldValidators().mobileNumber(value),
+                      ),
+                      if (provider.isEdit)
+                        AppFiledButton(
+                          text: "Save Changes",
+                          onTap: () {
+                            if (_formKey.currentState!.validate()) {
+                              provider.setIsEdit = false;
+                            }
+                          },
+                          margin: EdgeInsets.only(top: 170.h), //
+                        ),
+                      AppOutlinedButton(
+                        text: "Change Password",
+                        onTap: () {
+                          context.pushNamed(AppRoutes.changePassword.name);
+                        },
+                        margin: EdgeInsets.only(
+                          bottom: 25.h,
+                          top: (!provider.isEdit) ? 200.h : 8.h,
+                        ), //
+                      ),
+                    ],
                   ),
-                  //todo --------------> email
-                  14.h.verticalSpace,
-                  Text("Email", style: semiBold(fontSize: 14)),
-                  6.h.verticalSpace,
-                  AppTextField(
-                    controller: TextEditingController(),
-                    hintText: "Enter Your Email",
-                  ),
-                  //todo --------------> phone
-                  14.h.verticalSpace,
-                  Text("Phone", style: semiBold(fontSize: 14)),
-                  6.h.verticalSpace,
-                  AppTextField(
-                    controller: TextEditingController(),
-                    hintText: "Enter Your Phone",
-                  ),
-                  AppOutlinedButton(
-                    text: "Change Password",
-                    onTap: () {
-                      context.pushNamed(AppRoutes.changePassword.name);
-                    },
-                    margin: EdgeInsets.only(bottom: 30.h, top: 230.h),
-                  ),
-                ],
+                ),
               ),
-            ),
-          ),
-        ),
-      ],
+            ],
+          );
+        },
+      ),
     );
   }
 
-  Widget topBar(BuildContext context) {
+  Widget topBar(BuildContext context, AccountProvider provider) {
     return Column(
       children: [
         Padding(
@@ -104,8 +137,26 @@ class PersonalDetailsScreen extends StatelessWidget {
                 ],
               ),
               Spacer(),
-              SvgPicture.asset(AppAssets.edit),
-              Text("Edit", style: bold(fontSize: 16)),
+              if (!provider.isEdit)
+                GestureDetector(
+                  onTap: () {
+                    provider.setIsEdit = !(provider.isEdit);
+                  },
+                  child: Row(
+                    children: [
+                      SvgPicture.asset(AppAssets.edit),
+                      Text("Edit", style: bold(fontSize: 16)),
+                    ],
+                  ),
+                )
+              else
+                GestureDetector(
+                  onTap: () {
+                    _formKey.currentState?.reset();
+                    provider.setIsEdit = !(provider.isEdit);
+                  },
+                  child: Text("Cancel", style: bold(fontSize: 16)),
+                ),
             ],
           ),
         ),

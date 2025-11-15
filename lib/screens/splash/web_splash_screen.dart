@@ -1,26 +1,23 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'dart:async';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:puntgpt_nick/core/constants/constants.dart';
 import 'package:puntgpt_nick/core/constants/text_style.dart';
-import 'package:puntgpt_nick/core/router/app/app_routes.dart';
+import 'package:puntgpt_nick/core/router/web/web_routes.dart';
 import 'package:puntgpt_nick/core/widgets/image_widget.dart';
 import 'package:puntgpt_nick/core/widgets/web_top_section.dart';
 
-class SplashScreen extends StatefulWidget {
-  const SplashScreen({super.key});
+class WebSplashScreen extends StatefulWidget {
+  const WebSplashScreen({super.key});
 
   @override
-  State<SplashScreen> createState() => _SplashScreenState();
+  State<WebSplashScreen> createState() => _WebSplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> {
+class _WebSplashScreenState extends State<WebSplashScreen> {
   Timer? _timer;
   int currentIndex = -1;
 
@@ -30,8 +27,8 @@ class _SplashScreenState extends State<SplashScreen> {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       _startTimer();
       Future.delayed(
-        3.seconds,
-      ).then((value) => context.go(AppRoutes.ageConfirmationScreen));
+        50.minutes,
+      ).then((value) => context.go(WebRoutes.ageConfirmationScreen.name));
     });
   }
 
@@ -54,16 +51,23 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: !kIsWeb ? null : WebTopSection(),
+      appBar: WebTopSection(),
       body: Center(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
             ImageWidget(
-              path: AppAssets.splashAppLogo,
-              height: 200.w.flexClamp(200, 250),
+              path: AppAssets.splashWebLogo,
+              type: ImageType.asset,
+              height: 300.w.flexClamp(200, 350),
             ).animate().fade(duration: 0.8.seconds, delay: 1.seconds),
-            SizedBox(height: 20.w.flexClamp(20, 25)),
+            24.h.flexClamp(20, 28).verticalSpace,
+            Text(
+              "A new way of betting here",
+              // textAlign: TextAlign.left,
+              style: medium(fontFamily: AppFontFamily.secondary, fontSize: 16),
+            ),
             RichText(
               textAlign: TextAlign.center,
               text: TextSpan(

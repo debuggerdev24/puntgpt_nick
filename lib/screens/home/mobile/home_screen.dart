@@ -5,15 +5,15 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:puntgpt_nick/core/constants/constants.dart';
 import 'package:puntgpt_nick/core/constants/text_style.dart';
-import 'package:puntgpt_nick/core/router/app_routes.dart';
 import 'package:puntgpt_nick/core/widgets/image_widget.dart';
-import 'package:puntgpt_nick/screens/home/widgets/filters_list.dart';
-import 'package:puntgpt_nick/screens/home/widgets/home_screen_tab.dart';
-import 'package:puntgpt_nick/screens/home/widgets/race_start_timing_options.dart';
-import 'package:puntgpt_nick/screens/home/widgets/runners_list.dart';
+import 'package:puntgpt_nick/screens/home/mobile/widgets/filters_list.dart';
+import 'package:puntgpt_nick/screens/home/mobile/widgets/home_screen_tab.dart';
+import 'package:puntgpt_nick/screens/home/mobile/widgets/race_start_timing_options.dart';
+import 'package:puntgpt_nick/screens/home/mobile/widgets/runners_list.dart';
 
-import '../../core/widgets/app_filed_button.dart';
-import '../../provider/search_engine_provider.dart';
+import '../../../core/router/app/app_routes.dart';
+import '../../../core/widgets/app_filed_button.dart';
+import '../../../provider/search_engine_provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});

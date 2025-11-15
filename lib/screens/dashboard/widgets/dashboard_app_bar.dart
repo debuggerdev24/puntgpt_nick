@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:puntgpt_nick/core/constants/constants.dart';
 import 'package:puntgpt_nick/core/constants/text_style.dart';
-import 'package:puntgpt_nick/core/router/app_routes.dart';
+import 'package:puntgpt_nick/core/router/app/app_routes.dart';
 import 'package:puntgpt_nick/core/widgets/image_widget.dart';
 import 'package:puntgpt_nick/responsive/responsive_builder.dart';
 import 'package:puntgpt_nick/screens/dashboard/widgets/web_dashboard_app_bar.dart';
@@ -40,11 +40,10 @@ class _DashboardAppBarState extends State<DashboardAppBar> {
       mainAxisSize: MainAxisSize.min,
       children: [
         ImageWidget(path: AppAssets.horse, width: 32.w, color: AppColors.white),
-
         Text(
           "PuntGPT",
           style: regular(
-            fontSize: 15,
+            fontSize: 16,
             fontFamily: AppFontFamily.secondary,
             color: AppColors.white,
           ),
@@ -55,7 +54,7 @@ class _DashboardAppBarState extends State<DashboardAppBar> {
 
   Widget _tipSlip() {
     return SizedBox(
-      height: (12.sp.flexClamp(18, 22) * 1.2) + 20,
+      height: (12.h.flexClamp(18, 22) * 1.2) + 20,
       child: GestureDetector(
         behavior: HitTestBehavior.opaque,
         onTap: () {

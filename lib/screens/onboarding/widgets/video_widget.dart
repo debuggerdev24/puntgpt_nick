@@ -20,10 +20,7 @@ class VideoWidget extends StatelessWidget {
       alignment: Alignment.center,
       child: Text(
         "Video",
-        style: regular(
-          fontSize: 32.sp.flexClamp(28, 35),
-          fontFamily: AppFontFamily.secondary,
-        ),
+        style: regular(fontSize: 32, fontFamily: AppFontFamily.secondary),
       ),
     );
   }

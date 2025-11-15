@@ -38,113 +38,100 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: AppColors.backGroundColor,
-      body: Column(
-        children: [
-          topBar(context),
-          28.h.verticalSpace,
-          Expanded(
-            child: SingleChildScrollView(
-              child: Padding(
+      body: Form(
+        key: _formKey,
+        child: Column(
+          children: [
+            topBar(context),
+            Expanded(
+              child: SingleChildScrollView(
                 padding: EdgeInsets.symmetric(horizontal: 25.h),
-                child: Form(
-                  key: _formKey,
-                  child: Consumer<AccountProvider>(
-                    builder: (context, provider, child) {
-                      return Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            //todo ------------> Current Password
-                            Text(
-                              "Current Password",
-                              style: semiBold(fontSize: 14),
-                            ),
-                            6.h.verticalSpace,
-                            AppTextField(
-                              controller: _currentPassword,
-                              obscureText: provider.currentPassObscure,
-                              hintText: "Enter Current Password",
-                              trailingIcon: provider.confirmPassObscure
-                                  ? AppAssets.hide
-                                  : AppAssets.show,
-                              onTrailingIconTap: () {
-                                provider.confirmPassObscure =
-                                    !provider.confirmPassObscure;
-                              },
-                              validator: (value) =>
-                                  FieldValidators().password(value),
-                            ),
-                            //todo ------------> New Password
-                            14.h.verticalSpace,
-                            Text("New Password", style: semiBold(fontSize: 14)),
-                            6.h.verticalSpace,
-                            AppTextField(
-                              controller: _newPassword,
-                              obscureText: provider.newPassObscure,
-                              hintText: "Enter New Password",
-                              trailingIcon: provider.confirmPassObscure
-                                  ? AppAssets.hide
-                                  : AppAssets.show,
+                child: Consumer<AccountProvider>(
+                  builder: (context, provider, child) {
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        28.h.verticalSpace,
 
-                              onTrailingIconTap: () {
-                                provider.confirmPassObscure =
-                                    !provider.confirmPassObscure;
-                              },
-                              validator: (value) =>
-                                  FieldValidators().password(value),
-                            ),
-
-                            //todo ------------> Confirm Password
-                            14.h.verticalSpace,
-                            Text(
-                              "Confirm Password",
-                              style: semiBold(fontSize: 14),
-                            ),
-                            6.h.verticalSpace,
-                            AppTextField(
-                              controller: _confirmPassword,
-                              obscureText: provider.confirmPassObscure,
-                              hintText: "Re-enter New Password",
-                              trailingIcon: provider.confirmPassObscure
-                                  ? AppAssets.hide
-                                  : AppAssets.show,
-
-                              onTrailingIconTap: () {
-                                provider.confirmPassObscure =
-                                    !provider.confirmPassObscure;
-                              },
-                              validator: (value) => FieldValidators().match(
-                                value,
-                                _newPassword.text.trim(),
-                                "Confirm Password should match with a new Password",
-                              ),
-                            ),
-
-                            Align(
-                              alignment: AlignmentGeometry.bottomCenter,
-                              child: AppFiledButton(
-                                text: "Save",
-                                onTap: () {
-                                  if (_formKey.currentState!.validate()) {
-                                    return;
-                                  }
-                                },
-                                margin: EdgeInsets.only(
-                                  bottom: 30.h,
-                                  top: 230.h,
-                                ),
-                              ),
-                            ),
-                          ],
+                        //todo ------------> Current Password
+                        Text("Current Password", style: semiBold(fontSize: 14)),
+                        6.h.verticalSpace,
+                        AppTextField(
+                          controller: _currentPassword,
+                          obscureText: provider.currentPassObscure,
+                          hintText: "Enter Current Password",
+                          trailingIcon: provider.currentPassObscure
+                              ? AppAssets.hide
+                              : AppAssets.show,
+                          onTrailingIconTap: () {
+                            provider.currentPassObscure =
+                                !provider.currentPassObscure;
+                          },
+                          validator: (value) =>
+                              FieldValidators().password(value),
                         ),
-                      );
-                    },
-                  ),
+                        //todo ------------> New Password
+                        14.h.verticalSpace,
+                        Text("New Password", style: semiBold(fontSize: 14)),
+                        6.h.verticalSpace,
+                        AppTextField(
+                          controller: _newPassword,
+                          obscureText: provider.newPassObscure,
+                          hintText: "Enter New Password",
+                          trailingIcon: provider.newPassObscure
+                              ? AppAssets.hide
+                              : AppAssets.show,
+
+                          onTrailingIconTap: () {
+                            provider.newPassObscure = !provider.newPassObscure;
+                          },
+                          validator: (value) =>
+                              FieldValidators().password(value),
+                        ),
+
+                        //todo ------------> Confirm Password
+                        14.h.verticalSpace,
+                        Text("Confirm Password", style: semiBold(fontSize: 14)),
+                        6.h.verticalSpace,
+                        AppTextField(
+                          controller: _confirmPassword,
+                          obscureText: provider.confirmPassObscure,
+                          hintText: "Re-enter New Password",
+                          trailingIcon: provider.confirmPassObscure
+                              ? AppAssets.hide
+                              : AppAssets.show,
+
+                          onTrailingIconTap: () {
+                            provider.confirmPassObscure =
+                                !provider.confirmPassObscure;
+                          },
+                          validator: (value) => FieldValidators().match(
+                            value,
+                            _newPassword.text.trim(),
+                            "Confirm Password should match with a new Password",
+                          ),
+                        ),
+
+                        Align(
+                          alignment: AlignmentGeometry.bottomCenter,
+                          child: AppFiledButton(
+                            text: "Save",
+                            onTap: () {
+                              if (_formKey.currentState!.validate()) {
+                                return;
+                              }
+                            },
+                            margin: EdgeInsets.only(bottom: 30.h, top: 200.h),
+                          ),
+                        ),
+                      ],
+                    );
+                  },
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

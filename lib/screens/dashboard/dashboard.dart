@@ -7,7 +7,7 @@ import 'package:puntgpt_nick/core/constants/text_style.dart';
 import 'package:puntgpt_nick/core/widgets/image_widget.dart';
 import 'package:puntgpt_nick/screens/dashboard/widgets/dashboard_app_bar.dart';
 
-import '../../core/router/app_router.dart';
+import '../../core/router/app/app_router.dart';
 
 final GlobalKey<_DashboardState> dashboardKey = GlobalKey<_DashboardState>();
 ValueNotifier<int> indexOfTab = ValueNotifier(0);

@@ -23,6 +23,8 @@ class AppAssets {
   // images
   static const _imagePath = "assets/images";
   static const splashAppLogo = "$_imagePath/splash_app_logo.png";
+  static const splashWebLogo = "$_imagePath/splash_web_logo.png";
+
   static const appBarLogo = "$_imagePath/app_bar_logo.png";
   static const horse = "$_imagePath/horse.png";
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:puntgpt_nick/core/constants/app_colors.dart';
+import 'package:puntgpt_nick/core/constants/constants.dart';
 
 class AppFontFamily {
   AppFontFamily._();
@@ -24,12 +24,12 @@ TextStyle _baseTextStyle({
   FontStyle? fontStyle,
 }) {
   return TextStyle(
-    fontSize: fontSize.sp,
+    fontSize: fontSize.sp.flexClamp(fontSize - 1, fontSize + 2),
     height: height,
     color: color ?? AppColors.primary,
     fontFamily: fontFamily,
     fontWeight: fontWeight,
-    fontStyle: fontStyle ?? FontStyle.normal, // ✅ default normal
+    fontStyle: fontStyle ?? FontStyle.normal,
     decoration: decoration,
     decorationColor: decorationColor,
     decorationStyle: decorationStyle,
@@ -38,7 +38,7 @@ TextStyle _baseTextStyle({
   );
 }
 
-/// 🪶 Light
+// 🪶 Light
 TextStyle light({
   double fontSize = 20,
   double? height,
@@ -52,7 +52,7 @@ TextStyle light({
   FontStyle? fontStyle,
 }) => _baseTextStyle(
   fontWeight: FontWeight.w300,
-  fontSize: fontSize.sp,
+  fontSize: fontSize.sp.flexClamp(fontSize - 1, fontSize + 2),
   height: height,
   color: color ?? AppColors.primary,
   fontFamily: fontFamily,
@@ -78,7 +78,7 @@ TextStyle regular({
   FontStyle? fontStyle,
 }) => _baseTextStyle(
   fontWeight: FontWeight.w400,
-  fontSize: fontSize.sp,
+  fontSize: fontSize.sp.flexClamp(fontSize - 1, fontSize + 2),
   height: height,
   color: color ?? AppColors.primary,
   fontFamily: fontFamily,
@@ -101,10 +101,12 @@ TextStyle medium({
   TextDecorationStyle? decorationStyle,
   double? decorationThickness,
   double? letterSpacing,
+  double? minSize = fontSize - 1,
+  double? maxSize,
   FontStyle? fontStyle,
 }) => _baseTextStyle(
   fontWeight: FontWeight.w500,
-  fontSize: fontSize.sp,
+  fontSize: fontSize.sp.flexClamp(fontSize - minSize!, fontSize + 2),
   height: height,
   color: color ?? AppColors.primary,
   fontFamily: fontFamily,
@@ -130,7 +132,7 @@ TextStyle semiBold({
   FontStyle? fontStyle,
 }) => _baseTextStyle(
   fontWeight: FontWeight.w600,
-  fontSize: fontSize.sp,
+  fontSize: fontSize.sp.flexClamp(fontSize - 1, fontSize + 2),
   height: height,
   color: color ?? AppColors.primary,
   fontFamily: fontFamily,
@@ -156,7 +158,7 @@ TextStyle bold({
   FontStyle? fontStyle,
 }) => _baseTextStyle(
   fontWeight: FontWeight.w700,
-  fontSize: fontSize.sp,
+  fontSize: fontSize.sp.flexClamp(fontSize - 1, fontSize + 2),
   height: height,
   color: color,
   fontFamily: fontFamily,

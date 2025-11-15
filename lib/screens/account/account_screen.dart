@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:puntgpt_nick/core/router/app_routes.dart';
+import 'package:puntgpt_nick/core/router/app/app_routes.dart';
 
 import '../../core/constants/app_colors.dart';
 import '../../core/constants/text_style.dart';
-import '../../core/router/app_router.dart';
+import '../../core/router/app/app_router.dart';
 import '../../core/widgets/app_devider.dart';
 
 class AccountScreen extends StatelessWidget {
@@ -64,7 +64,7 @@ class AccountScreen extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(title, style: semiBold(fontSize: 20)),
+              Text(title, style: semiBold(fontSize: 18)),
               Icon(Icons.arrow_forward_ios_rounded, size: 16),
             ],
           ),

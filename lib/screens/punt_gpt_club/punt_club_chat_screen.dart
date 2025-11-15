@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:puntgpt_nick/core/constants/constants.dart';
-import 'package:puntgpt_nick/screens/home/home_screen.dart';
-import 'package:puntgpt_nick/screens/home/widgets/chat_section.dart';
+import 'package:puntgpt_nick/screens/home/mobile/home_screen.dart';
 
 import '../../core/constants/text_style.dart';
 import '../../core/widgets/app_devider.dart';
+import '../home/mobile/widgets/chat_section.dart';
 
 class PuntClubChatScreen extends StatelessWidget {
   const PuntClubChatScreen({super.key, required this.title});
