@@ -60,11 +60,11 @@ class TipSlipScreen extends StatelessWidget {
           15.w.horizontalSpace,
 
           //todo -----------> title
-          Text("8. Delicacy", style: semiBold(fontSize: 20)),
+          Text("8. Delicacy", style: semiBold(fontSize: 20.sp)),
           10.horizontalSpace,
           Icon(Icons.keyboard_arrow_down_rounded),
           Spacer(),
-          Text("\$8.50", style: bold(fontSize: 20)),
+          Text("\$8.50", style: bold(fontSize: 20.sp)),
         ],
       ),
     );
@@ -87,7 +87,7 @@ class TipSlipScreen extends StatelessWidget {
               Text(
                 "Tip Slip",
                 style: regular(
-                  fontSize: 24,
+                  fontSize: 24.sp,
                   fontFamily: AppFontFamily.secondary,
                   height: 1.35,
                 ),

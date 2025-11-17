@@ -48,14 +48,14 @@ class LoginScreen extends StatelessWidget {
                             TextSpan(
                               text: "'@PuntGPT'",
                               style: regular(
-                                fontSize: 20,
+                                fontSize: 20.sp,
                                 fontFamily: AppFontFamily.secondary,
                               ),
                             ),
                             TextSpan(
                               text: " the talking from guide",
                               style: regular(
-                                fontSize: 20,
+                                fontSize: 20.sp,
                                 fontFamily: AppFontFamily.secondary,
                               ),
                             ),
@@ -93,7 +93,7 @@ class LoginScreen extends StatelessWidget {
                         alignment: Alignment.centerRight,
                         child: Text(
                           "Forget Password?",
-                          style: bold(fontSize: 14),
+                          style: bold(fontSize: 14.sp),
                         ),
                       ),
                       100.verticalSpace,
@@ -114,7 +114,7 @@ class LoginScreen extends StatelessWidget {
                           Text(
                             "New to PuntGPT? ",
                             style: medium(
-                              fontSize: 14,
+                              fontSize: 14.sp,
                               color: AppColors.primary.setOpacity(.8),
                             ),
                           ),
@@ -125,7 +125,7 @@ class LoginScreen extends StatelessWidget {
                                 extra: {'is_free_sign_up': isFreeSignUp},
                               );
                             },
-                            child: Text(" Sign up", style: bold(fontSize: 14)),
+                            child: Text(" Sign up", style: bold(fontSize: 14.sp)),
                           ),
                         ],
                       ),

@@ -43,7 +43,7 @@ class _DashboardAppBarState extends State<DashboardAppBar> {
         Text(
           "PuntGPT",
           style: regular(
-            fontSize: 16,
+            fontSize: 16.sp,
             fontFamily: AppFontFamily.secondary,
             color: AppColors.white,
           ),
@@ -67,7 +67,7 @@ class _DashboardAppBarState extends State<DashboardAppBar> {
               padding: EdgeInsets.only(right: 12.w),
               child: Text(
                 "Tip Slip",
-                style: bold(height: 1.2, fontSize: 20, color: AppColors.white),
+                style: bold(height: 1.2, fontSize: 20.sp, color: AppColors.white),
               ),
             ),
             Positioned(
@@ -78,7 +78,7 @@ class _DashboardAppBarState extends State<DashboardAppBar> {
                 decoration: BoxDecoration(color: AppColors.white),
                 child: Text(
                   "10",
-                  style: semiBold(fontSize: 13, color: AppColors.black),
+                  style: semiBold(fontSize: 13.sp, color: AppColors.black),
                 ),
               ),
             ),
@@ -97,7 +97,7 @@ class _DashboardAppBarState extends State<DashboardAppBar> {
         borderRadius: BorderRadius.circular(8),
       ),
       alignment: Alignment.center,
-      child: Text("Ad", style: regular(fontSize: 16)),
+      child: Text("Ad", style: regular(fontSize: 16.sp)),
     );
   }
 }

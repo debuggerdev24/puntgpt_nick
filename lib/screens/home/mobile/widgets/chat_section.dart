@@ -15,11 +15,11 @@ class ChatSection extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text("@you", style: semiBold(fontSize: 17)),
+          Text("@you", style: semiBold(fontSize: 17.sp)),
           Text(
             "12:41 PM",
             style: semiBold(
-              fontSize: 14.5,
+              fontSize: 14.5.sp,
               color: AppColors.greyColor.withValues(alpha: 0.6),
             ),
           ),

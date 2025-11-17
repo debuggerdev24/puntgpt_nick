@@ -10,8 +10,6 @@ import 'package:puntgpt_nick/provider/auth/auth_provider.dart';
 import 'package:puntgpt_nick/provider/punter_club_provider.dart';
 import 'package:puntgpt_nick/provider/search_engine_provider.dart';
 
-import 'core/router/app/app_router.dart';
-
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
@@ -52,11 +50,12 @@ class MyApp extends StatelessWidget {
           child: ScreenUtilInit(
             minTextAdapt: true,
             splitScreenMode: true,
-            designSize: const Size(430, 932),
+            designSize: (kIsWeb) ? Size(1440, 824) : const Size(430, 932),
             child: MaterialApp.router(
               debugShowCheckedModeBanner: false,
               theme: AppTheme.appThemeData,
-              routerConfig: (kIsWeb) ? WebRouter.router : AppRouter.router,
+              routerConfig: WebRouter
+                  .router, //(kIsWeb) ? WebRouter.router : AppRouter.router,
             ),
           ),
         ),

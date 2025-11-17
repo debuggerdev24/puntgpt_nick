@@ -28,7 +28,7 @@ class PunterClubScreen extends StatelessWidget {
                   Text(
                     "Your Punters Clubs:",
                     style: regular(
-                      fontSize: 24,
+                      fontSize: 24.sp,
                       fontFamily: AppFontFamily.secondary,
                     ),
                   ),
@@ -73,7 +73,7 @@ class PunterClubScreen extends StatelessWidget {
                     child: Text(
                       club,
                       style: bold(
-                        fontSize: 16,
+                        fontSize: 16.sp,
                         color: (index % 2 == 0) ? null : AppColors.white,
                       ),
                     ),

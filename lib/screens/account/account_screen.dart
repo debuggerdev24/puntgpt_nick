@@ -40,11 +40,11 @@ class AccountScreen extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Text("Terms & Conditions", style: bold(fontSize: 14)),
-                Text(" | ", style: bold(fontSize: 14)),
-                Text("AI Disclaimer", style: bold(fontSize: 14)),
-                Text(" | ", style: bold(fontSize: 14)),
-                Text("Terms & Conditions", style: bold(fontSize: 14)),
+                Text("Terms & Conditions", style: bold(fontSize: 14.sp)),
+                Text(" | ", style: bold(fontSize: 14.sp)),
+                Text("AI Disclaimer", style: bold(fontSize: 14.sp)),
+                Text(" | ", style: bold(fontSize: 14.sp)),
+                Text("Terms & Conditions", style: bold(fontSize: 14.sp)),
               ],
             ),
           ),
@@ -64,7 +64,7 @@ class AccountScreen extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(title, style: semiBold(fontSize: 18)),
+              Text(title, style: semiBold(fontSize: 18.sp)),
               Icon(Icons.arrow_forward_ios_rounded, size: 16),
             ],
           ),
@@ -101,7 +101,7 @@ class AccountScreen extends StatelessWidget {
                   Text(
                     "Account",
                     style: regular(
-                      fontSize: 24,
+                      fontSize: 24.sp,
                       fontFamily: AppFontFamily.secondary,
                       height: 1.35,
                     ),
@@ -109,7 +109,7 @@ class AccountScreen extends StatelessWidget {
                   Text(
                     "Manage your PuntGPT Account",
                     style: semiBold(
-                      fontSize: 14,
+                      fontSize: 14.sp,
                       color: AppColors.greyColor.withValues(alpha: 0.6),
                     ),
                   ),

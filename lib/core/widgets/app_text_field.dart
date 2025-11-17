@@ -3,7 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:puntgpt_nick/core/constants/constants.dart';
 import 'package:puntgpt_nick/core/constants/text_style.dart';
-import 'package:puntgpt_nick/core/widgets/image_widget.dart';
+
+import 'image_widget.dart';
 
 class AppTextField extends StatefulWidget {
   const AppTextField({
@@ -24,6 +25,7 @@ class AppTextField extends StatefulWidget {
     this.suffix,
     this.inputFormatter,
     this.keyboardType,
+    this.trailingIconWidth,
   });
 
   final TextEditingController controller;
@@ -32,7 +34,7 @@ class AppTextField extends StatefulWidget {
   final TextStyle? textStyle;
   final TextStyle? errorStyle;
   final Widget? suffix;
-  final double? borderRadius;
+  final double? borderRadius, trailingIconWidth;
   final bool obscureText;
   final dynamic trailingIcon;
   final VoidCallback? onTrailingIconTap;
@@ -56,7 +58,7 @@ class _AppTextFieldState extends State<AppTextField> {
       onTap: widget.onTap,
       controller: widget.controller,
       cursorColor: AppColors.primary,
-      style: widget.textStyle ?? medium(fontSize: 16),
+      style: widget.textStyle ?? medium(fontSize: 16.sp),
       obscureText: widget.obscureText,
       autovalidateMode: widget.autovalidateMode,
       enabled: widget.enabled,
@@ -87,15 +89,19 @@ class _AppTextFieldState extends State<AppTextField> {
                 onTap: widget.onTrailingIconTap,
                 child: ImageWidget(
                   type: ImageType.svg,
+                  height: 10,
+                  width: 10, //widget.trailingIconWidth,
                   path: widget.trailingIcon!,
                 ),
               ),
         hintText: widget.hintText,
         hintStyle:
             widget.hintStyle ??
-            medium(fontSize: 14, color: AppColors.primary.setOpacity(0.4)),
+            medium(
+              fontSize: 14.sp, //, color: AppColors.primary.setOpacity(0.4)
+            ),
         errorStyle:
-            widget.errorStyle ?? medium(fontSize: 13, color: AppColors.red),
+            widget.errorStyle ?? medium(fontSize: 12.sp, color: AppColors.red),
         errorMaxLines: 5,
         // error: _currentError == null
         //     ? null
@@ -108,10 +114,7 @@ class _AppTextFieldState extends State<AppTextField> {
         //               medium(fontSize: 12, color: AppColors.red),
         //         ),
         //       ),
-        contentPadding: const EdgeInsets.symmetric(
-          horizontal: 20,
-          vertical: 17,
-        ),
+        contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 17),
         isDense: true,
         filled: true,
         fillColor: AppColors.white,

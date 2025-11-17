@@ -7,22 +7,22 @@ import 'package:puntgpt_nick/responsive/breakpoints.dart';
 /// Main responsive builder widget that renders different layouts
 /// based on screen size
 class ResponsiveBuilder extends StatelessWidget {
-  final Widget Function(BuildContext context) mobile;
-  final Widget Function(BuildContext context)? tablet;
-  final Widget Function(BuildContext context) desktop;
-
   const ResponsiveBuilder({
     super.key,
     required this.mobile,
     this.tablet,
     required this.desktop,
   });
+  final Widget Function(BuildContext context) mobile;
+  final Widget Function(BuildContext context)? tablet;
+  final Widget Function(BuildContext context) desktop;
 
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        if (context.screenWidth >= Breakpoints.desktop) {
+        final width = constraints.maxWidth;
+        if (width >= Breakpoints.desktop) {
           return desktop(context);
         } else if (context.screenWidth >= Breakpoints.tablet &&
             tablet != null) {
@@ -37,7 +37,6 @@ class ResponsiveBuilder extends StatelessWidget {
 
 /// Simpler responsive widget that takes widgets directly
 class Responsive extends StatelessWidget {
-
   const Responsive({
     super.key,
     required this.mobile,
@@ -73,7 +72,8 @@ class Responsive extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        if (context.screenWidth >= Breakpoints.desktop) {
+        final width = constraints.maxWidth;
+        if (width >= Breakpoints.desktop) {
           return desktop;
         } else if (context.screenWidth >= Breakpoints.tablet &&
             tablet != null) {
@@ -99,15 +99,14 @@ extension ResponsiveContext on BuildContext {
 
 /// Responsive value builder - returns different values based on screen size
 class ResponsiveValue<T> {
-  final T mobile;
-  final T? tablet;
-  final T desktop;
-
   const ResponsiveValue({
     required this.mobile,
     this.tablet,
     required this.desktop,
   });
+  final T mobile;
+  final T? tablet;
+  final T desktop;
 
   T getValue(BuildContext context) {
     if (Responsive.isDesktop(context)) {

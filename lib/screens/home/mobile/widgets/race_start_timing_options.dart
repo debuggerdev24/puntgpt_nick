@@ -51,7 +51,7 @@ class RaceStartTimingOptions extends StatelessWidget {
                       ),
                     )
                   : ListView.separated(
-                      padding: const EdgeInsets.symmetric(horizontal: 25),
+                      padding: EdgeInsets.symmetric(horizontal: 25.w),
                       scrollDirection: Axis.horizontal,
                       itemBuilder: (context, index) => _item(
                         text: timings[index],
@@ -90,7 +90,7 @@ class RaceStartTimingOptions extends StatelessWidget {
         child: Text(
           text,
           style: semiBold(
-            fontSize: 16,
+            fontSize: 16.sp,
             color: isSelected ? AppColors.white : AppColors.primary,
           ),
         ),

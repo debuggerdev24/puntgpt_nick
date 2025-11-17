@@ -1,8 +1,10 @@
 import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:puntgpt_nick/core/constants/constants.dart';
 import 'package:puntgpt_nick/core/widgets/image_widget.dart';
+import 'package:puntgpt_nick/responsive/responsive_builder.dart';
 
 class AppCheckBox extends StatelessWidget {
   const AppCheckBox({
@@ -37,8 +39,8 @@ class AppCheckBox extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             AnimatedContainer(
-              width: size ?? 24.w.clamp(22, 26),
-              height: size ?? 24.w.clamp(22, 26),
+              width: size ?? 22.w.clamp(18, 24),
+              height: size ?? 22.w.clamp(18, 24),
               duration: duration,
               curve: Curves.easeInOut,
               margin: EdgeInsets.only(top: 3),
@@ -70,7 +72,14 @@ class AppCheckBox extends StatelessWidget {
             ),
             if (label != null) ...[
               SizedBox(width: 10.0),
-              Flexible(child: label!),
+              Expanded(
+                child: Padding(
+                  padding: EdgeInsets.only(
+                    top: (Responsive.isMobile(context)) ? 0 : 2.5,
+                  ),
+                  child: label!,
+                ),
+              ),
             ],
           ],
         ),

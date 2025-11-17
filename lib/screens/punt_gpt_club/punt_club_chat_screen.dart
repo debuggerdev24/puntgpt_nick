@@ -51,7 +51,7 @@ class PuntClubChatScreen extends StatelessWidget {
                 hintText: "Type your message...",
                 hintStyle: medium(
                   fontStyle: FontStyle.italic,
-                  fontSize: 14,
+                  fontSize: 14.sp,
                   color: AppColors.greyColor.withValues(alpha: 0.6),
                 ),
               ),
@@ -83,7 +83,7 @@ class PuntClubChatScreen extends StatelessWidget {
                   Text(
                     title,
                     style: regular(
-                      fontSize: 24,
+                      fontSize: 24.sp,
                       fontFamily: AppFontFamily.secondary,
                       height: 1.35,
                     ),
@@ -91,7 +91,7 @@ class PuntClubChatScreen extends StatelessWidget {
                   Text(
                     "11 Member",
                     style: semiBold(
-                      fontSize: 14,
+                      fontSize: 14.sp,
                       color: AppColors.greyColor.withValues(alpha: 0.6),
                     ),
                   ),

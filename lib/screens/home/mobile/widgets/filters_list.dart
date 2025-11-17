@@ -56,10 +56,11 @@ class _FilterListState extends State<FilterList> {
         mainAxisSize: MainAxisSize.min,
         children: [
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 25),
+            padding: EdgeInsets.symmetric(horizontal: 25.w
+            ),
             child: Text(
               "Search for a horse that meets your criteria:",
-              style: bold(fontSize: 16, height: 1.2),
+              style: bold(fontSize: 16.sp, height: 1.2),
             ),
           ),
           Padding(
@@ -67,7 +68,7 @@ class _FilterListState extends State<FilterList> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text("Total Runners: (20)", style: bold(fontSize: 16)),
+                Text("Total Runners: (20)", style: bold(fontSize: 16.sp)),
                 OnButtonTap(
                   onTap: onSaveSearchTap,
                   child: Row(
@@ -82,7 +83,7 @@ class _FilterListState extends State<FilterList> {
                       Text(
                         "Saved Searches",
                         style: bold(
-                          fontSize: 16,
+                          fontSize: 16.sp,
                           decoration: TextDecoration.underline,
                         ),
                       ),
@@ -119,7 +120,7 @@ class _FilterListState extends State<FilterList> {
             ),
             tilePadding: EdgeInsets.symmetric(horizontal: 25.w),
             iconColor: AppColors.greyColor,
-            title: Text("Track", style: semiBold(fontSize: 16)),
+            title: Text("Track", style: semiBold(fontSize: 16.sp)),
             children: provider.trackItems.map((item) {
               bool isChecked = item["checked"];
               return InkWell(
@@ -136,7 +137,7 @@ class _FilterListState extends State<FilterList> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(item["label"], style: semiBold(fontSize: 16)),
+                          Text(item["label"], style: semiBold(fontSize: 16.sp)),
                           AnimatedContainer(
                             duration: const Duration(milliseconds: 250),
                             curve: Curves.easeInOut,

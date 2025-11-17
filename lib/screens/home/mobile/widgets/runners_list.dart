@@ -22,7 +22,7 @@ class RunnersList extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text("Total Runners: (20)", style: bold(fontSize: 16)),
+              Text("Total Runners: (20)", style: bold(fontSize: 16.sp)),
               GestureDetector(
                 onTap: () {
                   context.pushNamed(AppRoutes.savedSearched.name);
@@ -39,7 +39,7 @@ class RunnersList extends StatelessWidget {
                     Text(
                       "Saved Searches",
                       style: bold(
-                        fontSize: 16,
+                        fontSize: 16.sp,
                         decoration: TextDecoration.underline,
                       ),
                     ),
@@ -96,11 +96,11 @@ class RunnersList extends StatelessWidget {
                           15.horizontalSpace,
                           Text(
                             "${runner.number.toString()}. ",
-                            style: bold(fontSize: 18),
+                            style: bold(fontSize: 18.sp),
                           ),
-                          Text(runner.label, style: semiBold(fontSize: 18)),
+                          Text(runner.label, style: semiBold(fontSize: 18.sp)),
                           Spacer(),
-                          Text("\$${runner.price}", style: bold(fontSize: 18)),
+                          Text("\$${runner.price}", style: bold(fontSize: 18.sp)),
                         ],
                       ),
                     ),
@@ -109,7 +109,7 @@ class RunnersList extends StatelessWidget {
                       padding: EdgeInsets.fromLTRB(12, 6, 12, 2),
                       child: Text(
                         "${runner.date}. ",
-                        style: medium(fontSize: 16),
+                        style: medium(fontSize: 16.sp),
                       ),
                     ),
                     Divider(color: AppColors.greyColor.withValues(alpha: 0.15)),
@@ -117,7 +117,7 @@ class RunnersList extends StatelessWidget {
                       padding: EdgeInsets.fromLTRB(12, 6, 12, 2),
                       child: Text(
                         "${runner.numberOfRace} Races",
-                        style: medium(fontSize: 16),
+                        style: medium(fontSize: 16.sp),
                       ),
                     ),
                     Divider(color: AppColors.greyColor.withValues(alpha: 0.15)),
@@ -125,7 +125,7 @@ class RunnersList extends StatelessWidget {
                       padding: EdgeInsets.fromLTRB(12, 6, 12, 2),
                       child: Text(
                         "Next race ${runner.nextRaceRemainTime}",
-                        style: medium(fontSize: 16),
+                        style: medium(fontSize: 16.sp),
                       ),
                     ),
                     Divider(color: AppColors.greyColor.withValues(alpha: 0.15)),
@@ -138,7 +138,7 @@ class RunnersList extends StatelessWidget {
                             child: AppFiledButton(
                               text: "Add to Tip Slip",
                               textStyle: semiBold(
-                                fontSize: 16,
+                                fontSize: 16.sp,
                                 color: AppColors.white,
                               ),
                               padding: EdgeInsets.symmetric(
@@ -182,7 +182,7 @@ class RunnersList extends StatelessWidget {
                                             ),
                                             child: Text(
                                               "Analysis and Field Comparison",
-                                              style: semiBold(fontSize: 16),
+                                              style: semiBold(fontSize: 16.sp),
                                             ),
                                           ),
                                           Divider(
@@ -198,7 +198,7 @@ class RunnersList extends StatelessWidget {
                                             ),
                                             child: Text(
                                               "‘Delicacy’ @8.50  might offer value as a top 3 contender, especially if the favourite gets caught wide or overworks early. Look for  signs like a strong final 400m that it's shown in recent form. I like your simple formula, not overthinking things. Keep in mind the favourite, ‘Makybe Diva’ is short odds @2.10 I can take you to the manual form guide for a look at the other runners in this race?",
-                                              style: regular(fontSize: 16),
+                                              style: regular(fontSize: 16.sp),
                                             ),
                                           ),
                                         ],
@@ -231,7 +231,7 @@ class RunnersList extends StatelessWidget {
                                       child: Text(
                                         "Ask @ PuntGPT",
                                         textAlign: TextAlign.center,
-                                        style: bold(fontSize: 16),
+                                        style: bold(fontSize: 16.sp),
                                       ),
                                     ),
                                   ],

@@ -26,13 +26,13 @@ class SignUpBottomSection extends StatelessWidget {
             Text(
               "Already Registered?",
               style: regular(
-                fontSize: 14,
+                fontSize: 14.sp,
                 color: AppColors.primary.withValues(alpha: 0.8),
               ),
             ),
             OnButtonTap(
               onTap: onLoginTap,
-              child: Text(" Login", style: bold(fontSize: 14)),
+              child: Text(" Login", style: bold(fontSize: 14.sp)),
             ),
           ],
         ),
@@ -43,21 +43,21 @@ class SignUpBottomSection extends StatelessWidget {
           alignment: WrapAlignment.center,
           crossAxisAlignment: WrapCrossAlignment.center,
           children: [
-            Text("Terms & Conditions", style: bold(fontSize: 14)),
+            Text("Terms & Conditions", style: bold(fontSize: 14.sp)),
             Container(
               width: 1,
               height: 20,
               color: AppColors.primary,
               margin: EdgeInsets.symmetric(horizontal: 10),
             ),
-            Text("AI disclaimer", style: bold(fontSize: 14)),
+            Text("AI disclaimer", style: bold(fontSize: 14.sp)),
             Container(
               width: 1,
               height: 20,
               color: AppColors.primary,
               margin: EdgeInsets.symmetric(horizontal: 10),
             ),
-            Text("Privacy Policy", style: bold(fontSize: 14)),
+            Text("Privacy Policy", style: bold(fontSize: 14.sp)),
           ],
         ),
       ],

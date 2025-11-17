@@ -84,7 +84,7 @@ class SearchedItem extends StatelessWidget {
                 Text(
                   "Sep 30, 2025",
                   style: semiBold(
-                    fontSize: 12,
+                    fontSize: 12.sp,
                     color: AppColors.greyColor.withValues(alpha: 0.6),
                   ),
                 ),

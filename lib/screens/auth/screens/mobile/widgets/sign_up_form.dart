@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -10,6 +12,8 @@ import 'package:puntgpt_nick/core/widgets/app_text_field.dart';
 import 'package:puntgpt_nick/core/widgets/app_text_field_drop_down.dart';
 import 'package:puntgpt_nick/provider/auth/auth_provider.dart';
 import 'package:puntgpt_nick/responsive/responsive_builder.dart';
+
+import '../../../../../core/constants/text_style.dart';
 
 class SignUpForm extends StatelessWidget {
   const SignUpForm({super.key, required this.formKey});
@@ -34,11 +38,15 @@ class SignUpForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    log("is Mobile ${Responsive.isMobile(context)}");
+    log("is Desktop ${Responsive.isDesktop(context)}");
+    log("is Tablet ${Responsive.isTablet(context)}");
+
     return Consumer<AuthProvider>(
       builder: (context, provider, _) {
         return Form(
           key: formKey,
-          child: Responsive.isMobile(context)
+          child: (Responsive.isMobile(context))
               ? Column(
                   spacing: 8.h,
                   children: [
@@ -98,27 +106,37 @@ class SignUpForm extends StatelessWidget {
                     ),
                   ],
                 )
-              : SizedBox(
-                  width: context.screenWidth * 0.8.flexClamp(null, 800),
+              : (Responsive.isTablet(context))
+              ? SizedBox(
+                  width: context.screenWidth * 0.6.flexClamp(null, 600),
                   child: Column(
+                    spacing: 24.h,
                     children: [
                       Row(
+                        spacing: 24.w.flexClamp(20, 24),
                         children: [
                           Expanded(
                             child: AppTextField(
                               controller: provider.fistNameCtr,
                               hintText: "First Name",
+                              hintStyle: medium(
+                                fontSize: 16.sp,
+                                color: AppColors.primary.setOpacity(0.4),
+                              ),
                               validator: (value) => FieldValidators().required(
                                 value,
                                 "First Name",
                               ),
                             ),
                           ),
-                          SizedBox(width: 24.w.flexClamp(20, 24)),
                           Expanded(
                             child: AppTextField(
                               controller: provider.lastNameCtr,
                               hintText: "Last Name",
+                              hintStyle: medium(
+                                fontSize: 16.sp,
+                                color: AppColors.primary.setOpacity(0.4),
+                              ),
                               validator: (value) => FieldValidators().required(
                                 value,
                                 "Last Name",
@@ -128,22 +146,25 @@ class SignUpForm extends StatelessWidget {
                         ],
                       ),
                       Row(
+                        spacing: 24.w.flexClamp(20, 24),
                         children: [
                           Expanded(
                             child: AppTextField(
                               controller: provider.dobCtr,
                               hintText: "Date of birth",
+                              hintStyle: medium(
+                                fontSize: 16.sp,
+                                color: AppColors.primary.setOpacity(0.4),
+                              ),
                               trailingIcon: AppAssets.arrowDown,
                               enabled: false,
                               validator: (value) => FieldValidators().required(
                                 value,
                                 "Date of birth",
                               ),
-
                               onTap: () => _pickBob(context, provider),
                             ),
                           ),
-                          SizedBox(width: 24.w.flexClamp(20, 24)),
                           Expanded(
                             child: AppTextFieldDropdown(
                               items: List.generate(
@@ -151,6 +172,10 @@ class SignUpForm extends StatelessWidget {
                                 (index) => "State ${index + 1}",
                               ),
                               hintText: 'State',
+                              hintStyle: medium(
+                                fontSize: 16.sp,
+                                color: AppColors.primary.setOpacity(0.4),
+                              ),
                               onChange: (value) =>
                                   provider.selectedState = value,
                               selectedValue: provider.selectedState,
@@ -161,19 +186,27 @@ class SignUpForm extends StatelessWidget {
                         ],
                       ),
                       Row(
+                        spacing: 24.w.flexClamp(20, 24),
                         children: [
                           Expanded(
                             child: AppTextField(
                               controller: provider.emailCtr,
                               hintText: "Email",
+                              hintStyle: medium(
+                                fontSize: 16.sp,
+                                color: AppColors.primary.setOpacity(0.4),
+                              ),
                               validator: FieldValidators().email,
                             ),
                           ),
-                          SizedBox(width: 24.w.flexClamp(20, 24)),
                           Expanded(
                             child: AppTextField(
                               controller: provider.phoneCtr,
                               hintText: "Phone",
+                              hintStyle: medium(
+                                fontSize: 16.sp,
+                                color: AppColors.primary.setOpacity(0.4),
+                              ),
                               validator: FieldValidators().mobileNumber,
                             ),
                           ),
@@ -182,6 +215,133 @@ class SignUpForm extends StatelessWidget {
                       AppTextField(
                         controller: provider.passwordCtr,
                         hintText: "Password",
+                        hintStyle: medium(
+                          fontSize: 16.sp,
+                          color: AppColors.primary.setOpacity(0.4),
+                        ),
+                        obscureText: provider.showSignUpPass,
+                        validator: FieldValidators().password,
+                        trailingIcon: provider.showSignUpPass
+                            ? AppAssets.hide
+                            : AppAssets.show,
+                        onTrailingIconTap: () =>
+                            provider.showSignUpPass = !provider.showSignUpPass,
+                      ),
+                    ],
+                  ),
+                )
+              : SizedBox(
+                  width: context.screenWidth * 0.6.flexClamp(null, 600),
+                  child: Column(
+                    spacing: 24.h,
+                    children: [
+                      Row(
+                        spacing: 24.w.flexClamp(20, 24),
+                        children: [
+                          Expanded(
+                            child: AppTextField(
+                              controller: provider.fistNameCtr,
+                              hintText: "First Name",
+                              hintStyle: medium(
+                                fontSize: 16.sp,
+                                color: AppColors.primary.setOpacity(0.4),
+                              ),
+                              validator: (value) => FieldValidators().required(
+                                value,
+                                "First Name",
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            child: AppTextField(
+                              controller: provider.lastNameCtr,
+                              hintText: "Last Name",
+                              hintStyle: medium(
+                                fontSize: 16.sp,
+                                color: AppColors.primary.setOpacity(0.4),
+                              ),
+                              validator: (value) => FieldValidators().required(
+                                value,
+                                "Last Name",
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        spacing: 24.w.flexClamp(20, 24),
+                        children: [
+                          Expanded(
+                            child: AppTextField(
+                              controller: provider.dobCtr,
+                              hintText: "Date of birth",
+                              hintStyle: medium(
+                                fontSize: 16.sp,
+                                color: AppColors.primary.setOpacity(0.4),
+                              ),
+                              trailingIcon: AppAssets.arrowDown,
+                              enabled: false,
+                              validator: (value) => FieldValidators().required(
+                                value,
+                                "Date of birth",
+                              ),
+                              onTap: () => _pickBob(context, provider),
+                            ),
+                          ),
+                          Expanded(
+                            child: AppTextFieldDropdown(
+                              items: List.generate(
+                                20,
+                                (index) => "State ${index + 1}",
+                              ),
+                              hintText: 'State',
+                              hintStyle: medium(
+                                fontSize: 16.sp,
+                                color: AppColors.primary.setOpacity(0.4),
+                              ),
+                              onChange: (value) =>
+                                  provider.selectedState = value,
+                              selectedValue: provider.selectedState,
+                              validator: (value) =>
+                                  FieldValidators().required(value, "State"),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        spacing: 24.w.flexClamp(20, 24),
+                        children: [
+                          Expanded(
+                            child: AppTextField(
+                              controller: provider.emailCtr,
+                              hintText: "Email",
+                              hintStyle: medium(
+                                fontSize: 16.sp,
+                                color: AppColors.primary.setOpacity(0.4),
+                              ),
+                              validator: FieldValidators().email,
+                            ),
+                          ),
+                          Expanded(
+                            child: AppTextField(
+                              controller: provider.phoneCtr,
+                              hintText: "Phone",
+                              hintStyle: medium(
+                                fontSize: 16.sp,
+                                color: AppColors.primary.setOpacity(0.4),
+                              ),
+                              validator: FieldValidators().mobileNumber,
+                            ),
+                          ),
+                        ],
+                      ),
+                      AppTextField(
+                        controller: provider.passwordCtr,
+                        hintText: "Password",
+                        hintStyle: medium(
+                          fontSize: 16.sp,
+                          color: AppColors.primary.setOpacity(0.4),
+                        ),
                         obscureText: provider.showSignUpPass,
                         validator: FieldValidators().password,
                         trailingIcon: provider.showSignUpPass

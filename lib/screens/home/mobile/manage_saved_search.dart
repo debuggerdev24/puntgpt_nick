@@ -22,13 +22,13 @@ class SearchDetailScreen extends StatelessWidget {
         _buildListView(context: context),
         Spacer(),
         AppFiledButton(
-          textStyle: semiBold(fontSize: 16, color: AppColors.white),
+          textStyle: semiBold(fontSize: 16.sp, color: AppColors.white),
           text: "Edit",
           onTap: () {},
           margin: EdgeInsets.fromLTRB(25.w, 0, 25.w, 6.h),
         ),
         AppOutlinedButton(
-          textStyle: semiBold(fontSize: 16, color: AppColors.black),
+          textStyle: semiBold(fontSize: 16.sp, color: AppColors.black),
           text: "Delete",
           onTap: () {},
           margin: EdgeInsets.fromLTRB(25.w, 0, 25.w, 16.h),
@@ -63,7 +63,7 @@ class SearchDetailScreen extends StatelessWidget {
               Text(
                 "Manage your saved search",
                 style: medium(
-                  fontSize: 14,
+                  fontSize: 14.sp,
                   color: AppColors.greyColor.withValues(alpha: 0.6),
                 ),
               ),
@@ -89,7 +89,7 @@ class SearchDetailScreen extends StatelessWidget {
             ),
             tilePadding: EdgeInsets.symmetric(horizontal: 25.w),
             iconColor: AppColors.greyColor,
-            title: Text("Track", style: semiBold(fontSize: 16)),
+            title: Text("Track", style: semiBold(fontSize: 16.sp)),
             children: provider.trackItems.map((item) {
               bool isChecked = item["checked"];
               return InkWell(
@@ -106,7 +106,7 @@ class SearchDetailScreen extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(item["label"], style: semiBold(fontSize: 16)),
+                          Text(item["label"], style: semiBold(fontSize: 16.sp)),
                           AnimatedContainer(
                             duration: const Duration(milliseconds: 250),
                             curve: Curves.easeInOut,

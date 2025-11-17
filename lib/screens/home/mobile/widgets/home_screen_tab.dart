@@ -67,7 +67,7 @@ class HomeScreenTab extends StatelessWidget {
             text,
             textAlign: TextAlign.center,
             style: bold(
-              fontSize: 16,
+              fontSize: 16.sp,
               color: isSelected ? AppColors.white : AppColors.primary,
             ),
           ),

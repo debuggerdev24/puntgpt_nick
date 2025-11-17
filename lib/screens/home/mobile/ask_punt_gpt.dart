@@ -44,7 +44,7 @@ class AskPuntGpt extends StatelessWidget {
                           hintText: "Type your message...",
                           hintStyle: medium(
                             fontStyle: FontStyle.italic,
-                            fontSize: 14,
+                            fontSize: 14.sp,
                             color: AppColors.greyColor.withValues(alpha: 0.6),
                           ),
                         ),

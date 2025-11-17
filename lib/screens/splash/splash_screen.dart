@@ -2,7 +2,6 @@
 
 import 'dart:async';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -11,7 +10,6 @@ import 'package:puntgpt_nick/core/constants/constants.dart';
 import 'package:puntgpt_nick/core/constants/text_style.dart';
 import 'package:puntgpt_nick/core/router/app/app_routes.dart';
 import 'package:puntgpt_nick/core/widgets/image_widget.dart';
-import 'package:puntgpt_nick/core/widgets/web_top_section.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -54,7 +52,6 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: !kIsWeb ? null : WebTopSection(),
       body: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -71,14 +68,14 @@ class _SplashScreenState extends State<SplashScreen> {
                   TextSpan(
                     text: "'@PuntGPT'",
                     style: regular(
-                      fontSize: 20,
+                      fontSize: 20.sp,
                       fontFamily: AppFontFamily.secondary,
                     ),
                   ),
                   TextSpan(
                     text: " the talking from guide",
                     style: regular(
-                      fontSize: 20,
+                      fontSize: 20.sp,
                       fontFamily: AppFontFamily.secondary,
                     ),
                   ),

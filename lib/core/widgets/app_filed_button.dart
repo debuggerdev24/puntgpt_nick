@@ -45,7 +45,7 @@ class AppFiledButton extends StatelessWidget {
           child: Text(
             text,
             textAlign: TextAlign.center,
-            style: textStyle ?? semiBold(fontSize: 18, color: AppColors.white),
+            style: textStyle ?? semiBold(fontSize: 18.sp, color: AppColors.white),
           ),
         ),
       ),

@@ -134,7 +134,7 @@ class _SelectedRaceScreenState extends State<SelectedRaceScreen> {
                   Text(
                     "Flemington",
                     style: regular(
-                      fontSize: 24,
+                      fontSize: 24.sp,
                       fontFamily: AppFontFamily.secondary,
                       height: 1.35,
                     ),
@@ -142,7 +142,7 @@ class _SelectedRaceScreenState extends State<SelectedRaceScreen> {
                   Text(
                     "PuntGPT Legends Stakes 3200m. Date. Time",
                     style: semiBold(
-                      fontSize: 14,
+                      fontSize: 14.sp,
                       color: AppColors.greyColor.withValues(alpha: 0.6),
                     ),
                   ),
@@ -217,7 +217,7 @@ class _RaceTableState extends State<RaceTable> {
                             Text(
                               "${index + 1}. ${horses[index]["name"]!}",
                               style: semiBold(
-                                fontSize: 16,
+                                fontSize: 16.sp,
                                 color: isExpanded ? Colors.white : null,
                               ),
                             ),
@@ -226,7 +226,7 @@ class _RaceTableState extends State<RaceTable> {
                               Text(
                                 "\$2.10",
                                 style: semiBold(
-                                  fontSize: 16,
+                                  fontSize: 16.sp,
                                   color: Colors.white,
                                 ),
                               ),
@@ -234,7 +234,7 @@ class _RaceTableState extends State<RaceTable> {
                                 margin: EdgeInsets.only(top: 4),
                                 text: "Add to Tip Slip",
                                 textStyle: semiBold(
-                                  fontSize: 14,
+                                  fontSize: 14.sp,
                                   color: AppColors.primary,
                                 ),
                                 padding: EdgeInsets.symmetric(vertical: 9.h),
@@ -282,7 +282,7 @@ class _RaceTableState extends State<RaceTable> {
                                     Text(
                                       label,
                                       style: medium(
-                                        fontSize: 14,
+                                        fontSize: 14.sp,
                                         color: AppColors.primary,
                                       ),
                                     ),
@@ -295,7 +295,7 @@ class _RaceTableState extends State<RaceTable> {
                         )
                       : Text(
                           "W: J: F: T:",
-                          style: medium(fontSize: 14, color: AppColors.primary),
+                          style: medium(fontSize: 14.sp, color: AppColors.primary),
                         ),
                 ),
               ],
@@ -316,7 +316,7 @@ class _RaceTableState extends State<RaceTable> {
       ),
       child: Text(
         label,
-        style: semiBold(fontSize: 13, color: AppColors.primary),
+        style: semiBold(fontSize: 13.sp, color: AppColors.primary),
       ),
     );
   }

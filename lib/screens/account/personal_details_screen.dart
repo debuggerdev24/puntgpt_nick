@@ -42,7 +42,7 @@ class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
                     children: [
                       28.h.verticalSpace,
                       //todo --------------> name
-                      Text("Name", style: semiBold(fontSize: 14)),
+                      Text("Name", style: semiBold(fontSize: 14.sp)),
                       6.h.verticalSpace,
                       AppTextField(
                         controller: TextEditingController(),
@@ -52,7 +52,7 @@ class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
                       ),
                       //todo --------------> email
                       14.h.verticalSpace,
-                      Text("Email", style: semiBold(fontSize: 14)),
+                      Text("Email", style: semiBold(fontSize: 14.sp)),
                       6.h.verticalSpace,
                       AppTextField(
                         controller: TextEditingController(),
@@ -61,7 +61,7 @@ class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
                       ),
                       //todo --------------> phone
                       14.h.verticalSpace,
-                      Text("Phone", style: semiBold(fontSize: 14)),
+                      Text("Phone", style: semiBold(fontSize: 14.sp)),
                       6.h.verticalSpace,
                       AppTextField(
                         controller: TextEditingController(),
@@ -104,7 +104,7 @@ class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
     return Column(
       children: [
         Padding(
-          padding: EdgeInsets.fromLTRB(5.w, 12.h, 25.w, 16.h),
+          padding: EdgeInsets.fromLTRB(5.w, 12.h, (!provider.isEdit) ? 25.w : 8.w, 16.h),
           child: Row(
             children: [
               IconButton(
@@ -122,7 +122,7 @@ class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
                   Text(
                     "Personal Details",
                     style: regular(
-                      fontSize: 24,
+                      fontSize: 24.sp,
                       fontFamily: AppFontFamily.secondary,
                       height: 1.35,
                     ),
@@ -130,7 +130,7 @@ class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
                   Text(
                     "Manage your name, email, etc.",
                     style: semiBold(
-                      fontSize: 14,
+                      fontSize: 14.sp,
                       color: AppColors.greyColor.withValues(alpha: 0.6),
                     ),
                   ),
@@ -143,19 +143,21 @@ class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
                     provider.setIsEdit = !(provider.isEdit);
                   },
                   child: Row(
+                    spacing: 2,
                     children: [
                       SvgPicture.asset(AppAssets.edit),
-                      Text("Edit", style: bold(fontSize: 16)),
+                      Text("Edit", style: bold(fontSize: 16.sp)),
                     ],
                   ),
                 )
               else
-                GestureDetector(
-                  onTap: () {
+                TextButton(
+                  onPressed: () {
                     _formKey.currentState?.reset();
                     provider.setIsEdit = !(provider.isEdit);
                   },
-                  child: Text("Cancel", style: bold(fontSize: 16)),
+
+                  child: Text("Cancel", style: bold(fontSize: 16.sp,color: AppColors.primary)),
                 ),
             ],
           ),

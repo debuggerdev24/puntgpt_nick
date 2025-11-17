@@ -30,7 +30,7 @@ class ManageSubscriptionScreen extends StatelessWidget {
         topBar(context),
         Padding(
           padding: EdgeInsets.fromLTRB(25.w, 18.h, 0, 0),
-          child: Text("Current Plan", style: bold(fontSize: 16)),
+          child: Text("Current Plan", style: bold(fontSize: 16.sp)),
         ),
         Container(
           margin: EdgeInsets.symmetric(horizontal: 25.w, vertical: 12.h),
@@ -50,14 +50,14 @@ class ManageSubscriptionScreen extends StatelessWidget {
                           TextSpan(
                             text: "Monthly",
                             style: regular(
-                              fontSize: 24,
+                              fontSize: 24.sp,
                               fontFamily: AppFontFamily.secondary,
                             ),
                           ),
                           TextSpan(
                             text: " ‘Pro Punter’",
                             style: regular(
-                              fontSize: 24,
+                              fontSize: 24.sp,
                               color: AppColors.premiumYellow,
                               fontFamily: AppFontFamily.secondary,
                             ),
@@ -65,7 +65,7 @@ class ManageSubscriptionScreen extends StatelessWidget {
                           TextSpan(
                             text: " Account",
                             style: regular(
-                              fontSize: 24,
+                              fontSize: 24.sp,
                               fontFamily: AppFontFamily.secondary,
                             ),
                           ),
@@ -79,7 +79,7 @@ class ManageSubscriptionScreen extends StatelessWidget {
                           TextSpan(
                             text: "\$ 9.99 ",
                             style: bold(
-                              fontSize: 20,
+                              fontSize: 20.sp,
                               fontFamily: AppFontFamily.primary,
                             ),
                           ),
@@ -87,7 +87,7 @@ class ManageSubscriptionScreen extends StatelessWidget {
                             text: "/month",
                             style: semiBold(
                               fontFamily: AppFontFamily.primary,
-                              fontSize: 18,
+                              fontSize: 18.sp,
                               color: AppColors.primary.withValues(alpha: 0.6),
                             ),
                           ),
@@ -110,7 +110,7 @@ class ManageSubscriptionScreen extends StatelessWidget {
                               height: 20.w,
                             ),
                             10.w.horizontalSpace,
-                            Text(item["point"], style: regular(fontSize: 16)),
+                            Text(item["point"], style: regular(fontSize: 16.sp)),
                           ],
                         );
                       },
@@ -125,14 +125,14 @@ class ManageSubscriptionScreen extends StatelessWidget {
                       "Free ‘Mug Punter’ Account",
                       style: regular(
                         fontFamily: AppFontFamily.secondary,
-                        fontSize: 24,
+                        fontSize: 24.sp,
                       ),
                     ),
                     Text(
                       "\$ 00.00",
                       style: regular(
                         fontFamily: AppFontFamily.secondary,
-                        fontSize: 24,
+                        fontSize: 24.sp,
                       ),
                     ),
                     20.h.verticalSpace,
@@ -158,7 +158,7 @@ class ManageSubscriptionScreen extends StatelessWidget {
             textAlign: TextAlign.center,
             "Billing handled via Apple Store / Google Play",
             style: medium(
-              fontSize: 14,
+              fontSize: 14.sp,
               color: AppColors.greyColor.withValues(alpha: 0.6),
             ),
           ),
@@ -220,7 +220,7 @@ class ManageSubscriptionScreen extends StatelessWidget {
                   Text(
                     "Manage Subscription",
                     style: regular(
-                      fontSize: 24,
+                      fontSize: 24.sp,
                       fontFamily: AppFontFamily.secondary,
                       height: 1.35,
                     ),
@@ -228,7 +228,7 @@ class ManageSubscriptionScreen extends StatelessWidget {
                   Text(
                     "Manage your Subscription Plan",
                     style: semiBold(
-                      fontSize: 14,
+                      fontSize: 14.sp,
                       color: AppColors.greyColor.withValues(alpha: 0.6),
                     ),
                   ),

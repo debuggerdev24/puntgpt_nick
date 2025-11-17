@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -27,8 +28,8 @@ class _WebSplashScreenState extends State<WebSplashScreen> {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       _startTimer();
       Future.delayed(
-        50.minutes,
-      ).then((value) => context.go(WebRoutes.ageConfirmationScreen.name));
+        3.seconds,
+      ).then((value) => context.go(WebRoutes.ageConfirmationScreen.path));
     });
   }
 
@@ -54,19 +55,23 @@ class _WebSplashScreenState extends State<WebSplashScreen> {
       appBar: WebTopSection(),
       body: Center(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: kIsWeb
+              ? CrossAxisAlignment.start
+              : CrossAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: [
             ImageWidget(
               path: AppAssets.splashWebLogo,
               type: ImageType.asset,
-              height: 300.w.flexClamp(200, 350),
+              width: 300.w,
             ).animate().fade(duration: 0.8.seconds, delay: 1.seconds),
             24.h.flexClamp(20, 28).verticalSpace,
             Text(
               "A new way of betting here",
-              // textAlign: TextAlign.left,
-              style: medium(fontFamily: AppFontFamily.secondary, fontSize: 16),
+              style: medium(
+                fontFamily: AppFontFamily.secondary,
+                fontSize: 20.sp,
+              ),
             ),
             RichText(
               textAlign: TextAlign.center,
@@ -75,14 +80,14 @@ class _WebSplashScreenState extends State<WebSplashScreen> {
                   TextSpan(
                     text: "'@PuntGPT'",
                     style: regular(
-                      fontSize: 20,
+                      fontSize: 24.sp,
                       fontFamily: AppFontFamily.secondary,
                     ),
                   ),
                   TextSpan(
                     text: " the talking from guide",
                     style: regular(
-                      fontSize: 20,
+                      fontSize: 24.sp,
                       fontFamily: AppFontFamily.secondary,
                     ),
                   ),

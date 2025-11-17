@@ -9,34 +9,6 @@ class AppFontFamily {
   static const secondary = "ChangaOne";
 }
 
-/// Base text style builder
-TextStyle _baseTextStyle({
-  required FontWeight fontWeight,
-  double fontSize = 20,
-  double? height,
-  Color? color,
-  String? fontFamily,
-  TextDecoration? decoration,
-  Color? decorationColor,
-  TextDecorationStyle? decorationStyle,
-  double? decorationThickness,
-  double? letterSpacing,
-  FontStyle? fontStyle,
-}) {
-  return TextStyle(
-    fontSize: fontSize.sp.flexClamp(fontSize - 1, fontSize + 2),
-    height: height,
-    color: color ?? AppColors.primary,
-    fontFamily: fontFamily,
-    fontWeight: fontWeight,
-    fontStyle: fontStyle ?? FontStyle.normal,
-    decoration: decoration,
-    decorationColor: decorationColor,
-    decorationStyle: decorationStyle,
-    decorationThickness: decorationThickness,
-    letterSpacing: letterSpacing,
-  );
-}
 
 // 🪶 Light
 TextStyle light({
@@ -50,9 +22,9 @@ TextStyle light({
   double? decorationThickness,
   double? letterSpacing,
   FontStyle? fontStyle,
-}) => _baseTextStyle(
+}) => TextStyle(
   fontWeight: FontWeight.w300,
-  fontSize: fontSize.sp.flexClamp(fontSize - 1, fontSize + 2),
+  fontSize: fontSize,
   height: height,
   color: color ?? AppColors.primary,
   fontFamily: fontFamily,
@@ -76,9 +48,9 @@ TextStyle regular({
   double? decorationThickness,
   double? letterSpacing,
   FontStyle? fontStyle,
-}) => _baseTextStyle(
+}) => TextStyle(
   fontWeight: FontWeight.w400,
-  fontSize: fontSize.sp.flexClamp(fontSize - 1, fontSize + 2),
+  fontSize: fontSize,
   height: height,
   color: color ?? AppColors.primary,
   fontFamily: fontFamily,
@@ -101,12 +73,10 @@ TextStyle medium({
   TextDecorationStyle? decorationStyle,
   double? decorationThickness,
   double? letterSpacing,
-  double? minSize = fontSize - 1,
-  double? maxSize,
   FontStyle? fontStyle,
-}) => _baseTextStyle(
+}) => TextStyle(
   fontWeight: FontWeight.w500,
-  fontSize: fontSize.sp.flexClamp(fontSize - minSize!, fontSize + 2),
+  fontSize: fontSize,
   height: height,
   color: color ?? AppColors.primary,
   fontFamily: fontFamily,
@@ -130,9 +100,9 @@ TextStyle semiBold({
   double? decorationThickness,
   double? letterSpacing,
   FontStyle? fontStyle,
-}) => _baseTextStyle(
+}) => TextStyle(
   fontWeight: FontWeight.w600,
-  fontSize: fontSize.sp.flexClamp(fontSize - 1, fontSize + 2),
+  fontSize: fontSize,
   height: height,
   color: color ?? AppColors.primary,
   fontFamily: fontFamily,
@@ -156,11 +126,11 @@ TextStyle bold({
   double? decorationThickness,
   double? letterSpacing,
   FontStyle? fontStyle,
-}) => _baseTextStyle(
+}) => TextStyle(
   fontWeight: FontWeight.w700,
-  fontSize: fontSize.sp.flexClamp(fontSize - 1, fontSize + 2),
+  fontSize: fontSize,
   height: height,
-  color: color,
+  color: color  ?? AppColors.primary,
   fontFamily: fontFamily,
   decoration: decoration,
   decorationColor: decorationColor,

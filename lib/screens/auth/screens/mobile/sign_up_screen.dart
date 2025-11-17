@@ -12,9 +12,10 @@ import 'package:puntgpt_nick/core/widgets/app_check_box.dart';
 import 'package:puntgpt_nick/core/widgets/web_top_section.dart';
 import 'package:puntgpt_nick/provider/auth/auth_provider.dart';
 import 'package:puntgpt_nick/responsive/responsive_builder.dart';
-import 'package:puntgpt_nick/screens/auth/screens/widget/sign_up_bottom_section.dart';
-import 'package:puntgpt_nick/screens/auth/screens/widget/sign_up_form.dart';
-import 'package:puntgpt_nick/screens/auth/screens/widget/sign_up_title.dart';
+import 'package:puntgpt_nick/screens/auth/screens/mobile/widgets/sign_up_bottom_section.dart';
+import 'package:puntgpt_nick/screens/auth/screens/mobile/widgets/sign_up_title.dart';
+
+import '../web/widgets/web_sign_up_form.dart';
 
 class SignUpScreen extends StatelessWidget {
   const SignUpScreen({super.key, required this.isFreeSignUp});
@@ -39,7 +40,7 @@ class SignUpScreen extends StatelessWidget {
                 children: [
                   SignUpTitle(isFreeSignUp: isFreeSignUp),
                   20.h.verticalSpace,
-                  SignUpForm(formKey: formKey),
+                  WebSignUpForm(formKey: formKey),
                   12.h.verticalSpace,
                   // Consumer<AuthProvider>(
                   //   builder: (context, provider, _) {
@@ -58,7 +59,7 @@ class SignUpScreen extends StatelessWidget {
                       label: Text(
                         "I have read and accept the Terms & Conditions, AI disclaimer and understand my personal information will be handled in accordance with the Privacy Policy.",
                         style: regular(
-                          fontSize: 14,
+                          fontSize: 14.sp,
                           height: 1.2,
                           color: AppColors.primary.withValues(alpha: 0.8),
                         ),

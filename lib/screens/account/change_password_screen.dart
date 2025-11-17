@@ -54,7 +54,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                         28.h.verticalSpace,
 
                         //todo ------------> Current Password
-                        Text("Current Password", style: semiBold(fontSize: 14)),
+                        Text("Current Password", style: semiBold(fontSize: 14.sp)),
                         6.h.verticalSpace,
                         AppTextField(
                           controller: _currentPassword,
@@ -72,7 +72,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                         ),
                         //todo ------------> New Password
                         14.h.verticalSpace,
-                        Text("New Password", style: semiBold(fontSize: 14)),
+                        Text("New Password", style: semiBold(fontSize: 14.sp)),
                         6.h.verticalSpace,
                         AppTextField(
                           controller: _newPassword,
@@ -91,7 +91,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
 
                         //todo ------------> Confirm Password
                         14.h.verticalSpace,
-                        Text("Confirm Password", style: semiBold(fontSize: 14)),
+                        Text("Confirm Password", style: semiBold(fontSize: 14.sp)),
                         6.h.verticalSpace,
                         AppTextField(
                           controller: _confirmPassword,
@@ -157,7 +157,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                   Text(
                     "Change Password",
                     style: regular(
-                      fontSize: 24,
+                      fontSize: 24.sp,
                       fontFamily: AppFontFamily.secondary,
                       height: 1.35,
                     ),
@@ -165,7 +165,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                   Text(
                     "Change Password for your account.",
                     style: semiBold(
-                      fontSize: 14,
+                      fontSize: 14.sp,
                       color: AppColors.greyColor.withValues(alpha: 0.6),
                     ),
                   ),

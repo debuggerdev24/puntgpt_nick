@@ -24,7 +24,7 @@ class SearchFilterScreen extends StatelessWidget {
                 Text(
                   "Search filters",
                   style: regular(
-                    fontSize: 24,
+                    fontSize: 24.sp,
                     color: AppColors.primary,
                     fontFamily: AppFontFamily.secondary,
                   ),
@@ -46,7 +46,7 @@ class SearchFilterScreen extends StatelessWidget {
               alignment: Alignment.centerRight,
               child: Text(
                 "Total Runners : (20)",
-                style: semiBold(fontSize: 16),
+                style: semiBold(fontSize: 16.sp),
               ),
             ),
           ),
@@ -57,7 +57,7 @@ class SearchFilterScreen extends StatelessWidget {
               onTap: () {
                 context.pop();
               },
-              textStyle: semiBold(fontSize: 16, color: Colors.white),
+              textStyle: semiBold(fontSize: 16.sp, color: Colors.white),
             ),
           ),
           // appDivider(),
@@ -84,7 +84,7 @@ class SearchFilterScreen extends StatelessWidget {
             ),
             tilePadding: EdgeInsets.symmetric(horizontal: 25.w),
             iconColor: AppColors.greyColor,
-            title: Text("Track", style: semiBold(fontSize: 16)),
+            title: Text("Track", style: semiBold(fontSize: 16.sp)),
             children: provider.trackItems.map((item) {
               bool isChecked = item["checked"];
               return InkWell(
@@ -101,7 +101,7 @@ class SearchFilterScreen extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(item["label"], style: semiBold(fontSize: 16)),
+                          Text(item["label"], style: semiBold(fontSize: 16.sp)),
                           AnimatedContainer(
                             duration: const Duration(milliseconds: 250),
                             curve: Curves.easeInOut,

@@ -177,7 +177,7 @@ class _DashboardState extends State<Dashboard> {
               text,
               textAlign: TextAlign.center,
               style: medium(
-                fontSize: 12,
+                fontSize: 12.sp,
                 color:
                     color?.withValues(
                       alpha: currentIndex == index ? 1 : opacity,

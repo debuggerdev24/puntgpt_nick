@@ -69,7 +69,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                 return Column(
                   children: [
                     Padding(
-                      padding: EdgeInsets.fromLTRB(25, 16, 25, 0),
+                      padding: EdgeInsets.fromLTRB(25.w, 16.h, 25.w, 0),
                       child: HomeScreenTab(selectedIndex: provider.selectedTab),
                     ),
                     16.h.verticalSpace,
@@ -123,7 +123,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                                                 ),
                                                 Text(
                                                   "Filter",
-                                                  style: medium(fontSize: 16),
+                                                  style: medium(fontSize: 16.sp),
                                                 ),
                                               ],
                                             ),
@@ -172,7 +172,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                                     children: [
                                       Text(
                                         "Next to go",
-                                        style: bold(fontSize: 16),
+                                        style: bold(fontSize: 16.sp),
                                       ),
                                       10.h.verticalSpace,
                                       SingleChildScrollView(
@@ -343,7 +343,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
           onTap: onTap,
           child: Padding(
             padding: EdgeInsets.only(left: 16.w, top: 8.h, bottom: 8.h),
-            child: Text(col1, style: semiBold(fontSize: 16)),
+            child: Text(col1, style: semiBold(fontSize: 16.sp)),
           ),
         ),
         GestureDetector(
@@ -351,7 +351,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
           child: Padding(
             padding: EdgeInsets.only(left: 16.w, top: 8.h, bottom: 8.h),
 
-            child: Text(col2, style: semiBold(fontSize: 16)),
+            child: Text(col2, style: semiBold(fontSize: 16.sp)),
           ),
         ),
         GestureDetector(
@@ -360,7 +360,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
           child: Padding(
             padding: EdgeInsets.only(left: 16.w, top: 8.h, bottom: 8.h),
 
-            child: Text(col3, style: semiBold(fontSize: 16)),
+            child: Text(col3, style: semiBold(fontSize: 16.sp)),
           ),
         ),
         GestureDetector(
@@ -368,7 +368,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
           child: Padding(
             padding: EdgeInsets.only(left: 16.w, top: 8.h, bottom: 8.h),
 
-            child: Text(col4, style: semiBold(fontSize: 16)),
+            child: Text(col4, style: semiBold(fontSize: 16.sp)),
           ),
         ),
       ],
@@ -384,7 +384,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text("Morphettville", style: semiBold(fontSize: 16)),
+          Text("Morphettville", style: semiBold(fontSize: 16.sp)),
           6.h.verticalSpace,
           Row(
             spacing: 85.w,
@@ -393,14 +393,14 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
               Text(
                 "Race 1",
                 style: semiBold(
-                  fontSize: 14,
+                  fontSize: 14.sp,
                   color: AppColors.primary.withValues(alpha: 0.6),
                 ),
               ),
               Text(
                 "13:15",
                 style: semiBold(
-                  fontSize: 14,
+                  fontSize: 14.sp,
                   color: AppColors.primary.withValues(alpha: 0.6),
                 ),
               ),
@@ -434,7 +434,7 @@ Widget askPuntGPTButton(BuildContext context) {
           Text(
             "Ask @ PuntGPT",
             textAlign: TextAlign.center,
-            style: semiBold(fontSize: 20, fontFamily: AppFontFamily.secondary),
+            style: semiBold(fontSize: 20.sp, fontFamily: AppFontFamily.secondary),
           ),
         ],
       ),

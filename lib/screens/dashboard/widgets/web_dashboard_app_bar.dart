@@ -128,7 +128,7 @@ class WebDashboardAppBar extends StatelessWidget {
           Text(
             "Pro",
             style: regular(
-              fontSize: 14,
+              fontSize: 14.sp,
               fontFamily: AppFontFamily.secondary,
               color: AppColors.premiumYellow,
             ),
@@ -186,7 +186,7 @@ class WebDashboardAppBar extends StatelessWidget {
               text,
               textAlign: TextAlign.left,
               style: medium(
-                fontSize: 14,
+                fontSize: 14.sp,
                 height: 1.2,
                 color: color ?? AppColors.white,
               ),
