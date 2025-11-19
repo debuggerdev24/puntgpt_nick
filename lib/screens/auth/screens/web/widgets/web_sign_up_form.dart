@@ -111,7 +111,6 @@ class WebSignUpForm extends StatelessWidget {
                           color: AppColors.primary.setOpacity(0.4),
                         ),
                       ),
-
                       AppTextField(
                         keyboardType: TextInputType.number,
                         inputFormatter: [

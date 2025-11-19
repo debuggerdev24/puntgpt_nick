@@ -29,7 +29,7 @@ class LoginScreen extends StatelessWidget {
         alignment: Alignment.topCenter,
         child: SafeArea(
           child: SingleChildScrollView(
-            padding: EdgeInsets.symmetric(horizontal: 25),
+            padding: EdgeInsets.symmetric(horizontal: 25.w),
             child: Consumer<AuthProvider>(
               builder: (context, provider, _) {
                 return SizedBox(

@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -44,12 +45,14 @@ class WebAgeConfirmationScreen extends StatelessWidget {
                 "Are you over 18?",
                 textAlign: TextAlign.center,
                 style: regular(
+
                   fontFamily: AppFontFamily.secondary,
                   fontSize: context.isDesktop
                       ? 40.sp
                       : context.isTablet
                       ? 48.sp
-                      : 80.sp,
+                      : (kIsWeb) ? 80.sp : 40.sp,
+
                 ),
               ),
               SizedBox(height: 50.w.clamp(20, 80)),

@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -19,18 +20,22 @@ class WebLoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final width = context.screenWidth * 0.35;
+    final width = context.screenWidth * ((context.isDesktop) ? 0.35 : (context.isTablet) ? 0.45 : (kIsWeb) ? 0.55 : context.screenWidth);
     return Scaffold(
       appBar: WebTopSection(),
+
       body: Center(
         child: Consumer<AuthProvider>(
           builder: (context, provider, child) {
             return SingleChildScrollView(
+              padding: EdgeInsets.symmetric(horizontal: (kIsWeb) ? 0 : 25.w),
               child: SizedBox(
                 width: width,
                 child: Column(
                   children: [
                     80.h.verticalSpace,
+                    (kIsWeb) ?
+
                     ImageWidget(
                       path: AppAssets.splashWebLogo,
                       type: ImageType.asset,
@@ -38,13 +43,15 @@ class WebLoginScreen extends StatelessWidget {
                           ? 375.w
                           : context.isTablet
                           ? 550.w
-                          : 600.w,
-                    ),
+                          : 750.w,
+
+
+                    ) : ImageWidget(path: AppAssets.splashAppLogo),
                     18.h.verticalSpace,
                     Text(
                       "'@PuntGPT' the talking from guide",
                       style: regular(
-                        fontSize: 24.sp,
+                        fontSize: (context.isDesktop) ? 24.sp : (context.isTablet) ? 34.sp : (kIsWeb) ? 46.sp : 20.sp,
                         fontFamily: AppFontFamily.secondary,
                       ),
                     ),
@@ -54,7 +61,7 @@ class WebLoginScreen extends StatelessWidget {
                       validator: FieldValidators().email,
                       hintText: "Email",
                       hintStyle: medium(
-                        fontSize: context.isTablet ? 22.sp : 16.sp,
+                        fontSize: context.isDesktop ? 16.sp : context.isTablet ? 26.sp :  (kIsWeb) ? 30.sp : 16.sp,
                         color: AppColors.primary.setOpacity(0.4),
                       ),
                     ),
@@ -69,7 +76,8 @@ class WebLoginScreen extends StatelessWidget {
                       onTrailingIconTap: () =>
                           provider.showLoginPass = !provider.showLoginPass,
                       hintStyle: medium(
-                        fontSize: context.isTablet ? 22.sp : 16.sp,
+                        fontSize: context.isDesktop ? 16.sp : context.isTablet ? 26.sp : (kIsWeb) ? 30.sp : 16.sp,
+
                         color: AppColors.primary.setOpacity(0.4),
                       ),
                     ),
@@ -78,15 +86,16 @@ class WebLoginScreen extends StatelessWidget {
                       alignment: Alignment.centerRight,
                       child: Text(
                         "Forget Password?",
-                        style: bold(fontSize: 16.sp),
+                        style: bold(fontSize: context.isDesktop ? 14.sp : context.isTablet ? 24.sp : (kIsWeb) ? 28.sp : 14.sp,),
                       ),
                     ),
                     40.h.verticalSpace,
+
                     AppFiledButton(
                       text: "Login",
                       onTap: () {},
                       textStyle: semiBold(
-                        fontSize: 16.sp,
+                        fontSize: context.isDesktop ? 16.sp : context.isTablet ? 26.sp : (kIsWeb) ? 30.sp : 16.sp,
                         color: AppColors.white,
                       ),
                     ),
@@ -97,15 +106,16 @@ class WebLoginScreen extends StatelessWidget {
                         Text(
                           "New to PuntGPT? ",
                           style: medium(
-                            fontSize: 14.sp,
+                            fontSize: context.isDesktop ? 14.sp : context.isTablet ? 18.sp : (kIsWeb) ? 22.sp : 14.sp,
                             color: AppColors.primary.withValues(alpha: 0.8),
                           ),
+
                         ),
                         OnButtonTap(
                           onTap: () {
                             context.pop();
                           },
-                          child: Text(" Sign up", style: bold(fontSize: 14.sp)),
+                          child: Text(" Sign up", style: bold(fontSize: context.isDesktop ? 14.sp : context.isTablet ? 18.sp : (kIsWeb) ? 22.sp : 14.sp ,)),
                         ),
                       ],
                     ),
