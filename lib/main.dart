@@ -65,5 +65,12 @@ class MyApp extends StatelessWidget {
 }
 
 /*
+//todo vimaal
+-> Worked on creating new appbundle for the play store.
+-> Worked on upgrading the bundle version.
+-> Worked on adding necessary permissions for the download functionality.
 
+todo Nick
+-> Worked on created web login screen.
+-> Worked on update the breakpoints for the responsiveness.
 */

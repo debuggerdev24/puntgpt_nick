@@ -36,6 +36,7 @@ class ResponsiveBuilder extends StatelessWidget {
 }
 
 /// Simpler responsive widget that takes widgets directly
+//todo this is mainly use in the whole app
 class Responsive extends StatelessWidget {
   const Responsive({
     super.key,

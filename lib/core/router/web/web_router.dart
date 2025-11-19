@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:puntgpt_nick/core/router/web/web_routes.dart';
-import 'package:puntgpt_nick/screens/auth/screens/web/web_signUp_screen.dart';
+import 'package:puntgpt_nick/screens/auth/screens/web/web_login_screen.dart';
+import 'package:puntgpt_nick/screens/auth/screens/web/web_sign_up_screen.dart';
 import 'package:puntgpt_nick/screens/onboarding/web/web_age_confirmation.dart';
 import 'package:puntgpt_nick/screens/splash/web_splash_screen.dart';
 
@@ -37,6 +38,11 @@ class WebRouter {
         name: WebRoutes.signUpScreen.name,
         builder: (context, state) =>
             WebSignUpScreen(isFreeSignUp: state.extra as bool),
+      ),
+      GoRoute(
+        path: WebRoutes.signInScreen.path,
+        name: WebRoutes.signInScreen.name,
+        builder: (context, state) => WebLoginScreen(),
       ),
     ],
   );

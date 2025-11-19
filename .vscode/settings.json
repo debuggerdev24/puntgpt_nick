@@ -1,3 +1,6 @@
 {
-  "cSpell.words": ["Changa", "puntgpt"]
+  "cSpell.words": ["Changa", "puntgpt"],
+  "debug.openDebug": "never",
+  "debug.internalConsoleOptions": "neverOpen",
+  "dart.openDevTools": "never"
 }

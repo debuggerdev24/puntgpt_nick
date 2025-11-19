@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -24,6 +23,15 @@ class WebAgeConfirmationScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    LogHelper.info(
+      "is Mobile ${Responsive.isMobile(context)} ${context.screenWidth}",
+    );
+    LogHelper.info(
+      "is Desktop ${Responsive.isDesktop(context)} ${context.screenWidth}",
+    );
+    LogHelper.info(
+      "is Tablet ${Responsive.isTablet(context)} ${context.screenWidth}",
+    );
     return Scaffold(
       appBar: WebTopSection(),
       body: Padding(
@@ -40,10 +48,8 @@ class WebAgeConfirmationScreen extends StatelessWidget {
                   fontSize: context.isDesktop
                       ? 40.sp
                       : context.isTablet
-                      ? 45.sp
-                      : (kIsWeb)
-                      ? 40.sp
-                      : 38.sp,
+                      ? 48.sp
+                      : 80.sp,
                 ),
               ),
               SizedBox(height: 50.w.clamp(20, 80)),
@@ -53,10 +59,18 @@ class WebAgeConfirmationScreen extends StatelessWidget {
                     onTap: () => _onYesTap(context),
                     text: "Yes",
                     textStyle: semiBold(
-                      fontSize: 16.sp,
+                      fontSize: (context.isDesktop)
+                          ? 16.sp
+                          : context.isTablet
+                          ? 22.sp
+                          : 26.sp,
                       color: AppColors.white,
                     ),
-                    width: 400.w.clamp(200, 500),
+                    width: (context.isDesktop)
+                        ? 400.w
+                        : context.isTablet
+                        ? 450.w
+                        : null,
                   ),
                 ),
                 10.h.verticalSpace,
@@ -64,8 +78,18 @@ class WebAgeConfirmationScreen extends StatelessWidget {
                   child: AppOutlinedButton(
                     onTap: () => _onNoTap(context),
                     text: "No",
-                    textStyle: semiBold(fontSize: 16.sp),
-                    width: 400.w.clamp(200, 500),
+                    textStyle: semiBold(
+                      fontSize: (context.isDesktop)
+                          ? 16.sp
+                          : context.isTablet
+                          ? 22.sp
+                          : 26.sp,
+                    ),
+                    width: (context.isDesktop)
+                        ? 400.w
+                        : context.isTablet
+                        ? 450.w
+                        : null,
                   ),
                 ),
               ],

@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:puntgpt_nick/core/router/web/web_routes.dart';
 import 'package:puntgpt_nick/core/widgets/on_button_tap.dart';
 import 'package:puntgpt_nick/core/widgets/web_top_section.dart';
 import 'package:puntgpt_nick/screens/auth/screens/web/widgets/web_sign_up_form.dart';
 import 'package:puntgpt_nick/screens/auth/screens/web/widgets/web_signup_bottom.dart';
 
-import '../../../../core/router/app/app_routes.dart';
 import '../../../../core/utils/app_toast.dart';
 import '../../../../core/utils/de_bouncing.dart';
 import '../../../../provider/auth/auth_provider.dart';
@@ -71,10 +71,8 @@ class WebSignUpScreen extends StatelessWidget {
                 20.h.verticalSpace,
                 WebSignUpBottomSection(
                   onLoginTap: () {
-                    context.pushReplacement(
-                      AppRoutes.login,
-                      extra: {"is_free_sign_up": isFreeSignUp},
-                    );
+                    // LogHelper.info(Responsive.isDesktop(context))
+                    context.pushNamed(WebRoutes.signInScreen.name);
                   },
                   onSignUpTap: () {
                     deBouncer.run(() {
