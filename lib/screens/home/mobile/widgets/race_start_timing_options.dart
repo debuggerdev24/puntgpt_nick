@@ -6,6 +6,7 @@ import 'package:puntgpt_nick/core/constants/constants.dart';
 import 'package:puntgpt_nick/core/constants/text_style.dart';
 import 'package:puntgpt_nick/core/widgets/on_button_tap.dart';
 import 'package:puntgpt_nick/provider/search_engine_provider.dart';
+import 'package:puntgpt_nick/responsive/responsive_builder.dart';
 
 class RaceStartTimingOptions extends StatelessWidget {
   const RaceStartTimingOptions({super.key});
@@ -18,18 +19,14 @@ class RaceStartTimingOptions extends StatelessWidget {
 
         return LayoutBuilder(
           builder: (context, constraints) {
-            // Estimate each item's average width based on text length and padding.
-            // This avoids expensive measurement.
+
             final textScale = MediaQuery.of(context).textScaleFactor;
-            double totalWidth = 50; // padding buffer
+            double totalWidth = 50;
             for (final t in timings) {
-              // roughly estimate width of each item
               final estimatedTextWidth = (t.length * 10 * textScale);
-              totalWidth += estimatedTextWidth + 36 + 15; // padding + spacing
+              totalWidth += estimatedTextWidth + 36 + 15;
             }
-
             final fitsInScreen = totalWidth < constraints.maxWidth;
-
             return SizedBox(
               height: 45.w.flexClamp(45, 55),
               width: context.screenWidth,

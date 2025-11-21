@@ -1,4 +1,5 @@
 import 'package:animate_do/animate_do.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -49,7 +50,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     GlobalKey<FormState> formKey = GlobalKey<FormState>();
-
     return PopScope(
       canPop: context.watch<SearchEngineProvider>().isSearched ? false : true,
       onPopInvokedWithResult: (didPop, result) {
@@ -429,12 +429,13 @@ Widget askPuntGPTButton(BuildContext context) {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          ImageWidget(path: AppAssets.horse, height: 30.w),
+          ImageWidget(path: AppAssets.horse, height: (kIsWeb) ? 42.w : 30.w),
+
           10.horizontalSpace,
           Text(
             "Ask @ PuntGPT",
             textAlign: TextAlign.center,
-            style: semiBold(fontSize: 20.sp, fontFamily: AppFontFamily.secondary),
+            style: semiBold(fontSize: (kIsWeb) ? 38.sp : 20.sp, fontFamily: AppFontFamily.secondary),
           ),
         ],
       ),

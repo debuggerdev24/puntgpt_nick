@@ -9,37 +9,30 @@ import 'package:puntgpt_nick/responsive/responsive_builder.dart';
 
 import '../../../../provider/search_engine_provider.dart';
 
-class HomeScreenTab extends StatelessWidget {
-  const HomeScreenTab({super.key, required this.selectedIndex, this.onTap});
+class HomeScreenTabWeb extends StatelessWidget {
+  const HomeScreenTabWeb({super.key, required this.selectedIndex, this.onTap});
 
   final int selectedIndex;
   final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: Responsive.isMobile(context)
-          ? double.maxFinite
-          : 400.w.flexClamp(300, 500),
-      child: IntrinsicHeight(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            _tabButton(
-              context: context,
-              index: 0,
-              text: "PuntGPT\nSearch Engine",
-              isSelected: selectedIndex == 0,
-            ),
-            _tabButton(
-              context: context,
-              index: 1,
-              text: "Classic Form Guide",
-              isSelected: selectedIndex == 1,
-            ),
-          ],
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        _tabButton(
+          context: context,
+          index: 0,
+          text: "PuntGPT Search Engine",
+          isSelected: selectedIndex == 0,
         ),
-      ),
+        _tabButton(
+          context: context,
+          index: 1,
+          text: "Classic Form Guide",
+          isSelected: selectedIndex == 1,
+        ),
+      ],
     );
   }
 
@@ -49,6 +42,7 @@ class HomeScreenTab extends StatelessWidget {
     required String text,
     required bool isSelected,
   }) {
+
     return OnButtonTap(
       onTap: () {
         context.read<SearchEngineProvider>().changeTab = index;
@@ -59,16 +53,17 @@ class HomeScreenTab extends StatelessWidget {
       child: AnimatedContainer(
         duration: Duration(milliseconds: 400),
         alignment: Alignment.center,
-        padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 14.w),
+        padding: EdgeInsets.symmetric(vertical: 15.h, horizontal: (kIsWeb) ? 45.w : 18.w),
         decoration: BoxDecoration(
           color: isSelected ? AppColors.primary : AppColors.white,
           border: Border.all(color: AppColors.primary),
         ),
         child: Text(
           text,
+
           textAlign: TextAlign.center,
           style: bold(
-            fontSize: context.isDesktop ? 16.sp : context.isTablet ? 22.sp : (kIsWeb) ? 30.sp : 15.sp,
+            fontSize:context.isDesktop ? 16.sp : context.isTablet ? 22.sp : (kIsWeb) ? 30.sp : 14.sp,
             color: isSelected ? AppColors.white : AppColors.primary,
           ),
         ),

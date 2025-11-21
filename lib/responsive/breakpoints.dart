@@ -6,7 +6,8 @@ class Breakpoints {
   static const double mobile = 0;
 
   // Tablet: 600 - 1023 px
-  static const double tablet = 430;
+
+  static const double tablet = 510;
 
   // Desktop: 1024 - 1439 px
   static const double desktop = 800;

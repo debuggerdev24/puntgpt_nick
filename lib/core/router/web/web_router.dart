@@ -3,6 +3,8 @@ import 'package:go_router/go_router.dart';
 import 'package:puntgpt_nick/core/router/web/web_routes.dart';
 import 'package:puntgpt_nick/screens/auth/screens/web/web_login_screen.dart';
 import 'package:puntgpt_nick/screens/auth/screens/web/web_sign_up_screen.dart';
+import 'package:puntgpt_nick/screens/dashboard/web/web_dashboard.dart';
+import 'package:puntgpt_nick/screens/home/web/home_screen_web.dart';
 import 'package:puntgpt_nick/screens/onboarding/web/web_age_confirmation.dart';
 import 'package:puntgpt_nick/screens/splash/web_splash_screen.dart';
 
@@ -44,6 +46,48 @@ class WebRouter {
         name: WebRoutes.signInScreen.name,
         builder: (context, state) => WebLoginScreen(),
       ),
+
+      StatefulShellRoute.indexedStack(
+          builder: (context, state, navigationShell) {
+            indexedStackNavigationShell = navigationShell;
+            return WebDashboard(
+              // key: state.pageKey,
+              navigationShell: indexedStackNavigationShell!,
+            );
+          },
+          branches: <StatefulShellBranch>[
+            StatefulShellBranch(routes: [
+              GoRoute(
+                path: WebRoutes.homeScreen.path,
+                name: WebRoutes.homeScreen.name,
+                builder: (context, state) => WebHomeScreen(),
+              ),
+            ])
+      ])
     ],
+
+
+    errorBuilder: (context, state) => Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              '404',
+              style: TextStyle(fontSize: 48, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 16),
+            Text('Page not found: ${state.matchedLocation}'),
+            SizedBox(height: 24),
+            ElevatedButton(
+              onPressed: () => context.goNamed(WebRoutes.homeScreen.name),
+              child: Text('Go Home'),
+            ),
+          ],
+        ),
+      ),
+    ),
+
   );
+
 }

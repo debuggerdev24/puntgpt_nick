@@ -19,7 +19,7 @@ import 'package:puntgpt_nick/screens/punt_gpt_club/punter_club_screen.dart';
 import 'package:puntgpt_nick/screens/splash/splash_screen.dart';
 
 import '../../../screens/auth/screens/mobile/sign_up_screen.dart';
-import '../../../screens/dashboard/dashboard.dart';
+import '../../../screens/dashboard/mobile/dashboard.dart';
 import '../../../screens/home/mobile/manage_saved_search.dart';
 import '../../../screens/home/mobile/saved_search_screen.dart';
 import '../../../screens/home/mobile/search_filter_screen.dart';

@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -11,7 +12,6 @@ import 'package:puntgpt_nick/core/widgets/app_text_field_drop_down.dart';
 import 'package:puntgpt_nick/core/widgets/image_widget.dart';
 import 'package:puntgpt_nick/core/widgets/on_button_tap.dart';
 import 'package:puntgpt_nick/provider/search_engine_provider.dart';
-import 'package:puntgpt_nick/responsive/responsive_builder.dart';
 
 class FilterList extends StatefulWidget {
   const FilterList({super.key, required this.formKey});
@@ -47,28 +47,29 @@ class _FilterListState extends State<FilterList> {
 
   @override
   Widget build(BuildContext context) {
+    final bodyHorizontalPadding = (kIsWeb) ? 50.w : 25.w;
     return SizedBox(
-      width: Responsive.isMobile(context)
-          ? double.maxFinite
-          : 800.w.flexClamp(500, 800),
+      width:double.maxFinite,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 25.w
+            padding: EdgeInsets.symmetric(horizontal: bodyHorizontalPadding
             ),
             child: Text(
               "Search for a horse that meets your criteria:",
-              style: bold(fontSize: 16.sp, height: 1.2),
+              style: bold(fontSize: (kIsWeb) ? 36.sp :16.sp, height: 1.2),
             ),
+
+
           ),
           Padding(
-            padding: EdgeInsets.fromLTRB(25.w, 12.h, 20.h, 25.w),
+            padding: EdgeInsets.fromLTRB((kIsWeb) ? 50.w : 25.w, 12.h, 20.h, (kIsWeb) ? 50.w : 25.w),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text("Total Runners: (20)", style: bold(fontSize: 16.sp)),
+                Text("Total Runners: (20)", style: bold(fontSize: (kIsWeb) ? 36.sp :16.sp,)),
                 OnButtonTap(
                   onTap: onSaveSearchTap,
                   child: Row(
@@ -83,7 +84,8 @@ class _FilterListState extends State<FilterList> {
                       Text(
                         "Saved Searches",
                         style: bold(
-                          fontSize: 16.sp,
+                          fontSize: (kIsWeb) ? 36.sp :16.sp,
+
                           decoration: TextDecoration.underline,
                         ),
                       ),
@@ -95,14 +97,14 @@ class _FilterListState extends State<FilterList> {
           ),
 
           // FORM AREA
-          _buildListView(),
+          _buildFilterSection(),
         ],
       ),
     );
   }
 
   /// For Mobile
-  Widget _buildListView() {
+  Widget _buildFilterSection() {
     final provider = context.watch<SearchEngineProvider>();
 
     return Column(
@@ -114,13 +116,14 @@ class _FilterListState extends State<FilterList> {
           ), //AppColors.greyColor.withValues(alpha: 0.2)
           child: ExpansionTile(
             childrenPadding: EdgeInsets.only(
-              left: 25.w,
-              right: 25.w,
+              left: (kIsWeb) ? 50.w : 25.w,
+              right: (kIsWeb) ? 50.w : 25.w,
               bottom: 8.h,
             ),
-            tilePadding: EdgeInsets.symmetric(horizontal: 25.w),
+            tilePadding: EdgeInsets.symmetric(horizontal: (kIsWeb) ? 50.w : 25.w),
             iconColor: AppColors.greyColor,
-            title: Text("Track", style: semiBold(fontSize: 16.sp)),
+            title: Text("Track", style: semiBold(fontSize:  (kIsWeb) ? 36.sp :16.sp)),
+
             children: provider.trackItems.map((item) {
               bool isChecked = item["checked"];
               return InkWell(
@@ -137,12 +140,12 @@ class _FilterListState extends State<FilterList> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(item["label"], style: semiBold(fontSize: 16.sp)),
+                          Text(item["label"], style: semiBold(fontSize: (kIsWeb) ? 36.sp :16.sp,)),
                           AnimatedContainer(
                             duration: const Duration(milliseconds: 250),
                             curve: Curves.easeInOut,
-                            width: 22,
-                            height: 22,
+                            width: (kIsWeb) ? 40.sp : 22.sp,
+                            height: (kIsWeb) ? 40.sp : 22.sp,
                             decoration: BoxDecoration(
                               border: Border.all(
                                 color: isChecked
@@ -155,10 +158,10 @@ class _FilterListState extends State<FilterList> {
                                   : Colors.transparent,
                             ),
                             child: isChecked
-                                ? const Icon(
+                                ? Icon(
                                     Icons.check,
                                     color: Colors.white,
-                                    size: 16,
+                                    size: (kIsWeb) ? 30.sp : 18.sp,
                                   )
                                 : null,
                           ),

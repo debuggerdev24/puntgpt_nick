@@ -22,7 +22,6 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
     return Scaffold(
       appBar: !kIsWeb ? null : WebTopSection(),
       body: Align(

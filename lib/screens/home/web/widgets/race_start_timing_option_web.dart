@@ -1,0 +1,122 @@
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
+import 'package:puntgpt_nick/core/constants/constants.dart';
+import 'package:puntgpt_nick/core/constants/text_style.dart';
+import 'package:puntgpt_nick/core/widgets/on_button_tap.dart';
+import 'package:puntgpt_nick/provider/search_engine_provider.dart';
+import 'package:puntgpt_nick/responsive/responsive_builder.dart';
+
+class RaceStartTimingOptionsWeb extends StatelessWidget {
+  const RaceStartTimingOptionsWeb({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<SearchEngineProvider>(
+      builder: (context, provider, _) {
+        final timings = provider.raceStartingTimings;
+
+        return LayoutBuilder(
+          builder: (context, constraints) {
+
+            final textScale = MediaQuery.of(context).textScaleFactor;
+            double totalWidth = 50;
+            for (final t in timings) {
+              final estimatedTextWidth = (t.length * 10 * textScale);
+              totalWidth += estimatedTextWidth + 36 + 15;
+            }
+            final fitsInScreen = totalWidth < constraints.maxWidth;
+            return Center(
+              child: SingleChildScrollView(
+                padding: EdgeInsets.symmetric(horizontal: (kIsWeb) ? 35.w : 25.w),
+
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  spacing: 15,
+                  // alignment: WrapAlignment.center,
+                  children: List.generate(
+                    timings.length,
+                        (index) => _item(
+                      text: timings[index],
+                      onTap: () =>
+                      provider.selectedRaceTimingIndex = index,
+                      isSelected:
+                      provider.selectedRaceTimingIndex == index,
+                          context: context
+                    ),
+                  ),
+                ),
+              ),
+            );
+            //   SizedBox(
+            //   height: 45.w.flexClamp(45, 55),
+            //   width: context.screenWidth,
+            //   child: fitsInScreen
+            //       ? Center(
+            //     child: Wrap(
+            //       spacing: 15,
+            //       alignment: WrapAlignment.center,
+            //       children: List.generate(
+            //         timings.length,
+            //             (index) => _item(
+            //           text: timings[index],
+            //           onTap: () =>
+            //           provider.selectedRaceTimingIndex = index,
+            //           isSelected:
+            //           provider.selectedRaceTimingIndex == index,
+            //         ),
+            //       ),
+            //     ),
+            //   )
+            //       : ListView.separated(
+            //     padding: EdgeInsets.symmetric(horizontal: 25.w),
+            //     scrollDirection: Axis.horizontal,
+            //     itemBuilder: (context, index) => _item(
+            //       text: timings[index],
+            //       onTap: () => provider.selectedRaceTimingIndex = index,
+            //       isSelected: provider.selectedRaceTimingIndex == index,
+            //     ),
+            //     separatorBuilder: (_, __) => const SizedBox(width: 15),
+            //     itemCount: timings.length,
+            //   ),
+            // );
+          },
+        );
+      },
+    );
+  }
+
+  Widget _item({
+    required String text,
+    required VoidCallback onTap,
+    required bool isSelected,
+    required BuildContext context,
+  }) {
+    return OnButtonTap(
+      onTap: onTap,
+      child: AnimatedContainer(
+        duration: 450.ms,
+        curve: Curves.decelerate,
+        decoration: BoxDecoration(
+          color: isSelected ? AppColors.primary : AppColors.white,
+          border: Border.all(
+            color: isSelected
+                ? AppColors.primary
+                : AppColors.primary.setOpacity(0.15),
+          ),
+        ),
+        padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 18.w),
+        child: Text(
+          text,
+          style: semiBold(
+            fontSize: context.isDesktop ? 14.sp : context.isTablet ? 22.sp : (kIsWeb) ? 34.sp : 14.sp,
+            color: isSelected ? AppColors.white : AppColors.primary,
+          ),
+        ),
+      ),
+    );
+  }
+}
