@@ -32,6 +32,7 @@ class WebSignUpForm extends StatelessWidget {
       firstDate: firstDate,
       lastDate: lastDate,
     );
+
     if (selectedDate != null) {
       provider.dobCtr.text = DateFormatter.formatDateShort(selectedDate);
     }
@@ -77,15 +78,14 @@ class WebSignUpForm extends StatelessWidget {
                         hintText: "Date of birth",
                         trailingIcon: AppAssets.arrowDown,
                         trailingIconWidth: 15,
-                        enabled: false,
-                        validator: (value) =>
-                            FieldValidators().required(value, "Date of birth"),
+                        validator: (value) => FieldValidators().required(value, "Date of birth"),
                         hintStyle: medium(
                           fontSize: (kIsWeb) ? 28.sp : 16.sp,
                           color: AppColors.primary.setOpacity(0.4),
                         ),
-
-                        onTap: () => _pickBob(context, provider),
+                        onTap: () {
+                          _pickBob(context, provider);
+                        },
                       ),
                       AppTextFieldDropdown(
                         items: List.generate(

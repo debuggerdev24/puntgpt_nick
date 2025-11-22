@@ -37,7 +37,6 @@ class _SelectedRaceScreenState extends State<SelectedRaceScreen> {
               ),
             ),
             topBar(context),
-
             //todo dropdown here
             // Container(
             //   child: DropdownButtonFormField<String>(
@@ -96,7 +95,7 @@ class _SelectedRaceScreenState extends State<SelectedRaceScreen> {
               ),
             ),
 
-            RaceTable(),
+            SelectedRaceTable(),
             Spacer(),
             Align(
               alignment: Alignment.bottomRight,
@@ -157,14 +156,14 @@ class _SelectedRaceScreenState extends State<SelectedRaceScreen> {
   }
 }
 
-class RaceTable extends StatefulWidget {
-  const RaceTable({super.key});
+class SelectedRaceTable extends StatefulWidget {
+  const SelectedRaceTable({super.key});
 
   @override
-  State<RaceTable> createState() => _RaceTableState();
+  State<SelectedRaceTable> createState() => _SelectedRaceTableState();
 }
 
-class _RaceTableState extends State<RaceTable> {
+class _SelectedRaceTableState extends State<SelectedRaceTable> {
   int? expandedIndex;
 
   final List<Map<String, String>> horses = [
@@ -179,7 +178,7 @@ class _RaceTableState extends State<RaceTable> {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Container(
-        margin: EdgeInsets.symmetric(horizontal: 25.w),
+        margin: EdgeInsets.only(top: 24.h, bottom: 55.h),
         width: 1.4.sw,
         decoration: BoxDecoration(
           border: Border.all(color: AppColors.primary.withValues(alpha: 0.3)),

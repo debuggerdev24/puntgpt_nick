@@ -4,7 +4,7 @@ enum WebRoutes {
   ageConfirmationScreen,
   onBoardingScreen,
   signUpScreen,
-  signInScreen,
+  signInScreen, selectedRace,
 }
 
 extension WebRouteExtension on WebRoutes {

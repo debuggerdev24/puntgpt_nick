@@ -10,7 +10,7 @@ class Breakpoints {
   static const double tablet = 510;
 
   // Desktop: 1024 - 1439 px
-  static const double desktop = 800;
+  static const double desktop = 815;
 
   // Large desktop: 1440 - 1919 px
   static const double largeDesktop = 1440;
