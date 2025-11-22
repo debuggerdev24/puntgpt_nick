@@ -208,6 +208,7 @@ class _WebHomeScreenState extends State<WebHomeScreen> {
     );
   }
 
+
   Widget webView({
     required SearchEngineProvider provider,
     required GlobalKey<FormState> formKey,
