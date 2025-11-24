@@ -28,7 +28,7 @@ class _SelectedRaceScreenState extends State<SelectedRaceScreen> {
         return Column(
           children: [
             Padding(
-              padding: EdgeInsets.fromLTRB(25, 16, 25, 0),
+              padding: EdgeInsets.fromLTRB(25.w, 16.h, 25.w, 0),
               child: HomeScreenTab(
                 selectedIndex: provider.selectedTab,
                 onTap: () {

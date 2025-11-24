@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:puntgpt_nick/core/constants/constants.dart';
 import 'package:puntgpt_nick/core/constants/text_style.dart';
+import 'package:puntgpt_nick/core/router/web/web_router.dart';
 import 'package:puntgpt_nick/core/widgets/image_widget.dart';
 import 'package:puntgpt_nick/core/widgets/on_button_tap.dart';
 
@@ -68,7 +69,10 @@ class WebDashboardAppBar extends StatelessWidget {
   }
 
   Widget _tipSlip() {
-    return OnButtonTap(
+    return OnMouseTap(
+      onTap: () {
+        WebRouter.indexedStackNavigationShell!.goBranch(1);
+      },
       child: SizedBox(
         height: (20.sp.flexClamp(18, 22) * 1.2) + 25,
         child: Stack(
@@ -140,7 +144,7 @@ class WebDashboardAppBar extends StatelessWidget {
     Color? color,
     bool hasLock = false,
   }) {
-    return OnButtonTap(
+    return OnMouseTap(
       onTap: onTap,
       child: Row(
         mainAxisSize: MainAxisSize.min,

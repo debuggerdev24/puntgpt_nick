@@ -29,7 +29,11 @@ class _WebSplashScreenState extends State<WebSplashScreen> {
       _startTimer();
       Future.delayed(
         3.seconds,
-      ).then((value) => context.go(WebRoutes.ageConfirmationScreen.path));
+      ).then((value) {
+        if(mounted) {
+          context.go(WebRoutes.ageConfirmationScreen.path);
+        }
+      });
     });
   }
 

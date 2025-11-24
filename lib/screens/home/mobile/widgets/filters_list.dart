@@ -70,7 +70,7 @@ class _FilterListState extends State<FilterList> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text("Total Runners: (20)", style: bold(fontSize: (kIsWeb) ? 36.sp :16.sp,)),
-                OnButtonTap(
+                OnMouseTap(
                   onTap: onSaveSearchTap,
                   child: Row(
                     mainAxisSize: MainAxisSize.min,

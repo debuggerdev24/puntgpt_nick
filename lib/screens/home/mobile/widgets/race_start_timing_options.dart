@@ -70,7 +70,7 @@ class RaceStartTimingOptions extends StatelessWidget {
     required VoidCallback onTap,
     required bool isSelected,
   }) {
-    return OnButtonTap(
+    return OnMouseTap(
       onTap: onTap,
       child: AnimatedContainer(
         duration: 450.ms,

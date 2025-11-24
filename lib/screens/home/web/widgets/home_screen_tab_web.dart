@@ -43,7 +43,7 @@ class HomeScreenTabWeb extends StatelessWidget {
     required bool isSelected,
   }) {
 
-    return OnButtonTap(
+    return OnMouseTap(
       onTap: () {
         context.read<SearchEngineProvider>().changeTab = index;
         if (onTap != null && index == 0) {

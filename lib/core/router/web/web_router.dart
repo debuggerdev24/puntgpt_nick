@@ -5,6 +5,7 @@ import 'package:puntgpt_nick/screens/auth/screens/web/web_login_screen.dart';
 import 'package:puntgpt_nick/screens/auth/screens/web/web_sign_up_screen.dart';
 import 'package:puntgpt_nick/screens/dashboard/web/web_dashboard.dart';
 import 'package:puntgpt_nick/screens/home/web/home_screen_web.dart';
+import 'package:puntgpt_nick/screens/home/web/tip_slip_screen_web.dart';
 import 'package:puntgpt_nick/screens/onboarding/web/web_age_confirmation.dart';
 import 'package:puntgpt_nick/screens/splash/web_splash_screen.dart';
 
@@ -18,7 +19,7 @@ class WebRouter {
 
   static final GoRouter router = GoRouter(
     navigatorKey: _rootNavigatorKey,
-    initialLocation: WebRoutes.splashScreen.path,
+    initialLocation: WebRoutes.homeScreen.path,
     debugLogDiagnostics: true,
     routes: [
       GoRoute(
@@ -61,13 +62,22 @@ class WebRouter {
               GoRoute(
                 path: WebRoutes.homeScreen.path,
                 name: WebRoutes.homeScreen.name,
-                builder: (context, state) => WebHomeScreen(),
+                builder: (context, state) => HomeScreenWeb(),
               ),
               GoRoute(
                 path: WebRoutes.selectedRace.path,
                 name: WebRoutes.selectedRace.name,
                 builder: (context, state) => SelectedRaceTableScreenWeb(),
               ),
+            ]),
+            StatefulShellBranch(
+                routes: [
+              GoRoute(
+                path: WebRoutes.tipSlipScreen.path,
+                name: WebRoutes.tipSlipScreen.name,
+                builder: (context, state) => TipSlipScreenWeb(),
+              ),
+
             ])
       ])
     ],

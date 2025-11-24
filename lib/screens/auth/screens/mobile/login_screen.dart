@@ -117,7 +117,7 @@ class LoginScreen extends StatelessWidget {
                               color: AppColors.primary.setOpacity(.8),
                             ),
                           ),
-                          OnButtonTap(
+                          OnMouseTap(
                             onTap: () {
                               context.pushReplacement(
                                 AppRoutes.signup,

@@ -8,7 +8,6 @@ import 'package:puntgpt_nick/core/constants/constants.dart';
 import 'package:puntgpt_nick/core/constants/text_style.dart';
 import 'package:puntgpt_nick/core/widgets/image_widget.dart';
 import 'package:puntgpt_nick/core/widgets/on_button_tap.dart';
-import 'package:puntgpt_nick/screens/home/mobile/selected_race_screen.dart';
 import 'package:puntgpt_nick/screens/home/mobile/widgets/filters_list.dart';
 import 'package:puntgpt_nick/screens/home/mobile/widgets/home_screen_tab.dart';
 import 'package:puntgpt_nick/screens/home/mobile/widgets/race_table.dart';
@@ -23,14 +22,14 @@ import '../../../provider/search_engine_provider.dart';
 import '../../../responsive/responsive_builder.dart';
 import '../mobile/home_screen.dart';
 
-class WebHomeScreen extends StatefulWidget {
-  const WebHomeScreen({super.key});
+class HomeScreenWeb extends StatefulWidget {
+  const HomeScreenWeb({super.key});
 
   @override
-  State<WebHomeScreen> createState() => _WebHomeScreenState();
+  State<HomeScreenWeb> createState() => _HomeScreenWebState();
 }
 
-class _WebHomeScreenState extends State<WebHomeScreen> {
+class _HomeScreenWebState extends State<HomeScreenWeb> {
   bool _keyboardVisible = false;
 
   @override
@@ -77,7 +76,7 @@ class _WebHomeScreenState extends State<WebHomeScreen> {
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    if (kIsWeb) ...[
+                    if (kIsWeb && !context.isMobile) ...[
                       70.h.verticalSpace,
                       HomeScreenTabWeb(selectedIndex: provider.selectedTab),
                     ] else ...[
@@ -218,7 +217,7 @@ class _WebHomeScreenState extends State<WebHomeScreen> {
         : context.isTablet
         ? 1200.w
         : 1100.w;
-    final sixteenFontSize = context.isDesktop
+    final sixteenResponsive = context.isDesktop
         ? 16.sp
         : context.isTablet
         ? 24.sp
@@ -251,7 +250,7 @@ class _WebHomeScreenState extends State<WebHomeScreen> {
                           children: [
                             Text(
                               "Next to go",
-                              style: bold(fontSize: sixteenFontSize),
+                              style: bold(fontSize: sixteenResponsive),
                             ),
                             10.w.verticalSpace,
 
@@ -261,6 +260,7 @@ class _WebHomeScreenState extends State<WebHomeScreen> {
                               child: Row(
                                 spacing: 8.w,
                                 children: [
+
                                   raceItemWeb(context: context),
                                   raceItemWeb(context: context),
                                   raceItemWeb(context: context),
@@ -284,10 +284,7 @@ class _WebHomeScreenState extends State<WebHomeScreen> {
         //todo ask punt gpt button web
         Align(
           alignment: Alignment.bottomRight,
-          child: Padding(
-            padding: EdgeInsets.only(bottom: 80.w, right: 100.w),
-            child: askPuntGPTButtonWeb(context: context),
-          ),
+          child: askPuntGPTButtonWeb(context: context),
         ),
       ],
     );
@@ -384,11 +381,13 @@ class _WebHomeScreenState extends State<WebHomeScreen> {
 }
 
 Widget askPuntGPTButtonWeb({required BuildContext context}) {
-  return OnButtonTap(
+  return OnMouseTap(
     onTap: () {
       context.pushNamed(AppRoutes.askPuntGpt.name);
     },
     child: Container(
+      margin: EdgeInsets.only(bottom: 80.w, right: 100.w),
+
       padding: EdgeInsets.symmetric(
         vertical: context.isDesktop
             ? 10.w
@@ -413,7 +412,7 @@ Widget askPuntGPTButtonWeb({required BuildContext context}) {
             "Ask @ PuntGPT",
             textAlign: TextAlign.center,
             style: regular(
-              fontSize: context.isDesktop ? 16.sp : 22.sp,
+              fontSize: context.isDesktop ? 18.sp : 26.sp,
               fontFamily: AppFontFamily.secondary,
             ),
           ),

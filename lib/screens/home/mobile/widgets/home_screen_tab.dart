@@ -49,7 +49,7 @@ class HomeScreenTab extends StatelessWidget {
     required String text,
     required bool isSelected,
   }) {
-    return OnButtonTap(
+    return OnMouseTap(
       onTap: () {
         context.read<SearchEngineProvider>().changeTab = index;
         if (onTap != null && index == 0) {
@@ -59,7 +59,7 @@ class HomeScreenTab extends StatelessWidget {
       child: AnimatedContainer(
         duration: Duration(milliseconds: 400),
         alignment: Alignment.center,
-        padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 14.w),
+        padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: (kIsWeb) ? 26.w : 14.w),
         decoration: BoxDecoration(
           color: isSelected ? AppColors.primary : AppColors.white,
           border: Border.all(color: AppColors.primary),

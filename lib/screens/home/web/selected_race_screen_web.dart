@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:puntgpt_nick/core/widgets/on_button_tap.dart';
 import 'package:puntgpt_nick/provider/search_engine_provider.dart';
 import 'package:puntgpt_nick/responsive/responsive_builder.dart';
 import 'package:puntgpt_nick/screens/home/web/widgets/home_screen_tab_web.dart';
@@ -10,54 +11,153 @@ import 'package:puntgpt_nick/screens/home/web/widgets/home_screen_tab_web.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/text_style.dart';
 import '../../../core/widgets/app_devider.dart';
+import '../../../core/widgets/app_filed_button.dart';
+import '../../../core/widgets/app_text_field_drop_down.dart';
 import '../mobile/widgets/home_screen_tab.dart';
 
-class SelectedRaceTableScreenWeb extends StatelessWidget {
+class SelectedRaceTableScreenWeb extends StatefulWidget {
   const SelectedRaceTableScreenWeb({super.key});
+
+  @override
+  State<SelectedRaceTableScreenWeb> createState() =>
+      _SelectedRaceTableScreenWebState();
+}
+
+class _SelectedRaceTableScreenWebState
+    extends State<SelectedRaceTableScreenWeb> {
+  String selItem = "R1";
 
   @override
   Widget build(BuildContext context) {
     final bodyWidth = context.isMobile
-        ? double.maxFinite
+        ? 1.4.sw
         : context.isTablet
-        ? 1200.w
-        : 1100.w;
-    return Consumer<SearchEngineProvider>(
-      builder: (context, provider, child) {
-        return SizedBox(
-          width: bodyWidth,
-          child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            if (kIsWeb) ...[
-              70.h.verticalSpace,
-              HomeScreenTabWeb(selectedIndex: provider.selectedTab),
-            ] else ...[
-              20.h.verticalSpace,
-              HomeScreenTab(selectedIndex: provider.selectedTab),
-            ],
-            SizedBox(
-                width: bodyWidth,
-                child: topBar(context: context,width: bodyWidth))
-          ],
+        ? 1100.w
+        : 1000.w;
+
+    final sixteenResponsive = context.isDesktop
+        ? 16.sp
+        : context.isTablet
+        ? 24.sp
+        : (kIsWeb)
+        ? 32.sp
+        : 16.sp;
+    final eighteenResponsive = context.isDesktop
+        ? 18.sp
+        : context.isTablet
+        ? 26.sp
+        : (kIsWeb)
+        ? 34.sp
+        : 16.sp;
+    final fourteenResponsive = context.isDesktop
+        ? 14.sp
+        : context.isTablet
+        ? 22.sp
+        : (kIsWeb)
+        ? 26.sp
+        : 14.sp;
+
+    return Scaffold(
+      body: Align(
+        alignment: (kIsWeb && !context.isMobile)? Alignment.center : Alignment.centerLeft,
+        child: Consumer<SearchEngineProvider>(
+          builder: (context, provider, child) {
+            return SizedBox(
+              width: bodyWidth,
+              child: SingleChildScrollView(
+
+                padding: context.isMobile ? EdgeInsets.symmetric(horizontal: (kIsWeb) ? 55.w : 25.w) : EdgeInsets.zero,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+
+                    if (kIsWeb && !context.isMobile) ...[
+                      70.h.verticalSpace,
+
+                      HomeScreenTabWeb(
+                        selectedIndex: provider.selectedTab,
+                        onTap: () {
+                          context.pop();
+                        },
+                      ),
+                    ] else ...[
+                      20.h.verticalSpace,
+                      HomeScreenTab(
+                        selectedIndex: provider.selectedTab,
+                        onTap: () {
+                          context.pop();
+                        },
+                      ),
+                    ],
+
+                    //todo top bar
+                    topBar(
+                      context: context,
+                      sixteenResponsive: sixteenResponsive,
+                      fourteenResponsive: fourteenResponsive,
+                      eighteenResponsive: eighteenResponsive
+                      ),
+                    //todo drop down
+                    SizedBox(
+                      width: 360.w,
+                      child: Align(
+                        alignment: AlignmentGeometry.centerLeft,
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(vertical: 24.h),
+                          child: AppTextFieldDropdown(
+                            textStyle: medium(fontSize: fourteenResponsive),
+                            items: List.generate(10, (index) {
+                              return "R ${index + 1}";
+                            }),
+                            selectedValue: selItem,
+                            onChange: (value) {
+                              setState(() {
+                                selItem = value;
+                              });
+                            },
+
+                            hintText: "R1",
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    SelectedRaceTableWeb(
+                      bodyWidth: bodyWidth,
+                      sixteenResponsive: sixteenResponsive,
+                      fourteenResponsive: fourteenResponsive,
+                    ),
+                  ],
                 ),
-        );
-      },
+              ),
+            );
+          },
+        ),
+      ),
     );
   }
-  Widget topBar({required BuildContext context, required width}) {
+
+  //todo top bar
+  Widget topBar({
+    required BuildContext context,
+    required double sixteenResponsive,
+    required double fourteenResponsive,
+    required double eighteenResponsive,
+  }) {
     return Column(
       children: [
         Padding(
-          padding: EdgeInsets.fromLTRB(6.w, 25.h, 25.w, 20.h),
+          padding: EdgeInsets.symmetric(vertical: 25.w),
           child: Row(
+            spacing: eighteenResponsive,
+
             children: [
-              IconButton(
-                padding: EdgeInsets.zero,
-                onPressed: () {
+
+              OnMouseTap(
+                onTap: () {
                   context.pop();
                 },
-                icon: Icon(Icons.arrow_back_ios_rounded, size: 16.h),
+                child: Icon(Icons.arrow_back_ios_rounded, size: 16.h),
               ),
 
               Column(
@@ -66,7 +166,8 @@ class SelectedRaceTableScreenWeb extends StatelessWidget {
                   Text(
                     "Flemington",
                     style: regular(
-                      fontSize: 24.sp,
+
+                      fontSize: context.isDesktop ? 24.sp : context.isTablet ? 32 : (kIsWeb) ? 40.sp : 24.sp,
                       fontFamily: AppFontFamily.secondary,
                       height: 1.35,
                     ),
@@ -74,7 +175,7 @@ class SelectedRaceTableScreenWeb extends StatelessWidget {
                   Text(
                     "PuntGPT Legends Stakes 3200m. Date. Time",
                     style: semiBold(
-                      fontSize: 14.sp,
+                      fontSize: fourteenResponsive,
                       color: AppColors.greyColor.withValues(alpha: 0.6),
                     ),
                   ),
@@ -87,5 +188,181 @@ class SelectedRaceTableScreenWeb extends StatelessWidget {
       ],
     );
   }
+}
 
+class SelectedRaceTableWeb extends StatefulWidget {
+  const SelectedRaceTableWeb({
+    super.key,
+    required this.bodyWidth,
+    required this.sixteenResponsive,
+    required this.fourteenResponsive,
+  });
+
+  final double bodyWidth;
+  final double sixteenResponsive, fourteenResponsive;
+
+  @override
+  State<SelectedRaceTableWeb> createState() => _SelectedRaceTableWebState();
+}
+
+class _SelectedRaceTableWebState extends State<SelectedRaceTableWeb> {
+  int? expandedIndex;
+
+  final List<Map<String, String>> horses = [
+    {"name": "Prince of Penzance"},
+    {"name": "Makybe Diva"},
+    {"name": "Fiorente"},
+    {"name": "Gold Trip"},
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Container(
+        margin: EdgeInsets.only(top: 24.h, bottom: 55.h),
+        width: widget.bodyWidth,
+        decoration: BoxDecoration(
+          border: Border.all(color: AppColors.primary.withValues(alpha: 0.3)),
+        ),
+        child: Table(
+          border: TableBorder.symmetric(
+            inside: BorderSide(color: AppColors.primary.withValues(alpha: 0.2)),
+          ),
+          columnWidths: {0: FlexColumnWidth(1.1.w), 1: FlexColumnWidth(3.w)},
+          defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+          children: List.generate(horses.length, (index) {
+            final isExpanded = expandedIndex == index;
+            return TableRow(
+              decoration: BoxDecoration(),
+              children: [
+                IntrinsicHeight(
+                  child: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        expandedIndex = isExpanded ? null : index;
+                      });
+                    },
+                    child: Container(
+                      color: isExpanded
+                          ? AppColors.primary
+                          : Colors.transparent,
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                          vertical: 12.h,
+                          horizontal: 16.w,
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "${index + 1}. ${horses[index]["name"]!}",
+                              style: semiBold(
+                                fontSize: widget.sixteenResponsive,
+                                color: isExpanded ? Colors.white : null,
+                              ),
+                            ),
+                            if (isExpanded) ...[
+                              12.h.verticalSpace,
+                              Text(
+                                "\$2.10",
+                                style: semiBold(
+                                  fontSize: widget.sixteenResponsive,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              AppFiledButton(
+                                margin: EdgeInsets.only(top: 4),
+                                text: "Add to Tip Slip",
+                                textStyle: semiBold(
+                                  fontSize: widget.fourteenResponsive,
+                                  color: AppColors.primary,
+                                ),
+                                padding: EdgeInsets.symmetric(vertical: 9.h),
+                                color: AppColors.white,
+
+                                onTap: () {},
+                              ),
+                            ],
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    vertical: 8.h,
+                    horizontal: 12.w,
+                  ),
+                  child: isExpanded
+                      ? Align(
+                          alignment: AlignmentGeometry.topLeft,
+                          child: Wrap(
+                            alignment: WrapAlignment.start,
+                            runSpacing: 14.h,
+                            spacing: 12.w,
+                            children: [
+                              ...[
+                                "Weight",
+                                "Jockey",
+                                "Form",
+                                "Trainer",
+                                "Career",
+                                "Track",
+                                "Distance",
+                                "1st up",
+                                "2nd up",
+                                "3rd up",
+                                "Firm",
+                                "Soft",
+                                "Heavy",
+                              ].map(
+                                (label) => Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text(
+                                      label,
+                                      style: medium(
+                                        fontSize: widget.fourteenResponsive,
+                                        color: AppColors.primary,
+                                      ),
+                                    ),
+                                    VerticalDivider(color: AppColors.primary),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                      : Text(
+                          "W: J: F: T:",
+                          style: medium(
+                            fontSize: widget.fourteenResponsive,
+                            color: AppColors.primary,
+                          ),
+                        ),
+                ),
+              ],
+            );
+          }),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDetailBox(String label) {
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 6.h, horizontal: 10.w),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        border: Border.all(color: AppColors.primary.withValues(alpha: 0.2)),
+        borderRadius: BorderRadius.circular(6.r),
+      ),
+      child: Text(
+        label,
+        style: semiBold(fontSize: 13.sp, color: AppColors.primary),
+      ),
+    );
+  }
 }

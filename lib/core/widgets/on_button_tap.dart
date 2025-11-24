@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class OnButtonTap extends StatelessWidget {
-  const OnButtonTap({super.key, required this.child,  this.onTap});
+class OnMouseTap extends StatelessWidget {
+  const OnMouseTap({super.key, required this.child,  this.onTap});
 
   final Widget child;
   final VoidCallback? onTap;

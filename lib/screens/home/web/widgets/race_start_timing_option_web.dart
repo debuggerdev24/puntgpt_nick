@@ -95,7 +95,7 @@ class RaceStartTimingOptionsWeb extends StatelessWidget {
     required bool isSelected,
     required BuildContext context,
   }) {
-    return OnButtonTap(
+    return OnMouseTap(
       onTap: onTap,
       child: AnimatedContainer(
         duration: 450.ms,

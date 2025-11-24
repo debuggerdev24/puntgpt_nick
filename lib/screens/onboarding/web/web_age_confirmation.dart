@@ -57,7 +57,7 @@ class WebAgeConfirmationScreen extends StatelessWidget {
               ),
               SizedBox(height: 50.w.clamp(20, 80)),
               if (!Responsive.isMobile(context)) ...[
-                OnButtonTap(
+                OnMouseTap(
                   child: AppFiledButton(
                     onTap: () => _onYesTap(context),
                     text: "Yes",
@@ -77,7 +77,7 @@ class WebAgeConfirmationScreen extends StatelessWidget {
                   ),
                 ),
                 10.h.verticalSpace,
-                OnButtonTap(
+                OnMouseTap(
                   child: AppOutlinedButton(
                     onTap: () => _onNoTap(context),
                     text: "No",

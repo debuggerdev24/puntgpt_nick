@@ -117,7 +117,7 @@ class WebLoginScreen extends StatelessWidget {
                             ),
 
                           ),
-                          OnButtonTap(
+                          OnMouseTap(
                             onTap: () {
                               context.pop();
                             },

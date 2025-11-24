@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -7,6 +8,7 @@ import 'package:puntgpt_nick/core/router/web/web_routes.dart';
 import 'package:puntgpt_nick/core/widgets/app_filed_button.dart';
 import 'package:puntgpt_nick/core/widgets/image_widget.dart';
 import 'package:puntgpt_nick/core/widgets/web_top_section.dart';
+import 'package:puntgpt_nick/responsive/responsive_builder.dart';
 import 'package:puntgpt_nick/screens/onboarding/mobile/widgets/video_widget.dart';
 
 class WebOnboardingScreen extends StatelessWidget {
@@ -63,7 +65,15 @@ class WebOnboardingScreen extends StatelessWidget {
         ],
       },
     ];
-
+    LogHelper.info(
+      "is Mobile ${Responsive.isMobile(context)} ${context.screenWidth}",
+    );
+    LogHelper.info(
+      "is Desktop ${Responsive.isDesktop(context)} ${context.screenWidth}",
+    );
+    LogHelper.info(
+      "is Tablet ${Responsive.isTablet(context)} ${context.screenWidth}",
+    );
     return Scaffold(
       appBar: WebTopSection(),
       body: Align(
@@ -220,6 +230,18 @@ class WebOnboardingScreen extends StatelessWidget {
                           text: planData[index]['price'].toString().isEmpty
                               ? "Create a Free Account"
                               : "Subscribe",
+                          textStyle: semiBold(
+
+                              color: AppColors.white,
+                              fontSize: context.isDesktop
+                                  ? 18.sp
+                                  : context.isTablet
+                                  ? 26.sp
+                                  : kIsWeb
+                                  ? 34.sp
+                                  : 18.sp
+
+                          ),
                           onTap: () {
                             context.pushNamed(
                               WebRoutes.signUpScreen.name,

@@ -44,7 +44,7 @@ class WebSignUpScreen extends StatelessWidget {
                       ),
                       child: Align(
                         alignment: Alignment.centerLeft,
-                        child: OnButtonTap(
+                        child: OnMouseTap(
                           onTap: () {
                             context.pop();
                           },

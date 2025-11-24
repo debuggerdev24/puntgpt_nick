@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:puntgpt_nick/core/router/web/web_routes.dart';
 import 'package:puntgpt_nick/responsive/responsive_builder.dart';
 
 import '../../../../core/constants/app_colors.dart';
@@ -53,13 +54,6 @@ class RaceTable extends StatelessWidget {
               col4: "14:35",
               context: context,
 
-              onTap: () {
-                context.pushNamed(
-                  AppRoutes
-                      .selectedRace
-                      .name,
-                );
-              },
             ),
             _buildRow(
               col1: "Flemington",
@@ -68,13 +62,7 @@ class RaceTable extends StatelessWidget {
               col4: "14:35",
               context: context,
 
-              onTap: () {
-                context.pushNamed(
-                  AppRoutes
-                      .selectedRace
-                      .name,
-                );
-              },
+
             ),
             _buildRow(
               col1: "Morphettville",
@@ -83,13 +71,6 @@ class RaceTable extends StatelessWidget {
               col4: "14:35",
               context: context,
 
-              onTap: () {
-                context.pushNamed(
-                  AppRoutes
-                      .selectedRace
-                      .name,
-                );
-              },
             ),
             _buildRow(
               col1: "Doomben",
@@ -98,18 +79,6 @@ class RaceTable extends StatelessWidget {
               col4: "14:35",
               context: context,
 
-              onTap: () {
-                context.pushNamed(
-                  AppRoutes
-                      .selectedRace
-                      .name,
-                );
-                context.pushNamed(
-                  AppRoutes
-                      .selectedRace
-                      .name,
-                );
-              },
             ),
             _buildRow(
               col1: "Gold Coast",
@@ -118,13 +87,6 @@ class RaceTable extends StatelessWidget {
               col4: "14:35",
               context: context,
 
-              onTap: () {
-                context.pushNamed(
-                  AppRoutes
-                      .selectedRace
-                      .name,
-                );
-              },
             ),
             _buildRow(
               col1: "Ascot",
@@ -133,13 +95,6 @@ class RaceTable extends StatelessWidget {
               col4: "14:35",
               context: context,
 
-              onTap: () {
-                context.pushNamed(
-                  AppRoutes
-                      .selectedRace
-                      .name,
-                );
-              },
             ),
             _buildRow(
               col1: "Newcastle",
@@ -148,13 +103,7 @@ class RaceTable extends StatelessWidget {
               col4: "14:35",
                 context: context,
 
-              onTap: () {
-                context.pushNamed(
-                  AppRoutes
-                      .selectedRace
-                      .name,
-                );
-              },
+
 
             ),
             _buildRow(
@@ -162,13 +111,6 @@ class RaceTable extends StatelessWidget {
               col2: "etc...",
               col3: "etc...",
               col4: "etc...",
-              onTap: () {
-                context.pushNamed(
-                  AppRoutes
-                      .selectedRace
-                      .name,
-                );
-              },
               context: context
             ),
           ],
@@ -182,7 +124,6 @@ class RaceTable extends StatelessWidget {
     required String col2,
     required String col3,
     required String col4,
-    required VoidCallback onTap,
     required BuildContext context,
   }) {
     final sixteenFontSize = context.isDesktop
@@ -195,14 +136,30 @@ class RaceTable extends StatelessWidget {
     return TableRow(
       children: [
         GestureDetector(
-          onTap: onTap,
+          onTap: () {
+            context.pushNamed(
+              (kIsWeb) ? WebRoutes.selectedRace.name
+                  :
+              AppRoutes
+                  .selectedRace
+                  .name,
+            );
+          },
           child: Padding(
             padding: EdgeInsets.only(left: 16.w, top: 8.h, bottom: 8.h),
             child: Text(col1, style: semiBold(fontSize:sixteenFontSize)),
           ),
         ),
         GestureDetector(
-          onTap: onTap,
+          onTap: () {
+    context.pushNamed(
+    (kIsWeb) ? WebRoutes.selectedRace.name
+        :
+    AppRoutes
+        .selectedRace
+        .name,
+    );
+    },
           child: Padding(
             padding: EdgeInsets.only(left: 16.w, top: 8.h, bottom: 8.h),
 
@@ -210,7 +167,15 @@ class RaceTable extends StatelessWidget {
           ),
         ),
         GestureDetector(
-          onTap: onTap,
+          onTap: () {
+    context.pushNamed(
+    (kIsWeb) ? WebRoutes.selectedRace.name
+        :
+    AppRoutes
+        .selectedRace
+        .name,
+    );
+    },
 
           child: Padding(
             padding: EdgeInsets.only(left: 16.w, top: 8.h, bottom: 8.h),
@@ -219,7 +184,15 @@ class RaceTable extends StatelessWidget {
           ),
         ),
         GestureDetector(
-          onTap: onTap,
+          onTap: () {
+    context.pushNamed(
+    (kIsWeb) ? WebRoutes.selectedRace.name
+        :
+    AppRoutes
+        .selectedRace
+        .name,
+    );
+    },
           child: Padding(
             padding: EdgeInsets.only(left: 16.w, top: 8.h, bottom: 8.h),
 

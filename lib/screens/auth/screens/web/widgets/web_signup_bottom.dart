@@ -92,7 +92,7 @@ class WebSignUpBottomSection extends StatelessWidget {
                   color: AppColors.primary.withValues(alpha: 0.8),
                 ),
               ),
-              OnButtonTap(
+              OnMouseTap(
                 onTap: onLoginTap,
                 child: Text(
                   " Login",

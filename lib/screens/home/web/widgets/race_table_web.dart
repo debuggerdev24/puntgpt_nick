@@ -3,6 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:puntgpt_nick/core/router/web/web_routes.dart';
+import 'package:puntgpt_nick/core/widgets/on_button_tap.dart';
+import 'package:puntgpt_nick/core/widgets/on_button_tap.dart';
+import 'package:puntgpt_nick/core/widgets/on_button_tap.dart';
+import 'package:puntgpt_nick/core/widgets/on_button_tap.dart';
 import 'package:puntgpt_nick/responsive/responsive_builder.dart';
 
 import '../../../../core/constants/app_colors.dart';
@@ -147,21 +151,21 @@ class RaceTableWeb extends StatelessWidget {
         : 16.sp;
     return TableRow(
       children: [
-        GestureDetector(
+        OnMouseTap(
           onTap: onTap,
           child: Padding(
             padding: EdgeInsets.only(left: 16.w, top: 8.h, bottom: 8.h),
             child: Text(col1, style: semiBold(fontSize: sixteenFontSize)),
           ),
         ),
-        GestureDetector(
+        OnMouseTap(
           onTap: onTap,
           child: Padding(
             padding: EdgeInsets.only(left: 16.w, top: 8.h, bottom: 8.h),
             child: Text(col2, style: semiBold(fontSize: sixteenFontSize)),
           ),
         ),
-        GestureDetector(
+        OnMouseTap(
           onTap: onTap,
 
           child: Padding(
@@ -170,7 +174,7 @@ class RaceTableWeb extends StatelessWidget {
             child: Text(col3, style: semiBold(fontSize: sixteenFontSize)),
           ),
         ),
-        GestureDetector(
+        OnMouseTap(
           onTap: onTap,
           child: Padding(
             padding: EdgeInsets.only(left: 16.w, top: 8.h, bottom: 8.h),

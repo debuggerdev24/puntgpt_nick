@@ -176,7 +176,7 @@ class Runner extends StatelessWidget {
                   ),
                 ),
                 Expanded(
-                  child: OnButtonTap(
+                  child: OnMouseTap(
                     onTap: () {
                       showModalBottomSheet(
                         showDragHandle: true,

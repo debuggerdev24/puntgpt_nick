@@ -73,7 +73,7 @@ class _SearchSectionWebState extends State<SearchSectionWeb> {
                   "Search for a horse that meets your criteria:",
                   style: bold(fontSize:context.isDesktop ? 16.sp : context.isTablet ? 24.sp : (kIsWeb) ? 40.sp :16.sp, height: 1.2),
                 ),
-                OnButtonTap(
+                OnMouseTap(
                   onTap: onSaveSearchTap,
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
