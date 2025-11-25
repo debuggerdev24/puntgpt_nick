@@ -11,9 +11,9 @@ import 'package:puntgpt_nick/core/widgets/app_outlined_button.dart';
 import 'package:puntgpt_nick/core/widgets/app_text_field.dart';
 import 'package:puntgpt_nick/provider/account/account_provider.dart';
 
-import '../../core/constants/app_colors.dart';
-import '../../core/constants/text_style.dart';
-import '../../core/widgets/app_devider.dart';
+import '../../../core/constants/app_colors.dart';
+import '../../../core/constants/text_style.dart';
+import '../../../core/widgets/app_devider.dart';
 
 class PersonalDetailsScreen extends StatefulWidget {
   const PersonalDetailsScreen({super.key});
@@ -162,7 +162,7 @@ class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
             ],
           ),
         ),
-        appDivider(),
+        horizontalDivider(),
       ],
     );
   }

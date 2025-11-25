@@ -3,10 +3,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:puntgpt_nick/core/router/app/app_routes.dart';
 
-import '../../core/constants/app_colors.dart';
-import '../../core/constants/text_style.dart';
-import '../../core/router/app/app_router.dart';
-import '../../core/widgets/app_devider.dart';
+import '../../../core/constants/app_colors.dart';
+import '../../../core/constants/text_style.dart';
+import '../../../core/router/app/app_router.dart';
+import '../../../core/widgets/app_devider.dart';
 
 class AccountScreen extends StatelessWidget {
   const AccountScreen({super.key});
@@ -27,7 +27,7 @@ class AccountScreen extends StatelessWidget {
               context.pushNamed(AppRoutes.personalDetails.name);
             },
           ),
-          appDivider(),
+          horizontalDivider(),
           accountItem(
             title: "Manage Subscription",
             onTap: () {
@@ -118,7 +118,7 @@ class AccountScreen extends StatelessWidget {
             ],
           ),
         ),
-        appDivider(),
+        horizontalDivider(),
       ],
     );
   }

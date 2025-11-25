@@ -46,7 +46,7 @@ class PunterClubScreen extends StatelessWidget {
                 ],
               ),
             ),
-            appDivider(),
+            horizontalDivider(),
             ListView.builder(
               shrinkWrap: true,
               itemCount: provider.clubsList.length,
@@ -81,7 +81,7 @@ class PunterClubScreen extends StatelessWidget {
                 );
               },
             ),
-            appDivider(),
+            horizontalDivider(),
             Spacer(),
             Align(
               alignment: AlignmentGeometry.bottomRight,

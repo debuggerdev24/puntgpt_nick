@@ -356,10 +356,8 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         ),
         GestureDetector(
           onTap: onTap,
-
           child: Padding(
             padding: EdgeInsets.only(left: 16.w, top: 8.h, bottom: 8.h),
-
             child: Text(col3, style: semiBold(fontSize: 16.sp)),
           ),
         ),
@@ -367,14 +365,12 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
           onTap: onTap,
           child: Padding(
             padding: EdgeInsets.only(left: 16.w, top: 8.h, bottom: 8.h),
-
             child: Text(col4, style: semiBold(fontSize: 16.sp)),
           ),
         ),
       ],
     );
   }
-
   Widget raceItem() {
     return Container(
       padding: EdgeInsets.fromLTRB(16.w, 12.h, 14.w, 14.h),
@@ -412,7 +408,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   }
 }
 
-Widget askPuntGPTButton(BuildContext context) {
+Widget askPuntGPTButton( BuildContext context) {
   return GestureDetector(
     onTap: () {
       context.pushNamed(AppRoutes.askPuntGpt.name);

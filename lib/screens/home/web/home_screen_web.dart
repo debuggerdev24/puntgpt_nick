@@ -51,7 +51,6 @@ class _HomeScreenWebState extends State<HomeScreenWeb> {
     LogHelper.info(
       "is Mobile ${Responsive.isMobile(context)} ${context.screenWidth}",
     );
-
     LogHelper.info(
       "is Desktop ${Responsive.isDesktop(context)} ${context.screenWidth}",
     );
@@ -81,7 +80,6 @@ class _HomeScreenWebState extends State<HomeScreenWeb> {
                       HomeScreenTabWeb(selectedIndex: provider.selectedTab),
                     ] else ...[
                       20.h.verticalSpace,
-
                       HomeScreenTab(selectedIndex: provider.selectedTab),
                     ],
                     16.h.verticalSpace,
@@ -150,7 +148,7 @@ class _HomeScreenWebState extends State<HomeScreenWeb> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.end,
                             mainAxisSize: MainAxisSize.min,
-                            children: [
+                            children:[
                               askPuntGPTButton(context),
                               10.verticalSpace,
                               IntrinsicWidth(
@@ -387,14 +385,13 @@ Widget askPuntGPTButtonWeb({required BuildContext context}) {
     },
     child: Container(
       margin: EdgeInsets.only(bottom: 80.w, right: 100.w),
-
       padding: EdgeInsets.symmetric(
         vertical: context.isDesktop
             ? 10.w
             : context.isTablet
-            ? 8.w
-            : 2.w,
-        horizontal: 16.w,
+            ? 11.w
+            : (kIsWeb) ? 16.w : 14.w,
+        horizontal: context.isDesktop ? 18.w : context.isTablet ? 20.w : (kIsWeb) ? 22.w : 16.w,
       ),
       decoration: BoxDecoration(
         color: AppColors.white,
@@ -404,15 +401,16 @@ Widget askPuntGPTButtonWeb({required BuildContext context}) {
         spacing: 10.w,
         mainAxisSize: MainAxisSize.min,
         children: [
+
           ImageWidget(
             path: AppAssets.horse,
-            height: context.isDesktop ? 34.w : 28.w,
+            height: context.isDesktop ? 34.w : context.isTablet ? 28.w :  (kIsWeb) ? 40.w : 30.w,
           ),
           Text(
             "Ask @ PuntGPT",
             textAlign: TextAlign.center,
             style: regular(
-              fontSize: context.isDesktop ? 18.sp : 26.sp,
+              fontSize: context.isDesktop ? 18.sp : context.isTablet ? 25.sp : (kIsWeb) ? 35.sp : 20.sp,
               fontFamily: AppFontFamily.secondary,
             ),
           ),

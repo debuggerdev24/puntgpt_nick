@@ -28,7 +28,7 @@ class ChatSection extends StatelessWidget {
             "mdsndjkjvdjkvbdjkfvbdf c mnbbnxmnfklfjkfjkdm,nnm,nbm,cnvm,bncmnbmcb",
           ),
           16.h.verticalSpace,
-          appDivider(),
+          horizontalDivider(),
         ],
       ),
     );

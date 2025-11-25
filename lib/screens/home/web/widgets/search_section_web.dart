@@ -46,7 +46,13 @@ class _SearchSectionWebState extends State<SearchSectionWeb> {
   }
 
   void onSaveSearchTap() {
-    context.pushNamed(AppRoutes.savedSearched.name);
+    showDialog(context: context, builder: (context) {
+      return Container(
+        height: 500.h,
+        width: 600.w,
+        color: AppColors.white,
+      );
+    },);
   }
 
 
@@ -112,7 +118,7 @@ class _SearchSectionWebState extends State<SearchSectionWeb> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        appDivider(),
+        horizontalDivider(),
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -185,7 +191,7 @@ class _SearchSectionWebState extends State<SearchSectionWeb> {
                       }).toList(),
                     ),
                   ),
-                  appDivider(endIndent: 22),
+                  horizontalDivider(endIndent: 22),
                   90.h.verticalSpace,
                   if(provider.isSearched)
                   Text("Total Runners: (20)",style: semiBold(fontSize: context.isDesktop ? 14.sp : context.isTablet ? 22.sp : (kIsWeb) ? 26.sp : 14.sp,color: AppColors.primary.withValues(alpha: 0.6),),),

@@ -9,6 +9,7 @@ import 'package:puntgpt_nick/screens/home/web/tip_slip_screen_web.dart';
 import 'package:puntgpt_nick/screens/onboarding/web/web_age_confirmation.dart';
 import 'package:puntgpt_nick/screens/splash/web_splash_screen.dart';
 
+import '../../../screens/account/web/account_screen_web.dart';
 import '../../../screens/home/web/selected_race_screen_web.dart';
 import '../../../screens/onboarding/web/web_onboarding_screen.dart';
 
@@ -76,6 +77,15 @@ class WebRouter {
                 path: WebRoutes.tipSlipScreen.path,
                 name: WebRoutes.tipSlipScreen.name,
                 builder: (context, state) => TipSlipScreenWeb(),
+              ),
+
+            ]),
+            StatefulShellBranch(
+                routes: [
+              GoRoute(
+                path: WebRoutes.accountScreen.path,
+                name: WebRoutes.accountScreen.name,
+                builder: (context, state) => AccountScreenWeb(),
               ),
 
             ])

@@ -30,7 +30,7 @@ class AskPuntGpt extends StatelessWidget {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      appDivider(),
+                      horizontalDivider(),
                       TextField(
                         decoration: InputDecoration(
                           border: InputBorder.none,
@@ -123,7 +123,7 @@ class AskPuntGpt extends StatelessWidget {
             ],
           ),
         ),
-        appDivider(),
+        horizontalDivider(),
       ],
     );
   }

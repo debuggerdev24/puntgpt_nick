@@ -4,11 +4,11 @@ import 'package:go_router/go_router.dart';
 import 'package:puntgpt_nick/core/widgets/app_filed_button.dart';
 import 'package:puntgpt_nick/core/widgets/app_outlined_button.dart';
 
-import '../../core/constants/app_assets.dart';
-import '../../core/constants/app_colors.dart';
-import '../../core/constants/text_style.dart';
-import '../../core/widgets/app_devider.dart';
-import '../../core/widgets/image_widget.dart';
+import '../../../core/constants/app_assets.dart';
+import '../../../core/constants/app_colors.dart';
+import '../../../core/constants/text_style.dart';
+import '../../../core/widgets/app_devider.dart';
+import '../../../core/widgets/image_widget.dart';
 
 List currentPlan = [
   {"icon": AppAssets.done, "point": "Chat function with PuntGPT"},
@@ -237,7 +237,7 @@ class ManageSubscriptionScreen extends StatelessWidget {
             ],
           ),
         ),
-        appDivider(),
+        horizontalDivider(),
       ],
     );
   }

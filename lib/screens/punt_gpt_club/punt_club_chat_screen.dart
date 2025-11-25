@@ -37,7 +37,7 @@ class PuntClubChatScreen extends StatelessWidget {
         Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            appDivider(),
+            horizontalDivider(),
             TextField(
               decoration: InputDecoration(
                 border: InputBorder.none,
@@ -100,7 +100,7 @@ class PuntClubChatScreen extends StatelessWidget {
             ],
           ),
         ),
-        appDivider(),
+        horizontalDivider(),
       ],
     );
   }

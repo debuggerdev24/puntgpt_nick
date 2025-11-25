@@ -47,6 +47,7 @@ class WebDashboardAppBar extends StatelessWidget {
               spacing: 30.w,
               mainAxisSize: MainAxisSize.min,
               children: [
+                //todo -------------------------> Subscribe to pro punter
                 _navItem(
                   onTap: () {},
                   text: "Subscribe\nto Pro Punter",
@@ -54,8 +55,11 @@ class WebDashboardAppBar extends StatelessWidget {
                   color: AppColors.premiumYellow,
                 ),
                 _tipSlip(),
+                //todo -------------------------> Account
                 _navItem(
-                  onTap: () {},
+                  onTap: () {
+                    WebRouter.indexedStackNavigationShell!.goBranch(2);
+                  },
                   text: "Account",
                   icon: AppAssets.profile,
                 ),

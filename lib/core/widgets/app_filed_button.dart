@@ -15,6 +15,7 @@ class AppFiledButton extends StatelessWidget {
     this.color,
     this.textStyle,
     this.margin,
+    this.isExpand
   });
 
   final EdgeInsetsGeometry? padding, margin;
@@ -25,6 +26,7 @@ class AppFiledButton extends StatelessWidget {
   final VoidCallback onTap;
   final TextStyle? textStyle;
   final Color? color;
+  final bool? isExpand;
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +39,7 @@ class AppFiledButton extends StatelessWidget {
           padding:
               padding ?? EdgeInsets.symmetric(vertical: 12.h, horizontal: 15.w),
           height: height,
-          width: width ?? double.maxFinite,
+          width: (width == null)  ? (isExpand ?? true) ? double.maxFinite : null : width,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(borderRadius ?? 0),
             color: color ?? AppColors.primary,

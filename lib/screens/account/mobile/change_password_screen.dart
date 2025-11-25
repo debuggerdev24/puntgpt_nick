@@ -5,12 +5,12 @@ import 'package:provider/provider.dart';
 import 'package:puntgpt_nick/core/utils/field_validators.dart';
 import 'package:puntgpt_nick/core/widgets/app_filed_button.dart';
 
-import '../../core/constants/app_assets.dart';
-import '../../core/constants/app_colors.dart';
-import '../../core/constants/text_style.dart';
-import '../../core/widgets/app_devider.dart';
-import '../../core/widgets/app_text_field.dart';
-import '../../provider/account/account_provider.dart';
+import '../../../core/constants/app_assets.dart';
+import '../../../core/constants/app_colors.dart';
+import '../../../core/constants/text_style.dart';
+import '../../../core/widgets/app_devider.dart';
+import '../../../core/widgets/app_text_field.dart';
+import '../../../provider/account/account_provider.dart';
 
 class ChangePasswordScreen extends StatefulWidget {
   const ChangePasswordScreen({super.key});
@@ -174,7 +174,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
             ],
           ),
         ),
-        appDivider(),
+        horizontalDivider(),
       ],
     );
   }

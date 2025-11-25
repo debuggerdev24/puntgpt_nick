@@ -132,7 +132,7 @@ class Runner extends StatelessWidget {
               ],
             ),
           ),
-          appDivider(),
+          horizontalDivider(),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 12.w,vertical: 9.h),
             child: Text(
@@ -140,7 +140,7 @@ class Runner extends StatelessWidget {
               style: medium(fontSize: fourteenFontSize),
             ),
           ),
-          appDivider(),
+          horizontalDivider(),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 12.w,vertical: 9.h),
             child: Text(
@@ -149,7 +149,7 @@ class Runner extends StatelessWidget {
             ),
           ),
 
-          appDivider(),
+          horizontalDivider(),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 12.w,vertical: 9.h),
             child: Text(
@@ -157,7 +157,7 @@ class Runner extends StatelessWidget {
               style: medium(fontSize: fourteenFontSize),
             ),
           ),
-          appDivider(),
+          horizontalDivider(),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 16.w,vertical: 16.h),
             child: Row(

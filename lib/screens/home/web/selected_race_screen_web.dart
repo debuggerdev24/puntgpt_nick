@@ -56,7 +56,6 @@ class _SelectedRaceTableScreenWebState
         : (kIsWeb)
         ? 26.sp
         : 14.sp;
-
     return Scaffold(
       body: Align(
         alignment: (kIsWeb && !context.isMobile)? Alignment.center : Alignment.centerLeft,
@@ -94,29 +93,30 @@ class _SelectedRaceTableScreenWebState
                     topBar(
                       context: context,
                       sixteenResponsive: sixteenResponsive,
-                      fourteenResponsive: fourteenResponsive,
                       eighteenResponsive: eighteenResponsive
                       ),
                     //todo drop down
                     SizedBox(
-                      width: 360.w,
+                      width: 290.w,
                       child: Align(
                         alignment: AlignmentGeometry.centerLeft,
                         child: Padding(
                           padding: EdgeInsets.symmetric(vertical: 24.h),
-                          child: AppTextFieldDropdown(
-                            textStyle: medium(fontSize: fourteenResponsive),
-                            items: List.generate(10, (index) {
-                              return "R ${index + 1}";
-                            }),
-                            selectedValue: selItem,
-                            onChange: (value) {
-                              setState(() {
-                                selItem = value;
-                              });
-                            },
-
-                            hintText: "R1",
+                          child: OnMouseTap(
+                            child: AppTextFieldDropdown(
+                              textStyle: medium(fontSize: fourteenResponsive),
+                              items: List.generate(10, (index) {
+                                return "R ${index + 1}";
+                              }),
+                              selectedValue: selItem,
+                              onChange: (value) {
+                                setState(() {
+                                  selItem = value;
+                                });
+                              },
+                            
+                              hintText: "R1",
+                            ),
                           ),
                         ),
                       ),
@@ -141,7 +141,6 @@ class _SelectedRaceTableScreenWebState
   Widget topBar({
     required BuildContext context,
     required double sixteenResponsive,
-    required double fourteenResponsive,
     required double eighteenResponsive,
   }) {
     return Column(
@@ -166,8 +165,7 @@ class _SelectedRaceTableScreenWebState
                   Text(
                     "Flemington",
                     style: regular(
-
-                      fontSize: context.isDesktop ? 24.sp : context.isTablet ? 32 : (kIsWeb) ? 40.sp : 24.sp,
+                      fontSize: context.isDesktop ? 20.sp : context.isTablet ? 28.sp : (kIsWeb) ? 36.sp : 20.sp,
                       fontFamily: AppFontFamily.secondary,
                       height: 1.35,
                     ),
@@ -175,7 +173,13 @@ class _SelectedRaceTableScreenWebState
                   Text(
                     "PuntGPT Legends Stakes 3200m. Date. Time",
                     style: semiBold(
-                      fontSize: fourteenResponsive,
+                      fontSize: context.isDesktop
+                          ? 12.sp
+                          : context.isTablet
+                          ? 20.sp
+                          : (kIsWeb)
+                          ? 24.sp
+                          : 12.sp,
                       color: AppColors.greyColor.withValues(alpha: 0.6),
                     ),
                   ),
@@ -184,7 +188,7 @@ class _SelectedRaceTableScreenWebState
             ],
           ),
         ),
-        appDivider(),
+        horizontalDivider(),
       ],
     );
   }
@@ -237,7 +241,7 @@ class _SelectedRaceTableWebState extends State<SelectedRaceTableWeb> {
               decoration: BoxDecoration(),
               children: [
                 IntrinsicHeight(
-                  child: GestureDetector(
+                  child: OnMouseTap(
                     onTap: () {
                       setState(() {
                         expandedIndex = isExpanded ? null : index;

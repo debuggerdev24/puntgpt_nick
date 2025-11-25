@@ -95,7 +95,6 @@ class _FilterListState extends State<FilterList> {
               ],
             ),
           ),
-
           // FORM AREA
           _buildFilterSection(),
         ],
@@ -109,7 +108,7 @@ class _FilterListState extends State<FilterList> {
 
     return Column(
       children: [
-        appDivider(),
+        horizontalDivider(),
         Theme(
           data: Theme.of(context).copyWith(
             dividerColor: AppColors.transparent,
@@ -174,7 +173,7 @@ class _FilterListState extends State<FilterList> {
             }).toList(),
           ),
         ),
-        appDivider(),
+        horizontalDivider(),
       ],
     );
   }

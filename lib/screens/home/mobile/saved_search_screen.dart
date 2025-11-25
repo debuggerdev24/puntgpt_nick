@@ -15,12 +15,12 @@ class SavedSearchScreen extends StatelessWidget {
     return Column(
       children: [
         topBar(context),
-        appDivider(),
+        horizontalDivider(),
         Expanded(
           child: ListView.separated(
             shrinkWrap: true,
             separatorBuilder: (context, index) {
-              return appDivider();
+              return horizontalDivider();
             },
             itemCount: 2,
             itemBuilder: (context, index) {
@@ -30,7 +30,7 @@ class SavedSearchScreen extends StatelessWidget {
                   if (index == 1)
                     Padding(
                       padding: EdgeInsets.only(bottom: 14.h),
-                      child: appDivider(),
+                      child: horizontalDivider(),
                     ),
                 ],
               );

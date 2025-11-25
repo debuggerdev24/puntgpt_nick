@@ -97,7 +97,7 @@ class TipSlipScreen extends StatelessWidget {
             ],
           ),
         ),
-        appDivider(),
+        horizontalDivider(),
       ],
     );
   }

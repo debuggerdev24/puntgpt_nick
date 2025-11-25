@@ -18,7 +18,7 @@ class SearchDetailScreen extends StatelessWidget {
     return Column(
       children: [
         topBar(context),
-        appDivider(),
+        horizontalDivider(),
         _buildListView(context: context),
         Spacer(),
         AppFiledButton(
@@ -140,7 +140,7 @@ class SearchDetailScreen extends StatelessWidget {
             }).toList(),
           ),
         ),
-        appDivider(),
+        horizontalDivider(),
       ],
     );
   }
