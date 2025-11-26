@@ -15,6 +15,8 @@ class AppOutlinedButton extends StatelessWidget {
     this.color,
     this.textStyle,
     this.margin,
+    this.isExpand
+
   });
 
   final EdgeInsetsGeometry? padding, margin;
@@ -25,6 +27,8 @@ class AppOutlinedButton extends StatelessWidget {
   final VoidCallback onTap;
   final TextStyle? textStyle;
   final Color? color;
+  final bool? isExpand;
+
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +45,8 @@ class AppOutlinedButton extends StatelessWidget {
                 horizontal: 15.w, //r.flexClamp(15, 18)
               ),
           height: height,
-          width: width ?? double.maxFinite,
+          width: (width == null)  ? (isExpand ?? true) ? double.maxFinite : null : width,
+
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(borderRadius ?? 0),
             color: AppColors.white,
