@@ -18,6 +18,15 @@ class WebDashboard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    LogHelper.info(
+      "is Mobile ${Responsive.isMobile(context)} ${context.screenWidth}",
+    );
+    LogHelper.info(
+      "is Desktop ${Responsive.isDesktop(context)} ${context.screenWidth}",
+    );
+    LogHelper.info(
+      "is Tablet ${Responsive.isTablet(context)} ${context.screenWidth}",
+    );
     return Scaffold(
       backgroundColor: AppColors.backGroundColor,
       body: SafeArea(

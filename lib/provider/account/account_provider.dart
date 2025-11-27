@@ -6,6 +6,14 @@ class AccountProvider extends ChangeNotifier {
       _confirmPassObscure = true,
       _isEdit = false;
 
+  int _selectedTab = 0;
+  int get selectedTabWeb => _selectedTab;
+
+  set setTabIndexWeb(int index){
+    _selectedTab = index;
+    notifyListeners();
+  }
+
   bool get currentPassObscure => _currentPassObscure;
   bool get newPassObscure => _newPassObscure;
   bool get confirmPassObscure => _confirmPassObscure;

@@ -12,6 +12,8 @@ import 'package:puntgpt_nick/core/widgets/on_button_tap.dart';
 import 'package:puntgpt_nick/provider/account/account_provider.dart';
 import 'package:puntgpt_nick/responsive/responsive_builder.dart';
 import 'package:puntgpt_nick/screens/account/web/personal_details_screen_web.dart';
+import 'package:puntgpt_nick/screens/account/web/widgets/manage_subscription_section_web.dart';
+import 'package:puntgpt_nick/screens/account/web/widgets/personal_details_section_web.dart';
 import 'package:puntgpt_nick/screens/home/web/home_screen_web.dart';
 
 import '../../../core/constants/app_assets.dart';
@@ -29,9 +31,9 @@ class _AccountScreenWebState extends State<AccountScreenWeb> {
   @override
   Widget build(BuildContext context) {
     final bodyWidth = context.isMobile
-        ? 1.4.sw
+        ? double.maxFinite
         : context.isTablet
-        ? 1116.w
+        ? 1240.w
         : 1040.w;
     final twentyResponsive = context.isDesktop
         ? 20.sp
@@ -57,9 +59,9 @@ class _AccountScreenWebState extends State<AccountScreenWeb> {
     final fourteenResponsive = context.isDesktop
         ? 14.sp
         : context.isTablet
-        ? 22.sp
+        ? 20.sp
         : (kIsWeb)
-        ? 26.sp
+        ? 28.sp
         : 14.sp;
     return Scaffold(
       body: Form(
@@ -76,15 +78,20 @@ class _AccountScreenWebState extends State<AccountScreenWeb> {
                         //todo ---------------> left panel
                         verticalDivider(),
                         SizedBox(
-                          width: 312.w,
+                          width: context.isDesktop
+                              ? 312.w
+                              : context.isTablet
+                              ? 370.w
+                              : 512.w,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               //todo title
                               Padding(
                                 padding: EdgeInsets.symmetric(
-                                  horizontal: 26.w,
-                                  vertical: 26.h,
+                                  horizontal: context.isDesktop ? 26.w : 20.w,
+
+                                  vertical: context.isDesktop ? 26.w : 20.w,
                                 ),
                                 child: Text(
                                   "My Account",
@@ -95,17 +102,31 @@ class _AccountScreenWebState extends State<AccountScreenWeb> {
                                 ),
                               ),
                               4.h.verticalSpace,
+                              horizontalDivider(),
+
                               //todo 1st tab
                               accountTabs(
                                 title: "Personal Details",
                                 fourteenResponsive: fourteenResponsive,
-                                color: AppColors.primary,
-                                onTap: () {},
+                                color: (provider.selectedTabWeb == 0)
+                                    ? AppColors.primary
+                                    : null,
+                                onTap: () {
+                                  provider.setTabIndexWeb = 0;
+                                },
+                                context: context,
                               ),
                               accountTabs(
                                 title: "Manage Subscription",
                                 fourteenResponsive: fourteenResponsive,
-                                onTap: () {},
+                                color: (provider.selectedTabWeb == 1)
+                                    ? AppColors.primary
+                                    : null,
+
+                                onTap: () {
+                                  provider.setTabIndexWeb = 1;
+                                },
+                                context: context,
                               ),
                               horizontalDivider(),
                             ],
@@ -113,110 +134,10 @@ class _AccountScreenWebState extends State<AccountScreenWeb> {
                         ),
                         verticalDivider(),
                         //todo ----------------> right panel
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.fromLTRB(
-                                  24.w,
-                                  11.h,
-                                  22.w,
-                                  11.w,
-                                ),
-                                child: topBar(context: context, provider: provider),
-                              ),
-                              horizontalDivider(),
-                              24.h.verticalSpace,
-                              //todo text fields
-                              Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 24.w),
-                                child: Wrap(
-                                  spacing: 16.w,
-                                  runSpacing: 12.h,
-                                  children: [
-                                    SizedBox(
-                                      width: 320.w,
-            
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        spacing: 5.h,
-                                        children: [
-                                          Text(
-                                            "Name",
-                                            style: semiBold(
-                                              fontSize: twelveResponsive,
-                                            ),
-                                          ),
-                                          AppTextField(
-                                            controller: TextEditingController(),
-                                            hintText: "Enter your Name",
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 320.w,
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        spacing: 5.h,
-                                        children: [
-                                          Text(
-                                            "Email",
-                                            style: semiBold(
-                                              fontSize: twelveResponsive,
-                                            ),
-                                          ),
-                                          AppTextField(
-                                            controller: TextEditingController(),
-                                            hintText: "Enter your Email",
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 320.w,
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        spacing: 5.h,
-                                        children: [
-                                          Text(
-                                            "Phone",
-                                            style: semiBold(
-                                              fontSize: twelveResponsive,
-                                            ),
-                                          ),
-                                          AppTextField(
-                                            controller: TextEditingController(),
-                                            hintText: "Enter your Phone Number",
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 24.w),
-                                child: AppOutlinedButton(
-                                  margin: EdgeInsets.only(top: 24.w
-                                  ),
-                                  text: "Change Password",
-                                  onTap: () {},
-                                  isExpand: false,
-                                  padding: EdgeInsets.symmetric(
-                                    vertical: 11.w,
-                                    horizontal: 20.w,
-                                  ),
-                                  textStyle: semiBold(fontSize: fourteenResponsive),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                        if (provider.selectedTabWeb == 0)
+                          PersonalDetailsSectionWeb(formKey: _formKey)
+                        else
+                          ManageSubscriptionSectionWeb(),
                         verticalDivider(),
                       ],
                     );
@@ -234,77 +155,24 @@ class _AccountScreenWebState extends State<AccountScreenWeb> {
     );
   }
 
-  Widget topBar({
-    required BuildContext context,
-    required AccountProvider provider,
-  }) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              "Personal Details",
-              style: regular(
-                fontSize: 24.sp,
-                fontFamily: AppFontFamily.secondary,
-                height: 1.35,
-              ),
-            ),
-            Text(
-              "Manage your name, email, etc.",
-              style: semiBold(
-                fontSize: 14.sp,
-                color: AppColors.greyColor.withValues(alpha: 0.6),
-              ),
-            ),
-          ],
-        ),
-        Padding(
-          padding: EdgeInsets.only(top: 14.w),
-          child: (provider.isEdit)
-              ? TextButton(
-                  onPressed: () {
-                    _formKey.currentState?.reset();
-                    provider.setIsEdit = !(provider.isEdit);
-                  },
-
-                  child: Text(
-                    "Cancel",
-                    style: bold(fontSize: 16.sp, color: AppColors.primary),
-                  ),
-                )
-              : OnMouseTap(
-                  onTap: () {
-                    provider.setIsEdit = !(provider.isEdit);
-                  },
-
-                  child: Row(
-                    spacing: 2,
-                    children: [
-                      SvgPicture.asset(AppAssets.edit),
-                      Text("Edit", style: bold(fontSize: 16.sp)),
-                    ],
-                  ),
-                ),
-        ),
-      ],
-    );
-  }
-
   Widget accountTabs({
     required String title,
     required double fourteenResponsive,
     Color? color,
     required VoidCallback onTap,
+    required BuildContext context,
   }) {
     return OnMouseTap(
       onTap: onTap,
-      child: Container(
-        color: color,
-        padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 20.h),
+
+      child: AnimatedContainer(
+        duration: Duration(milliseconds: 700),
+
+        decoration: BoxDecoration(color: color),
+        padding: EdgeInsets.symmetric(
+          horizontal: context.isDesktop ? 24.w : 30.w,
+          vertical: context.isDesktop ? 20.w : 26.w,
+        ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [

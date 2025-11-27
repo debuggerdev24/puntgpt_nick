@@ -394,9 +394,17 @@ Widget askPuntGPTButtonWeb({required BuildContext context}) {
         horizontal: context.isDesktop ? 18.w : context.isTablet ? 20.w : (kIsWeb) ? 22.w : 16.w,
       ),
       decoration: BoxDecoration(
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.primary.withValues(alpha: 0.35),
+            offset: Offset(0, 6),
+            blurRadius: 15
+          )
+        ],
         color: AppColors.white,
         border: Border.all(color: AppColors.primary),
       ),
+
       child: Row(
         spacing: 10.w,
         mainAxisSize: MainAxisSize.min,

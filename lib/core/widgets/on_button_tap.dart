@@ -10,7 +10,9 @@ class OnMouseTap extends StatelessWidget {
   Widget build(BuildContext context) {
     return MouseRegion(
       cursor: SystemMouseCursors.click,
-      child: GestureDetector(onTap: onTap, child: child),
+      child: GestureDetector(
+          behavior: HitTestBehavior.opaque,
+          onTap: onTap, child: child),
     );
   }
 }

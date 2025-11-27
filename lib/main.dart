@@ -54,8 +54,7 @@ class MyApp extends StatelessWidget {
             child: MaterialApp.router(
               debugShowCheckedModeBanner: false,
               theme: AppTheme.appThemeData,
-              routerConfig: WebRouter
-                  .router, //(kIsWeb) ? WebRouter.router : AppRouter.router,
+              routerConfig: WebRouter.router, //(kIsWeb) ? WebRouter.router : AppRouter.router,
             ),
           ),
         ),
