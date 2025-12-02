@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -24,6 +25,7 @@ class PersonalDetailsScreen extends StatefulWidget {
 
 class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -42,30 +44,42 @@ class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
                     children: [
                       28.h.verticalSpace,
                       //todo --------------> name
-                      Text("Name", style: semiBold(fontSize: 14.sp)),
+                      Text(
+                        "Name",
+                        style: semiBold(fontSize: (kIsWeb) ? 28.sp : 14.sp),
+                      ),
                       6.h.verticalSpace,
                       AppTextField(
                         controller: TextEditingController(),
                         hintText: "Enter Your Name",
+                        hintStyle: medium(fontSize: (kIsWeb) ? 28.sp : 14.sp),
                         validator: (value) =>
                             FieldValidators().name(value, "Name"),
                       ),
                       //todo --------------> email
                       14.h.verticalSpace,
-                      Text("Email", style: semiBold(fontSize: 14.sp)),
+                      Text(
+                        "Email",
+                        style: semiBold(fontSize: (kIsWeb) ? 28.sp : 14.sp),
+                      ),
                       6.h.verticalSpace,
                       AppTextField(
                         controller: TextEditingController(),
                         hintText: "Enter Your Email",
+                        hintStyle: medium(fontSize: (kIsWeb) ? 28.sp : 14.sp),
                         validator: (value) => FieldValidators().email(value),
                       ),
                       //todo --------------> phone
                       14.h.verticalSpace,
-                      Text("Phone", style: semiBold(fontSize: 14.sp)),
+                      Text(
+                        "Phone",
+                        style: semiBold(fontSize: (kIsWeb) ? 28.sp : 14.sp),
+                      ),
                       6.h.verticalSpace,
                       AppTextField(
                         controller: TextEditingController(),
                         hintText: "Enter Your Phone",
+                        hintStyle: medium(fontSize: (kIsWeb) ? 28.sp : 14.sp),
                         validator: (value) =>
                             FieldValidators().mobileNumber(value),
                       ),
@@ -104,25 +118,28 @@ class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
     return Column(
       children: [
         Padding(
-          padding: EdgeInsets.fromLTRB(5.w, 12.h, (!provider.isEdit) ? 25.w : 8.w, 16.h),
+          padding: EdgeInsets.fromLTRB(
+            5.w,
+            12.h,
+            (!provider.isEdit) ? 25.w : 8.w,
+            16.h,
+          ),
           child: Row(
             children: [
               IconButton(
                 padding: EdgeInsets.zero,
-
                 onPressed: () {
                   context.pop();
                 },
                 icon: Icon(Icons.arrow_back_ios_rounded, size: 16.h),
               ),
-
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     "Personal Details",
                     style: regular(
-                      fontSize: 24.sp,
+                      fontSize: (kIsWeb) ? 40.sp : 24.sp,
                       fontFamily: AppFontFamily.secondary,
                       height: 1.35,
                     ),
@@ -130,7 +147,8 @@ class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
                   Text(
                     "Manage your name, email, etc.",
                     style: semiBold(
-                      fontSize: 14.sp,
+                      fontSize: (kIsWeb) ? 26.sp : 14.sp,
+
                       color: AppColors.greyColor.withValues(alpha: 0.6),
                     ),
                   ),
@@ -143,10 +161,16 @@ class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
                     provider.setIsEdit = !(provider.isEdit);
                   },
                   child: Row(
-                    spacing: 2,
+                    spacing: (kIsWeb) ? 8 : 2,
                     children: [
-                      SvgPicture.asset(AppAssets.edit),
-                      Text("Edit", style: bold(fontSize: 16.sp)),
+                      SvgPicture.asset(
+                        AppAssets.edit,
+                        width: (kIsWeb) ? 32.w : 16.w,
+                      ),
+                      Text(
+                        "Edit",
+                        style: bold(fontSize: (kIsWeb) ? 32.sp : 16.sp),
+                      ),
                     ],
                   ),
                 )
@@ -157,7 +181,10 @@ class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
                     provider.setIsEdit = !(provider.isEdit);
                   },
 
-                  child: Text("Cancel", style: bold(fontSize: 16.sp,color: AppColors.primary)),
+                  child: Text(
+                    "Cancel",
+                    style: bold(fontSize: 16.sp, color: AppColors.primary),
+                  ),
                 ),
             ],
           ),

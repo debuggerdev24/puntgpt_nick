@@ -5,7 +5,6 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:puntgpt_nick/core/constants/constants.dart';
 import 'package:puntgpt_nick/core/constants/text_style.dart';
-import 'package:puntgpt_nick/core/router/app/app_routes.dart';
 import 'package:puntgpt_nick/core/widgets/app_devider.dart';
 import 'package:puntgpt_nick/core/widgets/app_text_field.dart';
 import 'package:puntgpt_nick/core/widgets/app_text_field_drop_down.dart';
@@ -14,6 +13,8 @@ import 'package:puntgpt_nick/core/widgets/on_button_tap.dart';
 import 'package:puntgpt_nick/provider/search_engine_provider.dart';
 import 'package:puntgpt_nick/responsive/responsive_builder.dart';
 import 'package:puntgpt_nick/screens/home/web/widgets/runners_list_web.dart';
+
+import '../../../../core/router/app/app_routes.dart';
 import '../../../../core/widgets/app_filed_button.dart';
 import '../../../../core/widgets/app_outlined_button.dart';
 
@@ -46,15 +47,13 @@ class _SearchSectionWebState extends State<SearchSectionWeb> {
   }
 
   void onSaveSearchTap() {
-    showDialog(context: context, builder: (context) {
-      return Container(
-        height: 500.h,
-        width: 600.w,
-        color: AppColors.white,
-      );
-    },);
+    showDialog(
+      context: context,
+      builder: (context) {
+        return searchItems(context);
+      },
+    );
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -63,21 +62,28 @@ class _SearchSectionWebState extends State<SearchSectionWeb> {
         width: Responsive.isMobile(context)
             ? double.maxFinite
             : context.isTablet
-        ? 1200.w
-            :
-        1100.w ,
+            ? 1200.w
+            : 1100.w,
 
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
-          children:[
+          children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-
                 Text(
                   "Search for a horse that meets your criteria:",
-                  style: bold(fontSize:context.isDesktop ? 16.sp : context.isTablet ? 24.sp : (kIsWeb) ? 40.sp :16.sp, height: 1.2),
+                  style: bold(
+                    fontSize: context.isDesktop
+                        ? 16.sp
+                        : context.isTablet
+                        ? 24.sp
+                        : (kIsWeb)
+                        ? 40.sp
+                        : 16.sp,
+                    height: 1.2,
+                  ),
                 ),
                 OnMouseTap(
                   onTap: onSaveSearchTap,
@@ -87,13 +93,25 @@ class _SearchSectionWebState extends State<SearchSectionWeb> {
                       ImageWidget(
                         type: ImageType.svg,
                         path: AppAssets.bookmark,
-                        height: context.isDesktop ? 16.sp : context.isTablet ? 24.sp : (kIsWeb) ? 30.sp :16.sp,
+                        height: context.isDesktop
+                            ? 16.sp
+                            : context.isTablet
+                            ? 24.sp
+                            : (kIsWeb)
+                            ? 30.sp
+                            : 16.sp,
                       ),
                       5.w.horizontalSpace,
                       Text(
                         "Saved Searches",
                         style: bold(
-                          fontSize: context.isDesktop ? 16.sp : context.isTablet ? 24.sp : (kIsWeb) ? 30.sp :16.sp,
+                          fontSize: context.isDesktop
+                              ? 16.sp
+                              : context.isTablet
+                              ? 24.sp
+                              : (kIsWeb)
+                              ? 30.sp
+                              : 16.sp,
                           decoration: TextDecoration.underline,
                         ),
                       ),
@@ -129,9 +147,9 @@ class _SearchSectionWebState extends State<SearchSectionWeb> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Theme(
-                    data: Theme.of(context).copyWith(
-                      dividerColor: AppColors.transparent,
-                    ),
+                    data: Theme.of(
+                      context,
+                    ).copyWith(dividerColor: AppColors.transparent),
                     child: ExpansionTile(
                       childrenPadding: EdgeInsets.only(
                         left: 25.w,
@@ -140,7 +158,18 @@ class _SearchSectionWebState extends State<SearchSectionWeb> {
                       ),
                       tilePadding: EdgeInsets.symmetric(horizontal: 25.w),
                       iconColor: AppColors.greyColor,
-                      title: Text("Track", style: semiBold(fontSize: context.isDesktop ? 14.sp : context.isTablet ? 22.sp : (kIsWeb) ? 26.sp : 14.sp,)),
+                      title: Text(
+                        "Track",
+                        style: semiBold(
+                          fontSize: context.isDesktop
+                              ? 14.sp
+                              : context.isTablet
+                              ? 22.sp
+                              : (kIsWeb)
+                              ? 26.sp
+                              : 14.sp,
+                        ),
+                      ),
                       children: provider.trackItems.map((item) {
                         bool isChecked = item["checked"];
                         return InkWell(
@@ -151,15 +180,33 @@ class _SearchSectionWebState extends State<SearchSectionWeb> {
                           highlightColor: Colors.transparent,
                           child: Column(
                             children: [
-                              Divider(color: AppColors.greyColor.withValues(alpha: 0.2)),
+                              Divider(
+                                color: AppColors.greyColor.withValues(
+                                  alpha: 0.2,
+                                ),
+                              ),
                               Padding(
                                 padding: EdgeInsets.symmetric(vertical: 8.h),
                                 child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text(item["label"], style: semiBold(fontSize: context.isDesktop ? 14.sp : context.isTablet ? 22.sp : (kIsWeb) ? 26.sp : 14.sp,)),
+                                    Text(
+                                      item["label"],
+                                      style: semiBold(
+                                        fontSize: context.isDesktop
+                                            ? 14.sp
+                                            : context.isTablet
+                                            ? 22.sp
+                                            : (kIsWeb)
+                                            ? 26.sp
+                                            : 14.sp,
+                                      ),
+                                    ),
                                     AnimatedContainer(
-                                      duration: const Duration(milliseconds: 250),
+                                      duration: const Duration(
+                                        milliseconds: 250,
+                                      ),
                                       curve: Curves.easeInOut,
                                       width: 22.sp,
                                       height: 22.sp,
@@ -167,7 +214,9 @@ class _SearchSectionWebState extends State<SearchSectionWeb> {
                                         border: Border.all(
                                           color: isChecked
                                               ? Colors.green
-                                              : AppColors.primary.setOpacity(0.15),
+                                              : AppColors.primary.setOpacity(
+                                                  0.15,
+                                                ),
                                         ),
                                         borderRadius: BorderRadius.circular(1),
                                         color: isChecked
@@ -176,10 +225,10 @@ class _SearchSectionWebState extends State<SearchSectionWeb> {
                                       ),
                                       child: isChecked
                                           ? Icon(
-                                        Icons.check,
-                                        color: Colors.white,
-                                        size: 16.sp,
-                                      )
+                                              Icons.check,
+                                              color: Colors.white,
+                                              size: 16.sp,
+                                            )
                                           : null,
                                     ),
                                   ],
@@ -193,40 +242,71 @@ class _SearchSectionWebState extends State<SearchSectionWeb> {
                   ),
                   horizontalDivider(endIndent: 22),
                   90.h.verticalSpace,
-                  if(provider.isSearched)
-                  Text("Total Runners: (20)",style: semiBold(fontSize: context.isDesktop ? 14.sp : context.isTablet ? 22.sp : (kIsWeb) ? 26.sp : 14.sp,color: AppColors.primary.withValues(alpha: 0.6),),),
+                  if (provider.isSearched)
+                    Text(
+                      "Total Runners: (20)",
+                      style: semiBold(
+                        fontSize: context.isDesktop
+                            ? 14.sp
+                            : context.isTablet
+                            ? 22.sp
+                            : (kIsWeb)
+                            ? 26.sp
+                            : 14.sp,
+                        color: AppColors.primary.withValues(alpha: 0.6),
+                      ),
+                    ),
                   AppFiledButton(
-                    margin: EdgeInsets.only(right: 12.w,top: provider.isSearched ? 12.h : 0),
+                    margin: EdgeInsets.only(
+                      right: 12.w,
+                      top: provider.isSearched ? 12.h : 0,
+                    ),
                     text: "Search",
-                    padding: (!context.isMobile) ? EdgeInsets.symmetric(vertical: (context.isDesktop) ? 12.w : 11.w,) : null,
+                    padding: (!context.isMobile)
+                        ? EdgeInsets.symmetric(
+                            vertical: (context.isDesktop) ? 12.w : 11.w,
+                          )
+                        : null,
 
                     textStyle: semiBold(
                       color: AppColors.white,
-                      fontSize: context.isDesktop ? 14.sp : context.isTablet ? 22.sp : (kIsWeb) ? 26.sp : 14.sp,
-
+                      fontSize: context.isDesktop
+                          ? 14.sp
+                          : context.isTablet
+                          ? 22.sp
+                          : (kIsWeb)
+                          ? 26.sp
+                          : 14.sp,
                     ),
                     onTap: () {
                       // formKey.currentState!.validate();
-                      provider.setIsSearched(
-                        value:!provider.isSearched,
-                      );
+                      provider.setIsSearched(value: !provider.isSearched);
                     },
                   ),
 
                   AppOutlinedButton(
-                    margin: EdgeInsets.only(top: 8.h,bottom: 70.h,right: 12.w),
+                    margin: EdgeInsets.only(
+                      top: 8.h,
+                      bottom: 70.h,
+                      right: 12.w,
+                    ),
                     text: "Save this Search",
-                    padding: (!context.isMobile) ? EdgeInsets.symmetric(vertical: 12.w) : null,// (context.isDesktop) ? 12.w : 11.w,
+                    padding: (!context.isMobile)
+                        ? EdgeInsets.symmetric(vertical: 12.w)
+                        : null, // (context.isDesktop) ? 12.w : 11.w,
                     textStyle: semiBold(
-                      fontSize: context.isDesktop ? 14.sp : context.isTablet ? 22.sp : (kIsWeb) ? 26.sp : 14.sp,
+                      fontSize: context.isDesktop
+                          ? 14.sp
+                          : context.isTablet
+                          ? 22.sp
+                          : (kIsWeb)
+                          ? 26.sp
+                          : 14.sp,
                     ),
 
                     onTap: () {
                       // formKey.currentState!.validate();
-                      provider.setIsSearched(
-                        value: true,
-                      );
-
+                      provider.setIsSearched(value: true);
                     },
                   ),
                 ],
@@ -238,22 +318,39 @@ class _SearchSectionWebState extends State<SearchSectionWeb> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   20.h.verticalSpace,
-                  Text("Total Runners: (20)",style: semiBold(fontSize: context.isDesktop ? 14.sp : context.isTablet ? 22.sp : (kIsWeb) ? 26.sp : 14.sp,color: AppColors.primary.withValues(alpha: 0.6),),),
+                  Text(
+                    "Total Runners: (20)",
+                    style: semiBold(
+                      fontSize: context.isDesktop
+                          ? 14.sp
+                          : context.isTablet
+                          ? 22.sp
+                          : (kIsWeb)
+                          ? 26.sp
+                          : 14.sp,
+                      color: AppColors.primary.withValues(alpha: 0.6),
+                    ),
+                  ),
                   20.h.verticalSpace,
                   GridView.builder(
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2,childAspectRatio: context.isDesktop ? 1.55.w : 2.w,
-                        crossAxisSpacing: 16.w,mainAxisSpacing: 16.h), itemBuilder:(context, index) {
-                    return Runner(runner: provider.runnersList[0]);
-                  },
-                  itemCount: 10,)
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      childAspectRatio: context.isDesktop ? 1.55.w : 2.w,
+                      crossAxisSpacing: 16.w,
+                      mainAxisSpacing: 16.h,
+                    ),
+                    itemBuilder: (context, index) {
+                      return Runner(runner: provider.runnersList[0]);
+                    },
+                    itemCount: 10,
+                  ),
                 ],
               ),
-            )
+            ),
           ],
         ),
-
       ],
     );
   }
@@ -294,5 +391,177 @@ class _SearchSectionWebState extends State<SearchSectionWeb> {
         },
       );
     }
+  }
+
+  Widget searchItems(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(color: AppColors.white),
+      margin: EdgeInsets.symmetric(vertical: 190.w, horizontal: 300.w),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          //todo top bar of popup
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 32.w, vertical: 28.w),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "Saved Searches",
+                  style: regular(
+                    fontSize: 20.sp,
+                    fontFamily: AppFontFamily.secondary,
+                  ),
+                ),
+                OnMouseTap(
+                  onTap: () {
+                    context.pop();
+                  },
+                  child: Icon(
+                    Icons.close_rounded,
+                    color: AppColors.primary,
+                    size: 22.w,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          horizontalDivider(),
+          //todo search items
+          Padding(
+            padding: EdgeInsets.fromLTRB(32.w, 28.w, 32.w, 32.w),
+            child: Column(
+              spacing: 28.w,
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    context.pushNamed(AppRoutes.searchDetails.name);
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Search 1",
+                            style: semiBold(
+                              fontSize: context.isDesktop ? 16.sp : 24.sp,
+                            ),
+                          ),
+                          Text(
+                            "Sep 30, 2025",
+                            style: semiBold(
+                              fontSize: context.isDesktop ? 12.sp : 20.sp,
+                              color: AppColors.primary.withValues(alpha: 0.6),
+                            ),
+                          ),
+                          6.5.h.verticalSpace,
+                          Text(
+                            "Randwick • 1200m • >20%",
+                            style: medium(
+                              fontSize: context.isDesktop ? 14.sp : 22.sp,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Icon(
+                        Icons.arrow_forward_ios_rounded,
+                        color: AppColors.black,
+                        size: 14.h,
+                      ),
+                    ],
+                  ),
+                ),
+                horizontalDivider(),
+                GestureDetector(
+                  onTap: () {
+                    context.pushNamed(AppRoutes.searchDetails.name);
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Search 1",
+                            style: semiBold(
+                              fontSize: context.isDesktop ? 16.sp : 24.sp,
+                            ),
+                          ),
+                          Text(
+                            "Sep 30, 2025",
+                            style: semiBold(
+                              fontSize: context.isDesktop ? 12.sp : 20.sp,
+                              color: AppColors.primary.withValues(alpha: 0.6),
+                            ),
+                          ),
+                          6.5.h.verticalSpace,
+                          Text(
+                            "Randwick • 1200m • >20%",
+                            style: medium(
+                              fontSize: context.isDesktop ? 14.sp : 22.sp,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Icon(
+                        Icons.arrow_forward_ios_rounded,
+                        color: AppColors.black,
+                        size: 14.h,
+                      ),
+                    ],
+                  ),
+                ),
+                horizontalDivider(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    AppOutlinedButton(
+                      padding: EdgeInsets.symmetric(
+                        vertical: 12.w,
+                        horizontal: 18.w,
+                      ),
+                      isExpand: false,
+                      textStyle: semiBold(
+                        fontSize: context.isDesktop ? 14.sp : 22.sp,
+                      ),
+                      text: "Remove Searches",
+                      onTap: () {},
+                    ),
+                    AppFiledButton(
+                      padding: EdgeInsets.symmetric(
+                        vertical: 12.w,
+                        horizontal: 18.w,
+                      ),
+                      margin: EdgeInsets.only(left: 8.w),
+                      textStyle: semiBold(
+                        fontSize: context.isDesktop ? 14.sp : 22.sp,
+                        color: AppColors.white,
+                      ),
+                      isExpand: false,
+                      text: "Edit",
+                      onTap: () {},
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          // Row(
+          //   mainAxisSize: MainAxisSize.min,
+          //   children: [
+          //
+          //     AppFiledButton(
+          //       text: "Remove Searches",
+          //       onTap: () {},
+          //       width: null,
+          //     ),
+          //   ],
+          // ),
+        ],
+      ),
+    );
   }
 }

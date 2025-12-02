@@ -3,7 +3,7 @@ class AppAssets {
 
   // icons
   static const _iconPath = "assets/icons";
-  static const delete = "$_iconPath/delete.svg";
+  static const close = "$_iconPath/delete.svg";
   static const done = "$_iconPath/done.svg";
   static const back = "$_iconPath/back.svg";
   static const hide = "$_iconPath/hide.svg";

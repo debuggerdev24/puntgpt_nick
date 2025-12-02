@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:puntgpt_nick/core/router/web/web_routes.dart';
+import 'package:puntgpt_nick/responsive/responsive_builder.dart';
+import 'package:puntgpt_nick/screens/account/mobile/account_screen.dart';
+import 'package:puntgpt_nick/screens/account/mobile/manage_subscription_screen.dart';
+import 'package:puntgpt_nick/screens/account/mobile/personal_details_screen.dart';
 import 'package:puntgpt_nick/screens/auth/screens/web/web_login_screen.dart';
 import 'package:puntgpt_nick/screens/auth/screens/web/web_sign_up_screen.dart';
 import 'package:puntgpt_nick/screens/dashboard/web/web_dashboard.dart';
@@ -51,15 +55,16 @@ class WebRouter {
       ),
 
       StatefulShellRoute.indexedStack(
-          builder: (context, state, navigationShell) {
-            indexedStackNavigationShell = navigationShell;
-            return WebDashboard(
-              // key: state.pageKey,
-              navigationShell: indexedStackNavigationShell!,
-            );
-          },
-          branches: <StatefulShellBranch>[
-            StatefulShellBranch(routes: [
+        builder: (context, state, navigationShell) {
+          indexedStackNavigationShell = navigationShell;
+          return WebDashboard(
+            // key: state.pageKey,
+            navigationShell: indexedStackNavigationShell!,
+          );
+        },
+        branches: <StatefulShellBranch>[
+          StatefulShellBranch(
+            routes: [
               GoRoute(
                 path: WebRoutes.homeScreen.path,
                 name: WebRoutes.homeScreen.name,
@@ -70,28 +75,44 @@ class WebRouter {
                 name: WebRoutes.selectedRace.name,
                 builder: (context, state) => SelectedRaceTableScreenWeb(),
               ),
-            ]),
-            StatefulShellBranch(
-                routes: [
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
               GoRoute(
                 path: WebRoutes.tipSlipScreen.path,
                 name: WebRoutes.tipSlipScreen.name,
                 builder: (context, state) => TipSlipScreenWeb(),
               ),
-
-            ]),
-            StatefulShellBranch(
-                routes: [
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
               GoRoute(
                 path: WebRoutes.accountScreen.path,
                 name: WebRoutes.accountScreen.name,
-                builder: (context, state) => AccountScreenWeb(),
+                builder: (context, state) =>
+                    (context.isMobile) ? AccountScreen() : AccountScreenWeb(),
               ),
-
-            ])
-      ])
+              GoRoute(
+                path: WebRoutes.personalDetailsScreen.path,
+                name: WebRoutes.personalDetailsScreen.name,
+                builder: (context, state) => (context.isMobile)
+                    ? PersonalDetailsScreen()
+                    : AccountScreenWeb(),
+              ),
+              GoRoute(
+                path: WebRoutes.manageSubscriptionScreen.path,
+                name: WebRoutes.manageSubscriptionScreen.name,
+                builder: (context, state) => (context.isMobile)
+                    ? ManageSubscriptionScreen()
+                    : AccountScreenWeb(),
+              ),
+            ],
+          ),
+        ],
+      ),
     ],
-
 
     errorBuilder: (context, state) => Scaffold(
       body: Center(
@@ -113,7 +134,5 @@ class WebRouter {
         ),
       ),
     ),
-
   );
-
 }

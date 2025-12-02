@@ -21,9 +21,9 @@ class WebOnboardingScreen extends StatelessWidget {
         "title": "Free 'Mug Punter' Account",
         "price": "",
         "points": [
-          {"icon": AppAssets.delete, "text": "No chat function with PuntGPT"},
+          {"icon": AppAssets.close, "text": "No chat function with PuntGPT"},
           {
-            "icon": AppAssets.delete,
+            "icon": AppAssets.close,
             "text": "No access to PuntGPT Punters Club",
           },
           {
@@ -231,16 +231,14 @@ class WebOnboardingScreen extends StatelessWidget {
                               ? "Create a Free Account"
                               : "Subscribe",
                           textStyle: semiBold(
-
-                              color: AppColors.white,
-                              fontSize: context.isDesktop
-                                  ? 18.sp
-                                  : context.isTablet
-                                  ? 26.sp
-                                  : kIsWeb
-                                  ? 34.sp
-                                  : 18.sp
-
+                            color: AppColors.white,
+                            fontSize: context.isDesktop
+                                ? 18.sp
+                                : context.isTablet
+                                ? 26.sp
+                                : kIsWeb
+                                ? 34.sp
+                                : 18.sp,
                           ),
                           onTap: () {
                             context.pushNamed(

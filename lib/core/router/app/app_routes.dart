@@ -32,8 +32,8 @@ class AppRoutes {
 
   //4th Account Tab
   static const String account = '/account';
-  static const String personalDetails = '/personal-details';
-  static const String manageSubscription = '/manage-subscription';
+  static const String personalDetailsScreen = '/personal-details';
+  static const String manageSubscriptionScreen = '/manage-subscription';
 }
 
 extension AppRoutesExtension on String {

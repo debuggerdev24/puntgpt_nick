@@ -15,8 +15,7 @@ class AppOutlinedButton extends StatelessWidget {
     this.color,
     this.textStyle,
     this.margin,
-    this.isExpand
-
+    this.isExpand,
   });
 
   final EdgeInsetsGeometry? padding, margin;
@@ -29,7 +28,6 @@ class AppOutlinedButton extends StatelessWidget {
   final Color? color;
   final bool? isExpand;
 
-
   @override
   Widget build(BuildContext context) {
     return MouseRegion(
@@ -39,13 +37,13 @@ class AppOutlinedButton extends StatelessWidget {
         child: Container(
           margin: margin,
           padding:
-              padding ??
-              EdgeInsets.symmetric(
-                vertical: 12.h, //r.flexClamp(12, 15)
-                horizontal: 15.w, //r.flexClamp(15, 18)
-              ),
+              padding ?? EdgeInsets.symmetric(vertical: 12.h, horizontal: 15.w),
           height: height,
-          width: (width == null)  ? (isExpand ?? true) ? double.maxFinite : null : width,
+          width: (width == null)
+              ? (isExpand ?? true)
+                    ? double.maxFinite
+                    : null
+              : width,
 
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(borderRadius ?? 0),

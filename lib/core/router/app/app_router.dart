@@ -158,6 +158,7 @@ class AppRouter {
               ),
             ],
           ),
+
           //todo ----------> Customer Account Tab
           StatefulShellBranch(
             routes: <RouteBase>[
@@ -169,15 +170,15 @@ class AppRouter {
                 },
               ),
               GoRoute(
-                name: AppRoutes.personalDetails.name,
-                path: AppRoutes.personalDetails,
+                name: AppRoutes.personalDetailsScreen.name,
+                path: AppRoutes.personalDetailsScreen,
                 builder: (BuildContext context, GoRouterState state) {
                   return PersonalDetailsScreen();
                 },
               ),
               GoRoute(
-                name: AppRoutes.manageSubscription.name,
-                path: AppRoutes.manageSubscription,
+                name: AppRoutes.manageSubscriptionScreen.name,
+                path: AppRoutes.manageSubscriptionScreen,
                 builder: (BuildContext context, GoRouterState state) {
                   return ManageSubscriptionScreen();
                 },

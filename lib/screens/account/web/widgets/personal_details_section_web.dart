@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:puntgpt_nick/responsive/responsive_builder.dart';
+
 import '../../../../core/constants/app_assets.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/text_style.dart';
@@ -40,6 +41,7 @@ class PersonalDetailsSectionWeb extends StatelessWidget {
         : (kIsWeb)
         ? 26.sp
         : 14.sp;
+    double fieldWidth = context.isDesktop ? 320.w : 380.w;
     return Consumer<AccountProvider>(
       builder: (context, provider, child) {
         return Expanded(
@@ -55,7 +57,8 @@ class PersonalDetailsSectionWeb extends StatelessWidget {
                   context: context,
                   provider: provider,
                   formKey: formKey,
-                  twelveResponsive: twelveResponsive
+                  twelveResponsive: twelveResponsive,
+                  sixteenResponsive: sixteenResponsive,
                 ),
               ),
               horizontalDivider(),
@@ -68,8 +71,7 @@ class PersonalDetailsSectionWeb extends StatelessWidget {
                   runSpacing: 12.h,
                   children: [
                     SizedBox(
-                      width: 320.w,
-
+                      width: fieldWidth,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         spacing: 5.h,
@@ -81,12 +83,16 @@ class PersonalDetailsSectionWeb extends StatelessWidget {
                           AppTextField(
                             controller: TextEditingController(),
                             hintText: "Enter your Name",
+                            hintStyle: semiBold(
+                              color: AppColors.primary.withValues(alpha: 0.7),
+                              fontSize: context.isDesktop ? 14.sp : 20.sp,
+                            ),
                           ),
                         ],
                       ),
                     ),
                     SizedBox(
-                      width: 320.w,
+                      width: fieldWidth,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         spacing: 5.h,
@@ -98,12 +104,16 @@ class PersonalDetailsSectionWeb extends StatelessWidget {
                           AppTextField(
                             controller: TextEditingController(),
                             hintText: "Enter your Email",
+                            hintStyle: semiBold(
+                              color: AppColors.primary.withValues(alpha: 0.7),
+                              fontSize: context.isDesktop ? 14.sp : 20.sp,
+                            ),
                           ),
                         ],
                       ),
                     ),
                     SizedBox(
-                      width: 320.w,
+                      width: fieldWidth,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         spacing: 5.h,
@@ -115,6 +125,10 @@ class PersonalDetailsSectionWeb extends StatelessWidget {
                           AppTextField(
                             controller: TextEditingController(),
                             hintText: "Enter your Phone Number",
+                            hintStyle: semiBold(
+                              color: AppColors.primary.withValues(alpha: 0.7),
+                              fontSize: context.isDesktop ? 14.sp : 20.sp,
+                            ),
                           ),
                         ],
                       ),
@@ -122,19 +136,20 @@ class PersonalDetailsSectionWeb extends StatelessWidget {
                   ],
                 ),
               ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 24.w),
-                child: AppOutlinedButton(
-                  margin: EdgeInsets.only(top: 24.w),
-                  text: "Change Password",
-                  onTap: () {},
-                  isExpand: false,
-                  padding: EdgeInsets.symmetric(
-                    vertical: 11.w,
-                    horizontal: 20.w,
-                  ),
-                  textStyle: semiBold(fontSize: fourteenResponsive),
+              AppOutlinedButton(
+                margin: EdgeInsets.only(
+                  top: context.isDesktop ? 24.w : 34.w,
+                  left: 24.w,
+                  right: 24.w,
                 ),
+                text: "Change Password",
+                onTap: () {},
+                isExpand: false,
+                padding: EdgeInsets.symmetric(
+                  vertical: context.isDesktop ? 11.w : 16.w,
+                  horizontal: context.isDesktop ? 20.w : 25.w,
+                ),
+                textStyle: semiBold(fontSize: fourteenResponsive),
               ),
             ],
           ),
@@ -147,6 +162,7 @@ class PersonalDetailsSectionWeb extends StatelessWidget {
     required BuildContext context,
     required AccountProvider provider,
     required double twelveResponsive,
+    required double sixteenResponsive,
     required GlobalKey<FormState> formKey,
   }) {
     return Row(
@@ -174,7 +190,7 @@ class PersonalDetailsSectionWeb extends StatelessWidget {
           ],
         ),
         Padding(
-          padding: EdgeInsets.only(top: 14.w),
+          padding: EdgeInsets.only(top: provider.isEdit ? 12.w : 14.w),
           child: (provider.isEdit)
               ? TextButton(
                   onPressed: () {
@@ -193,10 +209,13 @@ class PersonalDetailsSectionWeb extends StatelessWidget {
                   },
 
                   child: Row(
-                    spacing: 2,
+                    spacing: context.isDesktop ? 5.w : 10.w,
                     children: [
-                      SvgPicture.asset(AppAssets.edit),
-                      Text("Edit", style: bold(fontSize: 16.sp)),
+                      SvgPicture.asset(
+                        AppAssets.edit,
+                        width: context.isDesktop ? 18.w : 22.w,
+                      ),
+                      Text("Edit", style: bold(fontSize: sixteenResponsive)),
                     ],
                   ),
                 ),

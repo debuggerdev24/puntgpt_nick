@@ -9,7 +9,6 @@ import 'package:puntgpt_nick/provider/auth/auth_provider.dart';
 import 'package:puntgpt_nick/screens/onboarding/mobile/widgets/plans.dart';
 import 'package:puntgpt_nick/screens/onboarding/mobile/widgets/video_widget.dart';
 
-
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
 
@@ -23,8 +22,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       "title": "Free 'Mug Punter' Account",
       "price": "",
       "points": [
-        {"icon": AppAssets.delete, "text": "No chat function with PuntGPT"},
-        {"icon": AppAssets.delete, "text": "No access to PuntGPT Punters Club"},
+        {"icon": AppAssets.close, "text": "No chat function with PuntGPT"},
+        {"icon": AppAssets.close, "text": "No access to PuntGPT Punters Club"},
         {
           "icon": AppAssets.done,
           "text": "Limited PuntGPT Search Engine Filters",

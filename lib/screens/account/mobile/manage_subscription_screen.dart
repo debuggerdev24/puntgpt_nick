@@ -10,14 +10,22 @@ import '../../../core/constants/text_style.dart';
 import '../../../core/widgets/app_devider.dart';
 import '../../../core/widgets/image_widget.dart';
 
-List currentPlan = [
+List activePlan = [
   {"icon": AppAssets.done, "point": "Chat function with PuntGPT"},
   {"icon": AppAssets.done, "point": "Access to PuntGPT Punters Club"},
   {"icon": AppAssets.done, "point": "Full use of PuntGPT Search Engine"},
   {"icon": AppAssets.done, "point": "Access to Classic Form Guide"},
 ];
 
-bool isSubscribe = true;
+List freePlan = [
+  {"icon": AppAssets.close, "point": "No chat function with PuntGPT"},
+  {"icon": AppAssets.close, "point": "No chat function with PuntGPT"},
+  {"icon": AppAssets.done, "point": "Limited PuntGPT Search Engine Filters"},
+  {"icon": AppAssets.done, "point": "Limited AI analysis of horses"},
+  {"icon": AppAssets.done, "point": "Access to Classic Form Guide"},
+];
+
+bool isSubscribe = false;
 
 class ManageSubscriptionScreen extends StatelessWidget {
   const ManageSubscriptionScreen({super.key});
@@ -100,7 +108,7 @@ class ManageSubscriptionScreen extends StatelessWidget {
                       padding: EdgeInsets.all(0),
                       physics: const NeverScrollableScrollPhysics(),
                       itemBuilder: (context, i) {
-                        Map item = currentPlan[i];
+                        Map item = activePlan[i];
                         return Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -110,12 +118,15 @@ class ManageSubscriptionScreen extends StatelessWidget {
                               height: 20.w,
                             ),
                             10.w.horizontalSpace,
-                            Text(item["point"], style: regular(fontSize: 16.sp)),
+                            Text(
+                              item["point"],
+                              style: regular(fontSize: 16.sp),
+                            ),
                           ],
                         );
                       },
                       separatorBuilder: (context, index) => 5.h.verticalSpace,
-                      itemCount: currentPlan.length,
+                      itemCount: activePlan.length,
                     ),
                   ],
                 )
@@ -136,19 +147,30 @@ class ManageSubscriptionScreen extends StatelessWidget {
                       ),
                     ),
                     20.h.verticalSpace,
-                    details(content: "No chat function with PuntGPT"),
-                    details(content: "No access to PuntGPT Punters Club"),
-                    details(
-                      isBenefit: true,
-                      content: "Limited PuntGPT Search Engine Filters",
-                    ),
-                    details(
-                      isBenefit: true,
-                      content: "Limited AI analysis of horses",
-                    ),
-                    details(
-                      isBenefit: true,
-                      content: "Access to Classic Form Guide",
+                    ListView.separated(
+                      shrinkWrap: true,
+                      padding: EdgeInsets.all(0),
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemBuilder: (context, i) {
+                        Map item = freePlan[i];
+                        return Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            ImageWidget(
+                              type: ImageType.svg,
+                              path: item["icon"],
+                              height: 20.w,
+                            ),
+                            10.w.horizontalSpace,
+                            Text(
+                              item["point"],
+                              style: regular(fontSize: 16.sp),
+                            ),
+                          ],
+                        );
+                      },
+                      separatorBuilder: (context, index) => 5.h.verticalSpace,
+                      itemCount: activePlan.length,
                     ),
                   ],
                 ),
@@ -164,7 +186,6 @@ class ManageSubscriptionScreen extends StatelessWidget {
           ),
         ),
         if (isSubscribe) Spacer(),
-
         AppFiledButton(
           margin: EdgeInsets.only(bottom: 8.h, left: 25.w, right: 25.w),
           text: "Renew",

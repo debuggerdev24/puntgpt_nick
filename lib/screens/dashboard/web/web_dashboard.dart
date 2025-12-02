@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:puntgpt_nick/core/constants/constants.dart';
 import 'package:puntgpt_nick/core/router/web/web_router.dart';
 import 'package:puntgpt_nick/responsive/responsive_builder.dart';
+
 import '../../../core/constants/text_style.dart';
 import '../../../core/widgets/image_widget.dart';
 import '../mobile/widgets/dashboard_app_bar.dart';
@@ -33,7 +34,7 @@ class WebDashboard extends StatelessWidget {
         bottom: false,
         child: Column(
           children: [
-            DashboardAppBar(navigationShell: navigationShell,),
+            DashboardAppBar(navigationShell: navigationShell),
             Expanded(
               child: ValueListenableBuilder(
                 valueListenable: indexOfWebTab,
@@ -48,76 +49,76 @@ class WebDashboard extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar: (!context.isDesktop) ? Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Container(
-            width: context.screenWidth,
-            color: AppColors.primary,
-            padding: EdgeInsets.fromLTRB(
-              15,
-              15,
-              15,
-              context.bottomPadding + 15,
-            ),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              spacing: 15.w,
+      bottomNavigationBar: (!context.isDesktop)
+          ? Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
-                _navItem(
-                  onTap: () {
-                    indexOfWebTab.value = 0;
-                    WebRouter.indexedStackNavigationShell?.goBranch(0);
-                  },
-                  text: "Subscribe to\nPro Punter",
-                  icon: AppAssets.trophy,
-                  color: AppColors.premiumYellow,
-                  index: 0,
-                    context: context
+                Container(
+                  width: context.screenWidth,
+                  color: AppColors.primary,
+                  padding: EdgeInsets.fromLTRB(
+                    15,
+                    15,
+                    15,
+                    context.bottomPadding + 15,
+                  ),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    spacing: 15.w,
+                    children: [
+                      _navItem(
+                        onTap: () {
+                          indexOfWebTab.value = 0;
+                          WebRouter.indexedStackNavigationShell?.goBranch(0);
+                        },
+                        text: "Subscribe to\nPro Punter",
+                        icon: AppAssets.trophy,
+                        color: AppColors.premiumYellow,
+                        index: 0,
+                        context: context,
+                      ),
+                      _navItem(
+                        onTap: () {
+                          indexOfWebTab.value = 1;
+                          WebRouter.indexedStackNavigationShell?.goBranch(1);
+                        },
+                        text: "PuntGPT Punter Club",
+                        icon: AppAssets.group,
 
-                ),
-                _navItem(
-                  onTap: () {
-                    indexOfWebTab.value = 1;
-                    WebRouter.indexedStackNavigationShell?.goBranch(1);
-                  },
-                  text: "PuntGPT Punter Club",
-                  icon: AppAssets.group,
-
-                  hasLock: false,
-                  index: 1,
-                    context: context
-
-                ),
-                _navItem(
-                  onTap: () {
-                    indexOfWebTab.value = 2;
-                    WebRouter.indexedStackNavigationShell?.goBranch(2);
-                  },
-                  text: "Bookies",
-                  icon: AppAssets.bookings,
-                  color: AppColors.green,
-                  index: 2,
-                    context: context
-
-                ),
-                _navItem(
-                  onTap: () {
-                    indexOfWebTab.value = 3;
-                    WebRouter.indexedStackNavigationShell?.goBranch(3);
-                  },
-                  text: "Account",
-                  icon: AppAssets.profile,
-                  index: 3,
-                  context: context
+                        hasLock: false,
+                        index: 1,
+                        context: context,
+                      ),
+                      _navItem(
+                        onTap: () {
+                          indexOfWebTab.value = 2;
+                          WebRouter.indexedStackNavigationShell?.goBranch(2);
+                        },
+                        text: "Bookies",
+                        icon: AppAssets.bookings,
+                        color: AppColors.green,
+                        index: 2,
+                        context: context,
+                      ),
+                      _navItem(
+                        onTap: () {
+                          indexOfWebTab.value = 3;
+                          WebRouter.indexedStackNavigationShell?.goBranch(3);
+                        },
+                        text: "Account",
+                        icon: AppAssets.profile,
+                        index: 3,
+                        context: context,
+                      ),
+                    ],
+                  ),
                 ),
               ],
-            ),
-          ),
-        ],
-      ) : SizedBox(),
+            )
+          : SizedBox(),
     );
   }
+
   _navItem({
     required VoidCallback onTap,
     required String text,
@@ -140,9 +141,10 @@ class WebDashboard extends StatelessWidget {
             ImageWidget(
               path: icon,
               type: ImageType.svg,
-              color: color?.withValues(
-                alpha: currentIndex == index ? 1 : opacity,
-              ) ??
+              color:
+                  color?.withValues(
+                    alpha: currentIndex == index ? 1 : opacity,
+                  ) ??
                   AppColors.white.withValues(
                     alpha: currentIndex == index ? 1 : opacity,
                   ),
@@ -176,12 +178,16 @@ class WebDashboard extends StatelessWidget {
               text,
               textAlign: TextAlign.center,
               style: medium(
-                fontSize: context.isTablet ? 22.sp : (kIsWeb) ? 26.sp : 12.sp,
+                fontSize: context.isTablet
+                    ? 22.sp
+                    : (kIsWeb)
+                    ? 26.sp
+                    : 12.sp,
 
                 color:
-                color?.withValues(
-                  alpha: currentIndex == index ? 1 : opacity,
-                ) ??
+                    color?.withValues(
+                      alpha: currentIndex == index ? 1 : opacity,
+                    ) ??
                     AppColors.white.withValues(
                       alpha: currentIndex == index ? 1 : opacity,
                     ),
@@ -192,5 +198,4 @@ class WebDashboard extends StatelessWidget {
       ),
     );
   }
-
 }

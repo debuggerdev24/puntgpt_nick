@@ -1,22 +1,16 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:puntgpt_nick/core/constants/app_colors.dart';
 import 'package:puntgpt_nick/core/constants/text_style.dart';
 import 'package:puntgpt_nick/core/widgets/app_devider.dart';
-import 'package:puntgpt_nick/core/widgets/app_outlined_button.dart';
-import 'package:puntgpt_nick/core/widgets/app_text_field.dart';
 import 'package:puntgpt_nick/core/widgets/on_button_tap.dart';
 import 'package:puntgpt_nick/provider/account/account_provider.dart';
 import 'package:puntgpt_nick/responsive/responsive_builder.dart';
-import 'package:puntgpt_nick/screens/account/web/personal_details_screen_web.dart';
 import 'package:puntgpt_nick/screens/account/web/widgets/manage_subscription_section_web.dart';
 import 'package:puntgpt_nick/screens/account/web/widgets/personal_details_section_web.dart';
 import 'package:puntgpt_nick/screens/home/web/home_screen_web.dart';
-
-import '../../../core/constants/app_assets.dart';
 
 class AccountScreenWeb extends StatefulWidget {
   const AccountScreenWeb({super.key});
@@ -64,6 +58,7 @@ class _AccountScreenWebState extends State<AccountScreenWeb> {
         ? 28.sp
         : 14.sp;
     return Scaffold(
+      backgroundColor: Color(0xffFAFAFA),
       body: Form(
         key: _formKey,
         child: Stack(
@@ -164,10 +159,8 @@ class _AccountScreenWebState extends State<AccountScreenWeb> {
   }) {
     return OnMouseTap(
       onTap: onTap,
-
       child: AnimatedContainer(
         duration: Duration(milliseconds: 700),
-
         decoration: BoxDecoration(color: color),
         padding: EdgeInsets.symmetric(
           horizontal: context.isDesktop ? 24.w : 30.w,
