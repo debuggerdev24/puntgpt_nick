@@ -391,25 +391,28 @@ class _SearchSectionWebState extends State<SearchSectionWeb> {
         },
       );
     }
+
   }
 
   Widget searchItems(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(color: AppColors.white),
-      margin: EdgeInsets.symmetric(vertical: 190.w, horizontal: 300.w),
-      child: Column(
+    return AlertDialog(
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+
           //todo top bar of popup
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 32.w, vertical: 28.w),
+            padding: EdgeInsets.fromLTRB(10.w,10.w,10.w,16.w
+
+            ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
                   "Saved Searches",
                   style: regular(
-                    fontSize: 20.sp,
+                    fontSize: context.isDesktop ? 20.sp : 28.sp,
                     fontFamily: AppFontFamily.secondary,
                   ),
                 ),
@@ -420,7 +423,8 @@ class _SearchSectionWebState extends State<SearchSectionWeb> {
                   child: Icon(
                     Icons.close_rounded,
                     color: AppColors.primary,
-                    size: 22.w,
+                    size: context.isDesktop ? 22.w : 30.w,
+
                   ),
                 ),
               ],
@@ -429,91 +433,13 @@ class _SearchSectionWebState extends State<SearchSectionWeb> {
           horizontalDivider(),
           //todo search items
           Padding(
-            padding: EdgeInsets.fromLTRB(32.w, 28.w, 32.w, 32.w),
+              padding: EdgeInsets.fromLTRB(10.w, 28.h, 10.w, 0),
             child: Column(
               spacing: 28.w,
               children: [
-                GestureDetector(
-                  onTap: () {
-                    context.pushNamed(AppRoutes.searchDetails.name);
-                  },
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Search 1",
-                            style: semiBold(
-                              fontSize: context.isDesktop ? 16.sp : 24.sp,
-                            ),
-                          ),
-                          Text(
-                            "Sep 30, 2025",
-                            style: semiBold(
-                              fontSize: context.isDesktop ? 12.sp : 20.sp,
-                              color: AppColors.primary.withValues(alpha: 0.6),
-                            ),
-                          ),
-                          6.5.h.verticalSpace,
-                          Text(
-                            "Randwick • 1200m • >20%",
-                            style: medium(
-                              fontSize: context.isDesktop ? 14.sp : 22.sp,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Icon(
-                        Icons.arrow_forward_ios_rounded,
-                        color: AppColors.black,
-                        size: 14.h,
-                      ),
-                    ],
-                  ),
-                ),
+                searchItem(),
                 horizontalDivider(),
-                GestureDetector(
-                  onTap: () {
-                    context.pushNamed(AppRoutes.searchDetails.name);
-                  },
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Search 1",
-                            style: semiBold(
-                              fontSize: context.isDesktop ? 16.sp : 24.sp,
-                            ),
-                          ),
-                          Text(
-                            "Sep 30, 2025",
-                            style: semiBold(
-                              fontSize: context.isDesktop ? 12.sp : 20.sp,
-                              color: AppColors.primary.withValues(alpha: 0.6),
-                            ),
-                          ),
-                          6.5.h.verticalSpace,
-                          Text(
-                            "Randwick • 1200m • >20%",
-                            style: medium(
-                              fontSize: context.isDesktop ? 14.sp : 22.sp,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Icon(
-                        Icons.arrow_forward_ios_rounded,
-                        color: AppColors.black,
-                        size: 14.h,
-                      ),
-                    ],
-                  ),
-                ),
+                searchItem(),
                 horizontalDivider(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
@@ -547,7 +473,7 @@ class _SearchSectionWebState extends State<SearchSectionWeb> {
                   ],
                 ),
               ],
-            ),
+            )
           ),
           // Row(
           //   mainAxisSize: MainAxisSize.min,
@@ -560,6 +486,50 @@ class _SearchSectionWebState extends State<SearchSectionWeb> {
           //     ),
           //   ],
           // ),
+        ],
+      ),
+    );
+  }
+
+  Widget searchItem(){
+    return GestureDetector(
+      onTap: () {
+        context.pushNamed(AppRoutes.searchDetails.name);
+      },
+      child: Row(
+        spacing: 500.w,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "Search 1",
+                style: semiBold(
+                  fontSize: context.isDesktop ? 16.sp : 24.sp,
+                ),
+              ),
+              Text(
+                "Sep 30, 2025",
+                style: semiBold(
+                  fontSize: context.isDesktop ? 12.sp : 20.sp,
+                  color: AppColors.primary.withValues(alpha: 0.6),
+                ),
+              ),
+              6.5.h.verticalSpace,
+              Text(
+                "Randwick • 1200m • >20%",
+                style: medium(
+                  fontSize: context.isDesktop ? 14.sp : 22.sp,
+                ),
+              ),
+            ],
+          ),
+          Icon(
+            Icons.arrow_forward_ios_rounded,
+            color: AppColors.black,
+            size: 14.h,
+          ),
         ],
       ),
     );
