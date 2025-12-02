@@ -49,27 +49,32 @@ class _FilterListState extends State<FilterList> {
   Widget build(BuildContext context) {
     final bodyHorizontalPadding = (kIsWeb) ? 50.w : 25.w;
     return SizedBox(
-      width:double.maxFinite,
+      width: double.maxFinite,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: bodyHorizontalPadding
-            ),
+            padding: EdgeInsets.symmetric(horizontal: bodyHorizontalPadding),
             child: Text(
               "Search for a horse that meets your criteria:",
-              style: bold(fontSize: (kIsWeb) ? 36.sp :16.sp, height: 1.2),
+              style: bold(fontSize: (kIsWeb) ? 36.sp : 16.sp, height: 1.2),
             ),
-
-
           ),
           Padding(
-            padding: EdgeInsets.fromLTRB((kIsWeb) ? 50.w : 25.w, 12.h, 20.h, (kIsWeb) ? 50.w : 25.w),
+            padding: EdgeInsets.fromLTRB(
+              (kIsWeb) ? 50.w : 25.w,
+              12.h,
+              20.h,
+              (kIsWeb) ? 50.w : 25.w,
+            ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text("Total Runners: (20)", style: bold(fontSize: (kIsWeb) ? 36.sp :16.sp,)),
+                Text(
+                  "Total Runners: (20)",
+                  style: bold(fontSize: (kIsWeb) ? 36.sp : 16.sp),
+                ),
                 OnMouseTap(
                   onTap: onSaveSearchTap,
                   child: Row(
@@ -84,7 +89,7 @@ class _FilterListState extends State<FilterList> {
                       Text(
                         "Saved Searches",
                         style: bold(
-                          fontSize: (kIsWeb) ? 36.sp :16.sp,
+                          fontSize: (kIsWeb) ? 36.sp : 16.sp,
 
                           decoration: TextDecoration.underline,
                         ),
@@ -119,9 +124,14 @@ class _FilterListState extends State<FilterList> {
               right: (kIsWeb) ? 50.w : 25.w,
               bottom: 8.h,
             ),
-            tilePadding: EdgeInsets.symmetric(horizontal: (kIsWeb) ? 50.w : 25.w),
+            tilePadding: EdgeInsets.symmetric(
+              horizontal: (kIsWeb) ? 50.w : 25.w,
+            ),
             iconColor: AppColors.greyColor,
-            title: Text("Track", style: semiBold(fontSize:  (kIsWeb) ? 36.sp :16.sp)),
+            title: Text(
+              "Track",
+              style: semiBold(fontSize: (kIsWeb) ? 36.sp : 16.sp),
+            ),
 
             children: provider.trackItems.map((item) {
               bool isChecked = item["checked"];
@@ -139,7 +149,10 @@ class _FilterListState extends State<FilterList> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(item["label"], style: semiBold(fontSize: (kIsWeb) ? 36.sp :16.sp,)),
+                          Text(
+                            item["label"],
+                            style: semiBold(fontSize: (kIsWeb) ? 36.sp : 16.sp),
+                          ),
                           AnimatedContainer(
                             duration: const Duration(milliseconds: 250),
                             curve: Curves.easeInOut,

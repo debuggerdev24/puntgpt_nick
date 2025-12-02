@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:modal_side_sheet/modal_side_sheet.dart';
 import 'package:provider/provider.dart';
 import 'package:puntgpt_nick/core/constants/constants.dart';
 import 'package:puntgpt_nick/core/constants/text_style.dart';
@@ -11,11 +12,12 @@ import 'package:puntgpt_nick/core/widgets/on_button_tap.dart';
 import 'package:puntgpt_nick/screens/home/mobile/widgets/filters_list.dart';
 import 'package:puntgpt_nick/screens/home/mobile/widgets/home_screen_tab.dart';
 import 'package:puntgpt_nick/screens/home/mobile/widgets/race_table.dart';
-import 'package:puntgpt_nick/screens/home/web/widgets/race_table_web.dart';
-import 'package:puntgpt_nick/screens/home/web/widgets/search_section_web.dart';
 import 'package:puntgpt_nick/screens/home/web/widgets/home_screen_tab_web.dart';
 import 'package:puntgpt_nick/screens/home/web/widgets/race_start_timing_option_web.dart';
+import 'package:puntgpt_nick/screens/home/web/widgets/race_table_web.dart';
 import 'package:puntgpt_nick/screens/home/web/widgets/runners_list_web.dart';
+import 'package:puntgpt_nick/screens/home/web/widgets/search_section_web.dart';
+
 import '../../../core/router/app/app_routes.dart';
 import '../../../core/widgets/app_filed_button.dart';
 import '../../../provider/search_engine_provider.dart';
@@ -148,7 +150,7 @@ class _HomeScreenWebState extends State<HomeScreenWeb> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.end,
                             mainAxisSize: MainAxisSize.min,
-                            children:[
+                            children: [
                               askPuntGPTButton(context),
                               10.verticalSpace,
                               IntrinsicWidth(
@@ -205,7 +207,6 @@ class _HomeScreenWebState extends State<HomeScreenWeb> {
     );
   }
 
-
   Widget webView({
     required SearchEngineProvider provider,
     required GlobalKey<FormState> formKey,
@@ -258,7 +259,6 @@ class _HomeScreenWebState extends State<HomeScreenWeb> {
                               child: Row(
                                 spacing: 8.w,
                                 children: [
-
                                   raceItemWeb(context: context),
                                   raceItemWeb(context: context),
                                   raceItemWeb(context: context),
@@ -381,7 +381,26 @@ class _HomeScreenWebState extends State<HomeScreenWeb> {
 Widget askPuntGPTButtonWeb({required BuildContext context}) {
   return OnMouseTap(
     onTap: () {
-      context.pushNamed(AppRoutes.askPuntGpt.name);
+      showModalSideSheet(
+        context: context,
+        width: 300,
+        barrierColor: Colors.black.withValues(alpha: 0.2),
+        body: Container(
+          color: Colors.white,
+          padding: const EdgeInsets.all(20),
+          child: const Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "Right Side Sheet",
+                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 20),
+              Text("This is a simple side sheet example."),
+            ],
+          ),
+        ),
+      );
     },
     child: Container(
       margin: EdgeInsets.only(bottom: 80.w, right: 100.w),
@@ -390,16 +409,24 @@ Widget askPuntGPTButtonWeb({required BuildContext context}) {
             ? 10.w
             : context.isTablet
             ? 11.w
-            : (kIsWeb) ? 16.w : 14.w,
-        horizontal: context.isDesktop ? 18.w : context.isTablet ? 20.w : (kIsWeb) ? 22.w : 16.w,
+            : (kIsWeb)
+            ? 16.w
+            : 14.w,
+        horizontal: context.isDesktop
+            ? 18.w
+            : context.isTablet
+            ? 20.w
+            : (kIsWeb)
+            ? 22.w
+            : 16.w,
       ),
       decoration: BoxDecoration(
         boxShadow: [
           BoxShadow(
             color: AppColors.primary.withValues(alpha: 0.35),
             offset: Offset(0, 6),
-            blurRadius: 15
-          )
+            blurRadius: 15,
+          ),
         ],
         color: AppColors.white,
         border: Border.all(color: AppColors.primary),
@@ -409,16 +436,27 @@ Widget askPuntGPTButtonWeb({required BuildContext context}) {
         spacing: 10.w,
         mainAxisSize: MainAxisSize.min,
         children: [
-
           ImageWidget(
             path: AppAssets.horse,
-            height: context.isDesktop ? 34.w : context.isTablet ? 28.w :  (kIsWeb) ? 40.w : 30.w,
+            height: context.isDesktop
+                ? 34.w
+                : context.isTablet
+                ? 28.w
+                : (kIsWeb)
+                ? 40.w
+                : 30.w,
           ),
           Text(
             "Ask @ PuntGPT",
             textAlign: TextAlign.center,
             style: regular(
-              fontSize: context.isDesktop ? 18.sp : context.isTablet ? 25.sp : (kIsWeb) ? 35.sp : 20.sp,
+              fontSize: context.isDesktop
+                  ? 18.sp
+                  : context.isTablet
+                  ? 25.sp
+                  : (kIsWeb)
+                  ? 35.sp
+                  : 20.sp,
               fontFamily: AppFontFamily.secondary,
             ),
           ),

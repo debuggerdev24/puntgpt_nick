@@ -50,7 +50,7 @@ class _SearchSectionWebState extends State<SearchSectionWeb> {
     showDialog(
       context: context,
       builder: (context) {
-        return searchItems(context);
+        return searchDialog(context);
       },
     );
   }
@@ -121,7 +121,6 @@ class _SearchSectionWebState extends State<SearchSectionWeb> {
               ],
             ),
             20.h.verticalSpace,
-
             //todo filter view
             _buildSearchView(),
           ],
@@ -131,6 +130,7 @@ class _SearchSectionWebState extends State<SearchSectionWeb> {
   }
 
   /// For Mobile
+
   Widget _buildSearchView() {
     final provider = context.watch<SearchEngineProvider>();
     return Column(
@@ -391,28 +391,25 @@ class _SearchSectionWebState extends State<SearchSectionWeb> {
         },
       );
     }
-
   }
 
-  Widget searchItems(BuildContext context) {
+  Widget searchDialog(BuildContext context) {
     return AlertDialog(
+      backgroundColor: AppColors.white,
       content: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-
           //todo top bar of popup
           Padding(
-            padding: EdgeInsets.fromLTRB(10.w,10.w,10.w,16.w
-
-            ),
+            padding: EdgeInsets.fromLTRB(10.w, 10.w, 10.w, 20.w),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
                   "Saved Searches",
                   style: regular(
-                    fontSize: context.isDesktop ? 20.sp : 28.sp,
+                    fontSize: context.isDesktop ? 22.sp : 30.sp,
                     fontFamily: AppFontFamily.secondary,
                   ),
                 ),
@@ -424,7 +421,6 @@ class _SearchSectionWebState extends State<SearchSectionWeb> {
                     Icons.close_rounded,
                     color: AppColors.primary,
                     size: context.isDesktop ? 22.w : 30.w,
-
                   ),
                 ),
               ],
@@ -433,7 +429,7 @@ class _SearchSectionWebState extends State<SearchSectionWeb> {
           horizontalDivider(),
           //todo search items
           Padding(
-              padding: EdgeInsets.fromLTRB(10.w, 28.h, 10.w, 0),
+            padding: EdgeInsets.fromLTRB(10.w, 28.w, 10.w, 0),
             child: Column(
               spacing: 28.w,
               children: [
@@ -449,6 +445,7 @@ class _SearchSectionWebState extends State<SearchSectionWeb> {
                         vertical: 12.w,
                         horizontal: 18.w,
                       ),
+                      margin: EdgeInsets.only(bottom: 6.h, top: 4.h),
                       isExpand: false,
                       textStyle: semiBold(
                         fontSize: context.isDesktop ? 14.sp : 22.sp,
@@ -461,7 +458,8 @@ class _SearchSectionWebState extends State<SearchSectionWeb> {
                         vertical: 12.w,
                         horizontal: 18.w,
                       ),
-                      margin: EdgeInsets.only(left: 8.w),
+
+                      margin: EdgeInsets.only(left: 8.w, bottom: 4.h, top: 4.h),
                       textStyle: semiBold(
                         fontSize: context.isDesktop ? 14.sp : 22.sp,
                         color: AppColors.white,
@@ -473,28 +471,20 @@ class _SearchSectionWebState extends State<SearchSectionWeb> {
                   ],
                 ),
               ],
-            )
+            ),
           ),
-          // Row(
-          //   mainAxisSize: MainAxisSize.min,
-          //   children: [
-          //
-          //     AppFiledButton(
-          //       text: "Remove Searches",
-          //       onTap: () {},
-          //       width: null,
-          //     ),
-          //   ],
-          // ),
         ],
       ),
     );
   }
 
-  Widget searchItem(){
+  Widget searchItem() {
     return GestureDetector(
       onTap: () {
-        context.pushNamed(AppRoutes.searchDetails.name);
+        context.pop();
+        if (mounted) {
+          context.pushNamed(AppRoutes.searchDetails.name);
+        }
       },
       child: Row(
         spacing: 500.w,
@@ -505,9 +495,7 @@ class _SearchSectionWebState extends State<SearchSectionWeb> {
             children: [
               Text(
                 "Search 1",
-                style: semiBold(
-                  fontSize: context.isDesktop ? 16.sp : 24.sp,
-                ),
+                style: semiBold(fontSize: context.isDesktop ? 16.sp : 24.sp),
               ),
               Text(
                 "Sep 30, 2025",
@@ -519,16 +507,14 @@ class _SearchSectionWebState extends State<SearchSectionWeb> {
               6.5.h.verticalSpace,
               Text(
                 "Randwick • 1200m • >20%",
-                style: medium(
-                  fontSize: context.isDesktop ? 14.sp : 22.sp,
-                ),
+                style: medium(fontSize: context.isDesktop ? 14.sp : 22.sp),
               ),
             ],
           ),
           Icon(
             Icons.arrow_forward_ios_rounded,
             color: AppColors.black,
-            size: 14.h,
+            size: 14.w,
           ),
         ],
       ),
