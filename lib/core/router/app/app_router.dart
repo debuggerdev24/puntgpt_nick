@@ -118,7 +118,7 @@ class AppRouter {
                 name: AppRoutes.askPuntGpt.name,
                 path: AppRoutes.askPuntGpt,
                 builder: (BuildContext context, GoRouterState state) {
-                  return AskPuntGpt();
+                  return AskPuntGptScreen();
                 },
               ),
               GoRoute(

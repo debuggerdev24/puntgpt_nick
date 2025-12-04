@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -7,8 +8,8 @@ import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/text_style.dart';
 import '../../../core/widgets/app_devider.dart';
 
-class AskPuntGpt extends StatelessWidget {
-  const AskPuntGpt({super.key});
+class AskPuntGptScreen extends StatelessWidget {
+  const AskPuntGptScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -106,15 +107,17 @@ class AskPuntGpt extends StatelessWidget {
                 children: [
                   Text(
                     "Ask @PuntGPT",
+
                     style: regular(
                       fontFamily: AppFontFamily.secondary,
                       height: 1.35,
+                      // fontSize: (kIsWeb) ? 38.sp : null,
                     ),
                   ),
                   Text(
                     "Chat with AI",
                     style: medium(
-                      fontSize: 14.sp,
+                      fontSize: (kIsWeb) ? 28.sp : 14.sp,
                       color: AppColors.greyColor.withValues(alpha: 0.6),
                     ),
                   ),

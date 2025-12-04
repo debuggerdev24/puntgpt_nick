@@ -14,6 +14,7 @@ import 'package:puntgpt_nick/screens/onboarding/web/web_age_confirmation.dart';
 import 'package:puntgpt_nick/screens/splash/web_splash_screen.dart';
 
 import '../../../screens/account/web/account_screen_web.dart';
+import '../../../screens/home/mobile/ask_punt_gpt.dart';
 import '../../../screens/home/web/selected_race_screen_web.dart';
 import '../../../screens/onboarding/web/web_onboarding_screen.dart';
 
@@ -74,6 +75,11 @@ class WebRouter {
                 path: WebRoutes.selectedRace.path,
                 name: WebRoutes.selectedRace.name,
                 builder: (context, state) => SelectedRaceTableScreenWeb(),
+              ),
+              GoRoute(
+                path: WebRoutes.askOPuntGpt.path,
+                name: WebRoutes.askOPuntGpt.name,
+                builder: (context, state) => AskPuntGptScreen(),
               ),
             ],
           ),

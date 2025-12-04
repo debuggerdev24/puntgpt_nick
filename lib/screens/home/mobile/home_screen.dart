@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:puntgpt_nick/core/constants/constants.dart';
 import 'package:puntgpt_nick/core/constants/text_style.dart';
+import 'package:puntgpt_nick/core/router/web/web_routes.dart';
 import 'package:puntgpt_nick/core/widgets/image_widget.dart';
 import 'package:puntgpt_nick/screens/home/mobile/widgets/filters_list.dart';
 import 'package:puntgpt_nick/screens/home/mobile/widgets/home_screen_tab.dart';
@@ -123,7 +124,9 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                                                 ),
                                                 Text(
                                                   "Filter",
-                                                  style: medium(fontSize: 16.sp),
+                                                  style: medium(
+                                                    fontSize: 16.sp,
+                                                  ),
                                                 ),
                                               ],
                                             ),
@@ -371,6 +374,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       ],
     );
   }
+
   Widget raceItem() {
     return Container(
       padding: EdgeInsets.fromLTRB(16.w, 12.h, 14.w, 14.h),
@@ -408,10 +412,14 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   }
 }
 
-Widget askPuntGPTButton( BuildContext context) {
+Widget askPuntGPTButton(BuildContext context) {
   return GestureDetector(
     onTap: () {
-      context.pushNamed(AppRoutes.askPuntGpt.name);
+      // if(){
+      context.pushNamed(
+        (kIsWeb) ? WebRoutes.askOPuntGpt.name : AppRoutes.askPuntGpt.name,
+      );
+      // }
     },
     child: Container(
       padding: EdgeInsets.symmetric(
@@ -426,12 +434,14 @@ Widget askPuntGPTButton( BuildContext context) {
         mainAxisSize: MainAxisSize.min,
         children: [
           ImageWidget(path: AppAssets.horse, height: (kIsWeb) ? 42.w : 30.w),
-
           10.horizontalSpace,
           Text(
             "Ask @ PuntGPT",
             textAlign: TextAlign.center,
-            style: semiBold(fontSize: (kIsWeb) ? 38.sp : 20.sp, fontFamily: AppFontFamily.secondary),
+            style: semiBold(
+              fontSize: (kIsWeb) ? 38.sp : 20.sp,
+              fontFamily: AppFontFamily.secondary,
+            ),
           ),
         ],
       ),

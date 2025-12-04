@@ -7,11 +7,13 @@ import 'package:modal_side_sheet/modal_side_sheet.dart';
 import 'package:provider/provider.dart';
 import 'package:puntgpt_nick/core/constants/constants.dart';
 import 'package:puntgpt_nick/core/constants/text_style.dart';
+import 'package:puntgpt_nick/core/widgets/app_devider.dart';
 import 'package:puntgpt_nick/core/widgets/image_widget.dart';
 import 'package:puntgpt_nick/core/widgets/on_button_tap.dart';
 import 'package:puntgpt_nick/screens/home/mobile/widgets/filters_list.dart';
 import 'package:puntgpt_nick/screens/home/mobile/widgets/home_screen_tab.dart';
 import 'package:puntgpt_nick/screens/home/mobile/widgets/race_table.dart';
+import 'package:puntgpt_nick/screens/home/web/widgets/chat_section_web.dart';
 import 'package:puntgpt_nick/screens/home/web/widgets/home_screen_tab_web.dart';
 import 'package:puntgpt_nick/screens/home/web/widgets/race_start_timing_option_web.dart';
 import 'package:puntgpt_nick/screens/home/web/widgets/race_table_web.dart';
@@ -59,6 +61,11 @@ class _HomeScreenWebState extends State<HomeScreenWeb> {
     LogHelper.info(
       "is Tablet ${Responsive.isTablet(context)} ${context.screenWidth}",
     );
+    if (context.isMobile && isSheetOpen) {
+      context.pop();
+      isSheetOpen = false;
+    }
+
     return PopScope(
       canPop: context.watch<SearchEngineProvider>().isSearched ? false : true,
       onPopInvokedWithResult: (didPop, result) {
@@ -378,27 +385,52 @@ class _HomeScreenWebState extends State<HomeScreenWeb> {
   }
 }
 
+bool isSheetOpen = false;
 Widget askPuntGPTButtonWeb({required BuildContext context}) {
   return OnMouseTap(
     onTap: () {
+      isSheetOpen = true;
+
       showModalSideSheet(
         context: context,
-        width: 300,
-        barrierColor: Colors.black.withValues(alpha: 0.2),
-        body: Container(
-          color: Colors.white,
-          padding: const EdgeInsets.all(20),
-          child: const Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                "Right Side Sheet",
-                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+        useRootNavigator: false,
+        width: 450.w,
+        withCloseControll: true,
+
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: EdgeInsets.only(left: 24.w, top: 12.w, bottom: 12.w),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Ask @PuntGPT",
+                    style: regular(
+                      fontSize: context.isDesktop ? 20.sp : 30.sp,
+                      fontFamily: AppFontFamily.secondary,
+                      height: 1.35,
+                    ),
+                  ),
+                  Text(
+                    "Chat with AI",
+                    style: medium(
+                      fontSize: context.isDesktop ? 12.sp : 22.sp,
+                      color: AppColors.greyColor.withValues(alpha: 0.6),
+                    ),
+                  ),
+                ],
               ),
-              SizedBox(height: 20),
-              Text("This is a simple side sheet example."),
-            ],
-          ),
+            ),
+            horizontalDivider(),
+            Expanded(
+              child: ListView(
+                padding: EdgeInsets.zero,
+                children: [ChatSectionWeb(), ChatSectionWeb()],
+              ),
+            ),
+          ],
         ),
       );
     },
