@@ -11,6 +11,7 @@ import 'package:puntgpt_nick/screens/dashboard/web/web_dashboard.dart';
 import 'package:puntgpt_nick/screens/home/web/home_screen_web.dart';
 import 'package:puntgpt_nick/screens/home/web/tip_slip_screen_web.dart';
 import 'package:puntgpt_nick/screens/onboarding/web/web_age_confirmation.dart';
+import 'package:puntgpt_nick/screens/punt_gpt_club/web/punter_club_screen_web.dart';
 import 'package:puntgpt_nick/screens/splash/web_splash_screen.dart';
 
 import '../../../screens/account/web/account_screen_web.dart';
@@ -65,6 +66,7 @@ class WebRouter {
           );
         },
         branches: <StatefulShellBranch>[
+          //todo home branch
           StatefulShellBranch(
             routes: [
 
@@ -92,6 +94,11 @@ class WebRouter {
               ),
             ],
           ),
+          //todo Punter Club branch
+          StatefulShellBranch(routes: [
+            GoRoute(path: WebRoutes.punterClubScreen.path,name: WebRoutes.punterClubScreen.name,builder: (context, state) => PunterClubScreenWebScreen(),)
+          ]),
+          //todo tip slip branch
           StatefulShellBranch(
             routes: [
               GoRoute(
@@ -101,6 +108,7 @@ class WebRouter {
               ),
             ],
           ),
+          //todo account branch
           StatefulShellBranch(
             routes: [
               GoRoute(

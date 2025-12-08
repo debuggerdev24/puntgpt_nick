@@ -7,7 +7,7 @@ import 'package:puntgpt_nick/core/constants/text_style.dart';
 import 'package:puntgpt_nick/core/router/app/app_routes.dart';
 import 'package:puntgpt_nick/core/widgets/app_devider.dart';
 import 'package:puntgpt_nick/core/widgets/image_widget.dart';
-import 'package:puntgpt_nick/provider/punter_club_provider.dart';
+import 'package:puntgpt_nick/provider/punt_club/punter_club_provider.dart';
 import 'package:puntgpt_nick/screens/home/mobile/home_screen.dart';
 
 class PunterClubScreen extends StatelessWidget {

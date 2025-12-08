@@ -12,7 +12,6 @@ import 'package:puntgpt_nick/screens/home/mobile/home_screen.dart';
 import 'package:puntgpt_nick/screens/onboarding/mobile/age_confirmation_screen.dart';
 import 'package:puntgpt_nick/screens/onboarding/mobile/onboarding_screen.dart';
 import 'package:puntgpt_nick/screens/onboarding/web/web_onboarding_screen.dart';
-import 'package:puntgpt_nick/screens/punt_gpt_club/punter_club_screen.dart';
 import 'package:puntgpt_nick/screens/splash/splash_screen.dart';
 
 import '../../../screens/account/mobile/change_password_screen.dart';
@@ -25,7 +24,8 @@ import '../../../screens/home/mobile/saved_search_screen.dart';
 import '../../../screens/home/mobile/search_filter_screen.dart';
 import '../../../screens/home/mobile/selected_race_screen.dart';
 import '../../../screens/home/mobile/tip_slip_screen.dart';
-import '../../../screens/punt_gpt_club/punt_club_chat_screen.dart';
+import '../../../screens/punt_gpt_club/mobile/punt_club_chat_screen.dart';
+import '../../../screens/punt_gpt_club/mobile/punter_club_screen.dart';
 
 class AppRouter {
   static final _rootNavigatorKey = GlobalKey<NavigatorState>();

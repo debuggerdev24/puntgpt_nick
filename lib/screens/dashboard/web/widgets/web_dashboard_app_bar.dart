@@ -6,6 +6,7 @@ import 'package:puntgpt_nick/core/constants/text_style.dart';
 import 'package:puntgpt_nick/core/router/web/web_router.dart';
 import 'package:puntgpt_nick/core/widgets/image_widget.dart';
 import 'package:puntgpt_nick/core/widgets/on_button_tap.dart';
+import 'package:puntgpt_nick/screens/dashboard/web/web_dashboard.dart';
 
 class WebDashboardAppBar extends StatelessWidget {
   const WebDashboardAppBar({super.key, required this.navigationShell});
@@ -36,7 +37,11 @@ class WebDashboardAppBar extends StatelessWidget {
                 ),
                 30.w.horizontalSpace,
                 //todo -------------------------> Punter Club tab
-                _navItem(onTap: () {}, text: "PuntGPT\nPunter Club", icon: AppAssets.group)
+                _navItem(onTap: () {
+
+                  indexOfWebTab.value = 1;
+                  WebRouter.indexedStackNavigationShell!.goBranch(1);
+                }, text: "PuntGPT\nPunter Club", icon: AppAssets.group)
               ],
             ),
           ),
@@ -58,7 +63,8 @@ class WebDashboardAppBar extends StatelessWidget {
                 //todo -------------------------> Account
                 _navItem(
                   onTap: () {
-                    WebRouter.indexedStackNavigationShell!.goBranch(2);
+                    indexOfWebTab.value = 3;
+                    WebRouter.indexedStackNavigationShell!.goBranch(3);
                   },
                   text: "Account",
                   icon: AppAssets.profile,
@@ -75,7 +81,7 @@ class WebDashboardAppBar extends StatelessWidget {
   Widget _tipSlip() {
     return OnMouseTap(
       onTap: () {
-        WebRouter.indexedStackNavigationShell!.goBranch(1);
+        WebRouter.indexedStackNavigationShell!.goBranch(2);
       },
       child: SizedBox(
         height: (20.sp.flexClamp(18, 22) * 1.2) + 25,

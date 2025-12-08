@@ -60,7 +60,7 @@ class SearchFilterScreen extends StatelessWidget {
               textStyle: semiBold(fontSize: 16.sp, color: Colors.white),
             ),
           ),
-          // appDivider(),
+          // horizontalDivider(),
           45.h.verticalSpace,
         ],
       ),

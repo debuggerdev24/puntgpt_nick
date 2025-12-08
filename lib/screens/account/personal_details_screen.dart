@@ -162,7 +162,7 @@ class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
             ],
           ),
         ),
-        appDivider(),
+        horizontalDivider(),
       ],
     );
   }

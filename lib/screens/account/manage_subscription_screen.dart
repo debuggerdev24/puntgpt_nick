@@ -237,7 +237,7 @@ class ManageSubscriptionScreen extends StatelessWidget {
             ],
           ),
         ),
-        appDivider(),
+        horizontalDivider(),
       ],
     );
   }
