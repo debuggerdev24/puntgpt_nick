@@ -15,6 +15,7 @@ import 'package:puntgpt_nick/screens/splash/web_splash_screen.dart';
 
 import '../../../screens/account/web/account_screen_web.dart';
 import '../../../screens/home/mobile/ask_punt_gpt.dart';
+import '../../../screens/home/mobile/saved_search_screen.dart';
 import '../../../screens/home/web/selected_race_screen_web.dart';
 import '../../../screens/onboarding/web/web_onboarding_screen.dart';
 
@@ -66,6 +67,7 @@ class WebRouter {
         branches: <StatefulShellBranch>[
           StatefulShellBranch(
             routes: [
+
               GoRoute(
                 path: WebRoutes.homeScreen.path,
                 name: WebRoutes.homeScreen.name,
@@ -80,6 +82,13 @@ class WebRouter {
                 path: WebRoutes.askOPuntGpt.path,
                 name: WebRoutes.askOPuntGpt.name,
                 builder: (context, state) => AskPuntGptScreen(),
+              ),
+              GoRoute(
+                name: WebRoutes.savedSearched.name,
+                path: WebRoutes.savedSearched.path,
+                builder: (BuildContext context, GoRouterState state) {
+                  return SavedSearchScreen();
+                },
               ),
             ],
           ),

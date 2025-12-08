@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:puntgpt_nick/core/constants/constants.dart';
 import 'package:puntgpt_nick/core/constants/text_style.dart';
 import 'package:puntgpt_nick/core/router/app/app_routes.dart';
+import 'package:puntgpt_nick/core/router/web/web_routes.dart';
 import 'package:puntgpt_nick/core/widgets/app_devider.dart';
 import 'package:puntgpt_nick/core/widgets/app_text_field.dart';
 import 'package:puntgpt_nick/core/widgets/app_text_field_drop_down.dart';
@@ -42,7 +43,7 @@ class _FilterListState extends State<FilterList> {
   }
 
   void onSaveSearchTap() {
-    context.pushNamed(AppRoutes.savedSearched.name);
+    context.pushNamed((kIsWeb) ? WebRoutes.savedSearched.name : AppRoutes.savedSearched.name);
   }
 
   @override

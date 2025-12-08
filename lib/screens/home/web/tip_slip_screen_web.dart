@@ -111,6 +111,7 @@ class TipSlipScreenWeb extends StatelessWidget {
               ),
             ),
           ),
+          //todo askPuntGPT button website
           Align(
             alignment: Alignment.bottomRight,
             child: askPuntGPTButtonWeb(context: context),

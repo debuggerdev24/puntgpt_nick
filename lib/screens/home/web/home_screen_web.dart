@@ -3,7 +3,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:modal_side_sheet/modal_side_sheet.dart';
 import 'package:provider/provider.dart';
 import 'package:puntgpt_nick/core/constants/constants.dart';
 import 'package:puntgpt_nick/core/constants/text_style.dart';
@@ -61,6 +60,10 @@ class _HomeScreenWebState extends State<HomeScreenWeb> {
     LogHelper.info(
       "is Tablet ${Responsive.isTablet(context)} ${context.screenWidth}",
     );
+    if(isSearchDialogOpen && context.isMobile){
+      context.pop();
+      isSearchDialogOpen = false;
+    }
     if (context.isMobile && isSheetOpen) {
       context.pop();
       isSheetOpen = false;
@@ -386,6 +389,7 @@ class _HomeScreenWebState extends State<HomeScreenWeb> {
 }
 
 bool isSheetOpen = false;
+
 Widget askPuntGPTButtonWeb({required BuildContext context}) {
   return OnMouseTap(
     onTap: () {
@@ -394,45 +398,11 @@ Widget askPuntGPTButtonWeb({required BuildContext context}) {
       showModalSideSheet(
         context: context,
         useRootNavigator: false,
-        width: 450.w,
+        width: context.isDesktop ? 450.w : 600.w,
         withCloseControll: true,
-
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: EdgeInsets.only(left: 24.w, top: 12.w, bottom: 12.w),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Ask @PuntGPT",
-                    style: regular(
-                      fontSize: context.isDesktop ? 20.sp : 30.sp,
-                      fontFamily: AppFontFamily.secondary,
-                      height: 1.35,
-                    ),
-                  ),
-                  Text(
-                    "Chat with AI",
-                    style: medium(
-                      fontSize: context.isDesktop ? 12.sp : 22.sp,
-                      color: AppColors.greyColor.withValues(alpha: 0.6),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            horizontalDivider(),
-            Expanded(
-              child: ListView(
-                padding: EdgeInsets.zero,
-                children: [ChatSectionWeb(), ChatSectionWeb()],
-              ),
-            ),
-          ],
-        ),
+        body: askPuntGPTSheetView(context),
       );
+
     },
     child: Container(
       margin: EdgeInsets.only(bottom: 80.w, right: 100.w),
@@ -495,5 +465,58 @@ Widget askPuntGPTButtonWeb({required BuildContext context}) {
         ],
       ),
     ),
+  );
+}
+
+Widget askPuntGPTSheetView(BuildContext context) {
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Padding(
+        padding: EdgeInsets.only(left: 24.w, top: 12.w, bottom: 12.w),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "Ask @PuntGPT",
+              style: regular(
+                fontSize: context.isDesktop ? 20.sp : 30.sp,
+                fontFamily: AppFontFamily.secondary,
+                height: 1.35,
+              ),
+            ),
+            Text(
+              "Chat with AI",
+              style: medium(
+                fontSize: context.isDesktop ? 12.sp : 22.sp,
+                color: AppColors.greyColor.withValues(alpha: 0.6),
+              ),
+            ),
+          ],
+        ),
+      ),
+      horizontalDivider(),
+      Expanded(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [ChatSectionWeb(), ChatSectionWeb()],
+        ),
+      ),
+      horizontalDivider(),
+      TextField(
+        expands: false,
+        decoration: InputDecoration(
+          border: InputBorder.none,
+          prefix: SizedBox(width: 25.w),
+
+          hintText: "Type your message...",
+          hintStyle: medium(
+            fontStyle: FontStyle.italic,
+            fontSize: context.isDesktop ? 16.sp : 22.sp,
+            color: AppColors.greyColor.withValues(alpha: 0.6),
+          ),
+        ),
+      ),
+    ],
   );
 }

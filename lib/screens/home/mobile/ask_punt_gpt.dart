@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:puntgpt_nick/responsive/responsive_builder.dart';
 import 'package:puntgpt_nick/screens/home/mobile/widgets/chat_section.dart';
 
 import '../../../core/constants/app_colors.dart';
@@ -13,6 +14,9 @@ class AskPuntGptScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if(!context.isMobile){
+      context.pop();
+    }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -35,17 +39,12 @@ class AskPuntGptScreen extends StatelessWidget {
                       TextField(
                         decoration: InputDecoration(
                           border: InputBorder.none,
-                          // OutlineInputBorder(
-                          //   borderSide: BorderSide(
-                          //     color: AppColors.greyColor.withValues(alpha: 0.4), // Set your color
-                          //
-                          //   ),
-                          // ),
+
                           prefix: SizedBox(width: 25.w),
                           hintText: "Type your message...",
                           hintStyle: medium(
                             fontStyle: FontStyle.italic,
-                            fontSize: 14.sp,
+                            fontSize: (kIsWeb) ? 24.sp : 14.sp,
                             color: AppColors.greyColor.withValues(alpha: 0.6),
                           ),
                         ),
@@ -61,30 +60,6 @@ class AskPuntGptScreen extends StatelessWidget {
     );
   }
 
-  // Widget userChat() {
-  //   return Padding(
-  //     padding: EdgeInsets.fromLTRB(25.w, 12.h, 25.w, 0),
-  //     child: Column(
-  //       crossAxisAlignment: CrossAxisAlignment.start,
-  //       children: [
-  //         Text("@you", style: semiBold(fontSize: 17)),
-  //         Text(
-  //           "12:41 PM",
-  //           style: semiBold(
-  //             fontSize: 14.5,
-  //             color: AppColors.greyColor.withValues(alpha: 0.6),
-  //           ),
-  //         ),
-  //         3.h.verticalSpace,
-  //         Text(
-  //           "mdsndjkjvdjkvbdjkfvbdf c mnbbnxmnfklfjkfjkdm,nnm,nbm,cnvm,bncmnbmcb",
-  //         ),
-  //         16.h.verticalSpace,
-  //         appDivider(),
-  //       ],
-  //     ),
-  //   );
-  // }
 
   Widget topBar(BuildContext context) {
     return Column(

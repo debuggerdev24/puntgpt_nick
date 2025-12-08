@@ -18,6 +18,8 @@ import '../../../../core/router/app/app_routes.dart';
 import '../../../../core/widgets/app_filed_button.dart';
 import '../../../../core/widgets/app_outlined_button.dart';
 
+bool isSearchDialogOpen = false;
+
 class SearchSectionWeb extends StatefulWidget {
   const SearchSectionWeb({super.key, required this.formKey});
   final GlobalKey<FormState> formKey;
@@ -47,6 +49,7 @@ class _SearchSectionWebState extends State<SearchSectionWeb> {
   }
 
   void onSaveSearchTap() {
+    isSearchDialogOpen = true;
     showDialog(
       context: context,
       builder: (context) {
@@ -57,6 +60,7 @@ class _SearchSectionWebState extends State<SearchSectionWeb> {
 
   @override
   Widget build(BuildContext context) {
+
     return Consumer<SearchEngineProvider>(
       builder: (context, provider, child) => SizedBox(
         width: Responsive.isMobile(context)

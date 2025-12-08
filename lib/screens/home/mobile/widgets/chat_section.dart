@@ -12,7 +12,7 @@ class ChatSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.fromLTRB(25.w, 12.h, 25.w, 0),
+      padding: EdgeInsets.fromLTRB((kIsWeb) ? 35.w : 25.w, 12.h, 25.w, 0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
