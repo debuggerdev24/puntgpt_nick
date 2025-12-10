@@ -6,7 +6,6 @@ import 'package:puntgpt_nick/core/constants/constants.dart';
 import 'package:puntgpt_nick/core/constants/text_style.dart';
 import 'package:puntgpt_nick/core/widgets/on_button_tap.dart';
 import 'package:puntgpt_nick/provider/search_engine_provider.dart';
-import 'package:puntgpt_nick/responsive/responsive_builder.dart';
 
 class RaceStartTimingOptions extends StatelessWidget {
   const RaceStartTimingOptions({super.key});
@@ -19,7 +18,6 @@ class RaceStartTimingOptions extends StatelessWidget {
 
         return LayoutBuilder(
           builder: (context, constraints) {
-
             final textScale = MediaQuery.of(context).textScaleFactor;
             double totalWidth = 50;
             for (final t in timings) {

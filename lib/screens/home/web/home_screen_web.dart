@@ -254,7 +254,6 @@ class _HomeScreenWebState extends State<HomeScreenWeb> {
                 : Center(
                     child: SizedBox(
                       width: bodyWidth,
-
                       child: SingleChildScrollView(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,

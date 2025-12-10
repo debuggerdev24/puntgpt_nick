@@ -1,17 +1,13 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 import 'package:puntgpt_nick/core/constants/constants.dart';
 import 'package:puntgpt_nick/core/router/web/web_router.dart';
 import 'package:puntgpt_nick/core/widgets/app_filed_button.dart';
 import 'package:puntgpt_nick/core/widgets/on_button_tap.dart';
 import 'package:puntgpt_nick/responsive/responsive_builder.dart';
-import 'package:puntgpt_nick/screens/home/mobile/home_screen.dart';
 
-import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/text_style.dart';
-import '../../../core/helper/log_helper.dart';
 import '../../../core/widgets/app_devider.dart';
 import 'home_screen_web.dart';
 
@@ -34,13 +30,13 @@ class TipSlipScreenWeb extends StatelessWidget {
         : context.isTablet
         ? 1000.w
         : 900.w;
-    final twentyResponsive = context.isDesktop
-        ? 20.sp
-        : context.isTablet
-        ? 28.sp
-        : (kIsWeb)
-        ? 36.sp
-        : 20.sp;
+    // final twentyResponsive = context.isDesktop
+    //     ? 20.sp
+    //     : context.isTablet
+    //     ? 28.sp
+    //     : (kIsWeb)
+    //     ? 36.sp
+    //     : 20.sp;
 
     final sixteenResponsive = context.isDesktop
         ? 16.sp
@@ -91,22 +87,28 @@ class TipSlipScreenWeb extends StatelessWidget {
                   200.h.verticalSpace,
                   AppFiledButton(
                     isExpand: !context.isMobile ? false : true,
-                    margin: EdgeInsets.symmetric(horizontal: (!context.isMobile)
-                        ? 0
-                        : (kIsWeb)
-                        ? 35.w
-                        : 25.w),
-                    padding: EdgeInsets.symmetric(vertical: 12.h,horizontal: context.isDesktop
-                        ? 20.w
-                        : context.isTablet
-                        ? 28.w
-                        : 0
+                    margin: EdgeInsets.symmetric(
+                      horizontal: (!context.isMobile)
+                          ? 0
+                          : (kIsWeb)
+                          ? 35.w
+                          : 25.w,
                     ),
-                      textStyle: semiBold(
-                        color: AppColors.white,
-                        fontSize: fourteenResponsive
-                      ),
-                      text: "Take to Bookmaker", onTap: () {}),
+                    padding: EdgeInsets.symmetric(
+                      vertical: 12.h,
+                      horizontal: context.isDesktop
+                          ? 20.w
+                          : context.isTablet
+                          ? 28.w
+                          : 0,
+                    ),
+                    textStyle: semiBold(
+                      color: AppColors.white,
+                      fontSize: fourteenResponsive,
+                    ),
+                    text: "Take to Bookmaker",
+                    onTap: () {},
+                  ),
                 ],
               ),
             ),
@@ -132,21 +134,31 @@ class TipSlipScreenWeb extends StatelessWidget {
         : 25.w;
     double topPadding = (kIsWeb && !context.isMobile) ? 70.h : 22.h;
     return Column(
-      children:[
+      children: [
         Padding(
-          padding: EdgeInsets.only(top: topPadding, bottom: 22.h,left: horizontalPadding,right: horizontalPadding),
+          padding: EdgeInsets.only(
+            top: topPadding,
+            bottom: 22.h,
+            left: horizontalPadding,
+            right: horizontalPadding,
+          ),
           child: Row(
-             spacing: context.isDesktop
-                  ? 14.w
-                  : context.isTablet
-                  ? 22.w
-                  : (kIsWeb)
-
-                  ? 26.w
-                  : 14.w,
+            spacing: context.isDesktop
+                ? 14.w
+                : context.isTablet
+                ? 22.w
+                : (kIsWeb)
+                ? 26.w
+                : 14.w,
             children: [
               Padding(
-                padding: EdgeInsets.only(top: (!context.isMobile) ? 4 : (kIsWeb) ? 2 : 0),
+                padding: EdgeInsets.only(
+                  top: (!context.isMobile)
+                      ? 4
+                      : (kIsWeb)
+                      ? 2
+                      : 0,
+                ),
                 child: OnMouseTap(
                   onTap: () {
                     WebRouter.indexedStackNavigationShell!.goBranch(0);
@@ -197,10 +209,24 @@ class TipSlipScreenWeb extends StatelessWidget {
         ? 35.w
         : 25.w;
     return Container(
-      margin: EdgeInsets.only(bottom: 8.h,left: horizontalPadding,right: horizontalPadding),
+      margin: EdgeInsets.only(
+        bottom: 8.h,
+        left: horizontalPadding,
+        right: horizontalPadding,
+      ),
       padding: EdgeInsets.symmetric(
-        vertical: context.isDesktop ? 12.h : context.isTablet ? 10.h : 8.h,
-        horizontal: context.isDesktop ? 12.w : context.isTablet ? 18.w : (kIsWeb) ?  24.w : 12.w,
+        vertical: context.isDesktop
+            ? 12.h
+            : context.isTablet
+            ? 10.h
+            : 8.h,
+        horizontal: context.isDesktop
+            ? 12.w
+            : context.isTablet
+            ? 18.w
+            : (kIsWeb)
+            ? 24.w
+            : 12.w,
       ),
 
       decoration: BoxDecoration(border: Border.all(color: AppColors.primary)),
@@ -209,12 +235,29 @@ class TipSlipScreenWeb extends StatelessWidget {
           //todo -----------> check box
           AnimatedContainer(
             duration: const Duration(milliseconds: 250),
-            margin: EdgeInsets.only(right: (context.isDesktop) ? 16.w : (context.isTablet) ? 18.w : 20.w),
+            margin: EdgeInsets.only(
+              right: (context.isDesktop)
+                  ? 16.w
+                  : (context.isTablet)
+                  ? 18.w
+                  : 20.w,
+            ),
             curve: Curves.easeInOut,
 
-             width: (context.isDesktop) ? 24.w : context.isTablet ? 32.w : (kIsWeb) ? 38.w : 24.w
-            ,
-             height: (context.isDesktop) ? 24.w : context.isTablet ? 32.w : (kIsWeb) ? 38.w : 24.w,
+            width: (context.isDesktop)
+                ? 24.w
+                : context.isTablet
+                ? 32.w
+                : (kIsWeb)
+                ? 38.w
+                : 24.w,
+            height: (context.isDesktop)
+                ? 24.w
+                : context.isTablet
+                ? 32.w
+                : (kIsWeb)
+                ? 38.w
+                : 24.w,
             // width: (kIsWeb) ? 40.w : 22.w,
             // height: (kIsWeb) ? 40.w : 22.w,
             decoration: BoxDecoration(
@@ -224,7 +267,13 @@ class TipSlipScreenWeb extends StatelessWidget {
             child: Icon(
               Icons.check_rounded,
               color: Colors.white,
-              size: context.isDesktop ? 17.w : context.isTablet ? 25.w :(kIsWeb) ? 33.sp : 17.sp,
+              size: context.isDesktop
+                  ? 17.w
+                  : context.isTablet
+                  ? 25.w
+                  : (kIsWeb)
+                  ? 33.sp
+                  : 17.sp,
             ),
           ),
 

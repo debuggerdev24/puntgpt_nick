@@ -6,10 +6,9 @@ DeBouncer deBouncer = DeBouncer(milliSecond: 500);
 DeBouncer fieldDeBouncer = DeBouncer(milliSecond: 600);
 
 class DeBouncer {
+  DeBouncer({required this.milliSecond});
   final int milliSecond;
   Timer? timer;
-
-  DeBouncer({required this.milliSecond});
 
   void run(VoidCallback action) {
     if (timer != null) {

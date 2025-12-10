@@ -34,7 +34,7 @@ class FieldValidators {
       return "Email is Required";
     }
 
-    if (!emailPattern.hasMatch(val ?? "")) {
+    if (!emailPattern.hasMatch(val)) {
       return "Enter valid Email.";
     }
     return null;

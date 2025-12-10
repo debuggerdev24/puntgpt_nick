@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:puntgpt_nick/core/constants/constants.dart';
 
 class AppFontFamily {
@@ -8,7 +7,6 @@ class AppFontFamily {
   static const primary = "DMSans";
   static const secondary = "ChangaOne";
 }
-
 
 // 🪶 Light
 TextStyle light({
@@ -130,7 +128,7 @@ TextStyle bold({
   fontWeight: FontWeight.w700,
   fontSize: fontSize,
   height: height,
-  color: color  ?? AppColors.primary,
+  color: color ?? AppColors.primary,
   fontFamily: fontFamily,
   decoration: decoration,
   decorationColor: decorationColor,

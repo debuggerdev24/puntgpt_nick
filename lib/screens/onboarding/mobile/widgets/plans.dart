@@ -33,23 +33,23 @@ class _PlansState extends State<Plans> {
   }
 
   void _handleSwipe(DragEndDetails details) {
-    int _currentIndex = widget.selectedIndex;
+    int currentIndex = widget.selectedIndex;
     if (details.primaryVelocity! < 0) {
-      if (_currentIndex < data.length - 1) {
+      if (currentIndex < data.length - 1) {
         setState(() {
-          _currentIndex++;
+          currentIndex++;
           swipeOffset = 0;
         });
       }
     } else if (details.primaryVelocity! > 0) {
-      if (_currentIndex > 0) {
+      if (currentIndex > 0) {
         setState(() {
-          _currentIndex--;
+          currentIndex--;
           swipeOffset = 0;
         });
       }
     }
-    widget.currentPlan.call(_currentIndex);
+    widget.currentPlan.call(currentIndex);
   }
 
   void _handleSwipeUpdate(DragUpdateDetails details) {

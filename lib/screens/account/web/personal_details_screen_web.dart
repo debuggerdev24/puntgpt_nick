@@ -1,20 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:puntgpt_nick/core/constants/app_assets.dart';
-import 'package:puntgpt_nick/core/router/app/app_routes.dart';
-import 'package:puntgpt_nick/core/utils/field_validators.dart';
-import 'package:puntgpt_nick/core/widgets/app_filed_button.dart';
-import 'package:puntgpt_nick/core/widgets/app_outlined_button.dart';
-import 'package:puntgpt_nick/core/widgets/app_text_field.dart';
 import 'package:puntgpt_nick/core/widgets/on_button_tap.dart';
 import 'package:puntgpt_nick/provider/account/account_provider.dart';
 
 import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/text_style.dart';
-import '../../../core/widgets/app_devider.dart';
 
 class PersonalDetailsSection extends StatefulWidget {
   const PersonalDetailsSection({super.key});
@@ -33,12 +26,7 @@ class _PersonalDetailsSectionState extends State<PersonalDetailsSection> {
         padding: EdgeInsets.symmetric(horizontal: 24.w),
         child: Consumer<AccountProvider>(
           builder: (context, provider, child) {
-            return Column(
-              children: [
-                topBar(context, provider),
-
-              ],
-            );
+            return Column(children: [topBar(context, provider)]);
           },
         ),
       ),
@@ -70,7 +58,8 @@ class _PersonalDetailsSectionState extends State<PersonalDetailsSection> {
                   ),
                 ),
               ],
-            ),Spacer(),
+            ),
+            Spacer(),
             if (!provider.isEdit)
               OnMouseTap(
                 onTap: () {
@@ -91,7 +80,10 @@ class _PersonalDetailsSectionState extends State<PersonalDetailsSection> {
                   provider.setIsEdit = !(provider.isEdit);
                 },
 
-                child: Text("Cancel", style: bold(fontSize: 16.sp,color: AppColors.primary)),
+                child: Text(
+                  "Cancel",
+                  style: bold(fontSize: 16.sp, color: AppColors.primary),
+                ),
               ),
           ],
         ),

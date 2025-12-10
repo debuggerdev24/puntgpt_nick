@@ -4,19 +4,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:puntgpt_nick/core/router/web/web_routes.dart';
 import 'package:puntgpt_nick/core/widgets/on_button_tap.dart';
-import 'package:puntgpt_nick/core/widgets/on_button_tap.dart';
-import 'package:puntgpt_nick/core/widgets/on_button_tap.dart';
-import 'package:puntgpt_nick/core/widgets/on_button_tap.dart';
 import 'package:puntgpt_nick/responsive/responsive_builder.dart';
 
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/text_style.dart';
 
 class RaceTableWeb extends StatelessWidget {
-  const RaceTableWeb({
-    super.key,
-    required this.tableWidth
-  });
+  const RaceTableWeb({super.key, required this.tableWidth});
   final double tableWidth;
 
   @override
@@ -49,8 +43,7 @@ class RaceTableWeb extends StatelessWidget {
               onTap: () {
                 context.pushNamed(WebRoutes.selectedRace.name);
               },
-                context: context
-
+              context: context,
             ),
             _buildRow(
               col1: "Flemington",
@@ -60,8 +53,7 @@ class RaceTableWeb extends StatelessWidget {
               onTap: () {
                 context.pushNamed(WebRoutes.selectedRace.name);
               },
-                context: context
-
+              context: context,
             ),
             _buildRow(
               col1: "Morphettville",
@@ -71,8 +63,7 @@ class RaceTableWeb extends StatelessWidget {
               onTap: () {
                 context.pushNamed(WebRoutes.selectedRace.name);
               },
-                context: context
-
+              context: context,
             ),
             _buildRow(
               col1: "Doomben",
@@ -82,8 +73,7 @@ class RaceTableWeb extends StatelessWidget {
               onTap: () {
                 context.pushNamed(WebRoutes.selectedRace.name);
               },
-                context: context
-
+              context: context,
             ),
             _buildRow(
               col1: "Gold Coast",
@@ -93,8 +83,7 @@ class RaceTableWeb extends StatelessWidget {
               onTap: () {
                 context.pushNamed(WebRoutes.selectedRace.name);
               },
-                context: context
-
+              context: context,
             ),
             _buildRow(
               col1: "Ascot",
@@ -104,8 +93,7 @@ class RaceTableWeb extends StatelessWidget {
               onTap: () {
                 context.pushNamed(WebRoutes.selectedRace.name);
               },
-                context: context
-
+              context: context,
             ),
             _buildRow(
               col1: "Newcastle",
@@ -115,8 +103,7 @@ class RaceTableWeb extends StatelessWidget {
               onTap: () {
                 context.pushNamed(WebRoutes.selectedRace.name);
               },
-                context: context
-
+              context: context,
             ),
             _buildRow(
               col1: "etc...",
@@ -126,7 +113,7 @@ class RaceTableWeb extends StatelessWidget {
               onTap: () {
                 context.pushNamed(WebRoutes.selectedRace.name);
               },
-              context: context
+              context: context,
             ),
           ],
         ),
@@ -140,7 +127,7 @@ class RaceTableWeb extends StatelessWidget {
     required String col3,
     required String col4,
     required VoidCallback onTap,
-    required BuildContext context
+    required BuildContext context,
   }) {
     final sixteenFontSize = context.isDesktop
         ? 16.sp
