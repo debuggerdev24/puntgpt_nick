@@ -61,7 +61,7 @@ class _HomeScreenWebState extends State<HomeScreenWeb> {
     LogHelper.info(
       "is Tablet ${Responsive.isTablet(context)} ${context.screenWidth}",
     );
-    if(isSearchDialogOpen && context.isMobile){
+    if (isSearchDialogOpen && context.isMobile) {
       context.pop();
       isSearchDialogOpen = false;
     }
@@ -254,6 +254,7 @@ class _HomeScreenWebState extends State<HomeScreenWeb> {
                 : Center(
                     child: SizedBox(
                       width: bodyWidth,
+
                       child: SingleChildScrollView(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -403,7 +404,6 @@ Widget askPuntGPTButtonWeb({required BuildContext context}) {
         withCloseControll: true,
         body: askPuntGPTSheetView(context),
       );
-
     },
     child: Container(
       margin: EdgeInsets.only(bottom: 80.w, right: 100.w),
