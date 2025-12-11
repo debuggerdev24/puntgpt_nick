@@ -1,8 +1,11 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:puntgpt_nick/core/constants/constants.dart';
+import 'package:puntgpt_nick/responsive/responsive_builder.dart';
 import 'package:puntgpt_nick/screens/home/mobile/home_screen.dart';
+import 'package:puntgpt_nick/screens/home/web/home_screen_web.dart';
 
 import '../../../core/constants/text_style.dart';
 import '../../../core/widgets/app_devider.dart';
@@ -14,11 +17,12 @@ class PuntClubChatScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    LogHelper.info(title);
+    if (!context.isMobile) {
+      context.pop();
+    }
     return Column(
       children: [
         topBar(context),
-
         Expanded(
           child: Stack(
             children: [
@@ -28,7 +32,9 @@ class PuntClubChatScreen extends StatelessWidget {
                 child: Align(
                   alignment: AlignmentGeometry.bottomRight,
 
-                  child: askPuntGPTButton(context),
+                  child: (kIsWeb)
+                      ? askPuntGPTButtonWeb(context: context)
+                      : askPuntGPTButton(context),
                 ),
               ),
             ],
@@ -41,17 +47,11 @@ class PuntClubChatScreen extends StatelessWidget {
             TextField(
               decoration: InputDecoration(
                 border: InputBorder.none,
-                // OutlineInputBorder(
-                //   borderSide: BorderSide(
-                //     color: AppColors.greyColor.withValues(alpha: 0.4), // Set your color
-                //
-                //   ),
-                // ),
-                prefix: SizedBox(width: 25.w),
+                prefix: SizedBox(width: (kIsWeb) ? 35.w : 25.w),
                 hintText: "Type your message...",
                 hintStyle: medium(
                   fontStyle: FontStyle.italic,
-                  fontSize: 14.sp,
+                  fontSize: (kIsWeb) ? 28.sp : 14.sp,
                   color: AppColors.greyColor.withValues(alpha: 0.6),
                 ),
               ),
@@ -83,7 +83,7 @@ class PuntClubChatScreen extends StatelessWidget {
                   Text(
                     title,
                     style: regular(
-                      fontSize: 24.sp,
+                      fontSize: (kIsWeb) ? 36.sp : 24.sp,
                       fontFamily: AppFontFamily.secondary,
                       height: 1.35,
                     ),
@@ -91,7 +91,7 @@ class PuntClubChatScreen extends StatelessWidget {
                   Text(
                     "11 Member",
                     style: semiBold(
-                      fontSize: 14.sp,
+                      fontSize: (kIsWeb) ? 26.sp : 14.sp,
                       color: AppColors.greyColor.withValues(alpha: 0.6),
                     ),
                   ),

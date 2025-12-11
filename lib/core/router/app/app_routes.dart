@@ -20,12 +20,12 @@ class AppRoutes {
   static const String askPuntGpt = '/ask-punt-gpt';
 
   static const String changePassword = '/change-password';
-  static const String tipSlip = '/tip-slip';
+  static const String tipSlipScreen = '/tip-slip';
   static const String selectedRace = '/selected-race';
 
   //2nd tab
   static const String puntGptClub = '/punt-gpt-club';
-  static const String punterClubChat = '/punter-club-chat';
+  static const String punterClubChatScreen = '/punter-club-chat';
 
   //3nd tab
   static const String bookies = '/bookies';

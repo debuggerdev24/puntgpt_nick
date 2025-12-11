@@ -5,14 +5,13 @@ import 'package:provider/provider.dart';
 import 'package:puntgpt_nick/core/widgets/app_outlined_button.dart';
 import 'package:puntgpt_nick/provider/punt_club/punter_club_provider.dart';
 import 'package:puntgpt_nick/responsive/responsive_builder.dart';
-import 'package:puntgpt_nick/screens/punt_gpt_club/web/widgets/chat_screen_web.dart';
+import 'package:puntgpt_nick/screens/punt_gpt_club/web/widgets/club_chat_screen_web.dart';
 
 import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/text_style.dart';
 import '../../../core/widgets/app_devider.dart';
 import '../../../core/widgets/on_button_tap.dart';
 import '../../home/web/home_screen_web.dart';
-import '../../home/web/widgets/chat_section_web.dart';
 
 class PunterClubScreenWebScreen extends StatelessWidget {
   const PunterClubScreenWebScreen({super.key});
@@ -132,7 +131,6 @@ class PunterClubScreenWebScreen extends StatelessWidget {
                               context: context,
                             ),
                             horizontalDivider(),
-
                             Spacer(),
                             AppOutlinedButton(
                               margin: EdgeInsets.all(24.w),
@@ -146,7 +144,6 @@ class PunterClubScreenWebScreen extends StatelessWidget {
                       verticalDivider(),
                       //todo ----------------> right panel
                       PunterClubChatSectionWeb(),
-
                       verticalDivider(),
                     ],
                   );

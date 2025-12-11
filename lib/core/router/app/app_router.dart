@@ -130,7 +130,6 @@ class AppRouter {
               ),
             ],
           ),
-
           //todo ----------> PuntGPT Punter Club Tab
           StatefulShellBranch(
             routes: <RouteBase>[
@@ -140,14 +139,13 @@ class AppRouter {
                 builder: (context, state) => PunterClubScreen(),
               ),
               GoRoute(
-                path: AppRoutes.punterClubChat,
-                name: AppRoutes.punterClubChat.name,
+                path: AppRoutes.punterClubChatScreen,
+                name: AppRoutes.punterClubChatScreen.name,
                 builder: (context, state) =>
                     PuntClubChatScreen(title: state.extra as String),
               ),
             ],
           ),
-
           //todo ----------> Bookies Tab
           StatefulShellBranch(
             routes: <RouteBase>[
@@ -158,7 +156,6 @@ class AppRouter {
               ),
             ],
           ),
-
           //todo ----------> Customer Account Tab
           StatefulShellBranch(
             routes: <RouteBase>[
@@ -191,8 +188,8 @@ class AppRouter {
                 },
               ),
               GoRoute(
-                name: AppRoutes.tipSlip.name,
-                path: AppRoutes.tipSlip,
+                name: AppRoutes.tipSlipScreen.name,
+                path: AppRoutes.tipSlipScreen,
                 builder: (BuildContext context, GoRouterState state) {
                   return TipSlipScreen();
                 },

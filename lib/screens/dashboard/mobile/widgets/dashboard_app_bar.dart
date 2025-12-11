@@ -5,8 +5,10 @@ import 'package:go_router/go_router.dart';
 import 'package:puntgpt_nick/core/constants/constants.dart';
 import 'package:puntgpt_nick/core/constants/text_style.dart';
 import 'package:puntgpt_nick/core/router/app/app_routes.dart';
+import 'package:puntgpt_nick/core/router/web/web_router.dart';
 import 'package:puntgpt_nick/core/widgets/image_widget.dart';
 import 'package:puntgpt_nick/responsive/responsive_builder.dart';
+
 import '../../web/widgets/web_dashboard_app_bar.dart';
 
 class DashboardAppBar extends StatefulWidget {
@@ -24,30 +26,39 @@ class _DashboardAppBarState extends State<DashboardAppBar> {
         ? Container(
             decoration: BoxDecoration(color: AppColors.primary),
             width: double.maxFinite,
-            // margin: EdgeInsets.only(top: 30.h),
-
-            padding: EdgeInsets.symmetric(horizontal: (kIsWeb) ? 40.w : 16.w, vertical: 8.h),
+            padding: EdgeInsets.symmetric(
+              horizontal: (kIsWeb) ? 40.w : 16.w,
+              vertical: 8.h,
+            ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                _appLogo(),
-                _bannerAd(),
-                _tipSlip(),
-              ],
+              children: [_appLogo(), _bannerAd(), _tipSlip()],
             ),
           )
-        : WebDashboardAppBar(navigationShell: widget.navigationShell,);
+        : WebDashboardAppBar(navigationShell: widget.navigationShell);
   }
 
   Widget _appLogo() {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        ImageWidget(path: AppAssets.horse, width:  context.isTablet ? 55.sp  : (kIsWeb) ? 62.w : 32.w, color: AppColors.white),
+        ImageWidget(
+          path: AppAssets.horse,
+          width: context.isTablet
+              ? 55.sp
+              : (kIsWeb)
+              ? 62.w
+              : 32.w,
+          color: AppColors.white,
+        ),
         Text(
           "PuntGPT",
           style: regular(
-            fontSize: context.isTablet ? 32.sp  : (kIsWeb) ? 48.sp : 16.sp,
+            fontSize: context.isTablet
+                ? 32.sp
+                : (kIsWeb)
+                ? 48.sp
+                : 16.sp,
             fontFamily: AppFontFamily.secondary,
             color: AppColors.white,
           ),
@@ -62,7 +73,12 @@ class _DashboardAppBarState extends State<DashboardAppBar> {
       child: GestureDetector(
         behavior: HitTestBehavior.opaque,
         onTap: () {
-          context.pushNamed(AppRoutes.tipSlip.name);
+          if (kIsWeb) {
+            WebRouter.indexedStackNavigationShell!.goBranch(2);
+            return;
+          }
+
+          context.pushNamed(AppRoutes.tipSlipScreen.name);
         },
         child: Stack(
           alignment: Alignment.center,
@@ -71,18 +87,36 @@ class _DashboardAppBarState extends State<DashboardAppBar> {
               padding: EdgeInsets.only(right: 12.w),
               child: Text(
                 "Tip Slip",
-                style: bold(height: 1.2, fontSize: context.isTablet ? 32.sp : (kIsWeb) ? 40.sp  : 20.sp, color: AppColors.white),
+                style: bold(
+                  height: 1.2,
+                  fontSize: context.isTablet
+                      ? 32.sp
+                      : (kIsWeb)
+                      ? 40.sp
+                      : 20.sp,
+                  color: AppColors.white,
+                ),
               ),
             ),
             Positioned(
               top: 4,
               right: 0,
               child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 3, vertical: (kIsWeb) ? 3 : 1),
+                padding: EdgeInsets.symmetric(
+                  horizontal: 3,
+                  vertical: (kIsWeb) ? 3 : 1,
+                ),
                 decoration: BoxDecoration(color: AppColors.white),
                 child: Text(
                   "10",
-                  style: semiBold(fontSize:context.isTablet ? 18.sp :  (kIsWeb) ? 24.sp : 12.sp, color: AppColors.black),
+                  style: semiBold(
+                    fontSize: context.isTablet
+                        ? 18.sp
+                        : (kIsWeb)
+                        ? 24.sp
+                        : 12.sp,
+                    color: AppColors.black,
+                  ),
                 ),
               ),
             ),

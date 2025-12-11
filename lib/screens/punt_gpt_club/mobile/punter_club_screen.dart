@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -5,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:puntgpt_nick/core/constants/constants.dart';
 import 'package:puntgpt_nick/core/constants/text_style.dart';
 import 'package:puntgpt_nick/core/router/app/app_routes.dart';
+import 'package:puntgpt_nick/core/router/web/web_routes.dart';
 import 'package:puntgpt_nick/core/widgets/app_devider.dart';
 import 'package:puntgpt_nick/core/widgets/image_widget.dart';
 import 'package:puntgpt_nick/provider/punt_club/punter_club_provider.dart';
@@ -20,15 +22,22 @@ class PunterClubScreen extends StatelessWidget {
         return Column(
           children: [
             Padding(
-              padding: EdgeInsets.fromLTRB(25.w, 22.h, 25.w, 22.h),
+              padding: EdgeInsets.symmetric(
+                horizontal: (kIsWeb) ? 35.w : 25.w,
+                vertical: 22.h,
+              ),
               child: Row(
                 children: [
-                  ImageWidget(path: AppAssets.groupIcon, type: ImageType.svg),
-                  12.w.horizontalSpace,
+                  ImageWidget(
+                    path: AppAssets.groupIcon,
+                    type: ImageType.svg,
+                    height: (kIsWeb) ? 42.w : null,
+                  ),
+                  (kIsWeb) ? 60.w.horizontalSpace : 12.w.horizontalSpace,
                   Text(
                     "Your Punters Clubs:",
                     style: regular(
-                      fontSize: 24.sp,
+                      fontSize: (kIsWeb) ? 38.sp : 24.sp,
                       fontFamily: AppFontFamily.secondary,
                     ),
                   ),
@@ -57,7 +66,9 @@ class PunterClubScreen extends StatelessWidget {
                   behavior: HitTestBehavior.opaque,
                   onTap: () {
                     context.pushNamed(
-                      AppRoutes.punterClubChat.name,
+                      (kIsWeb)
+                          ? WebRoutes.punterClubChatScreen.name
+                          : AppRoutes.punterClubChatScreen.name,
                       extra: club,
                     );
                   },
@@ -73,7 +84,7 @@ class PunterClubScreen extends StatelessWidget {
                     child: Text(
                       club,
                       style: bold(
-                        fontSize: 16.sp,
+                        fontSize: (kIsWeb) ? 32.sp : 16.sp,
                         color: (index % 2 == 0) ? null : AppColors.white,
                       ),
                     ),

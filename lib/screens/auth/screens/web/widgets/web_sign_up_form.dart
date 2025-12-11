@@ -78,7 +78,8 @@ class WebSignUpForm extends StatelessWidget {
                         hintText: "Date of birth",
                         trailingIcon: AppAssets.arrowDown,
                         trailingIconWidth: 15,
-                        validator: (value) => FieldValidators().required(value, "Date of birth"),
+                        validator: (value) =>
+                            FieldValidators().required(value, "Date of birth"),
                         hintStyle: medium(
                           fontSize: (kIsWeb) ? 28.sp : 16.sp,
                           color: AppColors.primary.setOpacity(0.4),
@@ -189,11 +190,9 @@ class WebSignUpForm extends StatelessWidget {
                                   fontSize: (Responsive.isTablet(context))
                                       ? 22.sp
                                       : 16.sp,
-
                                   color: AppColors.primary.setOpacity(0.4),
                                 ),
                                 trailingIcon: AppAssets.arrowDown,
-                                enabled: false,
                                 validator: (value) => FieldValidators()
                                     .required(value, "Date of birth"),
                                 onTap: () => _pickBob(context, provider),

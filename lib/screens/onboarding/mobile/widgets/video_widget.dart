@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:puntgpt_nick/core/constants/constants.dart';
@@ -20,7 +21,10 @@ class VideoWidget extends StatelessWidget {
       alignment: Alignment.center,
       child: Text(
         "Video",
-        style: regular(fontSize: 32.sp, fontFamily: AppFontFamily.secondary),
+        style: regular(
+          fontSize: (kIsWeb) ? 62.sp : 32.sp,
+          fontFamily: AppFontFamily.secondary,
+        ),
       ),
     );
   }

@@ -12,13 +12,12 @@ class WebDashboardAppBar extends StatelessWidget {
   const WebDashboardAppBar({super.key, required this.navigationShell});
   final StatefulNavigationShell navigationShell;
 
-
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(color: AppColors.primary),
       width: double.maxFinite,
-      padding: EdgeInsets.fromLTRB(16.w,8.h,90.w,8.h),
+      padding: EdgeInsets.fromLTRB(16.w, 8.h, 90.w, 8.h),
       child: Stack(
         alignment: Alignment.center,
         children: [
@@ -27,21 +26,31 @@ class WebDashboardAppBar extends StatelessWidget {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Container(height: 45, width: 180.w, color: AppColors.white,alignment: Alignment.center,child: Text("Ads"),
+                Container(
+                  height: 45,
+                  width: 180.w,
+                  color: AppColors.white,
+                  alignment: Alignment.center,
+                  child: Text("Ads"),
                 ),
                 60.w.horizontalSpace,
                 //todo -------------------------> Bookies tab
                 _navItem(
-                    onTap: () {
-                }, text: "Bookies", icon:  AppAssets.bookings,color: AppColors.green
+                  onTap: () {},
+                  text: "Bookies",
+                  icon: AppAssets.bookings,
+                  color: AppColors.green,
                 ),
                 30.w.horizontalSpace,
                 //todo -------------------------> Punter Club tab
-                _navItem(onTap: () {
-
-                  indexOfWebTab.value = 1;
-                  WebRouter.indexedStackNavigationShell!.goBranch(1);
-                }, text: "PuntGPT\nPunter Club", icon: AppAssets.group)
+                _navItem(
+                  onTap: () {
+                    indexOfWebTab.value = 1;
+                    WebRouter.indexedStackNavigationShell!.goBranch(1);
+                  },
+                  text: "PuntGPT\nPunter Club",
+                  icon: AppAssets.group,
+                ),
               ],
             ),
           ),
@@ -72,7 +81,6 @@ class WebDashboardAppBar extends StatelessWidget {
               ],
             ),
           ),
-
         ],
       ),
     );

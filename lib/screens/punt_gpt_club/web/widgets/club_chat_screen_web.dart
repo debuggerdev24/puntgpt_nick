@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:puntgpt_nick/core/widgets/image_widget.dart';
 import 'package:puntgpt_nick/responsive/responsive_builder.dart';
@@ -11,9 +10,6 @@ import '../../../../core/constants/app_assets.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/text_style.dart';
 import '../../../../core/widgets/app_devider.dart';
-import '../../../../core/widgets/app_outlined_button.dart';
-import '../../../../core/widgets/app_text_field.dart';
-import '../../../../core/widgets/on_button_tap.dart';
 import '../../../../provider/account/account_provider.dart';
 
 class PunterClubChatSectionWeb extends StatelessWidget {
@@ -110,7 +106,7 @@ class PunterClubChatSectionWeb extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "Personal Details",
+              "‘PuntGPT Legends’",
               style: regular(
                 fontSize: context.isDesktop ? 24.sp : 30.sp,
                 fontFamily: AppFontFamily.secondary,
@@ -118,7 +114,7 @@ class PunterClubChatSectionWeb extends StatelessWidget {
               ),
             ),
             Text(
-              "Manage your name, email, etc.",
+              "11 members",
               style: semiBold(
                 fontSize: twelveResponsive,
                 color: AppColors.greyColor.withValues(alpha: 0.6),
@@ -129,7 +125,7 @@ class PunterClubChatSectionWeb extends StatelessWidget {
         Spacer(),
         ImageWidget(
           path: AppAssets.addMember,
-          type: ImageType.svg,
+
           color: AppColors.primary,
           height: context.isDesktop ? 20.w : 28.w,
         ),

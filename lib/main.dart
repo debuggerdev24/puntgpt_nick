@@ -65,21 +65,8 @@ class MyApp extends StatelessWidget {
 }
 
 /*
-todo vimal
-
-
-
--> Worked on testing the iOS subscription.
--> Worked on updating the base url of the application.
--> Worked on testing the app feature with new base URL.
--> Worked on fixing context regarding issue in the app.
 
 todo nick
 
--> Worked on developed the punt GPT punter club tab.
--> Worked on creating new branch for the new tab.
--> Worked on creating new custom widgets for the punter club section .
--> Worked on performing screens responsiveness.
--> Worked on added condition to close web popup when in mobile.
--> Worked on making responsive to the chat box.
+todo Vimal
 */

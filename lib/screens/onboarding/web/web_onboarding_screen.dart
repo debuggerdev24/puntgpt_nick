@@ -123,7 +123,11 @@ class WebOnboardingScreen extends StatelessWidget {
                 children: List.generate(planData.length, (index) {
                   return Container(
                     width: 280.w.flexClamp(260, 300),
-                    height: 500.h.flexClamp(480, 520),
+                    // height: context.isDesktop
+                    //     ? 500.w
+                    //     : context.isTablet
+                    //     ? 800.w
+                    //     : 1000.w,
                     margin: EdgeInsets.symmetric(horizontal: 16),
                     decoration: BoxDecoration(
                       border: Border.all(
@@ -176,11 +180,9 @@ class WebOnboardingScreen extends StatelessWidget {
                                 ),
                               ),
                         12.h.verticalSpace,
-                        ListView.separated(
-                          shrinkWrap: true,
-                          padding: EdgeInsets.all(0),
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemBuilder: (context, i) {
+                        ...List.generate(
+                          (planData[index]['points'] as List).length,
+                          (i) {
                             Map item = planData[index]['points'][i];
                             return Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -202,11 +204,8 @@ class WebOnboardingScreen extends StatelessWidget {
                               ],
                             );
                           },
-                          separatorBuilder: (context, index) =>
-                              SizedBox(height: 5),
-                          itemCount: (planData[index]['points'] as List).length,
                         ),
-                        Spacer(),
+                        (index == 0) ? 48.w.verticalSpace : 40.w.verticalSpace,
                         planData[index]['price'].toString().isEmpty
                             ? const SizedBox()
                             : Row(
@@ -237,7 +236,7 @@ class WebOnboardingScreen extends StatelessWidget {
                                 : context.isTablet
                                 ? 26.sp
                                 : kIsWeb
-                                ? 34.sp
+                                ? 38.sp
                                 : 18.sp,
                           ),
                           onTap: () {

@@ -10,7 +10,10 @@ enum WebRoutes {
   accountScreen,
   personalDetailsScreen,
   manageSubscriptionScreen,
-  askOPuntGpt, savedSearched, punterClubScreen,
+  askOPuntGpt,
+  savedSearched,
+  punterClubScreen,
+  punterClubChatScreen,
 }
 
 extension WebRouteExtension on WebRoutes {
