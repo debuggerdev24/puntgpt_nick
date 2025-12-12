@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:puntgpt_nick/core/router/app/app_routes.dart';
+import 'package:puntgpt_nick/core/router/web/web_router.dart';
 import 'package:puntgpt_nick/core/router/web/web_routes.dart';
 import 'package:puntgpt_nick/core/widgets/on_button_tap.dart';
 
@@ -130,8 +131,12 @@ class AccountScreen extends StatelessWidget {
               IconButton(
                 padding: EdgeInsets.zero,
                 onPressed: () {
+                  if (kIsWeb) {
+                    WebRouter.indexedStackNavigationShell!.goBranch(0);
+                    return;
+                  }
                   AppRouter.indexedStackNavigationShell!.goBranch(0);
-                  context.pop();
+                  // context.pop();
                 },
                 icon: Icon(Icons.arrow_back_ios_rounded, size: 16.h),
               ),

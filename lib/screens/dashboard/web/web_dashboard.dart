@@ -11,7 +11,7 @@ import '../../../core/constants/text_style.dart';
 import '../../../core/widgets/image_widget.dart';
 import '../mobile/widgets/dashboard_app_bar.dart';
 
-ValueNotifier<int> indexOfWebTab = ValueNotifier(0);
+ValueNotifier<int> indexOfWebTab = ValueNotifier<int>(0);
 
 class WebDashboard extends StatelessWidget {
   const WebDashboard({super.key, required this.navigationShell});
@@ -29,18 +29,18 @@ class WebDashboard extends StatelessWidget {
       "is Tablet ${Responsive.isTablet(context)} ${context.screenWidth}",
     );
     return Scaffold(
-      backgroundColor: AppColors.backGroundColor,
       body: SafeArea(
         bottom: false,
         child: Column(
           children: [
             DashboardAppBar(navigationShell: navigationShell),
             Expanded(
-              child: ValueListenableBuilder(
+              child: ValueListenableBuilder<int>(
                 valueListenable: indexOfWebTab,
                 builder: (context, value, child) {
                   return FadeInUp(
-                    key: ValueKey(indexOfWebTab),
+                    from: 10,
+                    key: ValueKey(indexOfWebTab.value),
                     child: navigationShell,
                   );
                 },
@@ -50,70 +50,65 @@ class WebDashboard extends StatelessWidget {
         ),
       ),
       bottomNavigationBar: (!context.isDesktop)
-          ? Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Container(
-                  width: context.screenWidth,
-                  color: AppColors.primary,
-                  padding: EdgeInsets.fromLTRB(
-                    15,
-                    15,
-                    15,
-                    context.bottomPadding + 15,
+          ? Container(
+              width: context.screenWidth,
+              color: AppColors.primary,
+              padding: EdgeInsets.fromLTRB(
+                15,
+                15,
+                15,
+                context.bottomPadding + 15,
+              ),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                spacing: 15.w,
+                children: [
+                  _navItem(
+                    onTap: () {
+                      indexOfWebTab.value = 0;
+                      WebRouter.indexedStackNavigationShell?.goBranch(0);
+                    },
+                    text: "Subscribe to\nPro Punter",
+                    icon: AppAssets.trophy,
+                    color: AppColors.premiumYellow,
+                    index: 0,
+                    context: context,
                   ),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    spacing: 15.w,
-                    children: [
-                      _navItem(
-                        onTap: () {
-                          indexOfWebTab.value = 0;
-                          WebRouter.indexedStackNavigationShell?.goBranch(0);
-                        },
-                        text: "Subscribe to\nPro Punter",
-                        icon: AppAssets.trophy,
-                        color: AppColors.premiumYellow,
-                        index: 0,
-                        context: context,
-                      ),
-                      _navItem(
-                        onTap: () {
-                          indexOfWebTab.value = 1;
-                          WebRouter.indexedStackNavigationShell?.goBranch(1);
-                        },
-                        text: "PuntGPT Punter Club",
-                        icon: AppAssets.group,
+                  _navItem(
+                    onTap: () {
+                      indexOfWebTab.value = 1;
+                      WebRouter.indexedStackNavigationShell?.goBranch(1);
+                    },
+                    text: "PuntGPT Punter Club",
+                    icon: AppAssets.group,
 
-                        hasLock: false,
-                        index: 1,
-                        context: context,
-                      ),
-                      _navItem(
-                        onTap: () {
-                          indexOfWebTab.value = 2;
-                          WebRouter.indexedStackNavigationShell?.goBranch(2);
-                        },
-                        text: "Bookies",
-                        icon: AppAssets.bookings,
-                        color: AppColors.green,
-                        index: 2,
-                        context: context,
-                      ),
-                      _navItem(
-                        onTap: () {
-                          indexOfWebTab.value = 3;
-                          WebRouter.indexedStackNavigationShell?.goBranch(3);
-                        },
-                        text: "Account",
-                        icon: AppAssets.profile,
-                        index: 3,
-                        context: context,
-                      ),
-                    ],
+                    hasLock: false,
+                    index: 1,
+                    context: context,
                   ),
-                ),
-              ],
+                  _navItem(
+                    onTap: () {
+                      indexOfWebTab.value = 2;
+                      WebRouter.indexedStackNavigationShell?.goBranch(2);
+                    },
+                    text: "Bookies",
+                    icon: AppAssets.bookings,
+                    color: AppColors.green,
+                    index: 2,
+                    context: context,
+                  ),
+                  _navItem(
+                    onTap: () {
+                      indexOfWebTab.value = 3;
+                      WebRouter.indexedStackNavigationShell?.goBranch(3);
+                    },
+                    text: "Account",
+                    icon: AppAssets.profile,
+                    index: 3,
+                    context: context,
+                  ),
+                ],
+              ),
             )
           : SizedBox(),
     );

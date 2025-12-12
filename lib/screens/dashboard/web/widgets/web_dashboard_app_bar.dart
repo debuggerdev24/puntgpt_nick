@@ -17,7 +17,7 @@ class WebDashboardAppBar extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(color: AppColors.primary),
       width: double.maxFinite,
-      padding: EdgeInsets.fromLTRB(16.w, 8.h, 90.w, 8.h),
+      padding: EdgeInsets.fromLTRB(16.w, 8.h, 90.w, 0.h),
       child: Stack(
         alignment: Alignment.center,
         children: [
@@ -28,7 +28,7 @@ class WebDashboardAppBar extends StatelessWidget {
               children: [
                 Container(
                   height: 45,
-                  width: 180.w,
+                  width: 170.w,
                   color: AppColors.white,
                   alignment: Alignment.center,
                   child: Text("Ads"),
@@ -37,6 +37,8 @@ class WebDashboardAppBar extends StatelessWidget {
                 //todo -------------------------> Bookies tab
                 _navItem(
                   onTap: () {},
+                  isSelected: 0 == indexOfWebTab.value,
+
                   text: "Bookies",
                   icon: AppAssets.bookings,
                   color: AppColors.green,
@@ -45,9 +47,10 @@ class WebDashboardAppBar extends StatelessWidget {
                 //todo -------------------------> Punter Club tab
                 _navItem(
                   onTap: () {
-                    indexOfWebTab.value = 1;
                     WebRouter.indexedStackNavigationShell!.goBranch(1);
+                    indexOfWebTab.value = 1;
                   },
+                  isSelected: 1 == indexOfWebTab.value,
                   text: "PuntGPT\nPunter Club",
                   icon: AppAssets.group,
                 ),
@@ -64,10 +67,12 @@ class WebDashboardAppBar extends StatelessWidget {
                 //todo -------------------------> Subscribe to pro punter
                 _navItem(
                   onTap: () {},
+                  isSelected: 2 == indexOfWebTab.value,
                   text: "Subscribe\nto Pro Punter",
                   icon: AppAssets.trophy,
                   color: AppColors.premiumYellow,
                 ),
+                _navItem(onTap: () {}, text: ""),
                 _tipSlip(),
                 //todo -------------------------> Account
                 _navItem(
@@ -75,6 +80,7 @@ class WebDashboardAppBar extends StatelessWidget {
                     indexOfWebTab.value = 3;
                     WebRouter.indexedStackNavigationShell!.goBranch(3);
                   },
+                  isSelected: 3 == indexOfWebTab.value,
                   text: "Account",
                   icon: AppAssets.profile,
                 ),
@@ -132,7 +138,11 @@ class WebDashboardAppBar extends StatelessWidget {
   }
 
   Widget _appLogo() {
-    return Center(
+    return OnMouseTap(
+      onTap: () {
+        WebRouter.indexedStackNavigationShell!.goBranch(0);
+        indexOfWebTab.value = -1;
+      },
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -140,49 +150,70 @@ class WebDashboardAppBar extends StatelessWidget {
             type: ImageType.asset,
             path: AppAssets.appBarLogo,
             color: AppColors.white,
-            // height: 50.w.flexClamp(45, 55),
           ),
-          Text(
-            "Pro",
-            style: regular(
-              fontSize: 14.sp,
-              fontFamily: AppFontFamily.secondary,
-              color: AppColors.premiumYellow,
-            ),
-          ),
+          // Text(
+          //   "Pro",
+          //   style: regular(
+          //     fontSize: 14.sp,
+          //     fontFamily: AppFontFamily.secondary,
+          //     color: AppColors.premiumYellow,
+          //   ),
+          // ),
         ],
       ),
     );
   }
 
   _navItem({
-    required VoidCallback onTap,
-    required String text,
-    required String icon,
+    VoidCallback? onTap,
+    String? text,
+    String? icon,
+    bool? isSelected,
+    Widget? child,
     Color? color,
     bool hasLock = false,
   }) {
-    return OnMouseTap(
-      onTap: onTap,
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        spacing: 8,
+    return IntrinsicWidth(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          ImageWidget(
-            path: icon,
-            type: ImageType.svg,
-            color: color ?? AppColors.white,
-            height: 32.w.flexClamp(28, 36),
-          ),
-          Text(
-            text,
-            textAlign: TextAlign.left,
-            style: medium(
-              fontSize: 14.sp,
-              height: 1.5,
-              color: color ?? AppColors.white,
-            ),
+          11.w.verticalSpace,
+          child ??
+              OnMouseTap(
+                onTap: onTap,
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  spacing: 8,
+                  children: [
+                    ImageWidget(
+                      path: icon!,
+                      type: ImageType.svg,
+                      color: color ?? AppColors.white,
+                      height: 32.w.flexClamp(28, 36),
+                    ),
+                    Text(
+                      text!,
+                      textAlign: TextAlign.left,
+                      style: medium(
+                        fontSize: 16.sp,
+                        height: 1.5,
+                        color: color ?? AppColors.white,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+          24.w.verticalSpace,
+          Align(
+            alignment: AlignmentGeometry.bottomCenter,
+            child: (isSelected ?? false)
+                ? Container(
+                    color: Colors.white,
+                    height: 3,
+                    width: double.infinity,
+                  )
+                : SizedBox(),
           ),
         ],
       ),

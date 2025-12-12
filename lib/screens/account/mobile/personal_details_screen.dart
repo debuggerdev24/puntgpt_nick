@@ -10,6 +10,7 @@ import 'package:puntgpt_nick/core/utils/field_validators.dart';
 import 'package:puntgpt_nick/core/widgets/app_filed_button.dart';
 import 'package:puntgpt_nick/core/widgets/app_outlined_button.dart';
 import 'package:puntgpt_nick/core/widgets/app_text_field.dart';
+import 'package:puntgpt_nick/core/widgets/on_button_tap.dart';
 import 'package:puntgpt_nick/provider/account/account_provider.dart';
 
 import '../../../core/constants/app_colors.dart';
@@ -52,6 +53,8 @@ class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
                       AppTextField(
                         controller: TextEditingController(),
                         hintText: "Enter Your Name",
+                        textStyle: medium(fontSize: (kIsWeb) ? 32.sp : 16.sp),
+
                         hintStyle: medium(fontSize: (kIsWeb) ? 28.sp : 14.sp),
                         validator: (value) =>
                             FieldValidators().name(value, "Name"),
@@ -66,6 +69,8 @@ class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
                       AppTextField(
                         controller: TextEditingController(),
                         hintText: "Enter Your Email",
+                        textStyle: medium(fontSize: (kIsWeb) ? 32.sp : 16.sp),
+
                         hintStyle: medium(fontSize: (kIsWeb) ? 28.sp : 14.sp),
                         validator: (value) => FieldValidators().email(value),
                       ),
@@ -79,6 +84,7 @@ class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
                       AppTextField(
                         controller: TextEditingController(),
                         hintText: "Enter Your Phone",
+                        textStyle: medium(fontSize: (kIsWeb) ? 32.sp : 16.sp),
                         hintStyle: medium(fontSize: (kIsWeb) ? 28.sp : 14.sp),
                         validator: (value) =>
                             FieldValidators().mobileNumber(value),
@@ -86,6 +92,10 @@ class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
                       if (provider.isEdit)
                         AppFiledButton(
                           text: "Save Changes",
+                          textStyle: semiBold(
+                            fontSize: (kIsWeb) ? 28.sp : 18.sp,
+                            color: AppColors.white,
+                          ),
                           onTap: () {
                             if (_formKey.currentState!.validate()) {
                               provider.setIsEdit = false;
@@ -98,6 +108,8 @@ class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
                         onTap: () {
                           context.pushNamed(AppRoutes.changePassword.name);
                         },
+
+                        textStyle: semiBold(fontSize: (kIsWeb) ? 28.sp : 18.sp),
                         margin: EdgeInsets.only(
                           bottom: 25.h,
                           top: (!provider.isEdit) ? 200.h : 8.h,
@@ -156,22 +168,25 @@ class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
               ),
               Spacer(),
               if (!provider.isEdit)
-                GestureDetector(
-                  onTap: () {
-                    provider.setIsEdit = !(provider.isEdit);
-                  },
-                  child: Row(
-                    spacing: (kIsWeb) ? 8 : 2,
-                    children: [
-                      SvgPicture.asset(
-                        AppAssets.edit,
-                        width: (kIsWeb) ? 32.w : 16.w,
-                      ),
-                      Text(
-                        "Edit",
-                        style: bold(fontSize: (kIsWeb) ? 32.sp : 16.sp),
-                      ),
-                    ],
+                OnMouseTap(
+                  child: GestureDetector(
+                    onTap: () {
+                      provider.setIsEdit = !(provider.isEdit);
+                    },
+                    behavior: HitTestBehavior.opaque,
+                    child: Row(
+                      spacing: (kIsWeb) ? 8 : 2,
+                      children: [
+                        SvgPicture.asset(
+                          AppAssets.edit,
+                          width: (kIsWeb) ? 32.w : 16.w,
+                        ),
+                        Text(
+                          "Edit",
+                          style: bold(fontSize: (kIsWeb) ? 32.sp : 16.sp),
+                        ),
+                      ],
+                    ),
                   ),
                 )
               else
@@ -183,7 +198,10 @@ class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
 
                   child: Text(
                     "Cancel",
-                    style: bold(fontSize: 16.sp, color: AppColors.primary),
+                    style: bold(
+                      fontSize: (kIsWeb) ? 32.sp : 16.sp,
+                      color: AppColors.primary,
+                    ),
                   ),
                 ),
             ],

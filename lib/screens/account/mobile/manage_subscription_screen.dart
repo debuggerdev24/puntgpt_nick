@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -38,7 +39,10 @@ class ManageSubscriptionScreen extends StatelessWidget {
         topBar(context),
         Padding(
           padding: EdgeInsets.fromLTRB(25.w, 18.h, 0, 0),
-          child: Text("Current Plan", style: bold(fontSize: 16.sp)),
+          child: Text(
+            "Current Plan",
+            style: bold(fontSize: (kIsWeb) ? 32.sp : 16.sp),
+          ),
         ),
         Container(
           margin: EdgeInsets.symmetric(horizontal: 25.w, vertical: 12.h),
@@ -58,7 +62,7 @@ class ManageSubscriptionScreen extends StatelessWidget {
                           TextSpan(
                             text: "Monthly",
                             style: regular(
-                              fontSize: 24.sp,
+                              fontSize: (kIsWeb) ? 36.sp : 24.sp,
                               fontFamily: AppFontFamily.secondary,
                             ),
                           ),
@@ -136,14 +140,14 @@ class ManageSubscriptionScreen extends StatelessWidget {
                       "Free ‘Mug Punter’ Account",
                       style: regular(
                         fontFamily: AppFontFamily.secondary,
-                        fontSize: 24.sp,
+                        fontSize: (kIsWeb) ? 36.sp : 24.sp,
                       ),
                     ),
                     Text(
                       "\$ 00.00",
                       style: regular(
                         fontFamily: AppFontFamily.secondary,
-                        fontSize: 24.sp,
+                        fontSize: (kIsWeb) ? 36.sp : 24.sp,
                       ),
                     ),
                     20.h.verticalSpace,
@@ -159,12 +163,14 @@ class ManageSubscriptionScreen extends StatelessWidget {
                             ImageWidget(
                               type: ImageType.svg,
                               path: item["icon"],
-                              height: 20.w,
+                              height: (kIsWeb) ? 32.w : 20.w,
                             ),
                             10.w.horizontalSpace,
                             Text(
                               item["point"],
-                              style: regular(fontSize: 16.sp),
+                              style: regular(
+                                fontSize: (kIsWeb) ? 28.sp : 16.sp,
+                              ),
                             ),
                           ],
                         );
@@ -180,26 +186,33 @@ class ManageSubscriptionScreen extends StatelessWidget {
             textAlign: TextAlign.center,
             "Billing handled via Apple Store / Google Play",
             style: medium(
-              fontSize: 14.sp,
+              fontSize: (kIsWeb) ? 28.sp : 14.sp,
               color: AppColors.greyColor.withValues(alpha: 0.6),
             ),
           ),
         ),
         if (isSubscribe) Spacer(),
+        if (kIsWeb) 40.w.verticalSpace,
         AppFiledButton(
-          margin: EdgeInsets.only(bottom: 8.h, left: 25.w, right: 25.w),
+          margin: EdgeInsets.only(bottom: 8.w, left: 25.w, right: 25.w),
           text: "Renew",
+          textStyle: semiBold(
+            fontSize: (kIsWeb) ? 30.sp : 18.sp,
+            color: AppColors.white,
+          ),
           onTap: () {},
         ),
 
         AppOutlinedButton(
           margin: EdgeInsets.only(bottom: 8.h, left: 25.w, right: 25.w),
           text: "Change Plan",
+          textStyle: semiBold(fontSize: (kIsWeb) ? 30.sp : 18.sp),
           onTap: () {},
         ),
         AppOutlinedButton(
           margin: EdgeInsets.only(bottom: 25.h, left: 25.w, right: 25.w),
           text: "Cancel",
+          textStyle: semiBold(fontSize: (kIsWeb) ? 30.sp : 18.sp),
           onTap: () {},
         ),
       ],
@@ -228,20 +241,18 @@ class ManageSubscriptionScreen extends StatelessWidget {
             children: [
               IconButton(
                 padding: EdgeInsets.zero,
-
                 onPressed: () {
                   context.pop();
                 },
                 icon: Icon(Icons.arrow_back_ios_rounded, size: 16.h),
               ),
-
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     "Manage Subscription",
                     style: regular(
-                      fontSize: 24.sp,
+                      fontSize: (kIsWeb) ? 36.sp : 24.sp,
                       fontFamily: AppFontFamily.secondary,
                       height: 1.35,
                     ),
@@ -249,7 +260,7 @@ class ManageSubscriptionScreen extends StatelessWidget {
                   Text(
                     "Manage your Subscription Plan",
                     style: semiBold(
-                      fontSize: 14.sp,
+                      fontSize: (kIsWeb) ? 28.sp : 14.sp,
                       color: AppColors.greyColor.withValues(alpha: 0.6),
                     ),
                   ),
