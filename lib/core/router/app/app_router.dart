@@ -6,7 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:puntgpt_nick/core/router/app/app_routes.dart';
 import 'package:puntgpt_nick/screens/account/mobile/account_screen.dart';
 import 'package:puntgpt_nick/screens/auth/screens/mobile/login_screen.dart';
-import 'package:puntgpt_nick/screens/bookies/bookies_screen.dart';
+import 'package:puntgpt_nick/screens/bookies/mobile/bookies_screen.dart';
 import 'package:puntgpt_nick/screens/home/mobile/ask_punt_gpt.dart';
 import 'package:puntgpt_nick/screens/home/mobile/home_screen.dart';
 import 'package:puntgpt_nick/screens/onboarding/mobile/age_confirmation_screen.dart';

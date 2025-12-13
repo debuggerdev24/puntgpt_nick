@@ -16,6 +16,7 @@ import 'package:puntgpt_nick/screens/punt_gpt_club/web/punter_club_screen_web.da
 import 'package:puntgpt_nick/screens/splash/web_splash_screen.dart';
 
 import '../../../screens/account/web/account_screen_web.dart';
+import '../../../screens/bookies/web/bookies_screen_web.dart';
 import '../../../screens/home/mobile/ask_punt_gpt.dart';
 import '../../../screens/home/mobile/saved_search_screen.dart';
 import '../../../screens/home/web/selected_race_screen_web.dart';
@@ -29,7 +30,7 @@ class WebRouter {
 
   static final GoRouter router = GoRouter(
     navigatorKey: _rootNavigatorKey,
-    initialLocation: WebRoutes.splashScreen.path,
+    initialLocation: WebRoutes.homeScreen.path,
     debugLogDiagnostics: true,
     routes: [
       GoRoute(
@@ -58,7 +59,6 @@ class WebRouter {
         name: WebRoutes.signInScreen.name,
         builder: (context, state) => WebLoginScreen(),
       ),
-
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) {
           indexedStackNavigationShell = navigationShell;
@@ -145,6 +145,16 @@ class WebRouter {
                 builder: (context, state) => (context.isMobile)
                     ? ManageSubscriptionScreen()
                     : AccountScreenWeb(),
+              ),
+            ],
+          ),
+          //todo bookies branch
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: WebRoutes.bookiesScreen.path,
+                name: WebRoutes.bookiesScreen.name,
+                builder: (context, state) => BookiesScreenWeb(),
               ),
             ],
           ),

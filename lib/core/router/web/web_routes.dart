@@ -14,6 +14,7 @@ enum WebRoutes {
   savedSearched,
   punterClubScreen,
   punterClubChatScreen,
+  bookiesScreen,
 }
 
 extension WebRouteExtension on WebRoutes {
