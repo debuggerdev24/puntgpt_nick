@@ -18,7 +18,7 @@ class WebDashboardAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(color: AppColors.primary),
-      height: (context.screenWidth > 1010) ? 82.w : 92.w,
+      height: (context.screenWidth > 1010) ? 92.w : 102.w,
       width: double.maxFinite,
       alignment: AlignmentGeometry.center,
       padding: EdgeInsets.fromLTRB(16.w, 0.h, 90.w, 0.h),
@@ -30,44 +30,42 @@ class WebDashboardAppBar extends StatelessWidget {
               Align(
                 alignment: Alignment.centerLeft,
                 child: Row(
-                 mainAxisSize: MainAxisSize.min,
-                 children: [
-                   Container(
-                     height: 45,
-                     width: 170.w,
-                     color: AppColors.white,
-                     alignment: Alignment.center,
-                     child: Text("Ads"),
-                   ),
-                   60.w.horizontalSpace,
-                   //todo -------------------------> Bookies tab
-                   _navItem(
-                     onTap: () {
-                       indexOfWebTab.value = 0;
-                       WebRouter.indexedStackNavigationShell!.goBranch(0);
-                     },
-                     isSelected: 0 == value,
-                     text: "Bookies",
-                     icon: AppAssets.bookings,
-                     color: AppColors.green,
-                   ),
-                   30.w.horizontalSpace,
-                   //todo -------------------------> Punter Club tab
-                   _navItem(
-                     onTap: () {
-                       indexOfWebTab.value = 1;
-                       WebRouter.indexedStackNavigationShell!.goBranch(1);
-                     },
-                     isSelected: 1 == value,
-                     text: "PuntGPT\nPunter Club",
-                     icon: AppAssets.group,
-                   ),
-                 ],
-                              ),
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Container(
+                      height: 45,
+                      width: 170.w,
+                      color: AppColors.white,
+                      alignment: Alignment.center,
+                      child: Text("Ads"),
+                    ),
+                    60.w.horizontalSpace,
+                    //todo -------------------------> Bookies tab
+                    _navItem(
+                      onTap: () {
+                        indexOfWebTab.value = 0;
+                        WebRouter.indexedStackNavigationShell!.goBranch(0);
+                      },
+                      isSelected: 0 == value,
+                      text: "Bookies",
+                      icon: AppAssets.bookings,
+                      color: AppColors.green,
+                    ),
+                    30.w.horizontalSpace,
+                    //todo -------------------------> Punter Club tab
+                    _navItem(
+                      onTap: () {
+                        indexOfWebTab.value = 1;
+                        WebRouter.indexedStackNavigationShell!.goBranch(1);
+                      },
+                      isSelected: 1 == value,
+                      text: "PuntGPT\nPunter Club",
+                      icon: AppAssets.group,
+                    ),
+                  ],
+                ),
               ),
-              Align(
-                  alignment: AlignmentGeometry.center,
-                  child: _appLogo()),
+              Align(alignment: AlignmentGeometry.center, child: _appLogo()),
               Align(
                 alignment: Alignment.centerRight,
                 child: Row(
@@ -112,7 +110,7 @@ class WebDashboardAppBar extends StatelessWidget {
               ),
             ],
           );
-        }
+        },
       ),
     );
   }
@@ -134,7 +132,8 @@ class WebDashboardAppBar extends StatelessWidget {
           Center(
             child: OnMouseTap(
               onTap: onTap,
-              child: child ??
+              child:
+                  child ??
                   Row(
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -151,7 +150,7 @@ class WebDashboardAppBar extends StatelessWidget {
                         text!,
                         textAlign: TextAlign.left,
                         style: medium(
-                          fontSize: 19.sp,
+                          fontSize: 16.sp,
                           height: 1.5,
                           color: color ?? AppColors.white,
                         ),
@@ -162,14 +161,14 @@ class WebDashboardAppBar extends StatelessWidget {
           ),
           (isSelected ?? false)
               ? Container(
-            color: color == AppColors.green
-                ? AppColors.green
-                : color == AppColors.premiumYellow
-                ? AppColors.premiumYellow
-                : Colors.white,
-            height: 4,
-            width: double.infinity,
-          )
+                  color: color == AppColors.green
+                      ? AppColors.green
+                      : color == AppColors.premiumYellow
+                      ? AppColors.premiumYellow
+                      : Colors.white,
+                  height: 4,
+                  width: double.infinity,
+                )
               : SizedBox(),
         ],
       ),
@@ -222,14 +221,54 @@ class WebDashboardAppBar extends StatelessWidget {
         WebRouter.indexedStackNavigationShell!.goBranch(2);
         indexOfWebTab.value = 2;
       },
-      child: Column(
+      child: Row(
         mainAxisSize: MainAxisSize.min,
+        spacing: 8.w,
         children: [
           ImageWidget(
             type: ImageType.asset,
-            path: AppAssets.appBarLogo,
+            path: AppAssets.webLogo,
             color: AppColors.white,
+            height: 52.w,
           ),
+
+          Text(
+            "PuntGPT",
+            style: regular(
+              color: AppColors.white,
+              fontSize: 22.sp,
+              fontFamily: AppFontFamily.secondary,
+            ),
+          ),
+          // Column(
+          //   mainAxisAlignment: MainAxisAlignment.center,
+          //   crossAxisAlignment: CrossAxisAlignment.end,
+          //   children: [
+          //     16.w.verticalSpace,
+          //     Text(
+          //       "PuntGPT",
+          //       style: regular(
+          //         height: 0.95,
+          //
+          //         color: AppColors.white,
+          //         fontSize: 22.sp,
+          //         fontFamily: AppFontFamily.secondary,
+          //       ),
+          //     ),
+          //     Align(
+          //       alignment: AlignmentGeometry.bottomRight,
+          //       child: Text(
+          //         "Pro",
+          //         style: regular(
+          //           height: 0.9,
+          //           color: AppColors.premiumYellow,
+          //           fontSize: 22.sp,
+          //           fontFamily: AppFontFamily.secondary,
+          //         ),
+          //       ),
+          //     ),
+          //   ],
+          // ),
         ],
       ),
     );

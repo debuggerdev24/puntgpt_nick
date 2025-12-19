@@ -100,7 +100,31 @@ class RunnersList extends StatelessWidget {
                           ),
                           Text(runner.label, style: semiBold(fontSize: 18.sp)),
                           Spacer(),
-                          Text("\$${runner.price}", style: bold(fontSize: 18.sp)),
+                          Text(
+                            "\$${runner.price}",
+                            style: bold(fontSize: 18.sp),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Divider(color: AppColors.greyColor.withValues(alpha: 0.15)),
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(12, 6, 12, 2),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "${runner.date}. ",
+                            style: medium(fontSize: 16.sp),
+                          ),
+                          Text(
+                            "${runner.numberOfRace} Races",
+                            style: medium(fontSize: 16.sp),
+                          ),
+                          Text(
+                            runner.nextRaceRemainTime,
+                            style: medium(fontSize: 16.sp),
+                          ),
                         ],
                       ),
                     ),
@@ -108,26 +132,18 @@ class RunnersList extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.fromLTRB(12, 6, 12, 2),
                       child: Text(
-                        "${runner.date}. ",
-                        style: medium(fontSize: 16.sp),
+                        "Odds may differ with:",
+                        style: bold(fontSize: 16.sp),
                       ),
                     ),
-                    Divider(color: AppColors.greyColor.withValues(alpha: 0.15)),
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(12, 6, 12, 2),
-                      child: Text(
-                        "${runner.numberOfRace} Races",
-                        style: medium(fontSize: 16.sp),
-                      ),
-                    ),
-                    Divider(color: AppColors.greyColor.withValues(alpha: 0.15)),
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(12, 6, 12, 2),
-                      child: Text(
-                        "Next race ${runner.nextRaceRemainTime}",
-                        style: medium(fontSize: 16.sp),
-                      ),
-                    ),
+                    // Divider(color: AppColors.greyColor.withValues(alpha: 0.15)),
+                    // Padding(
+                    //   padding: EdgeInsets.fromLTRB(12, 6, 12, 2),
+                    //   child: Text(
+                    //     "Next race ${runner.nextRaceRemainTime}",
+                    //     style: medium(fontSize: 16.sp),
+                    //   ),
+                    // ),
                     Divider(color: AppColors.greyColor.withValues(alpha: 0.15)),
                     Padding(
                       padding: EdgeInsets.fromLTRB(8, 6, 8, 16),
