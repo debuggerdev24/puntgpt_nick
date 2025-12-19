@@ -7,9 +7,9 @@ class AccountProvider extends ChangeNotifier {
       _isEdit = false;
 
   int _selectedTab = 0;
-  int get selectedTabWeb => _selectedTab;
+  int get selectedAccountTabWeb => _selectedTab;
 
-  set setTabIndexWeb(int index){
+  set setAccountTabIndex(int index){
     _selectedTab = index;
     notifyListeners();
   }

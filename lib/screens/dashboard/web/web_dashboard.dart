@@ -11,7 +11,7 @@ import '../../../core/constants/text_style.dart';
 import '../../../core/widgets/image_widget.dart';
 import '../mobile/widgets/dashboard_app_bar.dart';
 
-ValueNotifier<int> indexOfWebTab = ValueNotifier<int>(0);
+ValueNotifier<int> indexOfWebTab = ValueNotifier<int>(2);
 
 class WebDashboard extends StatelessWidget {
   const WebDashboard({super.key, required this.navigationShell});
@@ -40,7 +40,7 @@ class WebDashboard extends StatelessWidget {
                 builder: (context, value, child) {
                   return FadeInUp(
                     from: 10,
-                    key: ValueKey(indexOfWebTab.value),
+                    key: ValueKey(value),
                     child: navigationShell,
                   );
                 },

@@ -99,11 +99,11 @@ class LoginScreen extends StatelessWidget {
                       AppFiledButton(
                         text: "Login",
                         onTap: () {
-                          // if (_formKey.currentState!.validate()) {
-                          context.go(AppRoutes.home);
+                          if (_formKey.currentState!.validate()) {
+                            context.go(AppRoutes.home);
 
-                          // return;
-                          // }
+                            return;
+                          }
                         },
                       ),
                       15.h.verticalSpace,
@@ -124,10 +124,7 @@ class LoginScreen extends StatelessWidget {
                                 extra: {'is_free_sign_up': isFreeSignUp},
                               );
                             },
-                            child: Text(
-                              " Sign up",
-                              style: bold(fontSize: 14.sp),
-                            ),
+                            child: Text(" Sign up", style: bold(fontSize: 14.sp)),
                           ),
                         ],
                       ),

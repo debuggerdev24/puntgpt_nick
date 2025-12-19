@@ -68,6 +68,34 @@ class WebRouter {
           );
         },
         branches: <StatefulShellBranch>[
+          //todo bookies branch
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: WebRoutes.bookiesScreen.path,
+                name: WebRoutes.bookiesScreen.name,
+                builder: (context, state) => BookiesScreenWeb(),
+              ),
+            ],
+          ),
+          //todo Punter Club branch
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: WebRoutes.punterClubScreen.path,
+                name: WebRoutes.punterClubScreen.name,
+                builder: (context, state) => context.isMobile
+                    ? PunterClubScreen()
+                    : PunterClubScreenWebScreen(),
+              ),
+              GoRoute(
+                path: WebRoutes.punterClubChatScreen.path,
+                name: WebRoutes.punterClubChatScreen.name,
+                builder: (context, state) =>
+                    PuntClubChatScreen(title: state.extra as String),
+              ),
+            ],
+          ),
           //todo home branch
           StatefulShellBranch(
             routes: [
@@ -92,24 +120,6 @@ class WebRouter {
                 builder: (BuildContext context, GoRouterState state) {
                   return SavedSearchScreen();
                 },
-              ),
-            ],
-          ),
-          //todo Punter Club branch
-          StatefulShellBranch(
-            routes: [
-              GoRoute(
-                path: WebRoutes.punterClubScreen.path,
-                name: WebRoutes.punterClubScreen.name,
-                builder: (context, state) => context.isMobile
-                    ? PunterClubScreen()
-                    : PunterClubScreenWebScreen(),
-              ),
-              GoRoute(
-                path: WebRoutes.punterClubChatScreen.path,
-                name: WebRoutes.punterClubChatScreen.name,
-                builder: (context, state) =>
-                    PuntClubChatScreen(title: state.extra as String),
               ),
             ],
           ),
@@ -148,16 +158,7 @@ class WebRouter {
               ),
             ],
           ),
-          //todo bookies branch
-          StatefulShellBranch(
-            routes: [
-              GoRoute(
-                path: WebRoutes.bookiesScreen.path,
-                name: WebRoutes.bookiesScreen.name,
-                builder: (context, state) => BookiesScreenWeb(),
-              ),
-            ],
-          ),
+
         ],
       ),
     ],

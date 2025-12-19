@@ -103,23 +103,23 @@ class _AccountScreenWebState extends State<AccountScreenWeb> {
                               accountTabs(
                                 title: "Personal Details",
                                 fourteenResponsive: fourteenResponsive,
-                                color: (provider.selectedTabWeb == 0)
+                                color: (provider.selectedAccountTabWeb == 0)
                                     ? AppColors.primary
                                     : null,
                                 onTap: () {
-                                  provider.setTabIndexWeb = 0;
+                                  provider.setAccountTabIndex = 0;
                                 },
                                 context: context,
                               ),
                               accountTabs(
                                 title: "Manage Subscription",
                                 fourteenResponsive: fourteenResponsive,
-                                color: (provider.selectedTabWeb == 1)
+                                color: (provider.selectedAccountTabWeb == 1)
                                     ? AppColors.primary
                                     : null,
 
                                 onTap: () {
-                                  provider.setTabIndexWeb = 1;
+                                  provider.setAccountTabIndex = 1;
                                 },
                                 context: context,
                               ),
@@ -129,7 +129,7 @@ class _AccountScreenWebState extends State<AccountScreenWeb> {
                         ),
                         verticalDivider(),
                         //todo ----------------> right panel
-                        if (provider.selectedTabWeb == 0)
+                        if (provider.selectedAccountTabWeb == 0)
                           PersonalDetailsSectionWeb(formKey: _formKey)
                         else
                           ManageSubscriptionSectionWeb(),

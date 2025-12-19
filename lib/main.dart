@@ -10,20 +10,18 @@ import 'package:puntgpt_nick/provider/auth/auth_provider.dart';
 import 'package:puntgpt_nick/provider/punt_club/punter_club_provider.dart';
 import 'package:puntgpt_nick/provider/search_engine_provider.dart';
 
-import 'core/router/app/app_router.dart';
-
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
-  // SystemChrome.setSystemUIOverlayStyle(
-  //   SystemUiOverlayStyle(
-  //     statusBarColor: AppColors.primary,
-  //     statusBarIconBrightness: Brightness.light,
-  //     statusBarBrightness: Brightness.dark,
-  //     systemNavigationBarColor: Colors.black,
-  //     systemNavigationBarIconBrightness: Brightness.light,
-  //   ),
-  // );
+  SystemChrome.setSystemUIOverlayStyle(
+    SystemUiOverlayStyle(
+      statusBarColor: AppColors.primary,
+      statusBarIconBrightness: Brightness.light,
+      statusBarBrightness: Brightness.dark,
+      systemNavigationBarColor: Colors.black,
+      systemNavigationBarIconBrightness: Brightness.light,
+    ),
+  );
   runApp(const MyApp());
 }
 
@@ -43,7 +41,7 @@ class MyApp extends StatelessWidget {
         ],
         child: AnnotatedRegion<SystemUiOverlayStyle>(
           value: SystemUiOverlayStyle(
-            statusBarColor: Colors.black,
+            statusBarColor: AppColors.primary,
             statusBarIconBrightness: Brightness.light,
             statusBarBrightness: Brightness.dark,
             systemNavigationBarColor: Colors.black,
@@ -56,7 +54,8 @@ class MyApp extends StatelessWidget {
             child: MaterialApp.router(
               debugShowCheckedModeBanner: false,
               theme: AppTheme.appThemeData,
-              routerConfig: (kIsWeb) ? WebRouter.router : AppRouter.router,
+              routerConfig: WebRouter
+                  .router, //(kIsWeb) ? WebRouter.router : AppRouter.router,
             ),
           ),
         ),
@@ -68,6 +67,8 @@ class MyApp extends StatelessWidget {
 /*
 
 todo nick
+-> Worked on fix the selected tab's underline regarding issue while switching tabs.
+-> Worked on set the navigation for the
 
 
 todo Vimal
