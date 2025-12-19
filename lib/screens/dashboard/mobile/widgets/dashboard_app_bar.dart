@@ -37,6 +37,7 @@ class _DashboardAppBarState extends State<DashboardAppBar> {
           )
         : WebDashboardAppBar(navigationShell: widget.navigationShell);
   }
+  //
 
   Widget _appLogo() {
     return Column(

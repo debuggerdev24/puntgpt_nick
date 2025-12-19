@@ -66,10 +66,8 @@ class SignUpForm extends StatelessWidget {
                       controller: provider.dobCtr,
                       hintText: "Date of birth",
                       trailingIcon: AppAssets.arrowDown,
-                      enabled: false,
                       validator: (value) =>
                           FieldValidators().required(value, "Date of birth"),
-
                       onTap: () => _pickBob(context, provider),
                     ),
                     AppTextFieldDropdown(
@@ -85,7 +83,6 @@ class SignUpForm extends StatelessWidget {
                       hintText: "Email",
                       validator: FieldValidators().email,
                     ),
-
                     AppTextField(
                       keyboardType: TextInputType.number,
                       inputFormatter: [FilteringTextInputFormatter.digitsOnly],

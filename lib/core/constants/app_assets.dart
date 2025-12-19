@@ -27,4 +27,7 @@ class AppAssets {
   static const addMember = "$_imagePath/addMember.png";
   static const appBarLogo = "$_imagePath/app_bar_logo.png";
   static const horse = "$_imagePath/horse.png";
+  static const b1 = "$_imagePath/b1.png";
+  static const b2 = "$_imagePath/b2.png";
+  static const b3 = "$_imagePath/b3.png";
 }

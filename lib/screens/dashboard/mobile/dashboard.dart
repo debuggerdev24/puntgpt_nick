@@ -6,6 +6,7 @@ import 'package:puntgpt_nick/core/constants/constants.dart';
 import 'package:puntgpt_nick/core/constants/text_style.dart';
 import 'package:puntgpt_nick/core/widgets/image_widget.dart';
 import 'package:puntgpt_nick/screens/dashboard/mobile/widgets/dashboard_app_bar.dart';
+
 import '../../../core/router/app/app_router.dart';
 
 final GlobalKey<_DashboardState> dashboardKey = GlobalKey<_DashboardState>();
@@ -31,7 +32,7 @@ class _DashboardState extends State<Dashboard> {
         bottom: false,
         child: Column(
           children: [
-            DashboardAppBar(navigationShell: widget.navigationShell,),
+            DashboardAppBar(navigationShell: widget.navigationShell),
             // Expanded(child: pages[value]),
             Expanded(
               child: ValueListenableBuilder<int>(
@@ -136,7 +137,8 @@ class _DashboardState extends State<Dashboard> {
                 ImageWidget(
                   path: icon,
                   type: ImageType.svg,
-                  color: color?.withValues(
+                  color:
+                      color?.withValues(
                         alpha: currentIndex == index ? 1 : opacity,
                       ) ??
                       AppColors.white.withValues(

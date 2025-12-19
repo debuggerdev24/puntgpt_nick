@@ -94,7 +94,6 @@ class WebDashboardAppBar extends StatelessWidget {
                 _navItem(
                   onTap: () {
                     indexOfWebTab.value = 3;
-
                     WebRouter.indexedStackNavigationShell!.goBranch(3);
                   },
                   isSelected: 3 == indexOfWebTab.value,
