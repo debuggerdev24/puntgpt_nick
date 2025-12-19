@@ -27,7 +27,7 @@ class ChatSection extends StatelessWidget {
           3.h.verticalSpace,
           Text(
             "mdsndjkjvdjkvbdjkfvbdf c mnbbnxmnfklfjkfjkdm,nnm,nbm,cnvm,bncmnbmcb",
-            style: regular(fontSize: kIsWeb ? 32.sp : 42.sp),
+            style: regular(fontSize: kIsWeb ? 32.sp : 16.sp),
           ),
           16.h.verticalSpace,
           horizontalDivider(),
