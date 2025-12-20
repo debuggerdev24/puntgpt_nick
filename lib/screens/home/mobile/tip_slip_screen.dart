@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:puntgpt_nick/core/widgets/app_filed_button.dart';
-import 'package:puntgpt_nick/screens/home/mobile/home_screen.dart';
 
 import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/text_style.dart';
@@ -23,13 +22,41 @@ class TipSlipScreen extends StatelessWidget {
               children: [
                 tipSlipItem(),
                 tipSlipItem(),
-                Spacer(),
-                Align(
-                  alignment: AlignmentGeometry.centerRight,
-                  child: askPuntGPTButton(context),
+                tipSlipItem(),
+                tipSlipItem(),
+
+                AppFiledButton(
+                  margin: EdgeInsets.only(top: 24.h, bottom: 12.h),
+                  text: "Play Fantasy Picks (4)",
+                  onTap: () {},
                 ),
-                22.h.verticalSpace,
-                AppFiledButton(text: "Take to  Bookmaker", onTap: () {}),
+
+                Text(
+                  "Upgrade to Pro Punter",
+                  style: bold(fontSize: 14.sp, color: AppColors.premiumYellow),
+                ),
+                Spacer(),
+                RichText(
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                        text: "Use Code: ",
+                        style: bold(
+                          fontSize: 14.sp,
+                          fontFamily: AppFontFamily.primary,
+                        ),
+                      ),
+                      TextSpan(
+                        text: "‘PUNTGPT’",
+                        style: bold(
+                          fontSize: 14.sp,
+                          color: Color(0xffE5B82E),
+                          fontFamily: AppFontFamily.primary,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ],
             ),
           ),

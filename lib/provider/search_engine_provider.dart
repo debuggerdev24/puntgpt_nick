@@ -3,9 +3,25 @@ import 'package:puntgpt_nick/models/runner_model.dart';
 
 class SearchEngineProvider extends ChangeNotifier {
   bool isSearched = false;
-  int _selectedRaceTimingIndex = 0, _selectedTab = 0;
+  int _selectedRaceTimingIndex = 0,
+      _selectedTab = 0,
+      _selectedRace = 0,
+      _selectedDay = 0;
   int get selectedRaceTimingIndex => _selectedRaceTimingIndex;
   int get selectedTab => _selectedTab;
+  int get selectedRace => _selectedRace;
+  int get selectedDay => _selectedDay;
+
+  set changeSelectedDay(int value) {
+    _selectedDay = value;
+    notifyListeners();
+  }
+
+  set changeSelectedRace(int value) {
+    _selectedRace = value;
+    notifyListeners();
+  }
+
   set changeTab(int value) {
     _selectedTab = value;
     notifyListeners();

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:puntgpt_nick/core/widgets/app_filed_button.dart';
-import 'package:puntgpt_nick/core/widgets/app_text_field_drop_down.dart';
 import 'package:puntgpt_nick/provider/search_engine_provider.dart';
 import 'package:puntgpt_nick/screens/home/mobile/home_screen.dart';
 import 'package:puntgpt_nick/screens/home/mobile/widgets/home_screen_tab.dart';
@@ -25,78 +25,106 @@ class _SelectedRaceScreenState extends State<SelectedRaceScreen> {
   Widget build(BuildContext context) {
     return Consumer<SearchEngineProvider>(
       builder: (context, provider, child) {
-        return Column(
+        return Stack(
           children: [
-            Padding(
-              padding: EdgeInsets.fromLTRB(25.w, 16.h, 25.w, 0),
-              child: HomeScreenTab(
-                selectedIndex: provider.selectedTab,
-                onTap: () {
-                  context.pop();
-                },
-              ),
-            ),
-            topBar(context),
-            //todo dropdown here
-            // Container(
-            //   child: DropdownButtonFormField<String>(
-            //     initialValue: "R1",
-            //     items: List.generate(
-            //       10,
-            //       (index) => DropdownMenuItem(
-            //         value: 'R${index + 1}',
-            //         child: Text('R${index + 1}'),
-            //       ),
-            //     ),
-            //     onChanged: (value) {
-            //       debugPrint('Selected race: $value');
-            //     },
-            //     decoration: InputDecoration(
-            //       contentPadding: EdgeInsets.symmetric(horizontal: 16.w),
-            //       enabledBorder: OutlineInputBorder(
-            //         borderSide: BorderSide(
-            //           color: AppColors.primary.withValues(alpha: 0.15),
-            //         ),
-            //       ),
-            //       focusedBorder: OutlineInputBorder(
-            //         borderSide: BorderSide(color: AppColors.primary),
-            //       ),
-            //       // ✅ Add padding around the suffix icon
-            //       suffixIcon: Padding(
-            //         padding: EdgeInsets.only(right: 12.w), // margin from right
-            //         child: Icon(
-            //           Icons.keyboard_arrow_down_rounded,
-            //           color: AppColors.primary,
-            //         ),
-            //       ),
-            //       suffixIconConstraints: BoxConstraints(
-            //         minWidth: 24.w,
-            //         minHeight: 24.h,
-            //       ),
-            //     ),
-            //     style: semiBold(fontSize: 16, color: AppColors.primary),
-            //     dropdownColor: Colors.white,
-            //   ),
-            // ),
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 25.h, horizontal: 25.w),
+            Column(
+              children: [
+                Padding(
+                  padding: EdgeInsets.fromLTRB(25.w, 16.h, 25.w, 0),
+                  child: HomeScreenTab(
+                    selectedIndex: provider.selectedTab,
+                    onTap: () {
+                      context.pop();
+                    },
+                  ),
+                ),
+                topBar(context),
 
-              child: AppTextFieldDropdown(
-                items: List.generate(10, (index) {
-                  return "R ${index + 1}";
-                }),
-                selectedValue: selItem,
-                onChange: (value) {
-                  setState(() {
-                    selItem = value;
-                  });
-                },
-                hintText: "R1",
-              ),
+                //todo selected race field r1
+                // Padding(
+                //   padding: EdgeInsets.symmetric(
+                //     vertical: 25.h,
+                //     horizontal: 25.w,
+                //   ),
+                //
+                //   child: AppTextFieldDropdown(
+                //     items: List.generate(10, (index) {
+                //       return "R ${index + 1}";
+                //     }),
+                //     selectedValue: selItem,
+                //     onChange: (value) {
+                //       setState(() {
+                //         selItem = value;
+                //       });
+                //     },
+                //     hintText: "R1",
+                //   ),
+                // ),
+                //todo Race selection view
+                Container(
+                  margin: EdgeInsets.fromLTRB(25.w, 25.h, 25.w, 0),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: AppColors.primary),
+                  ),
+                  child: Row(
+                    children: List.generate(7, (index) {
+                      return Expanded(
+                        child: GestureDetector(
+                          onTap: () {
+                            provider.changeSelectedRace = index;
+                          },
+                          child: AnimatedContainer(
+                            padding: EdgeInsetsGeometry.symmetric(
+                              vertical: 12.h,
+                            ),
+                            alignment: AlignmentGeometry.center,
+                            duration: 400.milliseconds,
+                            decoration: BoxDecoration(
+                              color: (provider.selectedRace == index)
+                                  ? AppColors.primary
+                                  : null,
+                            ),
+                            child: Text(
+                              "R${index + 1}",
+                              style: semiBold(
+                                fontSize: 16.sp,
+                                color: (provider.selectedRace == index)
+                                    ? AppColors.white
+                                    : AppColors.primary,
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                    }),
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.symmetric(
+                    vertical: 16.h,
+                    horizontal: 25.w,
+                  ),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 15.w,
+                    vertical: 15.h,
+                  ),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: AppColors.primary),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text("Tips & Analysis", style: semiBold(fontSize: 14.sp)),
+                      Text("Speed Maps", style: semiBold(fontSize: 14.sp)),
+                      Text("Sectionals", style: semiBold(fontSize: 14.sp)),
+                    ],
+                  ),
+                ),
+                SelectedRaceTable(),
+                Spacer(),
+              ],
             ),
-
-            SelectedRaceTable(),
-            Spacer(),
+            //todo ask punt gpt button
             Align(
               alignment: Alignment.bottomRight,
               child: Padding(
@@ -176,9 +204,9 @@ class _SelectedRaceTableState extends State<SelectedRaceTable> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
+      padding: EdgeInsets.symmetric(horizontal: 25.w),
       scrollDirection: Axis.horizontal,
       child: Container(
-        margin: EdgeInsets.only(top: 24.h, bottom: 55.h),
         width: 1.4.sw,
         decoration: BoxDecoration(
           border: Border.all(color: AppColors.primary.withValues(alpha: 0.3)),
@@ -294,7 +322,10 @@ class _SelectedRaceTableState extends State<SelectedRaceTable> {
                         )
                       : Text(
                           "W: J: F: T:",
-                          style: medium(fontSize: 14.sp, color: AppColors.primary),
+                          style: medium(
+                            fontSize: 14.sp,
+                            color: AppColors.primary,
+                          ),
                         ),
                 ),
               ],

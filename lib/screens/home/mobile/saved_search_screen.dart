@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:puntgpt_nick/core/constants/text_style.dart';
+import 'package:puntgpt_nick/core/router/app/app_router.dart';
 import 'package:puntgpt_nick/core/router/app/app_routes.dart';
 import 'package:puntgpt_nick/core/widgets/app_devider.dart';
 import 'package:puntgpt_nick/core/widgets/app_filed_button.dart';
@@ -20,7 +21,7 @@ class SavedSearchScreen extends StatelessWidget {
     }
     return Column(
       children: [
-        topBar(context),
+        topBar(context: context),
         horizontalDivider(),
         20.h.verticalSpace,
         Padding(
@@ -98,7 +99,7 @@ class SavedSearchScreen extends StatelessWidget {
     );
   }
 
-  Widget topBar(BuildContext context) {
+  Widget topBar({required BuildContext context}) {
     return Padding(
       padding: EdgeInsets.fromLTRB(
         (kIsWeb) ? 35.w : 25.w,
@@ -116,15 +117,20 @@ class SavedSearchScreen extends StatelessWidget {
               fontSize: (kIsWeb) ? 50.sp : 24.sp,
             ),
           ),
-          Container(
-            margin: EdgeInsets.only(left: 12.w),
-            padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 7.h),
-            decoration: BoxDecoration(
-              border: Border.all(color: AppColors.premiumYellow),
-            ),
-            child: Text(
-              "Upgrade to Pro",
-              style: bold(fontSize: 14.sp, color: AppColors.premiumYellow),
+          GestureDetector(
+            onTap: () {
+              AppRouter.indexedStackNavigationShell!.goBranch(3);
+            },
+            child: Container(
+              margin: EdgeInsets.only(left: 12.w),
+              padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 7.h),
+              decoration: BoxDecoration(
+                border: Border.all(color: AppColors.premiumYellow),
+              ),
+              child: Text(
+                "Upgrade to Pro",
+                style: bold(fontSize: 14.sp, color: AppColors.premiumYellow),
+              ),
             ),
           ),
           Spacer(),
@@ -162,19 +168,26 @@ class SearchedItem extends StatelessWidget {
               children: [
                 Text(
                   "Search 1",
-                  style: regular(fontSize: (kIsWeb) ? 40.sp : 20.sp),
+                  style: semiBold(
+                    fontSize: (kIsWeb) ? 40.sp : 20.sp,
+
+                    color: AppColors.primary.withValues(alpha: 0.35),
+                  ),
                 ),
                 Text(
                   "Sep 30, 2025",
                   style: semiBold(
                     fontSize: (kIsWeb) ? 30.sp : 12.sp,
-                    color: AppColors.greyColor.withValues(alpha: 0.6),
+                    color: AppColors.primary.withValues(alpha: 0.2),
                   ),
                 ),
                 6.5.h.verticalSpace,
                 Text(
                   "Randwick • 1200m • >20%",
-                  style: regular(fontSize: (kIsWeb) ? 40.sp : 20.sp),
+                  style: regular(
+                    fontSize: (kIsWeb) ? 40.sp : 20.sp,
+                    color: AppColors.primary.withValues(alpha: 0.27),
+                  ),
                 ),
               ],
             ),
