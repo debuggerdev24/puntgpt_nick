@@ -1,7 +1,7 @@
 // lib/core/utils/log_helper.dart
 import 'package:flutter/foundation.dart';
 
-class LogHelper {
+class Logger {
   static const _reset = '\x1B[0m';
   static const _red = '\x1B[31m';
   static const _green = '\x1B[32m';

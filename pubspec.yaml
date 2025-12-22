@@ -23,6 +23,9 @@ dependencies:
   animate_do: ^4.2.0
   toastification: ^3.0.3
   modal_side_sheet: ^0.0.1
+  dartz: ^0.10.1
+  shared_preferences: ^2.5.4
+  pretty_dio_logger: ^1.4.0
 
 dev_dependencies:
   flutter_test:

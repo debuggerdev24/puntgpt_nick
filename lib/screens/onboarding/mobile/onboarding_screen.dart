@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
 import 'package:puntgpt_nick/core/constants/constants.dart';
-import 'package:puntgpt_nick/core/router/app/app_routes.dart';
-import 'package:puntgpt_nick/core/widgets/app_filed_button.dart';
-import 'package:puntgpt_nick/provider/auth/auth_provider.dart';
-import 'package:puntgpt_nick/screens/onboarding/mobile/widgets/plans.dart';
+import 'package:puntgpt_nick/screens/onboarding/mobile/widgets/plan.dart';
 import 'package:puntgpt_nick/screens/onboarding/mobile/widgets/video_widget.dart';
 
 class OnboardingScreen extends StatefulWidget {
@@ -22,14 +17,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       "title": "Free 'Mug Punter' Account",
       "price": "",
       "points": [
-        {"icon": AppAssets.close, "text": "No chat function with PuntGPT"},
-        {"icon": AppAssets.close, "text": "No access to PuntGPT Punters Club"},
-        {
-          "icon": AppAssets.done,
-          "text": "Limited PuntGPT Search Engine Filters",
-        },
-        {"icon": AppAssets.done, "text": "Limited AI analysis of horses"},
-        {"icon": AppAssets.done, "text": "Access to Classic Form Guide"},
+        "Message PuntGPT and talk horse racing",
+        "Save PuntGPT customised searches",
+        "PuntGPT Punters Club group chats with AI",
+        "Limited use of PuntGPT Search Engine",
+        "Limited AI analysis of Horse Selections",
+        "Classic Form Guide",
       ],
     },
     {
@@ -74,7 +67,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             // Video area fills remaining height
             40.h.verticalSpace,
             VideoWidget(),
-            40.h.verticalSpace,
+            24.h.verticalSpace,
             Plans(
               currentPlan: (index) {
                 _currentIndex = index;
@@ -86,53 +79,53 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           ],
         ),
       ),
-      bottomNavigationBar: Padding(
-        padding: EdgeInsets.fromLTRB(25, 0, 25, context.bottomPadding + 30),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            AppFiledButton(
-              text: _currentIndex == 0
-                  ? "Continue with Free Account"
-                  : "Subscribe",
-              onTap: () {
-                context.read<AuthProvider>().clearSignUpControllers();
-
-                context.push(
-                  AppRoutes.signup,
-                  extra: {'is_free_sign_up': _currentIndex == 0},
-                );
-                context.read<AuthProvider>().clearSignUpControllers();
-              },
-            ),
-            12.h.verticalSpace,
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: List.generate(
-                planData.length,
-                (index) => GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      _currentIndex = index;
-                    });
-                  },
-                  child: AnimatedContainer(
-                    duration: Duration(milliseconds: 300),
-                    margin: EdgeInsets.symmetric(horizontal: 4),
-                    height: 15.w,
-                    width: 15.w,
-                    decoration: BoxDecoration(
-                      color: _currentIndex == index
-                          ? AppColors.primary
-                          : AppColors.primary.setOpacity(0.3),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
+      // bottomNavigationBar: Padding(
+      //   padding: EdgeInsets.fromLTRB(25, 0, 25, context.bottomPadding + 30),
+      //   child: Column(
+      //     mainAxisSize: MainAxisSize.min,
+      //     children: [
+      //       AppFiledButton(
+      //         text: _currentIndex == 0
+      //             ? "Continue with Free Account"
+      //             : "Subscribe",
+      //         onTap: () {
+      //           context.read<AuthProvider>().clearSignUpControllers();
+      //
+      //           context.push(
+      //             AppRoutes.signup,
+      //             extra: {'is_free_sign_up': _currentIndex == 0},
+      //           );
+      //           context.read<AuthProvider>().clearSignUpControllers();
+      //         },
+      //       ),
+      //       // 12.h.verticalSpace,
+      //       // Row(
+      //       //   mainAxisAlignment: MainAxisAlignment.center,
+      //       //   children: List.generate(
+      //       //     planData.length,
+      //       //     (index) => GestureDetector(
+      //       //       onTap: () {
+      //       //         setState(() {
+      //       //           _currentIndex = index;
+      //       //         });
+      //       //       },
+      //       //       child: AnimatedContainer(
+      //       //         duration: Duration(milliseconds: 300),
+      //       //         margin: EdgeInsets.symmetric(horizontal: 4),
+      //       //         height: 15.w,
+      //       //         width: 15.w,
+      //       //         decoration: BoxDecoration(
+      //       //           color: _currentIndex == index
+      //       //               ? AppColors.primary
+      //       //               : AppColors.primary.setOpacity(0.3),
+      //       //         ),
+      //       //       ),
+      //       //     ),
+      //       //   ),
+      //       // ),
+      //     ],
+      //   ),
+      // ),
     );
   }
 }

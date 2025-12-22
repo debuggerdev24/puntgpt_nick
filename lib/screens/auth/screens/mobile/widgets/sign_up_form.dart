@@ -51,7 +51,7 @@ class SignUpForm extends StatelessWidget {
                   spacing: 8.h,
                   children: [
                     AppTextField(
-                      controller: provider.fistNameCtr,
+                      controller: provider.firstNameCtr,
                       hintText: "First Name",
                       validator: (value) =>
                           FieldValidators().required(value, "First Name"),
@@ -65,6 +65,8 @@ class SignUpForm extends StatelessWidget {
                     AppTextField(
                       controller: provider.dobCtr,
                       hintText: "Date of birth",
+                      readOnly: true,
+
                       trailingIcon: AppAssets.arrowDown,
                       // enabled: false,
                       validator: (value) =>
@@ -104,6 +106,17 @@ class SignUpForm extends StatelessWidget {
                       onTrailingIconTap: () =>
                           provider.showSignUpPass = !provider.showSignUpPass,
                     ),
+                    AppTextField(
+                      controller: provider.confirmPasswordCtr,
+                      hintText: "Confirm Password",
+                      obscureText: provider.showConfirmPass,
+                      validator: FieldValidators().password,
+                      trailingIcon: provider.showConfirmPass
+                          ? AppAssets.hide
+                          : AppAssets.show,
+                      onTrailingIconTap: () =>
+                          provider.showConfirmPass = !provider.showConfirmPass,
+                    ),
                   ],
                 )
               : (Responsive.isTablet(context))
@@ -117,7 +130,7 @@ class SignUpForm extends StatelessWidget {
                         children: [
                           Expanded(
                             child: AppTextField(
-                              controller: provider.fistNameCtr,
+                              controller: provider.firstNameCtr,
                               hintText: "First Name",
                               hintStyle: medium(
                                 fontSize: 16.sp,
@@ -240,7 +253,7 @@ class SignUpForm extends StatelessWidget {
                         children: [
                           Expanded(
                             child: AppTextField(
-                              controller: provider.fistNameCtr,
+                              controller: provider.firstNameCtr,
                               hintText: "First Name",
                               hintStyle: medium(
                                 fontSize: 16.sp,
@@ -290,10 +303,7 @@ class SignUpForm extends StatelessWidget {
                           ),
                           Expanded(
                             child: AppTextFieldDropdown(
-                              items: List.generate(
-                                20,
-                                (index) => "State ${index + 1}",
-                              ),
+                              items: _states,
                               hintText: 'State',
                               hintStyle: medium(
                                 fontSize: 16.sp,
@@ -358,3 +368,34 @@ class SignUpForm extends StatelessWidget {
     );
   }
 }
+
+List<String> _states = [
+  "Andhra Pradesh",
+  "Arunachal Pradesh",
+  "Assam",
+  "Bihar",
+  "Chhattisgarh",
+  "Goa",
+  "Gujarat",
+  "Haryana",
+  "Himachal Pradesh",
+  "Jharkhand",
+  "Karnataka",
+  "Kerala",
+  "Madhya Pradesh",
+  "Maharashtra",
+  "Manipur",
+  "Meghalaya",
+  "Mizoram",
+  "Nagaland",
+  "Odisha",
+  "Punjab",
+  "Rajasthan",
+  "Sikkim",
+  "Tamil Nadu",
+  "Telangana",
+  "Tripura",
+  "Uttar Pradesh",
+  "Uttarakhand",
+  "West Bengal",
+];

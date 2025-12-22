@@ -17,11 +17,9 @@ void main() {
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
   SystemChrome.setSystemUIOverlayStyle(
     SystemUiOverlayStyle(
-      statusBarColor: AppColors.primary,
+      statusBarColor: Colors.black,
       statusBarIconBrightness: Brightness.light,
       statusBarBrightness: Brightness.dark,
-      systemNavigationBarColor: Colors.black,
-      systemNavigationBarIconBrightness: Brightness.light,
     ),
   );
   runApp(const MyApp());
@@ -66,9 +64,7 @@ class MyApp extends StatelessWidget {
 }
 
 /*
-
 todo nick
-
 
 
 todo Vimal

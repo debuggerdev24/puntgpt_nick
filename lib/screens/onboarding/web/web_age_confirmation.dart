@@ -24,13 +24,13 @@ class WebAgeConfirmationScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    LogHelper.info(
+    Logger.info(
       "is Mobile ${Responsive.isMobile(context)} ${context.screenWidth}",
     );
-    LogHelper.info(
+    Logger.info(
       "is Desktop ${Responsive.isDesktop(context)} ${context.screenWidth}",
     );
-    LogHelper.info(
+    Logger.info(
       "is Tablet ${Responsive.isTablet(context)} ${context.screenWidth}",
     );
     return Scaffold(
@@ -45,14 +45,14 @@ class WebAgeConfirmationScreen extends StatelessWidget {
                 "Are you over 18?",
                 textAlign: TextAlign.center,
                 style: regular(
-
                   fontFamily: AppFontFamily.secondary,
                   fontSize: context.isDesktop
                       ? 40.sp
                       : context.isTablet
                       ? 48.sp
-                      : (kIsWeb) ? 80.sp : 40.sp,
-
+                      : (kIsWeb)
+                      ? 80.sp
+                      : 40.sp,
                 ),
               ),
               SizedBox(height: 50.w.clamp(20, 80)),

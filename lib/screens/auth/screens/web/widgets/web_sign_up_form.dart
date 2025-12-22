@@ -54,7 +54,7 @@ class WebSignUpForm extends StatelessWidget {
                     spacing: 8.h,
                     children: [
                       AppTextField(
-                        controller: provider.fistNameCtr,
+                        controller: provider.firstNameCtr,
                         hintText: "First Name",
                         validator: (value) =>
                             FieldValidators().required(value, "First Name"),
@@ -153,7 +153,7 @@ class WebSignUpForm extends StatelessWidget {
                           children: [
                             Expanded(
                               child: AppTextField(
-                                controller: provider.fistNameCtr,
+                                controller: provider.firstNameCtr,
                                 hintText: "First Name",
                                 hintStyle: medium(
                                   fontSize: (Responsive.isTablet(context))

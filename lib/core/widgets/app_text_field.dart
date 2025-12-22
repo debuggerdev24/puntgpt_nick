@@ -6,7 +6,7 @@ import 'package:puntgpt_nick/core/constants/text_style.dart';
 
 import 'image_widget.dart';
 
-class AppTextField extends StatefulWidget {
+class AppTextField extends StatelessWidget {
   const AppTextField({
     super.key,
     required this.controller,
@@ -26,46 +26,38 @@ class AppTextField extends StatefulWidget {
     this.inputFormatter,
     this.keyboardType,
     this.trailingIconWidth,
+    this.readOnly,
   });
 
   final TextEditingController controller;
   final String hintText;
-  final TextStyle? hintStyle;
-  final TextStyle? textStyle;
-  final TextStyle? errorStyle;
+  final TextStyle? hintStyle, textStyle, errorStyle;
   final Widget? suffix;
   final double? borderRadius, trailingIconWidth;
   final bool obscureText;
   final dynamic trailingIcon;
-  final VoidCallback? onTrailingIconTap;
+  final VoidCallback? onTrailingIconTap, onTap;
   final FormFieldValidator<String>? validator;
   final AutovalidateMode? autovalidateMode;
-  final VoidCallback? onTap;
-  final bool enabled;
+  final bool? enabled, readOnly;
   final List<TextInputFormatter>? inputFormatter;
   final TextInputType? keyboardType;
 
   @override
-  State<AppTextField> createState() => _AppTextFieldState();
-}
-
-class _AppTextFieldState extends State<AppTextField> {
-  String? _currentError;
-
-  @override
   Widget build(BuildContext context) {
     return TextFormField(
-      onTap: widget.onTap,
-      controller: widget.controller,
+      onTap: onTap,
+      readOnly: readOnly ?? false,
+      controller: controller,
       cursorColor: AppColors.primary,
-      style: widget.textStyle ?? medium(fontSize: 16.sp),
-      obscureText: widget.obscureText,
-      autovalidateMode: widget.autovalidateMode,
-      enabled: widget.enabled,
-      inputFormatters: widget.inputFormatter,
-      keyboardType: widget.keyboardType,
+      style: textStyle ?? medium(fontSize: 16.sp),
+      obscureText: obscureText,
+      autovalidateMode: autovalidateMode,
+      enabled: enabled,
+      inputFormatters: inputFormatter,
+      keyboardType: keyboardType,
       validator: (value) {
-        final error = widget.validator?.call(value);
+        final error = validator?.call(value);
         // if (mounted && _currentError != error) {
         //   Future.microtask(() {
         //     if (mounted && _currentError != error) {
@@ -83,25 +75,24 @@ class _AppTextFieldState extends State<AppTextField> {
           maxWidth: 26.w.flexClamp(24, 28) + 20,
           minWidth: 26.w.flexClamp(24, 28) + 20,
         ),
-        suffixIcon: widget.trailingIcon == null
+        suffixIcon: trailingIcon == null
             ? const SizedBox()
             : GestureDetector(
-                onTap: widget.onTrailingIconTap,
+                onTap: onTrailingIconTap,
                 child: ImageWidget(
                   type: ImageType.svg,
                   height: 10,
                   width: 10, //widget.trailingIconWidth,
-                  path: widget.trailingIcon!,
+                  path: trailingIcon!,
                 ),
               ),
-        hintText: widget.hintText,
+        hintText: hintText,
         hintStyle:
-            widget.hintStyle ??
+            hintStyle ??
             medium(
               fontSize: 14.sp, //, color: AppColors.primary.setOpacity(0.4)
             ),
-        errorStyle:
-            widget.errorStyle ?? medium(fontSize: 12.sp, color: AppColors.red),
+        errorStyle: errorStyle ?? medium(fontSize: 12.sp, color: AppColors.red),
         errorMaxLines: 5,
         // error: _currentError == null
         //     ? null
@@ -119,23 +110,23 @@ class _AppTextFieldState extends State<AppTextField> {
         filled: true,
         fillColor: AppColors.white,
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(widget.borderRadius ?? 0),
+          borderRadius: BorderRadius.circular(borderRadius ?? 0),
           borderSide: BorderSide(color: AppColors.primary.setOpacity(0.15)),
         ),
         disabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(widget.borderRadius ?? 0),
+          borderRadius: BorderRadius.circular(borderRadius ?? 0),
           borderSide: BorderSide(color: AppColors.primary.setOpacity(0.05)),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(widget.borderRadius ?? 0),
+          borderRadius: BorderRadius.circular(borderRadius ?? 0),
           borderSide: BorderSide(color: AppColors.primary),
         ),
         errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(widget.borderRadius ?? 0),
+          borderRadius: BorderRadius.circular(borderRadius ?? 0),
           borderSide: BorderSide(color: AppColors.red),
         ),
         focusedErrorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(widget.borderRadius ?? 0),
+          borderRadius: BorderRadius.circular(borderRadius ?? 0),
           borderSide: BorderSide(color: AppColors.red),
         ),
       ),

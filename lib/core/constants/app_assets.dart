@@ -31,4 +31,5 @@ class AppAssets {
   static const b2 = "$_imagePath/b2.png";
   static const b3 = "$_imagePath/b3.png";
   static const webLogo = "$_imagePath/webLogo.png";
+  static const onBoardingImage = "$_imagePath/on_boarding_image.png";
 }

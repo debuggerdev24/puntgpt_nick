@@ -52,13 +52,13 @@ class _HomeScreenWebState extends State<HomeScreenWeb> {
   @override
   Widget build(BuildContext context) {
     GlobalKey<FormState> formKey = GlobalKey<FormState>();
-    LogHelper.info(
+    Logger.info(
       "is Mobile ${Responsive.isMobile(context)} ${context.screenWidth}",
     );
-    LogHelper.info(
+    Logger.info(
       "is Desktop ${Responsive.isDesktop(context)} ${context.screenWidth}",
     );
-    LogHelper.info(
+    Logger.info(
       "is Tablet ${Responsive.isTablet(context)} ${context.screenWidth}",
     );
     if (isSearchDialogOpen && context.isMobile) {

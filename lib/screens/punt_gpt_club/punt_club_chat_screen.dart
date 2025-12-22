@@ -14,7 +14,7 @@ class PuntClubChatScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    LogHelper.info(title);
+    Logger.info(title);
     return Column(
       children: [
         topBar(context),

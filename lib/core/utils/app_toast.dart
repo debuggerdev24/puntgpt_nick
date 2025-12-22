@@ -23,7 +23,8 @@ class AppToast {
       type: type,
       backgroundColor: backgroundColor,
       autoCloseDuration: duration,
-      direction: TextDirection.ltr,
+      alignment: Alignment.topCenter,
+
       icon: icon,
       title: Text(
         message,

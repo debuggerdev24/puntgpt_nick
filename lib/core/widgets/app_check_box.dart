@@ -55,7 +55,7 @@ class AppCheckBox extends StatelessWidget {
                 ),
               ),
               alignment: Alignment.center,
-              padding: EdgeInsets.all(3),
+              padding: EdgeInsets.all(1.6),
               child: AnimatedSwitcher(
                 duration: duration,
                 transitionBuilder: (child, animation) {
@@ -65,6 +65,7 @@ class AppCheckBox extends StatelessWidget {
                     ? ImageWidget(
                         type: ImageType.svg,
                         path: AppAssets.done,
+
                         key: const ValueKey('checked'),
                         color: AppColors.primary,
                       )

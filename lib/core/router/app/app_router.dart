@@ -58,8 +58,8 @@ class AppRouter {
 
       // ==================== AUTH ROUTES ====================
       GoRoute(
-        path: AppRoutes.login,
-        name: AppRoutes.login,
+        path: AppRoutes.loginScreen,
+        name: AppRoutes.loginScreen,
         builder: (context, state) =>
             LoginScreen(isFreeSignUp: (state.extra as Map)['is_free_sign_up']),
       ),
