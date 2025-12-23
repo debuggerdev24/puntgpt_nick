@@ -68,14 +68,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             40.h.verticalSpace,
             VideoWidget(),
             24.h.verticalSpace,
-            Plans(
-              currentPlan: (index) {
-                _currentIndex = index;
-                setState(() {});
-              },
-              data: planData,
-              selectedIndex: _currentIndex,
-            ),
+            Plans(),
           ],
         ),
       ),

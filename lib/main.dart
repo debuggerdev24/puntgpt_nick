@@ -9,12 +9,18 @@ import 'package:puntgpt_nick/provider/account/account_provider.dart';
 import 'package:puntgpt_nick/provider/auth/auth_provider.dart';
 import 'package:puntgpt_nick/provider/punt_club/punter_club_provider.dart';
 import 'package:puntgpt_nick/provider/search_engine_provider.dart';
+import 'package:puntgpt_nick/service/storage/locale_storage_service.dart';
 
 import 'core/router/app/app_router.dart';
 
-void main() {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
+  await Future.wait([LocaleStorageService.init()]);
+
   SystemChrome.setSystemUIOverlayStyle(
     SystemUiOverlayStyle(
       statusBarColor: Colors.black,
@@ -69,5 +75,6 @@ todo nick
 
 todo Vimal
 
+HI Vimal
 
 */

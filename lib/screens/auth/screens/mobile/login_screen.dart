@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:puntgpt_nick/core/constants/constants.dart';
 import 'package:puntgpt_nick/core/constants/text_style.dart';
 import 'package:puntgpt_nick/core/router/app/app_routes.dart';
+import 'package:puntgpt_nick/core/utils/custom_loader.dart';
 import 'package:puntgpt_nick/core/utils/field_validators.dart';
 import 'package:puntgpt_nick/core/widgets/app_filed_button.dart';
 import 'package:puntgpt_nick/core/widgets/app_text_field.dart';
@@ -21,17 +22,17 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+    GlobalKey<FormState> formKey = GlobalKey<FormState>();
     return Scaffold(
       appBar: !kIsWeb ? null : WebTopSection(),
-      body: Align(
-        alignment: Alignment.topCenter,
-        child: SafeArea(
-          child: SingleChildScrollView(
-            padding: EdgeInsets.symmetric(horizontal: 25.w),
-            child: Consumer<AuthProvider>(
-              builder: (context, provider, _) {
-                return SizedBox(
+      body: Consumer<AuthProvider>(
+        builder: (context, provider, _) {
+          return Stack(
+            children: [
+              SingleChildScrollView(
+                padding: EdgeInsets.symmetric(horizontal: 25.w),
+
+                child: SizedBox(
                   width: Responsive.isMobile(context)
                       ? double.maxFinite
                       : 500.w.flexClamp(null, 500),
@@ -62,8 +63,9 @@ class LoginScreen extends StatelessWidget {
                         ),
                       ),
                       80.h.verticalSpace,
+                      //todo login fields amil and pass
                       Form(
-                        key: _formKey,
+                        key: formKey,
                         child: Column(
                           spacing: 8.h,
                           mainAxisSize: MainAxisSize.min,
@@ -88,22 +90,28 @@ class LoginScreen extends StatelessWidget {
                         ),
                       ),
                       10.h.verticalSpace,
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: Text(
-                          "Forget Password?",
-                          style: bold(fontSize: 14.sp),
+                      GestureDetector(
+                        onTap: () {
+                          context.pushNamed(
+                            AppRoutes.forgotPasswordScreen.name,
+                          );
+                        },
+                        child: Align(
+                          alignment: Alignment.centerRight,
+                          child: Text(
+                            "Forget Password?",
+                            style: bold(fontSize: 14.sp),
+                          ),
                         ),
                       ),
                       100.verticalSpace,
                       AppFiledButton(
                         text: "Login",
-                        onTap: () {
-                          // if (_formKey.currentState!.validate()) {
-                          context.go(AppRoutes.home);
-
-                          // return;
-                          // }
+                        onTap: () async {
+                          if (formKey.currentState!.validate()) {
+                            // context.go(AppRoutes.home);
+                            await provider.loginUser(context: context);
+                          }
                         },
                       ),
                       15.h.verticalSpace,
@@ -120,7 +128,7 @@ class LoginScreen extends StatelessWidget {
                           OnMouseTap(
                             onTap: () {
                               context.pushReplacement(
-                                AppRoutes.signup,
+                                AppRoutes.signUpScreen,
                                 extra: {'is_free_sign_up': isFreeSignUp},
                               );
                             },
@@ -134,11 +142,12 @@ class LoginScreen extends StatelessWidget {
                       20.h.verticalSpace,
                     ],
                   ),
-                );
-              },
-            ),
-          ),
-        ),
+                ),
+              ),
+              if (provider.isLoginLoading) FullPageIndicator(),
+            ],
+          );
+        },
       ),
     );
   }

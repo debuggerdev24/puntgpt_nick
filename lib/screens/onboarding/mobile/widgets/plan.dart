@@ -11,18 +11,10 @@ import 'package:puntgpt_nick/core/widgets/image_widget.dart';
 import '../../../../core/router/app/app_routes.dart';
 import '../../../../core/widgets/app_filed_button.dart';
 import '../../../../provider/auth/auth_provider.dart';
+import '../../../../service/storage/locale_storage_service.dart';
 
 class Plans extends StatefulWidget {
-  const Plans({
-    super.key,
-    required this.currentPlan,
-    required this.data,
-    required this.selectedIndex,
-  });
-
-  final Function(int) currentPlan;
-  final List<Map> data;
-  final int selectedIndex;
+  const Plans({super.key});
 
   @override
   State<Plans> createState() => _PlansState();
@@ -139,28 +131,34 @@ class _PlansState extends State<Plans> {
                             ),
                             Text(
                               "get individual Baggy Black #1-100",
-                              style: semiBold(
+                              style: regular(
                                 fontSize: 14.sp,
                                 color: AppColors.primary.withValues(alpha: 0.6),
                               ),
                             ),
                             if (provider.selectedTab == 0)
-                              Container(
-                                margin: EdgeInsets.only(top: 10.h),
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: 12.w,
-                                  vertical: 7.h,
-                                ),
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                    color: AppColors.premiumYellow,
+                              GestureDetector(
+                                behavior: HitTestBehavior.opaque,
+                                onTap: () {
+                                  provider.setSelectedTab = 1;
+                                },
+                                child: Container(
+                                  margin: EdgeInsets.only(top: 10.h),
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: 12.w,
+                                    vertical: 7.h,
                                   ),
-                                ),
-                                child: Text(
-                                  "Upgrade to Pro",
-                                  style: bold(
-                                    fontSize: 14.sp,
-                                    color: AppColors.premiumYellow,
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: AppColors.premiumYellow,
+                                    ),
+                                  ),
+                                  child: Text(
+                                    "Upgrade to Pro",
+                                    style: bold(
+                                      fontSize: 14.sp,
+                                      color: AppColors.premiumYellow,
+                                    ),
                                   ),
                                 ),
                               ),
@@ -182,12 +180,12 @@ class _PlansState extends State<Plans> {
                 : "Subscribe",
             onTap: () {
               context.read<AuthProvider>().clearSignUpControllers();
+              LocaleStorageService.setIsFirstTime(false);
 
-              context.push(
-                AppRoutes.signup,
+              context.pushNamed(
+                AppRoutes.signUpScreen,
                 extra: {'is_free_sign_up': provider.selectedTab == 0},
               );
-              context.read<AuthProvider>().clearSignUpControllers();
             },
           ),
         ],

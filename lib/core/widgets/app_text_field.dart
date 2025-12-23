@@ -90,7 +90,8 @@ class AppTextField extends StatelessWidget {
         hintStyle:
             hintStyle ??
             medium(
-              fontSize: 14.sp, //, color: AppColors.primary.setOpacity(0.4)
+              fontSize: 14.sp,
+              color: AppColors.primary.withValues(alpha: 0.55),
             ),
         errorStyle: errorStyle ?? medium(fontSize: 12.sp, color: AppColors.red),
         errorMaxLines: 5,

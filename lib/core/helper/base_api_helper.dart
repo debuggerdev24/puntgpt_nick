@@ -14,7 +14,7 @@ class DioClient {
     dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (options, handler) async {
-          final token = LocaleStoaregService.userToken;
+          final token = LocaleStorageService.userToken;
           if (token.isNotEmpty) {
             options.headers['Authorization'] = "Bearer $token";
           }
@@ -37,7 +37,6 @@ class DioClient {
 
 class BaseApiHelper {
   BaseApiHelper._();
-  String get token_not_valid => "token_not_valid";
   static final BaseApiHelper _instance = BaseApiHelper._();
   static BaseApiHelper get instance => _instance;
   final Dio _dio = DioClient().dio;
@@ -49,13 +48,9 @@ class BaseApiHelper {
     T Function(dynamic)? parser,
   }) async {
     try {
-      final mergedQueryParams = {
-        "lang": LocaleStoaregService.localeCode,
-        ...?queryParameters, // spread only if not null
-      };
       final response = await _dio.get(
         path,
-        queryParameters: mergedQueryParams,
+        queryParameters: queryParameters,
         options: options,
       );
       // final result = _handleResponse(response);
@@ -92,14 +87,10 @@ class BaseApiHelper {
     T Function(dynamic)? parser,
   }) async {
     try {
-      final mergedQueryParams = {
-        "lang": LocaleStoaregService.localeCode,
-        ...?queryParameters, // spread only if not null
-      };
       final response = await _dio.post(
         path,
         data: data,
-        queryParameters: mergedQueryParams,
+        queryParameters: queryParameters,
         options: options,
       );
       final result = response.data;
@@ -137,14 +128,10 @@ class BaseApiHelper {
     T Function(dynamic)? parser,
   }) async {
     try {
-      final mergedQueryParams = {
-        "lang": LocaleStoaregService.localeCode,
-        ...?queryParameters, // spread only if not null
-      };
       final response = await _dio.delete(
         path,
         data: data,
-        queryParameters: mergedQueryParams,
+        queryParameters: queryParameters,
         options: options,
       );
       final result = response.data;
@@ -181,14 +168,10 @@ class BaseApiHelper {
     T Function(dynamic)? parser,
   }) async {
     try {
-      final mergedQueryParams = {
-        "lang": LocaleStoaregService.localeCode,
-        ...?queryParameters, // spread only if not null
-      };
       final response = await _dio.patch(
         path,
         data: data,
-        queryParameters: mergedQueryParams,
+        queryParameters: queryParameters,
         options: options,
       );
       final result = response.data;

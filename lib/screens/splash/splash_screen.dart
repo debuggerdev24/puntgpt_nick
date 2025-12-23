@@ -10,6 +10,7 @@ import 'package:puntgpt_nick/core/constants/constants.dart';
 import 'package:puntgpt_nick/core/constants/text_style.dart';
 import 'package:puntgpt_nick/core/router/app/app_routes.dart';
 import 'package:puntgpt_nick/core/widgets/image_widget.dart';
+import 'package:puntgpt_nick/service/storage/locale_storage_service.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -27,9 +28,13 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       _startTimer();
-      Future.delayed(
-        3.seconds,
-      ).then((value) => context.go(AppRoutes.ageConfirmationScreen));
+      Future.delayed(3.seconds).then((value) {
+        if (LocaleStorageService.isFirstTime) {
+          context.go(AppRoutes.ageConfirmationScreen);
+          return;
+        }
+        context.goNamed(AppRoutes.onboardingScreen);
+      });
     });
   }
 

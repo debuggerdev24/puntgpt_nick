@@ -8,12 +8,14 @@ class AppRoutes {
 
   // Auth
   static const String loginScreen = '/login';
-  static const String signup = '/signup';
-  static const String forgotPassword = '/forgot-password';
+  static const String signUpScreen = '/signup';
+  static const String forgotPasswordScreen = '/forgot-password';
+  static const String verifyOTPScreen = '/verify-otp';
+  static const String resetPasswordScreen = '/reset-password';
 
   // Main tabs (Shell routes)
   static const String dashBoard = '/dashboard';
-  static const String home = '/home';
+  static const String homeScreen = '/home';
   static const String searchFilter = '/search-filter';
   static const String savedSearched = '/saved-search';
   static const String searchDetails = '/search-detail';

@@ -1,7 +1,7 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
-class LocaleStoaregService {
-  LocaleStoaregService._();
+class LocaleStorageService {
+  LocaleStorageService._();
 
   static late SharedPreferences _pref;
   static Future<void> init() async {
@@ -15,17 +15,11 @@ class LocaleStoaregService {
   static const String _loggedInUserNameKey = "logged_in_user_name";
   static const String _loggedInUserPasswordKey = "logged_in_user_password";
   static const String _loggedInCustomerEmailKey = "logged_in_user_email";
-  static const String _loggedInCustomerpasswrodKey = "logged_in_user_password";
+  static const String _loggedInCustomerPasswordKey = "logged_in_user_password";
+  static const String _registerUserId = "register_user_id";
   static const String _isProfileCreated = "is_profile_created";
-  static const String _localeCode = "locale_code";
-  static const String _isLanguageSelected = "is_language_selected";
-  static const String _isFirstTime = "is_First_Time";
 
-  // save and get the value of is user logged in
-  static bool get isLanguageSelected =>
-      _pref.getBool(_isLanguageSelected) ?? false;
-  static Future<void> setIsLanguageSelected({bool value = true}) async =>
-      await _pref.setBool(_isLanguageSelected, value);
+  static const String _isFirstTime = "is_First_Time";
 
   static bool get isUserLoggedIn => _pref.getBool(_isUserLoggedInKey) ?? false;
   static Future<void> setIsUserLoggedIn({bool value = true}) async =>
@@ -57,30 +51,31 @@ class LocaleStoaregService {
   static Future<void> setIsFirstTime(bool value) async =>
       await _pref.setBool(_isFirstTime, value);
 
-  // save and get the user refresh auth token
+  //todo register customer id
+  static String get userId => _pref.getString(_registerUserId) ?? '';
+  static Future<void> saveUserId(String value) async =>
+      await _pref.setString(_registerUserId, value);
+
+  //todo save and get the user refresh auth token
   static String get userRefreshToken =>
       _pref.getString(_userRefreshTokenKey) ?? '';
   static Future<void> saveUserRefreshToken(String value) async =>
       await _pref.setString(_userRefreshTokenKey, value);
 
-  // get logged in customer email and password
-  static String get loggedIncustomerEmail =>
+  //todo get logged in customer email and password
+  static String get loggedInCustomerEmail =>
       _pref.getString(_loggedInCustomerEmailKey) ?? '';
   static Future<void> setLoggedInCustomerEmail(String value) async =>
       await _pref.setString(_loggedInCustomerEmailKey, value);
-  static String get loggedIncustomerPassword =>
-      _pref.getString(_loggedInCustomerpasswrodKey) ?? '';
+  static String get loggedInCustomerPassword =>
+      _pref.getString(_loggedInCustomerPasswordKey) ?? '';
   static Future<void> setLoggedInCustomerPassword(String value) async =>
-      await _pref.setString(_loggedInCustomerpasswrodKey, value);
+      await _pref.setString(_loggedInCustomerPasswordKey, value);
 
-  // check is profile crested or not.
+  //todo check is profile crested or not.
   static bool get profileCreated => _pref.getBool(_isProfileCreated) ?? false;
   static Future<void> setProfileCreated(bool value) async =>
       await _pref.setBool(_isProfileCreated, value);
-
-  static String get localeCode => _pref.getString(_localeCode) ?? "en";
-  static Future<void> setLocaleCode(String code) async =>
-      await _pref.setString(_localeCode, code);
 
   static Future<void> clearUserTokens() async {
     await _pref.remove(_userTokenKey);

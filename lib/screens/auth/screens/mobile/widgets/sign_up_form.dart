@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -20,10 +18,9 @@ class SignUpForm extends StatelessWidget {
 
   final GlobalKey<FormState> formKey;
 
-  void _pickBob(BuildContext context, AuthProvider provider) async {
+  void _pickDob(BuildContext context, AuthProvider provider) async {
     final DateTime today = DateTime.now();
-
-    final DateTime lastDate = DateTime(today.year + 18, today.month, today.day);
+    final DateTime lastDate = DateTime(today.year, today.month, today.day);
     final DateTime firstDate = DateTime(1900);
 
     DateTime? selectedDate = await showAppDatePicker(
@@ -32,15 +29,15 @@ class SignUpForm extends StatelessWidget {
       lastDate: lastDate,
     );
     if (selectedDate != null) {
-      provider.dobCtr.text = DateFormatter.formatDateShort(selectedDate);
+      provider.dobCtr.text = DateFormatter.registerApiFormate(selectedDate);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    log("is Mobile ${Responsive.isMobile(context)}");
-    log("is Desktop ${Responsive.isDesktop(context)}");
-    log("is Tablet ${Responsive.isTablet(context)}");
+    Logger.info("is Mobile ${Responsive.isMobile(context)}");
+    Logger.info("is Desktop ${Responsive.isDesktop(context)}");
+    Logger.info("is Tablet ${Responsive.isTablet(context)}");
 
     return Consumer<AuthProvider>(
       builder: (context, provider, _) {
@@ -72,10 +69,11 @@ class SignUpForm extends StatelessWidget {
                       validator: (value) =>
                           FieldValidators().required(value, "Date of birth"),
 
-                      onTap: () => _pickBob(context, provider),
+                      onTap: () => _pickDob(context, provider),
                     ),
                     AppTextFieldDropdown(
-                      items: List.generate(20, (index) => "State ${index + 1}"),
+                      items:
+                          _states, //List.generate(20, (index) => "State ${index + 1}"),
                       hintText: 'State',
                       onChange: (value) => provider.selectedState = value,
                       selectedValue: provider.selectedState,
@@ -110,7 +108,19 @@ class SignUpForm extends StatelessWidget {
                       controller: provider.confirmPasswordCtr,
                       hintText: "Confirm Password",
                       obscureText: provider.showConfirmPass,
-                      validator: FieldValidators().password,
+                      validator: (value) {
+                        if (value!.isNotEmpty) {
+                          if (provider.passwordCtr.text.trim() !=
+                              provider.confirmPasswordCtr.text.trim()) {
+                            return "Confirm Password should match with Original Password!";
+                          }
+                        }
+
+                        return FieldValidators().required(
+                          value,
+                          "Confirm Password",
+                        );
+                      },
                       trailingIcon: provider.showConfirmPass
                           ? AppAssets.hide
                           : AppAssets.show,
@@ -175,7 +185,7 @@ class SignUpForm extends StatelessWidget {
                                 value,
                                 "Date of birth",
                               ),
-                              onTap: () => _pickBob(context, provider),
+                              onTap: () => _pickDob(context, provider),
                             ),
                           ),
                           Expanded(
@@ -298,7 +308,7 @@ class SignUpForm extends StatelessWidget {
                                 value,
                                 "Date of birth",
                               ),
-                              onTap: () => _pickBob(context, provider),
+                              onTap: () => _pickDob(context, provider),
                             ),
                           ),
                           Expanded(

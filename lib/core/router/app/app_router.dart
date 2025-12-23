@@ -5,12 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:puntgpt_nick/core/router/app/app_routes.dart';
 import 'package:puntgpt_nick/screens/account/mobile/account_screen.dart';
+import 'package:puntgpt_nick/screens/auth/screens/mobile/forgot_password_screen.dart';
 import 'package:puntgpt_nick/screens/auth/screens/mobile/login_screen.dart';
+import 'package:puntgpt_nick/screens/auth/screens/mobile/reset_password_screen.dart';
+import 'package:puntgpt_nick/screens/auth/screens/mobile/verify_otp_screen.dart';
 import 'package:puntgpt_nick/screens/bookies/mobile/bookies_screen.dart';
 import 'package:puntgpt_nick/screens/home/mobile/ask_punt_gpt.dart';
 import 'package:puntgpt_nick/screens/home/mobile/home_screen.dart';
 import 'package:puntgpt_nick/screens/onboarding/mobile/age_confirmation_screen.dart';
-import 'package:puntgpt_nick/screens/onboarding/mobile/onboarding_screen.dart';
+import 'package:puntgpt_nick/screens/onboarding/mobile/on_boarding_screen.dart';
 import 'package:puntgpt_nick/screens/onboarding/web/web_onboarding_screen.dart';
 import 'package:puntgpt_nick/screens/splash/splash_screen.dart';
 
@@ -65,8 +68,8 @@ class AppRouter {
       ),
 
       GoRoute(
-        path: AppRoutes.signup,
-        name: AppRoutes.signup,
+        path: AppRoutes.signUpScreen,
+        name: AppRoutes.signUpScreen,
         builder: (context, state) =>
             SignUpScreen(isFreeSignUp: (state.extra as Map)['is_free_sign_up']),
       ),
@@ -76,6 +79,27 @@ class AppRouter {
         path: AppRoutes.searchFilter,
         builder: (context, state) {
           return SearchFilterScreen();
+        },
+      ),
+      GoRoute(
+        name: AppRoutes.forgotPasswordScreen.name,
+        path: AppRoutes.forgotPasswordScreen,
+        builder: (context, state) {
+          return ForgotPasswordScreen();
+        },
+      ),
+      GoRoute(
+        name: AppRoutes.verifyOTPScreen.name,
+        path: AppRoutes.verifyOTPScreen,
+        builder: (context, state) {
+          return VerifyOtpScreen();
+        },
+      ),
+      GoRoute(
+        name: AppRoutes.resetPasswordScreen.name,
+        path: AppRoutes.resetPasswordScreen,
+        builder: (context, state) {
+          return ResetPasswordScreen();
         },
       ),
 
@@ -94,8 +118,8 @@ class AppRouter {
             // navigatorKey: _shellNavigatorCustomerHome,
             routes: <RouteBase>[
               GoRoute(
-                name: AppRoutes.home.name,
-                path: AppRoutes.home,
+                name: AppRoutes.homeScreen.name,
+                path: AppRoutes.homeScreen,
                 builder: (BuildContext context, GoRouterState state) {
                   return HomeScreen();
                 },
@@ -214,7 +238,7 @@ class AppRouter {
             Text('Page not found: ${state.matchedLocation}'),
             SizedBox(height: 24),
             ElevatedButton(
-              onPressed: () => context.go(AppRoutes.home),
+              onPressed: () => context.go(AppRoutes.homeScreen),
               child: Text('Go Home'),
             ),
           ],

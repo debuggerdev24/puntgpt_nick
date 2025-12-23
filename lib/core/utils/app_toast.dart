@@ -18,13 +18,12 @@ class AppToast {
   }) {
     toastification.show(
       primaryColor: AppColors.white,
-      borderSide: BorderSide(color: AppColors.primary.withValues(alpha: 0.5)),
+      borderSide: BorderSide(color: AppColors.transparent),
       context: context,
       type: type,
       backgroundColor: backgroundColor,
       autoCloseDuration: duration,
       alignment: Alignment.topCenter,
-
       icon: icon,
       title: Text(
         message,
