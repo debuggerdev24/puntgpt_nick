@@ -1,5 +1,7 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:puntgpt_nick/responsive/responsive_builder.dart';
 import 'package:toastification/toastification.dart';
 
 import '../constants/app_colors.dart';
@@ -27,7 +29,16 @@ class AppToast {
       icon: icon,
       title: Text(
         message,
-        style: medium(color: textColor ?? AppColors.white, fontSize: 15.sp),
+        style: medium(
+          color: textColor ?? AppColors.white,
+          fontSize: context.isMobile
+              ? (kIsWeb)
+                    ? 30.sp
+                    : 15.sp
+              : context.isTablet
+              ? 32.sp
+              : 26.sp,
+        ),
       ),
     );
   }

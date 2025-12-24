@@ -30,7 +30,7 @@ class WebRouter {
 
   static final GoRouter router = GoRouter(
     navigatorKey: _rootNavigatorKey,
-    initialLocation: WebRoutes.homeScreen.path,
+    initialLocation: WebRoutes.splashScreen.path,
     debugLogDiagnostics: true,
     routes: [
       GoRoute(
@@ -158,7 +158,6 @@ class WebRouter {
               ),
             ],
           ),
-
         ],
       ),
     ],

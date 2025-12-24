@@ -23,7 +23,7 @@ class AuthProvider extends ChangeNotifier {
   TextEditingController otpCtr = TextEditingController();
 
   int _selectedTab = 0;
-  String? _selectedState;
+  String? _selectedState, _forgotPassUid;
 
   int get selectedTab => _selectedTab;
   set setSelectedTab(int value) {
@@ -173,6 +173,7 @@ class AuthProvider extends ChangeNotifier {
         Logger.error(l.errorMsg);
       },
       (r) {
+        _forgotPassUid = r["data"]["user_id"].toString();
         AppToast.success(context: context, message: "OTP sent successfully");
         context.pushNamed(AppRoutes.verifyOTPScreen.name);
       },
@@ -188,6 +189,7 @@ class AuthProvider extends ChangeNotifier {
 
     final result = await AuthService.instance.verifyOTP(
       otp: otpCtr.text.trim(),
+      userId: _forgotPassUid!,
     );
 
     result.fold(
@@ -205,6 +207,26 @@ class AuthProvider extends ChangeNotifier {
       },
     );
     isVerifyOtpLoading = false;
+    notifyListeners();
+  }
+
+  bool isResetPasswordLoading = false;
+  Future<void> resetPassword({required VoidCallback onSuccess}) async {
+    isResetPasswordLoading = true;
+    notifyListeners();
+    final result = await AuthService.instance.resetPassword(
+      newPassword: newPasswordCtr.text.trim(),
+      confirmPassword: resetConfirmPasswordCtr.text.trim(),
+    );
+    result.fold(
+      (l) {
+        Logger.error(l.errorMsg);
+      },
+      (r) {
+        onSuccess.call();
+      },
+    );
+    isResetPasswordLoading = true;
     notifyListeners();
   }
 

@@ -58,9 +58,10 @@ class AuthService {
 
   Future<Either<ApiException, Map<String, dynamic>>> verifyOTP({
     required String otp,
+    required String userId,
   }) async {
     return await BaseApiHelper.instance.post<Map<String, dynamic>>(
-      EndPoints.verifyToken(id: LocaleStorageService.userId),
+      EndPoints.verifyToken(id: userId),
       data: {"reset_token": otp},
     );
   }
@@ -71,7 +72,7 @@ class AuthService {
   }) async {
     return await BaseApiHelper.instance.post<Map<String, dynamic>>(
       EndPoints.resetPassword(id: LocaleStorageService.userId),
-      data: {"new_password": newPassword, "confirmPassword": confirmPassword},
+      data: {"new_password": newPassword, "confirm_password": confirmPassword},
     );
   }
 }

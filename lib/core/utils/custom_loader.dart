@@ -8,19 +8,20 @@ class FullPageIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 1.sh,
-      alignment: Alignment.center,
-      color: AppColors.black.withValues(alpha: 0.4),
+    return Positioned.fill(
       child: Container(
-        decoration: BoxDecoration(
-          color: AppColors.white,
-          borderRadius: BorderRadius.circular(5).r,
-        ),
-        padding: EdgeInsets.all(12).r,
-        child: CupertinoActivityIndicator(
-          radius: 18.h,
-          color: AppColors.primary,
+        alignment: Alignment.center,
+        color: AppColors.black.withValues(alpha: 0.4),
+        child: Container(
+          decoration: BoxDecoration(
+            color: AppColors.white,
+            borderRadius: BorderRadius.circular(5).r,
+          ),
+          padding: EdgeInsets.all(12).r,
+          child: CupertinoActivityIndicator(
+            radius: 18.h,
+            color: AppColors.primary,
+          ),
         ),
       ),
     );

@@ -15,6 +15,7 @@ import 'package:puntgpt_nick/provider/auth/auth_provider.dart';
 
 import '../../../../../core/constants/text_style.dart';
 import '../../../../../responsive/responsive_builder.dart';
+import '../../mobile/widgets/sign_up_form.dart';
 
 class WebSignUpForm extends StatelessWidget {
   const WebSignUpForm({super.key, required this.formKey});
@@ -24,7 +25,7 @@ class WebSignUpForm extends StatelessWidget {
   void _pickBob(BuildContext context, AuthProvider provider) async {
     final DateTime today = DateTime.now();
 
-    final DateTime lastDate = DateTime(today.year + 18, today.month, today.day);
+    final DateTime lastDate = DateTime(today.year, today.month, today.day);
     final DateTime firstDate = DateTime(1900);
 
     DateTime? selectedDate = await showAppDatePicker(
@@ -34,7 +35,7 @@ class WebSignUpForm extends StatelessWidget {
     );
 
     if (selectedDate != null) {
-      provider.dobCtr.text = DateFormatter.formatDateShort(selectedDate);
+      provider.dobCtr.text = DateFormatter.registerApiFormate(selectedDate);
     }
   }
 
@@ -49,13 +50,20 @@ class WebSignUpForm extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 25.w),
           child: Form(
             key: formKey,
-            child: (Responsive.isMobile(context))
+            child: context.isMobile
                 ? Column(
                     spacing: 8.h,
                     children: [
                       AppTextField(
+                        textStyle: medium(fontSize: (kIsWeb) ? 28.sp : 16.sp),
+
                         controller: provider.firstNameCtr,
                         hintText: "First Name",
+                        inputFormatter: [
+                          FilteringTextInputFormatter.allow(
+                            RegExp(r'[a-zA-Z]'),
+                          ),
+                        ],
                         validator: (value) =>
                             FieldValidators().required(value, "First Name"),
                         hintStyle: medium(
@@ -64,6 +72,7 @@ class WebSignUpForm extends StatelessWidget {
                         ),
                       ),
                       AppTextField(
+                        textStyle: medium(fontSize: (kIsWeb) ? 28.sp : 16.sp),
                         controller: provider.lastNameCtr,
                         hintText: "Last Name",
                         validator: (value) =>
@@ -74,8 +83,11 @@ class WebSignUpForm extends StatelessWidget {
                         ),
                       ),
                       AppTextField(
+                        textStyle: medium(fontSize: (kIsWeb) ? 28.sp : 16.sp),
+
                         controller: provider.dobCtr,
                         hintText: "Date of birth",
+                        readOnly: true,
                         trailingIcon: AppAssets.arrowDown,
                         trailingIconWidth: 15,
                         validator: (value) =>
@@ -89,6 +101,8 @@ class WebSignUpForm extends StatelessWidget {
                         },
                       ),
                       AppTextFieldDropdown(
+                        textStyle: medium(fontSize: (kIsWeb) ? 28.sp : 16.sp),
+
                         items: List.generate(
                           20,
                           (index) => "State ${index + 1}",
@@ -104,6 +118,8 @@ class WebSignUpForm extends StatelessWidget {
                         ),
                       ),
                       AppTextField(
+                        textStyle: medium(fontSize: (kIsWeb) ? 28.sp : 16.sp),
+
                         controller: provider.emailCtr,
                         hintText: "Email",
                         validator: FieldValidators().email,
@@ -113,6 +129,8 @@ class WebSignUpForm extends StatelessWidget {
                         ),
                       ),
                       AppTextField(
+                        textStyle: medium(fontSize: (kIsWeb) ? 28.sp : 16.sp),
+
                         keyboardType: TextInputType.number,
                         inputFormatter: [
                           FilteringTextInputFormatter.digitsOnly,
@@ -126,6 +144,8 @@ class WebSignUpForm extends StatelessWidget {
                         ),
                       ),
                       AppTextField(
+                        textStyle: medium(fontSize: (kIsWeb) ? 28.sp : 16.sp),
+
                         controller: provider.passwordCtr,
                         hintText: "Password",
                         obscureText: provider.showSignUpPass,
@@ -141,6 +161,31 @@ class WebSignUpForm extends StatelessWidget {
                           color: AppColors.primary.setOpacity(0.4),
                         ),
                       ),
+                      AppTextField(
+                        textStyle: medium(fontSize: (kIsWeb) ? 28.sp : 16.sp),
+
+                        controller: provider.confirmPasswordCtr,
+                        hintText: "Confirm Password",
+                        obscureText: provider.showConfirmPass,
+                        validator: (value) {
+                          if (value!.isNotEmpty) {
+                            if (provider.passwordCtr.text.trim() !=
+                                provider.confirmPasswordCtr.text.trim()) {
+                              return "Confirm Password should match with Original Password!";
+                            }
+                          }
+
+                          return FieldValidators().required(
+                            value,
+                            "Confirm Password",
+                          );
+                        },
+                        trailingIcon: provider.showConfirmPass
+                            ? AppAssets.hide
+                            : AppAssets.show,
+                        onTrailingIconTap: () => provider.showConfirmPass =
+                            !provider.showConfirmPass,
+                      ),
                     ],
                   )
                 : SizedBox(
@@ -155,6 +200,11 @@ class WebSignUpForm extends StatelessWidget {
                               child: AppTextField(
                                 controller: provider.firstNameCtr,
                                 hintText: "First Name",
+                                inputFormatter: [
+                                  FilteringTextInputFormatter.allow(
+                                    RegExp(r'[a-zA-Z]'),
+                                  ),
+                                ],
                                 hintStyle: medium(
                                   fontSize: (Responsive.isTablet(context))
                                       ? 22.sp
@@ -169,6 +219,11 @@ class WebSignUpForm extends StatelessWidget {
                               child: AppTextField(
                                 controller: provider.lastNameCtr,
                                 hintText: "Last Name",
+                                inputFormatter: [
+                                  FilteringTextInputFormatter.allow(
+                                    RegExp(r'[a-zA-Z]'),
+                                  ),
+                                ],
                                 hintStyle: medium(
                                   fontSize: context.isTablet ? 22.sp : 16.sp,
                                   color: AppColors.primary.setOpacity(0.4),
@@ -183,27 +238,29 @@ class WebSignUpForm extends StatelessWidget {
                           spacing: 24.w.flexClamp(20, 24),
                           children: [
                             Expanded(
-                              child: AppTextField(
-                                controller: provider.dobCtr,
-                                hintText: "Date of birth",
-                                hintStyle: medium(
-                                  fontSize: (Responsive.isTablet(context))
-                                      ? 22.sp
-                                      : 16.sp,
-                                  color: AppColors.primary.setOpacity(0.4),
+                              child: MouseRegion(
+                                cursor: SystemMouseCursors.click,
+
+                                child: AppTextField(
+                                  controller: provider.dobCtr,
+                                  hintText: "Date of birth",
+                                  readOnly: true,
+                                  hintStyle: medium(
+                                    fontSize: (Responsive.isTablet(context))
+                                        ? 22.sp
+                                        : 16.sp,
+                                    color: AppColors.primary.setOpacity(0.4),
+                                  ),
+                                  trailingIcon: AppAssets.arrowDown,
+                                  validator: (value) => FieldValidators()
+                                      .required(value, "Date of birth"),
+                                  onTap: () => _pickBob(context, provider),
                                 ),
-                                trailingIcon: AppAssets.arrowDown,
-                                validator: (value) => FieldValidators()
-                                    .required(value, "Date of birth"),
-                                onTap: () => _pickBob(context, provider),
                               ),
                             ),
                             Expanded(
                               child: AppTextFieldDropdown(
-                                items: List.generate(
-                                  20,
-                                  (index) => "State ${index + 1}",
-                                ),
+                                items: states,
                                 hintText: 'State',
                                 hintStyle: medium(
                                   fontSize: (Responsive.isTablet(context))
@@ -271,6 +328,35 @@ class WebSignUpForm extends StatelessWidget {
                               : AppAssets.show,
                           onTrailingIconTap: () => provider.showSignUpPass =
                               !provider.showSignUpPass,
+                        ),
+                        AppTextField(
+                          controller: provider.confirmPasswordCtr,
+                          hintText: "Confirm Password",
+                          hintStyle: medium(
+                            fontSize: (Responsive.isTablet(context))
+                                ? 22.sp
+                                : 16.sp,
+                            color: AppColors.primary.setOpacity(0.4),
+                          ),
+                          obscureText: provider.showConfirmPass,
+                          validator: (value) {
+                            if (value!.isNotEmpty) {
+                              if (provider.passwordCtr.text.trim() !=
+                                  provider.confirmPasswordCtr.text.trim()) {
+                                return "Confirm Password should match with Original Password!";
+                              }
+                            }
+
+                            return FieldValidators().required(
+                              value,
+                              "Confirm Password",
+                            );
+                          },
+                          trailingIcon: provider.showConfirmPass
+                              ? AppAssets.hide
+                              : AppAssets.show,
+                          onTrailingIconTap: () => provider.showConfirmPass =
+                              !provider.showConfirmPass,
                         ),
                       ],
                     ),
