@@ -55,8 +55,6 @@ class WebSignUpForm extends StatelessWidget {
                     spacing: 8.h,
                     children: [
                       AppTextField(
-                        textStyle: medium(fontSize: (kIsWeb) ? 28.sp : 16.sp),
-
                         controller: provider.firstNameCtr,
                         hintText: "First Name",
                         inputFormatter: [
@@ -72,7 +70,6 @@ class WebSignUpForm extends StatelessWidget {
                         ),
                       ),
                       AppTextField(
-                        textStyle: medium(fontSize: (kIsWeb) ? 28.sp : 16.sp),
                         controller: provider.lastNameCtr,
                         hintText: "Last Name",
                         validator: (value) =>
@@ -83,8 +80,6 @@ class WebSignUpForm extends StatelessWidget {
                         ),
                       ),
                       AppTextField(
-                        textStyle: medium(fontSize: (kIsWeb) ? 28.sp : 16.sp),
-
                         controller: provider.dobCtr,
                         hintText: "Date of birth",
                         readOnly: true,
@@ -101,8 +96,6 @@ class WebSignUpForm extends StatelessWidget {
                         },
                       ),
                       AppTextFieldDropdown(
-                        textStyle: medium(fontSize: (kIsWeb) ? 28.sp : 16.sp),
-
                         items: List.generate(
                           20,
                           (index) => "State ${index + 1}",
@@ -118,8 +111,6 @@ class WebSignUpForm extends StatelessWidget {
                         ),
                       ),
                       AppTextField(
-                        textStyle: medium(fontSize: (kIsWeb) ? 28.sp : 16.sp),
-
                         controller: provider.emailCtr,
                         hintText: "Email",
                         validator: FieldValidators().email,
@@ -129,8 +120,6 @@ class WebSignUpForm extends StatelessWidget {
                         ),
                       ),
                       AppTextField(
-                        textStyle: medium(fontSize: (kIsWeb) ? 28.sp : 16.sp),
-
                         keyboardType: TextInputType.number,
                         inputFormatter: [
                           FilteringTextInputFormatter.digitsOnly,
@@ -144,8 +133,6 @@ class WebSignUpForm extends StatelessWidget {
                         ),
                       ),
                       AppTextField(
-                        textStyle: medium(fontSize: (kIsWeb) ? 28.sp : 16.sp),
-
                         controller: provider.passwordCtr,
                         hintText: "Password",
                         obscureText: provider.showSignUpPass,
@@ -162,8 +149,6 @@ class WebSignUpForm extends StatelessWidget {
                         ),
                       ),
                       AppTextField(
-                        textStyle: medium(fontSize: (kIsWeb) ? 28.sp : 16.sp),
-
                         controller: provider.confirmPasswordCtr,
                         hintText: "Confirm Password",
                         obscureText: provider.showConfirmPass,
@@ -206,9 +191,7 @@ class WebSignUpForm extends StatelessWidget {
                                   ),
                                 ],
                                 hintStyle: medium(
-                                  fontSize: (Responsive.isTablet(context))
-                                      ? 22.sp
-                                      : 16.sp,
+                                  fontSize: context.isTablet ? 22.sp : 16.sp,
                                   color: AppColors.primary.setOpacity(0.4),
                                 ),
                                 validator: (value) => FieldValidators()
@@ -246,7 +229,7 @@ class WebSignUpForm extends StatelessWidget {
                                   hintText: "Date of birth",
                                   readOnly: true,
                                   hintStyle: medium(
-                                    fontSize: (Responsive.isTablet(context))
+                                    fontSize: (context.isTablet)
                                         ? 22.sp
                                         : 16.sp,
                                     color: AppColors.primary.setOpacity(0.4),

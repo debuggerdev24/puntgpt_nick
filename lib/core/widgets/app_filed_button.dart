@@ -15,10 +15,12 @@ class AppFiledButton extends StatelessWidget {
     this.color,
     this.textStyle,
     this.margin,
-    this.isExpand
+    this.isExpand,
+    this.child,
   });
 
   final EdgeInsetsGeometry? padding, margin;
+  final Widget? child;
   final double? height;
   final double? width;
   final double? borderRadius;
@@ -36,20 +38,28 @@ class AppFiledButton extends StatelessWidget {
         onTap: onTap,
         child: Container(
           margin: margin,
+          alignment: AlignmentGeometry.center,
           padding:
               padding ?? EdgeInsets.symmetric(vertical: 12.h, horizontal: 15.w),
           height: height,
-          width: (width == null)  ? (isExpand ?? true) ? double.maxFinite : null : width,
+          width: (width == null)
+              ? (isExpand ?? true)
+                    ? double.maxFinite
+                    : null
+              : width,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(borderRadius ?? 0),
             color: color ?? AppColors.primary,
           ),
-          child: Text(
-            text,
-            textAlign: TextAlign.center,
-            style:
-                textStyle ?? semiBold(fontSize: 18.sp, color: AppColors.white),
-          ),
+          child:
+              child ??
+              Text(
+                text,
+                textAlign: TextAlign.center,
+                style:
+                    textStyle ??
+                    semiBold(fontSize: 18.sp, color: AppColors.white),
+              ),
         ),
       ),
     );

@@ -84,9 +84,10 @@ class WebOnboardingScreen extends StatelessWidget {
             children: [
               30.h.verticalSpace,
               Wrap(
-                alignment: WrapAlignment.center,
+                alignment: WrapAlignment.start,
                 crossAxisAlignment: WrapCrossAlignment.center,
-                spacing: 50.w.flexClamp(40, 50),
+                spacing: 50.w,
+                runSpacing: 20.w,
                 children: [
                   VideoWidget(
                     height: 240.w.flexClamp(220, 260),
@@ -99,14 +100,22 @@ class WebOnboardingScreen extends StatelessWidget {
                       Text(
                         "Mug Punter?",
                         style: regular(
-                          fontSize: 38.sp.flexClamp(36, 40),
+                          fontSize: context.isDesktop
+                              ? 38.sp
+                              : context.isTablet
+                              ? 50.sp
+                              : 62.sp,
                           fontFamily: AppFontFamily.secondary,
                         ),
                       ),
                       Text(
                         "Become Pro with AI.",
                         style: regular(
-                          fontSize: 38.sp.flexClamp(36, 40),
+                          fontSize: context.isDesktop
+                              ? 38.sp
+                              : context.isTablet
+                              ? 50.sp
+                              : 62.sp,
                           fontFamily: AppFontFamily.secondary,
                           color: AppColors.premiumYellow,
                         ),

@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pinput/pinput.dart';
@@ -5,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:puntgpt_nick/core/utils/custom_loader.dart';
 import 'package:puntgpt_nick/core/widgets/app_outlined_button.dart';
 import 'package:puntgpt_nick/provider/auth/auth_provider.dart';
+import 'package:puntgpt_nick/responsive/responsive_builder.dart';
 
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/text_style.dart';
@@ -32,7 +34,7 @@ class VerifyOtpScreen extends StatelessWidget {
                         "Verify OTP",
                         style: regular(
                           fontFamily: AppFontFamily.secondary,
-                          fontSize: 40.sp,
+                          fontSize: (kIsWeb) ? 60.sp : 40.sp,
                         ),
                       ),
                       28.h.verticalSpace,
@@ -40,7 +42,8 @@ class VerifyOtpScreen extends StatelessWidget {
                         textAlign: TextAlign.center,
                         "Enter the OTP received on your registered email address to reset password.",
                         style: regular(
-                          fontSize: 16.sp,
+                          fontSize: (kIsWeb) ? 30.sp : 16.sp,
+
                           color: AppColors.primary.withValues(),
                         ),
                       ),
@@ -49,10 +52,14 @@ class VerifyOtpScreen extends StatelessWidget {
                       Pinput(
                         controller: provider.otpCtr,
                         length: 4,
-                        separatorBuilder: (index) => 14.w.horizontalSpace,
+
+                        separatorBuilder: (index) =>
+                            (context.isMobile && kIsWeb)
+                            ? 28.w.horizontalSpace
+                            : 14.w.horizontalSpace,
                         defaultPinTheme: PinTheme(
-                          height: 55.h,
-                          width: 70.w,
+                          height: (kIsWeb) ? 80.w : 55.h,
+                          width: (kIsWeb) ? 80.w : 70.w,
                           textStyle: medium(fontSize: 20),
                           decoration: BoxDecoration(
                             border: Border.all(
@@ -61,11 +68,10 @@ class VerifyOtpScreen extends StatelessWidget {
                           ),
                         ),
                         focusedPinTheme: PinTheme(
-                          height: 55.h,
-                          width: 70.w,
+                          height: (kIsWeb) ? 80.w : 55.h,
+                          width: (kIsWeb) ? 80.w : 70.w,
 
-                          textStyle: medium(fontSize: 20),
-
+                          // textStyle: medium(fontSize: 20.sp),
                           decoration: BoxDecoration(
                             border: Border.all(
                               color: AppColors.primary.withValues(alpha: 0.4),
@@ -74,10 +80,11 @@ class VerifyOtpScreen extends StatelessWidget {
                           ),
                         ),
                         submittedPinTheme: PinTheme(
-                          height: 55.h,
-                          width: 70.w,
-
-                          textStyle: regular(fontSize: 20),
+                          height: (kIsWeb) ? 80.w : 55.h,
+                          width: (kIsWeb) ? 80.w : 70.w,
+                          textStyle: regular(
+                            fontSize: (kIsWeb) ? 35.sp : 30.sp,
+                          ),
                           decoration: BoxDecoration(
                             border: Border.all(color: Colors.grey.shade400),
                           ),
@@ -89,17 +96,24 @@ class VerifyOtpScreen extends StatelessWidget {
                       //todo bottom buttons
                       Text(
                         "Didn’t receive OTP?",
-                        style: semiBold(fontSize: 14.sp),
+                        style: semiBold(fontSize: (kIsWeb) ? 24.sp : 14.sp),
                       ),
                       AppOutlinedButton(
                         text: "Re-Send",
                         onTap: () {},
+                        textStyle: (kIsWeb) ? semiBold(fontSize: 30.sp) : null,
                         margin: EdgeInsets.only(top: 10.h, bottom: 12.h),
                       ),
                       SafeArea(
                         child: AppFiledButton(
                           margin: EdgeInsets.only(bottom: 20.h),
                           text: "Reset Password",
+                          textStyle: (kIsWeb)
+                              ? semiBold(
+                                  fontSize: 30.sp,
+                                  color: AppColors.white,
+                                )
+                              : null,
                           onTap: () {
                             provider.verifyOtp(context: context);
                             // context.pushNamed(AppRoutes.resetPasswordScreen.name);

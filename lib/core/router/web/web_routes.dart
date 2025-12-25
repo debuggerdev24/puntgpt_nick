@@ -4,7 +4,7 @@ enum WebRoutes {
   ageConfirmationScreen,
   onBoardingScreen,
   signUpScreen,
-  signInScreen,
+  logInScreen,
   selectedRace,
   tipSlipScreen,
   accountScreen,
@@ -14,7 +14,11 @@ enum WebRoutes {
   savedSearched,
   punterClubScreen,
   punterClubChatScreen,
-  bookiesScreen, subscribeToProPunterScreen,
+  bookiesScreen,
+  subscribeToProPunterScreen,
+  forgotPasswordScreen,
+  verifyOTPScreen,
+  resetPasswordScreen,
 }
 
 extension WebRouteExtension on WebRoutes {

@@ -1,5 +1,8 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:go_router/go_router.dart';
+import 'package:puntgpt_nick/core/router/web/web_routes.dart';
 import 'package:puntgpt_nick/core/utils/app_toast.dart';
 import 'package:puntgpt_nick/service/auth/auth_api_service.dart';
 import 'package:puntgpt_nick/service/storage/locale_storage_service.dart';
@@ -21,6 +24,8 @@ class AuthProvider extends ChangeNotifier {
   TextEditingController newPasswordCtr = TextEditingController();
   TextEditingController resetConfirmPasswordCtr = TextEditingController();
   TextEditingController otpCtr = TextEditingController();
+  // final appCtx = AppRouter.rootNavigatorKey.currentState;
+  // final webCtx = WebRouter.rootNavigatorKey.currentContext;
 
   int _selectedTab = 0;
   String? _selectedState, _forgotPassUid;
@@ -101,14 +106,14 @@ class AuthProvider extends ChangeNotifier {
         Logger.error(l.apiErrorMsg!);
       },
       (r) {
-        final data = r["data"];
         AppToast.success(context: context, message: "Register Successfully.");
         context.pushNamed(
-          AppRoutes.loginScreen,
+          (kIsWeb) ? WebRoutes.logInScreen.name : AppRoutes.loginScreen,
           extra: {"is_free_sign_up": isFreeSignUp},
         );
 
         clearSignUpControllers();
+        clearLoginControllers();
       },
     );
     isSignUpLoading = false;
@@ -126,8 +131,6 @@ class AuthProvider extends ChangeNotifier {
       password: loginPasswordCtr.text.trim(),
     );
 
-    Logger.info(result.toString());
-
     result.fold(
       (l) {
         Logger.error(l.apiErrorMsg!);
@@ -140,7 +143,11 @@ class AuthProvider extends ChangeNotifier {
       },
       (r) async {
         final data = r["data"];
-        AppToast.success(context: context, message: "Login Successfully.");
+        AppToast.success(
+          context: context,
+          message: "Login Successfully.",
+          duration: 4.seconds,
+        );
         await LocaleStorageService.saveUserToken(data["access"]);
         await LocaleStorageService.saveUserRefreshToken(data["refresh"]);
         await LocaleStorageService.saveUserId(data["user_id"].toString());
@@ -151,16 +158,21 @@ class AuthProvider extends ChangeNotifier {
         await LocaleStorageService.setLoggedInUserPassword(
           loginPasswordCtr.text.trim(),
         );
-        context.go(AppRoutes.homeScreen);
+
+        if (context.mounted) {
+          context.goNamed(
+            (kIsWeb) ? WebRoutes.logInScreen.name : AppRoutes.homeScreen.name,
+          );
+        }
+        clearLoginControllers();
       },
     );
-
     isLoginLoading = false;
     notifyListeners();
   }
 
   bool isForgotPassLoading = false;
-  Future<void> forgotPassword({required BuildContext context}) async {
+  Future<void> sendOTP({required BuildContext context}) async {
     isForgotPassLoading = true;
     notifyListeners();
 
@@ -175,7 +187,12 @@ class AuthProvider extends ChangeNotifier {
       (r) {
         _forgotPassUid = r["data"]["user_id"].toString();
         AppToast.success(context: context, message: "OTP sent successfully");
-        context.pushNamed(AppRoutes.verifyOTPScreen.name);
+        context.pushNamed(
+          (kIsWeb)
+              ? WebRoutes.verifyOTPScreen.name
+              : AppRoutes.verifyOTPScreen.name,
+        );
+        forgotPasswordCtr.clear();
       },
     );
     isForgotPassLoading = false;
@@ -203,7 +220,12 @@ class AuthProvider extends ChangeNotifier {
       },
       (r) {
         AppToast.success(context: context, message: "OTP verify successfully");
-        context.pushNamed(AppRoutes.resetPasswordScreen.name);
+        context.pushNamed(
+          (kIsWeb)
+              ? WebRoutes.resetPasswordScreen.name
+              : AppRoutes.resetPasswordScreen.name,
+        );
+        otpCtr.clear();
       },
     );
     isVerifyOtpLoading = false;
@@ -211,19 +233,26 @@ class AuthProvider extends ChangeNotifier {
   }
 
   bool isResetPasswordLoading = false;
-  Future<void> resetPassword({required VoidCallback onSuccess}) async {
+  Future<void> resetPassword({required BuildContext context}) async {
     isResetPasswordLoading = true;
     notifyListeners();
     final result = await AuthService.instance.resetPassword(
       newPassword: newPasswordCtr.text.trim(),
       confirmPassword: resetConfirmPasswordCtr.text.trim(),
+      userID: _forgotPassUid!,
     );
     result.fold(
       (l) {
         Logger.error(l.errorMsg);
       },
       (r) {
-        onSuccess.call();
+        context.goNamed(
+          (kIsWeb) ? WebRoutes.logInScreen.name : AppRoutes.loginScreen.name,
+        );
+        AppToast.success(
+          context: context,
+          message: "Your password has been reset successfully.",
+        );
       },
     );
     isResetPasswordLoading = true;

@@ -37,7 +37,7 @@ class AppToast {
                     : 15.sp
               : context.isTablet
               ? 32.sp
-              : 26.sp,
+              : 22.sp,
         ),
       ),
     );
@@ -47,12 +47,14 @@ class AppToast {
   static void success({
     required BuildContext context,
     required String message,
+    Duration? duration,
   }) {
     show(
       context: context,
       message: message,
       type: ToastificationType.success,
       backgroundColor: Colors.green.shade600,
+      duration: duration,
     );
   }
 

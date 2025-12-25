@@ -1,5 +1,4 @@
 import 'package:dartz/dartz.dart';
-import 'package:puntgpt_nick/service/storage/locale_storage_service.dart';
 
 import '../../core/constants/end_points.dart';
 import '../../core/helper/base_api_helper.dart';
@@ -69,9 +68,10 @@ class AuthService {
   Future<Either<ApiException, Map<String, dynamic>>> resetPassword({
     required String newPassword,
     required String confirmPassword,
+    required String userID,
   }) async {
     return await BaseApiHelper.instance.post<Map<String, dynamic>>(
-      EndPoints.resetPassword(id: LocaleStorageService.userId),
+      EndPoints.resetPassword(id: userID),
       data: {"new_password": newPassword, "confirm_password": confirmPassword},
     );
   }

@@ -1,10 +1,7 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:puntgpt_nick/core/router/app/app_routes.dart';
-import 'package:puntgpt_nick/core/utils/app_toast.dart';
-import 'package:puntgpt_nick/core/utils/custom_loader.dart';
 import 'package:puntgpt_nick/core/utils/field_validators.dart';
 import 'package:puntgpt_nick/core/widgets/app_text_field.dart';
 import 'package:puntgpt_nick/provider/auth/auth_provider.dart';
@@ -36,7 +33,7 @@ class ResetPasswordScreen extends StatelessWidget {
                         "Reset Password",
                         style: regular(
                           fontFamily: AppFontFamily.secondary,
-                          fontSize: 40.sp,
+                          fontSize: (kIsWeb) ? 60.sp : 40.sp,
                         ),
                       ),
                       28.h.verticalSpace,
@@ -44,7 +41,8 @@ class ResetPasswordScreen extends StatelessWidget {
                         textAlign: TextAlign.center,
                         "Enter new password below to reset.",
                         style: regular(
-                          fontSize: 16.sp,
+                          fontSize: (kIsWeb) ? 30.sp : 16.sp,
+
                           color: AppColors.primary.withValues(),
                         ),
                       ),
@@ -76,19 +74,16 @@ class ResetPasswordScreen extends StatelessWidget {
                       SafeArea(
                         child: AppFiledButton(
                           margin: EdgeInsets.only(bottom: 20.h),
+                          textStyle: (kIsWeb)
+                              ? semiBold(
+                                  fontSize: 30.sp,
+                                  color: AppColors.white,
+                                )
+                              : null,
                           text: "Confirm",
                           onTap: () {
                             if (formKey.currentState!.validate()) {
-                              provider.resetPassword(
-                                onSuccess: () {
-                                  context.goNamed(AppRoutes.loginScreen.name);
-                                  AppToast.success(
-                                    context: context,
-                                    message:
-                                        "Your password has been reset successfully.",
-                                  );
-                                },
-                              );
+                              provider.resetPassword(context: context);
                             }
                           },
                         ),

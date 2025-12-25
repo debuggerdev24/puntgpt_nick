@@ -7,5 +7,5 @@ class EndPoints {
   static String verifyToken({required String id}) =>
       "/api/accounts/verify-reset-token/$id/";
   static String resetPassword({required String id}) =>
-      "/api/accounts/reset-password/2/";
+      "/api/accounts/reset-password/$id/";
 }

@@ -23,15 +23,12 @@ class FilterList extends StatefulWidget {
 }
 
 class _FilterListState extends State<FilterList> {
-  late GlobalKey<FormState> _formKey;
-
   final Map<String, TextEditingController> _controllers = {};
   final Map<String, String?> _dropdownValues = {};
 
   @override
   void initState() {
     super.initState();
-    _formKey = widget.formKey;
   }
 
   @override
@@ -43,7 +40,9 @@ class _FilterListState extends State<FilterList> {
   }
 
   void onSaveSearchTap() {
-    context.pushNamed((kIsWeb) ? WebRoutes.savedSearched.name : AppRoutes.savedSearched.name);
+    context.pushNamed(
+      (kIsWeb) ? WebRoutes.savedSearched.name : AppRoutes.savedSearched.name,
+    );
   }
 
   @override

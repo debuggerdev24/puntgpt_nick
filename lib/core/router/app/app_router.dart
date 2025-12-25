@@ -31,12 +31,12 @@ import '../../../screens/punt_gpt_club/mobile/punt_club_chat_screen.dart';
 import '../../../screens/punt_gpt_club/mobile/punter_club_screen.dart';
 
 class AppRouter {
-  static final _rootNavigatorKey = GlobalKey<NavigatorState>();
+  static final rootNavigatorKey = GlobalKey<NavigatorState>();
 
   static StatefulNavigationShell? indexedStackNavigationShell;
 
   static final GoRouter router = GoRouter(
-    navigatorKey: _rootNavigatorKey,
+    navigatorKey: rootNavigatorKey,
     debugLogDiagnostics: true,
     initialLocation: AppRoutes.splash,
     routes: [

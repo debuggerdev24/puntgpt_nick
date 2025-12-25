@@ -1,8 +1,10 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:puntgpt_nick/core/constants/constants.dart';
 import 'package:puntgpt_nick/core/constants/text_style.dart';
+import 'package:puntgpt_nick/responsive/responsive_builder.dart';
 
 import 'image_widget.dart';
 
@@ -27,6 +29,7 @@ class AppTextField extends StatelessWidget {
     this.keyboardType,
     this.trailingIconWidth,
     this.readOnly,
+    this.onSubmit,
   });
 
   final TextEditingController controller;
@@ -36,7 +39,7 @@ class AppTextField extends StatelessWidget {
   final double? borderRadius, trailingIconWidth;
   final bool obscureText;
   final dynamic trailingIcon;
-  final VoidCallback? onTrailingIconTap, onTap;
+  final VoidCallback? onTrailingIconTap, onTap, onSubmit;
   final FormFieldValidator<String>? validator;
   final AutovalidateMode? autovalidateMode;
   final bool? enabled, readOnly;
@@ -50,7 +53,19 @@ class AppTextField extends StatelessWidget {
       readOnly: readOnly ?? false,
       controller: controller,
       cursorColor: AppColors.primary,
-      style: textStyle ?? medium(fontSize: 16.sp),
+
+      // textStyle: medium(fontSize: (kIsWeb) ? 28.sp : 16.sp),
+      style:
+          textStyle ??
+          medium(
+            fontSize: context.isDesktop
+                ? 16.sp
+                : context.isTablet
+                ? 22.sp
+                : (kIsWeb)
+                ? 26.sp
+                : 16.sp,
+          ),
       obscureText: obscureText,
       autovalidateMode: autovalidateMode,
       enabled: enabled,
@@ -67,7 +82,9 @@ class AppTextField extends StatelessWidget {
         // }
         return error;
       },
-
+      onFieldSubmitted: (value) {
+        onSubmit!.call();
+      },
       decoration: InputDecoration(
         suffixIconConstraints: BoxConstraints(
           maxHeight: 26.h.flexClamp(24, 28),
@@ -90,10 +107,27 @@ class AppTextField extends StatelessWidget {
         hintStyle:
             hintStyle ??
             medium(
-              fontSize: 14.sp,
+              fontSize: context.isDesktop
+                  ? 16.sp
+                  : context.isTablet
+                  ? 22.sp
+                  : (kIsWeb)
+                  ? 30.sp
+                  : 14.sp,
               color: AppColors.primary.withValues(alpha: 0.55),
             ),
-        errorStyle: errorStyle ?? medium(fontSize: 12.sp, color: AppColors.red),
+        errorStyle:
+            errorStyle ??
+            medium(
+              fontSize: context.isDesktop
+                  ? 16.sp
+                  : context.isTablet
+                  ? 22.sp
+                  : (kIsWeb)
+                  ? 26.sp
+                  : 12.sp,
+              color: AppColors.red,
+            ),
         errorMaxLines: 5,
         // error: _currentError == null
         //     ? null

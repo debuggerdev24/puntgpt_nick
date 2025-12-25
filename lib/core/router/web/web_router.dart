@@ -5,8 +5,14 @@ import 'package:puntgpt_nick/responsive/responsive_builder.dart';
 import 'package:puntgpt_nick/screens/account/mobile/account_screen.dart';
 import 'package:puntgpt_nick/screens/account/mobile/manage_subscription_screen.dart';
 import 'package:puntgpt_nick/screens/account/mobile/personal_details_screen.dart';
+import 'package:puntgpt_nick/screens/auth/screens/mobile/forgot_password_screen.dart';
+import 'package:puntgpt_nick/screens/auth/screens/mobile/reset_password_screen.dart';
+import 'package:puntgpt_nick/screens/auth/screens/mobile/verify_otp_screen.dart';
+import 'package:puntgpt_nick/screens/auth/screens/web/web_forgot_pass_screen.dart';
 import 'package:puntgpt_nick/screens/auth/screens/web/web_login_screen.dart';
+import 'package:puntgpt_nick/screens/auth/screens/web/web_reset_password_screen.dart';
 import 'package:puntgpt_nick/screens/auth/screens/web/web_sign_up_screen.dart';
+import 'package:puntgpt_nick/screens/auth/screens/web/web_verify_otp_screen.dart';
 import 'package:puntgpt_nick/screens/dashboard/web/web_dashboard.dart';
 import 'package:puntgpt_nick/screens/home/web/home_screen_web.dart';
 import 'package:puntgpt_nick/screens/home/web/tip_slip_screen_web.dart';
@@ -24,12 +30,12 @@ import '../../../screens/onboarding/web/web_onboarding_screen.dart';
 import '../../../screens/punt_gpt_club/mobile/punt_club_chat_screen.dart';
 
 class WebRouter {
-  static final _rootNavigatorKey = GlobalKey<NavigatorState>();
+  static final rootNavigatorKey = GlobalKey<NavigatorState>();
 
   static StatefulNavigationShell? indexedStackNavigationShell;
 
   static final GoRouter router = GoRouter(
-    navigatorKey: _rootNavigatorKey,
+    navigatorKey: rootNavigatorKey,
     initialLocation: WebRoutes.splashScreen.path,
     debugLogDiagnostics: true,
     routes: [
@@ -55,9 +61,27 @@ class WebRouter {
             WebSignUpScreen(isFreeSignUp: state.extra as bool),
       ),
       GoRoute(
-        path: WebRoutes.signInScreen.path,
-        name: WebRoutes.signInScreen.name,
+        path: WebRoutes.logInScreen.path,
+        name: WebRoutes.logInScreen.name,
         builder: (context, state) => WebLoginScreen(),
+      ),
+      GoRoute(
+        path: WebRoutes.forgotPasswordScreen.path,
+        name: WebRoutes.forgotPasswordScreen.name,
+        builder: (context, state) =>
+            context.isMobile ? ForgotPasswordScreen() : WebForgotPassScreen(),
+      ),
+      GoRoute(
+        path: WebRoutes.verifyOTPScreen.path,
+        name: WebRoutes.verifyOTPScreen.name,
+        builder: (context, state) =>
+            context.isMobile ? VerifyOtpScreen() : WebVerifyOtpScreen(),
+      ),
+      GoRoute(
+        path: WebRoutes.resetPasswordScreen.path,
+        name: WebRoutes.resetPasswordScreen.name,
+        builder: (context, state) =>
+            context.isMobile ? ResetPasswordScreen() : WebResetPasswordScreen(),
       ),
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) {

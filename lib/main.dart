@@ -10,6 +10,7 @@ import 'package:puntgpt_nick/provider/auth/auth_provider.dart';
 import 'package:puntgpt_nick/provider/punt_club/punter_club_provider.dart';
 import 'package:puntgpt_nick/provider/search_engine_provider.dart';
 import 'package:puntgpt_nick/service/storage/locale_storage_service.dart';
+import 'package:toastification/toastification.dart';
 
 import 'core/router/app/app_router.dart';
 
@@ -28,7 +29,7 @@ Future<void> main() async {
       statusBarBrightness: Brightness.dark,
     ),
   );
-  runApp(const MyApp());
+  runApp(ToastificationWrapper(child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -74,7 +75,7 @@ todo nick
 
 
 
-
+flutter run --release -d web-server --web-port=5000 --web-hostname=0.0.0.0
 
 todo Vimal
 

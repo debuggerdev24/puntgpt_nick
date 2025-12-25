@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -36,7 +37,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                           "Forgot Password",
                           style: regular(
                             fontFamily: AppFontFamily.secondary,
-                            fontSize: 40.sp,
+                            fontSize: (kIsWeb) ? 60.sp : 40.sp,
                           ),
                         ),
                         28.h.verticalSpace,
@@ -44,7 +45,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                           textAlign: TextAlign.center,
                           "We will send you an OTP to the email address you signed up with.",
                           style: regular(
-                            fontSize: 16.sp,
+                            fontSize: (kIsWeb) ? 30.sp : 16.sp,
                             color: AppColors.primary.withValues(),
                           ),
                         ),
@@ -53,16 +54,37 @@ class ForgotPasswordScreen extends StatelessWidget {
                           controller: provider.forgotPasswordCtr,
                           hintText: "Email",
                           validator: FieldValidators().email,
+                          errorStyle: medium(
+                            fontSize: (kIsWeb) ? 25.sp : 12.sp,
+                            color: AppColors.red,
+                          ),
+                          hintStyle: medium(
+                            fontSize: (kIsWeb) ? 28.sp : 14.sp,
+                            color: AppColors.primary.withValues(alpha: 0.4),
+                          ),
+                          onSubmit: () {
+                            deBouncer.run(() {
+                              if (formKey.currentState!.validate()) {
+                                provider.sendOTP(context: context);
+                              }
+                            });
+                          },
                         ),
                         Spacer(),
                         SafeArea(
                           child: AppFiledButton(
                             margin: EdgeInsets.only(bottom: 20.h),
                             text: "Send OTP",
+                            textStyle: (kIsWeb)
+                                ? semiBold(
+                                    fontSize: 30.sp,
+                                    color: AppColors.white,
+                                  )
+                                : null,
                             onTap: () {
                               deBouncer.run(() {
                                 if (formKey.currentState!.validate()) {
-                                  provider.forgotPassword(context: context);
+                                  provider.sendOTP(context: context);
                                 }
                               });
                             },

@@ -87,7 +87,8 @@ class WebSignUpScreen extends StatelessWidget {
                     WebSignUpBottomSection(
                       onLoginTap: () {
                         // LogHelper.info(Responsive.isDesktop(context))
-                        context.pushNamed(WebRoutes.signInScreen.name);
+                        provider.clearLoginControllers();
+                        context.pushNamed(WebRoutes.logInScreen.name);
                       },
                       onSignUpTap: () {
                         deBouncer.run(() {
