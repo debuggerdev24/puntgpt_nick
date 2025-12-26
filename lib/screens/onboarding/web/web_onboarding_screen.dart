@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import 'package:puntgpt_nick/core/constants/constants.dart';
 import 'package:puntgpt_nick/core/constants/text_style.dart';
 import 'package:puntgpt_nick/core/router/web/web_routes.dart';
@@ -10,6 +11,9 @@ import 'package:puntgpt_nick/core/widgets/image_widget.dart';
 import 'package:puntgpt_nick/core/widgets/web_top_section.dart';
 import 'package:puntgpt_nick/responsive/responsive_builder.dart';
 import 'package:puntgpt_nick/screens/onboarding/mobile/widgets/video_widget.dart';
+
+import '../../../provider/auth/auth_provider.dart';
+import '../../../service/storage/locale_storage_service.dart';
 
 class WebOnboardingScreen extends StatelessWidget {
   const WebOnboardingScreen({super.key});
@@ -249,6 +253,11 @@ class WebOnboardingScreen extends StatelessWidget {
                                 : 18.sp,
                           ),
                           onTap: () {
+                            context
+                                .read<AuthProvider>()
+                                .clearSignUpControllers();
+                            LocaleStorageService.setIsFirstTime(false);
+
                             context.pushNamed(
                               WebRoutes.signUpScreen.name,
                               extra: planData[index]['price']

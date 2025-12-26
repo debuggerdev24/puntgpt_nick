@@ -1,5 +1,3 @@
-// lib/routes/web_router.dart
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -12,6 +10,7 @@ import 'package:puntgpt_nick/screens/auth/screens/mobile/verify_otp_screen.dart'
 import 'package:puntgpt_nick/screens/bookies/mobile/bookies_screen.dart';
 import 'package:puntgpt_nick/screens/home/mobile/ask_punt_gpt.dart';
 import 'package:puntgpt_nick/screens/home/mobile/home_screen.dart';
+import 'package:puntgpt_nick/screens/offline/offline_screen.dart';
 import 'package:puntgpt_nick/screens/onboarding/mobile/age_confirmation_screen.dart';
 import 'package:puntgpt_nick/screens/onboarding/mobile/on_boarding_screen.dart';
 import 'package:puntgpt_nick/screens/onboarding/web/web_onboarding_screen.dart';
@@ -50,6 +49,11 @@ class AppRouter {
         path: AppRoutes.ageConfirmationScreen,
         name: AppRoutes.ageConfirmationScreen,
         builder: (context, state) => AgeConfirmationScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.offlineViewScreen,
+        name: AppRoutes.offlineViewScreen.name,
+        builder: (context, state) => OfflineScreen(),
       ),
 
       GoRoute(

@@ -22,7 +22,6 @@ class AgeConfirmationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: WebTopSection(),
       body: Padding(
         padding: EdgeInsets.all(20),
         child: Center(

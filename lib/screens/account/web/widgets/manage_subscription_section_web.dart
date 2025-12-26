@@ -174,7 +174,7 @@ class ManageSubscriptionSectionWeb extends StatelessWidget {
                                 itemBuilder: (context, i) {
                                   Map item = currentPlan[i];
                                   return Row(
-                                    spacing: 10.w,
+                                    spacing: 8.w,
                                     mainAxisSize: MainAxisSize.min,
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
@@ -190,10 +190,12 @@ class ManageSubscriptionSectionWeb extends StatelessWidget {
                                             ? 36.w
                                             : 20.w,
                                       ),
-                                      Text(
-                                        item["point"],
-                                        style: regular(
-                                          fontSize: fourteenResponsive,
+                                      Expanded(
+                                        child: Text(
+                                          item["point"],
+                                          style: regular(
+                                            fontSize: fourteenResponsive,
+                                          ),
                                         ),
                                       ),
                                     ],
@@ -242,10 +244,12 @@ class ManageSubscriptionSectionWeb extends StatelessWidget {
                                             : 20.w,
                                       ),
                                       10.w.horizontalSpace,
-                                      Text(
-                                        item["point"],
-                                        style: regular(
-                                          fontSize: fourteenResponsive,
+                                      Expanded(
+                                        child: Text(
+                                          item["point"],
+                                          style: regular(
+                                            fontSize: fourteenResponsive,
+                                          ),
                                         ),
                                       ),
                                     ],

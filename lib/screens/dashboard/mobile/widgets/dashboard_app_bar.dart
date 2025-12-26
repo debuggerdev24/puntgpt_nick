@@ -9,8 +9,6 @@ import 'package:puntgpt_nick/core/router/web/web_router.dart';
 import 'package:puntgpt_nick/core/widgets/image_widget.dart';
 import 'package:puntgpt_nick/responsive/responsive_builder.dart';
 
-import '../../web/widgets/web_dashboard_app_bar.dart';
-
 class DashboardAppBar extends StatefulWidget {
   const DashboardAppBar({super.key, required this.navigationShell});
   final StatefulNavigationShell navigationShell;
@@ -22,20 +20,21 @@ class DashboardAppBar extends StatefulWidget {
 class _DashboardAppBarState extends State<DashboardAppBar> {
   @override
   Widget build(BuildContext context) {
-    return !context.isDesktop
-        ? Container(
-            decoration: BoxDecoration(color: AppColors.primary),
-            width: double.maxFinite,
-            padding: EdgeInsets.symmetric(
-              horizontal: (kIsWeb) ? 40.w : 16.w,
-              vertical: 8.h,
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [_appLogo(), _bannerAd(), _tipSlip()],
-            ),
-          )
-        : WebDashboardAppBar(navigationShell: widget.navigationShell);
+    return //!context.isDesktop
+    // ?
+    Container(
+      decoration: BoxDecoration(color: AppColors.primary),
+      width: double.maxFinite,
+      padding: EdgeInsets.symmetric(
+        horizontal: (kIsWeb) ? 40.w : 16.w,
+        vertical: 8.h,
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [_appLogo(), _bannerAd(), _tipSlip()],
+      ),
+    );
+    // : WebDashboardAppBar(navigationShell: widget.navigationShell);
   }
 
   Widget _appLogo() {

@@ -56,7 +56,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       ],
     },
   ];
-  int _currentIndex = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:puntgpt_nick/models/runner_model.dart';
 
 class SearchEngineProvider extends ChangeNotifier {
-  bool isSearched = false;
+  bool isSearched = false, _isMenuOpen = false;
   int _selectedRaceTimingIndex = 0,
       _selectedTab = 0,
       _selectedRace = 0,
@@ -11,6 +11,12 @@ class SearchEngineProvider extends ChangeNotifier {
   int get selectedTab => _selectedTab;
   int get selectedRace => _selectedRace;
   int get selectedDay => _selectedDay;
+  bool get isMenuOpen => _isMenuOpen;
+
+  set setIsMenuOpen(bool value) {
+    _isMenuOpen = value;
+    notifyListeners();
+  }
 
   set changeSelectedDay(int value) {
     _selectedDay = value;

@@ -5,7 +5,10 @@ import 'package:go_router/go_router.dart';
 import 'package:puntgpt_nick/core/constants/constants.dart';
 import 'package:puntgpt_nick/core/constants/text_style.dart';
 import 'package:puntgpt_nick/core/widgets/image_widget.dart';
+import 'package:puntgpt_nick/main.dart';
 import 'package:puntgpt_nick/screens/dashboard/mobile/widgets/dashboard_app_bar.dart';
+import 'package:puntgpt_nick/screens/offline/widget/offline_view.dart';
+
 import '../../../core/router/app/app_router.dart';
 
 final GlobalKey<_DashboardState> dashboardKey = GlobalKey<_DashboardState>();
@@ -31,17 +34,25 @@ class _DashboardState extends State<Dashboard> {
         bottom: false,
         child: Column(
           children: [
-            DashboardAppBar(navigationShell: widget.navigationShell,),
-            // Expanded(child: pages[value]),
+            DashboardAppBar(navigationShell: widget.navigationShell),
+
             Expanded(
-              child: ValueListenableBuilder<int>(
-                valueListenable: indexOfTab,
-                builder: (context, value, child) => FadeInUp(
-                  from: 2,
-                  duration: Duration(milliseconds: 450),
-                  key: ValueKey(value),
-                  child: widget.navigationShell,
-                ),
+              child: ValueListenableBuilder<bool>(
+                valueListenable: isNetworkConnected,
+                builder: (context, value, child) {
+                  if (value) {
+                    return ValueListenableBuilder<int>(
+                      valueListenable: indexOfTab,
+                      builder: (context, value, child) => FadeInUp(
+                        from: 2,
+                        duration: Duration(milliseconds: 450),
+                        key: ValueKey(value),
+                        child: widget.navigationShell,
+                      ),
+                    );
+                  }
+                  return offlineView();
+                },
               ),
             ),
           ],
@@ -136,7 +147,8 @@ class _DashboardState extends State<Dashboard> {
                 ImageWidget(
                   path: icon,
                   type: ImageType.svg,
-                  color: color?.withValues(
+                  color:
+                      color?.withValues(
                         alpha: currentIndex == index ? 1 : opacity,
                       ) ??
                       AppColors.white.withValues(

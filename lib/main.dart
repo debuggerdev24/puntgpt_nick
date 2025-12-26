@@ -9,10 +9,13 @@ import 'package:puntgpt_nick/provider/account/account_provider.dart';
 import 'package:puntgpt_nick/provider/auth/auth_provider.dart';
 import 'package:puntgpt_nick/provider/punt_club/punter_club_provider.dart';
 import 'package:puntgpt_nick/provider/search_engine_provider.dart';
+import 'package:puntgpt_nick/service/network/network_service.dart';
 import 'package:puntgpt_nick/service/storage/locale_storage_service.dart';
 import 'package:toastification/toastification.dart';
 
 import 'core/router/app/app_router.dart';
+
+ValueNotifier<bool> isNetworkConnected = ValueNotifier(true);
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -37,6 +40,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    checkConnectivity(context: context);
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: MultiProvider(
@@ -74,12 +78,8 @@ class MyApp extends StatelessWidget {
 todo nick
 
 
-
 flutter run --release -d web-server --web-port=5000 --web-hostname=0.0.0.0
 
 todo Vimal
-
-
-
 
 */

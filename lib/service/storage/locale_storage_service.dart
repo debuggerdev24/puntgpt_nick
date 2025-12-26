@@ -18,7 +18,6 @@ class LocaleStorageService {
   static const String _loggedInCustomerPasswordKey = "logged_in_user_password";
   static const String _registerUserId = "register_user_id";
   static const String _isProfileCreated = "is_profile_created";
-
   static const String _isFirstTime = "is_First_Time";
 
   static bool get isUserLoggedIn => _pref.getBool(_isUserLoggedInKey) ?? false;

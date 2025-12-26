@@ -11,6 +11,8 @@ import 'package:puntgpt_nick/core/router/web/web_routes.dart';
 import 'package:puntgpt_nick/core/widgets/image_widget.dart';
 import 'package:puntgpt_nick/core/widgets/web_top_section.dart';
 
+import '../../service/storage/locale_storage_service.dart';
+
 class WebSplashScreen extends StatefulWidget {
   const WebSplashScreen({super.key});
 
@@ -19,20 +21,28 @@ class WebSplashScreen extends StatefulWidget {
 }
 
 class _WebSplashScreenState extends State<WebSplashScreen> {
+  String authToken = LocaleStorageService.userToken;
+
   Timer? _timer;
   int currentIndex = -1;
 
   @override
   void initState() {
     super.initState();
+    Logger.info("Authorized Token : $authToken");
+
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       _startTimer();
-      Future.delayed(
-        3.seconds,
-      ).then((value) {
-        if(mounted) {
-          context.go(WebRoutes.ageConfirmationScreen.path);
+      Future.delayed(3.seconds).then((value) {
+        if (LocaleStorageService.isFirstTime && authToken.isEmpty) {
+          Logger.info("Inside if part");
+          context.goNamed(WebRoutes.ageConfirmationScreen.name);
+          return;
         }
+        Logger.info("Inside else part");
+        //todo here I need to decide the which screen need to show first
+        context.goNamed(WebRoutes.homeScreen.name);
+        return;
       });
     });
   }

@@ -10,6 +10,7 @@ import 'package:puntgpt_nick/core/constants/constants.dart';
 import 'package:puntgpt_nick/core/constants/text_style.dart';
 import 'package:puntgpt_nick/core/router/app/app_routes.dart';
 import 'package:puntgpt_nick/core/widgets/image_widget.dart';
+import 'package:puntgpt_nick/main.dart';
 import 'package:puntgpt_nick/service/storage/locale_storage_service.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -20,20 +21,30 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  String authToken = LocaleStorageService.userToken;
+
   Timer? _timer;
   int currentIndex = -1;
 
   @override
   void initState() {
     super.initState();
+    Logger.info("Authorized Token : $authToken");
+
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       _startTimer();
       Future.delayed(3.seconds).then((value) {
-        if (LocaleStorageService.isFirstTime) {
-          context.go(AppRoutes.ageConfirmationScreen);
+        if (isNetworkConnected.value) {
+          if (LocaleStorageService.isFirstTime && authToken.isEmpty) {
+            Logger.info("Inside if part");
+            context.goNamed(AppRoutes.ageConfirmationScreen);
+            return;
+          }
+          Logger.info("Inside else part");
+          context.goNamed(AppRoutes.onboardingScreen);
           return;
         }
-        context.goNamed(AppRoutes.onboardingScreen);
+        context.goNamed(AppRoutes.offlineViewScreen.name);
       });
     });
   }

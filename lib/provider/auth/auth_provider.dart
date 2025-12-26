@@ -161,7 +161,7 @@ class AuthProvider extends ChangeNotifier {
 
         if (context.mounted) {
           context.goNamed(
-            (kIsWeb) ? WebRoutes.logInScreen.name : AppRoutes.homeScreen.name,
+            (kIsWeb) ? WebRoutes.homeScreen.name : AppRoutes.homeScreen.name,
           );
         }
         clearLoginControllers();

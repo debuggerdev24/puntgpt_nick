@@ -31,7 +31,6 @@ class LoginScreen extends StatelessWidget {
             children: [
               SingleChildScrollView(
                 padding: EdgeInsets.symmetric(horizontal: 25.w),
-
                 child: SizedBox(
                   width: Responsive.isMobile(context)
                       ? double.maxFinite
