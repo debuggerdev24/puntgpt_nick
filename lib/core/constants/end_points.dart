@@ -8,4 +8,5 @@ class EndPoints {
       "/api/accounts/verify-reset-token/$id/";
   static String resetPassword({required String id}) =>
       "/api/accounts/reset-password/$id/";
+  static const String profile = "/api/accounts/profile/";
 }

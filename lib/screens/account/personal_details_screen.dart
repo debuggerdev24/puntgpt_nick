@@ -30,6 +30,7 @@ class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
       key: _formKey,
       child: Consumer<AccountProvider>(
         builder: (context, provider, child) {
+          // final profile = provider.profile;
           return Column(
             children: [
               topBar(context, provider),
@@ -45,7 +46,7 @@ class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
                       Text("Name", style: semiBold(fontSize: 14.sp)),
                       6.h.verticalSpace,
                       AppTextField(
-                        controller: TextEditingController(),
+                        controller: provider.nameCtr,
                         hintText: "Enter Your Name",
                         validator: (value) =>
                             FieldValidators().name(value, "Name"),
@@ -55,7 +56,7 @@ class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
                       Text("Email", style: semiBold(fontSize: 14.sp)),
                       6.h.verticalSpace,
                       AppTextField(
-                        controller: TextEditingController(),
+                        controller: provider.emailCtr,
                         hintText: "Enter Your Email",
                         validator: (value) => FieldValidators().email(value),
                       ),
@@ -64,7 +65,7 @@ class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
                       Text("Phone", style: semiBold(fontSize: 14.sp)),
                       6.h.verticalSpace,
                       AppTextField(
-                        controller: TextEditingController(),
+                        controller: provider.phoneCtr,
                         hintText: "Enter Your Phone",
                         validator: (value) =>
                             FieldValidators().mobileNumber(value),
@@ -85,7 +86,7 @@ class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
                           context.pushNamed(AppRoutes.changePassword.name);
                         },
                         margin: EdgeInsets.only(
-                          bottom: 25.h,
+                          bottom: 20.h,
                           top: (!provider.isEdit) ? 200.h : 8.h,
                         ), //
                       ),
@@ -104,7 +105,12 @@ class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
     return Column(
       children: [
         Padding(
-          padding: EdgeInsets.fromLTRB(5.w, 12.h, (!provider.isEdit) ? 25.w : 8.w, 16.h),
+          padding: EdgeInsets.fromLTRB(
+            5.w,
+            12.h,
+            (!provider.isEdit) ? 25.w : 8.w,
+            16.h,
+          ),
           child: Row(
             children: [
               IconButton(
@@ -157,7 +163,10 @@ class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
                     provider.setIsEdit = !(provider.isEdit);
                   },
 
-                  child: Text("Cancel", style: bold(fontSize: 16.sp,color: AppColors.primary)),
+                  child: Text(
+                    "Cancel",
+                    style: bold(fontSize: 16.sp, color: AppColors.primary),
+                  ),
                 ),
             ],
           ),

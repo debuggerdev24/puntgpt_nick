@@ -2,10 +2,12 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import 'package:puntgpt_nick/core/constants/constants.dart';
 import 'package:puntgpt_nick/core/constants/text_style.dart';
 import 'package:puntgpt_nick/core/widgets/image_widget.dart';
 import 'package:puntgpt_nick/main.dart';
+import 'package:puntgpt_nick/provider/account/account_provider.dart';
 import 'package:puntgpt_nick/screens/dashboard/mobile/widgets/dashboard_app_bar.dart';
 import 'package:puntgpt_nick/screens/offline/widget/offline_view.dart';
 
@@ -24,6 +26,15 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      callInitAPIs(context: context);
+    });
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -201,4 +212,8 @@ class _DashboardState extends State<Dashboard> {
       ),
     );
   }
+}
+
+void callInitAPIs({required BuildContext context}) {
+  context.read<AccountProvider>().getProfile();
 }

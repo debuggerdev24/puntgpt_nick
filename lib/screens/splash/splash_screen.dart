@@ -41,10 +41,11 @@ class _SplashScreenState extends State<SplashScreen> {
             return;
           }
           Logger.info("Inside else part");
-          context.goNamed(AppRoutes.onboardingScreen);
+          context.goNamed(AppRoutes.homeScreen.name);
           return;
         }
         context.goNamed(AppRoutes.offlineViewScreen.name);
+        return;
       });
     });
   }

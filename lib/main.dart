@@ -78,8 +78,17 @@ class MyApp extends StatelessWidget {
 todo nick
 
 
-flutter run --release -d web-server --web-port=5000 --web-hostname=0.0.0.0
 
 todo Vimal
+
+
+.
+
+
+
+
+
+flutter run --release -d web-server --web-port=5000 --web-hostname=0.0.0.0
+
 
 */
