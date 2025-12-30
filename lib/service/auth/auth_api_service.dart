@@ -1,13 +1,14 @@
 import 'package:dartz/dartz.dart';
+import 'package:puntgpt_nick/service/storage/locale_storage_service.dart';
 
 import '../../core/constants/end_points.dart';
 import '../../core/helper/base_api_helper.dart';
 
-class AuthService {
-  AuthService._();
+class AuthApiService {
+  AuthApiService._();
 
-  static final AuthService _instance = AuthService._();
-  static AuthService instance = _instance;
+  static final AuthApiService _instance = AuthApiService._();
+  static AuthApiService instance = _instance;
 
   Future<Either<ApiException, Map<String, dynamic>>> loginWithEmailPassword({
     required String email,
@@ -73,6 +74,13 @@ class AuthService {
     return await BaseApiHelper.instance.post<Map<String, dynamic>>(
       EndPoints.resetPassword(id: userID),
       data: {"new_password": newPassword, "confirm_password": confirmPassword},
+    );
+  }
+
+  Future<Either<ApiException, Map<String, dynamic>>> refreshToken() async {
+    return await BaseApiHelper.instance.post<Map<String, dynamic>>(
+      EndPoints.refreshToken,
+      data: {"refresh": LocaleStorageService.refreshToken},
     );
   }
 }

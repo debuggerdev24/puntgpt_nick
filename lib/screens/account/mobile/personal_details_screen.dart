@@ -6,6 +6,9 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:puntgpt_nick/core/constants/app_assets.dart';
 import 'package:puntgpt_nick/core/router/app/app_routes.dart';
+import 'package:puntgpt_nick/core/utils/app_toast.dart';
+import 'package:puntgpt_nick/core/utils/custom_loader.dart';
+import 'package:puntgpt_nick/core/utils/de_bouncing.dart';
 import 'package:puntgpt_nick/core/utils/field_validators.dart';
 import 'package:puntgpt_nick/core/widgets/app_filed_button.dart';
 import 'package:puntgpt_nick/core/widgets/app_outlined_button.dart';
@@ -33,92 +36,143 @@ class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
       key: _formKey,
       child: Consumer<AccountProvider>(
         builder: (context, provider, child) {
-          return Column(
+          bool readOnly = (provider.isEdit) ? false : true;
+          return Stack(
             children: [
-              topBar(context, provider),
-              //todo form
-              Expanded(
-                child: SingleChildScrollView(
-                  padding: EdgeInsets.symmetric(horizontal: 25.h),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      28.h.verticalSpace,
-                      //todo --------------> name
-                      Text(
-                        "Name",
-                        style: semiBold(fontSize: (kIsWeb) ? 28.sp : 14.sp),
-                      ),
-                      6.h.verticalSpace,
-                      AppTextField(
-                        controller: TextEditingController(),
-                        hintText: "Enter Your Name",
-                        textStyle: medium(fontSize: (kIsWeb) ? 32.sp : 16.sp),
-
-                        hintStyle: medium(fontSize: (kIsWeb) ? 28.sp : 14.sp),
-                        validator: (value) =>
-                            FieldValidators().name(value, "Name"),
-                      ),
-                      //todo --------------> email
-                      14.h.verticalSpace,
-                      Text(
-                        "Email",
-                        style: semiBold(fontSize: (kIsWeb) ? 28.sp : 14.sp),
-                      ),
-                      6.h.verticalSpace,
-                      AppTextField(
-                        controller: TextEditingController(),
-                        hintText: "Enter Your Email",
-                        textStyle: medium(fontSize: (kIsWeb) ? 32.sp : 16.sp),
-
-                        hintStyle: medium(fontSize: (kIsWeb) ? 28.sp : 14.sp),
-                        validator: (value) => FieldValidators().email(value),
-                      ),
-                      //todo --------------> phone
-                      14.h.verticalSpace,
-                      Text(
-                        "Phone",
-                        style: semiBold(fontSize: (kIsWeb) ? 28.sp : 14.sp),
-                      ),
-                      6.h.verticalSpace,
-                      AppTextField(
-                        controller: TextEditingController(),
-                        hintText: "Enter Your Phone",
-                        textStyle: medium(fontSize: (kIsWeb) ? 32.sp : 16.sp),
-                        hintStyle: medium(fontSize: (kIsWeb) ? 28.sp : 14.sp),
-                        validator: (value) =>
-                            FieldValidators().mobileNumber(value),
-                      ),
-                      if (provider.isEdit)
-                        AppFiledButton(
-                          text: "Save Changes",
-                          textStyle: semiBold(
-                            fontSize: (kIsWeb) ? 28.sp : 18.sp,
-                            color: AppColors.white,
+              //todo screen
+              Column(
+                children: [
+                  //todo top bar
+                  topBar(context, provider),
+                  //todo personal details
+                  Expanded(
+                    child: SingleChildScrollView(
+                      padding: EdgeInsets.symmetric(horizontal: 25.h),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          28.h.verticalSpace,
+                          //todo --------------> name
+                          Text(
+                            "Name",
+                            style: semiBold(fontSize: (kIsWeb) ? 28.sp : 14.sp),
                           ),
-                          onTap: () {
-                            if (_formKey.currentState!.validate()) {
-                              provider.setIsEdit = false;
-                            }
-                          },
-                          margin: EdgeInsets.only(top: 170.h), //
-                        ),
-                      AppOutlinedButton(
-                        text: "Change Password",
-                        onTap: () {
-                          context.pushNamed(AppRoutes.changePassword.name);
-                        },
+                          6.h.verticalSpace,
+                          AppTextField(
+                            controller: provider.nameCtr,
+                            hintText: "Enter Your Name",
+                            textStyle: medium(
+                              fontSize: (kIsWeb) ? 32.sp : 16.sp,
+                            ),
+                            readOnly: readOnly,
+                            hintStyle: medium(
+                              fontSize: (kIsWeb) ? 28.sp : 14.sp,
+                            ),
+                            validator: (value) =>
+                                FieldValidators().name(value, "Name"),
+                          ),
+                          //todo --------------> email
+                          14.h.verticalSpace,
+                          Text(
+                            "Email",
+                            style: semiBold(fontSize: (kIsWeb) ? 28.sp : 14.sp),
+                          ),
+                          6.h.verticalSpace,
+                          AppTextField(
+                            controller: provider.emailCtr,
+                            hintText: "Enter Your Email",
+                            textStyle: medium(
+                              fontSize: (kIsWeb) ? 32.sp : 16.sp,
+                            ),
+                            readOnly: readOnly,
+                            hintStyle: medium(
+                              fontSize: (kIsWeb) ? 28.sp : 14.sp,
+                            ),
+                            validator: (value) =>
+                                FieldValidators().email(value),
+                          ),
+                          //todo --------------> phone
+                          14.h.verticalSpace,
+                          Text(
+                            "Phone",
+                            style: semiBold(fontSize: (kIsWeb) ? 28.sp : 14.sp),
+                          ),
+                          6.h.verticalSpace,
+                          AppTextField(
+                            controller: provider.phoneCtr,
+                            hintText: "Enter Your Phone",
+                            readOnly: readOnly,
+                            textStyle: medium(
+                              fontSize: (kIsWeb) ? 32.sp : 16.sp,
+                            ),
+                            hintStyle: medium(
+                              fontSize: (kIsWeb) ? 28.sp : 14.sp,
+                            ),
+                            validator: (value) =>
+                                FieldValidators().mobileNumber(value),
+                          ),
+                          // Spacer(),
+                          if (provider.isEdit)
+                            AppFiledButton(
+                              text: "Save Changes",
+                              textStyle: semiBold(
+                                fontSize: (kIsWeb) ? 28.sp : 18.sp,
+                                color: AppColors.white,
+                              ),
 
-                        textStyle: semiBold(fontSize: (kIsWeb) ? 28.sp : 18.sp),
-                        margin: EdgeInsets.only(
-                          bottom: 25.h,
-                          top: (!provider.isEdit) ? 200.h : 8.h,
-                        ), //
+                              onTap: () {
+                                deBouncer.run(() {
+                                  if (_formKey.currentState!.validate()) {
+                                    provider.updateProfile(
+                                      onSuccess: () {
+                                        AppToast.success(
+                                          context: context,
+                                          message:
+                                              "Profile updated successfully.",
+                                        );
+                                      },
+                                      onFailed: () {
+                                        AppToast.success(
+                                          context: context,
+                                          message: "Failed to update profile!",
+                                        );
+                                      },
+                                      onNoChanges: () {
+                                        AppToast.info(
+                                          context: context,
+                                          message: "No changes found.",
+                                        );
+                                      },
+                                    );
+                                    provider.setIsEdit = false;
+                                  }
+                                });
+                              },
+                              margin: EdgeInsets.only(top: 190.h),
+                            ),
+
+                          AppOutlinedButton(
+                            text: "Change Password",
+                            onTap: () {
+                              context.pushNamed(AppRoutes.changePassword.name);
+                            },
+
+                            textStyle: semiBold(
+                              fontSize: (kIsWeb) ? 28.sp : 18.sp,
+                            ),
+                            margin: EdgeInsets.only(
+                              bottom: 22.h,
+                              top: (!provider.isEdit) ? 220.h : 8.h,
+                            ), //
+                          ),
+                        ],
                       ),
-                    ],
+                    ),
                   ),
-                ),
+                ],
               ),
+              //todo progress indicator
+              if (provider.isUpdateProfileLoading) FullPageIndicator(),
             ],
           );
         },
@@ -167,32 +221,11 @@ class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
                 ],
               ),
               Spacer(),
-              if (!provider.isEdit)
-                OnMouseTap(
-                  child: GestureDetector(
-                    onTap: () {
-                      provider.setIsEdit = !(provider.isEdit);
-                    },
-                    behavior: HitTestBehavior.opaque,
-                    child: Row(
-                      spacing: (kIsWeb) ? 8 : 2,
-                      children: [
-                        SvgPicture.asset(
-                          AppAssets.edit,
-                          width: (kIsWeb) ? 32.w : 16.w,
-                        ),
-                        Text(
-                          "Edit",
-                          style: bold(fontSize: (kIsWeb) ? 32.sp : 16.sp),
-                        ),
-                      ],
-                    ),
-                  ),
-                )
-              else
+              if (provider.isEdit)
                 TextButton(
                   onPressed: () {
                     _formKey.currentState?.reset();
+
                     provider.setIsEdit = !(provider.isEdit);
                   },
 
@@ -201,6 +234,28 @@ class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
                     style: bold(
                       fontSize: (kIsWeb) ? 32.sp : 16.sp,
                       color: AppColors.primary,
+                    ),
+                  ),
+                )
+              else
+                OnMouseTap(
+                  child: GestureDetector(
+                    onTap: () {
+                      provider.setIsEdit = !(provider.isEdit);
+                    },
+                    behavior: HitTestBehavior.opaque,
+                    child: Row(
+                      spacing: (kIsWeb) ? 8 : 6.w,
+                      children: [
+                        SvgPicture.asset(
+                          AppAssets.edit,
+                          width: (kIsWeb) ? 32.w : 16.w,
+                        ),
+                        Text(
+                          "Edit",
+                          style: bold(fontSize: (kIsWeb) ? 32.sp : 17.sp),
+                        ),
+                      ],
                     ),
                   ),
                 ),

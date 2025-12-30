@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:puntgpt_nick/core/constants/constants.dart';
 import 'package:puntgpt_nick/core/constants/text_style.dart';
+import 'package:puntgpt_nick/core/utils/app_toast.dart';
 import 'package:puntgpt_nick/core/widgets/image_widget.dart';
 import 'package:puntgpt_nick/main.dart';
 import 'package:puntgpt_nick/provider/account/account_provider.dart';
@@ -38,15 +39,14 @@ class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: true,
-      backgroundColor: AppColors.backGroundColor,
+      resizeToAvoidBottomInset: false,
+      backgroundColor: AppColors.white,
       extendBody: false,
       body: SafeArea(
         bottom: false,
         child: Column(
           children: [
             DashboardAppBar(navigationShell: widget.navigationShell),
-
             Expanded(
               child: ValueListenableBuilder<bool>(
                 valueListenable: isNetworkConnected,
@@ -215,5 +215,11 @@ class _DashboardState extends State<Dashboard> {
 }
 
 void callInitAPIs({required BuildContext context}) {
-  context.read<AccountProvider>().getProfile();
+  context.read<AccountProvider>()
+    ..getProfile()
+    ..getSubscriptionPlans(
+      onFailed: (error) {
+        AppToast.error(context: context, message: error);
+      },
+    );
 }

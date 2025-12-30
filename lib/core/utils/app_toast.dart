@@ -16,7 +16,7 @@ class AppToast {
     Color? textColor,
     Icon? icon,
     ToastificationType type = ToastificationType.info,
-    Duration? duration = const Duration(seconds: 2),
+    Duration? duration,
   }) {
     toastification.show(
       primaryColor: AppColors.white,
@@ -24,7 +24,7 @@ class AppToast {
       context: context,
       type: type,
       backgroundColor: backgroundColor,
-      autoCloseDuration: duration,
+      autoCloseDuration: duration ?? const Duration(seconds: 2),
       alignment: Alignment.topCenter,
       icon: icon,
       title: Text(
@@ -34,7 +34,7 @@ class AppToast {
           fontSize: context.isMobile
               ? (kIsWeb)
                     ? 30.sp
-                    : 15.sp
+                    : 16.5.sp
               : context.isTablet
               ? 32.sp
               : 22.sp,

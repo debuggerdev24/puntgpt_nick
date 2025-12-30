@@ -56,8 +56,7 @@ class LocaleStorageService {
       await _pref.setString(_registerUserId, value);
 
   //todo save and get the user refresh auth token
-  static String get userRefreshToken =>
-      _pref.getString(_userRefreshTokenKey) ?? '';
+  static String get refreshToken => _pref.getString(_userRefreshTokenKey) ?? '';
   static Future<void> saveUserRefreshToken(String value) async =>
       await _pref.setString(_userRefreshTokenKey, value);
 

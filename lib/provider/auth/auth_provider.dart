@@ -89,7 +89,7 @@ class AuthProvider extends ChangeNotifier {
 
     isSignUpLoading = true;
     notifyListeners();
-    final result = await AuthService.instance.registerUser(
+    final result = await AuthApiService.instance.registerUser(
       firstName: firstNameCtr.text.trim(),
       lastName: lastNameCtr.text.trim(),
       dob: dobCtr.text.trim(),
@@ -126,7 +126,7 @@ class AuthProvider extends ChangeNotifier {
     isLoginLoading = true;
     notifyListeners();
 
-    final result = await AuthService.instance.loginWithEmailPassword(
+    final result = await AuthApiService.instance.loginWithEmailPassword(
       email: loginEmailCtr.text.trim(),
       password: loginPasswordCtr.text.trim(),
     );
@@ -176,7 +176,7 @@ class AuthProvider extends ChangeNotifier {
     isForgotPassLoading = true;
     notifyListeners();
 
-    final result = await AuthService.instance.forgotPassword(
+    final result = await AuthApiService.instance.forgotPassword(
       email: forgotPasswordCtr.text.trim(),
     );
 
@@ -204,7 +204,7 @@ class AuthProvider extends ChangeNotifier {
     isVerifyOtpLoading = true;
     notifyListeners();
 
-    final result = await AuthService.instance.verifyOTP(
+    final result = await AuthApiService.instance.verifyOTP(
       otp: otpCtr.text.trim(),
       userId: _forgotPassUid!,
     );
@@ -236,7 +236,7 @@ class AuthProvider extends ChangeNotifier {
   Future<void> resetPassword({required BuildContext context}) async {
     isResetPasswordLoading = true;
     notifyListeners();
-    final result = await AuthService.instance.resetPassword(
+    final result = await AuthApiService.instance.resetPassword(
       newPassword: newPasswordCtr.text.trim(),
       confirmPassword: resetConfirmPasswordCtr.text.trim(),
       userID: _forgotPassUid!,

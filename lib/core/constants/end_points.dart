@@ -9,4 +9,9 @@ class EndPoints {
   static String resetPassword({required String id}) =>
       "/api/accounts/reset-password/$id/";
   static const String profile = "/api/accounts/profile/";
+  static const String updateProfile = "/api/accounts/profile/update/";
+  static const String updatePassword = "/api/accounts/change-password/";
+  static const String getSubscriptionPlans =
+      "/api/subscription/subscription-plan/";
+  static const String refreshToken = "/api/accounts/token/refresh/";
 }

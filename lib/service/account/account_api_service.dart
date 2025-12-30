@@ -12,4 +12,29 @@ class AccountApiService {
       EndPoints.profile,
     );
   }
+
+  Future<Either<ApiException, Map<String, dynamic>>> updateProfile({
+    required Map<String, dynamic> data,
+  }) async {
+    return await BaseApiHelper.instance.patch<Map<String, dynamic>>(
+      data: data,
+      EndPoints.updateProfile,
+    );
+  }
+
+  Future<Either<ApiException, Map<String, dynamic>>> updatePassword({
+    required Map<String, dynamic> data,
+  }) async {
+    return await BaseApiHelper.instance.post<Map<String, dynamic>>(
+      data: data,
+      EndPoints.updatePassword,
+    );
+  }
+
+  Future<Either<ApiException, Map<String, dynamic>>>
+  getSubscriptionPlans() async {
+    return await BaseApiHelper.instance.get<Map<String, dynamic>>(
+      EndPoints.getSubscriptionPlans,
+    );
+  }
 }

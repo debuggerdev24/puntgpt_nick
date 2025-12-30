@@ -47,7 +47,7 @@ class AppRouter {
 
       GoRoute(
         path: AppRoutes.ageConfirmationScreen,
-        name: AppRoutes.ageConfirmationScreen,
+        name: AppRoutes.ageConfirmationScreen.name,
         builder: (context, state) => AgeConfirmationScreen(),
       ),
       GoRoute(
@@ -73,7 +73,7 @@ class AppRouter {
 
       GoRoute(
         path: AppRoutes.signUpScreen,
-        name: AppRoutes.signUpScreen,
+        name: AppRoutes.signUpScreen.name,
         builder: (context, state) =>
             SignUpScreen(isFreeSignUp: (state.extra as Map)['is_free_sign_up']),
       ),
@@ -208,6 +208,7 @@ class AppRouter {
                   return ManageSubscriptionScreen();
                 },
               ),
+
               GoRoute(
                 name: AppRoutes.changePassword.name,
                 path: AppRoutes.changePassword,
