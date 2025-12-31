@@ -41,7 +41,7 @@ class AppFiledButton extends StatelessWidget {
           alignment: AlignmentGeometry.center,
           padding:
               padding ?? EdgeInsets.symmetric(vertical: 12.h, horizontal: 15.w),
-          height: height ?? null,
+          height: height,
           width: (width == null)
               ? (isExpand ?? true)
                     ? double.maxFinite

@@ -58,7 +58,7 @@ class AppRouter {
 
       GoRoute(
         path: AppRoutes.onboardingScreen,
-        name: AppRoutes.onboardingScreen,
+        name: AppRoutes.onboardingScreen.name,
         builder: (context, state) =>
             kIsWeb ? WebOnboardingScreen() : OnboardingScreen(),
       ),

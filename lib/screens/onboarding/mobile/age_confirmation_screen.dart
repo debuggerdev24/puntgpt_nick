@@ -12,11 +12,11 @@ class AgeConfirmationScreen extends StatelessWidget {
   const AgeConfirmationScreen({super.key});
 
   void _onYesTap(BuildContext context) {
-    context.pushNamed(AppRoutes.onboardingScreen);
+    context.pushNamed(AppRoutes.onboardingScreen.name);
   }
 
   void _onNoTap(BuildContext context) {
-    context.pushNamed(AppRoutes.onboardingScreen);
+    context.pushNamed(AppRoutes.onboardingScreen.name);
   }
 
   @override

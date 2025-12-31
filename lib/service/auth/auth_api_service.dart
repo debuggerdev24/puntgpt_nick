@@ -83,4 +83,13 @@ class AuthApiService {
       data: {"refresh": LocaleStorageService.refreshToken},
     );
   }
+
+  Future<Either<ApiException, Map<String, dynamic>>> logOut({
+    required Map data,
+  }) async {
+    return await BaseApiHelper.instance.post<Map<String, dynamic>>(
+      data: data,
+      EndPoints.logOut,
+    );
+  }
 }

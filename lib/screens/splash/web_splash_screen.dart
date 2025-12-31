@@ -11,6 +11,9 @@ import 'package:puntgpt_nick/core/router/web/web_routes.dart';
 import 'package:puntgpt_nick/core/widgets/image_widget.dart';
 import 'package:puntgpt_nick/core/widgets/web_top_section.dart';
 
+import '../../main.dart';
+import '../../service/account/account_api_service.dart';
+import '../../service/auth/auth_api_service.dart';
 import '../../service/storage/locale_storage_service.dart';
 
 class WebSplashScreen extends StatefulWidget {
@@ -33,15 +36,57 @@ class _WebSplashScreenState extends State<WebSplashScreen> {
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       _startTimer();
-      Future.delayed(3.seconds).then((value) {
-        if (LocaleStorageService.isFirstTime && authToken.isEmpty) {
-          Logger.info("Inside if part");
-          context.goNamed(WebRoutes.ageConfirmationScreen.name);
+      Future.delayed(3.seconds).then((value) async {
+        if (isNetworkConnected.value) {
+          if (LocaleStorageService.isFirstTime && authToken.isEmpty) {
+            Logger.info("Inside if part");
+            context.goNamed(WebRoutes.ageConfirmationScreen.name);
+            return;
+          }
+          //todo checking token is expire or not.
+
+          final result = await AccountApiService.instance.getProfile();
+          result.fold(
+            (l) async {
+              if (l.errorMsg.startsWith("Unauthorized") &&
+                  l.code.toString() == "401") {
+                // AppToast.error(
+                //   context: context,
+                //   message: "Access token is expired",
+                // );
+                Logger.info("Access token is expired");
+                Logger.info(LocaleStorageService.refreshToken);
+                final result = await AuthApiService.instance.refreshToken();
+                result.fold(
+                  (e) async {
+                    Logger.error((e.code.toString() == "401").toString());
+                    if (e.code.toString() == "401") {
+                      Logger.info("Refresh token is expired");
+                      await LocaleStorageService.removeRefreshToken();
+                      await LocaleStorageService.removeAccessToken();
+                      context.goNamed(WebRoutes.ageConfirmationScreen.name);
+                      return;
+                    }
+                  },
+                  (r) {
+                    final newToken = r["access"];
+                    LocaleStorageService.saveUserToken(newToken);
+                    context.goNamed(WebRoutes.homeScreen.name);
+                  },
+                );
+              }
+            },
+            (r) {
+              Logger.info("I am inside the success part");
+              Logger.info(r.toString());
+              context.goNamed(WebRoutes.homeScreen.name);
+            },
+          ); //
+
           return;
         }
-        Logger.info("Inside else part");
-        //todo here I need to decide the which screen need to show first
-        context.goNamed(WebRoutes.homeScreen.name);
+        //todo need to manage offline view for web
+        // context.goNamed(WebRoutes.offlineViewScreen.name);
         return;
       });
     });

@@ -8,8 +8,8 @@ class LocaleStorageService {
     _pref = await SharedPreferences.getInstance();
   }
 
-  static const String _userTokenKey = "user_token";
-  static const String _userRefreshTokenKey = "user_refresh_token";
+  static const String _accessTokenKey = "user_token";
+  static const String _refreshTokenKey = "user_refresh_token";
   static const String _isUserLoggedInKey = "is_user_logged_in";
   static const String _loggedInUserEmailKey = "logged_in_user_email";
   static const String _loggedInUserNameKey = "logged_in_user_name";
@@ -25,9 +25,16 @@ class LocaleStorageService {
       await _pref.setBool(_isUserLoggedInKey, value);
 
   // save and get the user auth token
-  static String get userToken => _pref.getString(_userTokenKey) ?? "";
+  static String get userToken => _pref.getString(_accessTokenKey) ?? "";
   static Future<void> saveUserToken(String value) async =>
-      await _pref.setString(_userTokenKey, value);
+      await _pref.setString(_accessTokenKey, value);
+  static Future<void> removeAccessToken() async {
+    await _pref.remove(_accessTokenKey);
+  }
+
+  static Future<void> removeRefreshToken() async {
+    await _pref.remove(_refreshTokenKey);
+  }
 
   // get logged in user email and password
   static String get loggedInUserEmail =>
@@ -56,9 +63,9 @@ class LocaleStorageService {
       await _pref.setString(_registerUserId, value);
 
   //todo save and get the user refresh auth token
-  static String get refreshToken => _pref.getString(_userRefreshTokenKey) ?? '';
+  static String get refreshToken => _pref.getString(_refreshTokenKey) ?? '';
   static Future<void> saveUserRefreshToken(String value) async =>
-      await _pref.setString(_userRefreshTokenKey, value);
+      await _pref.setString(_refreshTokenKey, value);
 
   //todo get logged in customer email and password
   static String get loggedInCustomerEmail =>
@@ -76,7 +83,7 @@ class LocaleStorageService {
       await _pref.setBool(_isProfileCreated, value);
 
   static Future<void> clearUserTokens() async {
-    await _pref.remove(_userTokenKey);
-    await _pref.remove(_userRefreshTokenKey);
+    await _pref.remove(_accessTokenKey);
+    await _pref.remove(_refreshTokenKey);
   }
 }

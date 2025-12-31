@@ -14,4 +14,5 @@ class EndPoints {
   static const String getSubscriptionPlans =
       "/api/subscription/subscription-plan/";
   static const String refreshToken = "/api/accounts/token/refresh/";
+  static const String logOut = "/api/accounts/logout/";
 }

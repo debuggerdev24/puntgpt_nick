@@ -21,7 +21,7 @@ class FullPageIndicator extends StatelessWidget {
         ),
         padding: EdgeInsets.all((kIsWeb && context.isMobile) ? 24 : 12).r,
         child: CupertinoActivityIndicator(
-          radius: (kIsWeb && context.isMobile) ? 20.h : 18.h,
+          radius: (kIsWeb && context.isMobile) ? 20.h : 19.w,
           color: AppColors.primary,
         ),
       ),

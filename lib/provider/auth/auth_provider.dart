@@ -259,6 +259,29 @@ class AuthProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  bool isLogOutLoading = false;
+  Future<void> logout({
+    required VoidCallback onSuccess,
+    required Function(String error) onFailed,
+  }) async {
+    isLogOutLoading = true;
+    notifyListeners();
+    final result = await AuthApiService.instance.logOut(
+      data: {"refresh": LocaleStorageService.refreshToken},
+    );
+
+    result.fold(
+      (l) {
+        onFailed.call(l.errorMsg);
+      },
+      (r) {
+        onSuccess.call();
+      },
+    );
+    isLogOutLoading = false;
+    notifyListeners();
+  }
+
   //
   void clearSignUpControllers() {
     firstNameCtr.clear();

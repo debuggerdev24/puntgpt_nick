@@ -1,16 +1,23 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:puntgpt_nick/core/constants/app_colors.dart';
 import 'package:puntgpt_nick/core/constants/text_style.dart';
+import 'package:puntgpt_nick/core/router/web/web_routes.dart';
 import 'package:puntgpt_nick/core/widgets/app_devider.dart';
 import 'package:puntgpt_nick/core/widgets/on_button_tap.dart';
 import 'package:puntgpt_nick/provider/account/account_provider.dart';
 import 'package:puntgpt_nick/responsive/responsive_builder.dart';
-import 'package:puntgpt_nick/screens/account/web/widgets/manage_subscription_section_web.dart';
-import 'package:puntgpt_nick/screens/account/web/widgets/personal_details_section_web.dart';
+import 'package:puntgpt_nick/screens/account/web/change_password_section_web.dart';
+import 'package:puntgpt_nick/screens/account/web/manage_subscription_section_web.dart';
+import 'package:puntgpt_nick/screens/account/web/personal_details_section_web.dart';
 import 'package:puntgpt_nick/screens/home/web/home_screen_web.dart';
+
+import '../../../core/utils/app_toast.dart';
+import '../../../provider/auth/auth_provider.dart';
 
 class AccountScreenWeb extends StatefulWidget {
   const AccountScreenWeb({super.key});
@@ -36,13 +43,20 @@ class _AccountScreenWebState extends State<AccountScreenWeb> {
         : (kIsWeb)
         ? 36.sp
         : 20.sp;
-    // final sixteenResponsive = context.isDesktop
-    //     ? 16.sp
-    //     : context.isTablet
-    //     ? 24.sp
-    //     : (kIsWeb)
-    //     ? 32.sp
-    //     : 16.sp;
+    final twentyTwoResponsive = context.isDesktop
+        ? 22.sp
+        : context.isTablet
+        ? 30.sp
+        : (kIsWeb)
+        ? 38.sp
+        : 22.sp;
+    final sixteenResponsive = context.isDesktop
+        ? 16.sp
+        : context.isTablet
+        ? 24.sp
+        : (kIsWeb)
+        ? 32.sp
+        : 16.sp;
     // final twelveResponsive = context.isDesktop
     //     ? 12.sp
     //     : context.isTablet
@@ -124,15 +138,34 @@ class _AccountScreenWebState extends State<AccountScreenWeb> {
                                 context: context,
                               ),
                               horizontalDivider(),
+                              Spacer(),
+                              horizontalDivider(),
+                              accountTabs(
+                                title: "Log Out",
+                                fourteenResponsive: sixteenResponsive,
+                                onTap: () {
+                                  showLogOutConfirmationDialog(
+                                    context: context,
+                                    responsiveTitle: twentyTwoResponsive,
+                                    responsiveButton: twentyResponsive,
+                                  );
+                                },
+
+                                context: context,
+                              ),
                             ],
                           ),
                         ),
                         verticalDivider(),
                         //todo ----------------> right panel
                         if (provider.selectedAccountTabWeb == 0)
-                          PersonalDetailsSectionWeb(formKey: _formKey)
+                          if (provider.showChangePassword)
+                            ChangePasswordSectionWeb()
+                          else
+                            PersonalDetailsSectionWeb(formKey: _formKey)
                         else
                           ManageSubscriptionSectionWeb(),
+
                         verticalDivider(),
                       ],
                     );
@@ -160,7 +193,7 @@ class _AccountScreenWebState extends State<AccountScreenWeb> {
     return OnMouseTap(
       onTap: onTap,
       child: AnimatedContainer(
-        duration: Duration(milliseconds: 700),
+        duration: Duration(milliseconds: 300),
         decoration: BoxDecoration(color: color),
         padding: EdgeInsets.symmetric(
           horizontal: context.isDesktop ? 24.w : 30.w,
@@ -173,15 +206,88 @@ class _AccountScreenWebState extends State<AccountScreenWeb> {
               title,
               style: bold(
                 fontSize: fourteenResponsive,
-                color: color == AppColors.primary ? AppColors.white : null,
+                color: (title == "Log Out")
+                    ? AppColors.red
+                    : color == AppColors.primary
+                    ? AppColors.white
+                    : null,
               ),
             ),
             Icon(
               Icons.arrow_forward_ios,
-              size: fourteenResponsive - 2,
-              color: color == AppColors.primary ? AppColors.white : null,
+              size: fourteenResponsive,
+              color: (title == "Log Out")
+                  ? AppColors.red
+                  : color == AppColors.primary
+                  ? AppColors.white
+                  : null,
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  void showLogOutConfirmationDialog({
+    required BuildContext context,
+    required double responsiveTitle,
+    required double responsiveButton,
+  }) {
+    showDialog(
+      context: context,
+      builder: (dialogContext) {
+        return ZoomIn(
+          child: AlertDialog(
+            title: Text(
+              "Are you sure you want to Log Out?",
+              style: regular(color: AppColors.black, fontSize: responsiveTitle),
+            ),
+            actions: [
+              myActionButtonTheme(
+                onPressed: () async {
+                  context.pop(dialogContext);
+                  await context.read<AuthProvider>().logout(
+                    onSuccess: () {
+                      AppToast.success(
+                        context: context,
+                        message: "Log Out Successfully",
+                      );
+                      context.goNamed(WebRoutes.onBoardingScreen.name);
+                    },
+                    onFailed: (error) {
+                      AppToast.error(context: context, message: error);
+                    },
+                  );
+                },
+                title: "Yes",
+                responsiveButton: responsiveButton,
+              ),
+              myActionButtonTheme(
+                onPressed: () {
+                  context.pop();
+                },
+                title: "Cancel",
+                responsiveButton: responsiveButton,
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Widget myActionButtonTheme({
+    required VoidCallback onPressed,
+    required String title,
+    required double responsiveButton,
+  }) {
+    return TextButton(
+      onPressed: onPressed,
+      child: Text(
+        title,
+        style: regular(
+          color: (title == "Yes") ? AppColors.red : AppColors.black,
+          fontSize: responsiveButton,
         ),
       ),
     );

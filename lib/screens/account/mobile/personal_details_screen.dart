@@ -131,10 +131,10 @@ class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
                                               "Profile updated successfully.",
                                         );
                                       },
-                                      onFailed: () {
+                                      onFailed: (error) {
                                         AppToast.success(
                                           context: context,
-                                          message: "Failed to update profile!",
+                                          message: error,
                                         );
                                       },
                                       onNoChanges: () {

@@ -120,7 +120,7 @@ class AppTextField extends StatelessWidget {
             errorStyle ??
             medium(
               fontSize: context.isDesktop
-                  ? 16.sp
+                  ? 15.sp
                   : context.isTablet
                   ? 22.sp
                   : (kIsWeb)

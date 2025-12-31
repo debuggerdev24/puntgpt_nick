@@ -91,6 +91,12 @@ class WebLoginScreen extends StatelessWidget {
                                     : 16.sp,
                                 color: AppColors.primary.setOpacity(0.55),
                               ),
+                              onSubmit: () {
+                                if (_formKey.currentState!.validate()) {
+                                  provider.loginUser(context: context);
+                                  return;
+                                }
+                              },
                             ),
                             16.h.verticalSpace,
                             AppTextField(

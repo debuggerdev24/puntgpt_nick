@@ -14,19 +14,27 @@ class AccountProvider extends ChangeNotifier {
 
   late ProfileModel profile;
   late List<SubscriptionPlanModel> plans;
+
   bool _currentPassObscure = true,
       _newPassObscure = true,
       _confirmPassObscure = true,
       _isEdit = false,
-      _isShowCurrentPlan = false;
+      _isShowCurrentPlan = false,
+      _isShowChangePassword = false;
 
   bool get showCurrentPlan => _isShowCurrentPlan;
+  bool get showChangePassword => _isShowChangePassword;
 
   int _selectedTab = 0;
   int get selectedAccountTabWeb => _selectedTab;
 
   set setIsShowCurrentPlan(bool value) {
     _isShowCurrentPlan = !_isShowCurrentPlan;
+    notifyListeners();
+  }
+
+  set setIsShowChangePassword(bool value) {
+    _isShowChangePassword = !_isShowChangePassword;
     notifyListeners();
   }
 
@@ -87,9 +95,9 @@ class AccountProvider extends ChangeNotifier {
   //todo update profile
   bool isUpdateProfileLoading = false;
   Future<void> updateProfile({
-    required VoidCallback onSuccess,
-    required VoidCallback onFailed,
-    required VoidCallback onNoChanges,
+    required Function() onSuccess,
+    required Function(String error) onFailed,
+    required Function() onNoChanges,
   }) async {
     //todo check the profile has been changed or not.
     final name = nameCtr.text.trim();
@@ -115,7 +123,7 @@ class AccountProvider extends ChangeNotifier {
     final result = await AccountApiService.instance.updateProfile(data: data);
     result.fold(
       (l) {
-        onFailed.call();
+        onFailed.call(l.errorMsg);
         Logger.error(l.errorMsg);
       },
       (r) {
@@ -130,10 +138,10 @@ class AccountProvider extends ChangeNotifier {
   //todo update password
   bool isUpdatePasswordLoading = false;
   Future<void> updatePassword({
-    required Function onSuccess,
+    required Function() onSuccess,
     required Function(String error) onError,
   }) async {
-    isUpdateProfileLoading = true;
+    isUpdatePasswordLoading = true;
     notifyListeners();
     final data = {
       "current_password": currentPassCtr.text.trim(),
@@ -149,7 +157,10 @@ class AccountProvider extends ChangeNotifier {
         onSuccess.call();
       },
     );
-    isUpdateProfileLoading = false;
+    newPassCtr.clear();
+    currentPassCtr.clear();
+    confirmPassCtr.clear();
+    isUpdatePasswordLoading = false;
     notifyListeners();
   }
 
@@ -168,7 +179,6 @@ class AccountProvider extends ChangeNotifier {
         final data = r["data"] as List; //data
         plans = data.map((e) => SubscriptionPlanModel.fromJson(e)).toList();
         notifyListeners();
-        // onSuccess.call();
       },
     );
   }

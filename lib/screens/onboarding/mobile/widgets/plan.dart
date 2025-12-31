@@ -182,7 +182,8 @@ class _PlansState extends State<Plans> {
               context.read<AuthProvider>().clearSignUpControllers();
               LocaleStorageService.setIsFirstTime(false);
               context.pushNamed(
-                AppRoutes.signUpScreen,
+                AppRoutes.signUpScreen.name,
+
                 extra: {'is_free_sign_up': provider.selectedTab == 0},
               );
             },

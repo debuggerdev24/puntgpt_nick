@@ -3,16 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
+import 'package:puntgpt_nick/core/constants/constants.dart';
+import 'package:puntgpt_nick/core/utils/app_toast.dart';
+import 'package:puntgpt_nick/core/utils/custom_loader.dart';
+import 'package:puntgpt_nick/core/widgets/app_filed_button.dart';
 import 'package:puntgpt_nick/responsive/responsive_builder.dart';
 
-import '../../../../core/constants/app_assets.dart';
-import '../../../../core/constants/app_colors.dart';
-import '../../../../core/constants/text_style.dart';
-import '../../../../core/widgets/app_devider.dart';
-import '../../../../core/widgets/app_outlined_button.dart';
-import '../../../../core/widgets/app_text_field.dart';
-import '../../../../core/widgets/on_button_tap.dart';
-import '../../../../provider/account/account_provider.dart';
+import '../../../core/constants/text_style.dart';
+import '../../../core/widgets/app_devider.dart';
+import '../../../core/widgets/app_outlined_button.dart';
+import '../../../core/widgets/app_text_field.dart';
+import '../../../core/widgets/on_button_tap.dart';
+import '../../../provider/account/account_provider.dart';
 
 class PersonalDetailsSectionWeb extends StatelessWidget {
   const PersonalDetailsSectionWeb({super.key, required this.formKey});
@@ -41,9 +43,18 @@ class PersonalDetailsSectionWeb extends StatelessWidget {
         : (kIsWeb)
         ? 26.sp
         : 14.sp;
+
+    final twentyTwoResponsive = context.isDesktop
+        ? 22.sp
+        : context.isTablet
+        ? 30.sp
+        : (kIsWeb)
+        ? 38.sp
+        : 22.sp;
     double fieldWidth = context.isDesktop ? 320.w : 380.w;
     return Consumer<AccountProvider>(
       builder: (context, provider, child) {
+        bool readOnly = (provider.isEdit) ? false : true;
         return Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -59,10 +70,12 @@ class PersonalDetailsSectionWeb extends StatelessWidget {
                   formKey: formKey,
                   twelveResponsive: twelveResponsive,
                   sixteenResponsive: sixteenResponsive,
+                  responsiveIcon: twentyTwoResponsive,
                 ),
               ),
               horizontalDivider(),
-              24.h.verticalSpace,
+              15.w.verticalSpace,
+
               //todo text fields
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 24.w),
@@ -81,8 +94,10 @@ class PersonalDetailsSectionWeb extends StatelessWidget {
                             style: semiBold(fontSize: twelveResponsive),
                           ),
                           AppTextField(
-                            controller: TextEditingController(),
+                            controller: provider.nameCtr,
                             hintText: "Enter your Name",
+
+                            readOnly: readOnly,
                             hintStyle: semiBold(
                               color: AppColors.primary.withValues(alpha: 0.7),
                               fontSize: context.isDesktop ? 14.sp : 20.sp,
@@ -102,7 +117,8 @@ class PersonalDetailsSectionWeb extends StatelessWidget {
                             style: semiBold(fontSize: twelveResponsive),
                           ),
                           AppTextField(
-                            controller: TextEditingController(),
+                            readOnly: readOnly,
+                            controller: provider.emailCtr,
                             hintText: "Enter your Email",
                             hintStyle: semiBold(
                               color: AppColors.primary.withValues(alpha: 0.7),
@@ -123,7 +139,9 @@ class PersonalDetailsSectionWeb extends StatelessWidget {
                             style: semiBold(fontSize: twelveResponsive),
                           ),
                           AppTextField(
-                            controller: TextEditingController(),
+                            readOnly: readOnly,
+
+                            controller: provider.phoneCtr,
                             hintText: "Enter your Phone Number",
                             hintStyle: semiBold(
                               color: AppColors.primary.withValues(alpha: 0.7),
@@ -143,13 +161,51 @@ class PersonalDetailsSectionWeb extends StatelessWidget {
                   right: 24.w,
                 ),
                 text: "Change Password",
-                onTap: () {},
+                onTap: () {
+                  provider.setIsShowChangePassword =
+                      !provider.showChangePassword;
+                },
                 isExpand: false,
                 padding: EdgeInsets.symmetric(
                   vertical: context.isDesktop ? 11.w : 16.w,
                   horizontal: context.isDesktop ? 20.w : 25.w,
                 ),
                 textStyle: semiBold(fontSize: fourteenResponsive),
+              ),
+              AppFiledButton(
+                margin: EdgeInsets.only(
+                  top: context.isDesktop ? 24.w : 34.w,
+                  left: 24.w,
+                  right: 24.w,
+                ),
+                text: "Save",
+                onTap: () {
+                  provider.updateProfile(
+                    onSuccess: () {
+                      AppToast.success(
+                        context: context,
+                        message: "Profile updated successfully",
+                      );
+                    },
+                    onNoChanges: () {
+                      AppToast.info(
+                        context: context,
+                        message: "No changes found.",
+                      );
+                    },
+                    onFailed: (error) {
+                      AppToast.error(context: context, message: error);
+                    },
+                  );
+                },
+                isExpand: false,
+                padding: EdgeInsets.symmetric(
+                  vertical: context.isDesktop ? 11.w : 16.w,
+                  horizontal: context.isDesktop ? 20.w : 25.w,
+                ),
+                child: (provider.isUpdateProfileLoading)
+                    ? webProgressIndicator(context)
+                    : null,
               ),
             ],
           ),
@@ -163,11 +219,11 @@ class PersonalDetailsSectionWeb extends StatelessWidget {
     required AccountProvider provider,
     required double twelveResponsive,
     required double sixteenResponsive,
+    required double responsiveIcon,
     required GlobalKey<FormState> formKey,
   }) {
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -189,37 +245,35 @@ class PersonalDetailsSectionWeb extends StatelessWidget {
             ),
           ],
         ),
-        Padding(
-          padding: EdgeInsets.only(top: provider.isEdit ? 12.w : 14.w),
-          child: (provider.isEdit)
-              ? TextButton(
-                  onPressed: () {
-                    formKey.currentState?.reset();
-                    provider.setIsEdit = !(provider.isEdit);
-                  },
+        Spacer(),
+        (provider.isEdit)
+            ? TextButton(
+                onPressed: () {
+                  formKey.currentState?.reset();
+                  provider.setIsEdit = !(provider.isEdit);
+                },
 
-                  child: Text(
-                    "Cancel",
-                    style: bold(fontSize: 16.sp, color: AppColors.primary),
-                  ),
-                )
-              : OnMouseTap(
-                  onTap: () {
-                    provider.setIsEdit = !(provider.isEdit);
-                  },
-
-                  child: Row(
-                    spacing: context.isDesktop ? 5.w : 10.w,
-                    children: [
-                      SvgPicture.asset(
-                        AppAssets.edit,
-                        width: context.isDesktop ? 18.w : 22.w,
-                      ),
-                      Text("Edit", style: bold(fontSize: sixteenResponsive)),
-                    ],
-                  ),
+                child: Text(
+                  "Cancel",
+                  style: bold(fontSize: 16.sp, color: AppColors.primary),
                 ),
-        ),
+              )
+            : OnMouseTap(
+                onTap: () {
+                  provider.setIsEdit = !(provider.isEdit);
+                },
+
+                child: Row(
+                  spacing: context.isDesktop ? 5.w : 10.w,
+                  children: [
+                    SvgPicture.asset(
+                      AppAssets.edit,
+                      width: context.isDesktop ? 18.w : 22.w,
+                    ),
+                    Text("Edit", style: bold(fontSize: sixteenResponsive)),
+                  ],
+                ),
+              ),
       ],
     );
   }
