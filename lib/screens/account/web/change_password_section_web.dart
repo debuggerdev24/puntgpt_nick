@@ -42,20 +42,20 @@ class _ChangePasswordSectionWebState extends State<ChangePasswordSectionWeb> {
         : (kIsWeb)
         ? 28.sp
         : 12.sp;
-    final fourteenResponsive = context.isDesktop
-        ? 14.sp
-        : context.isTablet
-        ? 22.sp
-        : (kIsWeb)
-        ? 26.sp
-        : 14.sp;
-    final eighteenResponsive = context.isDesktop
-        ? 18.sp
-        : context.isTablet
-        ? 26.sp
-        : (kIsWeb)
-        ? 34.sp
-        : 16.sp;
+    // final fourteenResponsive = context.isDesktop
+    //     ? 14.sp
+    //     : context.isTablet
+    //     ? 22.sp
+    //     : (kIsWeb)
+    //     ? 26.sp
+    //     : 14.sp;
+    // final eighteenResponsive = context.isDesktop
+    //     ? 18.sp
+    //     : context.isTablet
+    //     ? 26.sp
+    //     : (kIsWeb)
+    //     ? 34.sp
+    //     : 16.sp;
 
     final twentyTwoResponsive = context.isDesktop
         ? 22.sp

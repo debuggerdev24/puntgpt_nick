@@ -79,7 +79,8 @@ class MyApp extends StatelessWidget {
 /*
 
 todo nick
-
+-> Worked on performing proper responsiveness for the manage account section
+->
 
 
 todo Vimal

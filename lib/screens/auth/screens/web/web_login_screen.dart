@@ -22,7 +22,14 @@ class WebLoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+    final fourteenResponsive = context.isDesktop
+        ? 14.sp
+        : context.isTablet
+        ? 22.5.sp
+        : (kIsWeb)
+        ? 28.sp
+        : 14.sp;
+    GlobalKey<FormState> formKey = GlobalKey<FormState>();
     final width =
         context.screenWidth *
         ((context.isDesktop)
@@ -47,7 +54,7 @@ class WebLoginScreen extends StatelessWidget {
                     child: SizedBox(
                       width: width,
                       child: Form(
-                        key: _formKey,
+                        key: formKey,
                         child: Column(
                           children: [
                             80.h.verticalSpace,
@@ -81,18 +88,18 @@ class WebLoginScreen extends StatelessWidget {
                               controller: provider.loginEmailCtr,
                               validator: FieldValidators().email,
                               hintText: "Email",
-                              hintStyle: medium(
-                                fontSize: context.isDesktop
-                                    ? 16.sp
-                                    : context.isTablet
-                                    ? 26.sp
-                                    : (kIsWeb)
-                                    ? 30.sp
-                                    : 16.sp,
-                                color: AppColors.primary.setOpacity(0.55),
-                              ),
+                              // hintStyle: medium(
+                              //   fontSize: context.isDesktop
+                              //       ? 16.sp
+                              //       : context.isTablet
+                              //       ? 26.sp
+                              //       : (kIsWeb)
+                              //       ? 30.sp
+                              //       : 16.sp,
+                              //   color: AppColors.primary.setOpacity(0.55),
+                              // ),
                               onSubmit: () {
-                                if (_formKey.currentState!.validate()) {
+                                if (formKey.currentState!.validate()) {
                                   provider.loginUser(context: context);
                                   return;
                                 }
@@ -109,7 +116,7 @@ class WebLoginScreen extends StatelessWidget {
                                 );
                               },
                               onSubmit: () {
-                                if (_formKey.currentState!.validate()) {
+                                if (formKey.currentState!.validate()) {
                                   provider.loginUser(context: context);
                                   return;
                                 }
@@ -119,17 +126,17 @@ class WebLoginScreen extends StatelessWidget {
                                   : AppAssets.show,
                               onTrailingIconTap: () => provider.showLoginPass =
                                   !provider.showLoginPass,
-                              hintStyle: medium(
-                                fontSize: context.isDesktop
-                                    ? 16.sp
-                                    : context.isTablet
-                                    ? 26.sp
-                                    : (kIsWeb)
-                                    ? 30.sp
-                                    : 16.sp,
-
-                                color: AppColors.primary.setOpacity(0.4),
-                              ),
+                              // hintStyle: medium(
+                              //   fontSize: context.isDesktop
+                              //       ? 16.sp
+                              //       : context.isTablet
+                              //       ? 26.sp
+                              //       : (kIsWeb)
+                              //       ? 30.sp
+                              //       : 16.sp,
+                              //
+                              //   color: AppColors.primary.setOpacity(0.4),
+                              // ),
                             ),
                             12.h.verticalSpace,
                             Align(
@@ -142,16 +149,8 @@ class WebLoginScreen extends StatelessWidget {
                                   provider.forgotPasswordCtr.clear();
                                 },
                                 child: Text(
-                                  "Forget Password?",
-                                  style: bold(
-                                    fontSize: context.isDesktop
-                                        ? 14.sp
-                                        : context.isTablet
-                                        ? 24.sp
-                                        : (kIsWeb)
-                                        ? 28.sp
-                                        : 14.sp,
-                                  ),
+                                  "Forgot Password?",
+                                  style: bold(fontSize: fourteenResponsive),
                                 ),
                               ),
                             ),
@@ -159,7 +158,7 @@ class WebLoginScreen extends StatelessWidget {
                             AppFiledButton(
                               text: "Login",
                               onTap: () {
-                                if (_formKey.currentState!.validate()) {
+                                if (formKey.currentState!.validate()) {
                                   provider.loginUser(context: context);
                                   return;
                                 }
@@ -189,7 +188,7 @@ class WebLoginScreen extends StatelessWidget {
                                     fontSize: context.isDesktop
                                         ? 14.sp
                                         : context.isTablet
-                                        ? 18.sp
+                                        ? 20.sp
                                         : (kIsWeb)
                                         ? 22.sp
                                         : 14.sp,
@@ -208,7 +207,7 @@ class WebLoginScreen extends StatelessWidget {
                                       fontSize: context.isDesktop
                                           ? 14.sp
                                           : context.isTablet
-                                          ? 18.sp
+                                          ? 20.sp
                                           : (kIsWeb)
                                           ? 22.sp
                                           : 14.sp,

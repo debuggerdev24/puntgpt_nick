@@ -37,13 +37,13 @@ class PersonalDetailsSectionWeb extends StatelessWidget {
         : (kIsWeb)
         ? 28.sp
         : 12.sp;
-    final fourteenResponsive = context.isDesktop
-        ? 14.sp
-        : context.isTablet
-        ? 22.sp
-        : (kIsWeb)
-        ? 26.sp
-        : 14.sp;
+    // final fourteenResponsive = context.isDesktop
+    //     ? 14.sp
+    //     : context.isTablet
+    //     ? 22.sp
+    //     : (kIsWeb)
+    //     ? 26.sp
+    //     : 14.sp;
 
     final twentyTwoResponsive = context.isDesktop
         ? 22.sp
@@ -53,7 +53,7 @@ class PersonalDetailsSectionWeb extends StatelessWidget {
         ? 38.sp
         : 22.sp;
     double fieldWidth = context.isDesktop ? 320.w : 380.w;
-    final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+    final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
     return Consumer<AccountProvider>(
       builder: (context, provider, child) {
@@ -70,7 +70,7 @@ class PersonalDetailsSectionWeb extends StatelessWidget {
                 child: topBar(
                   context: context,
                   provider: provider,
-                  formKey: _formKey,
+                  formKey: formKey,
                   twelveResponsive: twelveResponsive,
                   sixteenResponsive: sixteenResponsive,
                   responsiveIcon: twentyTwoResponsive,
@@ -83,7 +83,7 @@ class PersonalDetailsSectionWeb extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 24.w),
                 child: Form(
-                  key: _formKey,
+                  key: formKey,
                   child: Wrap(
                     spacing: 16.w,
                     runSpacing: 12.h,
@@ -186,7 +186,7 @@ class PersonalDetailsSectionWeb extends StatelessWidget {
                 text: "Save",
                 onTap: () {
                   deBouncer.run(() {
-                    if (_formKey.currentState!.validate()) {
+                    if (formKey.currentState!.validate()) {
                       provider.updateProfile(
                         onSuccess: () {
                           AppToast.success(

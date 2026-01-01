@@ -96,7 +96,7 @@ class VerifyOtpScreen extends StatelessWidget {
                       //todo bottom buttons
                       Text(
                         "Didn’t receive OTP?",
-                        style: semiBold(fontSize: (kIsWeb) ? 24.sp : 14.sp),
+                        style: semiBold(fontSize: (kIsWeb) ? 28.sp : 14.sp),
                       ),
                       AppOutlinedButton(
                         text: "Re-Send",

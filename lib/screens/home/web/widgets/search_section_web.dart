@@ -29,16 +29,8 @@ class SearchSectionWeb extends StatefulWidget {
 }
 
 class _SearchSectionWebState extends State<SearchSectionWeb> {
-  late GlobalKey<FormState> _formKey;
-
   final Map<String, TextEditingController> _controllers = {};
   final Map<String, String?> _dropdownValues = {};
-
-  @override
-  void initState() {
-    super.initState();
-    _formKey = widget.formKey;
-  }
 
   @override
   void dispose() {
@@ -60,7 +52,6 @@ class _SearchSectionWebState extends State<SearchSectionWeb> {
 
   @override
   Widget build(BuildContext context) {
-
     return Consumer<SearchEngineProvider>(
       builder: (context, provider, child) => SizedBox(
         width: Responsive.isMobile(context)

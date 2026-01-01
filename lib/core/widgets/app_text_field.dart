@@ -82,7 +82,7 @@ class AppTextField extends StatelessWidget {
                 : context.isTablet
                 ? 21.sp
                 : (kIsWeb)
-                ? 26.sp
+                ? 28.sp
                 : 16.sp,
           ),
       decoration: InputDecoration(
@@ -111,7 +111,7 @@ class AppTextField extends StatelessWidget {
               fontSize: context.isDesktop
                   ? 14.6.sp
                   : context.isTablet
-                  ? 21.sp
+                  ? 21.5.sp
                   : (kIsWeb)
                   ? 30.sp
                   : 14.sp,
