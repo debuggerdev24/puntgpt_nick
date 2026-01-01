@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -24,13 +26,17 @@ class AuthProvider extends ChangeNotifier {
   TextEditingController newPasswordCtr = TextEditingController();
   TextEditingController resetConfirmPasswordCtr = TextEditingController();
   TextEditingController otpCtr = TextEditingController();
-  // final appCtx = AppRouter.rootNavigatorKey.currentState;
-  // final webCtx = WebRouter.rootNavigatorKey.currentContext;
 
-  int _selectedTab = 0;
+  int _selectedTab = 0, _resendSeconds = 0;
+  Timer? _resendTimer;
+
   String? _selectedState, _forgotPassUid;
+  late String _forgotPasswordMail;
 
+  bool get canResendOtp => _resendSeconds == 0;
   int get selectedTab => _selectedTab;
+
+  int get resendSeconds => _resendSeconds;
   set setSelectedTab(int value) {
     _selectedTab = value;
     notifyListeners();
@@ -171,12 +177,13 @@ class AuthProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  //todo -----------------> send OTP
   bool isForgotPassLoading = false;
   Future<void> sendOTP({required BuildContext context}) async {
     isForgotPassLoading = true;
     notifyListeners();
 
-    final result = await AuthApiService.instance.forgotPassword(
+    final result = await AuthApiService.instance.sendOtp(
       email: forgotPasswordCtr.text.trim(),
     );
 
@@ -192,11 +199,29 @@ class AuthProvider extends ChangeNotifier {
               ? WebRoutes.verifyOTPScreen.name
               : AppRoutes.verifyOTPScreen.name,
         );
+        _startResendTimer();
+        _forgotPasswordMail = forgotPasswordCtr.text.trim();
         forgotPasswordCtr.clear();
       },
     );
     isForgotPassLoading = false;
     notifyListeners();
+  }
+
+  //todo ---------------> timer for the resend Otp
+  void _startResendTimer() {
+    _resendSeconds = 60; // 1 minute
+    notifyListeners();
+
+    _resendTimer?.cancel();
+    _resendTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (_resendSeconds > 0) {
+        _resendSeconds--;
+        notifyListeners();
+      } else {
+        _resendTimer?.cancel();
+      }
+    });
   }
 
   bool isVerifyOtpLoading = false;
@@ -232,6 +257,47 @@ class AuthProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  bool isResendOtpLoading = false;
+  Future<void> resendOtp({required BuildContext context}) async {
+    if (!canResendOtp) {
+      AppToast.error(
+        context: context,
+        message: "Please wait $_resendSeconds seconds before resending",
+      );
+      return;
+    }
+
+    if (_forgotPasswordMail.isEmpty) {
+      AppToast.error(
+        context: context,
+        message: "Email not found. Please try again.",
+      );
+      return;
+    }
+
+    isResendOtpLoading = true;
+    notifyListeners();
+
+    final result = await AuthApiService.instance.sendOtp(
+      email: _forgotPasswordMail,
+    );
+
+    result.fold(
+      (failure) {
+        AppToast.error(context: context, message: failure.errorMsg);
+      },
+      (data) async {
+        AppToast.success(context: context, message: "OTP sent successfully");
+
+        otpCtr.clear();
+        _startResendTimer();
+      },
+    );
+
+    isResendOtpLoading = false;
+    notifyListeners();
+  }
+
   bool isResetPasswordLoading = false;
   Future<void> resetPassword({required BuildContext context}) async {
     isResetPasswordLoading = true;
@@ -255,7 +321,7 @@ class AuthProvider extends ChangeNotifier {
         );
       },
     );
-    isResetPasswordLoading = true;
+    isResetPasswordLoading = false;
     notifyListeners();
   }
 

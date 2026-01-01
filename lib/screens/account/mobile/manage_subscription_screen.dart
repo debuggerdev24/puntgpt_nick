@@ -5,12 +5,12 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:puntgpt_nick/core/constants/constants.dart';
 import 'package:puntgpt_nick/provider/account/account_provider.dart';
-import 'package:puntgpt_nick/screens/account/mobile/subscription_plans_screen.dart';
+import 'package:puntgpt_nick/screens/account/mobile/widgets/subscription_plan.dart';
 
 import '../../../core/constants/text_style.dart';
+import '../../../core/router/app/app_routes.dart';
 import '../../../core/widgets/app_devider.dart';
 import '../../../core/widgets/app_filed_button.dart';
-import '../../../core/widgets/app_outlined_button.dart';
 
 List activePlan = [
   {"icon": AppAssets.done, "point": "Chat function with PuntGPT"},
@@ -47,213 +47,37 @@ class ManageSubscriptionScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               topBar(context, provider),
-              if (provider.showCurrentPlan)
-              // Expanded(
-              //   child: Column(
-              //     crossAxisAlignment: CrossAxisAlignment.start,
-              //     children: [
-              //       Padding(
-              //         padding: EdgeInsets.fromLTRB(25.w, 18.h, 0, 0),
-              //         child: Text(
-              //           "Current Plan",
-              //           style: bold(fontSize: (kIsWeb) ? 32.sp : 16.sp),
-              //         ),
-              //       ),
-              //       Container(
-              //         margin: EdgeInsets.symmetric(
-              //           horizontal: 25.w,
-              //           vertical: 12.h,
-              //         ),
-              //         padding: EdgeInsets.symmetric(
-              //           horizontal: 22.w,
-              //           vertical: 26.h,
-              //         ),
-              //         decoration: BoxDecoration(
-              //           border: Border.all(
-              //             color: AppColors.greyColor.withValues(alpha: 0.2),
-              //           ),
-              //         ),
-              //         child: Column(
-              //           crossAxisAlignment: CrossAxisAlignment.start,
-              //           children: [
-              //             RichText(
-              //               text: TextSpan(
-              //                 children: [
-              //                   TextSpan(
-              //                     text: "Monthly",
-              //                     style: regular(
-              //                       fontSize: (kIsWeb) ? 36.sp : 24.sp,
-              //                       fontFamily: AppFontFamily.secondary,
-              //                     ),
-              //                   ),
-              //                   TextSpan(
-              //                     text: " ‘Pro Punter’",
-              //                     style: regular(
-              //                       fontSize: (kIsWeb) ? 36.sp : 24.sp,
-              //
-              //                       color: AppColors.premiumYellow,
-              //                       fontFamily: AppFontFamily.secondary,
-              //                     ),
-              //                   ),
-              //                   TextSpan(
-              //                     text: " Account",
-              //                     style: regular(
-              //                       fontSize: (kIsWeb) ? 36.sp : 24.sp,
-              //
-              //                       fontFamily: AppFontFamily.secondary,
-              //                     ),
-              //                   ),
-              //                 ],
-              //               ),
-              //             ),
-              //             8.h.verticalSpace,
-              //             RichText(
-              //               text: TextSpan(
-              //                 children: [
-              //                   TextSpan(
-              //                     text: "\$ 9.99 ",
-              //                     style: bold(
-              //                       fontSize: (kIsWeb) ? 32.sp : 20.sp,
-              //
-              //                       fontFamily: AppFontFamily.primary,
-              //                     ),
-              //                   ),
-              //                   TextSpan(
-              //                     text: "/ month",
-              //                     style: semiBold(
-              //                       fontFamily: AppFontFamily.primary,
-              //                       fontSize: (kIsWeb) ? 28.sp : 16.sp,
-              //
-              //                       color: AppColors.primary.withValues(
-              //                         alpha: 0.6,
-              //                       ),
-              //                     ),
-              //                   ),
-              //                 ],
-              //               ),
-              //             ),
-              //             16.h.verticalSpace,
-              //             ListView.separated(
-              //               shrinkWrap: true,
-              //               padding: EdgeInsets.all(0),
-              //               physics: const NeverScrollableScrollPhysics(),
-              //               itemBuilder: (context, i) {
-              //                 Map item = activePlan[i];
-              //                 return Row(
-              //                   crossAxisAlignment: CrossAxisAlignment.start,
-              //                   children: [
-              //                     ImageWidget(
-              //                       type: ImageType.svg,
-              //                       path: item["icon"],
-              //                       height: (kIsWeb) ? 32.w : 20.w,
-              //                     ),
-              //                     10.w.horizontalSpace,
-              //                     Text(
-              //                       item["point"],
-              //
-              //                       style: regular(
-              //                         fontSize: (kIsWeb) ? 28.sp : 16.sp,
-              //                       ),
-              //                     ),
-              //                   ],
-              //                 );
-              //               },
-              //               separatorBuilder: (context, index) =>
-              //                   5.h.verticalSpace,
-              //               itemCount: activePlan.length,
-              //             ),
-              //           ],
-              //         ),
-              //       ),
-              //       Center(
-              //         child: Text(
-              //           textAlign: TextAlign.center,
-              //           "Billing handled via Apple Store / Google Play",
-              //           style: medium(
-              //             fontSize: (kIsWeb) ? 28.sp : 14.sp,
-              //             color: AppColors.greyColor.withValues(alpha: 0.6),
-              //           ),
-              //         ),
-              //       ),
-              //       // if (isSubscribe) Spacer(),
-              //       if (kIsWeb) 40.w.verticalSpace else Spacer(),
-              //       AppFiledButton(
-              //         margin: EdgeInsets.only(
-              //           bottom: 8.w,
-              //           left: 25.w,
-              //           right: 25.w,
-              //         ),
-              //         text: "Renew",
-              //         textStyle: semiBold(
-              //           fontSize: (kIsWeb) ? 30.sp : 18.sp,
-              //           color: AppColors.white,
-              //         ),
-              //         onTap: () {},
-              //       ),
-              //       AppOutlinedButton(
-              //         margin: EdgeInsets.only(
-              //           bottom: 8.h,
-              //           left: 25.w,
-              //           right: 25.w,
-              //         ),
-              //         text: "Change Plan",
-              //         textStyle: semiBold(fontSize: (kIsWeb) ? 30.sp : 18.sp),
-              //         onTap: () {},
-              //       ),
-              //       AppOutlinedButton(
-              //         margin: EdgeInsets.only(
-              //           bottom: 25.h,
-              //           left: 25.w,
-              //           right: 25.w,
-              //         ),
-              //         text: "Cancel",
-              //         textStyle: semiBold(fontSize: (kIsWeb) ? 30.sp : 18.sp),
-              //         onTap: () {},
-              //       ),
-              //     ],
-              //   ),
-              // )
-              ...[
-                subscriptionPlanMobile(
-                  plan: provider.plans[0],
-                  isCurrentPlan: provider.showCurrentPlan,
+              Expanded(
+                child: ListView(
+                  padding: EdgeInsets.zero,
+                  children: [
+                    ...List.generate(provider.plans.length, (index) {
+                      final plan = provider.plans[index];
+                      return GestureDetector(
+                        onTap: () {
+                          context.pushNamed(
+                            AppRoutes.selectedPlanScreen.name,
+                            extra: plan,
+                          );
+                        },
+                        child: SubscriptionPlanMobile(plan: plan),
+                      );
+                    }),
+                    Spacer(),
+                    AppFiledButton(
+                      margin: EdgeInsets.fromLTRB(25.w, 20.h, 25.w, 20.h),
+                      text: "See Current Plan",
+                      textStyle: semiBold(
+                        fontSize: (kIsWeb) ? 30.sp : 18.sp,
+                        color: AppColors.white,
+                      ),
+                      onTap: () {
+                        context.pushNamed(AppRoutes.currentPlanScreen.name);
+                      },
+                    ),
+                  ],
                 ),
-                if (kIsWeb) 40.w.verticalSpace,
-                AppFiledButton(
-                  margin: EdgeInsets.only(
-                    bottom: 10.h,
-                    left: 25.w,
-                    right: 25.w,
-                  ),
-                  text: "Renew",
-                  textStyle: semiBold(
-                    fontSize: (kIsWeb) ? 30.sp : 18.sp,
-                    color: AppColors.white,
-                  ),
-                  onTap: () {},
-                ),
-                AppOutlinedButton(
-                  margin: EdgeInsets.only(
-                    bottom: 10.h,
-                    left: 25.w,
-                    right: 25.w,
-                  ),
-                  text: "Change Plan",
-                  textStyle: semiBold(fontSize: (kIsWeb) ? 30.sp : 18.sp),
-                  onTap: () {},
-                ),
-                AppOutlinedButton(
-                  margin: EdgeInsets.only(
-                    bottom: 25.h,
-                    left: 25.w,
-                    right: 25.w,
-                  ),
-                  text: "Cancel",
-                  textStyle: semiBold(fontSize: (kIsWeb) ? 30.sp : 18.sp),
-                  onTap: () {},
-                ),
-              ] else
-                SubscriptionPlansScreen(plans: provider.plans),
+              ),
             ],
           ),
         );
@@ -284,11 +108,11 @@ class ManageSubscriptionScreen extends StatelessWidget {
               IconButton(
                 padding: EdgeInsets.zero,
                 onPressed: () {
-                  Logger.info("showCurrentPlan ; ${provider.showCurrentPlan}");
-                  if (provider.showCurrentPlan) {
-                    provider.setIsShowCurrentPlan = false;
-                    return;
-                  }
+                  // Logger.info("showCurrentPlan ; ${provider.showCurrentPlan}");
+                  // if (provider.showCurrentPlan) {
+                  //   provider.setIsShowCurrentPlan = false;
+                  //   return;
+                  // }
                   context.pop();
                 },
                 icon: Icon(Icons.arrow_back_ios_rounded, size: 16.h),

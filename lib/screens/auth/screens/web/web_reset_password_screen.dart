@@ -26,86 +26,78 @@ class WebResetPasswordScreen extends StatelessWidget {
           builder: (context, provider, child) {
             return SizedBox(
               width: context.isDesktop ? 400.w : 550.w,
-
-              child: Stack(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      //todo title
-                      Text(
-                        "Reset Password",
-                        style: regular(
-                          fontFamily: AppFontFamily.secondary,
-                          fontSize: context.isDesktop
-                              ? 40.sp
-                              : context.isTablet
-                              ? 48.sp
-                              : 58.sp,
-                        ),
+                  //todo title
+                  Text(
+                    "Reset Password",
+                    style: regular(
+                      fontFamily: AppFontFamily.secondary,
+                      fontSize: context.isDesktop
+                          ? 40.sp
+                          : context.isTablet
+                          ? 48.sp
+                          : 58.sp,
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top: 10.w, bottom: 18.w),
+                    child: Text(
+                      textAlign: TextAlign.center,
+                      "Enter new password below to reset.",
+                      style: regular(
+                        fontSize: context.isDesktop
+                            ? 16.sp
+                            : context.isTablet
+                            ? 24.sp
+                            : 32.sp,
                       ),
-                      Padding(
-                        padding: EdgeInsets.only(top: 10.w, bottom: 18.w),
-                        child: Text(
-                          textAlign: TextAlign.center,
-                          "Enter new password below to reset.",
-                          style: regular(
-                            fontSize: context.isDesktop
-                                ? 16.sp
-                                : context.isTablet
-                                ? 24.sp
-                                : 32.sp,
-                          ),
-                        ),
-                      ),
-                      AppTextField(
-                        controller: provider.newPasswordCtr,
-                        hintText: "New Password",
-                        validator: FieldValidators().password,
-                      ),
-                      8.w.verticalSpace,
-
-                      AppTextField(
-                        controller: provider.resetConfirmPasswordCtr,
-                        hintText: "Confirm Password",
-                        onSubmit: () {
-                          deBouncer.run(() {
-                            provider.resetPassword(context: context);
-                          });
-                        },
-                        validator: (value) {
-                          if (value!.isNotEmpty) {
-                            if (provider.newPasswordCtr.text.trim() !=
-                                provider.resetConfirmPasswordCtr.text.trim()) {
-                              return "Confirm Password should match with new Password!";
-                            }
-                          }
-
-                          return FieldValidators().required(
-                            value,
-                            "Confirm Password",
-                          );
-                        },
-                      ),
-                      AppFiledButton(
-                        text: "Confirm",
-                        margin: EdgeInsets.only(top: 34.w),
-                        onTap: () {
-                          deBouncer.run(() {
-                            provider.resetPassword(context: context);
-                          });
-                        },
-                        textStyle: semiBold(
-                          color: AppColors.white,
-                          fontSize: context.isDesktop ? 16.sp : 24.sp,
-                        ),
-                        child:
-                            (provider.isResetPasswordLoading &&
-                                !context.isMobile)
-                            ? webProgressIndicator(context)
-                            : null,
-                      ),
-                    ],
+                    ),
+                  ),
+                  AppTextField(
+                    controller: provider.newPasswordCtr,
+                    hintText: "New Password",
+                    validator: FieldValidators().password,
+                  ),
+                  8.w.verticalSpace,
+                  AppTextField(
+                    controller: provider.resetConfirmPasswordCtr,
+                    hintText: "Confirm Password",
+                    onSubmit: () {
+                      deBouncer.run(() {
+                        provider.resetPassword(context: context);
+                      });
+                    },
+                    validator: (value) {
+                      if (value!.isNotEmpty) {
+                        if (provider.newPasswordCtr.text.trim() !=
+                            provider.resetConfirmPasswordCtr.text.trim()) {
+                          return "Confirm Password should match with new Password!";
+                        }
+                      }
+                      return FieldValidators().required(
+                        value,
+                        "Confirm Password",
+                      );
+                    },
+                  ),
+                  AppFiledButton(
+                    text: "Confirm",
+                    margin: EdgeInsets.only(top: 34.w),
+                    onTap: () {
+                      deBouncer.run(() {
+                        provider.resetPassword(context: context);
+                      });
+                    },
+                    textStyle: semiBold(
+                      color: AppColors.white,
+                      fontSize: context.isDesktop ? 16.sp : 24.sp,
+                    ),
+                    child:
+                        (provider.isResetPasswordLoading && !context.isMobile)
+                        ? webProgressIndicator(context)
+                        : null,
                   ),
                 ],
               ),

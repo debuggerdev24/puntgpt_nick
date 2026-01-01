@@ -6,8 +6,6 @@ import 'package:puntgpt_nick/responsive/responsive_builder.dart';
 import '../../../../core/constants/app_assets.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/text_style.dart';
-import '../../../../core/widgets/app_filed_button.dart';
-import '../../../../core/widgets/app_outlined_button.dart';
 import '../../../../core/widgets/image_widget.dart';
 import '../../../../models/account/subscription_plan_model.dart';
 
@@ -167,37 +165,6 @@ class SubscriptionPlanWeb extends StatelessWidget {
             ],
           ),
         ),
-        //todo shows button for the current plans
-        if (isCurrentPlan) ...[
-          //todo renew button
-          AppFiledButton(
-            margin: EdgeInsets.only(top: 20.w),
-            text: "Renew",
-            width: subscriptionBoxWidth,
-            textStyle: bold(
-              fontSize: fourteenResponsive,
-
-              color: AppColors.white,
-            ),
-            onTap: () {},
-          ),
-          //todo change plan button
-          AppOutlinedButton(
-            text: "Change Plan",
-            margin: EdgeInsets.symmetric(vertical: 10.w),
-            width: subscriptionBoxWidth,
-            textStyle: bold(fontSize: fourteenResponsive),
-            onTap: () {},
-          ),
-
-          //todo cancel button
-          AppOutlinedButton(
-            text: "Cancel",
-            width: subscriptionBoxWidth,
-            textStyle: bold(fontSize: fourteenResponsive),
-            onTap: () {},
-          ),
-        ],
       ],
     );
   }

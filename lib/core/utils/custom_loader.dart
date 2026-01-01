@@ -29,13 +29,13 @@ class FullPageIndicator extends StatelessWidget {
   }
 }
 
-Widget webProgressIndicator(BuildContext context) {
+Widget webProgressIndicator(BuildContext context, {Color? color}) {
   return SizedBox(
     width: (context.isDesktop) ? 35.w : 45.w,
     height: (context.isDesktop) ? 35.w : 45.w,
     child: CircularProgressIndicator(
       strokeWidth: 2.5,
-      color: AppColors.white,
+      color: color ?? AppColors.white,
       strokeCap: StrokeCap.round,
     ),
   );

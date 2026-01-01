@@ -2,7 +2,10 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:puntgpt_nick/core/router/app/app_routes.dart';
+import 'package:puntgpt_nick/models/account/subscription_plan_model.dart';
 import 'package:puntgpt_nick/screens/account/mobile/account_screen.dart';
+import 'package:puntgpt_nick/screens/account/mobile/current_plan_screen.dart';
+import 'package:puntgpt_nick/screens/account/mobile/selected_plan_screen.dart';
 import 'package:puntgpt_nick/screens/auth/screens/mobile/forgot_password_screen.dart';
 import 'package:puntgpt_nick/screens/auth/screens/mobile/login_screen.dart';
 import 'package:puntgpt_nick/screens/auth/screens/mobile/reset_password_screen.dart';
@@ -208,7 +211,6 @@ class AppRouter {
                   return ManageSubscriptionScreen();
                 },
               ),
-
               GoRoute(
                 name: AppRoutes.changePassword.name,
                 path: AppRoutes.changePassword,
@@ -221,6 +223,22 @@ class AppRouter {
                 path: AppRoutes.tipSlipScreen,
                 builder: (BuildContext context, GoRouterState state) {
                   return TipSlipScreen();
+                },
+              ),
+              GoRoute(
+                name: AppRoutes.selectedPlanScreen.name,
+                path: AppRoutes.selectedPlanScreen,
+                builder: (BuildContext context, GoRouterState state) {
+                  return SelectedPlanScreen(
+                    plan: (state.extra as SubscriptionPlanModel),
+                  );
+                },
+              ),
+              GoRoute(
+                name: AppRoutes.currentPlanScreen.name,
+                path: AppRoutes.currentPlanScreen,
+                builder: (BuildContext context, GoRouterState state) {
+                  return CurrentPlanScreen();
                 },
               ),
             ],

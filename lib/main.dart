@@ -9,6 +9,7 @@ import 'package:puntgpt_nick/provider/account/account_provider.dart';
 import 'package:puntgpt_nick/provider/auth/auth_provider.dart';
 import 'package:puntgpt_nick/provider/punt_club/punter_club_provider.dart';
 import 'package:puntgpt_nick/provider/search_engine_provider.dart';
+import 'package:puntgpt_nick/provider/subscription/subscription_provider.dart';
 import 'package:puntgpt_nick/service/network/network_service.dart';
 import 'package:puntgpt_nick/service/storage/locale_storage_service.dart';
 import 'package:toastification/toastification.dart';
@@ -49,6 +50,7 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (context) => SearchEngineProvider()),
           ChangeNotifierProvider(create: (context) => AccountProvider()),
           ChangeNotifierProvider(create: (context) => PunterClubProvider()),
+          ChangeNotifierProvider(create: (context) => SubscriptionProvider()),
         ],
         child: AnnotatedRegion<SystemUiOverlayStyle>(
           value: SystemUiOverlayStyle(
@@ -77,10 +79,8 @@ class MyApp extends StatelessWidget {
 // eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzY3MDgxNDUzLCJpYXQiOjE3NjcwMDk0NTMsImp0aSI6IjRmYWI1NzYzYTk2YjRkZWQ4YzUwOTgwZDQ1YTZjNmFmIiwidXNlcl9pZCI6IjMifQ.CngkGuLvXKSJPf0iMxqIb86Mp4aortWuZ-x8Ko3Ci8s
 
 /*
-
 todo nick
--> Worked on performing proper responsiveness for the manage account section
-->
+
 
 
 todo Vimal

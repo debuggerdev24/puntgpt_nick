@@ -37,6 +37,8 @@ class AppRoutes {
   static const String personalDetailsScreen = '/personal-details';
   static const String manageSubscriptionScreen = '/manage-subscription';
   static const String offlineViewScreen = '/offline-view';
+  static const String selectedPlanScreen = '/selected-plan';
+  static const String currentPlanScreen = '/current-plan';
 }
 
 extension AppRoutesExtension on String {

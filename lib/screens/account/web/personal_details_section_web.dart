@@ -23,20 +23,8 @@ class PersonalDetailsSectionWeb extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final sixteenResponsive = context.isDesktop
-        ? 16.sp
-        : context.isTablet
-        ? 21.5.sp
-        : (kIsWeb)
-        ? 32.sp
-        : 16.sp;
-    final twelveResponsive = context.isDesktop
-        ? 12.sp
-        : context.isTablet
-        ? 20.sp
-        : (kIsWeb)
-        ? 28.sp
-        : 12.sp;
+    final sixteenResponsive = context.isDesktop ? 16.sp : 21.5.sp;
+    final twelveResponsive = context.isDesktop ? 12.sp : 20.sp;
     // final fourteenResponsive = context.isDesktop
     //     ? 14.sp
     //     : context.isTablet

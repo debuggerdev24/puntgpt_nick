@@ -47,7 +47,7 @@ class AuthApiService {
     );
   }
 
-  Future<Either<ApiException, Map<String, dynamic>>> forgotPassword({
+  Future<Either<ApiException, Map<String, dynamic>>> sendOtp({
     required String email,
   }) async {
     return await BaseApiHelper.instance.post<Map<String, dynamic>>(

@@ -99,8 +99,17 @@ class VerifyOtpScreen extends StatelessWidget {
                         style: semiBold(fontSize: (kIsWeb) ? 28.sp : 14.sp),
                       ),
                       AppOutlinedButton(
-                        text: "Re-Send",
-                        onTap: () {},
+                        text: provider.isResendOtpLoading
+                            ? "Resending..."
+                            : provider.canResendOtp
+                            ? "Re-Send"
+                            : "Resend OTP in ${provider.resendSeconds}s",
+                        onTap: () {
+                          if (provider.canResendOtp &&
+                              !provider.isResendOtpLoading) {
+                            provider.resendOtp(context: context);
+                          }
+                        },
                         textStyle: (kIsWeb) ? semiBold(fontSize: 30.sp) : null,
                         margin: EdgeInsets.only(top: 10.h, bottom: 12.h),
                       ),
@@ -123,7 +132,8 @@ class VerifyOtpScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                if (provider.isVerifyOtpLoading) FullPageIndicator(),
+                if (provider.isVerifyOtpLoading || provider.isResendOtpLoading)
+                  FullPageIndicator(),
               ],
             );
           },

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pinput/pinput.dart';
 import 'package:provider/provider.dart';
 import 'package:puntgpt_nick/core/constants/app_colors.dart';
 import 'package:puntgpt_nick/core/utils/de_bouncing.dart';
+import 'package:puntgpt_nick/core/widgets/on_button_tap.dart';
 import 'package:puntgpt_nick/core/widgets/web_top_section.dart';
 import 'package:puntgpt_nick/provider/auth/auth_provider.dart';
 import 'package:puntgpt_nick/responsive/responsive_builder.dart';
@@ -59,19 +61,39 @@ class WebVerifyOtpScreen extends StatelessWidget {
                   ),
                   otpField(provider, context, boxSize),
                   48.w.verticalSpace,
-                  Text(
-                    "Didn’t receive OTP?",
-                    style: semiBold(
-                      fontSize: context.isDesktop ? 16.sp : 24.sp,
+                  OnMouseTap(
+                    onTap: () {
+                      context.pop();
+                    },
+                    child: Text(
+                      "Didn’t receive OTP?",
+                      style: semiBold(
+                        fontSize: context.isDesktop ? 16.sp : 24.sp,
+                      ),
                     ),
                   ),
                   AppOutlinedButton(
-                    text: "Re-Send",
-                    onTap: () {},
+                    text: provider.isResendOtpLoading
+                        ? "Resending..."
+                        : provider.canResendOtp
+                        ? "Re-Send"
+                        : "Resend OTP in ${provider.resendSeconds}s",
+                    onTap: () {
+                      if (provider.canResendOtp &&
+                          !provider.isResendOtpLoading) {
+                        provider.resendOtp(context: context);
+                      }
+                    },
                     textStyle: semiBold(
                       fontSize: context.isDesktop ? 16.sp : 24.sp,
                     ),
                     margin: EdgeInsets.only(top: 10.w, bottom: 12.h),
+                    child: (provider.isResendOtpLoading)
+                        ? webProgressIndicator(
+                            context,
+                            color: AppColors.primary,
+                          )
+                        : null,
                   ),
                   AppFiledButton(
                     margin: EdgeInsets.only(bottom: 20.h),

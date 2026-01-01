@@ -1,0 +1,1 @@
+enum SubscriptionTier { tier1, tier2, tier3 }

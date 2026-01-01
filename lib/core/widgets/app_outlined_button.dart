@@ -16,12 +16,12 @@ class AppOutlinedButton extends StatelessWidget {
     this.textStyle,
     this.margin,
     this.isExpand,
+    this.child,
   });
 
   final EdgeInsetsGeometry? padding, margin;
-  final double? height;
-  final double? width;
-  final double? borderRadius;
+  final double? height, width, borderRadius;
+  final Widget? child;
   final String text;
   final VoidCallback onTap;
   final TextStyle? textStyle;
@@ -37,7 +37,7 @@ class AppOutlinedButton extends StatelessWidget {
         child: Container(
           margin: margin,
           padding:
-              padding ?? EdgeInsets.symmetric(vertical: 12.h, horizontal: 15.w),
+              padding ?? EdgeInsets.symmetric(vertical: 12.w, horizontal: 15.w),
           height: height,
           width: (width == null)
               ? (isExpand ?? true)
@@ -50,13 +50,16 @@ class AppOutlinedButton extends StatelessWidget {
             color: AppColors.white,
             border: Border.all(color: color ?? AppColors.primary),
           ),
-          child: Text(
-            text,
-            textAlign: TextAlign.center,
-            style:
-                textStyle ??
-                semiBold(fontSize: 18.sp, color: AppColors.primary),
-          ),
+          alignment: AlignmentGeometry.center,
+          child:
+              child ??
+              Text(
+                text,
+                textAlign: TextAlign.center,
+                style:
+                    textStyle ??
+                    semiBold(fontSize: 18.sp, color: AppColors.primary),
+              ),
         ),
       ),
     );

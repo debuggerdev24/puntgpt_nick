@@ -13,8 +13,8 @@ import '../../../core/widgets/app_filed_button.dart';
 import '../../../core/widgets/app_outlined_button.dart';
 import '../../../provider/account/account_provider.dart';
 
-class ManageSubscriptionSectionWeb extends StatelessWidget {
-  const ManageSubscriptionSectionWeb({super.key});
+class SelectedPlanSectionWeb extends StatelessWidget {
+  const SelectedPlanSectionWeb({super.key});
 
   @override
   Widget build(BuildContext context) {
