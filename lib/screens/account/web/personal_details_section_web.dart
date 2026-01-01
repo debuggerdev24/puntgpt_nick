@@ -6,6 +6,8 @@ import 'package:provider/provider.dart';
 import 'package:puntgpt_nick/core/constants/constants.dart';
 import 'package:puntgpt_nick/core/utils/app_toast.dart';
 import 'package:puntgpt_nick/core/utils/custom_loader.dart';
+import 'package:puntgpt_nick/core/utils/de_bouncing.dart';
+import 'package:puntgpt_nick/core/utils/field_validators.dart';
 import 'package:puntgpt_nick/core/widgets/app_filed_button.dart';
 import 'package:puntgpt_nick/responsive/responsive_builder.dart';
 
@@ -17,15 +19,14 @@ import '../../../core/widgets/on_button_tap.dart';
 import '../../../provider/account/account_provider.dart';
 
 class PersonalDetailsSectionWeb extends StatelessWidget {
-  const PersonalDetailsSectionWeb({super.key, required this.formKey});
-  final GlobalKey<FormState> formKey;
+  const PersonalDetailsSectionWeb({super.key});
 
   @override
   Widget build(BuildContext context) {
     final sixteenResponsive = context.isDesktop
         ? 16.sp
         : context.isTablet
-        ? 24.sp
+        ? 21.5.sp
         : (kIsWeb)
         ? 32.sp
         : 16.sp;
@@ -52,6 +53,8 @@ class PersonalDetailsSectionWeb extends StatelessWidget {
         ? 38.sp
         : 22.sp;
     double fieldWidth = context.isDesktop ? 320.w : 380.w;
+    final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
     return Consumer<AccountProvider>(
       builder: (context, provider, child) {
         bool readOnly = (provider.isEdit) ? false : true;
@@ -67,91 +70,93 @@ class PersonalDetailsSectionWeb extends StatelessWidget {
                 child: topBar(
                   context: context,
                   provider: provider,
-                  formKey: formKey,
+                  formKey: _formKey,
                   twelveResponsive: twelveResponsive,
                   sixteenResponsive: sixteenResponsive,
                   responsiveIcon: twentyTwoResponsive,
                 ),
               ),
               horizontalDivider(),
-              15.w.verticalSpace,
+              if (context.isDesktop) 17.w.verticalSpace else 28.w.verticalSpace,
 
               //todo text fields
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 24.w),
-                child: Wrap(
-                  spacing: 16.w,
-                  runSpacing: 12.h,
-                  children: [
-                    SizedBox(
-                      width: fieldWidth,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        spacing: 5.h,
-                        children: [
-                          Text(
-                            "Name",
-                            style: semiBold(fontSize: twelveResponsive),
-                          ),
-                          AppTextField(
-                            controller: provider.nameCtr,
-                            hintText: "Enter your Name",
+                child: Form(
+                  key: _formKey,
+                  child: Wrap(
+                    spacing: 16.w,
+                    runSpacing: 12.h,
+                    children: [
+                      SizedBox(
+                        width: fieldWidth,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          spacing: 5.h,
+                          children: [
+                            Text(
+                              "Name",
+                              style: semiBold(fontSize: sixteenResponsive),
+                            ),
+                            AppTextField(
+                              controller: provider.nameCtr,
+                              hintText: "Enter your Name",
+                              validator: (value) =>
+                                  FieldValidators().name(value, "Name"),
+                              readOnly: readOnly,
+                              hintStyle: semiBold(
+                                color: AppColors.primary.withValues(alpha: 0.7),
+                                fontSize: context.isDesktop ? 14.sp : 20.sp,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        width: fieldWidth,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          spacing: 5.h,
+                          children: [
+                            Text(
+                              "Email",
 
-                            readOnly: readOnly,
-                            hintStyle: semiBold(
-                              color: AppColors.primary.withValues(alpha: 0.7),
-                              fontSize: context.isDesktop ? 14.sp : 20.sp,
+                              style: semiBold(fontSize: sixteenResponsive),
                             ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      width: fieldWidth,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        spacing: 5.h,
-                        children: [
-                          Text(
-                            "Email",
-                            style: semiBold(fontSize: twelveResponsive),
-                          ),
-                          AppTextField(
-                            readOnly: readOnly,
-                            controller: provider.emailCtr,
-                            hintText: "Enter your Email",
-                            hintStyle: semiBold(
-                              color: AppColors.primary.withValues(alpha: 0.7),
-                              fontSize: context.isDesktop ? 14.sp : 20.sp,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      width: fieldWidth,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        spacing: 5.h,
-                        children: [
-                          Text(
-                            "Phone",
-                            style: semiBold(fontSize: twelveResponsive),
-                          ),
-                          AppTextField(
-                            readOnly: readOnly,
 
-                            controller: provider.phoneCtr,
-                            hintText: "Enter your Phone Number",
-                            hintStyle: semiBold(
-                              color: AppColors.primary.withValues(alpha: 0.7),
-                              fontSize: context.isDesktop ? 14.sp : 20.sp,
+                            AppTextField(
+                              readOnly: readOnly,
+                              controller: provider.emailCtr,
+                              validator: FieldValidators().email,
+                              hintText: "Enter your Email",
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                      SizedBox(
+                        width: fieldWidth,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          spacing: 5.h,
+                          children: [
+                            Text(
+                              "Phone",
+                              style: semiBold(fontSize: sixteenResponsive),
+                            ),
+                            AppTextField(
+                              readOnly: readOnly,
+                              validator: (value) => FieldValidators().required(
+                                value,
+                                "Phone Number",
+                              ),
+                              controller: provider.phoneCtr,
+                              hintText: "Enter your Phone Number",
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
               AppOutlinedButton(
@@ -165,12 +170,11 @@ class PersonalDetailsSectionWeb extends StatelessWidget {
                   provider.setIsShowChangePassword =
                       !provider.showChangePassword;
                 },
-                isExpand: false,
+                width: fieldWidth,
                 padding: EdgeInsets.symmetric(
-                  vertical: context.isDesktop ? 11.w : 16.w,
-                  horizontal: context.isDesktop ? 20.w : 25.w,
+                  vertical: context.isDesktop ? 12.w : 16.w,
                 ),
-                textStyle: semiBold(fontSize: fourteenResponsive),
+                textStyle: semiBold(fontSize: sixteenResponsive),
               ),
               AppFiledButton(
                 margin: EdgeInsets.only(
@@ -178,30 +182,37 @@ class PersonalDetailsSectionWeb extends StatelessWidget {
                   left: 24.w,
                   right: 24.w,
                 ),
+                width: fieldWidth,
                 text: "Save",
                 onTap: () {
-                  provider.updateProfile(
-                    onSuccess: () {
-                      AppToast.success(
-                        context: context,
-                        message: "Profile updated successfully",
+                  deBouncer.run(() {
+                    if (_formKey.currentState!.validate()) {
+                      provider.updateProfile(
+                        onSuccess: () {
+                          AppToast.success(
+                            context: context,
+                            message: "Profile updated successfully",
+                          );
+                        },
+                        onNoChanges: () {
+                          AppToast.info(
+                            context: context,
+                            message: "No changes found.",
+                          );
+                        },
+                        onFailed: (error) {
+                          AppToast.error(context: context, message: error);
+                        },
                       );
-                    },
-                    onNoChanges: () {
-                      AppToast.info(
-                        context: context,
-                        message: "No changes found.",
-                      );
-                    },
-                    onFailed: (error) {
-                      AppToast.error(context: context, message: error);
-                    },
-                  );
+                    }
+                  });
                 },
-                isExpand: false,
+                textStyle: semiBold(
+                  fontSize: sixteenResponsive,
+                  color: AppColors.white,
+                ),
                 padding: EdgeInsets.symmetric(
-                  vertical: context.isDesktop ? 11.w : 16.w,
-                  horizontal: context.isDesktop ? 20.w : 25.w,
+                  vertical: context.isDesktop ? 12.w : 16.5.w,
                 ),
                 child: (provider.isUpdateProfileLoading)
                     ? webProgressIndicator(context)
@@ -255,7 +266,10 @@ class PersonalDetailsSectionWeb extends StatelessWidget {
 
                 child: Text(
                   "Cancel",
-                  style: bold(fontSize: 16.sp, color: AppColors.primary),
+                  style: bold(
+                    fontSize: sixteenResponsive,
+                    color: AppColors.primary,
+                  ),
                 ),
               )
             : OnMouseTap(

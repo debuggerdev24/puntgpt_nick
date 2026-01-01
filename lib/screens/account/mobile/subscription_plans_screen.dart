@@ -185,14 +185,14 @@ Widget subscriptionPlanMobile({
                     ? "Yearly"
                     : "Lifetime",
                 style: regular(
-                  fontSize: (kIsWeb) ? 36.sp : 24.sp,
+                  fontSize: (kIsWeb) ? 37.sp : 24.sp,
                   fontFamily: AppFontFamily.secondary,
                 ),
               ),
               TextSpan(
                 text: plan.id == 1 ? "  ‘Mug Punter’ " : "  ‘Pro Punter’ ",
                 style: regular(
-                  fontSize: (kIsWeb) ? 36.sp : 24.sp,
+                  fontSize: (kIsWeb) ? 37.sp : 24.sp,
 
                   color: plan.id == 1
                       ? AppColors.primary
@@ -220,7 +220,7 @@ Widget subscriptionPlanMobile({
                     ? "\$ ${int.parse(plan.price).toStringAsFixed(2)} "
                     : "\$ ${plan.price} ",
                 style: bold(
-                  fontSize: (kIsWeb) ? 32.sp : 20.sp,
+                  fontSize: (kIsWeb) ? 33.sp : 20.sp,
                   fontFamily: AppFontFamily.primary,
                 ),
               ),
@@ -230,7 +230,7 @@ Widget subscriptionPlanMobile({
                   text: "/ ${plan.durationLabel}",
                   style: semiBold(
                     fontFamily: AppFontFamily.primary,
-                    fontSize: (kIsWeb) ? 28.sp : 16.sp,
+                    fontSize: (kIsWeb) ? 29.sp : 16.sp,
                     color: AppColors.primary.withValues(alpha: 0.6),
                   ),
                 ),

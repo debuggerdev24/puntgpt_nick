@@ -31,7 +31,7 @@ class _ChangePasswordSectionWebState extends State<ChangePasswordSectionWeb> {
     final sixteenResponsive = context.isDesktop
         ? 16.sp
         : context.isTablet
-        ? 24.sp
+        ? 21.5.sp
         : (kIsWeb)
         ? 32.sp
         : 16.sp;
@@ -49,6 +49,13 @@ class _ChangePasswordSectionWebState extends State<ChangePasswordSectionWeb> {
         : (kIsWeb)
         ? 26.sp
         : 14.sp;
+    final eighteenResponsive = context.isDesktop
+        ? 18.sp
+        : context.isTablet
+        ? 26.sp
+        : (kIsWeb)
+        ? 34.sp
+        : 16.sp;
 
     final twentyTwoResponsive = context.isDesktop
         ? 22.sp
@@ -79,7 +86,7 @@ class _ChangePasswordSectionWebState extends State<ChangePasswordSectionWeb> {
                 ),
               ),
               horizontalDivider(),
-              15.w.verticalSpace,
+              if (context.isDesktop) 17.w.verticalSpace else 28.w.verticalSpace,
               //todo text fields
               Form(
                 key: _formKey,
@@ -97,18 +104,13 @@ class _ChangePasswordSectionWebState extends State<ChangePasswordSectionWeb> {
                           children: [
                             Text(
                               "Current Password",
-                              style: semiBold(fontSize: twelveResponsive),
+                              style: semiBold(fontSize: sixteenResponsive),
                             ),
                             AppTextField(
                               controller: provider.currentPassCtr,
                               hintText: "Enter Current Password",
                               validator: (value) =>
                                   FieldValidators().password(value),
-
-                              hintStyle: semiBold(
-                                color: AppColors.primary.withValues(alpha: 0.7),
-                                fontSize: context.isDesktop ? 14.sp : 20.sp,
-                              ),
                             ),
                           ],
                         ),
@@ -121,19 +123,13 @@ class _ChangePasswordSectionWebState extends State<ChangePasswordSectionWeb> {
                           children: [
                             Text(
                               "New Password",
-                              style: semiBold(fontSize: twelveResponsive),
+                              style: semiBold(fontSize: sixteenResponsive),
                             ),
                             AppTextField(
                               controller: provider.newPassCtr,
                               hintText: "Enter New Password",
                               validator: (value) =>
                                   FieldValidators().password(value),
-
-                              hintStyle: semiBold(
-                                color: AppColors.primary.withValues(alpha: 0.7),
-
-                                fontSize: context.isDesktop ? 14.sp : 20.sp,
-                              ),
                             ),
                           ],
                         ),
@@ -146,7 +142,7 @@ class _ChangePasswordSectionWebState extends State<ChangePasswordSectionWeb> {
                           children: [
                             Text(
                               "Confirm Password",
-                              style: semiBold(fontSize: twelveResponsive),
+                              style: semiBold(fontSize: sixteenResponsive),
                             ),
                             AppTextField(
                               controller: provider.confirmPassCtr,
@@ -156,14 +152,10 @@ class _ChangePasswordSectionWebState extends State<ChangePasswordSectionWeb> {
                                 provider.newPassCtr.text.trim(),
                                 "Confirm Password should match with a new Password",
                               ),
-                              hintStyle: semiBold(
-                                color: AppColors.primary.withValues(alpha: 0.7),
-                                fontSize: context.isDesktop ? 14.sp : 20.sp,
-                              ),
-
                               onSubmit: () {
                                 provider.updatePassword(
                                   onSuccess: () {
+                                    _formKey.currentState!.reset();
                                     AppToast.success(
                                       context: context,
                                       message: "Password updated successfully",
@@ -187,6 +179,10 @@ class _ChangePasswordSectionWebState extends State<ChangePasswordSectionWeb> {
               ),
               AppFiledButton(
                 text: "Save",
+                textStyle: semiBold(
+                  fontSize: sixteenResponsive,
+                  color: AppColors.white,
+                ),
                 onTap: () {
                   if (_formKey.currentState!.validate()) {
                     provider.updatePassword(
@@ -205,15 +201,15 @@ class _ChangePasswordSectionWebState extends State<ChangePasswordSectionWeb> {
                     );
                   }
                 },
-                isExpand: false,
+                width: fieldWidth,
                 margin: EdgeInsets.only(
                   top: context.isDesktop ? 24.w : 34.w,
                   left: 24.w,
                   right: 24.w,
                 ),
                 padding: EdgeInsets.symmetric(
-                  vertical: context.isDesktop ? 11.w : 16.w,
-                  horizontal: context.isDesktop ? 20.w : 25.w,
+                  vertical: context.isDesktop ? 12.w : 16.w,
+                  // horizontal: context.isDesktop ? 20.w : 40.w,
                 ),
                 child: (provider.isUpdatePasswordLoading)
                     ? webProgressIndicator(context)
@@ -247,7 +243,7 @@ class _ChangePasswordSectionWebState extends State<ChangePasswordSectionWeb> {
             color: AppColors.primary,
           ),
         ),
-        12.w.horizontalSpace,
+        (context.isDesktop) ? 13.w.horizontalSpace : 24.w.horizontalSpace,
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

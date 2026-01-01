@@ -27,8 +27,6 @@ class AccountScreenWeb extends StatefulWidget {
 }
 
 class _AccountScreenWebState extends State<AccountScreenWeb> {
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
   @override
   Widget build(BuildContext context) {
     final bodyWidth = context.isMobile
@@ -73,112 +71,109 @@ class _AccountScreenWebState extends State<AccountScreenWeb> {
         : 14.sp;
     return Scaffold(
       backgroundColor: Color(0xffFAFAFA),
-      body: Form(
-        key: _formKey,
-        child: Stack(
-          children: [
-            Center(
-              child: SizedBox(
-                width: bodyWidth,
-                child: Consumer<AccountProvider>(
-                  builder: (context, provider, child) {
-                    return Row(
-                      children: [
-                        //todo ---------------> left panel
-                        verticalDivider(),
-                        SizedBox(
-                          width: context.isDesktop
-                              ? 312.w
-                              : context.isTablet
-                              ? 370.w
-                              : 512.w,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              //todo title
-                              Padding(
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: context.isDesktop ? 26.w : 20.w,
+      body: Stack(
+        children: [
+          Center(
+            child: SizedBox(
+              width: bodyWidth,
+              child: Consumer<AccountProvider>(
+                builder: (context, provider, child) {
+                  return Row(
+                    children: [
+                      //todo ---------------> left panel
+                      verticalDivider(),
+                      SizedBox(
+                        width: context.isDesktop
+                            ? 312.w
+                            : context.isTablet
+                            ? 370.w
+                            : 512.w,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            //todo title
+                            Padding(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: context.isDesktop ? 26.w : 20.w,
 
-                                  vertical: context.isDesktop ? 26.w : 20.w,
-                                ),
-                                child: Text(
-                                  "My Account",
-                                  style: regular(
-                                    fontSize: twentyResponsive,
-                                    fontFamily: AppFontFamily.secondary,
-                                  ),
+                                vertical: context.isDesktop ? 26.w : 20.w,
+                              ),
+                              child: Text(
+                                "My Account",
+                                style: regular(
+                                  fontSize: twentyResponsive,
+                                  fontFamily: AppFontFamily.secondary,
                                 ),
                               ),
-                              4.h.verticalSpace,
-                              horizontalDivider(),
+                            ),
+                            4.h.verticalSpace,
+                            horizontalDivider(),
 
-                              //todo 1st tab
-                              accountTabs(
-                                title: "Personal Details",
-                                fourteenResponsive: fourteenResponsive,
-                                color: (provider.selectedAccountTabWeb == 0)
-                                    ? AppColors.primary
-                                    : null,
-                                onTap: () {
-                                  provider.setAccountTabIndex = 0;
-                                },
-                                context: context,
-                              ),
-                              accountTabs(
-                                title: "Manage Subscription",
-                                fourteenResponsive: fourteenResponsive,
-                                color: (provider.selectedAccountTabWeb == 1)
-                                    ? AppColors.primary
-                                    : null,
+                            //todo 1st tab
+                            accountTabs(
+                              title: "Personal Details",
+                              fourteenResponsive: fourteenResponsive,
+                              color: (provider.selectedAccountTabWeb == 0)
+                                  ? AppColors.primary
+                                  : null,
+                              onTap: () {
+                                provider.setAccountTabIndex = 0;
+                              },
+                              context: context,
+                            ),
+                            accountTabs(
+                              title: "Manage Subscription",
+                              fourteenResponsive: fourteenResponsive,
+                              color: (provider.selectedAccountTabWeb == 1)
+                                  ? AppColors.primary
+                                  : null,
 
-                                onTap: () {
-                                  provider.setAccountTabIndex = 1;
-                                },
-                                context: context,
-                              ),
-                              horizontalDivider(),
-                              Spacer(),
-                              horizontalDivider(),
-                              accountTabs(
-                                title: "Log Out",
-                                fourteenResponsive: sixteenResponsive,
-                                onTap: () {
-                                  showLogOutConfirmationDialog(
-                                    context: context,
-                                    responsiveTitle: twentyTwoResponsive,
-                                    responsiveButton: twentyResponsive,
-                                  );
-                                },
+                              onTap: () {
+                                provider.setAccountTabIndex = 1;
+                              },
+                              context: context,
+                            ),
+                            horizontalDivider(),
+                            Spacer(),
+                            horizontalDivider(),
+                            accountTabs(
+                              title: "Log Out",
+                              fourteenResponsive: sixteenResponsive,
+                              onTap: () {
+                                showLogOutConfirmationDialog(
+                                  context: context,
+                                  responsiveTitle: twentyTwoResponsive,
+                                  responsiveButton: twentyResponsive,
+                                );
+                              },
 
-                                context: context,
-                              ),
-                            ],
-                          ),
+                              context: context,
+                            ),
+                          ],
                         ),
-                        verticalDivider(),
-                        //todo ----------------> right panel
-                        if (provider.selectedAccountTabWeb == 0)
-                          if (provider.showChangePassword)
-                            ChangePasswordSectionWeb()
-                          else
-                            PersonalDetailsSectionWeb(formKey: _formKey)
+                      ),
+                      verticalDivider(),
+                      //todo ----------------> right panel
+                      if (provider.selectedAccountTabWeb == 0)
+                        if (provider.showChangePassword)
+                          ChangePasswordSectionWeb()
                         else
-                          ManageSubscriptionSectionWeb(),
+                          PersonalDetailsSectionWeb()
+                      else
+                        ManageSubscriptionSectionWeb(),
 
-                        verticalDivider(),
-                      ],
-                    );
-                  },
-                ),
+                      verticalDivider(),
+                    ],
+                  );
+                },
               ),
             ),
-            Align(
-              alignment: AlignmentGeometry.bottomRight,
-              child: askPuntGPTButtonWeb(context: context),
-            ),
-          ],
-        ),
+          ),
+          Align(
+            alignment: AlignmentGeometry.bottomRight,
+            child: askPuntGPTButtonWeb(context: context),
+          ),
+        ],
       ),
     );
   }

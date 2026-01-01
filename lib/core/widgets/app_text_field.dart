@@ -55,17 +55,6 @@ class AppTextField extends StatelessWidget {
       cursorColor: AppColors.primary,
 
       // textStyle: medium(fontSize: (kIsWeb) ? 28.sp : 16.sp),
-      style:
-          textStyle ??
-          medium(
-            fontSize: context.isDesktop
-                ? 16.sp
-                : context.isTablet
-                ? 22.sp
-                : (kIsWeb)
-                ? 26.sp
-                : 16.sp,
-          ),
       obscureText: obscureText,
       autovalidateMode: autovalidateMode,
       enabled: enabled,
@@ -85,6 +74,17 @@ class AppTextField extends StatelessWidget {
       onFieldSubmitted: (value) {
         onSubmit!.call();
       },
+      style:
+          textStyle ??
+          medium(
+            fontSize: context.isDesktop
+                ? 15.5.sp
+                : context.isTablet
+                ? 21.sp
+                : (kIsWeb)
+                ? 26.sp
+                : 16.sp,
+          ),
       decoration: InputDecoration(
         suffixIconConstraints: BoxConstraints(
           maxHeight: 26.h.flexClamp(24, 28),
@@ -104,25 +104,26 @@ class AppTextField extends StatelessWidget {
                 ),
               ),
         hintText: hintText,
+
         hintStyle:
             hintStyle ??
             medium(
               fontSize: context.isDesktop
-                  ? 16.sp
+                  ? 14.6.sp
                   : context.isTablet
-                  ? 22.sp
+                  ? 21.sp
                   : (kIsWeb)
                   ? 30.sp
                   : 14.sp,
-              color: AppColors.primary.withValues(alpha: 0.55),
+              color: AppColors.primary.withValues(alpha: 0.65),
             ),
         errorStyle:
             errorStyle ??
             medium(
               fontSize: context.isDesktop
-                  ? 15.sp
+                  ? 15.5.sp
                   : context.isTablet
-                  ? 22.sp
+                  ? 21.sp
                   : (kIsWeb)
                   ? 26.sp
                   : 12.sp,

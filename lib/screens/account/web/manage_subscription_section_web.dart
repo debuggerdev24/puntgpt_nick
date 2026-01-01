@@ -34,27 +34,13 @@ class ManageSubscriptionSectionWeb extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final sixteenResponsive = context.isDesktop
-    //     ? 16.sp
-    //     : context.isTablet
-    //     ? 24.sp
-    //     : (kIsWeb)
-    //     ? 28.sp
-    //     : 16.sp;
-    // final eighteenResponsive = context.isDesktop
-    //     ? 18.sp
-    //     : context.isTablet
-    //     ? 26.sp
-    //     : (kIsWeb)
-    //     ? 30.sp
-    //     : 18.sp;
-    // final twentyResponsive = context.isDesktop
-    //     ? 20.sp
-    //     : context.isTablet
-    //     ? 28.sp
-    //     : (kIsWeb)
-    //     ? 36.sp
-    //     : 20.sp;
+    final buttonResponsive = context.isDesktop
+        ? 17.sp
+        : context.isTablet
+        ? 22.sp
+        : (kIsWeb)
+        ? 36.sp
+        : 16.sp;
     final twelveResponsive = context.isDesktop
         ? 12.sp
         : context.isTablet
@@ -69,6 +55,7 @@ class ManageSubscriptionSectionWeb extends StatelessWidget {
         : (kIsWeb)
         ? 26.sp
         : 14.sp;
+
     return Consumer<AccountProvider>(
       builder: (context, provider, child) {
         final plans = provider.plans;
@@ -117,12 +104,10 @@ class ManageSubscriptionSectionWeb extends StatelessWidget {
                             );
                           }),
                         ),
-                        // ...List.generate(plans.length, (index) {
-                        //   return SubscriptionPlanWeb(
-                        //     plan: plans[index],
-                        //     isCurrentPlan: provider.showCurrentPlan,
-                        //   );
-                        // }),
+                        if (context.isDesktop)
+                          14.w.verticalSpace
+                        else
+                          20.w.verticalSpace,
                       ],
 
                       //todo subscription box,
@@ -132,14 +117,22 @@ class ManageSubscriptionSectionWeb extends StatelessWidget {
               ),
               AppFiledButton(
                 margin: EdgeInsets.only(
-                  top: 20.w,
-                  left: 25.w,
-                  right: 25.w,
+                  // top: 20.w,
+                  left: 60.w,
+                  right: 60.w,
                   bottom: 25.w,
                 ),
+
                 text: provider.showCurrentPlan
                     ? "See All Plans"
                     : "See Current Plan",
+                textStyle: semiBold(
+                  fontSize: buttonResponsive,
+                  color: AppColors.white,
+                ),
+                padding: EdgeInsets.symmetric(
+                  vertical: context.isDesktop ? 12.w : 16.5.w,
+                ),
                 onTap: () {
                   provider.setIsShowCurrentPlan = !provider.showCurrentPlan;
                 },

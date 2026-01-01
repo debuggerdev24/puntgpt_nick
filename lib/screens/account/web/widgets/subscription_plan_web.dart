@@ -40,14 +40,14 @@ class SubscriptionPlanWeb extends StatelessWidget {
     final twentyResponsive = context.isDesktop
         ? 20.sp
         : context.isTablet
-        ? 28.sp
+        ? 27.5.sp
         : (kIsWeb)
         ? 36.sp
         : 20.sp;
     final fourteenResponsive = context.isDesktop
         ? 14.sp
         : context.isTablet
-        ? 22.sp
+        ? 21.5.sp
         : (kIsWeb)
         ? 26.sp
         : 14.sp;
