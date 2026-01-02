@@ -117,12 +117,12 @@ class _WebSplashScreenState extends State<WebSplashScreen> {
       body: Center(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
+
           children: [
             ImageWidget(
               path: AppAssets.splashWebLogo,
               type: ImageType.asset,
-              height: context.isMobile ? 650.w : 300.w,
+              height: context.isMobile ? 250.w : 300.w,
             ).animate().fade(duration: 0.8.seconds, delay: 1.seconds),
             24.h.flexClamp(20, 28).verticalSpace,
             Text(

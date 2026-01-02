@@ -16,8 +16,9 @@ class WebTopSection extends StatelessWidget implements PreferredSizeWidget {
         title: IntrinsicWidth(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
+
             children: [
-              20.h.verticalSpace,
+              // 20.h.verticalSpace,
               Text(
                 "Visit UK Site",
                 style: bold(
@@ -26,7 +27,7 @@ class WebTopSection extends StatelessWidget implements PreferredSizeWidget {
                 ),
               ),
               Container(color: AppColors.white, height: 2),
-              if (context.isMobile) 5.h.verticalSpace else SizedBox(),
+              // if (context.isMobile) 10.h.verticalSpace else SizedBox(),
             ],
           ),
         ),

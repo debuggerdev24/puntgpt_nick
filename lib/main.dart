@@ -9,6 +9,7 @@ import 'package:puntgpt_nick/provider/auth/auth_provider.dart';
 import 'package:puntgpt_nick/provider/punt_club/punter_club_provider.dart';
 import 'package:puntgpt_nick/provider/search_engine_provider.dart';
 import 'package:puntgpt_nick/provider/subscription/subscription_provider.dart';
+import 'package:puntgpt_nick/responsive/responsive_builder.dart';
 import 'package:puntgpt_nick/service/network/network_service.dart';
 import 'package:puntgpt_nick/service/storage/locale_storage_service.dart';
 import 'package:toastification/toastification.dart';
@@ -63,10 +64,9 @@ class MyApp extends StatelessWidget {
           child: ScreenUtilInit(
             minTextAdapt: true,
             splitScreenMode: true,
-            designSize: Size(
-              1440,
-              824,
-            ), //(kIsWeb) ? Size(1440, 824) : const Size(430, 932),
+            designSize: (!context.isMobile)
+                ? Size(1440, 824)
+                : const Size(430, 932),
             child: MaterialApp.router(
               debugShowCheckedModeBanner: false,
               theme: AppTheme.appThemeData,
