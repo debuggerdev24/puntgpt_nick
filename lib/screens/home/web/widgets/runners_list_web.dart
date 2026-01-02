@@ -25,8 +25,11 @@ class RunnersListWeb extends StatelessWidget {
           padding: EdgeInsets.fromLTRB(25.w, 0.h, 25.w, (kIsWeb) ? 8.h : 12.h),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children:[
-              Text("Total Runners: (20)", style: bold(fontSize: (kIsWeb) ? 25.sp :16.sp,)),
+            children: [
+              Text(
+                "Total Runners: (20)",
+                style: bold(fontSize: (kIsWeb) ? 25.sp : 16.sp),
+              ),
               GestureDetector(
                 onTap: () {
                   context.pushNamed(AppRoutes.savedSearched.name);
@@ -37,17 +40,16 @@ class RunnersListWeb extends StatelessWidget {
                     ImageWidget(
                       type: ImageType.svg,
                       path: AppAssets.bookmark,
-                      height: (kIsWeb) ? 25.sp :16.sp,
+                      height: (kIsWeb) ? 25.sp : 16.sp,
                     ),
                     5.horizontalSpace,
                     Text(
                       "Saved Searches",
                       style: bold(
-                        fontSize: (kIsWeb) ? 25.sp :16.sp,
+                        fontSize: (kIsWeb) ? 25.sp : 16.sp,
                         decoration: TextDecoration.underline,
                       ),
                     ),
-
                   ],
                 ),
               ),
@@ -56,7 +58,7 @@ class RunnersListWeb extends StatelessWidget {
         ),
         Expanded(
           child: ListView.separated(
-            padding: EdgeInsets.symmetric(horizontal:  25.w),
+            padding: EdgeInsets.symmetric(horizontal: 25.w),
 
             itemCount: runnerList.length,
             separatorBuilder: (context, index) => 16.h.verticalSpace,
@@ -77,21 +79,31 @@ class Runner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final sixteenFontSize =  context.isDesktop ? 16.sp : context.isTablet ? 22.sp : (kIsWeb) ? 30.sp : 16.sp;
-    final fourteenFontSize =   context.isDesktop ? 14.sp : context.isTablet ? 22.sp : (kIsWeb) ? 26.sp : 14.sp;
+    final sixteenFontSize = context.isDesktop
+        ? 16.sp
+        : context.isTablet
+        ? 22.sp
+        : (kIsWeb)
+        ? 30.sp
+        : 16.sp;
+    final fourteenFontSize = context.isDesktop
+        ? 14.sp
+        : context.isTablet
+        ? 22.sp
+        : (kIsWeb)
+        ? 26.sp
+        : 14.sp;
     return Container(
       margin: EdgeInsets.only(bottom: (kIsWeb) ? 0 : 16.h),
       decoration: BoxDecoration(
-        border: Border.all(
-          color: AppColors.greyColor.withValues(alpha: 0.15),
-        ),
+        border: Border.all(color: AppColors.greyColor.withValues(alpha: 0.15)),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 9.h,vertical: 9.h),
+            padding: EdgeInsets.symmetric(horizontal: 9.h, vertical: 9.h),
             child: Row(
               children: [
                 AnimatedContainer(
@@ -102,19 +114,15 @@ class Runner extends StatelessWidget {
                   decoration: BoxDecoration(
                     border: Border.all(
                       color:
-                      // isChecked
-                      //     ? Colors.green
-                      //     :
-                      AppColors.primary.setOpacity(0.15),
+                          // isChecked
+                          //     ? Colors.green
+                          //     :
+                          AppColors.primary.setOpacity(0.15),
                     ),
                     color: Colors
                         .transparent, //isChecked ? Colors.green : Colors.transparent,
                   ),
-                  child: Icon(
-                    Icons.check,
-                    color: Colors.white,
-                    size: 16.sp,
-                  ),
+                  child: Icon(Icons.check, color: Colors.white, size: 16.sp),
                   // isChecked
                   //     ? const Icon(Icons.check, color: Colors.white, size: 16)
                   //     : null,
@@ -127,14 +135,16 @@ class Runner extends StatelessWidget {
                 Text(runner.label, style: semiBold(fontSize: sixteenFontSize)),
                 Spacer(),
 
-
-                Text("\$${runner.price}", style: bold(fontSize: sixteenFontSize)),
+                Text(
+                  "\$${runner.price}",
+                  style: bold(fontSize: sixteenFontSize),
+                ),
               ],
             ),
           ),
           horizontalDivider(),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 12.w,vertical: 9.h),
+            padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 9.h),
             child: Text(
               "${runner.date}. ",
               style: medium(fontSize: fourteenFontSize),
@@ -142,7 +152,7 @@ class Runner extends StatelessWidget {
           ),
           horizontalDivider(),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 12.w,vertical: 9.h),
+            padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 9.h),
             child: Text(
               "${runner.numberOfRace} Races",
               style: medium(fontSize: fourteenFontSize),
@@ -151,7 +161,7 @@ class Runner extends StatelessWidget {
 
           horizontalDivider(),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 12.w,vertical: 9.h),
+            padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 9.h),
             child: Text(
               "Next race ${runner.nextRaceRemainTime}",
               style: medium(fontSize: fourteenFontSize),
@@ -159,7 +169,7 @@ class Runner extends StatelessWidget {
           ),
           horizontalDivider(),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.w,vertical: 16.h),
+            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
             child: Row(
               spacing: 6.w,
               children: [
@@ -167,11 +177,21 @@ class Runner extends StatelessWidget {
                   child: AppFiledButton(
                     text: "Add to Tip Slip",
                     textStyle: semiBold(
-                      fontSize: context.isDesktop ? 14.sp : context.isTablet ? 20.sp : (kIsWeb) ? 26.sp : 14.sp,
+                      fontSize: context.isDesktop
+                          ? 14.sp
+                          : context.isTablet
+                          ? 20.sp
+                          : (kIsWeb)
+                          ? 26.sp
+                          : 14.sp,
                       color: AppColors.white,
                     ),
-                    padding: (!context.isMobile) ? EdgeInsets.symmetric(vertical: (context.isDesktop) ? 12.w : 10.h,horizontal: 6.w
-                    ) : null,
+                    padding: (!context.isBrowserMobile)
+                        ? EdgeInsets.symmetric(
+                            vertical: (context.isDesktop) ? 12.w : 10.h,
+                            horizontal: 6.w,
+                          )
+                        : null,
                     onTap: () {},
                   ),
                 ),
@@ -184,12 +204,7 @@ class Runner extends StatelessWidget {
                         context: context,
                         builder: (context) {
                           return Container(
-                            margin: EdgeInsets.fromLTRB(
-                              22.w,
-                              5.h,
-                              22.w,
-                              25.h,
-                            ),
+                            margin: EdgeInsets.fromLTRB(22.w, 5.h, 22.w, 25.h),
                             decoration: BoxDecoration(
                               border: Border.all(
                                 color: AppColors.greyColor.withValues(
@@ -213,8 +228,9 @@ class Runner extends StatelessWidget {
                                   ),
                                 ),
                                 Divider(
-                                  color: AppColors.greyColor
-                                      .withValues(alpha: 0.2),
+                                  color: AppColors.greyColor.withValues(
+                                    alpha: 0.2,
+                                  ),
                                 ),
                                 Padding(
                                   padding: EdgeInsets.fromLTRB(
@@ -235,8 +251,12 @@ class Runner extends StatelessWidget {
                       );
                     },
                     child: Container(
-                      padding: (!context.isMobile) ? EdgeInsets.symmetric(vertical: (context.isDesktop) ? 9.w : 8.h,horizontal: 6.w
-                      ) : EdgeInsets.symmetric(vertical: 10.h),
+                      padding: (!context.isBrowserMobile)
+                          ? EdgeInsets.symmetric(
+                              vertical: (context.isDesktop) ? 9.w : 8.h,
+                              horizontal: 6.w,
+                            )
+                          : EdgeInsets.symmetric(vertical: 10.h),
                       decoration: BoxDecoration(
                         color: AppColors.white,
                         border: Border.all(color: AppColors.primary),
@@ -245,15 +265,20 @@ class Runner extends StatelessWidget {
                         spacing: 6.w,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          ImageWidget(
-                            path: AppAssets.horse,
-                            height: 24.w,
-                          ),
+                          ImageWidget(path: AppAssets.horse, height: 24.w),
                           Text(
                             "Ask PuntGPT",
                             textAlign: TextAlign.center,
 
-                            style: bold(fontSize: context.isDesktop ? 14.sp : context.isTablet ? 20.sp : (kIsWeb) ? 26.sp : 14.sp),
+                            style: bold(
+                              fontSize: context.isDesktop
+                                  ? 14.sp
+                                  : context.isTablet
+                                  ? 20.sp
+                                  : (kIsWeb)
+                                  ? 26.sp
+                                  : 14.sp,
+                            ),
                           ),
                         ],
                       ),

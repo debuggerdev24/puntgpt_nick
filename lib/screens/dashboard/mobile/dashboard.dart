@@ -11,8 +11,10 @@ import 'package:puntgpt_nick/main.dart';
 import 'package:puntgpt_nick/provider/account/account_provider.dart';
 import 'package:puntgpt_nick/screens/dashboard/mobile/widgets/dashboard_app_bar.dart';
 import 'package:puntgpt_nick/screens/offline/widget/offline_view.dart';
+import 'package:puntgpt_nick/service/subscription/subscription_service.dart';
 
 import '../../../core/router/app/app_router.dart';
+import '../../../provider/subscription/subscription_provider.dart';
 
 final GlobalKey<_DashboardState> dashboardKey = GlobalKey<_DashboardState>();
 ValueNotifier<int> indexOfTab = ValueNotifier(0);
@@ -215,11 +217,16 @@ class _DashboardState extends State<Dashboard> {
 }
 
 void callInitAPIs({required BuildContext context}) {
-  context.read<AccountProvider>()
-    ..getProfile()
-    ..getSubscriptionPlans(
+  Future.wait([
+    context.read<AccountProvider>().getProfile(),
+    context.read<AccountProvider>().getSubscriptionPlans(
       onFailed: (error) {
         AppToast.error(context: context, message: error);
       },
-    );
+    ),
+    SubscriptionService.instance.initialize(
+      provider: context.read<SubscriptionProvider>(),
+      context: context,
+    ),
+  ]);
 }

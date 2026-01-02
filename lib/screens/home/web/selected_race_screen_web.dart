@@ -29,7 +29,7 @@ class _SelectedRaceTableScreenWebState
 
   @override
   Widget build(BuildContext context) {
-    final bodyWidth = context.isMobile
+    final bodyWidth = context.isBrowserMobile
         ? 1.4.sw
         : context.isTablet
         ? 1100.w
@@ -58,19 +58,21 @@ class _SelectedRaceTableScreenWebState
         : 14.sp;
     return Scaffold(
       body: Align(
-        alignment: (kIsWeb && !context.isMobile)? Alignment.center : Alignment.centerLeft,
+        alignment: (kIsWeb && !context.isBrowserMobile)
+            ? Alignment.center
+            : Alignment.centerLeft,
         child: Consumer<SearchEngineProvider>(
           builder: (context, provider, child) {
             return SizedBox(
               width: bodyWidth,
               child: SingleChildScrollView(
-
-                padding: context.isMobile ? EdgeInsets.symmetric(horizontal: (kIsWeb) ? 55.w : 25.w) : EdgeInsets.zero,
+                padding: context.isBrowserMobile
+                    ? EdgeInsets.symmetric(horizontal: (kIsWeb) ? 55.w : 25.w)
+                    : EdgeInsets.zero,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-
-                    if (kIsWeb && !context.isMobile) ...[
+                    if (kIsWeb && !context.isBrowserMobile) ...[
                       70.h.verticalSpace,
 
                       HomeScreenTabWeb(
@@ -93,8 +95,8 @@ class _SelectedRaceTableScreenWebState
                     topBar(
                       context: context,
                       sixteenResponsive: sixteenResponsive,
-                      eighteenResponsive: eighteenResponsive
-                      ),
+                      eighteenResponsive: eighteenResponsive,
+                    ),
                     //todo drop down
                     SizedBox(
                       width: 290.w,
@@ -114,7 +116,7 @@ class _SelectedRaceTableScreenWebState
                                   selItem = value;
                                 });
                               },
-                            
+
                               hintText: "R1",
                             ),
                           ),
@@ -151,7 +153,6 @@ class _SelectedRaceTableScreenWebState
             spacing: eighteenResponsive,
 
             children: [
-
               OnMouseTap(
                 onTap: () {
                   context.pop();
@@ -165,7 +166,13 @@ class _SelectedRaceTableScreenWebState
                   Text(
                     "Flemington",
                     style: regular(
-                      fontSize: context.isDesktop ? 20.sp : context.isTablet ? 28.sp : (kIsWeb) ? 36.sp : 20.sp,
+                      fontSize: context.isDesktop
+                          ? 20.sp
+                          : context.isTablet
+                          ? 28.sp
+                          : (kIsWeb)
+                          ? 36.sp
+                          : 20.sp,
                       fontFamily: AppFontFamily.secondary,
                       height: 1.35,
                     ),

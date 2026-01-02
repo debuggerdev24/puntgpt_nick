@@ -68,20 +68,22 @@ class WebRouter {
       GoRoute(
         path: WebRoutes.forgotPasswordScreen.path,
         name: WebRoutes.forgotPasswordScreen.name,
-        builder: (context, state) =>
-            context.isMobile ? ForgotPasswordScreen() : WebForgotPassScreen(),
+        builder: (context, state) => context.isBrowserMobile
+            ? ForgotPasswordScreen()
+            : WebForgotPassScreen(),
       ),
       GoRoute(
         path: WebRoutes.verifyOTPScreen.path,
         name: WebRoutes.verifyOTPScreen.name,
         builder: (context, state) =>
-            context.isMobile ? VerifyOtpScreen() : WebVerifyOtpScreen(),
+            context.isBrowserMobile ? VerifyOtpScreen() : WebVerifyOtpScreen(),
       ),
       GoRoute(
         path: WebRoutes.resetPasswordScreen.path,
         name: WebRoutes.resetPasswordScreen.name,
-        builder: (context, state) =>
-            context.isMobile ? ResetPasswordScreen() : WebResetPasswordScreen(),
+        builder: (context, state) => context.isBrowserMobile
+            ? ResetPasswordScreen()
+            : WebResetPasswordScreen(),
       ),
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) {
@@ -108,7 +110,7 @@ class WebRouter {
               GoRoute(
                 path: WebRoutes.punterClubScreen.path,
                 name: WebRoutes.punterClubScreen.name,
-                builder: (context, state) => context.isMobile
+                builder: (context, state) => context.isBrowserMobile
                     ? PunterClubScreen()
                     : PunterClubScreenWebScreen(),
               ),
@@ -163,20 +165,21 @@ class WebRouter {
               GoRoute(
                 path: WebRoutes.accountScreen.path,
                 name: WebRoutes.accountScreen.name,
-                builder: (context, state) =>
-                    (context.isMobile) ? AccountScreen() : AccountScreenWeb(),
+                builder: (context, state) => (context.isBrowserMobile)
+                    ? AccountScreen()
+                    : AccountScreenWeb(),
               ),
               GoRoute(
                 path: WebRoutes.personalDetailsScreen.path,
                 name: WebRoutes.personalDetailsScreen.name,
-                builder: (context, state) => (context.isMobile)
+                builder: (context, state) => (context.isBrowserMobile)
                     ? PersonalDetailsScreen()
                     : AccountScreenWeb(),
               ),
               GoRoute(
                 path: WebRoutes.manageSubscriptionScreen.path,
                 name: WebRoutes.manageSubscriptionScreen.name,
-                builder: (context, state) => (context.isMobile)
+                builder: (context, state) => (context.isBrowserMobile)
                     ? ManageSubscriptionScreen()
                     : AccountScreenWeb(),
               ),

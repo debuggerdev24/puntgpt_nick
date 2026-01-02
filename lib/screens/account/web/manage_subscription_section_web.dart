@@ -7,10 +7,8 @@ import 'package:puntgpt_nick/screens/account/web/widgets/subscription_plan_web.d
 
 import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/text_style.dart';
-import '../../../core/utils/custom_loader.dart';
 import '../../../core/widgets/app_devider.dart';
 import '../../../core/widgets/app_filed_button.dart';
-import '../../../core/widgets/app_outlined_button.dart';
 import '../../../provider/account/account_provider.dart';
 
 class ManageSubscriptionSectionWeb extends StatelessWidget {
@@ -43,112 +41,39 @@ class ManageSubscriptionSectionWeb extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       22.w.verticalSpace,
-                      //todo show current plan
-                      if (provider.showCurrentPlan) ...[
-                        Text(
-                          "Current Plan : ",
-                          style: bold(fontSize: fourteenResponsive),
-                        ),
-                        12.w.verticalSpace,
-                        SubscriptionPlanWeb(
-                          plan: plans[0],
-                          isCurrentPlan: provider.showCurrentPlan,
-                        ),
-                        //todo shows button for the current plans
-                        //todo renew button
-                        AppFiledButton(
-                          margin: EdgeInsets.only(top: 20.w),
-                          text: "Renew",
-                          width: subscriptionBoxWidth,
-                          textStyle: bold(
-                            fontSize: fourteenResponsive,
 
-                            color: AppColors.white,
-                          ),
-                          onTap: () {},
-                        ),
-                        //todo change plan button
-                        AppOutlinedButton(
-                          text: "Change Plan",
-                          margin: EdgeInsets.symmetric(vertical: 10.w),
-                          width: subscriptionBoxWidth,
-                          textStyle: bold(fontSize: fourteenResponsive),
-                          onTap: () {},
-                        ),
-
-                        //todo cancel button
-                        AppOutlinedButton(
-                          text: "Cancel",
-                          width: subscriptionBoxWidth,
-                          textStyle: bold(fontSize: fourteenResponsive),
-                          onTap: () {},
-                        ),
-                      ]
-                      //todo show selected plan for purchase
-                      else if (provider.showSelectedPlan) ...[
-                        SubscriptionPlanWeb(
-                          plan: plans
-                              .where((e) => e.id == provider.selectedPlanId)
-                              .first,
-                          isCurrentPlan: provider.showCurrentPlan,
-                        ),
-                        AppFiledButton(
-                          margin: EdgeInsets.only(
-                            top: context.isDesktop ? 24.w : 34.w,
-                            left: 24.w,
-                            right: 24.w,
-                          ),
-                          width: context.isDesktop ? 320.w : 380.w,
-                          text: "Save",
-                          onTap: () {},
-                          textStyle: semiBold(
-                            fontSize: context.isDesktop ? 16.sp : 21.5.sp,
-                            color: AppColors.white,
-                          ),
-                          padding: EdgeInsets.symmetric(
-                            vertical: context.isDesktop ? 12.w : 16.5.w,
-                          ),
-                          child: (provider.isUpdateProfileLoading)
-                              ? webProgressIndicator(context)
-                              : null,
-                        ),
-                      ]
                       //todo show the all plans
-                      else ...[
-                        Text(
-                          "All Plans : ",
-                          style: bold(fontSize: fourteenResponsive),
-                        ),
-                        12.w.verticalSpace,
-                        Wrap(
-                          runSpacing: 24.w,
-                          spacing: 20.w,
-                          children: List.generate(plans.length, (index) {
-                            return OnMouseTap(
-                              onTap: () {
-                                provider.setIsShowSelectedPlan(
-                                  showSelectedPlan: true,
-                                  planIndex: plans[index].id,
-                                );
-                              },
-                              child: SubscriptionPlanWeb(
-                                plan: plans[index],
-                                isCurrentPlan: provider.showCurrentPlan,
-                              ),
-                            );
-                          }),
-                        ),
-                        if (context.isDesktop)
-                          14.w.verticalSpace
-                        else
-                          20.w.verticalSpace,
-                      ],
-                      //todo subscription box,
+                      Text(
+                        "All Plans : ",
+                        style: bold(fontSize: fourteenResponsive),
+                      ),
+                      12.w.verticalSpace,
+                      Wrap(
+                        runSpacing: 24.w,
+                        spacing: 20.w,
+                        children: List.generate(plans.length, (index) {
+                          return OnMouseTap(
+                            onTap: () {
+                              provider.setIsShowSelectedPlan(
+                                showSelectedPlan: true,
+                                planIndex: plans[index].id,
+                              );
+                            },
+                            child: SubscriptionPlanWeb(
+                              plan: plans[index],
+                              isCurrentPlan: provider.showCurrentPlan,
+                            ),
+                          );
+                        }),
+                      ),
+                      if (context.isDesktop)
+                        14.w.verticalSpace
+                      else
+                        20.w.verticalSpace,
                     ],
                   ),
                 ),
               ),
-
               AppFiledButton(
                 margin: EdgeInsets.only(
                   // top: 20.w,
@@ -156,10 +81,7 @@ class ManageSubscriptionSectionWeb extends StatelessWidget {
                   right: 60.w,
                   bottom: 25.w,
                 ),
-
-                text: provider.showCurrentPlan
-                    ? "See All Plans"
-                    : "See Current Plan",
+                text: "See Current Plan",
                 textStyle: semiBold(
                   fontSize: context.isDesktop ? 17.sp : 22.sp,
                   color: AppColors.white,
@@ -168,12 +90,6 @@ class ManageSubscriptionSectionWeb extends StatelessWidget {
                   vertical: context.isDesktop ? 12.w : 16.5.w,
                 ),
                 onTap: () {
-                  if (provider.showSelectedPlan) {
-                    provider.setIsShowSelectedPlan(
-                      showSelectedPlan: false,
-                      planIndex: 1,
-                    );
-                  }
                   provider.setIsShowCurrentPlan = !provider.showCurrentPlan;
                 },
               ),

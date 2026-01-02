@@ -30,12 +30,9 @@ class AccountProvider extends ChangeNotifier {
   int _selectedTab = 0;
   int get selectedAccountTabWeb => _selectedTab;
 
-  void setIsShowSelectedPlan({
-    required bool showSelectedPlan,
-    required int planIndex,
-  }) {
+  void setIsShowSelectedPlan({required bool showSelectedPlan, int? planIndex}) {
     _isShowSelectedPlan = !_isShowSelectedPlan;
-    selectedPlanId = planIndex;
+    selectedPlanId = planIndex ?? 1;
     notifyListeners();
   }
 

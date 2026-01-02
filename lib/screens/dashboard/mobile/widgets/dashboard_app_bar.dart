@@ -20,21 +20,19 @@ class DashboardAppBar extends StatefulWidget {
 class _DashboardAppBarState extends State<DashboardAppBar> {
   @override
   Widget build(BuildContext context) {
-    return //!context.isDesktop
-    // ?
-    Container(
+    return Container(
       decoration: BoxDecoration(color: AppColors.primary),
       width: double.maxFinite,
       padding: EdgeInsets.symmetric(
         horizontal: (kIsWeb) ? 40.w : 16.w,
         vertical: 8.h,
       ),
+
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [_appLogo(), _bannerAd(), _tipSlip()],
       ),
     );
-    // : WebDashboardAppBar(navigationShell: widget.navigationShell);
   }
 
   Widget _appLogo() {

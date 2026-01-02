@@ -30,7 +30,7 @@ class WebSignUpBottomSection extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           SizedBox(
-            width: Responsive.isMobile(context)
+            width: Responsive.isMobileBrowser(context)
                 ? double.maxFinite
                 : context.screenWidth * 0.6.flexClamp(null, 600),
             child: AppCheckBox(

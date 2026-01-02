@@ -45,7 +45,7 @@ class SignUpScreen extends StatelessWidget {
                       12.h.verticalSpace,
                       //todo bottom section
                       SizedBox(
-                        width: Responsive.isMobile(context)
+                        width: Responsive.isMobileBrowser(context)
                             ? double.maxFinite
                             : context.screenWidth * 0.8.flexClamp(null, 800),
                         child: AppCheckBox(

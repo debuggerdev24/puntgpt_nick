@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -28,42 +27,10 @@ class _ChangePasswordSectionWebState extends State<ChangePasswordSectionWeb> {
 
   @override
   Widget build(BuildContext context) {
-    final sixteenResponsive = context.isDesktop
-        ? 16.sp
-        : context.isTablet
-        ? 21.5.sp
-        : (kIsWeb)
-        ? 32.sp
-        : 16.sp;
-    final twelveResponsive = context.isDesktop
-        ? 12.sp
-        : context.isTablet
-        ? 20.sp
-        : (kIsWeb)
-        ? 28.sp
-        : 12.sp;
-    // final fourteenResponsive = context.isDesktop
-    //     ? 14.sp
-    //     : context.isTablet
-    //     ? 22.sp
-    //     : (kIsWeb)
-    //     ? 26.sp
-    //     : 14.sp;
-    // final eighteenResponsive = context.isDesktop
-    //     ? 18.sp
-    //     : context.isTablet
-    //     ? 26.sp
-    //     : (kIsWeb)
-    //     ? 34.sp
-    //     : 16.sp;
+    final sixteenResponsive = context.isDesktop ? 16.sp : 21.5.sp;
+    final twelveResponsive = context.isDesktop ? 12.sp : 20.sp;
 
-    final twentyTwoResponsive = context.isDesktop
-        ? 22.sp
-        : context.isTablet
-        ? 30.sp
-        : (kIsWeb)
-        ? 38.sp
-        : 22.sp;
+    final twentyTwoResponsive = context.isDesktop ? 22.sp : 30.sp;
     double fieldWidth = context.isDesktop ? 320.w : 380.w;
     return Consumer<AccountProvider>(
       builder: (context, provider, child) {
@@ -71,19 +38,13 @@ class _ChangePasswordSectionWebState extends State<ChangePasswordSectionWeb> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: context.isDesktop ? 24.w : 30.w,
-                  vertical: context.isDesktop ? 11.w : 17.w,
-                ),
-                child: topBar(
-                  context: context,
-                  provider: provider,
-                  formKey: _formKey,
-                  twelveResponsive: twelveResponsive,
-                  sixteenResponsive: sixteenResponsive,
-                  responsiveIcon: twentyTwoResponsive,
-                ),
+              topBar(
+                context: context,
+                provider: provider,
+                formKey: _formKey,
+                twelveResponsive: twelveResponsive,
+                sixteenResponsive: sixteenResponsive,
+                responsiveIcon: twentyTwoResponsive,
               ),
               horizontalDivider(),
               if (context.isDesktop) 17.w.verticalSpace else 28.w.verticalSpace,
@@ -230,70 +191,76 @@ class _ChangePasswordSectionWebState extends State<ChangePasswordSectionWeb> {
     required double responsiveIcon,
     required GlobalKey<FormState> formKey,
   }) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        OnMouseTap(
-          onTap: () {
-            provider.setIsShowChangePassword = !provider.showChangePassword;
-          },
-          child: Icon(
-            Icons.arrow_back_ios_rounded,
-            size: responsiveIcon,
-            color: AppColors.primary,
+    return Padding(
+      padding: EdgeInsets.symmetric(
+        horizontal: context.isDesktop ? 24.w : 30.w,
+        vertical: context.isDesktop ? 11.w : 17.w,
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          OnMouseTap(
+            onTap: () {
+              provider.setIsShowChangePassword = !provider.showChangePassword;
+            },
+            child: Icon(
+              Icons.arrow_back_ios_rounded,
+              size: responsiveIcon,
+              color: AppColors.primary,
+            ),
           ),
-        ),
-        (context.isDesktop) ? 13.w.horizontalSpace : 24.w.horizontalSpace,
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              "Change Password",
-              style: regular(
-                fontSize: context.isDesktop ? 24.sp : 30.sp,
-                fontFamily: AppFontFamily.secondary,
-                height: 1.4,
+          (context.isDesktop) ? 13.w.horizontalSpace : 24.w.horizontalSpace,
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "Change Password",
+                style: regular(
+                  fontSize: context.isDesktop ? 24.sp : 30.sp,
+                  fontFamily: AppFontFamily.secondary,
+                  height: 1.4,
+                ),
               ),
-            ),
-            Text(
-              "Manage Your Password.",
-              style: semiBold(
-                fontSize: twelveResponsive,
-                color: AppColors.greyColor.withValues(alpha: 0.6),
+              Text(
+                "Manage Your Password.",
+                style: semiBold(
+                  fontSize: twelveResponsive,
+                  color: AppColors.greyColor.withValues(alpha: 0.6),
+                ),
               ),
-            ),
-          ],
-        ),
-        // Spacer(),
-        // (provider.isEdit)
-        //     ? TextButton(
-        //         onPressed: () {
-        //           formKey.currentState?.reset();
-        //           provider.setIsEdit = !(provider.isEdit);
-        //         },
-        //
-        //         child: Text(
-        //           "Cancel",
-        //           style: bold(fontSize: 16.sp, color: AppColors.primary),
-        //         ),
-        //       )
-        //     : OnMouseTap(
-        //         onTap: () {
-        //           provider.setIsEdit = !(provider.isEdit);
-        //         },
-        //
-        //         child: Row(
-        //           spacing: context.isDesktop ? 5.w : 10.w,
-        //           children: [
-        //             SvgPicture.asset(
-        //               AppAssets.edit,
-        //               width: context.isDesktop ? 18.w : 22.w,
-        //             ),
-        //             Text("Edit", style: bold(fontSize: sixteenResponsive)),
-        //           ],
-        //         ),
-        //       ),
-      ],
+            ],
+          ),
+          // Spacer(),
+          // (provider.isEdit)
+          //     ? TextButton(
+          //         onPressed: () {
+          //           formKey.currentState?.reset();
+          //           provider.setIsEdit = !(provider.isEdit);
+          //         },
+          //
+          //         child: Text(
+          //           "Cancel",
+          //           style: bold(fontSize: 16.sp, color: AppColors.primary),
+          //         ),
+          //       )
+          //     : OnMouseTap(
+          //         onTap: () {
+          //           provider.setIsEdit = !(provider.isEdit);
+          //         },
+          //
+          //         child: Row(
+          //           spacing: context.isDesktop ? 5.w : 10.w,
+          //           children: [
+          //             SvgPicture.asset(
+          //               AppAssets.edit,
+          //               width: context.isDesktop ? 18.w : 22.w,
+          //             ),
+          //             Text("Edit", style: bold(fontSize: sixteenResponsive)),
+          //           ],
+          //         ),
+          //       ),
+        ],
+      ),
     );
   }
 }

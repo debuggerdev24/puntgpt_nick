@@ -11,7 +11,7 @@ class SignUpTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (Responsive.isMobile(context)) {
+    if (Responsive.isMobileBrowser(context)) {
       return Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,

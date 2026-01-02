@@ -83,7 +83,9 @@ class WebForgotPassScreen extends StatelessWidget {
                     AppFiledButton(
                       margin: EdgeInsets.only(top: 45.w),
                       text: "Send OTP",
-                      child: (provider.isForgotPassLoading && !context.isMobile)
+                      child:
+                          (provider.isForgotPassLoading &&
+                              !context.isBrowserMobile)
                           ? webProgressIndicator(context)
                           : null,
                       onTap: () {

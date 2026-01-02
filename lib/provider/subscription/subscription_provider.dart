@@ -1,25 +1,25 @@
-import 'package:flutter/foundation.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:puntgpt_nick/service/subscription/subscription_service.dart';
 
 import '../../core/enum/app_enums.dart';
 
 class SubscriptionProvider extends ChangeNotifier {
   /// Store all active subscriptions
-  final Set<SubscriptionTier> _activeSubscriptions = {};
+  final Set<AppEnum> _activeSubscriptions = {};
 
   bool _isSubscriptionProcessing = false;
 
   bool get isSubscriptionProcessing => _isSubscriptionProcessing;
 
   bool get isTier1Subscribed =>
-      _activeSubscriptions.contains(SubscriptionTier.tier1);
+      _activeSubscriptions.contains(AppEnum.monthlyPlan);
   bool get isTier2Subscribed =>
-      _activeSubscriptions.contains(SubscriptionTier.tier2);
+      _activeSubscriptions.contains(AppEnum.yearlyPlan);
   bool get isTier3Subscribed =>
-      _activeSubscriptions.contains(SubscriptionTier.tier3);
+      _activeSubscriptions.contains(AppEnum.lifeTimePlan);
 
-  // Expose active set read-only
-  Set<SubscriptionTier> get activeSubscriptions => {..._activeSubscriptions};
+  //todo Expose active set read-only
+  Set<AppEnum> get activeSubscriptions => {..._activeSubscriptions};
 
   //todo set
   void setSubscriptionProcessStatus({required bool status}) {
@@ -28,26 +28,28 @@ class SubscriptionProvider extends ChangeNotifier {
   }
 
   //todo add subscription
-  void addSubscription(SubscriptionTier tier) {
+  void addSubscription(AppEnum tier) {
     _activeSubscriptions.add(tier);
     notifyListeners();
   }
 
   //todo remove subscription
-  void removeSubscription(SubscriptionTier tier) {
+  void removeSubscription(AppEnum tier) {
     _activeSubscriptions.remove(tier);
     notifyListeners();
   }
 
   //todo buy subscription
-  Future<void> buy(SubscriptionTier tier) async {
-    await SubscriptionService.instance.buy(tier: tier);
-
+  Future<void> buy({
+    required AppEnum tier,
+    required BuildContext context,
+  }) async {
+    await SubscriptionService.instance.buy(tier: tier, context: context);
     notifyListeners();
   }
 
-  /// Mock Cancel
-  Future<void> cancel(SubscriptionTier tier) async {
+  //todo Mock Cancel
+  Future<void> cancel(AppEnum tier) async {
     // await Future.delayed(const Duration(milliseconds: 500));
 
     _activeSubscriptions.remove(tier);

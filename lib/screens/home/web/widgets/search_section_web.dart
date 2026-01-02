@@ -54,7 +54,7 @@ class _SearchSectionWebState extends State<SearchSectionWeb> {
   Widget build(BuildContext context) {
     return Consumer<SearchEngineProvider>(
       builder: (context, provider, child) => SizedBox(
-        width: Responsive.isMobile(context)
+        width: Responsive.isMobileBrowser(context)
             ? double.maxFinite
             : context.isTablet
             ? 1200.w
@@ -257,7 +257,7 @@ class _SearchSectionWebState extends State<SearchSectionWeb> {
                       top: provider.isSearched ? 12.h : 0,
                     ),
                     text: "Search",
-                    padding: (!context.isMobile)
+                    padding: (!context.isBrowserMobile)
                         ? EdgeInsets.symmetric(
                             vertical: (context.isDesktop) ? 12.w : 11.w,
                           )
@@ -286,7 +286,7 @@ class _SearchSectionWebState extends State<SearchSectionWeb> {
                       right: 12.w,
                     ),
                     text: "Save this Search",
-                    padding: (!context.isMobile)
+                    padding: (!context.isBrowserMobile)
                         ? EdgeInsets.symmetric(vertical: 12.w)
                         : null, // (context.isDesktop) ? 12.w : 11.w,
                     textStyle: semiBold(

@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -10,6 +9,7 @@ import 'package:puntgpt_nick/core/constants/text_style.dart';
 import 'package:puntgpt_nick/core/router/web/web_routes.dart';
 import 'package:puntgpt_nick/core/widgets/image_widget.dart';
 import 'package:puntgpt_nick/core/widgets/web_top_section.dart';
+import 'package:puntgpt_nick/responsive/responsive_builder.dart';
 
 import '../../main.dart';
 import '../../service/account/account_api_service.dart';
@@ -37,6 +37,7 @@ class _WebSplashScreenState extends State<WebSplashScreen> {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       _startTimer();
       Future.delayed(3.seconds).then((value) async {
+        return;
         if (isNetworkConnected.value) {
           if (LocaleStorageService.isFirstTime && authToken.isEmpty) {
             Logger.info("Inside if part");
@@ -110,19 +111,18 @@ class _WebSplashScreenState extends State<WebSplashScreen> {
 
   @override
   Widget build(BuildContext context) {
+    Logger.info(context.screenWidth.toString());
     return Scaffold(
       appBar: WebTopSection(),
       body: Center(
         child: Column(
-          crossAxisAlignment: kIsWeb
-              ? CrossAxisAlignment.start
-              : CrossAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: [
             ImageWidget(
               path: AppAssets.splashWebLogo,
               type: ImageType.asset,
-              width: 300.w,
+              height: context.isMobile ? 650.w : 300.w,
             ).animate().fade(duration: 0.8.seconds, delay: 1.seconds),
             24.h.flexClamp(20, 28).verticalSpace,
             Text(

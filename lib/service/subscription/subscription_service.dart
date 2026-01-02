@@ -1,6 +1,10 @@
 import 'dart:async';
+import 'dart:convert';
+import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
+import 'package:puntgpt_nick/core/utils/app_toast.dart';
 
 import '../../core/enum/app_enums.dart';
 import '../../core/helper/log_helper.dart';
@@ -12,11 +16,11 @@ class SubscriptionService {
 
   final InAppPurchase _iap = InAppPurchase.instance;
 
-  /// Mock product IDs for now
-  static const Map<SubscriptionTier, String> productIds = {
-    SubscriptionTier.tier1: "mock.tier1.monthly",
-    SubscriptionTier.tier2: "mock.tier2.monthly",
-    SubscriptionTier.tier3: "mock.tier3.monthly",
+  // todo Mock product IDs for now
+  static const Map<AppEnum, String> productIds = {
+    AppEnum.monthlyPlan: "com.monthlyPlan",
+    AppEnum.yearlyPlan: "com.yearlyPlan",
+    // AppEnum.yearlyPlan: "mock.tier3.monthly",
   };
 
   List<ProductDetails> _products = [];
@@ -25,33 +29,57 @@ class SubscriptionService {
   // ---------------------------------------------------------------------------
   // INITIALIZE
   // ---------------------------------------------------------------------------
-  Future<void> initialize({required SubscriptionProvider provider}) async {
+  Future<void> initialize({
+    required SubscriptionProvider provider,
+    required BuildContext context,
+  }) async {
+    Logger.info("initializing subscription");
     final available = await _iap.isAvailable();
+    Logger.info(available.toString());
     if (!available) {
       Logger.info("Store not available");
       return;
     }
-
-    await _loadProducts();
+    await _loadProducts(context: context);
 
     _purchaseSub = _iap.purchaseStream.listen(
       (purchases) => _handlePurchases(purchases, provider),
-      onError: (e) => Logger.error(e.toString()),
+
+      onError: (e) => Logger.error("Error inside the listener ${e.toString()}"),
     );
   }
 
-  Future<void> _loadProducts() async {
+  Future<void> _loadProducts({required BuildContext context}) async {
     final response = await _iap.queryProductDetails(productIds.values.toSet());
 
-    _products = response.productDetails;
+    Logger.info("load products");
 
-    Logger.info("Products loaded: ${_products.map((e) => e.id)}");
+    try {
+      _products = response.productDetails;
+    } catch (e) {
+      Logger.error(e.toString());
+    }
+
+    Logger.info("I am here");
+
+    for (var product in _products) {
+      AppToast.success(
+        context: context,
+        message: "Product is ${product.title}",
+      );
+      Logger.info("Products loaded: ${product.id}");
+      Logger.info("Products loaded: ${product.title}");
+      Logger.info("Products loaded: ${product.price}");
+    }
   }
 
   // ---------------------------------------------------------------------------
   // BUY (CALLED BY PROVIDER)
   // ---------------------------------------------------------------------------
-  Future<bool> buy({required SubscriptionTier tier}) async {
+  Future<bool> buy({
+    required AppEnum tier,
+    required BuildContext context,
+  }) async {
     try {
       final productId = productIds[tier];
       final product = _products.firstWhere(
@@ -64,7 +92,10 @@ class SubscriptionService {
       await _iap.buyNonConsumable(purchaseParam: param);
       return true;
     } catch (e, s) {
-      Logger.error("Buy error: $e\n$s");
+      if (context.mounted) {
+        AppToast.error(context: context, message: "Buy error: $e\n$s");
+      }
+
       return false;
     }
   }
@@ -76,27 +107,42 @@ class SubscriptionService {
     List<PurchaseDetails> purchases,
     SubscriptionProvider provider,
   ) async {
-    for (final p in purchases) {
-      if (p.status == PurchaseStatus.purchased ||
-          p.status == PurchaseStatus.restored) {
-        final tier = _mapProductToTier(p.productID);
+    for (final purchase in purchases) {
+      if (purchase.status == PurchaseStatus.purchased ||
+          purchase.status == PurchaseStatus.restored) {
+        final tier = _mapProductToTier(purchase.productID);
         if (tier != null) {
-          provider.addSubscription(tier);
+          String serverVerificationData = "";
+          final localData = purchase.verificationData.localVerificationData;
+          final serverData = purchase.verificationData.serverVerificationData;
+          final localDecodedData = jsonDecode(localData);
+          Logger.info("Decode data : $localDecodedData");
+          Logger.info("serverVerificationData : $serverData");
+          if (Platform.isAndroid) {
+            serverVerificationData = localDecodedData["purchaseToken"];
+            Logger.info(
+              "Purchase Token For Android: \n$serverVerificationData",
+            );
+          } else if (Platform.isIOS) {
+            serverVerificationData = localDecodedData["transactionId"];
+            Logger.info("Transaction Id For iOS: \n$serverVerificationData");
+          }
+          // provider.addSubscription(tier);
         }
-        _iap.completePurchase(p);
+        _iap.completePurchase(purchase);
       }
 
-      if (p.status == PurchaseStatus.canceled) {
+      if (purchase.status == PurchaseStatus.canceled) {
         provider.setSubscriptionProcessStatus(status: false);
       }
 
-      if (p.status == PurchaseStatus.error) {
-        Logger.error("Purchase error: ${p.error}");
+      if (purchase.status == PurchaseStatus.error) {
+        Logger.error("Purchase error: ${purchase.error}");
       }
     }
   }
 
-  SubscriptionTier? _mapProductToTier(String id) {
+  AppEnum? _mapProductToTier(String id) {
     try {
       return productIds.entries.firstWhere((e) => e.value == id).key;
     } catch (_) {
@@ -107,7 +153,7 @@ class SubscriptionService {
   // ---------------------------------------------------------------------------
   // CANCEL (CALLED BY PROVIDER)
   // ---------------------------------------------------------------------------
-  Future<bool> cancel({required SubscriptionTier tier}) async {
+  Future<bool> cancel({required AppEnum tier}) async {
     await Future.delayed(const Duration(milliseconds: 500));
     return true;
   }

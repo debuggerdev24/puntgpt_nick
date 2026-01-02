@@ -19,9 +19,11 @@ class FullPageIndicator extends StatelessWidget {
           color: AppColors.white,
           borderRadius: BorderRadius.circular(7).r,
         ),
-        padding: EdgeInsets.all((kIsWeb && context.isMobile) ? 24 : 12).r,
+        padding: EdgeInsets.all(
+          (kIsWeb && context.isBrowserMobile) ? 24 : 12,
+        ).r,
         child: CupertinoActivityIndicator(
-          radius: (kIsWeb && context.isMobile) ? 20.h : 19.w,
+          radius: (kIsWeb && context.isBrowserMobile) ? 20.h : 19.w,
           color: AppColors.primary,
         ),
       ),

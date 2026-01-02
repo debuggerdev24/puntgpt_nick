@@ -14,7 +14,7 @@ class AskPuntGptScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if(!context.isMobile){
+    if (!context.isBrowserMobile) {
       context.pop();
     }
     return Column(
@@ -59,7 +59,6 @@ class AskPuntGptScreen extends StatelessWidget {
       ],
     );
   }
-
 
   Widget topBar(BuildContext context) {
     return Column(

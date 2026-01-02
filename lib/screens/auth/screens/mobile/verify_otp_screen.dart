@@ -54,7 +54,7 @@ class VerifyOtpScreen extends StatelessWidget {
                         length: 4,
 
                         separatorBuilder: (index) =>
-                            (context.isMobile && kIsWeb)
+                            (context.isBrowserMobile && kIsWeb)
                             ? 28.w.horizontalSpace
                             : 14.w.horizontalSpace,
                         defaultPinTheme: PinTheme(

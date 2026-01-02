@@ -95,7 +95,8 @@ class WebResetPasswordScreen extends StatelessWidget {
                       fontSize: context.isDesktop ? 16.sp : 24.sp,
                     ),
                     child:
-                        (provider.isResetPasswordLoading && !context.isMobile)
+                        (provider.isResetPasswordLoading &&
+                            !context.isBrowserMobile)
                         ? webProgressIndicator(context)
                         : null,
                   ),

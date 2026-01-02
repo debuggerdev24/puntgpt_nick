@@ -18,7 +18,7 @@ class HomeScreenTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: Responsive.isMobile(context)
+      width: Responsive.isMobileBrowser(context)
           ? double.maxFinite
           : 400.w.flexClamp(300, 500),
       child: IntrinsicHeight(
@@ -59,7 +59,10 @@ class HomeScreenTab extends StatelessWidget {
       child: AnimatedContainer(
         duration: Duration(milliseconds: 400),
         alignment: Alignment.center,
-        padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: (kIsWeb) ? 26.w : 14.w),
+        padding: EdgeInsets.symmetric(
+          vertical: 8.h,
+          horizontal: (kIsWeb) ? 26.w : 14.w,
+        ),
         decoration: BoxDecoration(
           color: isSelected ? AppColors.primary : AppColors.white,
           border: Border.all(color: AppColors.primary),
@@ -68,7 +71,13 @@ class HomeScreenTab extends StatelessWidget {
           text,
           textAlign: TextAlign.center,
           style: bold(
-            fontSize: context.isDesktop ? 16.sp : context.isTablet ? 22.sp : (kIsWeb) ? 30.sp : 15.sp,
+            fontSize: context.isDesktop
+                ? 16.sp
+                : context.isTablet
+                ? 22.sp
+                : (kIsWeb)
+                ? 30.sp
+                : 15.sp,
             color: isSelected ? AppColors.white : AppColors.primary,
           ),
         ),

@@ -77,7 +77,7 @@ class AppCheckBox extends StatelessWidget {
               Expanded(
                 child: Padding(
                   padding: EdgeInsets.only(
-                    top: (Responsive.isMobile(context)) ? 0 : 2.5,
+                    top: (Responsive.isMobileBrowser(context)) ? 0 : 2.5,
                   ),
                   child: label!,
                 ),

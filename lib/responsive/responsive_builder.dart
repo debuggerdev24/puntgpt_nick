@@ -48,9 +48,12 @@ class Responsive extends StatelessWidget {
   final Widget? tablet;
   final Widget desktop;
 
-  /// Check if current screen is mobile
+  // Check if current screen is mobile
   static bool isMobile(BuildContext context) =>
-      context.screenWidth < Breakpoints.tablet;
+      context.screenWidth < Breakpoints.mobileBrowser;
+  static bool isMobileBrowser(BuildContext context) =>
+      context.screenWidth < Breakpoints.tablet &&
+      context.screenWidth > Breakpoints.mobileBrowser;
 
   /// Check if current screen is tablet
   static bool isTablet(BuildContext context) =>
@@ -93,6 +96,7 @@ enum DeviceType { mobile, tablet, desktop }
 /// Extension on BuildContext for easy responsive checks
 extension ResponsiveContext on BuildContext {
   bool get isMobile => Responsive.isMobile(this);
+  bool get isBrowserMobile => Responsive.isMobileBrowser(this);
   bool get isTablet => Responsive.isTablet(this);
   bool get isDesktop => Responsive.isDesktop(this);
   DeviceType get deviceType => Responsive.getDeviceType(this);

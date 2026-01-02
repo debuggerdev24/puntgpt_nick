@@ -174,7 +174,8 @@ class WebLoginScreen extends StatelessWidget {
                                 color: AppColors.white,
                               ),
                               child:
-                                  (provider.isLoginLoading && !context.isMobile)
+                                  (provider.isLoginLoading &&
+                                      !context.isBrowserMobile)
                                   ? webProgressIndicator(context)
                                   : null,
                             ),

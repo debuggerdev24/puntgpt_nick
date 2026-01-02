@@ -10,13 +10,14 @@ class WebTopSection extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (Responsive.isMobile(context)) {
+    if (context.isMobile) {
       return AppBar(
         backgroundColor: AppColors.primary,
         title: IntrinsicWidth(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              20.h.verticalSpace,
               Text(
                 "Visit UK Site",
                 style: bold(
@@ -25,6 +26,7 @@ class WebTopSection extends StatelessWidget implements PreferredSizeWidget {
                 ),
               ),
               Container(color: AppColors.white, height: 2),
+              if (context.isMobile) 5.h.verticalSpace else SizedBox(),
             ],
           ),
         ),

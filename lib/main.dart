@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -14,8 +13,6 @@ import 'package:puntgpt_nick/service/network/network_service.dart';
 import 'package:puntgpt_nick/service/storage/locale_storage_service.dart';
 import 'package:toastification/toastification.dart';
 
-import 'core/router/app/app_router.dart';
-
 ValueNotifier<bool> isNetworkConnected = ValueNotifier(true);
 
 Future<void> main() async {
@@ -27,8 +24,9 @@ Future<void> main() async {
   await Future.wait([LocaleStorageService.init()]);
 
   SystemChrome.setSystemUIOverlayStyle(
-    SystemUiOverlayStyle(
-      statusBarColor: Colors.black,
+    const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      systemStatusBarContrastEnforced: false,
       statusBarIconBrightness: Brightness.light,
       statusBarBrightness: Brightness.dark,
     ),
@@ -54,20 +52,26 @@ class MyApp extends StatelessWidget {
         ],
         child: AnnotatedRegion<SystemUiOverlayStyle>(
           value: SystemUiOverlayStyle(
-            statusBarColor: AppColors.primary,
+            statusBarColor: AppColors.primary, // Your desired color
+            systemStatusBarContrastEnforced: false, // Critical for Android 13+
             statusBarIconBrightness: Brightness.light,
             statusBarBrightness: Brightness.dark,
             systemNavigationBarColor: Colors.black,
             systemNavigationBarIconBrightness: Brightness.light,
           ),
+
           child: ScreenUtilInit(
             minTextAdapt: true,
             splitScreenMode: true,
-            designSize: (kIsWeb) ? Size(1440, 824) : const Size(430, 932),
+            designSize: Size(
+              1440,
+              824,
+            ), //(kIsWeb) ? Size(1440, 824) : const Size(430, 932),
             child: MaterialApp.router(
               debugShowCheckedModeBanner: false,
               theme: AppTheme.appThemeData,
-              routerConfig: (kIsWeb) ? WebRouter.router : AppRouter.router,
+              routerConfig: WebRouter
+                  .router, //(kIsWeb) ? WebRouter.router : AppRouter.router,
             ),
           ),
         ),
@@ -86,6 +90,6 @@ todo nick
 todo Vimal
 
 flutter run --release -d web-server --web-port=5000 --web-hostname=0.0.0.0
-
+// http://192.168.1.93:5000/#/splashScreen
 
 */

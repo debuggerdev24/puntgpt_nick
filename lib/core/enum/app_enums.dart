@@ -1,1 +1,1 @@
-enum SubscriptionTier { tier1, tier2, tier3 }
+enum AppEnum { monthlyPlan, yearlyPlan, lifeTimePlan }

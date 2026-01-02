@@ -102,7 +102,7 @@ class ManageSubscriptionScreen extends StatelessWidget {
     return Column(
       children: [
         Padding(
-          padding: EdgeInsets.fromLTRB(5.w, 12.h, 25.w, 16.h),
+          padding: EdgeInsets.fromLTRB(5.w, 8.h, 25.w, 10.h),
           child: Row(
             children: [
               IconButton(

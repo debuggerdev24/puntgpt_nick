@@ -25,7 +25,7 @@ class WebAgeConfirmationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Logger.info(
-      "is Mobile ${Responsive.isMobile(context)} ${context.screenWidth}",
+      "is Mobile ${Responsive.isMobileBrowser(context)} ${context.screenWidth}",
     );
     Logger.info(
       "is Desktop ${Responsive.isDesktop(context)} ${context.screenWidth}",
@@ -56,7 +56,7 @@ class WebAgeConfirmationScreen extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 50.w.clamp(20, 80)),
-              if (!Responsive.isMobile(context)) ...[
+              if (!Responsive.isMobileBrowser(context)) ...[
                 OnMouseTap(
                   child: AppFiledButton(
                     onTap: () => _onYesTap(context),
@@ -100,7 +100,7 @@ class WebAgeConfirmationScreen extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: Responsive.isMobile(context)
+      bottomNavigationBar: Responsive.isMobileBrowser(context)
           ? Padding(
               padding: EdgeInsets.fromLTRB(
                 25,

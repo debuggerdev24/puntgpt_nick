@@ -70,7 +70,7 @@ class WebOnboardingScreen extends StatelessWidget {
       },
     ];
     Logger.info(
-      "is Mobile ${Responsive.isMobile(context)} ${context.screenWidth}",
+      "is Mobile ${Responsive.isMobileBrowser(context)} ${context.screenWidth}",
     );
     Logger.info(
       "is Desktop ${Responsive.isDesktop(context)} ${context.screenWidth}",

@@ -32,7 +32,7 @@ class LoginScreen extends StatelessWidget {
               SingleChildScrollView(
                 padding: EdgeInsets.symmetric(horizontal: 25.w),
                 child: SizedBox(
-                  width: Responsive.isMobile(context)
+                  width: Responsive.isMobileBrowser(context)
                       ? double.maxFinite
                       : 500.w.flexClamp(null, 500),
                   child: Column(

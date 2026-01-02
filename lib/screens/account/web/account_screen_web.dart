@@ -12,8 +12,10 @@ import 'package:puntgpt_nick/core/widgets/on_button_tap.dart';
 import 'package:puntgpt_nick/provider/account/account_provider.dart';
 import 'package:puntgpt_nick/responsive/responsive_builder.dart';
 import 'package:puntgpt_nick/screens/account/web/change_password_section_web.dart';
+import 'package:puntgpt_nick/screens/account/web/current_plan_section_web.dart';
 import 'package:puntgpt_nick/screens/account/web/manage_subscription_section_web.dart';
 import 'package:puntgpt_nick/screens/account/web/personal_details_section_web.dart';
+import 'package:puntgpt_nick/screens/account/web/selected_plan_section_web.dart';
 import 'package:puntgpt_nick/screens/home/web/home_screen_web.dart';
 
 import '../../../core/utils/app_toast.dart';
@@ -29,7 +31,7 @@ class AccountScreenWeb extends StatefulWidget {
 class _AccountScreenWebState extends State<AccountScreenWeb> {
   @override
   Widget build(BuildContext context) {
-    final bodyWidth = context.isMobile
+    final bodyWidth = context.isBrowserMobile
         ? double.maxFinite
         : context.isTablet
         ? 1240.w
@@ -156,10 +158,19 @@ class _AccountScreenWebState extends State<AccountScreenWeb> {
                       //todo ----------------> right panel
                       if (provider.selectedAccountTabWeb == 0)
                         if (provider.showChangePassword)
+                          //todo change password section
                           ChangePasswordSectionWeb()
                         else
+                          //todo change password section
                           PersonalDetailsSectionWeb()
+                      else if (provider.showSelectedPlan)
+                        //todo selected plan section
+                        SelectedPlanSectionWeb()
+                      else if (provider.showCurrentPlan)
+                        //todo current plan section
+                        CurrentPlanSectionWeb()
                       else
+                        //todo all plans section
                         ManageSubscriptionSectionWeb(),
 
                       verticalDivider(),

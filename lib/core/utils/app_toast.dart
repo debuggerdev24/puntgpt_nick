@@ -31,7 +31,7 @@ class AppToast {
         message,
         style: medium(
           color: textColor ?? AppColors.white,
-          fontSize: context.isMobile
+          fontSize: context.isBrowserMobile
               ? (kIsWeb)
                     ? 30.sp
                     : 16.5.sp

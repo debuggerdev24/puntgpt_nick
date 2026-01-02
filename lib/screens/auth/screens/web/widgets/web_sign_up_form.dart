@@ -41,7 +41,7 @@ class WebSignUpForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    log("is Mobile ${Responsive.isMobile(context)}");
+    log("is Mobile ${Responsive.isMobileBrowser(context)}");
     log("is Desktop ${Responsive.isDesktop(context)}");
     log("is Tablet ${Responsive.isTablet(context)}");
     return Consumer<AuthProvider>(
@@ -50,7 +50,7 @@ class WebSignUpForm extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 25.w),
           child: Form(
             key: formKey,
-            child: context.isMobile
+            child: context.isBrowserMobile
                 ? Column(
                     spacing: 8.h,
                     children: [

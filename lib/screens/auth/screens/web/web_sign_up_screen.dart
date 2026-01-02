@@ -27,7 +27,7 @@ class WebSignUpScreen extends StatelessWidget {
     return Scaffold(
       appBar: WebTopSection(),
       body: Container(
-        alignment: Responsive.isMobile(context)
+        alignment: Responsive.isMobileBrowser(context)
             ? Alignment.topLeft
             : Alignment.topCenter,
         child: Consumer<AuthProvider>(

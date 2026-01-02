@@ -53,7 +53,7 @@ class _HomeScreenWebState extends State<HomeScreenWeb> {
   Widget build(BuildContext context) {
     GlobalKey<FormState> formKey = GlobalKey<FormState>();
     Logger.info(
-      "is Mobile ${Responsive.isMobile(context)} ${context.screenWidth}",
+      "is Mobile ${Responsive.isMobileBrowser(context)} ${context.screenWidth}",
     );
     Logger.info(
       "is Desktop ${Responsive.isDesktop(context)} ${context.screenWidth}",
@@ -61,11 +61,11 @@ class _HomeScreenWebState extends State<HomeScreenWeb> {
     Logger.info(
       "is Tablet ${Responsive.isTablet(context)} ${context.screenWidth}",
     );
-    if (isSearchDialogOpen && context.isMobile) {
+    if (isSearchDialogOpen && context.isBrowserMobile) {
       context.pop();
       isSearchDialogOpen = false;
     }
-    if (context.isMobile && isSheetOpen) {
+    if (context.isBrowserMobile && isSheetOpen) {
       context.pop();
       isSheetOpen = false;
     }
@@ -88,7 +88,7 @@ class _HomeScreenWebState extends State<HomeScreenWeb> {
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    if (kIsWeb && !context.isMobile) ...[
+                    if (kIsWeb && !context.isBrowserMobile) ...[
                       70.h.verticalSpace,
                       HomeScreenTabWeb(selectedIndex: provider.selectedTab),
                     ] else ...[
@@ -97,7 +97,7 @@ class _HomeScreenWebState extends State<HomeScreenWeb> {
                     ],
                     16.h.verticalSpace,
                     Expanded(
-                      child: (context.isMobile)
+                      child: (context.isBrowserMobile)
                           ? mobileView(provider: provider, formKey: formKey)
                           : webView(provider: provider, formKey: formKey),
                     ),
@@ -222,7 +222,7 @@ class _HomeScreenWebState extends State<HomeScreenWeb> {
     required SearchEngineProvider provider,
     required GlobalKey<FormState> formKey,
   }) {
-    final bodyWidth = context.isMobile
+    final bodyWidth = context.isBrowserMobile
         ? 1.6.sw
         : context.isTablet
         ? 1200.w

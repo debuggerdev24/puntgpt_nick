@@ -40,7 +40,7 @@ class _WebDashboardState extends State<WebDashboard> {
   @override
   Widget build(BuildContext context) {
     Logger.info(
-      "is Mobile ${Responsive.isMobile(context)} ${context.screenWidth}",
+      "is Mobile ${Responsive.isMobileBrowser(context)} ${context.screenWidth}",
     );
     Logger.info(
       "is Desktop ${Responsive.isDesktop(context)} ${context.screenWidth}",
