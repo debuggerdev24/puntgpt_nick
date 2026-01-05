@@ -4,37 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:puntgpt_nick/core/extensions/context_extensions.dart';
 import 'package:puntgpt_nick/responsive/breakpoints.dart';
 
-/// Main responsive builder widget that renders different layouts
-/// based on screen size
-class ResponsiveBuilder extends StatelessWidget {
-  const ResponsiveBuilder({
-    super.key,
-    required this.mobile,
-    this.tablet,
-    required this.desktop,
-  });
-  final Widget Function(BuildContext context) mobile;
-  final Widget Function(BuildContext context)? tablet;
-  final Widget Function(BuildContext context) desktop;
-
-  @override
-  Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        final width = constraints.maxWidth;
-        if (width >= Breakpoints.desktop) {
-          return desktop(context);
-        } else if (context.screenWidth >= Breakpoints.tablet &&
-            tablet != null) {
-          return tablet!(context);
-        } else {
-          return mobile(context);
-        }
-      },
-    );
-  }
-}
-
 /// Simpler responsive widget that takes widgets directly
 //todo this is mainly use in the whole app
 class Responsive extends StatelessWidget {
@@ -69,7 +38,11 @@ class Responsive extends StatelessWidget {
     final width = context.screenWidth;
     if (width >= Breakpoints.desktop) return DeviceType.desktop;
     if (width >= Breakpoints.tablet) return DeviceType.tablet;
-    return DeviceType.mobile;
+    if (context.screenWidth < Breakpoints.tablet &&
+        context.screenWidth > Breakpoints.mobileBrowser) {
+      return DeviceType.mobileBrowser;
+    }
+    return DeviceType.mobilePhysical;
   }
 
   @override
@@ -91,51 +64,15 @@ class Responsive extends StatelessWidget {
 }
 
 /// Device type enum
-enum DeviceType { mobile, tablet, desktop }
+enum DeviceType { mobileBrowser, mobilePhysical, tablet, desktop }
 
 /// Extension on BuildContext for easy responsive checks
 extension ResponsiveContext on BuildContext {
-  bool get isMobile => Responsive.isMobile(this);
+  bool get isPhysicalMobile => Responsive.isMobile(this);
   bool get isBrowserMobile => Responsive.isMobileBrowser(this);
   bool get isTablet => Responsive.isTablet(this);
   bool get isDesktop => Responsive.isDesktop(this);
+  bool get isMobileView =>
+      Responsive.isMobile(this) || Responsive.isMobileBrowser(this);
   DeviceType get deviceType => Responsive.getDeviceType(this);
-}
-
-/// Responsive value builder - returns different values based on screen size
-class ResponsiveValue<T> {
-  const ResponsiveValue({
-    required this.mobile,
-    this.tablet,
-    required this.desktop,
-  });
-  final T mobile;
-  final T? tablet;
-  final T desktop;
-
-  T getValue(BuildContext context) {
-    if (Responsive.isDesktop(context)) {
-      return desktop;
-    } else if (Responsive.isTablet(context) && tablet != null) {
-      return tablet!;
-    } else {
-      return mobile;
-    }
-  }
-}
-
-/// Helper function to get responsive value
-T responsiveValue<T>(
-  BuildContext context, {
-  required T mobile,
-  T? tablet,
-  required T desktop,
-}) {
-  if (Responsive.isDesktop(context)) {
-    return desktop;
-  } else if (Responsive.isTablet(context) && tablet != null) {
-    return tablet;
-  } else {
-    return mobile;
-  }
 }

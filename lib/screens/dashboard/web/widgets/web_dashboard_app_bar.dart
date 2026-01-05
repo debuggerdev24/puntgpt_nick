@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -128,6 +127,7 @@ class _WebDashboardAppBarState extends State<WebDashboardAppBar> {
         ),
       );
     }
+    //todo menu bar for mobile
     return Consumer<SearchEngineProvider>(
       builder: (context, provider, child) {
         return Column(
@@ -137,7 +137,7 @@ class _WebDashboardAppBarState extends State<WebDashboardAppBar> {
               decoration: BoxDecoration(color: AppColors.primary),
               width: double.maxFinite,
               padding: EdgeInsets.symmetric(
-                horizontal: (kIsWeb) ? 40.w : 16.w,
+                horizontal: (context.isBrowserMobile) ? 40.w : 16.w,
                 vertical: 8.h,
               ),
               child: Row(
@@ -156,26 +156,26 @@ class _WebDashboardAppBarState extends State<WebDashboardAppBar> {
   }
 
   Widget _menuIcon(BuildContext context, SearchEngineProvider provider) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      // spacing: 8.w,
-      children: [
-        if (!context.isDesktop)
-          OnMouseTap(
-            onTap: () {
-              provider.setIsMenuOpen = !provider.isMenuOpen;
-            },
-            child: Padding(
-              padding: EdgeInsets.only(right: 0),
-              child: Icon(
-                provider.isMenuOpen ? Icons.close : Icons.menu,
-                color: AppColors.white,
-                size: (context.isTablet) ? 42.w : 45.w,
-              ),
-            ),
+    if (!context.isDesktop) {
+      return OnMouseTap(
+        onTap: () {
+          provider.setIsMenuOpen = !provider.isMenuOpen;
+        },
+        child: Padding(
+          padding: EdgeInsets.only(right: 0),
+          child: Icon(
+            provider.isMenuOpen ? Icons.close : Icons.menu,
+            color: AppColors.white,
+            size: (context.isTablet)
+                ? 42.w
+                : (context.isBrowserMobile)
+                ? 45.w
+                : 33.w,
           ),
-      ],
-    );
+        ),
+      );
+    }
+    return SizedBox();
   }
 
   Widget _appLogo(BuildContext context) {
@@ -255,16 +255,22 @@ class _WebDashboardAppBarState extends State<WebDashboardAppBar> {
   }
 
   Widget _bannerAd() {
-    return Expanded(
-      child: Container(
-        height: 55.h,
-        margin: EdgeInsets.symmetric(horizontal: (kIsWeb) ? 200.w : 20.w),
-        decoration: BoxDecoration(
-          color: AppColors.white,
-          borderRadius: BorderRadius.circular(8),
-        ),
-        alignment: Alignment.center,
-        child: Text("Ad", style: regular(fontSize: (kIsWeb) ? 30.sp : 16.sp)),
+    return Container(
+      height: 55.h,
+      width: context.isTablet
+          ? 650.w
+          : context.isBrowserMobile
+          ? 700.w
+          : 200.w,
+      // margin: EdgeInsets.symmetric(horizontal: (context.isMobileView) ? 200.w : 25.w),
+      decoration: BoxDecoration(
+        color: AppColors.white,
+        borderRadius: BorderRadius.circular(8),
+      ),
+      alignment: Alignment.center,
+      child: Text(
+        "Ad",
+        style: regular(fontSize: (context.isBrowserMobile) ? 30.sp : 16.sp),
       ),
     );
   }

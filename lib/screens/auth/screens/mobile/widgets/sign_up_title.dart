@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:puntgpt_nick/core/constants/constants.dart';
@@ -23,7 +22,7 @@ class SignUpTitle extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: regular(
                     height: 1.2,
-                    fontSize: kIsWeb ? 50.sp : 38.sp,
+                    fontSize: context.isBrowserMobile ? 50.sp : 38.sp,
                     fontFamily: AppFontFamily.secondary,
                   ),
                 )
@@ -66,7 +65,7 @@ class SignUpTitle extends StatelessWidget {
                 ? "No Payment Details required.*"
                 : "Cancel Subscription anytime*",
             style: regular(
-              fontSize: kIsWeb ? 30.sp : 16.sp,
+              fontSize: context.isBrowserMobile ? 30.sp : 16.sp,
               color: AppColors.primary.setOpacity(0.8),
             ),
           ),

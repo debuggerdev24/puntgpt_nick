@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:puntgpt_nick/core/constants/constants.dart';
 import 'package:puntgpt_nick/core/constants/text_style.dart';
+import 'package:puntgpt_nick/core/router/web/web_routes.dart';
 import 'package:puntgpt_nick/core/widgets/app_devider.dart';
 import 'package:puntgpt_nick/core/widgets/app_filed_button.dart';
 import 'package:puntgpt_nick/core/widgets/on_button_tap.dart';
@@ -22,17 +23,17 @@ class RunnersListWeb extends StatelessWidget {
     return Column(
       children: [
         Padding(
-          padding: EdgeInsets.fromLTRB(25.w, 0.h, 25.w, (kIsWeb) ? 8.h : 12.h),
+          padding: EdgeInsets.fromLTRB(25.w, 0.h, 25.w, (context.isBrowserMobile) ? 8.h : 12.h),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
                 "Total Runners: (20)",
-                style: bold(fontSize: (kIsWeb) ? 25.sp : 16.sp),
+                style: bold(fontSize: (context.isBrowserMobile) ? 25.sp : 16.sp),
               ),
               GestureDetector(
                 onTap: () {
-                  context.pushNamed(AppRoutes.savedSearched.name);
+                  context.pushNamed((context.isMobileView && !kIsWeb) ? WebRoutes.savedSearchedScreen.name : AppRoutes.savedSearched.name);
                 },
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
@@ -40,13 +41,13 @@ class RunnersListWeb extends StatelessWidget {
                     ImageWidget(
                       type: ImageType.svg,
                       path: AppAssets.bookmark,
-                      height: (kIsWeb) ? 25.sp : 16.sp,
+                      height: (context.isBrowserMobile) ? 25.sp : 16.sp,
                     ),
                     5.horizontalSpace,
                     Text(
                       "Saved Searches",
                       style: bold(
-                        fontSize: (kIsWeb) ? 25.sp : 16.sp,
+                        fontSize: (context.isBrowserMobile) ? 25.sp : 16.sp,
                         decoration: TextDecoration.underline,
                       ),
                     ),
@@ -83,18 +84,18 @@ class Runner extends StatelessWidget {
         ? 16.sp
         : context.isTablet
         ? 22.sp
-        : (kIsWeb)
+        : (context.isBrowserMobile)
         ? 30.sp
         : 16.sp;
     final fourteenFontSize = context.isDesktop
         ? 14.sp
         : context.isTablet
         ? 22.sp
-        : (kIsWeb)
+        : (context.isBrowserMobile)
         ? 26.sp
         : 14.sp;
     return Container(
-      margin: EdgeInsets.only(bottom: (kIsWeb) ? 0 : 16.h),
+      margin: EdgeInsets.only(bottom: (context.isBrowserMobile) ? 0 : 16.h),
       decoration: BoxDecoration(
         border: Border.all(color: AppColors.greyColor.withValues(alpha: 0.15)),
       ),
@@ -181,7 +182,7 @@ class Runner extends StatelessWidget {
                           ? 14.sp
                           : context.isTablet
                           ? 20.sp
-                          : (kIsWeb)
+                          : (context.isBrowserMobile)
                           ? 26.sp
                           : 14.sp,
                       color: AppColors.white,
@@ -275,7 +276,7 @@ class Runner extends StatelessWidget {
                                   ? 14.sp
                                   : context.isTablet
                                   ? 20.sp
-                                  : (kIsWeb)
+                                  : (context.isBrowserMobile)
                                   ? 26.sp
                                   : 14.sp,
                             ),

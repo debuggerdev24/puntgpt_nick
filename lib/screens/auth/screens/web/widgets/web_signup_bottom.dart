@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:puntgpt_nick/core/constants/constants.dart';
@@ -30,7 +29,7 @@ class WebSignUpBottomSection extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           SizedBox(
-            width: Responsive.isMobileBrowser(context)
+            width: context.isMobileView
                 ? double.maxFinite
                 : context.screenWidth * 0.6.flexClamp(null, 600),
             child: AppCheckBox(
@@ -45,7 +44,7 @@ class WebSignUpBottomSection extends StatelessWidget {
                       ? 14.sp
                       : (context.isTablet)
                       ? 22.sp
-                      : (kIsWeb)
+                      : (context.isBrowserMobile)
                       ? 30.sp
                       : 14.sp,
                   height: 1.2,
@@ -69,7 +68,7 @@ class WebSignUpBottomSection extends StatelessWidget {
                   ? 16.sp
                   : (context.isTablet)
                   ? 24.sp
-                  : (kIsWeb)
+                  : (context.isBrowserMobile)
                   ? 30.sp
                   : 18.sp, //(kIsWeb) ? 28.sp : 18.sp,
               color: AppColors.white,
@@ -86,7 +85,7 @@ class WebSignUpBottomSection extends StatelessWidget {
                       ? 14.sp
                       : (context.isTablet)
                       ? 22.sp
-                      : (kIsWeb)
+                      : (context.isBrowserMobile)
                       ? 28.sp
                       : 14.sp,
                   color: AppColors.primary.withValues(alpha: 0.8),
@@ -101,7 +100,7 @@ class WebSignUpBottomSection extends StatelessWidget {
                         ? 14.sp
                         : (context.isTablet)
                         ? 22.sp
-                        : (kIsWeb)
+                        : (context.isBrowserMobile)
                         ? 28.sp
                         : 14.sp,
                   ),
@@ -121,7 +120,7 @@ class WebSignUpBottomSection extends StatelessWidget {
                       ? 12.sp
                       : (context.isTablet)
                       ? 20.sp
-                      : (kIsWeb)
+                      : (context.isBrowserMobile)
                       ? 22.sp
                       : 14.sp,
                 ),
@@ -139,7 +138,7 @@ class WebSignUpBottomSection extends StatelessWidget {
                       ? 12.sp
                       : (context.isTablet)
                       ? 20.sp
-                      : (kIsWeb)
+                      : (context.isBrowserMobile)
                       ? 22.sp
                       : 14.sp,
                 ),
@@ -157,7 +156,7 @@ class WebSignUpBottomSection extends StatelessWidget {
                       ? 12.sp
                       : (context.isTablet)
                       ? 20.sp
-                      : (kIsWeb)
+                      : (context.isBrowserMobile)
                       ? 22.sp
                       : 14.sp,
                 ),

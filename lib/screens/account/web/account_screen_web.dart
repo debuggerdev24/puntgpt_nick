@@ -258,7 +258,8 @@ class _AccountScreenWebState extends State<AccountScreenWeb> {
                         context: context,
                         message: "Log Out Successfully",
                       );
-                      context.goNamed(WebRoutes.onBoardingScreen.name);
+
+                      context.go(WebRoutes.onBoardingScreen.name);
                     },
                     onFailed: (error) {
                       AppToast.error(context: context, message: error);

@@ -4,7 +4,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:puntgpt_nick/core/constants/constants.dart';
+import 'package:puntgpt_nick/core/router/web/web_routes.dart';
 import 'package:puntgpt_nick/provider/account/account_provider.dart';
+import 'package:puntgpt_nick/responsive/responsive_builder.dart';
 import 'package:puntgpt_nick/screens/account/mobile/widgets/subscription_plan.dart';
 
 import '../../../core/constants/text_style.dart';
@@ -56,6 +58,7 @@ class ManageSubscriptionScreen extends StatelessWidget {
                       return GestureDetector(
                         onTap: () {
                           context.pushNamed(
+                            (kIsWeb && context.isMobileView) ? WebRoutes.selectedPlanScreen.name :
                             AppRoutes.selectedPlanScreen.name,
                             extra: plan,
                           );
@@ -68,11 +71,11 @@ class ManageSubscriptionScreen extends StatelessWidget {
                       margin: EdgeInsets.fromLTRB(25.w, 20.h, 25.w, 20.h),
                       text: "See Current Plan",
                       textStyle: semiBold(
-                        fontSize: (kIsWeb) ? 30.sp : 18.sp,
+                        fontSize: (context.isBrowserMobile) ? 30.sp : 18.sp,
                         color: AppColors.white,
                       ),
                       onTap: () {
-                        context.pushNamed(AppRoutes.currentPlanScreen.name);
+                        context.pushNamed((kIsWeb && context.isMobileView) ? WebRoutes.currentPlanScreen.name : AppRoutes.currentPlanScreen.name);
                       },
                     ),
                   ],
@@ -123,7 +126,7 @@ class ManageSubscriptionScreen extends StatelessWidget {
                   Text(
                     "Manage Subscription",
                     style: regular(
-                      fontSize: (kIsWeb) ? 36.sp : 24.sp,
+                      fontSize: (context.isBrowserMobile) ? 36.sp : 24.sp,
                       fontFamily: AppFontFamily.secondary,
                       height: 1.35,
                     ),
@@ -131,7 +134,7 @@ class ManageSubscriptionScreen extends StatelessWidget {
                   Text(
                     "Manage your Subscription Plan",
                     style: semiBold(
-                      fontSize: (kIsWeb) ? 28.sp : 14.sp,
+                      fontSize: (context.isBrowserMobile) ? 28.sp : 14.sp,
                       color: AppColors.greyColor.withValues(alpha: 0.6),
                     ),
                   ),

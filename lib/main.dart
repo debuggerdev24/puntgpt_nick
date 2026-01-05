@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -13,6 +14,8 @@ import 'package:puntgpt_nick/responsive/responsive_builder.dart';
 import 'package:puntgpt_nick/service/network/network_service.dart';
 import 'package:puntgpt_nick/service/storage/locale_storage_service.dart';
 import 'package:toastification/toastification.dart';
+
+import 'core/router/app/app_router.dart';
 
 ValueNotifier<bool> isNetworkConnected = ValueNotifier(true);
 
@@ -64,14 +67,13 @@ class MyApp extends StatelessWidget {
           child: ScreenUtilInit(
             minTextAdapt: true,
             splitScreenMode: true,
-            designSize: (!context.isMobile)
-                ? Size(1440, 824)
-                : const Size(430, 932),
+            designSize: (context.isPhysicalMobile)
+                ? Size(430, 932)
+                : Size(1440, 824),
             child: MaterialApp.router(
               debugShowCheckedModeBanner: false,
               theme: AppTheme.appThemeData,
-              routerConfig: WebRouter
-                  .router, //(kIsWeb) ? WebRouter.router : AppRouter.router,
+              routerConfig: (kIsWeb) ? WebRouter.router : AppRouter.router,
             ),
           ),
         ),
@@ -90,6 +92,6 @@ todo nick
 todo Vimal
 
 flutter run --release -d web-server --web-port=5000 --web-hostname=0.0.0.0
-// http://192.168.1.93:5000/#/splashScreen
+// http://192.168.1.104:5000/#/splashScreen
 
 */

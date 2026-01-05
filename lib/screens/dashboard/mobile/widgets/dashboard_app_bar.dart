@@ -24,7 +24,7 @@ class _DashboardAppBarState extends State<DashboardAppBar> {
       decoration: BoxDecoration(color: AppColors.primary),
       width: double.maxFinite,
       padding: EdgeInsets.symmetric(
-        horizontal: (kIsWeb) ? 40.w : 16.w,
+        horizontal: (context.isBrowserMobile) ? 40.w : 16.w,
         vertical: 8.h,
       ),
 
@@ -43,7 +43,7 @@ class _DashboardAppBarState extends State<DashboardAppBar> {
           path: AppAssets.horse,
           width: context.isTablet
               ? 55.sp
-              : (kIsWeb)
+              : (context.isBrowserMobile)
               ? 62.w
               : 32.w,
           color: AppColors.white,
@@ -53,7 +53,7 @@ class _DashboardAppBarState extends State<DashboardAppBar> {
           style: regular(
             fontSize: context.isTablet
                 ? 32.sp
-                : (kIsWeb)
+                : (context.isBrowserMobile)
                 ? 48.sp
                 : 16.sp,
             fontFamily: AppFontFamily.secondary,
@@ -71,10 +71,9 @@ class _DashboardAppBarState extends State<DashboardAppBar> {
         behavior: HitTestBehavior.opaque,
         onTap: () {
           if (kIsWeb) {
-            WebRouter.indexedStackNavigationShell!.goBranch(2);
+            WebRouter.indexedStackNavigationShell!.goBranch(3);
             return;
           }
-
           context.pushNamed(AppRoutes.tipSlipScreen.name);
         },
         child: Stack(
@@ -88,7 +87,7 @@ class _DashboardAppBarState extends State<DashboardAppBar> {
                   height: 1.2,
                   fontSize: context.isTablet
                       ? 32.sp
-                      : (kIsWeb)
+                      : (context.isBrowserMobile)
                       ? 40.sp
                       : 20.sp,
                   color: AppColors.white,
@@ -101,7 +100,7 @@ class _DashboardAppBarState extends State<DashboardAppBar> {
               child: Container(
                 padding: EdgeInsets.symmetric(
                   horizontal: 3,
-                  vertical: (kIsWeb) ? 3 : 1,
+                  vertical: (context.isBrowserMobile) ? 3 : 1,
                 ),
                 decoration: BoxDecoration(color: AppColors.white),
                 child: Text(
@@ -109,7 +108,7 @@ class _DashboardAppBarState extends State<DashboardAppBar> {
                   style: semiBold(
                     fontSize: context.isTablet
                         ? 18.sp
-                        : (kIsWeb)
+                        : (context.isBrowserMobile)
                         ? 24.sp
                         : 12.sp,
                     color: AppColors.black,
@@ -127,13 +126,17 @@ class _DashboardAppBarState extends State<DashboardAppBar> {
     return Expanded(
       child: Container(
         height: 55.h,
-        margin: EdgeInsets.symmetric(horizontal: (kIsWeb) ? 200.w : 20.w),
+        width: context.screenWidth - 50,
+        margin: EdgeInsets.symmetric(horizontal: 20.w),
         decoration: BoxDecoration(
           color: AppColors.white,
           borderRadius: BorderRadius.circular(8),
         ),
         alignment: Alignment.center,
-        child: Text("Ad", style: regular(fontSize: (kIsWeb) ? 30.sp : 16.sp)),
+        child: Text(
+          "Ad",
+          style: regular(fontSize: (context.isBrowserMobile) ? 30.sp : 16.sp),
+        ),
       ),
     );
   }

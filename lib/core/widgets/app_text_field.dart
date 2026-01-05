@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -81,7 +80,7 @@ class AppTextField extends StatelessWidget {
                 ? 15.5.sp
                 : context.isTablet
                 ? 21.sp
-                : (kIsWeb)
+                : (context.isBrowserMobile)
                 ? 28.sp
                 : 16.sp,
           ),
@@ -112,7 +111,7 @@ class AppTextField extends StatelessWidget {
                   ? 14.6.sp
                   : context.isTablet
                   ? 21.5.sp
-                  : (kIsWeb)
+                  : (context.isBrowserMobile)
                   ? 30.sp
                   : 14.sp,
               color: AppColors.primary.withValues(alpha: 0.65),
@@ -124,7 +123,7 @@ class AppTextField extends StatelessWidget {
                   ? 15.5.sp
                   : context.isTablet
                   ? 21.sp
-                  : (kIsWeb)
+                  : (context.isBrowserMobile)
                   ? 26.sp
                   : 12.sp,
               color: AppColors.red,

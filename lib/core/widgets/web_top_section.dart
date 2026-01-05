@@ -10,7 +10,7 @@ class WebTopSection extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (context.isMobile) {
+    if (context.isPhysicalMobile) {
       return AppBar(
         backgroundColor: AppColors.primary,
         title: IntrinsicWidth(

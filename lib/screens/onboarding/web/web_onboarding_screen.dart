@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -108,7 +107,12 @@ class WebOnboardingScreen extends StatelessWidget {
                               ? 38.sp
                               : context.isTablet
                               ? 50.sp
-                              : 62.sp,
+                              : context.isBrowserMobile
+                              ? 62.sp
+                              : 48.sp,
+
+                          height: context.isPhysicalMobile ? 1 : null,
+
                           fontFamily: AppFontFamily.secondary,
                         ),
                       ),
@@ -119,8 +123,11 @@ class WebOnboardingScreen extends StatelessWidget {
                               ? 38.sp
                               : context.isTablet
                               ? 50.sp
-                              : 62.sp,
+                              : context.isBrowserMobile
+                              ? 62.sp
+                              : 48.sp,
                           fontFamily: AppFontFamily.secondary,
+                          height: context.isPhysicalMobile ? 1 : null,
                           color: AppColors.premiumYellow,
                         ),
                       ),
@@ -248,7 +255,7 @@ class WebOnboardingScreen extends StatelessWidget {
                                 ? 18.sp
                                 : context.isTablet
                                 ? 26.sp
-                                : kIsWeb
+                                : context.isBrowserMobile
                                 ? 38.sp
                                 : 18.sp,
                           ),

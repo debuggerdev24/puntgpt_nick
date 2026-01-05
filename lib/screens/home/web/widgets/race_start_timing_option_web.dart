@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -20,17 +19,17 @@ class RaceStartTimingOptionsWeb extends StatelessWidget {
 
         return LayoutBuilder(
           builder: (context, constraints) {
-
             final textScale = MediaQuery.of(context).textScaleFactor;
-            double totalWidth = 50;
+            // double totalWidth = 50;
             for (final t in timings) {
-              final estimatedTextWidth = (t.length * 10 * textScale);
-              totalWidth += estimatedTextWidth + 36 + 15;
+              // final estimatedTextWidth = (t.length * 10 * textScale);
+              // totalWidth += estimatedTextWidth + 36 + 15;
             }
-            final fitsInScreen = totalWidth < constraints.maxWidth;
             return Center(
               child: SingleChildScrollView(
-                padding: EdgeInsets.symmetric(horizontal: (kIsWeb) ? 35.w : 25.w),
+                padding: EdgeInsets.symmetric(
+                  horizontal: (context.isBrowserMobile) ? 35.w : 25.w,
+                ),
 
                 scrollDirection: Axis.horizontal,
                 child: Row(
@@ -39,13 +38,11 @@ class RaceStartTimingOptionsWeb extends StatelessWidget {
                   // alignment: WrapAlignment.center,
                   children: List.generate(
                     timings.length,
-                        (index) => _item(
+                    (index) => _item(
                       text: timings[index],
-                      onTap: () =>
-                      provider.selectedRaceTimingIndex = index,
-                      isSelected:
-                      provider.selectedRaceTimingIndex == index,
-                          context: context
+                      onTap: () => provider.selectedRaceTimingIndex = index,
+                      isSelected: provider.selectedRaceTimingIndex == index,
+                      context: context,
                     ),
                   ),
                 ),
@@ -112,7 +109,13 @@ class RaceStartTimingOptionsWeb extends StatelessWidget {
         child: Text(
           text,
           style: semiBold(
-            fontSize: context.isDesktop ? 14.sp : context.isTablet ? 22.sp : (kIsWeb) ? 34.sp : 14.sp,
+            fontSize: context.isDesktop
+                ? 14.sp
+                : context.isTablet
+                ? 22.sp
+                : (context.isBrowserMobile)
+                ? 34.sp
+                : 14.sp,
             color: isSelected ? AppColors.white : AppColors.primary,
           ),
         ),

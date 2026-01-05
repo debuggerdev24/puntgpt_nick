@@ -9,6 +9,7 @@ import 'package:puntgpt_nick/core/constants/constants.dart';
 import 'package:puntgpt_nick/core/constants/text_style.dart';
 import 'package:puntgpt_nick/core/router/web/web_routes.dart';
 import 'package:puntgpt_nick/core/widgets/image_widget.dart';
+import 'package:puntgpt_nick/responsive/responsive_builder.dart';
 import 'package:puntgpt_nick/screens/home/mobile/widgets/filters_list.dart';
 import 'package:puntgpt_nick/screens/home/mobile/widgets/home_screen_tab.dart';
 import 'package:puntgpt_nick/screens/home/mobile/widgets/race_start_timing_options.dart';
@@ -415,7 +416,8 @@ Widget askPuntGPTButton(BuildContext context) {
     onTap: () {
       // if(){
       context.pushNamed(
-        (kIsWeb) ? WebRoutes.askOPuntGpt.name : AppRoutes.askPuntGpt.name,
+        // kIsWeb &&
+        (kIsWeb) ? WebRoutes.askPuntGptScreen.name : AppRoutes.askPuntGpt.name,
       );
       // }
     },
@@ -438,13 +440,16 @@ Widget askPuntGPTButton(BuildContext context) {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          ImageWidget(path: AppAssets.horse, height: (kIsWeb) ? 42.w : 30.w),
+          ImageWidget(
+            path: AppAssets.horse,
+            height: (context.isBrowserMobile) ? 42.w : 30.w,
+          ),
           10.horizontalSpace,
           Text(
             "Ask @ PuntGPT",
             textAlign: TextAlign.center,
             style: semiBold(
-              fontSize: (kIsWeb) ? 38.sp : 20.sp,
+              fontSize: (context.isBrowserMobile) ? 38.sp : 20.sp,
               fontFamily: AppFontFamily.secondary,
             ),
           ),

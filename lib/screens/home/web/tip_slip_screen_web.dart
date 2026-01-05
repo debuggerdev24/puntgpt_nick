@@ -34,7 +34,7 @@ class TipSlipScreenWeb extends StatelessWidget {
     //     ? 20.sp
     //     : context.isTablet
     //     ? 28.sp
-    //     : (kIsWeb)
+    //     : (context.isBrowserMobile)
     //     ? 36.sp
     //     : 20.sp;
 
@@ -42,7 +42,7 @@ class TipSlipScreenWeb extends StatelessWidget {
         ? 16.sp
         : context.isTablet
         ? 24.sp
-        : (kIsWeb)
+        : (context.isBrowserMobile)
         ? 32.sp
         : 16.sp;
 
@@ -50,7 +50,7 @@ class TipSlipScreenWeb extends StatelessWidget {
         ? 14.sp
         : context.isTablet
         ? 22.sp
-        : (kIsWeb)
+        : (context.isBrowserMobile)
         ? 30.sp
         : 14.sp;
 
@@ -88,9 +88,9 @@ class TipSlipScreenWeb extends StatelessWidget {
                   AppFiledButton(
                     isExpand: !context.isBrowserMobile ? false : true,
                     margin: EdgeInsets.symmetric(
-                      horizontal: (!context.isBrowserMobile)
+                      horizontal: (!context.isMobileView)
                           ? 0
-                          : (kIsWeb)
+                          : (context.isBrowserMobile)
                           ? 35.w
                           : 25.w,
                     ),
@@ -127,12 +127,12 @@ class TipSlipScreenWeb extends StatelessWidget {
     required BuildContext context,
     required double sixteenResponsive,
   }) {
-    double horizontalPadding = (!context.isBrowserMobile)
+    double horizontalPadding = (!context.isMobileView)
         ? 0
-        : (kIsWeb)
+        : (context.isBrowserMobile)
         ? 35.w
         : 25.w;
-    double topPadding = (kIsWeb && !context.isBrowserMobile) ? 70.h : 22.h;
+    double topPadding = (kIsWeb && !context.isMobileView) ? 70.h : 22.h;
     return Column(
       children: [
         Padding(
@@ -147,7 +147,7 @@ class TipSlipScreenWeb extends StatelessWidget {
                 ? 14.w
                 : context.isTablet
                 ? 22.w
-                : (kIsWeb)
+                : (context.isBrowserMobile)
                 ? 26.w
                 : 14.w,
             children: [
@@ -155,13 +155,13 @@ class TipSlipScreenWeb extends StatelessWidget {
                 padding: EdgeInsets.only(
                   top: (!context.isBrowserMobile)
                       ? 4
-                      : (kIsWeb)
+                      : (context.isBrowserMobile)
                       ? 2
                       : 0,
                 ),
                 child: OnMouseTap(
                   onTap: () {
-                    WebRouter.indexedStackNavigationShell!.goBranch(0);
+                    WebRouter.indexedStackNavigationShell!.goBranch(2);
                   },
                   child: Icon(
                     Icons.arrow_back_ios_rounded,
@@ -169,9 +169,9 @@ class TipSlipScreenWeb extends StatelessWidget {
                         ? 16.w
                         : context.isTablet
                         ? 25.w
-                        : (kIsWeb)
+                        : (context.isBrowserMobile)
                         ? 40.w
-                        : 16.w,
+                        : 18.w,
                   ),
                 ),
               ),
@@ -182,7 +182,7 @@ class TipSlipScreenWeb extends StatelessWidget {
                       ? 24.sp
                       : context.isTablet
                       ? 38.sp
-                      : (kIsWeb)
+                      : (context.isBrowserMobile)
                       ? 50.sp
                       : 24.sp,
                   fontFamily: AppFontFamily.secondary,
@@ -203,9 +203,9 @@ class TipSlipScreenWeb extends StatelessWidget {
     required double sixteenResponsive,
     required BuildContext context,
   }) {
-    double horizontalPadding = (!context.isBrowserMobile)
+    double horizontalPadding = (!context.isMobileView)
         ? 0
-        : (kIsWeb)
+        : (context.isBrowserMobile)
         ? 35.w
         : 25.w;
     return Container(
@@ -224,7 +224,7 @@ class TipSlipScreenWeb extends StatelessWidget {
             ? 12.w
             : context.isTablet
             ? 18.w
-            : (kIsWeb)
+            : (context.isBrowserMobile)
             ? 24.w
             : 12.w,
       ),
@@ -248,14 +248,14 @@ class TipSlipScreenWeb extends StatelessWidget {
                 ? 24.w
                 : context.isTablet
                 ? 32.w
-                : (kIsWeb)
+                : (context.isBrowserMobile)
                 ? 38.w
                 : 24.w,
             height: (context.isDesktop)
                 ? 24.w
                 : context.isTablet
                 ? 32.w
-                : (kIsWeb)
+                : (context.isBrowserMobile)
                 ? 38.w
                 : 24.w,
             // width: (kIsWeb) ? 40.w : 22.w,
@@ -271,7 +271,7 @@ class TipSlipScreenWeb extends StatelessWidget {
                   ? 17.w
                   : context.isTablet
                   ? 25.w
-                  : (kIsWeb)
+                  : (context.isBrowserMobile)
                   ? 33.sp
                   : 17.sp,
             ),

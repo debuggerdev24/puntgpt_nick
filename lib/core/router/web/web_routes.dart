@@ -10,15 +10,15 @@ enum WebRoutes {
   accountScreen,
   personalDetailsScreen,
   manageSubscriptionScreen,
-  askOPuntGpt,
-  savedSearched,
+  askPuntGptScreen,
+  savedSearchedScreen,
   punterClubScreen,
   punterClubChatScreen,
   bookiesScreen,
   subscribeToProPunterScreen,
   forgotPasswordScreen,
   verifyOTPScreen,
-  resetPasswordScreen,
+  resetPasswordScreen, currentPlanScreen, selectedPlanScreen,
 }
 
 extension WebRouteExtension on WebRoutes {

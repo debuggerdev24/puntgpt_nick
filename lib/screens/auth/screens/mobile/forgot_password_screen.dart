@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -9,6 +8,7 @@ import 'package:puntgpt_nick/core/utils/de_bouncing.dart';
 import 'package:puntgpt_nick/core/widgets/app_filed_button.dart';
 import 'package:puntgpt_nick/core/widgets/app_text_field.dart';
 import 'package:puntgpt_nick/provider/auth/auth_provider.dart';
+import 'package:puntgpt_nick/responsive/responsive_builder.dart';
 
 import '../../../../core/utils/field_validators.dart';
 
@@ -37,7 +37,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                           "Forgot Password",
                           style: regular(
                             fontFamily: AppFontFamily.secondary,
-                            fontSize: (kIsWeb) ? 60.sp : 40.sp,
+                            fontSize: (context.isBrowserMobile) ? 60.sp : 40.sp,
                           ),
                         ),
                         28.h.verticalSpace,
@@ -45,7 +45,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                           textAlign: TextAlign.center,
                           "We will send you an OTP to the email address you signed up with.",
                           style: regular(
-                            fontSize: (kIsWeb) ? 30.sp : 16.sp,
+                            fontSize: (context.isBrowserMobile) ? 30.sp : 16.sp,
                             color: AppColors.primary.withValues(),
                           ),
                         ),
@@ -55,11 +55,11 @@ class ForgotPasswordScreen extends StatelessWidget {
                           hintText: "Email",
                           validator: FieldValidators().email,
                           errorStyle: medium(
-                            fontSize: (kIsWeb) ? 25.sp : 12.sp,
+                            fontSize: (context.isBrowserMobile) ? 25.sp : 12.sp,
                             color: AppColors.red,
                           ),
                           hintStyle: medium(
-                            fontSize: (kIsWeb) ? 28.sp : 14.sp,
+                            fontSize: (context.isBrowserMobile) ? 28.sp : 14.sp,
                             color: AppColors.primary.withValues(alpha: 0.4),
                           ),
                           onSubmit: () {
@@ -75,7 +75,8 @@ class ForgotPasswordScreen extends StatelessWidget {
                           child: AppFiledButton(
                             margin: EdgeInsets.only(bottom: 20.h),
                             text: "Send OTP",
-                            textStyle: (kIsWeb)
+
+                            textStyle: (context.isBrowserMobile)
                                 ? semiBold(
                                     fontSize: 30.sp,
                                     color: AppColors.white,

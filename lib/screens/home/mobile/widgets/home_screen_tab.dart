@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -61,12 +60,13 @@ class HomeScreenTab extends StatelessWidget {
         alignment: Alignment.center,
         padding: EdgeInsets.symmetric(
           vertical: 8.h,
-          horizontal: (kIsWeb) ? 26.w : 14.w,
+          horizontal: (context.isBrowserMobile) ? 26.w : 14.w,
         ),
         decoration: BoxDecoration(
           color: isSelected ? AppColors.primary : AppColors.white,
           border: Border.all(color: AppColors.primary),
         ),
+
         child: Text(
           text,
           textAlign: TextAlign.center,
@@ -75,7 +75,7 @@ class HomeScreenTab extends StatelessWidget {
                 ? 16.sp
                 : context.isTablet
                 ? 22.sp
-                : (kIsWeb)
+                : (context.isBrowserMobile)
                 ? 30.sp
                 : 15.sp,
             color: isSelected ? AppColors.white : AppColors.primary,

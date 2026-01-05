@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:puntgpt_nick/responsive/responsive_builder.dart';
@@ -31,13 +30,21 @@ class AppToast {
         message,
         style: medium(
           color: textColor ?? AppColors.white,
-          fontSize: context.isBrowserMobile
-              ? (kIsWeb)
-                    ? 30.sp
-                    : 16.5.sp
+          fontSize: context.isDesktop
+              ? 21.sp
               : context.isTablet
               ? 32.sp
-              : 22.sp,
+              : context.isBrowserMobile
+              ? 30.sp
+              : 16.6.sp,
+
+          // context.isBrowserMobile
+          //     ? (context.isBrowserMobile)
+          //           ? 30.sp
+          //           : 16.5.sp
+          //     : context.isTablet
+          //     ? 32.sp
+          //     : 22.sp,
         ),
       ),
     );

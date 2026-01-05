@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:puntgpt_nick/models/account/subscription_plan_model.dart';
+import 'package:puntgpt_nick/responsive/responsive_builder.dart';
 
 import '../../../../core/constants/app_assets.dart';
 import '../../../../core/constants/app_colors.dart';
@@ -35,14 +35,14 @@ class SubscriptionPlanMobile extends StatelessWidget {
                       ? "Yearly"
                       : "Lifetime",
                   style: regular(
-                    fontSize: (kIsWeb) ? 37.sp : 24.sp,
+                    fontSize: (context.isBrowserMobile) ? 37.sp : 24.sp,
                     fontFamily: AppFontFamily.secondary,
                   ),
                 ),
                 TextSpan(
                   text: plan.id == 1 ? "  ‘Mug Punter’ " : "  ‘Pro Punter’ ",
                   style: regular(
-                    fontSize: (kIsWeb) ? 37.sp : 24.sp,
+                    fontSize: (context.isBrowserMobile) ? 37.sp : 24.sp,
 
                     color: plan.id == 1
                         ? AppColors.primary
@@ -53,7 +53,7 @@ class SubscriptionPlanMobile extends StatelessWidget {
                 TextSpan(
                   text: " Account",
                   style: regular(
-                    fontSize: (kIsWeb) ? 36.sp : 24.sp,
+                    fontSize: (context.isBrowserMobile) ? 36.sp : 24.sp,
 
                     fontFamily: AppFontFamily.secondary,
                   ),
@@ -70,7 +70,7 @@ class SubscriptionPlanMobile extends StatelessWidget {
                       ? "\$ ${int.parse(plan.price).toStringAsFixed(2)} "
                       : "\$ ${plan.price} ",
                   style: bold(
-                    fontSize: (kIsWeb) ? 33.sp : 20.sp,
+                    fontSize: (context.isBrowserMobile) ? 33.sp : 20.sp,
                     fontFamily: AppFontFamily.primary,
                   ),
                 ),
@@ -80,7 +80,7 @@ class SubscriptionPlanMobile extends StatelessWidget {
                     text: "/ ${plan.durationLabel}",
                     style: semiBold(
                       fontFamily: AppFontFamily.primary,
-                      fontSize: (kIsWeb) ? 29.sp : 16.sp,
+                      fontSize: (context.isBrowserMobile) ? 29.sp : 16.sp,
                       color: AppColors.primary.withValues(alpha: 0.6),
                     ),
                   ),
@@ -103,13 +103,17 @@ class SubscriptionPlanMobile extends StatelessWidget {
                     path: (plan.id == 1 && i < 2)
                         ? AppAssets.close
                         : AppAssets.done,
-                    height: (kIsWeb) ? 32.w : 20.w,
+                    height: (context.isBrowserMobile) ? 32.w : 20.w,
                   ),
-                  (kIsWeb) ? 14.w.horizontalSpace : 10.w.horizontalSpace,
+                  (context.isBrowserMobile)
+                      ? 14.w.horizontalSpace
+                      : 10.w.horizontalSpace,
                   Expanded(
                     child: Text(
                       features[i],
-                      style: regular(fontSize: (kIsWeb) ? 28.sp : 16.sp),
+                      style: regular(
+                        fontSize: (context.isBrowserMobile) ? 28.sp : 16.sp,
+                      ),
                     ),
                   ),
                 ],

@@ -40,14 +40,13 @@ class _WebDashboardState extends State<WebDashboard> {
   @override
   Widget build(BuildContext context) {
     Logger.info(
-      "is Mobile ${Responsive.isMobileBrowser(context)} ${context.screenWidth}",
+      "is Physical Mobile ${context.isPhysicalMobile} ${context.screenWidth}",
     );
     Logger.info(
-      "is Desktop ${Responsive.isDesktop(context)} ${context.screenWidth}",
+      "is Browser Mobile  ${context.isBrowserMobile} ${context.screenWidth}",
     );
-    Logger.info(
-      "is Tablet ${Responsive.isTablet(context)} ${context.screenWidth}",
-    );
+    Logger.info("is Desktop ${context.isDesktop} ${context.screenWidth}");
+    Logger.info("is Tablet ${context.isDesktop} ${context.screenWidth}");
     return Scaffold(
       body: SafeArea(
         bottom: false,
@@ -57,6 +56,9 @@ class _WebDashboardState extends State<WebDashboard> {
             if (value) {
               return Consumer<SearchEngineProvider>(
                 builder: (context, provider, child) {
+                  Logger.info(
+                    "panel status : ${provider.isMenuOpen.toString()}",
+                  );
                   return Column(
                     children: [
                       WebDashboardAppBar(
@@ -108,7 +110,11 @@ class _WebDashboardState extends State<WebDashboard> {
             type: ImageType.asset,
             path: AppAssets.webLogo,
             color: AppColors.white,
-            height: context.isTablet ? 42.w : 58.w,
+            height: context.isTablet
+                ? 42.w
+                : (context.isBrowserMobile)
+                ? 58.w
+                : 30.w,
           ),
 
           Text(
@@ -116,7 +122,11 @@ class _WebDashboardState extends State<WebDashboard> {
 
             style: regular(
               color: AppColors.white,
-              fontSize: context.isTablet ? 22.sp : 35.sp,
+              fontSize: context.isTablet
+                  ? 22.sp
+                  : (context.isBrowserMobile)
+                  ? 35.sp
+                  : 18.sp,
             ),
           ),
         ],
@@ -138,13 +148,19 @@ class _WebDashboardState extends State<WebDashboard> {
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
-        spacing: context.isTablet ? 24.w : 30.w,
+        spacing: context.isTablet
+            ? 24.w
+            : (context.isBrowserMobile)
+            ? 30.w
+            : 6.5.h,
         children: [
           _menuItem(
             onTap: () {
-              WebRouter.indexedStackNavigationShell!.goBranch(2);
+              Logger.info("Before: ${provider.isMenuOpen}");
               indexOfWebTab.value = 2;
+              WebRouter.indexedStackNavigationShell!.goBranch(2);
               provider.setIsMenuOpen = false;
+              Logger.info("After: ${provider.isMenuOpen}");
             },
             child: Row(children: [_appLogo(context)]),
             text: "Subscribe to Pro Punter",
@@ -237,13 +253,21 @@ class _WebDashboardState extends State<WebDashboard> {
                   path: icon,
                   type: ImageType.svg,
                   color: color ?? AppColors.white,
-                  height: context.isTablet ? 42.w : 58.w,
+                  height: context.isTablet
+                      ? 42.w
+                      : (context.isBrowserMobile)
+                      ? 58.w
+                      : 32.w,
                 ),
                 Expanded(
                   child: Text(
                     text,
                     style: medium(
-                      fontSize: context.isTablet ? 22.sp : 35.sp,
+                      fontSize: context.isTablet
+                          ? 22.sp
+                          : (context.isBrowserMobile)
+                          ? 35.sp
+                          : 18.sp,
                       color: color ?? AppColors.white,
                     ),
                   ),

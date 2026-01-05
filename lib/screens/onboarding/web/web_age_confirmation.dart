@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -25,14 +24,11 @@ class WebAgeConfirmationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Logger.info(
-      "is Mobile ${Responsive.isMobileBrowser(context)} ${context.screenWidth}",
+      "is Browser Mobile ${context.isBrowserMobile} ${context.screenWidth}",
     );
-    Logger.info(
-      "is Desktop ${Responsive.isDesktop(context)} ${context.screenWidth}",
-    );
-    Logger.info(
-      "is Tablet ${Responsive.isTablet(context)} ${context.screenWidth}",
-    );
+    Logger.info("is Mobile ${context.isPhysicalMobile} ${context.screenWidth}");
+    Logger.info("is Desktop ${context.isDesktop} ${context.screenWidth}");
+    Logger.info("is Tablet ${context.isTablet} ${context.screenWidth}");
     return Scaffold(
       appBar: WebTopSection(),
       body: Padding(
@@ -50,13 +46,13 @@ class WebAgeConfirmationScreen extends StatelessWidget {
                       ? 40.sp
                       : context.isTablet
                       ? 48.sp
-                      : (kIsWeb)
+                      : (context.isBrowserMobile)
                       ? 80.sp
                       : 40.sp,
                 ),
               ),
               SizedBox(height: 50.w.clamp(20, 80)),
-              if (!Responsive.isMobileBrowser(context)) ...[
+              if (context.isDesktop || context.isTablet) ...[
                 OnMouseTap(
                   child: AppFiledButton(
                     onTap: () => _onYesTap(context),
@@ -100,7 +96,7 @@ class WebAgeConfirmationScreen extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: Responsive.isMobileBrowser(context)
+      bottomNavigationBar: context.isBrowserMobile || context.isPhysicalMobile
           ? Padding(
               padding: EdgeInsets.fromLTRB(
                 25,

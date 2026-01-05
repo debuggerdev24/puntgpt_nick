@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -14,7 +13,7 @@ class AskPuntGptScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (!context.isBrowserMobile) {
+    if (!context.isMobileView) {
       context.pop();
     }
     return Column(
@@ -44,7 +43,7 @@ class AskPuntGptScreen extends StatelessWidget {
                           hintText: "Type your message...",
                           hintStyle: medium(
                             fontStyle: FontStyle.italic,
-                            fontSize: (kIsWeb) ? 24.sp : 14.sp,
+                            fontSize: (context.isBrowserMobile) ? 24.sp : 14.sp,
                             color: AppColors.greyColor.withValues(alpha: 0.6),
                           ),
                         ),
@@ -91,7 +90,7 @@ class AskPuntGptScreen extends StatelessWidget {
                   Text(
                     "Chat with AI",
                     style: medium(
-                      fontSize: (kIsWeb) ? 28.sp : 14.sp,
+                      fontSize: (context.isBrowserMobile) ? 28.sp : 14.sp,
                       color: AppColors.greyColor.withValues(alpha: 0.6),
                     ),
                   ),

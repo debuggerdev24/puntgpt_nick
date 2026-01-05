@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -16,7 +15,7 @@ class SavedSearchScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (!context.isBrowserMobile) {
+    if (!context.isMobileView) {
       context.pop();
     }
     return Column(
@@ -102,9 +101,9 @@ class SavedSearchScreen extends StatelessWidget {
   Widget topBar({required BuildContext context}) {
     return Padding(
       padding: EdgeInsets.fromLTRB(
-        (kIsWeb) ? 35.w : 25.w,
+        (context.isBrowserMobile) ? 35.w : 25.w,
         16.h,
-        (kIsWeb) ? 33.w : 23.w,
+        (context.isBrowserMobile) ? 33.w : 23.w,
         16.h,
       ),
       child: Row(
@@ -114,7 +113,7 @@ class SavedSearchScreen extends StatelessWidget {
             "Saved Searches",
             style: TextStyle(
               fontFamily: AppFontFamily.secondary,
-              fontSize: (kIsWeb) ? 50.sp : 24.sp,
+              fontSize: (context.isBrowserMobile) ? 50.sp : 24.sp,
             ),
           ),
           GestureDetector(
@@ -153,8 +152,8 @@ class SearchedItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(
-        horizontal: (kIsWeb) ? 35.w : 25.w,
-        vertical: (kIsWeb) ? 24.w : 14.h,
+        horizontal: (context.isBrowserMobile) ? 35.w : 25.w,
+        vertical: (context.isBrowserMobile) ? 24.w : 14.h,
       ),
       child: GestureDetector(
         onTap: () {
@@ -169,7 +168,7 @@ class SearchedItem extends StatelessWidget {
                 Text(
                   "Search 1",
                   style: semiBold(
-                    fontSize: (kIsWeb) ? 40.sp : 20.sp,
+                    fontSize: (context.isBrowserMobile) ? 40.sp : 20.sp,
 
                     color: AppColors.primary.withValues(alpha: 0.35),
                   ),
@@ -177,7 +176,7 @@ class SearchedItem extends StatelessWidget {
                 Text(
                   "Sep 30, 2025",
                   style: semiBold(
-                    fontSize: (kIsWeb) ? 30.sp : 12.sp,
+                    fontSize: (context.isBrowserMobile) ? 30.sp : 12.sp,
                     color: AppColors.primary.withValues(alpha: 0.2),
                   ),
                 ),
@@ -185,7 +184,7 @@ class SearchedItem extends StatelessWidget {
                 Text(
                   "Randwick • 1200m • >20%",
                   style: regular(
-                    fontSize: (kIsWeb) ? 40.sp : 20.sp,
+                    fontSize: (context.isBrowserMobile) ? 40.sp : 20.sp,
                     color: AppColors.primary.withValues(alpha: 0.27),
                   ),
                 ),
@@ -194,7 +193,7 @@ class SearchedItem extends StatelessWidget {
             Icon(
               Icons.arrow_forward_ios_rounded,
               color: AppColors.black,
-              size: (kIsWeb) ? 40.w : 14.w,
+              size: (context.isBrowserMobile) ? 40.w : 14.w,
             ),
           ],
         ),

@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -26,7 +25,7 @@ class WebLoginScreen extends StatelessWidget {
         ? 14.sp
         : context.isTablet
         ? 22.5.sp
-        : (kIsWeb)
+        : (context.isBrowserMobile)
         ? 28.sp
         : 14.sp;
     GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -36,7 +35,7 @@ class WebLoginScreen extends StatelessWidget {
             ? 0.35
             : (context.isTablet)
             ? 0.45
-            : (kIsWeb)
+            : (context.isBrowserMobile)
             ? 0.55
             : context.screenWidth);
     return Scaffold(
@@ -49,7 +48,7 @@ class WebLoginScreen extends StatelessWidget {
                 Center(
                   child: SingleChildScrollView(
                     padding: EdgeInsets.symmetric(
-                      horizontal: (kIsWeb) ? 0 : 25.w,
+                      horizontal: (context.isBrowserMobile) ? 0 : 25.w,
                     ),
                     child: SizedBox(
                       width: width,
@@ -58,7 +57,7 @@ class WebLoginScreen extends StatelessWidget {
                         child: Column(
                           children: [
                             80.h.verticalSpace,
-                            (kIsWeb)
+                            (context.isBrowserMobile)
                                 ? ImageWidget(
                                     path: AppAssets.splashWebLogo,
                                     type: ImageType.asset,
@@ -77,7 +76,7 @@ class WebLoginScreen extends StatelessWidget {
                                     ? 24.sp
                                     : (context.isTablet)
                                     ? 34.sp
-                                    : (kIsWeb)
+                                    : (context.isBrowserMobile)
                                     ? 46.sp
                                     : 20.sp,
                                 fontFamily: AppFontFamily.secondary,
@@ -168,7 +167,7 @@ class WebLoginScreen extends StatelessWidget {
                                     ? 16.sp
                                     : context.isTablet
                                     ? 26.sp
-                                    : (kIsWeb)
+                                    : (context.isBrowserMobile)
                                     ? 30.sp
                                     : 16.sp,
                                 color: AppColors.white,
@@ -190,7 +189,7 @@ class WebLoginScreen extends StatelessWidget {
                                         ? 14.sp
                                         : context.isTablet
                                         ? 20.sp
-                                        : (kIsWeb)
+                                        : (context.isBrowserMobile)
                                         ? 22.sp
                                         : 14.sp,
                                     color: AppColors.primary.withValues(
@@ -209,7 +208,7 @@ class WebLoginScreen extends StatelessWidget {
                                           ? 14.sp
                                           : context.isTablet
                                           ? 20.sp
-                                          : (kIsWeb)
+                                          : (context.isBrowserMobile)
                                           ? 22.sp
                                           : 14.sp,
                                     ),

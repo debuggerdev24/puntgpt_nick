@@ -1,6 +1,5 @@
 import 'dart:developer';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -50,7 +49,7 @@ class WebSignUpForm extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 25.w),
           child: Form(
             key: formKey,
-            child: context.isBrowserMobile
+            child: context.isPhysicalMobile || context.isBrowserMobile
                 ? Column(
                     spacing: 8.h,
                     children: [
@@ -65,7 +64,7 @@ class WebSignUpForm extends StatelessWidget {
                         validator: (value) =>
                             FieldValidators().required(value, "First Name"),
                         hintStyle: medium(
-                          fontSize: (kIsWeb) ? 28.sp : 16.sp,
+                          fontSize: (context.isBrowserMobile) ? 28.sp : 16.sp,
                           color: AppColors.primary.setOpacity(0.4),
                         ),
                       ),
@@ -75,7 +74,7 @@ class WebSignUpForm extends StatelessWidget {
                         validator: (value) =>
                             FieldValidators().required(value, "Last Name"),
                         hintStyle: medium(
-                          fontSize: (kIsWeb) ? 28.sp : 16.sp,
+                          fontSize: (context.isBrowserMobile) ? 28.sp : 16.sp,
                           color: AppColors.primary.setOpacity(0.4),
                         ),
                       ),
@@ -88,7 +87,7 @@ class WebSignUpForm extends StatelessWidget {
                         validator: (value) =>
                             FieldValidators().required(value, "Date of birth"),
                         hintStyle: medium(
-                          fontSize: (kIsWeb) ? 28.sp : 16.sp,
+                          fontSize: (context.isBrowserMobile) ? 28.sp : 16.sp,
                           color: AppColors.primary.setOpacity(0.4),
                         ),
                         onTap: () {
@@ -106,7 +105,7 @@ class WebSignUpForm extends StatelessWidget {
                         validator: (value) =>
                             FieldValidators().required(value, "State"),
                         hintStyle: medium(
-                          fontSize: (kIsWeb) ? 28.sp : 16.sp,
+                          fontSize: (context.isBrowserMobile) ? 28.sp : 16.sp,
                           color: AppColors.primary.setOpacity(0.4),
                         ),
                       ),
@@ -115,7 +114,7 @@ class WebSignUpForm extends StatelessWidget {
                         hintText: "Email",
                         validator: FieldValidators().email,
                         hintStyle: medium(
-                          fontSize: (kIsWeb) ? 28.sp : 16.sp,
+                          fontSize: (context.isBrowserMobile) ? 28.sp : 16.sp,
                           color: AppColors.primary.setOpacity(0.4),
                         ),
                       ),
@@ -128,7 +127,7 @@ class WebSignUpForm extends StatelessWidget {
                         hintText: "Phone",
                         validator: FieldValidators().mobileNumber,
                         hintStyle: medium(
-                          fontSize: (kIsWeb) ? 28.sp : 16.sp,
+                          fontSize: (context.isBrowserMobile) ? 28.sp : 16.sp,
                           color: AppColors.primary.setOpacity(0.4),
                         ),
                       ),
@@ -144,7 +143,7 @@ class WebSignUpForm extends StatelessWidget {
                             provider.showSignUpPass = !provider.showSignUpPass,
 
                         hintStyle: medium(
-                          fontSize: (kIsWeb) ? 28.sp : 16.sp,
+                          fontSize: (context.isBrowserMobile) ? 28.sp : 16.sp,
                           color: AppColors.primary.setOpacity(0.4),
                         ),
                       ),

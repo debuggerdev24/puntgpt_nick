@@ -20,7 +20,7 @@ class FullPageIndicator extends StatelessWidget {
           borderRadius: BorderRadius.circular(7).r,
         ),
         padding: EdgeInsets.all(
-          (kIsWeb && context.isBrowserMobile) ? 24 : 12,
+          (kIsWeb && context.isMobileView) ? 24 : 12,
         ).r,
         child: CupertinoActivityIndicator(
           radius: (kIsWeb && context.isBrowserMobile) ? 20.h : 19.w,

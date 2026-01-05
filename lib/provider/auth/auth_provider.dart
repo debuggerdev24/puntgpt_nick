@@ -6,6 +6,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:go_router/go_router.dart';
 import 'package:puntgpt_nick/core/router/web/web_routes.dart';
 import 'package:puntgpt_nick/core/utils/app_toast.dart';
+import 'package:puntgpt_nick/responsive/responsive_builder.dart';
 import 'package:puntgpt_nick/service/auth/auth_api_service.dart';
 import 'package:puntgpt_nick/service/storage/locale_storage_service.dart';
 
@@ -22,7 +23,7 @@ class AuthProvider extends ChangeNotifier {
   TextEditingController dobCtr = TextEditingController();
   TextEditingController loginEmailCtr = TextEditingController();
   TextEditingController loginPasswordCtr = TextEditingController();
-  TextEditingController forgotPasswordCtr = TextEditingController();
+  TextEditingController forgotPasswordCtr = TextEditingController(text: "test@gmail.com");
   TextEditingController newPasswordCtr = TextEditingController();
   TextEditingController resetConfirmPasswordCtr = TextEditingController();
   TextEditingController otpCtr = TextEditingController();
@@ -341,6 +342,8 @@ class AuthProvider extends ChangeNotifier {
         onFailed.call(l.errorMsg);
       },
       (r) {
+        LocaleStorageService.removeAccessToken();
+        LocaleStorageService.removeRefreshToken();
         onSuccess.call();
       },
     );

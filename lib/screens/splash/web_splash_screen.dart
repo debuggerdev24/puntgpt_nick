@@ -37,7 +37,7 @@ class _WebSplashScreenState extends State<WebSplashScreen> {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       _startTimer();
       Future.delayed(3.seconds).then((value) async {
-        return;
+        // return;
         if (isNetworkConnected.value) {
           if (LocaleStorageService.isFirstTime && authToken.isEmpty) {
             Logger.info("Inside if part");
@@ -56,12 +56,14 @@ class _WebSplashScreenState extends State<WebSplashScreen> {
                 //   message: "Access token is expired",
                 // );
                 Logger.info("Access token is expired");
-                Logger.info(LocaleStorageService.refreshToken);
+                Logger.info("Refresh token is: ${LocaleStorageService.refreshToken}");
                 final result = await AuthApiService.instance.refreshToken();
                 result.fold(
                   (e) async {
-                    Logger.error((e.code.toString() == "401").toString());
-                    if (e.code.toString() == "401") {
+                    Logger.error("Error Code : ${e.code}");
+                    Logger.error("Error Code : ${e.errorMsg}");
+                    Logger.error("Error Code : ${e.apiErrorMsg}");
+                    if (e.code.toString() == "401" || e.code.toString() == "400") {
                       Logger.info("Refresh token is expired");
                       await LocaleStorageService.removeRefreshToken();
                       await LocaleStorageService.removeAccessToken();
@@ -117,11 +119,12 @@ class _WebSplashScreenState extends State<WebSplashScreen> {
       body: Center(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
           children: [
             ImageWidget(
               path: AppAssets.splashWebLogo,
               type: ImageType.asset,
-              height: context.isMobile ? 250.w : 300.w,
+              height: context.isPhysicalMobile ? 250.w : 300.w,
             ).animate().fade(duration: 0.8.seconds, delay: 1.seconds),
             24.h.flexClamp(20, 28).verticalSpace,
             Text(

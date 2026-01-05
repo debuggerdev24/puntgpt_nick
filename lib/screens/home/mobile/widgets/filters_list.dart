@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -8,11 +7,10 @@ import 'package:puntgpt_nick/core/constants/text_style.dart';
 import 'package:puntgpt_nick/core/router/app/app_routes.dart';
 import 'package:puntgpt_nick/core/router/web/web_routes.dart';
 import 'package:puntgpt_nick/core/widgets/app_devider.dart';
-import 'package:puntgpt_nick/core/widgets/app_text_field.dart';
-import 'package:puntgpt_nick/core/widgets/app_text_field_drop_down.dart';
 import 'package:puntgpt_nick/core/widgets/image_widget.dart';
 import 'package:puntgpt_nick/core/widgets/on_button_tap.dart';
 import 'package:puntgpt_nick/provider/search_engine_provider.dart';
+import 'package:puntgpt_nick/responsive/responsive_builder.dart';
 
 class FilterList extends StatefulWidget {
   const FilterList({super.key, required this.formKey});
@@ -24,7 +22,6 @@ class FilterList extends StatefulWidget {
 
 class _FilterListState extends State<FilterList> {
   final Map<String, TextEditingController> _controllers = {};
-  final Map<String, String?> _dropdownValues = {};
 
   @override
   void initState() {
@@ -41,13 +38,15 @@ class _FilterListState extends State<FilterList> {
 
   void onSaveSearchTap() {
     context.pushNamed(
-      (kIsWeb) ? WebRoutes.savedSearched.name : AppRoutes.savedSearched.name,
+      (context.isMobileView && !context.isBrowserMobile)
+          ? WebRoutes.savedSearchedScreen.name
+          : AppRoutes.savedSearched.name,
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    final bodyHorizontalPadding = (kIsWeb) ? 50.w : 25.w;
+    final bodyHorizontalPadding = (context.isBrowserMobile) ? 50.w : 25.w;
     return SizedBox(
       width: double.maxFinite,
       child: Column(
@@ -58,22 +57,27 @@ class _FilterListState extends State<FilterList> {
             padding: EdgeInsets.symmetric(horizontal: bodyHorizontalPadding),
             child: Text(
               "Search for a horse that meets your criteria:",
-              style: bold(fontSize: (kIsWeb) ? 36.sp : 16.sp, height: 1.2),
+              style: bold(
+                fontSize: (context.isBrowserMobile) ? 36.sp : 16.sp,
+                height: 1.2,
+              ),
             ),
           ),
           Padding(
             padding: EdgeInsets.fromLTRB(
-              (kIsWeb) ? 50.w : 25.w,
+              (context.isBrowserMobile) ? 50.w : 25.w,
               12.h,
               20.h,
-              (kIsWeb) ? 50.w : 25.w,
+              (context.isBrowserMobile) ? 50.w : 25.w,
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
                   "Total Runners: (20)",
-                  style: bold(fontSize: (kIsWeb) ? 36.sp : 16.sp),
+                  style: bold(
+                    fontSize: (context.isBrowserMobile) ? 36.sp : 16.sp,
+                  ),
                 ),
                 OnMouseTap(
                   onTap: onSaveSearchTap,
@@ -89,7 +93,7 @@ class _FilterListState extends State<FilterList> {
                       Text(
                         "Saved Searches",
                         style: bold(
-                          fontSize: (kIsWeb) ? 36.sp : 16.sp,
+                          fontSize: (context.isBrowserMobile) ? 36.sp : 16.sp,
 
                           decoration: TextDecoration.underline,
                         ),
@@ -120,17 +124,19 @@ class _FilterListState extends State<FilterList> {
           ), //AppColors.greyColor.withValues(alpha: 0.2)
           child: ExpansionTile(
             childrenPadding: EdgeInsets.only(
-              left: (kIsWeb) ? 50.w : 25.w,
-              right: (kIsWeb) ? 50.w : 25.w,
+              left: (context.isBrowserMobile) ? 50.w : 25.w,
+              right: (context.isBrowserMobile) ? 50.w : 25.w,
               bottom: 8.h,
             ),
             tilePadding: EdgeInsets.symmetric(
-              horizontal: (kIsWeb) ? 50.w : 25.w,
+              horizontal: (context.isBrowserMobile) ? 50.w : 25.w,
             ),
             iconColor: AppColors.greyColor,
             title: Text(
               "Track",
-              style: semiBold(fontSize: (kIsWeb) ? 36.sp : 16.sp),
+              style: semiBold(
+                fontSize: (context.isBrowserMobile) ? 36.sp : 16.sp,
+              ),
             ),
 
             children: provider.trackItems.map((item) {
@@ -151,13 +157,17 @@ class _FilterListState extends State<FilterList> {
                         children: [
                           Text(
                             item["label"],
-                            style: semiBold(fontSize: (kIsWeb) ? 36.sp : 16.sp),
+                            style: semiBold(
+                              fontSize: (context.isBrowserMobile)
+                                  ? 36.sp
+                                  : 16.sp,
+                            ),
                           ),
                           AnimatedContainer(
                             duration: const Duration(milliseconds: 250),
                             curve: Curves.easeInOut,
-                            width: (kIsWeb) ? 40.sp : 22.sp,
-                            height: (kIsWeb) ? 40.sp : 22.sp,
+                            width: (context.isBrowserMobile) ? 40.sp : 22.sp,
+                            height: (context.isBrowserMobile) ? 40.sp : 22.sp,
                             decoration: BoxDecoration(
                               border: Border.all(
                                 color: isChecked
@@ -173,7 +183,9 @@ class _FilterListState extends State<FilterList> {
                                 ? Icon(
                                     Icons.check,
                                     color: Colors.white,
-                                    size: (kIsWeb) ? 30.sp : 18.sp,
+                                    size: (context.isBrowserMobile)
+                                        ? 30.sp
+                                        : 18.sp,
                                   )
                                 : null,
                           ),
@@ -189,43 +201,5 @@ class _FilterListState extends State<FilterList> {
         horizontalDivider(),
       ],
     );
-  }
-
-  // Builds a single filter field (either text or dropdown)
-  Widget _buildFilterField(Map filter) {
-    final label = filter["label"];
-    final type = filter["type"];
-
-    if (type == "number") {
-      return AppTextField(
-        controller: _controllers[label]!,
-        hintText: "Enter $label",
-        validator: (value) {
-          if (value == null || value.trim().isEmpty) {
-            return "$label is required";
-          }
-          final number = num.tryParse(value);
-          if (number == null) {
-            return "Please enter a valid number";
-          }
-          return null;
-        },
-      );
-    } else {
-      return AppTextFieldDropdown(
-        items: List<String>.from(filter["options"]),
-        selectedValue: _dropdownValues[label],
-        hintText: "Select $label",
-        onChange: (value) {
-          setState(() => _dropdownValues[label] = value);
-        },
-        validator: (value) {
-          if (value == null || value.isEmpty) {
-            return "Please select $label";
-          }
-          return null;
-        },
-      );
-    }
   }
 }

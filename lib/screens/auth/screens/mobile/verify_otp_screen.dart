@@ -34,7 +34,7 @@ class VerifyOtpScreen extends StatelessWidget {
                         "Verify OTP",
                         style: regular(
                           fontFamily: AppFontFamily.secondary,
-                          fontSize: (kIsWeb) ? 60.sp : 40.sp,
+                          fontSize: (context.isBrowserMobile) ? 60.sp : 40.sp,
                         ),
                       ),
                       28.h.verticalSpace,
@@ -42,7 +42,7 @@ class VerifyOtpScreen extends StatelessWidget {
                         textAlign: TextAlign.center,
                         "Enter the OTP received on your registered email address to reset password.",
                         style: regular(
-                          fontSize: (kIsWeb) ? 30.sp : 16.sp,
+                          fontSize: (context.isBrowserMobile) ? 30.sp : 16.sp,
 
                           color: AppColors.primary.withValues(),
                         ),
@@ -54,11 +54,11 @@ class VerifyOtpScreen extends StatelessWidget {
                         length: 4,
 
                         separatorBuilder: (index) =>
-                            (context.isBrowserMobile && kIsWeb)
+                            (context.isMobileView)
                             ? 28.w.horizontalSpace
                             : 14.w.horizontalSpace,
                         defaultPinTheme: PinTheme(
-                          height: (kIsWeb) ? 80.w : 55.h,
+                          height: (context.isBrowserMobile) ? 80.w : 55.h,
                           width: (kIsWeb) ? 80.w : 70.w,
                           textStyle: medium(fontSize: 20),
                           decoration: BoxDecoration(

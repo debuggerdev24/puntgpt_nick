@@ -1,10 +1,8 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:puntgpt_nick/core/router/web/web_routes.dart';
-import 'package:puntgpt_nick/core/utils/app_toast.dart';
 import 'package:puntgpt_nick/core/widgets/on_button_tap.dart';
 import 'package:puntgpt_nick/core/widgets/web_top_section.dart';
 import 'package:puntgpt_nick/screens/auth/screens/web/widgets/web_sign_up_form.dart';
@@ -27,7 +25,7 @@ class WebSignUpScreen extends StatelessWidget {
     return Scaffold(
       appBar: WebTopSection(),
       body: Container(
-        alignment: Responsive.isMobileBrowser(context)
+        alignment: context.isMobileView
             ? Alignment.topLeft
             : Alignment.topCenter,
         child: Consumer<AuthProvider>(
@@ -42,19 +40,14 @@ class WebSignUpScreen extends StatelessWidget {
                       children: [
                         Center(
                           child: OnMouseTap(
-                            onTap: () {
-                              AppToast.success(
-                                context: context,
-                                message: "dfjkvjkjkjk",
-                              );
-                            },
+                            onTap: () {},
                             child: SignUpTitle(isFreeSignUp: isFreeSignUp),
                           ),
                         ),
                         Padding(
                           padding: EdgeInsets.only(
                             left: (context.isDesktop) ? 35.w : 12.w,
-                            top: (kIsWeb) ? 30.h : 14.h,
+                            top: (context.isBrowserMobile) ? 30.h : 14.h,
                           ),
                           child: Align(
                             alignment: Alignment.centerLeft,
@@ -67,15 +60,6 @@ class WebSignUpScreen extends StatelessWidget {
                                 size: context.isDesktop ? 22.w : 28.w,
                               ),
                             ),
-                            // GestureDetector(
-                            //   onTap: () => context.pop(),
-                            //   child: ImageWidget(
-                            //     type: ImageType.svg,
-                            //     path: AppAssets.back,
-                            //
-                            //     width: 80.w.flexClamp(30, 40),
-                            //   ),
-                            // ),
                           ),
                         ),
                       ],

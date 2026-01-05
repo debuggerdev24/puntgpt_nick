@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -8,6 +7,7 @@ import 'package:puntgpt_nick/core/widgets/app_outlined_button.dart';
 import 'package:puntgpt_nick/core/widgets/on_button_tap.dart';
 import 'package:puntgpt_nick/models/account/subscription_plan_model.dart';
 import 'package:puntgpt_nick/provider/subscription/subscription_provider.dart';
+import 'package:puntgpt_nick/responsive/responsive_builder.dart';
 import 'package:puntgpt_nick/screens/account/mobile/widgets/subscription_plan.dart';
 
 import '../../../core/constants/text_style.dart';
@@ -73,7 +73,7 @@ class SelectedPlanScreen extends StatelessWidget {
                 child: Text(
                   planName,
                   style: regular(
-                    fontSize: (kIsWeb) ? 34.sp : 22.sp,
+                    fontSize: (context.isBrowserMobile) ? 34.sp : 22.sp,
                     fontFamily: AppFontFamily.secondary,
                   ),
                 ),

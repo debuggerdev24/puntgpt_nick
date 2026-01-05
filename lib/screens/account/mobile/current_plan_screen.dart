@@ -1,9 +1,9 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:puntgpt_nick/provider/account/account_provider.dart';
+import 'package:puntgpt_nick/responsive/responsive_builder.dart';
 import 'package:puntgpt_nick/screens/account/mobile/widgets/subscription_plan.dart';
 
 import '../../../core/constants/app_colors.dart';
@@ -22,7 +22,7 @@ class CurrentPlanScreen extends StatelessWidget {
         children: [
           topBar(context),
           SubscriptionPlanMobile(plan: provider.plans[0]),
-          // if (kIsWeb) 40.w.verticalSpace,
+          // if (context.isBrowserMobile) 40.w.verticalSpace,
           Center(
             child: Text(
               "Billing handled via Apple Store / Google Play",
@@ -37,7 +37,7 @@ class CurrentPlanScreen extends StatelessWidget {
             margin: EdgeInsets.only(bottom: 10.h, left: 25.w, right: 25.w),
             text: "Renew",
             textStyle: semiBold(
-              fontSize: (kIsWeb) ? 30.sp : 18.sp,
+              fontSize: (context.isBrowserMobile) ? 30.sp : 18.sp,
               color: AppColors.white,
             ),
             onTap: () {},
@@ -45,13 +45,17 @@ class CurrentPlanScreen extends StatelessWidget {
           AppOutlinedButton(
             margin: EdgeInsets.only(bottom: 10.h, left: 25.w, right: 25.w),
             text: "Change Plan",
-            textStyle: semiBold(fontSize: (kIsWeb) ? 30.sp : 18.sp),
+            textStyle: semiBold(
+              fontSize: (context.isBrowserMobile) ? 30.sp : 18.sp,
+            ),
             onTap: () {},
           ),
           AppOutlinedButton(
             margin: EdgeInsets.only(bottom: 25.h, left: 25.w, right: 25.w),
             text: "Cancel",
-            textStyle: semiBold(fontSize: (kIsWeb) ? 30.sp : 18.sp),
+            textStyle: semiBold(
+              fontSize: (context.isBrowserMobile) ? 30.sp : 18.sp,
+            ),
             onTap: () {
               context.pop();
             },
@@ -81,7 +85,7 @@ class CurrentPlanScreen extends StatelessWidget {
                   Text(
                     "Manage Subscription",
                     style: regular(
-                      fontSize: (kIsWeb) ? 36.sp : 24.sp,
+                      fontSize: (context.isBrowserMobile) ? 36.sp : 24.sp,
                       fontFamily: AppFontFamily.secondary,
                       height: 1.35,
                     ),
@@ -89,7 +93,7 @@ class CurrentPlanScreen extends StatelessWidget {
                   Text(
                     "Manage your Subscription Plan",
                     style: semiBold(
-                      fontSize: (kIsWeb) ? 28.sp : 14.sp,
+                      fontSize: (context.isBrowserMobile) ? 28.sp : 14.sp,
                       color: AppColors.greyColor.withValues(alpha: 0.6),
                     ),
                   ),

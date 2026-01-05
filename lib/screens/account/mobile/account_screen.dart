@@ -11,6 +11,7 @@ import 'package:puntgpt_nick/core/utils/app_toast.dart';
 import 'package:puntgpt_nick/core/utils/custom_loader.dart';
 import 'package:puntgpt_nick/core/widgets/on_button_tap.dart';
 import 'package:puntgpt_nick/provider/auth/auth_provider.dart';
+import 'package:puntgpt_nick/responsive/responsive_builder.dart';
 
 import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/text_style.dart';
@@ -36,7 +37,7 @@ class AccountScreen extends StatelessWidget {
                 context: context,
                 title: "Personal Details",
                 onTap: () {
-                  if (kIsWeb) {
+                  if (context.isMobileView && kIsWeb) {
                     context.pushNamed(WebRoutes.personalDetailsScreen.name);
                     return;
                   }
@@ -48,7 +49,7 @@ class AccountScreen extends StatelessWidget {
                 context: context,
                 title: "Manage Subscription",
                 onTap: () {
-                  if (kIsWeb) {
+                  if (context.isMobileView && kIsWeb) {
                     context.pushNamed(WebRoutes.manageSubscriptionScreen.name);
                     return;
                   }
@@ -72,7 +73,7 @@ class AccountScreen extends StatelessWidget {
                   children: [
                     Text(
                       "Terms & Conditions",
-                      style: bold(fontSize: (kIsWeb) ? 30.sp : 14.sp),
+                      style: bold(fontSize: (context.isBrowserMobile) ? 30.sp : 14.sp),
                     ),
                     Container(
                       width: 1,
@@ -82,7 +83,7 @@ class AccountScreen extends StatelessWidget {
                     ),
                     Text(
                       "AI disclaimer",
-                      style: bold(fontSize: (kIsWeb) ? 30.sp : 14.sp),
+                      style: bold(fontSize: (context.isBrowserMobile) ? 30.sp : 14.sp),
                     ),
                     Container(
                       width: 1,
@@ -92,7 +93,7 @@ class AccountScreen extends StatelessWidget {
                     ),
                     Text(
                       "Privacy Policy",
-                      style: bold(fontSize: (kIsWeb) ? 30.sp : 14.sp),
+                      style: bold(fontSize: (context.isBrowserMobile) ? 30.sp : 14.sp),
                     ),
                   ],
                 ),
@@ -184,7 +185,7 @@ class AccountScreen extends StatelessWidget {
       onTap: onTap,
       child: Padding(
         padding: EdgeInsets.symmetric(
-          horizontal: (kIsWeb) ? 38.w : 25.w,
+          horizontal: (context.isBrowserMobile) ? 38.w : 25.w,
           vertical: 18.h,
         ),
         child: Row(
@@ -193,7 +194,7 @@ class AccountScreen extends StatelessWidget {
             Text(
               title,
               style: semiBold(
-                fontSize: (kIsWeb) ? 32.sp : 18.sp,
+                fontSize: (context.isBrowserMobile) ? 32.sp : 18.sp,
                 color: (title == "Log Out") ? AppColors.red : null,
               ),
             ),
@@ -218,8 +219,8 @@ class AccountScreen extends StatelessWidget {
               IconButton(
                 padding: EdgeInsets.zero,
                 onPressed: () {
-                  if (kIsWeb) {
-                    WebRouter.indexedStackNavigationShell!.goBranch(0);
+                  if (context.isMobileView && kIsWeb) {
+                    WebRouter.indexedStackNavigationShell!.goBranch(2);
                     return;
                   }
                   AppRouter.indexedStackNavigationShell!.goBranch(0);
@@ -239,7 +240,7 @@ class AccountScreen extends StatelessWidget {
                   Text(
                     "Account",
                     style: regular(
-                      fontSize: (kIsWeb) ? 40.sp : 24.sp,
+                      fontSize: (context.isBrowserMobile) ? 40.sp : 24.sp,
                       fontFamily: AppFontFamily.secondary,
                       height: 1.35,
                     ),
@@ -247,7 +248,7 @@ class AccountScreen extends StatelessWidget {
                   Text(
                     "Manage your PuntGPT Account",
                     style: semiBold(
-                      fontSize: (kIsWeb) ? 26.sp : 14.sp,
+                      fontSize: (context.isBrowserMobile) ? 26.sp : 14.sp,
                       color: AppColors.greyColor.withValues(alpha: 0.6),
                     ),
                   ),

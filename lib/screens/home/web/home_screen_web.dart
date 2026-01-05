@@ -21,6 +21,7 @@ import 'package:puntgpt_nick/screens/home/web/widgets/runners_list_web.dart';
 import 'package:puntgpt_nick/screens/home/web/widgets/search_section_web.dart';
 
 import '../../../core/router/app/app_routes.dart';
+import '../../../core/router/web/web_routes.dart';
 import '../../../core/widgets/app_filed_button.dart';
 import '../../../provider/search_engine_provider.dart';
 import '../../../responsive/responsive_builder.dart';
@@ -52,15 +53,7 @@ class _HomeScreenWebState extends State<HomeScreenWeb> {
   @override
   Widget build(BuildContext context) {
     GlobalKey<FormState> formKey = GlobalKey<FormState>();
-    Logger.info(
-      "is Mobile ${Responsive.isMobileBrowser(context)} ${context.screenWidth}",
-    );
-    Logger.info(
-      "is Desktop ${Responsive.isDesktop(context)} ${context.screenWidth}",
-    );
-    Logger.info(
-      "is Tablet ${Responsive.isTablet(context)} ${context.screenWidth}",
-    );
+
     if (isSearchDialogOpen && context.isBrowserMobile) {
       context.pop();
       isSearchDialogOpen = false;
@@ -88,16 +81,16 @@ class _HomeScreenWebState extends State<HomeScreenWeb> {
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    if (kIsWeb && !context.isBrowserMobile) ...[
-                      70.h.verticalSpace,
-                      HomeScreenTabWeb(selectedIndex: provider.selectedTab),
-                    ] else ...[
+                    if (context.isMobileView) ...[
                       20.h.verticalSpace,
                       HomeScreenTab(selectedIndex: provider.selectedTab),
+                    ] else ...[
+                      70.h.verticalSpace,
+                      HomeScreenTabWeb(selectedIndex: provider.selectedTab),
                     ],
                     16.h.verticalSpace,
                     Expanded(
-                      child: (context.isBrowserMobile)
+                      child: (context.isMobileView)
                           ? mobileView(provider: provider, formKey: formKey)
                           : webView(provider: provider, formKey: formKey),
                     ),
@@ -169,7 +162,9 @@ class _HomeScreenWebState extends State<HomeScreenWeb> {
                                   text: "Search",
                                   textStyle: semiBold(
                                     color: AppColors.white,
-                                    fontSize: (kIsWeb) ? 42.sp : 20.sp,
+                                    fontSize: (context.isBrowserMobile)
+                                        ? 42.sp
+                                        : 20.sp,
                                   ),
                                   onTap: () {
                                     // formKey.currentState!.validate();
@@ -192,7 +187,9 @@ class _HomeScreenWebState extends State<HomeScreenWeb> {
                   children: [
                     Text(
                       "Next to go",
-                      style: bold(fontSize: (kIsWeb) ? 32.sp : 16.sp),
+                      style: bold(
+                        fontSize: (context.isBrowserMobile) ? 32.sp : 16.sp,
+                      ),
                     ),
                     10.h.verticalSpace,
                     SingleChildScrollView(
@@ -231,7 +228,7 @@ class _HomeScreenWebState extends State<HomeScreenWeb> {
         ? 16.sp
         : context.isTablet
         ? 24.sp
-        : (kIsWeb)
+        : (context.isBrowserMobile)
         ? 32.sp
         : 16.sp;
     return Stack(
@@ -310,7 +307,9 @@ class _HomeScreenWebState extends State<HomeScreenWeb> {
         children: [
           Text(
             "Morphettville",
-            style: semiBold(fontSize: (kIsWeb) ? 32.sp : 16.sp),
+            style: semiBold(
+              fontSize: (context.isBrowserMobile) ? 32.sp : 16.sp,
+            ),
           ),
           6.h.verticalSpace,
           Row(
@@ -320,14 +319,14 @@ class _HomeScreenWebState extends State<HomeScreenWeb> {
               Text(
                 "Race 1",
                 style: semiBold(
-                  fontSize: (kIsWeb) ? 28.sp : 14.sp,
+                  fontSize: (context.isBrowserMobile) ? 28.sp : 14.sp,
                   color: AppColors.primary.withValues(alpha: 0.6),
                 ),
               ),
               Text(
                 "13:15",
                 style: semiBold(
-                  fontSize: (kIsWeb) ? 28.sp : 14.sp,
+                  fontSize: (context.isBrowserMobile) ? 28.sp : 14.sp,
                   color: AppColors.primary.withValues(alpha: 0.6),
                 ),
               ),
@@ -343,14 +342,14 @@ class _HomeScreenWebState extends State<HomeScreenWeb> {
         ? 16.sp
         : context.isTablet
         ? 24.sp
-        : (kIsWeb)
+        : (context.isBrowserMobile)
         ? 32.sp
         : 16.sp;
     final fourteenFontSize = context.isDesktop
         ? 14.sp
         : context.isTablet
         ? 22.sp
-        : (kIsWeb)
+        : (context.isBrowserMobile)
         ? 30.sp
         : 14.sp;
     return Container(
@@ -394,6 +393,14 @@ bool isSheetOpen = false;
 Widget askPuntGPTButtonWeb({required BuildContext context}) {
   return OnMouseTap(
     onTap: () {
+      if (context.isMobileView) {
+        context.pushNamed(
+          (!kIsWeb)
+              ? WebRoutes.askPuntGptScreen.name
+              : AppRoutes.askPuntGpt.name,
+        );
+        return;
+      }
       isSheetOpen = true;
 
       showModalSideSheet(
@@ -405,20 +412,23 @@ Widget askPuntGPTButtonWeb({required BuildContext context}) {
       );
     },
     child: Container(
-      margin: EdgeInsets.only(bottom: 80.w, right: 100.w),
+      margin: EdgeInsets.only(
+        bottom: 80.w,
+        right: context.isMobileView ? 25.w : 100.w,
+      ),
       padding: EdgeInsets.symmetric(
         vertical: context.isDesktop
             ? 10.w
             : context.isTablet
             ? 11.w
-            : (kIsWeb)
+            : (context.isBrowserMobile)
             ? 16.w
             : 14.w,
         horizontal: context.isDesktop
             ? 18.w
             : context.isTablet
             ? 20.w
-            : (kIsWeb)
+            : (context.isBrowserMobile)
             ? 22.w
             : 16.w,
       ),
@@ -444,7 +454,7 @@ Widget askPuntGPTButtonWeb({required BuildContext context}) {
                 ? 34.w
                 : context.isTablet
                 ? 28.w
-                : (kIsWeb)
+                : (context.isBrowserMobile)
                 ? 40.w
                 : 30.w,
           ),
@@ -456,7 +466,7 @@ Widget askPuntGPTButtonWeb({required BuildContext context}) {
                   ? 18.sp
                   : context.isTablet
                   ? 25.sp
-                  : (kIsWeb)
+                  : (context.isBrowserMobile)
                   ? 35.sp
                   : 20.sp,
               fontFamily: AppFontFamily.secondary,
