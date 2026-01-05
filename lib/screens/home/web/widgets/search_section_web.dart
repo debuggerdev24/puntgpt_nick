@@ -6,8 +6,6 @@ import 'package:provider/provider.dart';
 import 'package:puntgpt_nick/core/constants/constants.dart';
 import 'package:puntgpt_nick/core/constants/text_style.dart';
 import 'package:puntgpt_nick/core/widgets/app_devider.dart';
-import 'package:puntgpt_nick/core/widgets/app_text_field.dart';
-import 'package:puntgpt_nick/core/widgets/app_text_field_drop_down.dart';
 import 'package:puntgpt_nick/core/widgets/image_widget.dart';
 import 'package:puntgpt_nick/core/widgets/on_button_tap.dart';
 import 'package:puntgpt_nick/provider/search_engine_provider.dart';
@@ -30,7 +28,6 @@ class SearchSectionWeb extends StatefulWidget {
 
 class _SearchSectionWebState extends State<SearchSectionWeb> {
   final Map<String, TextEditingController> _controllers = {};
-  final Map<String, String?> _dropdownValues = {};
 
   @override
   void dispose() {
@@ -351,42 +348,42 @@ class _SearchSectionWebState extends State<SearchSectionWeb> {
   }
 
   // Builds a single filter field (either text or dropdown)
-  Widget _buildFilterField(Map filter) {
-    final label = filter["label"];
-    final type = filter["type"];
-
-    if (type == "number") {
-      return AppTextField(
-        controller: _controllers[label]!,
-        hintText: "Enter $label",
-        validator: (value) {
-          if (value == null || value.trim().isEmpty) {
-            return "$label is required";
-          }
-          final number = num.tryParse(value);
-          if (number == null) {
-            return "Please enter a valid number";
-          }
-          return null;
-        },
-      );
-    } else {
-      return AppTextFieldDropdown(
-        items: List<String>.from(filter["options"]),
-        selectedValue: _dropdownValues[label],
-        hintText: "Select $label",
-        onChange: (value) {
-          setState(() => _dropdownValues[label] = value);
-        },
-        validator: (value) {
-          if (value == null || value.isEmpty) {
-            return "Please select $label";
-          }
-          return null;
-        },
-      );
-    }
-  }
+  // Widget _buildFilterField(Map filter) {
+  //   final label = filter["label"];
+  //   final type = filter["type"];
+  //
+  //   if (type == "number") {
+  //     return AppTextField(
+  //       controller: _controllers[label]!,
+  //       hintText: "Enter $label",
+  //       validator: (value) {
+  //         if (value == null || value.trim().isEmpty) {
+  //           return "$label is required";
+  //         }
+  //         final number = num.tryParse(value);
+  //         if (number == null) {
+  //           return "Please enter a valid number";
+  //         }
+  //         return null;
+  //       },
+  //     );
+  //   } else {
+  //     return AppTextFieldDropdown(
+  //       items: List<String>.from(filter["options"]),
+  //       selectedValue: _dropdownValues[label],
+  //       hintText: "Select $label",
+  //       onChange: (value) {
+  //         setState(() => _dropdownValues[label] = value);
+  //       },
+  //       validator: (value) {
+  //         if (value == null || value.isEmpty) {
+  //           return "Please select $label";
+  //         }
+  //         return null;
+  //       },
+  //     );
+  //   }
+  // }
 
   Widget searchDialog(BuildContext context) {
     return AlertDialog(

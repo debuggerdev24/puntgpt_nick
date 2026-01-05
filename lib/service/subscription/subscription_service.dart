@@ -44,7 +44,6 @@ class SubscriptionService {
 
     _purchaseSub = _iap.purchaseStream.listen(
       (purchases) => _handlePurchases(purchases, provider),
-
       onError: (e) => Logger.error("Error inside the listener ${e.toString()}"),
     );
   }

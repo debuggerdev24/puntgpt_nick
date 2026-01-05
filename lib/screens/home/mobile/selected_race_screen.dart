@@ -39,27 +39,6 @@ class _SelectedRaceScreenState extends State<SelectedRaceScreen> {
                   ),
                 ),
                 topBar(context),
-
-                //todo selected race field r1
-                // Padding(
-                //   padding: EdgeInsets.symmetric(
-                //     vertical: 25.h,
-                //     horizontal: 25.w,
-                //   ),
-                //
-                //   child: AppTextFieldDropdown(
-                //     items: List.generate(10, (index) {
-                //       return "R ${index + 1}";
-                //     }),
-                //     selectedValue: selItem,
-                //     onChange: (value) {
-                //       setState(() {
-                //         selItem = value;
-                //       });
-                //     },
-                //     hintText: "R1",
-                //   ),
-                // ),
                 //todo Race selection view
                 Container(
                   margin: EdgeInsets.fromLTRB(25.w, 25.h, 25.w, 0),
@@ -336,18 +315,18 @@ class _SelectedRaceTableState extends State<SelectedRaceTable> {
     );
   }
 
-  Widget _buildDetailBox(String label) {
-    return Container(
-      padding: EdgeInsets.symmetric(vertical: 6.h, horizontal: 10.w),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        border: Border.all(color: AppColors.primary.withValues(alpha: 0.2)),
-        borderRadius: BorderRadius.circular(6.r),
-      ),
-      child: Text(
-        label,
-        style: semiBold(fontSize: 13.sp, color: AppColors.primary),
-      ),
-    );
-  }
+  // Widget _buildDetailBox(String label) {
+  //   return Container(
+  //     padding: EdgeInsets.symmetric(vertical: 6.h, horizontal: 10.w),
+  //     decoration: BoxDecoration(
+  //       color: Colors.white,
+  //       border: Border.all(color: AppColors.primary.withValues(alpha: 0.2)),
+  //       borderRadius: BorderRadius.circular(6.r),
+  //     ),
+  //     child: Text(
+  //       label,
+  //       style: semiBold(fontSize: 13.sp, color: AppColors.primary),
+  //     ),
+  //   );
+  // }
 }

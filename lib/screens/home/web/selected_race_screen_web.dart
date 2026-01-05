@@ -39,26 +39,26 @@ class _SelectedRaceTableScreenWebState
         ? 16.sp
         : context.isTablet
         ? 24.sp
-        : (kIsWeb)
+        : (context.isBrowserMobile)
         ? 32.sp
         : 16.sp;
     final eighteenResponsive = context.isDesktop
         ? 18.sp
         : context.isTablet
         ? 26.sp
-        : (kIsWeb)
+        : (context.isBrowserMobile)
         ? 34.sp
         : 16.sp;
     final fourteenResponsive = context.isDesktop
         ? 14.sp
         : context.isTablet
         ? 22.sp
-        : (kIsWeb)
+        : (context.isBrowserMobile)
         ? 26.sp
         : 14.sp;
     return Scaffold(
       body: Align(
-        alignment: (kIsWeb && !context.isBrowserMobile)
+        alignment: (kIsWeb && !context.isMobileView)
             ? Alignment.center
             : Alignment.centerLeft,
         child: Consumer<SearchEngineProvider>(
@@ -66,13 +66,13 @@ class _SelectedRaceTableScreenWebState
             return SizedBox(
               width: bodyWidth,
               child: SingleChildScrollView(
-                padding: context.isBrowserMobile
-                    ? EdgeInsets.symmetric(horizontal: (kIsWeb) ? 55.w : 25.w)
-                    : EdgeInsets.zero,
+                padding: EdgeInsets.symmetric(
+                  horizontal: (context.isBrowserMobile) ? 55.w : 25.w,
+                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    if (kIsWeb && !context.isBrowserMobile) ...[
+                    if (kIsWeb && !context.isMobileView) ...[
                       70.h.verticalSpace,
 
                       HomeScreenTabWeb(
@@ -170,7 +170,7 @@ class _SelectedRaceTableScreenWebState
                           ? 20.sp
                           : context.isTablet
                           ? 28.sp
-                          : (kIsWeb)
+                          : (context.isBrowserMobile)
                           ? 36.sp
                           : 20.sp,
                       fontFamily: AppFontFamily.secondary,
@@ -184,7 +184,7 @@ class _SelectedRaceTableScreenWebState
                           ? 12.sp
                           : context.isTablet
                           ? 20.sp
-                          : (kIsWeb)
+                          : (context.isBrowserMobile)
                           ? 24.sp
                           : 12.sp,
                       color: AppColors.greyColor.withValues(alpha: 0.6),
@@ -362,18 +362,18 @@ class _SelectedRaceTableWebState extends State<SelectedRaceTableWeb> {
     );
   }
 
-  Widget _buildDetailBox(String label) {
-    return Container(
-      padding: EdgeInsets.symmetric(vertical: 6.h, horizontal: 10.w),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        border: Border.all(color: AppColors.primary.withValues(alpha: 0.2)),
-        borderRadius: BorderRadius.circular(6.r),
-      ),
-      child: Text(
-        label,
-        style: semiBold(fontSize: 13.sp, color: AppColors.primary),
-      ),
-    );
-  }
+  // Widget _buildDetailBox(String label) {
+  //   return Container(
+  //     padding: EdgeInsets.symmetric(vertical: 6.h, horizontal: 10.w),
+  //     decoration: BoxDecoration(
+  //       color: Colors.white,
+  //       border: Border.all(color: AppColors.primary.withValues(alpha: 0.2)),
+  //       borderRadius: BorderRadius.circular(6.r),
+  //     ),
+  //     child: Text(
+  //       label,
+  //       style: semiBold(fontSize: 13.sp, color: AppColors.primary),
+  //     ),
+  //   );
+  // }
 }

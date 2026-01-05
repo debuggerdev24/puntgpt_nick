@@ -17,7 +17,7 @@ class ManageSubscriptionSectionWeb extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final fourteenResponsive = context.isDesktop ? 14.sp : 22.sp;
-    double subscriptionBoxWidth = context.isDesktop ? 340.w : 510.w;
+    // double subscriptionBoxWidth = context.isDesktop ? 340.w : 510.w;
 
     return Consumer<AccountProvider>(
       builder: (context, provider, child) {

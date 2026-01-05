@@ -19,22 +19,13 @@ class RaceTable extends StatelessWidget {
 
       child: Container(
         width: 1.6.sw,
-        margin: EdgeInsets.only(
-          top: 24.h,
-          bottom: 55.h,
-        ),
+        margin: EdgeInsets.only(top: 24.h, bottom: 55.h),
         decoration: BoxDecoration(
-          border: Border.all(
-            color: AppColors.primary
-                .withValues(alpha: 0.3),
-          ),
+          border: Border.all(color: AppColors.primary.withValues(alpha: 0.3)),
         ),
         child: Table(
           border: TableBorder.symmetric(
-            inside: BorderSide(
-              color: AppColors.primary
-                  .withValues(alpha: 0.2),
-            ),
+            inside: BorderSide(color: AppColors.primary.withValues(alpha: 0.2)),
           ),
           columnWidths: {
             0: FlexColumnWidth(3.5.w),
@@ -42,18 +33,14 @@ class RaceTable extends StatelessWidget {
             2: FlexColumnWidth(3.w),
             3: FlexColumnWidth(3.w),
           },
-          defaultVerticalAlignment:
-          TableCellVerticalAlignment
-              .middle,
+          defaultVerticalAlignment: TableCellVerticalAlignment.middle,
           children: [
             _buildRow(
               col1: "Randwick",
-              col2:
-              "R1. PuntGPT Legends Stakes 3200m",
+              col2: "R1. PuntGPT Legends Stakes 3200m",
               col3: "2025-09-28",
               col4: "14:35",
               context: context,
-
             ),
             _buildRow(
               col1: "Flemington",
@@ -61,8 +48,6 @@ class RaceTable extends StatelessWidget {
               col3: "2025-09-28",
               col4: "14:35",
               context: context,
-
-
             ),
             _buildRow(
               col1: "Morphettville",
@@ -70,7 +55,6 @@ class RaceTable extends StatelessWidget {
               col3: "2025-09-28",
               col4: "14:35",
               context: context,
-
             ),
             _buildRow(
               col1: "Doomben",
@@ -78,7 +62,6 @@ class RaceTable extends StatelessWidget {
               col3: "2025-09-28",
               col4: "14:35",
               context: context,
-
             ),
             _buildRow(
               col1: "Gold Coast",
@@ -86,7 +69,6 @@ class RaceTable extends StatelessWidget {
               col3: "2025-09-28",
               col4: "14:35",
               context: context,
-
             ),
             _buildRow(
               col1: "Ascot",
@@ -94,24 +76,20 @@ class RaceTable extends StatelessWidget {
               col3: "2025-09-28",
               col4: "14:35",
               context: context,
-
             ),
             _buildRow(
               col1: "Newcastle",
               col2: "R7. Race Sponsor",
               col3: "2025-09-28",
               col4: "14:35",
-                context: context,
-
-
-
+              context: context,
             ),
             _buildRow(
               col1: "etc...",
               col2: "etc...",
               col3: "etc...",
               col4: "etc...",
-              context: context
+              context: context,
             ),
           ],
         ),
@@ -130,7 +108,7 @@ class RaceTable extends StatelessWidget {
         ? 16.sp
         : context.isTablet
         ? 24.sp
-        : (kIsWeb)
+        : (context.isBrowserMobile)
         ? 32.sp
         : 16.sp;
     return TableRow(
@@ -138,28 +116,24 @@ class RaceTable extends StatelessWidget {
         GestureDetector(
           onTap: () {
             context.pushNamed(
-              (kIsWeb) ? WebRoutes.selectedRace.name
-                  :
-              AppRoutes
-                  .selectedRace
-                  .name,
+              (kIsWeb)
+                  ? WebRoutes.selectedRace.name
+                  : AppRoutes.selectedRace.name,
             );
           },
           child: Padding(
             padding: EdgeInsets.only(left: 16.w, top: 8.h, bottom: 8.h),
-            child: Text(col1, style: semiBold(fontSize:sixteenFontSize)),
+            child: Text(col1, style: semiBold(fontSize: sixteenFontSize)),
           ),
         ),
         GestureDetector(
           onTap: () {
-    context.pushNamed(
-    (kIsWeb) ? WebRoutes.selectedRace.name
-        :
-    AppRoutes
-        .selectedRace
-        .name,
-    );
-    },
+            context.pushNamed(
+              (kIsWeb)
+                  ? WebRoutes.selectedRace.name
+                  : AppRoutes.selectedRace.name,
+            );
+          },
           child: Padding(
             padding: EdgeInsets.only(left: 16.w, top: 8.h, bottom: 8.h),
 
@@ -168,14 +142,12 @@ class RaceTable extends StatelessWidget {
         ),
         GestureDetector(
           onTap: () {
-    context.pushNamed(
-    (kIsWeb) ? WebRoutes.selectedRace.name
-        :
-    AppRoutes
-        .selectedRace
-        .name,
-    );
-    },
+            context.pushNamed(
+              (kIsWeb)
+                  ? WebRoutes.selectedRace.name
+                  : AppRoutes.selectedRace.name,
+            );
+          },
 
           child: Padding(
             padding: EdgeInsets.only(left: 16.w, top: 8.h, bottom: 8.h),
@@ -185,14 +157,12 @@ class RaceTable extends StatelessWidget {
         ),
         GestureDetector(
           onTap: () {
-    context.pushNamed(
-    (kIsWeb) ? WebRoutes.selectedRace.name
-        :
-    AppRoutes
-        .selectedRace
-        .name,
-    );
-    },
+            context.pushNamed(
+              (kIsWeb)
+                  ? WebRoutes.selectedRace.name
+                  : AppRoutes.selectedRace.name,
+            );
+          },
           child: Padding(
             padding: EdgeInsets.only(left: 16.w, top: 8.h, bottom: 8.h),
 
@@ -202,5 +172,4 @@ class RaceTable extends StatelessWidget {
       ],
     );
   }
-
 }

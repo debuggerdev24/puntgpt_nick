@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -27,28 +26,28 @@ class PunterClubScreenWebScreen extends StatelessWidget {
         ? 20.sp
         : context.isTablet
         ? 28.sp
-        : (kIsWeb)
+        : (context.isBrowserMobile)
         ? 36.sp
         : 20.sp;
-    final sixteenResponsive = context.isDesktop
-        ? 16.sp
-        : context.isTablet
-        ? 24.sp
-        : (kIsWeb)
-        ? 32.sp
-        : 16.sp;
-    final twelveResponsive = context.isDesktop
-        ? 12.sp
-        : context.isTablet
-        ? 20.sp
-        : (kIsWeb)
-        ? 28.sp
-        : 12.sp;
+    // final sixteenResponsive = context.isDesktop
+    //     ? 16.sp
+    //     : context.isTablet
+    //     ? 24.sp
+    //     : (context.isBrowserMobile)
+    //     ? 32.sp
+    //     : 16.sp;
+    // final twelveResponsive = context.isDesktop
+    //     ? 12.sp
+    //     : context.isTablet
+    //     ? 20.sp
+    //     : (kIsWeb)
+    //     ? 28.sp
+    //     : 12.sp;
     final fourteenResponsive = context.isDesktop
         ? 14.sp
         : context.isTablet
         ? 20.sp
-        : (kIsWeb)
+        : (context.isBrowserMobile)
         ? 28.sp
         : 14.sp;
     return Scaffold(
