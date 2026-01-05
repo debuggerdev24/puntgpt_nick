@@ -117,7 +117,6 @@ class _WebSplashScreenState extends State<WebSplashScreen> {
       body: Center(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
-
           children: [
             ImageWidget(
               path: AppAssets.splashWebLogo,
