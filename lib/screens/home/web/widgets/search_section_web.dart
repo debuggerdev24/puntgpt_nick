@@ -248,7 +248,7 @@ class _SearchSectionWebState extends State<SearchSectionWeb> {
                         color: AppColors.primary.withValues(alpha: 0.6),
                       ),
                     ),
-                  AppFiledButton(
+                  AppFilledButton(
                     margin: EdgeInsets.only(
                       right: 12.w,
                       top: provider.isSearched ? 12.h : 0,
@@ -445,7 +445,7 @@ class _SearchSectionWebState extends State<SearchSectionWeb> {
                       text: "Remove Searches",
                       onTap: () {},
                     ),
-                    AppFiledButton(
+                    AppFilledButton(
                       padding: EdgeInsets.symmetric(
                         vertical: 12.w,
                         horizontal: 18.w,

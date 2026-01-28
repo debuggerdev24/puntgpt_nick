@@ -173,7 +173,7 @@ class _PlansState extends State<Plans> {
             ),
           ),
           //todo create account button
-          AppFiledButton(
+          AppFilledButton(
             margin: EdgeInsets.only(bottom: 40.h, top: 25.h),
             text: provider.selectedTab == 0
                 ? "Continue with Free Account"

@@ -52,7 +52,7 @@ class SearchFilterScreen extends StatelessWidget {
           ),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 22),
-            child: AppFiledButton(
+            child: AppFilledButton(
               text: "Apply",
               onTap: () {
                 context.pop();

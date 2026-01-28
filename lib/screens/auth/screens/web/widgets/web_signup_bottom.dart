@@ -55,7 +55,7 @@ class WebSignUpBottomSection extends StatelessWidget {
           ),
           60.h.verticalSpace,
 
-          AppFiledButton(
+          AppFilledButton(
             text: "Create Account",
             width: (context.isDesktop)
                 ? 400.w

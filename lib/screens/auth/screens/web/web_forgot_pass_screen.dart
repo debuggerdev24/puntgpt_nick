@@ -80,7 +80,7 @@ class WebForgotPassScreen extends StatelessWidget {
                         });
                       },
                     ),
-                    AppFiledButton(
+                    AppFilledButton(
                       margin: EdgeInsets.only(top: 45.w),
                       text: "Send OTP",
                       child:

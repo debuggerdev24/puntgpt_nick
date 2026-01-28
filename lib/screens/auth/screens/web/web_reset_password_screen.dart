@@ -82,7 +82,7 @@ class WebResetPasswordScreen extends StatelessWidget {
                       );
                     },
                   ),
-                  AppFiledButton(
+                  AppFilledButton(
                     text: "Confirm",
                     margin: EdgeInsets.only(top: 34.w),
                     onTap: () {

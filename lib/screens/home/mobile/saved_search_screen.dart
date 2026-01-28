@@ -68,7 +68,7 @@ class SavedSearchScreen extends StatelessWidget {
           child: horizontalDivider(),
         ),
         Spacer(),
-        AppFiledButton(
+        AppFilledButton(
           margin: EdgeInsets.fromLTRB(25.w, 0, 25.w, 25.h),
           text: "Save Current Search",
           onTap: () {},

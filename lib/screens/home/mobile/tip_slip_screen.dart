@@ -25,7 +25,7 @@ class TipSlipScreen extends StatelessWidget {
                 tipSlipItem(),
                 tipSlipItem(),
 
-                AppFiledButton(
+                AppFilledButton(
                   margin: EdgeInsets.only(top: 24.h, bottom: 12.h),
                   text: "Play Fantasy Picks (4)",
                   onTap: () {},

@@ -23,17 +23,28 @@ class RunnersListWeb extends StatelessWidget {
     return Column(
       children: [
         Padding(
-          padding: EdgeInsets.fromLTRB(25.w, 0.h, 25.w, (context.isBrowserMobile) ? 8.h : 12.h),
+          padding: EdgeInsets.fromLTRB(
+            25.w,
+            0.h,
+            25.w,
+            (context.isBrowserMobile) ? 8.h : 12.h,
+          ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
                 "Total Runners: (20)",
-                style: bold(fontSize: (context.isBrowserMobile) ? 25.sp : 16.sp),
+                style: bold(
+                  fontSize: (context.isBrowserMobile) ? 25.sp : 16.sp,
+                ),
               ),
               GestureDetector(
                 onTap: () {
-                  context.pushNamed((context.isMobileView && !kIsWeb) ? WebRoutes.savedSearchedScreen.name : AppRoutes.savedSearched.name);
+                  context.pushNamed(
+                    (context.isMobileView && !kIsWeb)
+                        ? WebRoutes.savedSearchedScreen.name
+                        : AppRoutes.savedSearched.name,
+                  );
                 },
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
@@ -175,7 +186,7 @@ class Runner extends StatelessWidget {
               spacing: 6.w,
               children: [
                 Expanded(
-                  child: AppFiledButton(
+                  child: AppFilledButton(
                     text: "Add to Tip Slip",
                     textStyle: semiBold(
                       fontSize: context.isDesktop

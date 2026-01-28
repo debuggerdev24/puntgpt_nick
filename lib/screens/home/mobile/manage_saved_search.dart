@@ -21,7 +21,7 @@ class SearchDetailScreen extends StatelessWidget {
         horizontalDivider(),
         _buildListView(context: context),
         Spacer(),
-        AppFiledButton(
+        AppFilledButton(
           textStyle: semiBold(fontSize: 16.sp, color: AppColors.white),
           text: "Edit",
           onTap: () {},

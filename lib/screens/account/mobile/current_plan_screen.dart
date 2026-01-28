@@ -33,7 +33,7 @@ class CurrentPlanScreen extends StatelessWidget {
             ),
           ),
           Spacer(),
-          AppFiledButton(
+          AppFilledButton(
             margin: EdgeInsets.only(bottom: 10.h, left: 25.w, right: 25.w),
             text: "Renew",
             textStyle: semiBold(

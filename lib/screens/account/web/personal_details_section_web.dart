@@ -164,7 +164,7 @@ class PersonalDetailsSectionWeb extends StatelessWidget {
                 ),
                 textStyle: semiBold(fontSize: sixteenResponsive),
               ),
-              AppFiledButton(
+              AppFilledButton(
                 margin: EdgeInsets.only(
                   top: context.isDesktop ? 24.w : 34.w,
                   left: 24.w,

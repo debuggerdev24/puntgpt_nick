@@ -282,7 +282,7 @@ class _SelectedRaceTableWebState extends State<SelectedRaceTableWeb> {
                                   color: Colors.white,
                                 ),
                               ),
-                              AppFiledButton(
+                              AppFilledButton(
                                 margin: EdgeInsets.only(top: 4),
                                 text: "Add to Tip Slip",
                                 textStyle: semiBold(

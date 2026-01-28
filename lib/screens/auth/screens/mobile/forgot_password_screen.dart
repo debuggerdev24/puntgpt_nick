@@ -72,7 +72,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                         ),
                         Spacer(),
                         SafeArea(
-                          child: AppFiledButton(
+                          child: AppFilledButton(
                             margin: EdgeInsets.only(bottom: 20.h),
                             text: "Send OTP",
 

@@ -63,7 +63,8 @@ class _SplashScreenState extends State<SplashScreen> {
                 result.fold(
                   (e) async {
                     Logger.error((e.code.toString() == "401").toString());
-                    if (e.code.toString() == "401") {
+                    if (e.code.toString() == "401" ||
+                        e.code.toString() == "400") {
                       // AppToast.error(
                       //   context: context,
                       //   message: "Refresh token is expired",

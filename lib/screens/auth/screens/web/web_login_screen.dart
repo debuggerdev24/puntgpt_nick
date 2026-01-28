@@ -154,7 +154,7 @@ class WebLoginScreen extends StatelessWidget {
                               ),
                             ),
                             40.h.verticalSpace,
-                            AppFiledButton(
+                            AppFilledButton(
                               text: "Login",
                               onTap: () {
                                 if (formKey.currentState!.validate()) {

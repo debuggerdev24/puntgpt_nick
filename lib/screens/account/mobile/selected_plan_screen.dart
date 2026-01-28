@@ -34,7 +34,7 @@ class SelectedPlanScreen extends StatelessWidget {
             context.pop();
           },
         ),
-        AppFiledButton(
+        AppFilledButton(
           text: "Pay & Subscribe",
           onTap: () {
             var selectedPlan = AppEnum.monthlyPlan;

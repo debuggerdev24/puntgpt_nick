@@ -50,7 +50,7 @@ class CurrentPlanSectionWeb extends StatelessWidget {
                       ),
 
                       //todo renew button
-                      AppFiledButton(
+                      AppFilledButton(
                         margin: EdgeInsets.only(top: 20.w),
                         text: "Renew",
                         width: subscriptionBoxWidth,
@@ -82,7 +82,7 @@ class CurrentPlanSectionWeb extends StatelessWidget {
                 ),
               ),
 
-              AppFiledButton(
+              AppFilledButton(
                 margin: EdgeInsets.only(
                   // top: 20.w,
                   left: 60.w,

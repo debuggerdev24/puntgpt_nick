@@ -53,8 +53,7 @@ class VerifyOtpScreen extends StatelessWidget {
                         controller: provider.otpCtr,
                         length: 4,
 
-                        separatorBuilder: (index) =>
-                            (context.isMobileView)
+                        separatorBuilder: (index) => (context.isMobileView)
                             ? 28.w.horizontalSpace
                             : 14.w.horizontalSpace,
                         defaultPinTheme: PinTheme(
@@ -114,7 +113,7 @@ class VerifyOtpScreen extends StatelessWidget {
                         margin: EdgeInsets.only(top: 10.h, bottom: 12.h),
                       ),
                       SafeArea(
-                        child: AppFiledButton(
+                        child: AppFilledButton(
                           margin: EdgeInsets.only(bottom: 20.h),
                           text: "Reset Password",
                           textStyle: (kIsWeb)

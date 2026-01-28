@@ -51,7 +51,7 @@ class AgeConfirmationScreen extends StatelessWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  AppFiledButton(onTap: () => _onYesTap(context), text: "Yes"),
+                  AppFilledButton(onTap: () => _onYesTap(context), text: "Yes"),
                   10.h.verticalSpace,
                   AppOutlinedButton(onTap: () => _onNoTap(context), text: "No"),
                 ],

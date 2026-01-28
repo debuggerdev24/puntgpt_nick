@@ -19,6 +19,8 @@ class AppAssets {
   static const edit = "$_iconPath/edit.svg";
   static const groupIcon = "$_iconPath/groupIcon.svg";
   static const addIcon = "$_iconPath/addIcon.svg";
+  static const notification = "$_iconPath/notification.svg";
+  static const searchIcons = "$_iconPath/searchIcons.svg";
 
   // images
   static const _imagePath = "assets/images";

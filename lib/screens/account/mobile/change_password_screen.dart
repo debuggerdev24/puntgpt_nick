@@ -124,7 +124,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                           Spacer(),
                           Align(
                             alignment: AlignmentGeometry.bottomCenter,
-                            child: AppFiledButton(
+                            child: AppFilledButton(
                               text: "Save",
                               onTap: () {
                                 deBouncer.run(() {

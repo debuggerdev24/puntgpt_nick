@@ -104,7 +104,7 @@ class LoginScreen extends StatelessWidget {
                         ),
                       ),
                       100.verticalSpace,
-                      AppFiledButton(
+                      AppFilledButton(
                         text: "Login",
                         onTap: () async {
                           if (formKey.currentState!.validate()) {

@@ -95,7 +95,7 @@ class WebVerifyOtpScreen extends StatelessWidget {
                           )
                         : null,
                   ),
-                  AppFiledButton(
+                  AppFilledButton(
                     margin: EdgeInsets.only(bottom: 20.h),
                     text: "Reset Password",
                     textStyle: semiBold(

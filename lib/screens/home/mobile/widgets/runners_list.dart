@@ -163,7 +163,7 @@ class RunnersList extends StatelessWidget {
                             spacing: 6.w,
                             children: [
                               Expanded(
-                                child: AppFiledButton(
+                                child: AppFilledButton(
                                   text: "Add to Tip Slip",
                                   textStyle: semiBold(
                                     fontSize: 16.sp,

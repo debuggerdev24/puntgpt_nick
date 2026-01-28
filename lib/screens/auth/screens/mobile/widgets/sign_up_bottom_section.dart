@@ -37,7 +37,7 @@ class SignUpBottomSection extends StatelessWidget {
           ],
         ),
         10.h.verticalSpace,
-        AppFiledButton(text: "Create Account", onTap: onSignUpTap),
+        AppFilledButton(text: "Create Account", onTap: onSignUpTap),
         10.h.verticalSpace,
         Wrap(
           alignment: WrapAlignment.center,

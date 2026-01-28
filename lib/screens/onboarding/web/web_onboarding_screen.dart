@@ -245,7 +245,7 @@ class WebOnboardingScreen extends StatelessWidget {
                                   ),
                                 ],
                               ),
-                        AppFiledButton(
+                        AppFilledButton(
                           text: planData[index]['price'].toString().isEmpty
                               ? "Create a Free Account"
                               : "Subscribe",

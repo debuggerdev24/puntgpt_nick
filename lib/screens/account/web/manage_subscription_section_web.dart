@@ -74,7 +74,7 @@ class ManageSubscriptionSectionWeb extends StatelessWidget {
                   ),
                 ),
               ),
-              AppFiledButton(
+              AppFilledButton(
                 margin: EdgeInsets.only(
                   // top: 20.w,
                   left: 60.w,

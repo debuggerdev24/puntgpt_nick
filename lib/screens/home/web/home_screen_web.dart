@@ -158,7 +158,7 @@ class _HomeScreenWebState extends State<HomeScreenWeb> {
                               askPuntGPTButton(context),
                               10.verticalSpace,
                               IntrinsicWidth(
-                                child: AppFiledButton(
+                                child: AppFilledButton(
                                   text: "Search",
                                   textStyle: semiBold(
                                     color: AppColors.white,

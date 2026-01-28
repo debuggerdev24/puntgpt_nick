@@ -138,7 +138,7 @@ class _ChangePasswordSectionWebState extends State<ChangePasswordSectionWeb> {
                   ),
                 ),
               ),
-              AppFiledButton(
+              AppFilledButton(
                 text: "Save",
                 textStyle: semiBold(
                   fontSize: sixteenResponsive,

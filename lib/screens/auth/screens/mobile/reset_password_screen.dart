@@ -42,7 +42,6 @@ class ResetPasswordScreen extends StatelessWidget {
                         "Enter new password below to reset.",
                         style: regular(
                           fontSize: (kIsWeb) ? 30.sp : 16.sp,
-
                           color: AppColors.primary.withValues(),
                         ),
                       ),
@@ -72,7 +71,7 @@ class ResetPasswordScreen extends StatelessWidget {
                       ),
                       Spacer(),
                       SafeArea(
-                        child: AppFiledButton(
+                        child: AppFilledButton(
                           margin: EdgeInsets.only(bottom: 20.h),
                           textStyle: (kIsWeb)
                               ? semiBold(

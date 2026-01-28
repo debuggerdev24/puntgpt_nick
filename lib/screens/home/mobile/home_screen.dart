@@ -315,7 +315,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                   askPuntGPTButton(context),
                   10.verticalSpace,
                   IntrinsicWidth(
-                    child: AppFiledButton(
+                    child: AppFilledButton(
                       text: "Search",
                       onTap: () {
                         // formKey.currentState!.validate();

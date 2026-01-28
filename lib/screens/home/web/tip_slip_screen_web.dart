@@ -85,7 +85,7 @@ class TipSlipScreenWeb extends StatelessWidget {
                     context: context,
                   ),
                   200.h.verticalSpace,
-                  AppFiledButton(
+                  AppFilledButton(
                     isExpand: !context.isBrowserMobile ? false : true,
                     margin: EdgeInsets.symmetric(
                       horizontal: (!context.isMobileView)

@@ -236,7 +236,7 @@ class _SelectedRaceTableState extends State<SelectedRaceTable> {
                                   color: Colors.white,
                                 ),
                               ),
-                              AppFiledButton(
+                              AppFilledButton(
                                 margin: EdgeInsets.only(top: 4),
                                 text: "Add to Tip Slip",
                                 textStyle: semiBold(

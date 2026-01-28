@@ -3,8 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:puntgpt_nick/core/constants/constants.dart';
 import 'package:puntgpt_nick/core/constants/text_style.dart';
 
-class AppFiledButton extends StatelessWidget {
-  const AppFiledButton({
+class AppFilledButton extends StatelessWidget {
+  const AppFilledButton({
     super.key,
     required this.text,
     required this.onTap,

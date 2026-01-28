@@ -67,7 +67,7 @@ class SelectedPlanSectionWeb extends StatelessWidget {
                             ? webProgressIndicator(context)
                             : null,
                       ),
-                      AppFiledButton(
+                      AppFilledButton(
                         margin: EdgeInsets.only(
                           top: 12.w, //context.isDesktop ? 24.w : 34.w,
                         ),

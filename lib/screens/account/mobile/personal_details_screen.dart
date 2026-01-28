@@ -137,7 +137,7 @@ class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
                           ),
                           // Spacer(),
                           if (provider.isEdit)
-                            AppFiledButton(
+                            AppFilledButton(
                               text: "Save Changes",
                               textStyle: semiBold(
                                 fontSize: (context.isBrowserMobile)

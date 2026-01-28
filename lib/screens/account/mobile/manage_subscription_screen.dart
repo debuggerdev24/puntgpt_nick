@@ -58,8 +58,9 @@ class ManageSubscriptionScreen extends StatelessWidget {
                       return GestureDetector(
                         onTap: () {
                           context.pushNamed(
-                            (kIsWeb && context.isMobileView) ? WebRoutes.selectedPlanScreen.name :
-                            AppRoutes.selectedPlanScreen.name,
+                            (kIsWeb && context.isMobileView)
+                                ? WebRoutes.selectedPlanScreen.name
+                                : AppRoutes.selectedPlanScreen.name,
                             extra: plan,
                           );
                         },
@@ -67,7 +68,7 @@ class ManageSubscriptionScreen extends StatelessWidget {
                       );
                     }),
                     Spacer(),
-                    AppFiledButton(
+                    AppFilledButton(
                       margin: EdgeInsets.fromLTRB(25.w, 20.h, 25.w, 20.h),
                       text: "See Current Plan",
                       textStyle: semiBold(
@@ -75,7 +76,11 @@ class ManageSubscriptionScreen extends StatelessWidget {
                         color: AppColors.white,
                       ),
                       onTap: () {
-                        context.pushNamed((kIsWeb && context.isMobileView) ? WebRoutes.currentPlanScreen.name : AppRoutes.currentPlanScreen.name);
+                        context.pushNamed(
+                          (kIsWeb && context.isMobileView)
+                              ? WebRoutes.currentPlanScreen.name
+                              : AppRoutes.currentPlanScreen.name,
+                        );
                       },
                     ),
                   ],

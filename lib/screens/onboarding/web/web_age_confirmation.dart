@@ -54,7 +54,7 @@ class WebAgeConfirmationScreen extends StatelessWidget {
               SizedBox(height: 50.w.clamp(20, 80)),
               if (context.isDesktop || context.isTablet) ...[
                 OnMouseTap(
-                  child: AppFiledButton(
+                  child: AppFilledButton(
                     onTap: () => _onYesTap(context),
                     text: "Yes",
                     textStyle: semiBold(
@@ -107,7 +107,7 @@ class WebAgeConfirmationScreen extends StatelessWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  AppFiledButton(
+                  AppFilledButton(
                     onTap: () => _onYesTap(context),
                     text: "Yes",
                     textStyle: semiBold(
