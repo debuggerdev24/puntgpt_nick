@@ -16,15 +16,6 @@ class TipSlipScreenWeb extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Logger.info(
-      "is Mobile ${Responsive.isMobileBrowser(context)} ${context.screenWidth}",
-    );
-    Logger.info(
-      "is Desktop ${Responsive.isDesktop(context)} ${context.screenWidth}",
-    );
-    Logger.info(
-      "is Tablet ${Responsive.isTablet(context)} ${context.screenWidth}",
-    );
     final bodyWidth = context.isBrowserMobile
         ? double.maxFinite
         : context.isTablet

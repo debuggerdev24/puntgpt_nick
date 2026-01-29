@@ -40,6 +40,8 @@ class SubscriptionService {
       Logger.info("Store not available");
       return;
     }
+    if (!context.mounted) return;
+
     await _loadProducts(context: context);
 
     _purchaseSub = _iap.purchaseStream.listen(
@@ -62,6 +64,8 @@ class SubscriptionService {
     Logger.info("I am here");
 
     for (var product in _products) {
+      if (!context.mounted) return;
+
       AppToast.success(
         context: context,
         message: "Product is ${product.title}",

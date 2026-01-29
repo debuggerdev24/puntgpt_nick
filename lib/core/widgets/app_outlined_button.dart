@@ -12,7 +12,7 @@ class AppOutlinedButton extends StatelessWidget {
     this.height,
     this.width,
     this.borderRadius,
-    this.color,
+    this.borderColor,
     this.textStyle,
     this.margin,
     this.isExpand,
@@ -25,7 +25,7 @@ class AppOutlinedButton extends StatelessWidget {
   final String text;
   final VoidCallback onTap;
   final TextStyle? textStyle;
-  final Color? color;
+  final Color? borderColor;
   final bool? isExpand;
 
   @override
@@ -48,7 +48,7 @@ class AppOutlinedButton extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(borderRadius ?? 0),
             color: AppColors.white,
-            border: Border.all(color: color ?? AppColors.primary),
+            border: Border.all(color: borderColor ?? AppColors.primary),
           ),
           alignment: AlignmentGeometry.center,
           child:

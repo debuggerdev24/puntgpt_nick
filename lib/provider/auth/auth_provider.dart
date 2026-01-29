@@ -6,7 +6,6 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:go_router/go_router.dart';
 import 'package:puntgpt_nick/core/router/web/web_routes.dart';
 import 'package:puntgpt_nick/core/utils/app_toast.dart';
-import 'package:puntgpt_nick/responsive/responsive_builder.dart';
 import 'package:puntgpt_nick/service/auth/auth_api_service.dart';
 import 'package:puntgpt_nick/service/storage/locale_storage_service.dart';
 
@@ -14,19 +13,19 @@ import '../../core/helper/log_helper.dart';
 import '../../core/router/app/app_routes.dart';
 
 class AuthProvider extends ChangeNotifier {
-  TextEditingController firstNameCtr = TextEditingController();
-  TextEditingController lastNameCtr = TextEditingController();
-  TextEditingController emailCtr = TextEditingController();
-  TextEditingController phoneCtr = TextEditingController();
-  TextEditingController passwordCtr = TextEditingController();
-  TextEditingController confirmPasswordCtr = TextEditingController();
-  TextEditingController dobCtr = TextEditingController();
-  TextEditingController loginEmailCtr = TextEditingController();
-  TextEditingController loginPasswordCtr = TextEditingController();
-  TextEditingController forgotPasswordCtr = TextEditingController(text: "test@gmail.com");
-  TextEditingController newPasswordCtr = TextEditingController();
-  TextEditingController resetConfirmPasswordCtr = TextEditingController();
-  TextEditingController otpCtr = TextEditingController();
+  TextEditingController firstNameCtr = TextEditingController(),
+      lastNameCtr = TextEditingController(),
+      emailCtr = TextEditingController(),
+      phoneCtr = TextEditingController(),
+      passwordCtr = TextEditingController(),
+      confirmPasswordCtr = TextEditingController(),
+      dobCtr = TextEditingController(),
+      loginEmailCtr = TextEditingController(),
+      loginPasswordCtr = TextEditingController(),
+      forgotPasswordCtr = TextEditingController(text: "test@gmail.com"),
+      newPasswordCtr = TextEditingController(),
+      resetConfirmPasswordCtr = TextEditingController(),
+      otpCtr = TextEditingController();
 
   int _selectedTab = 0, _resendSeconds = 0;
   Timer? _resendTimer;

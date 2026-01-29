@@ -121,7 +121,6 @@ class PunterClubScreen extends StatelessWidget {
                                     sheetContext.pop();
                                     showModalBottomSheet(
                                       context: context,
-
                                       isScrollControlled: true,
                                       useRootNavigator: true,
                                       backgroundColor: AppColors.white,
@@ -232,22 +231,58 @@ class InviteUserSheetView extends StatelessWidget {
                 AppTextField(
                   controller: provider.searchNameCtr,
                   hintText: "Search by username",
-                  trailingIcon: AppAssets.searchIcons,
+                  trailingIcon: AppAssets.searchIcon,
                   //(Icons.search),
                 ),
+                24.h.verticalSpace,
+                userBox(),
               ],
             ),
-            Align(
-              alignment: AlignmentGeometry.topLeft,
-              child: GestureDetector(
-                onTap: () {
-                  context.pop();
-                },
-                child: Icon(Icons.arrow_back_ios_new),
+            Padding(
+              padding: EdgeInsets.only(top: 7),
+              child: Align(
+                alignment: AlignmentGeometry.topLeft,
+                child: GestureDetector(
+                  onTap: () {
+                    context.pop();
+                  },
+                  child: Icon(Icons.arrow_back_ios_new, size: 18.sp),
+                ),
               ),
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget userBox() {
+    return Container(
+      height: 48.w,
+
+      decoration: BoxDecoration(
+        border: Border.all(color: AppColors.primary.withValues(alpha: 0.15)),
+      ),
+      child: Row(
+        children: [
+          Container(
+            height: 48.w,
+            width: 48.w,
+            padding: EdgeInsets.all(12.w),
+            decoration: BoxDecoration(color: AppColors.greyColor2),
+            child: ImageWidget(type: ImageType.svg, path: AppAssets.userIcon),
+          ),
+          15.w.horizontalSpace,
+          Text("@otherpropunter_1", style: semiBold(fontSize: 16.spMin)),
+          Spacer(),
+          Container(
+            height: 48.w,
+            width: 48.w,
+            padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 12.h),
+            decoration: BoxDecoration(color: AppColors.primary),
+            child: ImageWidget(path: AppAssets.addUser, type: ImageType.svg),
+          ),
+        ],
       ),
     );
   }
@@ -276,16 +311,16 @@ class NotificationBottomSheetView extends StatelessWidget {
               child: Column(
                 children: [
                   19.h.verticalSpace,
-                  notificationBox(),
-                  notificationBox(),
-                  notificationBox(),
+                  notificationBox(context: context),
+                  notificationBox(context: context),
+                  notificationBox(context: context),
                 ],
               ),
             ),
           ),
           SafeArea(
             child: AppOutlinedButton(
-              color: AppColors.redButton,
+              borderColor: AppColors.redButton,
               margin: EdgeInsets.symmetric(vertical: 10.h),
               textStyle: semiBold(fontSize: 16.sp, color: AppColors.redButton),
               text: "Clear all",
@@ -297,7 +332,7 @@ class NotificationBottomSheetView extends StatelessWidget {
     );
   }
 
-  Widget notificationBox() {
+  Widget notificationBox({required BuildContext context}) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 18.w, vertical: 18.w),
       margin: EdgeInsets.only(bottom: 8.h),
@@ -311,8 +346,7 @@ class NotificationBottomSheetView extends StatelessWidget {
             padding: const EdgeInsets.only(top: 4),
             child: ImageWidget(type: ImageType.svg, path: AppAssets.groupIcon),
           ),
-
-          SizedBox(width: 10), //
+          SizedBox(width: 10),
           Expanded(
             child: Column(
               spacing: 10,
@@ -356,7 +390,54 @@ class NotificationBottomSheetView extends StatelessWidget {
                         fontSize: 14.sp,
                         color: AppColors.white,
                       ),
-                      onTap: () {},
+                      onTap: () {
+                        context.pop();
+                        showModalBottomSheet(
+                          backgroundColor: AppColors.white,
+                          showDragHandle: true,
+                          useRootNavigator: true,
+                          context: context,
+                          builder: (context) {
+                            return Container(
+                              height: 370.h,
+                              padding: EdgeInsets.symmetric(horizontal: 25.w),
+                              child: Column(
+                                children: [
+                                  Text(
+                                    "Create Username",
+                                    style: regular(
+                                      fontSize: 24.sp,
+                                      fontFamily: AppFontFamily.secondary,
+                                    ),
+                                  ),
+                                  10.h.verticalSpace,
+                                  Text(
+                                    "Your username will be displayed to your club members.",
+                                    style: semiBold(
+                                      fontSize: 14.sp,
+                                      color: AppColors.primary.withValues(
+                                        alpha: 0.6,
+                                      ),
+                                    ),
+                                  ),
+                                  22.w.verticalSpace,
+                                  horizontalDivider(),
+                                  24.w.verticalSpace,
+                                  AppTextField(
+                                    controller: TextEditingController(),
+                                    hintText: "Enter username",
+                                  ),
+                                  AppFilledButton(
+                                    margin: EdgeInsets.only(top: 24.w),
+                                    text: "Save",
+                                    onTap: () {},
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        );
+                      },
                     ),
                     AppOutlinedButton(
                       padding: EdgeInsets.symmetric(

@@ -402,7 +402,6 @@ Widget askPuntGPTButtonWeb({required BuildContext context}) {
         return;
       }
       isSheetOpen = true;
-
       showModalSideSheet(
         context: context,
         useRootNavigator: false,
@@ -450,6 +449,7 @@ Widget askPuntGPTButtonWeb({required BuildContext context}) {
         children: [
           ImageWidget(
             path: AppAssets.horse,
+            type: ImageType.svg,
             height: context.isDesktop
                 ? 34.w
                 : context.isTablet

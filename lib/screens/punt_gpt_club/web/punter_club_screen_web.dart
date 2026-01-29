@@ -1,14 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
+import 'package:modal_side_sheet/modal_side_sheet.dart';
 import 'package:provider/provider.dart';
+import 'package:puntgpt_nick/core/constants/app_assets.dart';
 import 'package:puntgpt_nick/core/widgets/app_outlined_button.dart';
+import 'package:puntgpt_nick/core/widgets/image_widget.dart';
 import 'package:puntgpt_nick/provider/punt_club/punter_club_provider.dart';
 import 'package:puntgpt_nick/responsive/responsive_builder.dart';
 import 'package:puntgpt_nick/screens/punt_gpt_club/web/widgets/club_chat_screen_web.dart';
 
 import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/text_style.dart';
+import '../../../core/router/web/web_routes.dart';
 import '../../../core/widgets/app_devider.dart';
+import '../../../core/widgets/app_filed_button.dart';
+import '../../../core/widgets/app_text_field.dart';
 import '../../../core/widgets/on_button_tap.dart';
 import '../../home/web/home_screen_web.dart';
 
@@ -78,12 +85,42 @@ class PunterClubScreenWebScreen extends StatelessWidget {
 
                                 vertical: context.isDesktop ? 26.w : 20.w,
                               ),
-                              child: Text(
-                                "Club Chat:",
-                                style: regular(
-                                  fontSize: twentyResponsive,
-                                  fontFamily: AppFontFamily.secondary,
-                                ),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    "Club Chat:",
+                                    style: regular(
+                                      fontSize: twentyResponsive,
+                                      fontFamily: AppFontFamily.secondary,
+                                    ),
+                                  ),
+                                  OnMouseTap(
+                                    onTap: () {
+                                      if (context.isMobileView) {
+                                        context.pushNamed(
+                                          WebRoutes.askPuntGptScreen.name,
+                                        );
+                                        return;
+                                      }
+                                      isSheetOpen = true;
+                                      showModalSideSheet(
+                                        context: context,
+                                        useRootNavigator: false,
+                                        width: context.isDesktop
+                                            ? 450.w
+                                            : 600.w,
+                                        withCloseControll: true,
+                                        body: _notificationSheet(context),
+                                      );
+                                    },
+                                    child: ImageWidget(
+                                      path: AppAssets.webNotification,
+                                      type: ImageType.svg,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                             4.h.verticalSpace,
@@ -105,11 +142,9 @@ class PunterClubScreenWebScreen extends StatelessWidget {
                             chatTabs(
                               title: "‘PuntGPT Legends’",
                               fourteenResponsive: fourteenResponsive,
-
                               color: (provider.selectedPunterWeb == 1)
                                   ? AppColors.primary
                                   : null,
-
                               onTap: () {
                                 provider.setPunterIndex = 1;
                               },
@@ -189,4 +224,177 @@ class PunterClubScreenWebScreen extends StatelessWidget {
       ),
     );
   }
+}
+
+Widget _notificationSheet(BuildContext context) {
+  return Padding(
+    padding: EdgeInsets.only(left: 24.w, right: 24.w, top: 16),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          "Notification(2)",
+          style: regular(
+            fontSize: context.isDesktop ? 20.sp : 30.sp,
+            fontFamily: AppFontFamily.secondary,
+            height: 1.35,
+          ),
+        ),
+        24.w.verticalSpace,
+        horizontalDivider(),
+        24.w.verticalSpace,
+        horizontalDivider(),
+        _notificationBox(context: context),
+        _notificationBox(context: context),
+        TextField(
+          expands: false,
+          decoration: InputDecoration(
+            border: InputBorder.none,
+            prefix: SizedBox(width: 25.w),
+
+            hintText: "Type your message...",
+            hintStyle: medium(
+              fontStyle: FontStyle.italic,
+              fontSize: context.isDesktop ? 16.sp : 22.sp,
+              color: AppColors.greyColor.withValues(alpha: 0.6),
+            ),
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
+Widget _notificationBox({required BuildContext context}) {
+  return Container(
+    padding: EdgeInsets.symmetric(horizontal: 18.w, vertical: 18.w),
+    margin: EdgeInsets.only(bottom: 8.h),
+    decoration: BoxDecoration(
+      border: Border.all(color: AppColors.primary.withValues(alpha: 0.15)),
+    ),
+    child: Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(top: 4),
+          child: ImageWidget(type: ImageType.svg, path: AppAssets.groupIcon),
+        ),
+        SizedBox(width: 10),
+        Expanded(
+          child: Column(
+            spacing: 10,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              RichText(
+                text: TextSpan(
+                  children: [
+                    TextSpan(
+                      text: "You’ve been invited to join Punter Club",
+                      style: medium(
+                        fontSize: 16.sp,
+                        fontFamily: AppFontFamily.primary,
+                      ),
+                    ),
+
+                    TextSpan(
+                      text: "PuntGPT Legends",
+                      style: semiBold(
+                        fontSize: 16.sp,
+                        fontFamily: AppFontFamily.primary,
+                      ),
+                    ),
+                  ],
+                ),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
+
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  AppFilledButton(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 28.w,
+                      vertical: 9.h,
+                    ),
+                    isExpand: false,
+                    text: "Join",
+                    textStyle: semiBold(
+                      fontSize: 14.sp,
+                      color: AppColors.white,
+                    ),
+                    onTap: () {
+                      context.pop();
+                      showModalBottomSheet(
+                        backgroundColor: AppColors.white,
+                        showDragHandle: true,
+                        useRootNavigator: true,
+                        context: context,
+                        builder: (context) {
+                          return Container(
+                            height: 370.h,
+                            padding: EdgeInsets.symmetric(horizontal: 25.w),
+                            child: Column(
+                              children: [
+                                Text(
+                                  "Create Username",
+                                  style: regular(
+                                    fontSize: 24.sp,
+                                    fontFamily: AppFontFamily.secondary,
+                                  ),
+                                ),
+                                10.h.verticalSpace,
+                                Text(
+                                  "Your username will be displayed to your club members.",
+                                  style: semiBold(
+                                    fontSize: 14.sp,
+                                    color: AppColors.primary.withValues(
+                                      alpha: 0.6,
+                                    ),
+                                  ),
+                                ),
+                                22.w.verticalSpace,
+                                horizontalDivider(),
+                                24.w.verticalSpace,
+                                AppTextField(
+                                  controller: TextEditingController(),
+                                  hintText: "Enter username",
+                                ),
+                                AppFilledButton(
+                                  margin: EdgeInsets.only(top: 24.w),
+                                  text: "Save",
+                                  onTap: () {},
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      );
+                    },
+                  ),
+                  AppOutlinedButton(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 28.w,
+                      vertical: 8.h,
+                    ),
+                    isExpand: false,
+                    textStyle: semiBold(
+                      fontSize: 14.sp,
+                      color: AppColors.black,
+                    ),
+
+                    text: "Decline",
+                    onTap: () {},
+                    margin: EdgeInsets.only(left: 10.w),
+                  ),
+                  Spacer(),
+                  Icon(Icons.close_rounded, size: 16),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ],
+    ),
+  );
 }

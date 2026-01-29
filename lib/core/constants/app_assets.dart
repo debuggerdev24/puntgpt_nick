@@ -20,7 +20,12 @@ class AppAssets {
   static const groupIcon = "$_iconPath/groupIcon.svg";
   static const addIcon = "$_iconPath/addIcon.svg";
   static const notification = "$_iconPath/notification.svg";
-  static const searchIcons = "$_iconPath/searchIcons.svg";
+  static const searchIcon = "$_iconPath/searchIcons.svg";
+  static const userIcon = "$_iconPath/user.svg";
+  static const addUser = "$_iconPath/addUser.svg";
+  static const addClubMember = "$_iconPath/addClubMember.svg";
+  static const option = "$_iconPath/option.svg";
+  static const webNotification = "$_iconPath/webNotification.svg";
 
   // images
   static const _imagePath = "assets/images";

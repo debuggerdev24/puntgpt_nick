@@ -35,6 +35,9 @@ class _SplashScreenState extends State<SplashScreen> {
     Logger.info("Authorized Token : $authToken");
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      context.pushNamed(AppRoutes.homeScreen.name);
+      return;
+
       _startTimer();
       Future.delayed(3.seconds).then((value) async {
         if (isNetworkConnected.value) {

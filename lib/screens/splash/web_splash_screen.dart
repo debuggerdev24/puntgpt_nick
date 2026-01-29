@@ -38,10 +38,13 @@ class _WebSplashScreenState extends State<WebSplashScreen> {
       _startTimer();
       Future.delayed(3.seconds).then((value) async {
         // return;
+
         if (isNetworkConnected.value) {
           if (LocaleStorageService.isFirstTime && authToken.isEmpty) {
             Logger.info("Inside if part");
+
             context.goNamed(WebRoutes.ageConfirmationScreen.name);
+
             return;
           }
           //todo checking token is expire or not.
@@ -56,17 +59,21 @@ class _WebSplashScreenState extends State<WebSplashScreen> {
                 //   message: "Access token is expired",
                 // );
                 Logger.info("Access token is expired");
-                Logger.info("Refresh token is: ${LocaleStorageService.refreshToken}");
+                Logger.info(
+                  "Refresh token is: ${LocaleStorageService.refreshToken}",
+                );
                 final result = await AuthApiService.instance.refreshToken();
                 result.fold(
                   (e) async {
                     Logger.error("Error Code : ${e.code}");
                     Logger.error("Error Code : ${e.errorMsg}");
                     Logger.error("Error Code : ${e.apiErrorMsg}");
-                    if (e.code.toString() == "401" || e.code.toString() == "400") {
+                    if (e.code.toString() == "401" ||
+                        e.code.toString() == "400") {
                       Logger.info("Refresh token is expired");
                       await LocaleStorageService.removeRefreshToken();
                       await LocaleStorageService.removeAccessToken();
+
                       context.goNamed(WebRoutes.ageConfirmationScreen.name);
                       return;
                     }

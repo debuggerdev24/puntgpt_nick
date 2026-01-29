@@ -72,7 +72,9 @@ class WebLoginScreen extends StatelessWidget {
                             Text(
                               "'@PuntGPT' the talking from guide",
                               style: regular(
-                                fontSize: (context.isDesktop)
+                                fontSize:
+                                    //.responsiveTextSize(),
+                                    (context.isDesktop)
                                     ? 24.sp
                                     : (context.isTablet)
                                     ? 34.sp
@@ -157,10 +159,11 @@ class WebLoginScreen extends StatelessWidget {
                             AppFilledButton(
                               text: "Login",
                               onTap: () {
-                                if (formKey.currentState!.validate()) {
-                                  provider.loginUser(context: context);
-                                  return;
-                                }
+                                context.pushNamed(WebRoutes.homeScreen.name);
+                                // if (formKey.currentState!.validate()) {
+                                //   provider.loginUser(context: context);
+                                //   return;
+                                // }
                               },
                               textStyle: semiBold(
                                 fontSize: context.isDesktop
