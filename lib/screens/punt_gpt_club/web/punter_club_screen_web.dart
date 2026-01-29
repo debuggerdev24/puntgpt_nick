@@ -3,14 +3,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:modal_side_sheet/modal_side_sheet.dart';
 import 'package:provider/provider.dart';
-import 'package:puntgpt_nick/core/constants/app_assets.dart';
+import 'package:puntgpt_nick/core/constants/constants.dart';
 import 'package:puntgpt_nick/core/widgets/app_outlined_button.dart';
 import 'package:puntgpt_nick/core/widgets/image_widget.dart';
 import 'package:puntgpt_nick/provider/punt_club/punter_club_provider.dart';
 import 'package:puntgpt_nick/responsive/responsive_builder.dart';
 import 'package:puntgpt_nick/screens/punt_gpt_club/web/widgets/club_chat_screen_web.dart';
 
-import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/text_style.dart';
 import '../../../core/router/web/web_routes.dart';
 import '../../../core/widgets/app_devider.dart';
@@ -108,10 +107,12 @@ class PunterClubScreenWebScreen extends StatelessWidget {
                                       showModalSideSheet(
                                         context: context,
                                         useRootNavigator: false,
-                                        width: context.isDesktop
-                                            ? 450.w
-                                            : 600.w,
+                                        width: 530.w,
+                                        // context.isDesktop
+                                        //     ? 530.w
+                                        //     : 600.w,
                                         withCloseControll: true,
+
                                         body: _notificationSheet(context),
                                       );
                                     },
@@ -227,40 +228,38 @@ class PunterClubScreenWebScreen extends StatelessWidget {
 }
 
 Widget _notificationSheet(BuildContext context) {
-  return Padding(
-    padding: EdgeInsets.only(left: 24.w, right: 24.w, top: 16),
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          "Notification(2)",
-          style: regular(
-            fontSize: context.isDesktop ? 20.sp : 30.sp,
-            fontFamily: AppFontFamily.secondary,
-            height: 1.35,
-          ),
-        ),
-        24.w.verticalSpace,
-        horizontalDivider(),
-        24.w.verticalSpace,
-        horizontalDivider(),
-        _notificationBox(context: context),
-        _notificationBox(context: context),
-        TextField(
-          expands: false,
-          decoration: InputDecoration(
-            border: InputBorder.none,
-            prefix: SizedBox(width: 25.w),
-
-            hintText: "Type your message...",
-            hintStyle: medium(
-              fontStyle: FontStyle.italic,
-              fontSize: context.isDesktop ? 16.sp : 22.sp,
-              color: AppColors.greyColor.withValues(alpha: 0.6),
+  return ColoredBox(
+    color: AppColors.white,
+    child: Padding(
+      padding: EdgeInsets.only(left: 24.w, right: 24.w, top: 16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "Notification(2)",
+            style: regular(
+              fontSize: context.isDesktop ? 20.sp : 30.sp,
+              fontFamily: AppFontFamily.secondary,
+              height: 1.35,
             ),
           ),
-        ),
-      ],
+          24.w.verticalSpace,
+          horizontalDivider(),
+          24.w.verticalSpace,
+          horizontalDivider(),
+          _notificationBox(context: context),
+          _notificationBox(context: context),
+          AppOutlinedButton(
+            borderColor: AppColors.redButton,
+            textStyle: semiBold(
+              fontSize: 14.responsiveTextSize(),
+              color: AppColors.redButton,
+            ),
+            text: "Clear all",
+            onTap: () {},
+          ),
+        ],
+      ),
     ),
   );
 }
@@ -281,119 +280,107 @@ Widget _notificationBox({required BuildContext context}) {
         ),
         SizedBox(width: 10),
         Expanded(
-          child: Column(
-            spacing: 10,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              RichText(
-                text: TextSpan(
-                  children: [
-                    TextSpan(
-                      text: "You’ve been invited to join Punter Club",
-                      style: medium(
-                        fontSize: 16.sp,
-                        fontFamily: AppFontFamily.primary,
-                      ),
-                    ),
-
-                    TextSpan(
-                      text: "PuntGPT Legends",
-                      style: semiBold(
-                        fontSize: 16.sp,
-                        fontFamily: AppFontFamily.primary,
-                      ),
-                    ),
-                  ],
+          child: RichText(
+            text: TextSpan(
+              children: [
+                TextSpan(
+                  text: "You’ve been invited to join Punter Club",
+                  style: medium(
+                    fontSize: 16.sp,
+                    fontFamily: AppFontFamily.primary,
+                  ),
                 ),
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-              ),
 
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  AppFilledButton(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 28.w,
-                      vertical: 9.h,
-                    ),
-                    isExpand: false,
-                    text: "Join",
-                    textStyle: semiBold(
-                      fontSize: 14.sp,
-                      color: AppColors.white,
-                    ),
-                    onTap: () {
-                      context.pop();
-                      showModalBottomSheet(
-                        backgroundColor: AppColors.white,
-                        showDragHandle: true,
-                        useRootNavigator: true,
-                        context: context,
-                        builder: (context) {
-                          return Container(
-                            height: 370.h,
-                            padding: EdgeInsets.symmetric(horizontal: 25.w),
-                            child: Column(
-                              children: [
-                                Text(
-                                  "Create Username",
-                                  style: regular(
-                                    fontSize: 24.sp,
-                                    fontFamily: AppFontFamily.secondary,
-                                  ),
-                                ),
-                                10.h.verticalSpace,
-                                Text(
-                                  "Your username will be displayed to your club members.",
-                                  style: semiBold(
-                                    fontSize: 14.sp,
-                                    color: AppColors.primary.withValues(
-                                      alpha: 0.6,
-                                    ),
-                                  ),
-                                ),
-                                22.w.verticalSpace,
-                                horizontalDivider(),
-                                24.w.verticalSpace,
-                                AppTextField(
-                                  controller: TextEditingController(),
-                                  hintText: "Enter username",
-                                ),
-                                AppFilledButton(
-                                  margin: EdgeInsets.only(top: 24.w),
-                                  text: "Save",
-                                  onTap: () {},
-                                ),
-                              ],
-                            ),
-                          );
-                        },
-                      );
-                    },
+                TextSpan(
+                  text: "PuntGPT Legends",
+                  style: semiBold(
+                    fontSize: 16.sp,
+                    fontFamily: AppFontFamily.primary,
                   ),
-                  AppOutlinedButton(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 28.w,
-                      vertical: 8.h,
-                    ),
-                    isExpand: false,
-                    textStyle: semiBold(
-                      fontSize: 14.sp,
-                      color: AppColors.black,
-                    ),
-
-                    text: "Decline",
-                    onTap: () {},
-                    margin: EdgeInsets.only(left: 10.w),
-                  ),
-                  Spacer(),
-                  Icon(Icons.close_rounded, size: 16),
-                ],
-              ),
-            ],
+                ),
+              ],
+            ),
+            overflow: TextOverflow.ellipsis,
           ),
         ),
+
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            AppFilledButton(
+              padding: EdgeInsets.symmetric(horizontal: 18.w, vertical: 9.h),
+              isExpand: false,
+              text: "Join",
+              textStyle: semiBold(fontSize: 14.sp, color: AppColors.white),
+              onTap: () {
+                context.pop();
+                showModalBottomSheet(
+                  backgroundColor: AppColors.white,
+                  showDragHandle: true,
+                  useRootNavigator: true,
+                  context: context,
+                  builder: (context) {
+                    return Container(
+                      height: 370.h,
+                      padding: EdgeInsets.symmetric(horizontal: 25.w),
+                      child: Column(
+                        children: [
+                          Text(
+                            "Create Username",
+                            style: regular(
+                              fontSize: 24.sp,
+                              fontFamily: AppFontFamily.secondary,
+                            ),
+                          ),
+                          10.h.verticalSpace,
+                          Text(
+                            "Your username will be displayed to your club members.",
+                            style: semiBold(
+                              fontSize: 14.sp,
+                              color: AppColors.primary.withValues(alpha: 0.6),
+                            ),
+                          ),
+                          22.w.verticalSpace,
+                          horizontalDivider(),
+                          24.w.verticalSpace,
+                          AppTextField(
+                            controller: TextEditingController(),
+                            hintText: "Enter username",
+                          ),
+                          AppFilledButton(
+                            margin: EdgeInsets.only(top: 24.w),
+                            text: "Save",
+                            onTap: () {},
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                );
+              },
+            ),
+            AppOutlinedButton(
+              padding: EdgeInsets.symmetric(horizontal: 18.w, vertical: 8.h),
+              isExpand: false,
+              textStyle: semiBold(fontSize: 14.sp, color: AppColors.black),
+
+              text: "Decline",
+              onTap: () {},
+              margin: EdgeInsets.only(left: 10.w),
+            ),
+
+            Icon(Icons.close_rounded, size: 16),
+          ],
+        ),
+        // Expanded(
+        //   child: Column(
+        //     spacing: 10,
+        //     crossAxisAlignment: CrossAxisAlignment.start,
+        //     children: [
+        //
+        //     ],
+        //   ),
+        // ),
       ],
     ),
   );
