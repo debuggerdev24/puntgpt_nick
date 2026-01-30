@@ -35,20 +35,6 @@ class PunterClubScreenWebScreen extends StatelessWidget {
         : (context.isBrowserMobile)
         ? 36.sp
         : 20.sp;
-    // final sixteenResponsive = context.isDesktop
-    //     ? 16.sp
-    //     : context.isTablet
-    //     ? 24.sp
-    //     : (context.isBrowserMobile)
-    //     ? 32.sp
-    //     : 16.sp;
-    // final twelveResponsive = context.isDesktop
-    //     ? 12.sp
-    //     : context.isTablet
-    //     ? 20.sp
-    //     : (kIsWeb)
-    //     ? 28.sp
-    //     : 12.sp;
     final fourteenResponsive = context.isDesktop
         ? 14.sp
         : context.isTablet
@@ -85,8 +71,6 @@ class PunterClubScreenWebScreen extends StatelessWidget {
                                 vertical: context.isDesktop ? 26.w : 20.w,
                               ),
                               child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
                                     "Club Chat:",
@@ -95,6 +79,7 @@ class PunterClubScreenWebScreen extends StatelessWidget {
                                       fontFamily: AppFontFamily.secondary,
                                     ),
                                   ),
+                                  Spacer(),
                                   OnMouseTap(
                                     onTap: () {
                                       if (context.isMobileView) {
@@ -119,6 +104,19 @@ class PunterClubScreenWebScreen extends StatelessWidget {
                                     child: ImageWidget(
                                       path: AppAssets.webNotification,
                                       type: ImageType.svg,
+                                    ),
+                                  ),
+                                  OnMouseTap(
+                                    onTap: () => _createClubDialogue(context),
+                                    child: Container(
+                                      color: AppColors.primary,
+                                      height: 21,
+                                      width: 23,
+                                      margin: EdgeInsets.only(left: 12.w),
+                                      child: ImageWidget(
+                                        path: AppAssets.addIcon,
+                                        type: ImageType.svg,
+                                      ),
                                     ),
                                   ),
                                 ],
@@ -155,11 +153,9 @@ class PunterClubScreenWebScreen extends StatelessWidget {
                             chatTabs(
                               title: "‘Mug Punters Crew’",
                               fourteenResponsive: fourteenResponsive,
-
                               color: (provider.selectedPunterWeb == 2)
                                   ? AppColors.primary
                                   : null,
-
                               onTap: () {
                                 provider.setPunterIndex = 2;
                               },
@@ -227,6 +223,89 @@ class PunterClubScreenWebScreen extends StatelessWidget {
   }
 }
 
+void _createClubDialogue(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (context) {
+      return AlertDialog(
+        contentPadding: EdgeInsets.zero,
+        backgroundColor: AppColors.white,
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            //todo top bar of popup
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 18.w),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(top: 4),
+                        child: Text(
+                          "Create Punter Club",
+                          style: regular(
+                            fontSize: context.isDesktop ? 22.sp : 30.sp,
+                            fontFamily: AppFontFamily.secondary,
+                          ),
+                        ),
+                      ),
+                      OnMouseTap(
+                        onTap: () {
+                          context.pop();
+                        },
+                        child: Icon(
+                          Icons.close_rounded,
+                          color: AppColors.primary,
+                          size: context.isDesktop ? 22.w : 30.w,
+                        ),
+                      ),
+                    ],
+                  ),
+                  // Text(
+                  //   "Your username will be displayed to your club members.",
+                  //   style: semiBold(
+                  //     fontSize: 12.sp,
+                  //     color: AppColors.primary.withValues(alpha: 0.6),
+                  //   ),
+                  // ),
+                ],
+              ),
+            ),
+
+            horizontalDivider(),
+            //todo Search Field
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              spacing: 24.w,
+              children: [
+                Row(children: []),
+                SizedBox(
+                  width: 344.w,
+                  child: AppTextField(
+                    controller: TextEditingController(),
+                    hintText: "Enter Club Name",
+                  ),
+                ),
+                AppFilledButton(
+                  width: 344.w,
+                  text: "Invite User",
+                  onTap: () {},
+                  margin: EdgeInsets.only(bottom: 30.w),
+                ),
+              ],
+            ),
+          ],
+        ),
+      );
+    },
+  );
+}
+
 Widget _notificationSheet(BuildContext context) {
   return ColoredBox(
     color: AppColors.white,
@@ -249,7 +328,9 @@ Widget _notificationSheet(BuildContext context) {
           horizontalDivider(),
           _notificationBox(context: context),
           _notificationBox(context: context),
+          Spacer(),
           AppOutlinedButton(
+            margin: EdgeInsets.only(bottom: 30.w),
             borderColor: AppColors.redButton,
             textStyle: semiBold(
               fontSize: 14.responsiveTextSize(),
@@ -278,9 +359,10 @@ Widget _notificationBox({required BuildContext context}) {
           padding: const EdgeInsets.only(top: 4),
           child: ImageWidget(type: ImageType.svg, path: AppAssets.groupIcon),
         ),
-        SizedBox(width: 10),
+        10.horizontalSpace,
         Expanded(
           child: RichText(
+            maxLines: 4,
             text: TextSpan(
               children: [
                 TextSpan(
@@ -290,10 +372,9 @@ Widget _notificationBox({required BuildContext context}) {
                     fontFamily: AppFontFamily.primary,
                   ),
                 ),
-
                 TextSpan(
-                  text: "PuntGPT Legends",
-                  style: semiBold(
+                  text: " PuntGPT Legends",
+                  style: bold(
                     fontSize: 16.sp,
                     fontFamily: AppFontFamily.primary,
                   ),
@@ -303,7 +384,7 @@ Widget _notificationBox({required BuildContext context}) {
             overflow: TextOverflow.ellipsis,
           ),
         ),
-
+        26.responsiveSize().horizontalSpace,
         Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -368,7 +449,7 @@ Widget _notificationBox({required BuildContext context}) {
               onTap: () {},
               margin: EdgeInsets.only(left: 10.w),
             ),
-
+            12.w.horizontalSpace,
             Icon(Icons.close_rounded, size: 16),
           ],
         ),

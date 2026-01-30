@@ -30,7 +30,7 @@ import '../../../screens/home/mobile/search_filter_screen.dart';
 import '../../../screens/home/mobile/selected_race_screen.dart';
 import '../../../screens/home/mobile/tip_slip_screen.dart';
 import '../../../screens/punt_gpt_club/mobile/punt_club_chat_screen.dart';
-import '../../../screens/punt_gpt_club/mobile/punter_club_screen.dart';
+import '../../../screens/punt_gpt_club/mobile/punt_club_screen.dart';
 
 class AppRouter {
   static final rootNavigatorKey = GlobalKey<NavigatorState>();

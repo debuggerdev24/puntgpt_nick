@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:modal_side_sheet/modal_side_sheet.dart';
 import 'package:provider/provider.dart';
 import 'package:puntgpt_nick/core/constants/constants.dart';
 import 'package:puntgpt_nick/core/widgets/app_outlined_button.dart';
@@ -9,6 +10,7 @@ import 'package:puntgpt_nick/screens/home/web/widgets/chat_section_web.dart';
 
 import '../../../../core/constants/text_style.dart';
 import '../../../../core/widgets/app_devider.dart';
+import '../../../../core/widgets/app_text_field.dart';
 import '../../../../provider/account/account_provider.dart';
 
 class PunterClubChatSectionWeb extends StatelessWidget {
@@ -72,11 +74,9 @@ class PunterClubChatSectionWeb extends StatelessWidget {
                   border: InputBorder.none,
                   prefix: SizedBox(width: 25.w),
                   hintText: "Type your message...",
-
                   hintStyle: medium(
                     fontStyle: FontStyle.italic,
                     fontSize: sixteenResponsive,
-
                     color: AppColors.greyColor.withValues(alpha: 0.6),
                   ),
                 ),
@@ -143,8 +143,15 @@ class PunterClubChatSectionWeb extends StatelessWidget {
 
               final RelativeRect position = RelativeRect.fromRect(
                 Rect.fromLTWH(
-                  offset.dx + 40, // Left position of widget
-                  offset.dy - 20, // Top position + widget height (opens below)
+                  offset.dx +
+                      (context.isDesktop
+                          ? 35
+                          : context.isTablet
+                          ? 15
+                          : context.isBrowserMobile
+                          ? 10
+                          : 35),
+                  offset.dy - 20,
                   size.width, // Width of widget
                   0,
                 ),
@@ -159,7 +166,21 @@ class PunterClubChatSectionWeb extends StatelessWidget {
 
                 items: <PopupMenuEntry>[
                   PopupMenuItem(
+                    onTap: () {
+                      showModalSideSheet(
+                        context: context,
+                        useRootNavigator: false,
+                        width: 530.w,
+                        // context.isDesktop
+                        //     ? 530.w
+                        //     : 600.w,
+                        withCloseControll: true,
+
+                        body: _inviteUserSheet(context),
+                      );
+                    },
                     value: "view",
+
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -229,4 +250,72 @@ class PunterClubChatSectionWeb extends StatelessWidget {
       ],
     );
   }
+}
+
+Widget _inviteUserSheet(BuildContext context) {
+  return ColoredBox(
+    color: AppColors.white,
+    child: Padding(
+      padding: EdgeInsets.only(left: 24.w, right: 24.w, top: 16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "Invite Users",
+            style: regular(
+              fontSize: context.isDesktop ? 20.sp : 30.sp,
+              fontFamily: AppFontFamily.secondary,
+              height: 1.35,
+            ),
+          ),
+          21.w.verticalSpace,
+          horizontalDivider(),
+          21.w.verticalSpace,
+
+          AppTextField(
+            controller: TextEditingController(),
+            hintText: "Search by username",
+            trailingIcon: AppAssets.searchIcon,
+            //(Icons.search),
+          ),
+          24.verticalSpace,
+          _userBox(),
+          10.verticalSpace,
+          _userBox(),
+          Spacer(),
+        ],
+      ),
+    ),
+  );
+}
+
+Widget _userBox() {
+  return Container(
+    height: 48.w,
+
+    decoration: BoxDecoration(
+      border: Border.all(color: AppColors.primary.withValues(alpha: 0.15)),
+    ),
+    child: Row(
+      children: [
+        Container(
+          height: 48.w,
+          width: 48.w,
+          padding: EdgeInsets.all(12.w),
+          decoration: BoxDecoration(color: AppColors.greyColor2),
+          child: ImageWidget(type: ImageType.svg, path: AppAssets.userIcon),
+        ),
+        15.w.horizontalSpace,
+        Text("@otherpropunter_1", style: semiBold(fontSize: 16.spMin)),
+        Spacer(),
+        Container(
+          height: 48.w,
+          width: 48.w,
+          padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 12.h),
+          decoration: BoxDecoration(color: AppColors.primary),
+          child: ImageWidget(path: AppAssets.addUser, type: ImageType.svg),
+        ),
+      ],
+    ),
+  );
 }

@@ -449,7 +449,7 @@ Widget askPuntGPTButtonWeb({required BuildContext context}) {
         children: [
           ImageWidget(
             path: AppAssets.horse,
-            type: ImageType.svg,
+
             height: context.isDesktop
                 ? 34.w
                 : context.isTablet
@@ -458,6 +458,17 @@ Widget askPuntGPTButtonWeb({required BuildContext context}) {
                 ? 40.w
                 : 30.w,
           ),
+          // Image.asset(
+          //   AppAssets.webNotification,
+          //   color: Colors.black,
+          //   height: context.isDesktop
+          //       ? 34.w
+          //       : context.isTablet
+          //       ? 28.w
+          //       : (context.isBrowserMobile)
+          //       ? 40.w
+          //       : 30.w,
+          // ),
           Text(
             "Ask @ PuntGPT",
             textAlign: TextAlign.center,

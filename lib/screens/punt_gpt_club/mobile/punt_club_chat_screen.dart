@@ -31,7 +31,6 @@ class PuntClubChatScreen extends StatelessWidget {
                 padding: EdgeInsets.only(bottom: 25.h, right: 25.w),
                 child: Align(
                   alignment: AlignmentGeometry.bottomRight,
-
                   child: (context.isBrowserMobile)
                       ? askPuntGPTButtonWeb(context: context)
                       : askPuntGPTButton(context),

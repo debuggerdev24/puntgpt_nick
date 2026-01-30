@@ -91,6 +91,8 @@ todo Joseph
 
 todo Nick
 
+Web side
+
 
 
 flutter run --release -d web-server --web-port=5000 --web-hostname=0.0.0.0
