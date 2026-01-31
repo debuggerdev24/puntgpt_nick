@@ -45,8 +45,8 @@ class _WebDashboardState extends State<WebDashboard> {
     Logger.info(
       "is Browser Mobile  ${context.isBrowserMobile} ${context.screenWidth}",
     );
+    Logger.info("is Tablet ${context.isTablet} ${context.screenWidth}");
     Logger.info("is Desktop ${context.isDesktop} ${context.screenWidth}");
-    Logger.info("is Tablet ${context.isDesktop} ${context.screenWidth}");
     return Scaffold(
       body: SafeArea(
         bottom: false,
@@ -56,9 +56,9 @@ class _WebDashboardState extends State<WebDashboard> {
             if (value) {
               return Consumer<SearchEngineProvider>(
                 builder: (context, provider, child) {
-                  Logger.info(
-                    "panel status : ${provider.isMenuOpen.toString()}",
-                  );
+                  // Logger.info(
+                  //   "panel status : ${provider.isMenuOpen.toString()}",
+                  // );
                   return Column(
                     children: [
                       WebDashboardAppBar(

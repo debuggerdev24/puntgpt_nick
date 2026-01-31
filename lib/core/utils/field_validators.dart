@@ -4,8 +4,8 @@ class FieldValidators {
   factory FieldValidators() => _instance;
   static final FieldValidators _instance = FieldValidators._();
 
-  String? required(String? val, String? fieldName) {
-    if (val == null || val.isEmpty) {
+  String? required(String? value, String? fieldName) {
+    if (value == null || value.isEmpty) {
       return "$fieldName is Required!";
     }
     return null;

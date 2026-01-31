@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -12,6 +13,7 @@ import 'package:puntgpt_nick/screens/punt_gpt_club/web/widgets/club_chat_screen_
 
 import '../../../core/constants/text_style.dart';
 import '../../../core/router/web/web_routes.dart';
+import '../../../core/utils/field_validators.dart';
 import '../../../core/widgets/app_devider.dart';
 import '../../../core/widgets/app_filed_button.dart';
 import '../../../core/widgets/app_text_field.dart';
@@ -32,14 +34,14 @@ class PunterClubScreenWebScreen extends StatelessWidget {
         ? 20.sp
         : context.isTablet
         ? 28.sp
-        : (context.isBrowserMobile)
+        : context.isBrowserMobile
         ? 36.sp
         : 20.sp;
     final fourteenResponsive = context.isDesktop
         ? 14.sp
         : context.isTablet
         ? 20.sp
-        : (context.isBrowserMobile)
+        : context.isBrowserMobile
         ? 28.sp
         : 14.sp;
     return Scaffold(
@@ -97,8 +99,10 @@ class PunterClubScreenWebScreen extends StatelessWidget {
                                         //     ? 530.w
                                         //     : 600.w,
                                         withCloseControll: true,
-
-                                        body: _notificationSheet(context),
+                                        body: _notificationSheet(
+                                          context: context,
+                                          provider: provider,
+                                        ),
                                       );
                                     },
                                     child: ImageWidget(
@@ -107,7 +111,10 @@ class PunterClubScreenWebScreen extends StatelessWidget {
                                     ),
                                   ),
                                   OnMouseTap(
-                                    onTap: () => _createClubDialogue(context),
+                                    onTap: () => _createClubDialogue(
+                                      context: context,
+                                      provider: provider,
+                                    ),
                                     child: Container(
                                       color: AppColors.primary,
                                       height: 21,
@@ -126,7 +133,7 @@ class PunterClubScreenWebScreen extends StatelessWidget {
                             horizontalDivider(),
 
                             //todo chat tabs
-                            chatTabs(
+                            _chatTabs(
                               title: "‘Top Punters’",
                               fourteenResponsive: fourteenResponsive,
                               color: (provider.selectedPunterWeb == 0)
@@ -138,7 +145,7 @@ class PunterClubScreenWebScreen extends StatelessWidget {
                               context: context,
                             ),
                             horizontalDivider(),
-                            chatTabs(
+                            _chatTabs(
                               title: "‘PuntGPT Legends’",
                               fourteenResponsive: fourteenResponsive,
                               color: (provider.selectedPunterWeb == 1)
@@ -150,7 +157,7 @@ class PunterClubScreenWebScreen extends StatelessWidget {
                               context: context,
                             ),
                             horizontalDivider(),
-                            chatTabs(
+                            _chatTabs(
                               title: "‘Mug Punters Crew’",
                               fourteenResponsive: fourteenResponsive,
                               color: (provider.selectedPunterWeb == 2)
@@ -191,7 +198,7 @@ class PunterClubScreenWebScreen extends StatelessWidget {
     );
   }
 
-  Widget chatTabs({
+  Widget _chatTabs({
     required String title,
     required double fourteenResponsive,
     Color? color,
@@ -221,248 +228,478 @@ class PunterClubScreenWebScreen extends StatelessWidget {
       ),
     );
   }
-}
 
-void _createClubDialogue(BuildContext context) {
-  showDialog(
-    context: context,
-    builder: (context) {
-      return AlertDialog(
-        contentPadding: EdgeInsets.zero,
-        backgroundColor: AppColors.white,
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            //todo top bar of popup
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 18.w),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
+  //todo create club dialogue
+  void _createClubDialogue({
+    required BuildContext context,
+    required PunterClubProvider provider,
+  }) {
+    showDialog(
+      context: context,
+      builder: (dialogueCtx) {
+        return ZoomIn(
+          child: AlertDialog(
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.zero,
+            ),
+            contentPadding: EdgeInsets.zero,
+            backgroundColor: AppColors.white,
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                //todo top bar of popup
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 24.w,
+                    vertical: 18.w,
+                  ),
+                  child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Padding(
-                        padding: EdgeInsets.only(top: 4),
-                        child: Text(
-                          "Create Punter Club",
-                          style: regular(
-                            fontSize: context.isDesktop ? 22.sp : 30.sp,
-                            fontFamily: AppFontFamily.secondary,
-                          ),
-                        ),
-                      ),
-                      OnMouseTap(
-                        onTap: () {
-                          context.pop();
-                        },
-                        child: Icon(
-                          Icons.close_rounded,
-                          color: AppColors.primary,
-                          size: context.isDesktop ? 22.w : 30.w,
-                        ),
-                      ),
-                    ],
-                  ),
-                  // Text(
-                  //   "Your username will be displayed to your club members.",
-                  //   style: semiBold(
-                  //     fontSize: 12.sp,
-                  //     color: AppColors.primary.withValues(alpha: 0.6),
-                  //   ),
-                  // ),
-                ],
-              ),
-            ),
-
-            horizontalDivider(),
-            //todo Search Field
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              spacing: 24.w,
-              children: [
-                Row(children: []),
-                SizedBox(
-                  width: 344.w,
-                  child: AppTextField(
-                    controller: TextEditingController(),
-                    hintText: "Enter Club Name",
-                  ),
-                ),
-                AppFilledButton(
-                  width: 344.w,
-                  text: "Invite User",
-                  onTap: () {},
-                  margin: EdgeInsets.only(bottom: 30.w),
-                ),
-              ],
-            ),
-          ],
-        ),
-      );
-    },
-  );
-}
-
-Widget _notificationSheet(BuildContext context) {
-  return ColoredBox(
-    color: AppColors.white,
-    child: Padding(
-      padding: EdgeInsets.only(left: 24.w, right: 24.w, top: 16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            "Notification(2)",
-            style: regular(
-              fontSize: context.isDesktop ? 20.sp : 30.sp,
-              fontFamily: AppFontFamily.secondary,
-              height: 1.35,
-            ),
-          ),
-          24.w.verticalSpace,
-          horizontalDivider(),
-          24.w.verticalSpace,
-          horizontalDivider(),
-          _notificationBox(context: context),
-          _notificationBox(context: context),
-          Spacer(),
-          AppOutlinedButton(
-            margin: EdgeInsets.only(bottom: 30.w),
-            borderColor: AppColors.redButton,
-            textStyle: semiBold(
-              fontSize: 14.responsiveTextSize(),
-              color: AppColors.redButton,
-            ),
-            text: "Clear all",
-            onTap: () {},
-          ),
-        ],
-      ),
-    ),
-  );
-}
-
-Widget _notificationBox({required BuildContext context}) {
-  return Container(
-    padding: EdgeInsets.symmetric(horizontal: 18.w, vertical: 18.w),
-    margin: EdgeInsets.only(bottom: 8.h),
-    decoration: BoxDecoration(
-      border: Border.all(color: AppColors.primary.withValues(alpha: 0.15)),
-    ),
-    child: Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(top: 4),
-          child: ImageWidget(type: ImageType.svg, path: AppAssets.groupIcon),
-        ),
-        10.horizontalSpace,
-        Expanded(
-          child: RichText(
-            maxLines: 4,
-            text: TextSpan(
-              children: [
-                TextSpan(
-                  text: "You’ve been invited to join Punter Club",
-                  style: medium(
-                    fontSize: 16.sp,
-                    fontFamily: AppFontFamily.primary,
-                  ),
-                ),
-                TextSpan(
-                  text: " PuntGPT Legends",
-                  style: bold(
-                    fontSize: 16.sp,
-                    fontFamily: AppFontFamily.primary,
-                  ),
-                ),
-              ],
-            ),
-            overflow: TextOverflow.ellipsis,
-          ),
-        ),
-        26.responsiveSize().horizontalSpace,
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            AppFilledButton(
-              padding: EdgeInsets.symmetric(horizontal: 18.w, vertical: 9.h),
-              isExpand: false,
-              text: "Join",
-              textStyle: semiBold(fontSize: 14.sp, color: AppColors.white),
-              onTap: () {
-                context.pop();
-                showModalBottomSheet(
-                  backgroundColor: AppColors.white,
-                  showDragHandle: true,
-                  useRootNavigator: true,
-                  context: context,
-                  builder: (context) {
-                    return Container(
-                      height: 370.h,
-                      padding: EdgeInsets.symmetric(horizontal: 25.w),
-                      child: Column(
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            "Create Username",
-                            style: regular(
-                              fontSize: 24.sp,
-                              fontFamily: AppFontFamily.secondary,
+                          Padding(
+                            padding: EdgeInsets.only(top: 4),
+                            child: Text(
+                              "Create Punter Club",
+                              style: regular(
+                                fontSize: context.isDesktop ? 22.sp : 30.sp,
+                                fontFamily: AppFontFamily.secondary,
+                              ),
                             ),
                           ),
-                          10.h.verticalSpace,
-                          Text(
-                            "Your username will be displayed to your club members.",
-                            style: semiBold(
-                              fontSize: 14.sp,
-                              color: AppColors.primary.withValues(alpha: 0.6),
+                          OnMouseTap(
+                            onTap: () {
+                              context.pop();
+                            },
+                            child: Icon(
+                              Icons.close_rounded,
+                              color: AppColors.primary,
+                              size: context.isDesktop ? 22.w : 30.w,
                             ),
-                          ),
-                          22.w.verticalSpace,
-                          horizontalDivider(),
-                          24.w.verticalSpace,
-                          AppTextField(
-                            controller: TextEditingController(),
-                            hintText: "Enter username",
-                          ),
-                          AppFilledButton(
-                            margin: EdgeInsets.only(top: 24.w),
-                            text: "Save",
-                            onTap: () {},
                           ),
                         ],
                       ),
-                    );
-                  },
-                );
-              },
+                    ],
+                  ),
+                ),
+                horizontalDivider(),
+                //todo Club Name Field
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  spacing: 24.w,
+                  children: [
+                    Row(children: []),
+                    SizedBox(
+                      width: 344.w,
+                      child: AppTextField(
+                        controller: provider.clubNameCtr,
+                        hintText: "Search by username",
+                      ),
+                    ),
+                    AppFilledButton(
+                      width: 344.w,
+                      text: "Invite User",
+                      onTap: () {
+                        // if (provider.clubNameCtr.text.isEmpty) {
+                        //
+                        // }
+                        dialogueCtx.pop();
+                        _inviteUserDialogue(
+                          context: context,
+                          provider: provider,
+                        );
+                      },
+                      margin: EdgeInsets.only(bottom: 30.w),
+                    ),
+                  ],
+                ),
+              ],
             ),
-            AppOutlinedButton(
-              padding: EdgeInsets.symmetric(horizontal: 18.w, vertical: 8.h),
-              isExpand: false,
-              textStyle: semiBold(fontSize: 14.sp, color: AppColors.black),
+          ),
+        );
+      },
+    );
+  }
 
-              text: "Decline",
-              onTap: () {},
-              margin: EdgeInsets.only(left: 10.w),
+  //todo invite user dialogue
+  void _inviteUserDialogue({
+    required BuildContext context,
+    required PunterClubProvider provider,
+  }) {
+    showDialog(
+      context: context,
+      builder: (dialogueCtx) {
+        return ZoomIn(
+          child: AlertDialog(
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.zero,
             ),
-            12.w.horizontalSpace,
-            Icon(Icons.close_rounded, size: 16),
+            contentPadding: EdgeInsets.zero,
+            backgroundColor: AppColors.white,
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                //todo top bar of popup
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 24.w,
+                    vertical: 22.w,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(top: 4),
+                            child: Text(
+                              "Invite Users",
+                              style: regular(
+                                fontSize: context.isDesktop ? 22.sp : 30.sp,
+                                fontFamily: AppFontFamily.secondary,
+                              ),
+                            ),
+                          ),
+                          OnMouseTap(
+                            onTap: () {
+                              context.pop();
+                            },
+                            child: Icon(
+                              Icons.close_rounded,
+                              color: AppColors.primary,
+                              size: context.isDesktop ? 22.w : 30.w,
+                            ),
+                          ),
+                        ],
+                      ),
+                      // Text(
+                      //   "Your username will be displayed to your club members.",
+                      //   style: semiBold(
+                      //     fontSize: 12.sp,
+                      //     color: AppColors.primary.withValues(alpha: 0.6),
+                      //   ),
+                      // ),
+                    ],
+                  ),
+                ),
+                horizontalDivider(),
+                //todo Search User field
+                24.w.verticalSpace,
+                Row(children: []),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 24.w),
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        width: 344.w,
+                        child: AppTextField(
+                          controller: provider.clubNameCtr,
+                          hintText: "Enter Club Name",
+                          trailingIcon: AppAssets.searchIcon,
+                          validator: (value) =>
+                              FieldValidators().required(value, "Club Name"),
+                        ),
+                      ),
+                      24.w.verticalSpace,
+                      _userBox(),
+                      _userBox(),
+
+                      AppOutlinedButton(
+                        width: 344.w,
+                        text: "Invite User",
+                        onTap: () {
+                          // if (provider.clubNameCtr.text.isEmpty) {
+                          //
+                          // }
+                          dialogueCtx.pop();
+                          _inviteUserDialogue(
+                            provider: provider,
+                            context: context,
+                          );
+                        },
+                        margin: EdgeInsets.only(bottom: 30.w, top: 40.w),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  //todo user name box
+  Widget _userBox() {
+    return Container(
+      height: 48.w,
+      margin: EdgeInsets.only(bottom: 8.w),
+      decoration: BoxDecoration(
+        border: Border.all(color: AppColors.primary.withValues(alpha: 0.15)),
+      ),
+      child: Row(
+        children: [
+          Container(
+            height: 48.w,
+            width: 48.w,
+            padding: EdgeInsets.all(12.w),
+            decoration: BoxDecoration(color: AppColors.greyColor2),
+            child: ImageWidget(type: ImageType.svg, path: AppAssets.userIcon),
+          ),
+          15.w.horizontalSpace,
+          Text("@otherpropunter_1", style: semiBold(fontSize: 16.spMin)),
+          Spacer(),
+          Container(
+            height: 48.w,
+            width: 48.w,
+            padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 12.h),
+            decoration: BoxDecoration(color: AppColors.primary),
+            child: ImageWidget(path: AppAssets.addUser, type: ImageType.svg),
+          ),
+        ],
+      ),
+    );
+  }
+
+  //todo notification side sheet
+  Widget _notificationSheet({
+    required BuildContext context,
+    required PunterClubProvider provider,
+  }) {
+    return ColoredBox(
+      color: AppColors.white,
+      child: Padding(
+        padding: EdgeInsets.only(left: 24.w, right: 24.w, top: 16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "Notification(2)",
+              style: regular(
+                fontSize: context.isDesktop ? 20.sp : 30.sp,
+                fontFamily: AppFontFamily.secondary,
+                height: 1.35,
+              ),
+            ),
+            24.w.verticalSpace,
+            horizontalDivider(),
+            24.w.verticalSpace,
+            horizontalDivider(),
+            _notificationBox(context: context, provider: provider),
+            _notificationBox(context: context, provider: provider),
+            Spacer(),
+            AppOutlinedButton(
+              margin: EdgeInsets.only(bottom: 30.w),
+              borderColor: AppColors.redButton,
+              textStyle: semiBold(
+                fontSize: 14.responsiveTextSize(),
+                color: AppColors.redButton,
+              ),
+              text: "Clear all",
+              onTap: () {},
+            ),
           ],
         ),
-        // Expanded(
-        //   child: Column(
-        //     spacing: 10,
-        //     crossAxisAlignment: CrossAxisAlignment.start,
-        //     children: [
-        //
-        //     ],
-        //   ),
-        // ),
-      ],
-    ),
-  );
+      ),
+    );
+  }
+
+  //todo notification details box
+  Widget _notificationBox({
+    required BuildContext context,
+    required PunterClubProvider provider,
+  }) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 18.w, vertical: 18.w),
+      margin: EdgeInsets.only(bottom: 8.h),
+      decoration: BoxDecoration(
+        border: Border.all(color: AppColors.primary.withValues(alpha: 0.15)),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(top: 4),
+            child: ImageWidget(type: ImageType.svg, path: AppAssets.groupIcon),
+          ),
+          10.horizontalSpace,
+          Expanded(
+            child: RichText(
+              maxLines: 4,
+              text: TextSpan(
+                children: [
+                  TextSpan(
+                    text: "You’ve been invited to join Punter Club",
+                    style: medium(
+                      fontSize: 16.sp,
+                      fontFamily: AppFontFamily.primary,
+                    ),
+                  ),
+                  TextSpan(
+                    text: " PuntGPT Legends",
+                    style: bold(
+                      fontSize: 16.sp,
+                      fontFamily: AppFontFamily.primary,
+                    ),
+                  ),
+                ],
+              ),
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+          26.responsiveSize().horizontalSpace,
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              AppFilledButton(
+                padding: EdgeInsets.symmetric(horizontal: 18.w, vertical: 9.h),
+                isExpand: false,
+                text: "Join",
+                textStyle: semiBold(fontSize: 14.sp, color: AppColors.white),
+                onTap: () {
+                  context.pop();
+                  _enterUserNameDialogue(context: context, provider: provider);
+                },
+              ),
+              AppOutlinedButton(
+                padding: EdgeInsets.symmetric(horizontal: 18.w, vertical: 8.h),
+                isExpand: false,
+                textStyle: semiBold(fontSize: 14.sp, color: AppColors.black),
+
+                text: "Decline",
+                onTap: () {},
+                margin: EdgeInsets.only(left: 10.w),
+              ),
+              12.w.horizontalSpace,
+              Icon(Icons.close_rounded, size: 16),
+            ],
+          ),
+          // Expanded(
+          //   child: Column(
+          //     spacing: 10,
+          //     crossAxisAlignment: CrossAxisAlignment.start,
+          //     children: [
+          //
+          //     ],
+          //   ),
+          // ),
+        ],
+      ),
+    );
+  }
+
+  //todo enter user name dialogue
+  void _enterUserNameDialogue({
+    required BuildContext context,
+    required PunterClubProvider provider,
+  }) {
+    showDialog(
+      context: context,
+      builder: (dialogueCtx) {
+        return ZoomIn(
+          child: AlertDialog(
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.zero,
+            ),
+            contentPadding: EdgeInsets.zero,
+            backgroundColor: AppColors.white,
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                //todo top bar of popup
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 24.w,
+                    vertical: 18.w,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Create Username",
+                                style: regular(
+                                  fontSize: context.isDesktop ? 22.sp : 30.sp,
+                                  fontFamily: AppFontFamily.secondary,
+                                ),
+                              ),
+                              Text(
+                                "Your username will be displayed to your club members.",
+                                style: semiBold(
+                                  fontSize: 12.sp,
+                                  color: AppColors.primary.withValues(
+                                    alpha: 0.6,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          OnMouseTap(
+                            onTap: () {
+                              context.pop();
+                            },
+                            child: Icon(
+                              Icons.close_rounded,
+                              color: AppColors.primary,
+                              size: context.isDesktop ? 22.w : 30.w,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                horizontalDivider(),
+                //todo Club Name Field
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  spacing: 24.w,
+                  children: [
+                    Row(children: []),
+                    SizedBox(
+                      width: 344.w,
+                      child: AppTextField(
+                        controller: provider.clubNameCtr,
+                        hintText: "Enter Username",
+                      ),
+                    ),
+                    AppFilledButton(
+                      width: 344.w,
+                      text: "Create",
+                      onTap: () {
+                        // if (provider.clubNameCtr.text.isEmpty) {
+                        //
+                        // }
+                        dialogueCtx.pop();
+                        _inviteUserDialogue(
+                          context: context,
+                          provider: provider,
+                        );
+                      },
+                      margin: EdgeInsets.only(bottom: 30.w),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
 }

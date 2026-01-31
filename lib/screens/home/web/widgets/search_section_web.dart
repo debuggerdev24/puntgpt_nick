@@ -388,6 +388,7 @@ class _SearchSectionWebState extends State<SearchSectionWeb> {
   Widget searchDialog(BuildContext context) {
     return AlertDialog(
       backgroundColor: AppColors.white,
+      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
