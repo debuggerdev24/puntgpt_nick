@@ -1,4 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:puntgpt_nick/responsive/responsive_builder.dart';
 
 extension ResponsiveTextSize on int {
   double responsiveTextSize([double? min, double? max]) {
@@ -29,4 +31,55 @@ extension FlexibleClamp on double {
 
     return value;
   }
+}
+
+extension ResponsiveTextScreenUtil on int {
+  double sixteenSp(BuildContext context, {double? fontSize}) {
+    if (fontSize != null) {
+      if (context.isTablet) return (fontSize + 8).sp;
+      if (context.isBrowserMobile) return (fontSize + 16).sp;
+      return 16.sp;
+    }
+
+    if (context.isTablet) return 24.sp;
+    if (context.isBrowserMobile) return 32.sp;
+    return 16.sp; // desktop & fallback
+  }
+
+  double fourteenSp(BuildContext context, {double? fontSize}) {
+    if (fontSize != null) {
+      if (context.isTablet) return (fontSize + 8).sp;
+      if (context.isBrowserMobile) return (fontSize + 16).sp;
+      return 16.sp;
+    }
+
+    if (context.isTablet) return 22.sp;
+    if (context.isBrowserMobile) return 30.sp;
+    return 14.sp; // desktop & fallback
+  }
+
+  double twelveSp(BuildContext context, {double? fontSize}) {
+    if (fontSize != null) {
+      if (context.isTablet) return (fontSize + 8).sp;
+      if (context.isBrowserMobile) return (fontSize + 16).sp;
+      return 16.sp;
+    }
+
+    if (context.isTablet) return 20.sp;
+    if (context.isBrowserMobile) return 28.sp;
+    return 12.sp; // desktop & fallback
+  }
+
+  double twentyTwoSp(BuildContext context, {double? fontSize}) {
+    if (fontSize != null) {
+      if (context.isTablet) return (fontSize + 8).sp;
+      if (context.isBrowserMobile) return (fontSize + 16).sp;
+      return 16.sp;
+    }
+
+    if (context.isTablet) return 30.sp;
+    if (context.isBrowserMobile) return 38.sp;
+    return 22.sp; // desktop & fallback
+  }
+
 }

@@ -14,7 +14,6 @@ import 'package:puntgpt_nick/responsive/responsive_builder.dart';
 import 'package:puntgpt_nick/service/network/network_service.dart';
 import 'package:puntgpt_nick/service/storage/locale_storage_service.dart';
 import 'package:toastification/toastification.dart';
-
 import 'core/router/app/app_router.dart';
 
 ValueNotifier<bool> isNetworkConnected = ValueNotifier(true);
@@ -85,7 +84,14 @@ class MyApp extends StatelessWidget {
 // eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzY3MDgxNDUzLCJpYXQiOjE3NjcwMDk0NTMsImp0aSI6IjRmYWI1NzYzYTk2YjRkZWQ4YzUwOTgwZDQ1YTZjNmFmIiwidXNlcl9pZCI6IjMifQ.CngkGuLvXKSJPf0iMxqIb86Mp4aortWuZ-x8Ko3Ci8s
 
 /*
+
 todo Joseph
+
+-> Worked on added the all countries inside the profile section.
+-> Worked on update the navigation and showing subscription and success screen.
+-> Worked on updated the add topic feature inside the topic screen and placed the new topic at first.
+-> Worked on update the reset password validation and added the condition to to display the proper error message from the backend.
+
 
 todo Nick
 

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -9,8 +11,7 @@ import 'package:puntgpt_nick/core/widgets/app_outlined_button.dart';
 import 'package:puntgpt_nick/core/widgets/image_widget.dart';
 import 'package:puntgpt_nick/provider/punt_club/punter_club_provider.dart';
 import 'package:puntgpt_nick/responsive/responsive_builder.dart';
-import 'package:puntgpt_nick/screens/punt_gpt_club/web/widgets/club_chat_screen_web.dart';
-
+import 'package:puntgpt_nick/screens/punt_gpt_club/web/widgets/club_chat_screen_web.dart';  
 import '../../../core/constants/text_style.dart';
 import '../../../core/router/web/web_routes.dart';
 import '../../../core/utils/field_validators.dart';
@@ -37,6 +38,7 @@ class PunterClubScreenWebScreen extends StatelessWidget {
         : context.isBrowserMobile
         ? 36.sp
         : 20.sp;
+    
     final fourteenResponsive = context.isDesktop
         ? 14.sp
         : context.isTablet
@@ -44,6 +46,13 @@ class PunterClubScreenWebScreen extends StatelessWidget {
         : context.isBrowserMobile
         ? 28.sp
         : 14.sp;
+        final sixteenResponsive = context.isDesktop
+        ? 16.sp
+        : context.isTablet
+        ? 24.sp
+        : (context.isBrowserMobile)
+        ? 32.sp
+        : 16.sp;
     return Scaffold(
       body: Stack(
         children: [
@@ -69,7 +78,6 @@ class PunterClubScreenWebScreen extends StatelessWidget {
                             Padding(
                               padding: EdgeInsets.symmetric(
                                 horizontal: context.isDesktop ? 26.w : 20.w,
-
                                 vertical: context.isDesktop ? 26.w : 20.w,
                               ),
                               child: Row(
@@ -94,14 +102,16 @@ class PunterClubScreenWebScreen extends StatelessWidget {
                                       showModalSideSheet(
                                         context: context,
                                         useRootNavigator: false,
-                                        width: 530.w,
-                                        // context.isDesktop
-                                        //     ? 530.w
-                                        //     : 600.w,
+                                        width:
+                                        context.isDesktop
+                                            ? 530.w
+                                            : 590.w,
                                         withCloseControll: true,
-                                        body: _notificationSheet(
+                                        body: _notificationSideSheet(
                                           context: context,
                                           provider: provider,
+                                          sixteenResponsive: sixteenResponsive,
+                                          fourteenResponsive: fourteenResponsive,
                                         ),
                                       );
                                     },
@@ -236,7 +246,9 @@ class PunterClubScreenWebScreen extends StatelessWidget {
   }) {
     showDialog(
       context: context,
+
       builder: (dialogueCtx) {
+        final fieldWidth = context.isDesktop ? 344.w : 390.w;
         return ZoomIn(
           child: AlertDialog(
             shape: const RoundedRectangleBorder(
@@ -251,8 +263,8 @@ class PunterClubScreenWebScreen extends StatelessWidget {
                 //todo top bar of popup
                 Padding(
                   padding: EdgeInsets.symmetric(
-                    horizontal: 24.w,
-                    vertical: 18.w,
+                    horizontal: context.isDesktop ? 24.w : 30.w,
+                    vertical: context.isDesktop ? 18.w : 24.w,
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -266,7 +278,7 @@ class PunterClubScreenWebScreen extends StatelessWidget {
                             child: Text(
                               "Create Punter Club",
                               style: regular(
-                                fontSize: context.isDesktop ? 22.sp : 30.sp,
+                                fontSize: 22.twentyTwoSp(context),
                                 fontFamily: AppFontFamily.secondary,
                               ),
                             ),
@@ -278,7 +290,7 @@ class PunterClubScreenWebScreen extends StatelessWidget {
                             child: Icon(
                               Icons.close_rounded,
                               color: AppColors.primary,
-                              size: context.isDesktop ? 22.w : 30.w,
+                              size: 22.twentyTwoSp(context),
                             ),
                           ),
                         ],
@@ -288,34 +300,38 @@ class PunterClubScreenWebScreen extends StatelessWidget {
                 ),
                 horizontalDivider(),
                 //todo Club Name Field
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  spacing: 24.w,
-                  children: [
-                    Row(children: []),
-                    SizedBox(
-                      width: 344.w,
-                      child: AppTextField(
-                        controller: provider.clubNameCtr,
-                        hintText: "Search by username",
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 24.w),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    spacing: 24.w,
+                    children: [
+                      Row(children: []),
+                      SizedBox(
+                        width: fieldWidth,
+                        child: AppTextField(
+                          controller: provider.clubNameCtr,
+                          hintText: "Search by username",
+                        ),
                       ),
-                    ),
-                    AppFilledButton(
-                      width: 344.w,
-                      text: "Invite User",
-                      onTap: () {
-                        // if (provider.clubNameCtr.text.isEmpty) {
-                        //
-                        // }
-                        dialogueCtx.pop();
-                        _inviteUserDialogue(
-                          context: context,
-                          provider: provider,
-                        );
-                      },
-                      margin: EdgeInsets.only(bottom: 30.w),
-                    ),
-                  ],
+                      AppFilledButton(
+                        width: fieldWidth,
+                        text: "Invite User",
+                        margin: EdgeInsets.only(bottom: 24.w),
+                        textStyle: semiBold(fontSize: 14.fourteenSp(context),color: AppColors.white),
+                        onTap: () {
+                          // if (provider.clubNameCtr.text.isEmpty) {
+                          //
+                          // }
+                          dialogueCtx.pop();
+                          _inviteUserDialogue(
+                            context: context,
+                            provider: provider,
+                          );
+                        },
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
@@ -333,6 +349,7 @@ class PunterClubScreenWebScreen extends StatelessWidget {
     showDialog(
       context: context,
       builder: (dialogueCtx) {
+        final fieldWidth = context.isDesktop ? 344.w : 450.w;
         return ZoomIn(
           child: AlertDialog(
             shape: const RoundedRectangleBorder(
@@ -362,7 +379,7 @@ class PunterClubScreenWebScreen extends StatelessWidget {
                             child: Text(
                               "Invite Users",
                               style: regular(
-                                fontSize: context.isDesktop ? 22.sp : 30.sp,
+                                fontSize: 22.twentyTwoSp(context),
                                 fontFamily: AppFontFamily.secondary,
                               ),
                             ),
@@ -374,7 +391,7 @@ class PunterClubScreenWebScreen extends StatelessWidget {
                             child: Icon(
                               Icons.close_rounded,
                               color: AppColors.primary,
-                              size: context.isDesktop ? 22.w : 30.w,
+                              size: 22.twentyTwoSp(context),
                             ),
                           ),
                         ],
@@ -398,22 +415,22 @@ class PunterClubScreenWebScreen extends StatelessWidget {
                   child: Column(
                     children: [
                       SizedBox(
-                        width: 344.w,
+                        width: fieldWidth,
                         child: AppTextField(
                           controller: provider.clubNameCtr,
                           hintText: "Enter Club Name",
                           trailingIcon: AppAssets.searchIcon,
                           validator: (value) =>
-                              FieldValidators().required(value, "Club Name"),
+FieldValidators().required(value, "Club Name"),
                         ),
                       ),
                       24.w.verticalSpace,
-                      _userBox(),
-                      _userBox(),
-
+                      _userBox(fieldWidth: fieldWidth,context: dialogueCtx),
+                      _userBox(fieldWidth: fieldWidth,context: dialogueCtx),
                       AppOutlinedButton(
-                        width: 344.w,
+                        width: fieldWidth,
                         text: "Invite User",
+                        textStyle: semiBold(fontSize: 14.fourteenSp(context)),
                         onTap: () {
                           // if (provider.clubNameCtr.text.isEmpty) {
                           //
@@ -438,9 +455,11 @@ class PunterClubScreenWebScreen extends StatelessWidget {
   }
 
   //todo user name box
-  Widget _userBox() {
+  Widget _userBox({required double fieldWidth, required BuildContext context}) {
+   final boxSize = context.isDesktop ? 48.w : 70.w;
     return Container(
-      height: 48.w,
+      height: boxSize,
+      width: fieldWidth,
       margin: EdgeInsets.only(bottom: 8.w),
       decoration: BoxDecoration(
         border: Border.all(color: AppColors.primary.withValues(alpha: 0.15)),
@@ -448,19 +467,19 @@ class PunterClubScreenWebScreen extends StatelessWidget {
       child: Row(
         children: [
           Container(
-            height: 48.w,
-            width: 48.w,
-            padding: EdgeInsets.all(12.w),
+            height: boxSize,
+            width: boxSize,
+            padding: EdgeInsets.all(context.isDesktop ? 12.w : 18.w),
             decoration: BoxDecoration(color: AppColors.greyColor2),
             child: ImageWidget(type: ImageType.svg, path: AppAssets.userIcon),
           ),
           15.w.horizontalSpace,
-          Text("@otherpropunter_1", style: semiBold(fontSize: 16.spMin)),
+          Text("@otherpropunter_1", style: semiBold(fontSize: 16.sixteenSp(context))),
           Spacer(),
           Container(
-            height: 48.w,
-            width: 48.w,
-            padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 12.h),
+            height: boxSize,
+            width: boxSize,
+            padding: EdgeInsets.all(context.isDesktop ? 12.w : 18.w),
             decoration: BoxDecoration(color: AppColors.primary),
             child: ImageWidget(path: AppAssets.addUser, type: ImageType.svg),
           ),
@@ -470,9 +489,11 @@ class PunterClubScreenWebScreen extends StatelessWidget {
   }
 
   //todo notification side sheet
-  Widget _notificationSheet({
+  Widget _notificationSideSheet({
     required BuildContext context,
     required PunterClubProvider provider,
+    required double sixteenResponsive,
+    required double fourteenResponsive,
   }) {
     return ColoredBox(
       color: AppColors.white,
@@ -493,8 +514,8 @@ class PunterClubScreenWebScreen extends StatelessWidget {
             horizontalDivider(),
             24.w.verticalSpace,
             horizontalDivider(),
-            _notificationBox(context: context, provider: provider),
-            _notificationBox(context: context, provider: provider),
+            _notificationBox(fourteenResponsive: fourteenResponsive,sixteenResponsive: sixteenResponsive, context: context, provider: provider),
+            _notificationBox(fourteenResponsive: fourteenResponsive,sixteenResponsive: sixteenResponsive, context: context, provider: provider),
             Spacer(),
             AppOutlinedButton(
               margin: EdgeInsets.only(bottom: 30.w),
@@ -516,9 +537,11 @@ class PunterClubScreenWebScreen extends StatelessWidget {
   Widget _notificationBox({
     required BuildContext context,
     required PunterClubProvider provider,
+    required double sixteenResponsive,
+    required double fourteenResponsive,
   }) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 18.w, vertical: 18.w),
+      padding: EdgeInsets.symmetric(horizontal: 18.w, vertical: context.isDesktop ? 18.w : 24.w),
       margin: EdgeInsets.only(bottom: 8.h),
       decoration: BoxDecoration(
         border: Border.all(color: AppColors.primary.withValues(alpha: 0.15)),
@@ -526,6 +549,7 @@ class PunterClubScreenWebScreen extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+
           Padding(
             padding: const EdgeInsets.only(top: 4),
             child: ImageWidget(type: ImageType.svg, path: AppAssets.groupIcon),
@@ -539,14 +563,14 @@ class PunterClubScreenWebScreen extends StatelessWidget {
                   TextSpan(
                     text: "You’ve been invited to join Punter Club",
                     style: medium(
-                      fontSize: 16.sp,
+                      fontSize: sixteenResponsive,
                       fontFamily: AppFontFamily.primary,
                     ),
                   ),
                   TextSpan(
                     text: " PuntGPT Legends",
                     style: bold(
-                      fontSize: 16.sp,
+                      fontSize: sixteenResponsive,
                       fontFamily: AppFontFamily.primary,
                     ),
                   ),
@@ -555,7 +579,7 @@ class PunterClubScreenWebScreen extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
             ),
           ),
-          26.responsiveSize().horizontalSpace,
+          26.horizontalSpace,
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -563,7 +587,7 @@ class PunterClubScreenWebScreen extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: 18.w, vertical: 9.h),
                 isExpand: false,
                 text: "Join",
-                textStyle: semiBold(fontSize: 14.sp, color: AppColors.white),
+                textStyle: semiBold(fontSize: fourteenResponsive, color: AppColors.white),
                 onTap: () {
                   context.pop();
                   _enterUserNameDialogue(context: context, provider: provider);
@@ -572,8 +596,7 @@ class PunterClubScreenWebScreen extends StatelessWidget {
               AppOutlinedButton(
                 padding: EdgeInsets.symmetric(horizontal: 18.w, vertical: 8.h),
                 isExpand: false,
-                textStyle: semiBold(fontSize: 14.sp, color: AppColors.black),
-
+                textStyle: semiBold(fontSize: 14.fourteenSp(context), color: AppColors.black),
                 text: "Decline",
                 onTap: () {},
                 margin: EdgeInsets.only(left: 10.w),
@@ -604,6 +627,7 @@ class PunterClubScreenWebScreen extends StatelessWidget {
     showDialog(
       context: context,
       builder: (dialogueCtx) {
+        final fieldWidth = context.isDesktop ? 344.w : 450.w;
         return ZoomIn(
           child: AlertDialog(
             shape: const RoundedRectangleBorder(
@@ -634,14 +658,14 @@ class PunterClubScreenWebScreen extends StatelessWidget {
                               Text(
                                 "Create Username",
                                 style: regular(
-                                  fontSize: context.isDesktop ? 22.sp : 30.sp,
+                                  fontSize: 22.twentyTwoSp(context),
                                   fontFamily: AppFontFamily.secondary,
                                 ),
                               ),
                               Text(
-                                "Your username will be displayed to your club members.",
+                                "Your username will be displayed to \nyour club members.",
                                 style: semiBold(
-                                  fontSize: 12.sp,
+                                  fontSize: 12.twelveSp(context),
                                   color: AppColors.primary.withValues(
                                     alpha: 0.6,
                                   ),
@@ -656,7 +680,7 @@ class PunterClubScreenWebScreen extends StatelessWidget {
                             child: Icon(
                               Icons.close_rounded,
                               color: AppColors.primary,
-                              size: context.isDesktop ? 22.w : 30.w,
+                              size: 22.twentyTwoSp(context),
                             ),
                           ),
                         ],
@@ -672,24 +696,24 @@ class PunterClubScreenWebScreen extends StatelessWidget {
                   children: [
                     Row(children: []),
                     SizedBox(
-                      width: 344.w,
+                      width: fieldWidth,
                       child: AppTextField(
                         controller: provider.clubNameCtr,
                         hintText: "Enter Username",
                       ),
                     ),
                     AppFilledButton(
-                      width: 344.w,
+                      width: fieldWidth,
                       text: "Create",
                       onTap: () {
                         // if (provider.clubNameCtr.text.isEmpty) {
                         //
                         // }
                         dialogueCtx.pop();
-                        _inviteUserDialogue(
-                          context: context,
-                          provider: provider,
-                        );
+                        // _inviteUserDialogue(
+                        //   context: context,
+                        //   provider: provider,
+                        // );
                       },
                       margin: EdgeInsets.only(bottom: 30.w),
                     ),

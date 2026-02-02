@@ -19,12 +19,11 @@ class RaceStartTimingOptionsWeb extends StatelessWidget {
 
         return LayoutBuilder(
           builder: (context, constraints) {
-            final textScale = MediaQuery.of(context).textScaleFactor;
             // double totalWidth = 50;
-            for (final t in timings) {
+            // for (final t in timings) {
               // final estimatedTextWidth = (t.length * 10 * textScale);
               // totalWidth += estimatedTextWidth + 36 + 15;
-            }
+            // }
             return Center(
               child: SingleChildScrollView(
                 padding: EdgeInsets.symmetric(

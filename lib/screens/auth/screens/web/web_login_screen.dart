@@ -67,7 +67,15 @@ class WebLoginScreen extends StatelessWidget {
                                         ? 550.w
                                         : 750.w,
                                   )
-                                : ImageWidget(path: AppAssets.splashAppLogo),
+                                : ImageWidget(
+                                    path: AppAssets.splashWebLogo,
+                                    type: ImageType.asset,
+                                    width: context.isDesktop
+                                        ? 375.w
+                                        : context.isTablet
+                                        ? 550.w
+                                        : 375.w,
+                                  ),
                             18.h.verticalSpace,
                             Text(
                               "'@PuntGPT' the talking from guide",

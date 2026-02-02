@@ -2,6 +2,8 @@
 
 /// Breakpoint constants for responsive design
 class Breakpoints {
+
+  Breakpoints._();
   // Mobile: 0 - 599 px
   static const double mobile = 0;
 
@@ -17,6 +19,4 @@ class Breakpoints {
 
   // Extra-large desktop: 1920 px and above
   static const double extraLargeDesktop = 1920;
-
-  Breakpoints._();
 }

@@ -194,7 +194,6 @@ class _WebDashboardAppBarState extends State<WebDashboardAppBar> {
             color: AppColors.white,
             height: 52.w,
           ),
-
           Text(
             "PuntGPT",
             style: regular(
@@ -282,7 +281,6 @@ class _WebDashboardAppBarState extends State<WebDashboardAppBar> {
     bool? isSelected,
     Widget? child,
     Color? color,
-    bool hasLock = false,
   }) {
     return IntrinsicWidth(
       child: Stack(
