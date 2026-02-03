@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -9,6 +8,7 @@ import 'package:puntgpt_nick/provider/auth/auth_provider.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/text_style.dart';
 import '../../../../core/widgets/app_filed_button.dart';
+import '../../../../responsive/responsive_builder.dart';
 
 class ResetPasswordScreen extends StatelessWidget {
   const ResetPasswordScreen({super.key});
@@ -33,7 +33,7 @@ class ResetPasswordScreen extends StatelessWidget {
                         "Reset Password",
                         style: regular(
                           fontFamily: AppFontFamily.secondary,
-                          fontSize: (kIsWeb) ? 60.sp : 40.sp,
+                          fontSize: context.isBrowserMobile ? 60.sp : 40.sp,
                         ),
                       ),
                       28.h.verticalSpace,
@@ -41,7 +41,7 @@ class ResetPasswordScreen extends StatelessWidget {
                         textAlign: TextAlign.center,
                         "Enter new password below to reset.",
                         style: regular(
-                          fontSize: (kIsWeb) ? 30.sp : 16.sp,
+                          fontSize: context.isBrowserMobile ? 30.sp : 16.sp,
                           color: AppColors.primary.withValues(),
                         ),
                       ),
@@ -73,7 +73,7 @@ class ResetPasswordScreen extends StatelessWidget {
                       SafeArea(
                         child: AppFilledButton(
                           margin: EdgeInsets.only(bottom: 20.h),
-                          textStyle: (kIsWeb)
+                          textStyle: context.isBrowserMobile
                               ? semiBold(
                                   fontSize: 30.sp,
                                   color: AppColors.white,

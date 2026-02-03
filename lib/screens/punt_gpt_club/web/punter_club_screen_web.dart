@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -11,7 +9,8 @@ import 'package:puntgpt_nick/core/widgets/app_outlined_button.dart';
 import 'package:puntgpt_nick/core/widgets/image_widget.dart';
 import 'package:puntgpt_nick/provider/punt_club/punter_club_provider.dart';
 import 'package:puntgpt_nick/responsive/responsive_builder.dart';
-import 'package:puntgpt_nick/screens/punt_gpt_club/web/widgets/club_chat_screen_web.dart';  
+import 'package:puntgpt_nick/screens/punt_gpt_club/web/widgets/club_chat_screen_web.dart';
+
 import '../../../core/constants/text_style.dart';
 import '../../../core/router/web/web_routes.dart';
 import '../../../core/utils/field_validators.dart';
@@ -38,7 +37,7 @@ class PunterClubScreenWebScreen extends StatelessWidget {
         : context.isBrowserMobile
         ? 36.sp
         : 20.sp;
-    
+
     final fourteenResponsive = context.isDesktop
         ? 14.sp
         : context.isTablet
@@ -46,7 +45,7 @@ class PunterClubScreenWebScreen extends StatelessWidget {
         : context.isBrowserMobile
         ? 28.sp
         : 14.sp;
-        final sixteenResponsive = context.isDesktop
+    final sixteenResponsive = context.isDesktop
         ? 16.sp
         : context.isTablet
         ? 24.sp
@@ -102,8 +101,7 @@ class PunterClubScreenWebScreen extends StatelessWidget {
                                       showModalSideSheet(
                                         context: context,
                                         useRootNavigator: false,
-                                        width:
-                                        context.isDesktop
+                                        width: context.isDesktop
                                             ? 530.w
                                             : 590.w,
                                         withCloseControll: true,
@@ -111,7 +109,8 @@ class PunterClubScreenWebScreen extends StatelessWidget {
                                           context: context,
                                           provider: provider,
                                           sixteenResponsive: sixteenResponsive,
-                                          fourteenResponsive: fourteenResponsive,
+                                          fourteenResponsive:
+                                              fourteenResponsive,
                                         ),
                                       );
                                     },
@@ -318,7 +317,10 @@ class PunterClubScreenWebScreen extends StatelessWidget {
                         width: fieldWidth,
                         text: "Invite User",
                         margin: EdgeInsets.only(bottom: 24.w),
-                        textStyle: semiBold(fontSize: 14.fourteenSp(context),color: AppColors.white),
+                        textStyle: semiBold(
+                          fontSize: 14.fourteenSp(context),
+                          color: AppColors.white,
+                        ),
                         onTap: () {
                           // if (provider.clubNameCtr.text.isEmpty) {
                           //
@@ -421,12 +423,12 @@ class PunterClubScreenWebScreen extends StatelessWidget {
                           hintText: "Enter Club Name",
                           trailingIcon: AppAssets.searchIcon,
                           validator: (value) =>
-FieldValidators().required(value, "Club Name"),
+                              FieldValidators().required(value, "Club Name"),
                         ),
                       ),
                       24.w.verticalSpace,
-                      _userBox(fieldWidth: fieldWidth,context: dialogueCtx),
-                      _userBox(fieldWidth: fieldWidth,context: dialogueCtx),
+                      _userBox(fieldWidth: fieldWidth, context: dialogueCtx),
+                      _userBox(fieldWidth: fieldWidth, context: dialogueCtx),
                       AppOutlinedButton(
                         width: fieldWidth,
                         text: "Invite User",
@@ -456,7 +458,7 @@ FieldValidators().required(value, "Club Name"),
 
   //todo user name box
   Widget _userBox({required double fieldWidth, required BuildContext context}) {
-   final boxSize = context.isDesktop ? 48.w : 70.w;
+    final boxSize = context.isDesktop ? 48.w : 70.w;
     return Container(
       height: boxSize,
       width: fieldWidth,
@@ -474,7 +476,10 @@ FieldValidators().required(value, "Club Name"),
             child: ImageWidget(type: ImageType.svg, path: AppAssets.userIcon),
           ),
           15.w.horizontalSpace,
-          Text("@otherpropunter_1", style: semiBold(fontSize: 16.sixteenSp(context))),
+          Text(
+            "@otherpropunter_1",
+            style: semiBold(fontSize: 16.sixteenSp(context)),
+          ),
           Spacer(),
           Container(
             height: boxSize,
@@ -514,8 +519,18 @@ FieldValidators().required(value, "Club Name"),
             horizontalDivider(),
             24.w.verticalSpace,
             horizontalDivider(),
-            _notificationBox(fourteenResponsive: fourteenResponsive,sixteenResponsive: sixteenResponsive, context: context, provider: provider),
-            _notificationBox(fourteenResponsive: fourteenResponsive,sixteenResponsive: sixteenResponsive, context: context, provider: provider),
+            _notificationBox(
+              fourteenResponsive: fourteenResponsive,
+              sixteenResponsive: sixteenResponsive,
+              context: context,
+              provider: provider,
+            ),
+            _notificationBox(
+              fourteenResponsive: fourteenResponsive,
+              sixteenResponsive: sixteenResponsive,
+              context: context,
+              provider: provider,
+            ),
             Spacer(),
             AppOutlinedButton(
               margin: EdgeInsets.only(bottom: 30.w),
@@ -541,7 +556,10 @@ FieldValidators().required(value, "Club Name"),
     required double fourteenResponsive,
   }) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 18.w, vertical: context.isDesktop ? 18.w : 24.w),
+      padding: EdgeInsets.symmetric(
+        horizontal: 18.w,
+        vertical: context.isDesktop ? 18.w : 24.w,
+      ),
       margin: EdgeInsets.only(bottom: 8.h),
       decoration: BoxDecoration(
         border: Border.all(color: AppColors.primary.withValues(alpha: 0.15)),
@@ -549,7 +567,6 @@ FieldValidators().required(value, "Club Name"),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-
           Padding(
             padding: const EdgeInsets.only(top: 4),
             child: ImageWidget(type: ImageType.svg, path: AppAssets.groupIcon),
@@ -587,7 +604,10 @@ FieldValidators().required(value, "Club Name"),
                 padding: EdgeInsets.symmetric(horizontal: 18.w, vertical: 9.h),
                 isExpand: false,
                 text: "Join",
-                textStyle: semiBold(fontSize: fourteenResponsive, color: AppColors.white),
+                textStyle: semiBold(
+                  fontSize: fourteenResponsive,
+                  color: AppColors.white,
+                ),
                 onTap: () {
                   context.pop();
                   _enterUserNameDialogue(context: context, provider: provider);
@@ -596,7 +616,10 @@ FieldValidators().required(value, "Club Name"),
               AppOutlinedButton(
                 padding: EdgeInsets.symmetric(horizontal: 18.w, vertical: 8.h),
                 isExpand: false,
-                textStyle: semiBold(fontSize: 14.fourteenSp(context), color: AppColors.black),
+                textStyle: semiBold(
+                  fontSize: 14.fourteenSp(context),
+                  color: AppColors.black,
+                ),
                 text: "Decline",
                 onTap: () {},
                 margin: EdgeInsets.only(left: 10.w),

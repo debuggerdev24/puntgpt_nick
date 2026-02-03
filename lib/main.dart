@@ -62,11 +62,10 @@ class MyApp extends StatelessWidget {
             systemNavigationBarColor: Colors.black,
             systemNavigationBarIconBrightness: Brightness.light,
           ),
-
           child: ScreenUtilInit(
             minTextAdapt: true,
             splitScreenMode: true,
-            designSize: (context.isPhysicalMobile)
+            designSize: (!context.isPhysicalMobile)
                 ? Size(430, 932)
                 : Size(1440, 824),
             child: MaterialApp.router(
@@ -87,21 +86,21 @@ class MyApp extends StatelessWidget {
 
 todo Joseph
 
--> Worked on added the all countries inside the profile section.
--> Worked on update the navigation and showing subscription and success screen.
--> Worked on updated the add topic feature inside the topic screen and placed the new topic at first.
--> Worked on update the reset password validation and added the condition to to display the proper error message from the backend.
 
 
 todo Nick
 
 
+//! NOTE: top bar        // Blue
+//? QUESTION: why here  // Green
+//* IMPORTANT           // Yellow
+// TODO: refactor       // Default todo
+// FIXME: crash issue   // Red
 
 Web side
 
 
 
 flutter run --release -d web-server --web-port=5000 --web-hostname=0.0.0.0
-// http://192.168.1.104:5000/#/splashScreen
 
-*/
+*/*/

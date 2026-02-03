@@ -12,7 +12,6 @@ import 'package:puntgpt_nick/core/router/app/app_routes.dart';
 import 'package:puntgpt_nick/core/widgets/image_widget.dart';
 import 'package:puntgpt_nick/service/storage/locale_storage_service.dart';
 
-
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
@@ -95,6 +94,7 @@ class _SplashScreenState extends State<SplashScreen> {
       //   context.goNamed(AppRoutes.offlineViewScreen.name);
       //   return;
       // });
+    
     });
   }
 

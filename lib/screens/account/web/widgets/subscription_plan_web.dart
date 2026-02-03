@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:puntgpt_nick/responsive/responsive_builder.dart';
 
@@ -39,14 +38,14 @@ class SubscriptionPlanWeb extends StatelessWidget {
         ? 20.sp
         : context.isTablet
         ? 27.5.sp
-        : (kIsWeb)
+        : context.isBrowserMobile
         ? 36.sp
         : 20.sp;
     final fourteenResponsive = context.isDesktop
         ? 14.sp
         : context.isTablet
         ? 21.5.sp
-        : (kIsWeb)
+        : context.isBrowserMobile
         ? 26.sp
         : 14.sp;
     double subscriptionBoxWidth = context.isDesktop ? 340.w : 510.w;
@@ -146,7 +145,7 @@ class SubscriptionPlanWeb extends StatelessWidget {
                             ? 20.w
                             : context.isTablet
                             ? 28.w
-                            : (kIsWeb)
+                            : context.isBrowserMobile
                             ? 36.w
                             : 20.w,
                       ),

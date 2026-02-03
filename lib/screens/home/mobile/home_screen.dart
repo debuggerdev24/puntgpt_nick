@@ -317,6 +317,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                   IntrinsicWidth(
                     child: AppFilledButton(
                       text: "Search",
+                      textStyle: semiBold(fontSize: 16.sixteenSp(context),color: AppColors.white),
                       onTap: () {
                         // formKey.currentState!.validate();
                         provider.setIsSearched(value: true);

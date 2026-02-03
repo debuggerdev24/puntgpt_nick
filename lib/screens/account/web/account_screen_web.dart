@@ -1,5 +1,4 @@
 import 'package:animate_do/animate_do.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -40,21 +39,21 @@ class _AccountScreenWebState extends State<AccountScreenWeb> {
         ? 20.sp
         : context.isTablet
         ? 28.sp
-        : (kIsWeb)
+        : (context.isBrowserMobile)
         ? 36.sp
         : 20.sp;
     final twentyTwoResponsive = context.isDesktop
         ? 22.sp
         : context.isTablet
         ? 30.sp
-        : (kIsWeb)
+        : (context.isBrowserMobile)
         ? 38.sp
         : 22.sp;
     final sixteenResponsive = context.isDesktop
         ? 16.sp
         : context.isTablet
         ? 24.sp
-        : (kIsWeb)
+        : (context.isBrowserMobile)
         ? 32.sp
         : 16.sp;
     // final twelveResponsive = context.isDesktop
@@ -68,7 +67,7 @@ class _AccountScreenWebState extends State<AccountScreenWeb> {
         ? 14.sp
         : context.isTablet
         ? 20.sp
-        : (kIsWeb)
+        : context.isBrowserMobile
         ? 28.sp
         : 14.sp;
     return Scaffold(

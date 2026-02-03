@@ -3,9 +3,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:puntgpt_nick/core/constants/constants.dart';
 import 'package:puntgpt_nick/core/widgets/image_widget.dart';
+import 'package:puntgpt_nick/core/widgets/on_button_tap.dart';
 import 'package:puntgpt_nick/responsive/responsive_builder.dart';
 import 'package:puntgpt_nick/screens/home/mobile/home_screen.dart';
 import 'package:puntgpt_nick/screens/home/web/home_screen_web.dart';
+import 'package:puntgpt_nick/screens/punt_gpt_club/mobile/punt_club_screen.dart';
 
 import '../../../core/constants/text_style.dart';
 import '../../../core/widgets/app_devider.dart';
@@ -72,19 +74,23 @@ class PuntClubChatScreen extends StatelessWidget {
             children: [
               IconButton(
                 padding: EdgeInsets.zero,
-
                 onPressed: () {
                   context.pop();
                 },
-                icon: Icon(Icons.arrow_back_ios_rounded, size: 16.h),
+                icon: Icon(
+                  Icons.arrow_back_ios_rounded,
+                  size: 16.h.flexClamp(16, 24),
+                ),
               ),
+
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     title,
                     style: regular(
-                      fontSize: (context.isBrowserMobile) ? 36.sp : 24.sp,
+                      fontSize: (context.isBrowserMobile) ? 50.sp : 24.sp,
+
                       fontFamily: AppFontFamily.secondary,
                       height: 1.35,
                     ),
@@ -92,7 +98,7 @@ class PuntClubChatScreen extends StatelessWidget {
                   Text(
                     "11 Member",
                     style: semiBold(
-                      fontSize: (context.isBrowserMobile) ? 26.sp : 14.sp,
+                      fontSize: (context.isBrowserMobile) ? 30.sp : 14.sp,
                       color: AppColors.greyColor.withValues(alpha: 0.6),
                     ),
                   ),
@@ -100,13 +106,29 @@ class PuntClubChatScreen extends StatelessWidget {
               ),
               Spacer(),
 
-              ImageWidget(
-                width: 28.w,
-                path: AppAssets.addClubMember,
-                type: ImageType.svg,
-                color: AppColors.primary,
+              OnMouseTap(
+                onTap: () {
+                  showModalBottomSheet(
+                    context: context,
+                    isScrollControlled: true,
+                    useRootNavigator: true,
+                    showDragHandle: true,
+                    backgroundColor: AppColors.white,
+                    builder: (context) {
+                      return InviteUserSheet();
+                    },
+                  );
+                },
+                child: ImageWidget(
+                  width: (context.isBrowserMobile) ? 60.w : 28.w,
+                  path: AppAssets.addClubMember,
+                  type: ImageType.svg,
+                  color: AppColors.primary,
+                ),
               ),
-              20.w.horizontalSpace,
+              (context.isBrowserMobile)
+                  ? 40.w.horizontalSpace
+                  : 20.w.horizontalSpace,
               GestureDetector(
                 onTap: () {
                   showModalBottomSheet(
@@ -121,7 +143,7 @@ class PuntClubChatScreen extends StatelessWidget {
                   );
                 },
                 child: ImageWidget(
-                  width: 28.w,
+                  width: (context.isBrowserMobile) ? 60.w : 28.w,
                   path: AppAssets.option,
                   type: ImageType.svg,
                   color: AppColors.primary,
@@ -141,9 +163,12 @@ class OptionsSheetView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final spacing = (context.isBrowserMobile)
+        ? 40.w.verticalSpace
+        : 24.w.verticalSpace;
     return SizedBox(
-      height: 0.89.sh,
-
+      // height:0.89.sh,
+      height: context.screenHeight - 0.15.sh,
       child: Padding(
         padding: EdgeInsets.fromLTRB(25.w, 0, 25.w, 25.h),
         child: Column(
@@ -151,20 +176,19 @@ class OptionsSheetView extends StatelessWidget {
             Text(
               "Option",
               style: regular(
-                fontSize: 24.sp,
+                fontSize: 24.twentyFourSp(context),
                 fontFamily: AppFontFamily.secondary,
               ),
             ),
             18.h.verticalSpace,
             horizontalDivider(),
-            24.w.verticalSpace,
-            optionItem(title: "View Members"),
-            24.w.verticalSpace,
+            spacing,
+            optionItem(title: "View Members", context: context),
+            spacing,
             horizontalDivider(),
-            24.w.verticalSpace,
-
-            optionItem(title: "Change Name"),
-            24.w.verticalSpace,
+            spacing,
+            optionItem(title: "Change Name", context: context),
+            spacing,
             horizontalDivider(),
           ],
         ),
@@ -172,12 +196,12 @@ class OptionsSheetView extends StatelessWidget {
     );
   }
 
-  Widget optionItem({required String title}) {
+  Widget optionItem({required String title, required BuildContext context}) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       spacing: 11.w,
       children: [
-        Text(title, style: semiBold(fontSize: 16.sp)),
+        Text(title, style: semiBold(fontSize: 16.sixteenSp(context))),
 
         Icon(Icons.arrow_forward_ios_rounded, size: 12),
       ],

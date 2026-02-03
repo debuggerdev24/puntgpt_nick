@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:puntgpt_nick/core/constants/constants.dart';
 import 'package:puntgpt_nick/core/widgets/app_filed_button.dart';
-
-import '../../../core/constants/app_colors.dart';
+import 'package:puntgpt_nick/responsive/responsive_builder.dart';
 import '../../../core/constants/text_style.dart';
 import '../../../core/widgets/app_devider.dart';
 
@@ -20,20 +20,21 @@ class TipSlipScreen extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 25.w, vertical: 25.h),
             child: Column(
               children: [
-                tipSlipItem(),
-                tipSlipItem(),
-                tipSlipItem(),
-                tipSlipItem(),
+                tipSlipItem(context: context),
+                tipSlipItem(context: context),
+                tipSlipItem(context: context),
+                tipSlipItem(context: context),
 
                 AppFilledButton(
                   margin: EdgeInsets.only(top: 24.h, bottom: 12.h),
                   text: "Play Fantasy Picks (4)",
+                  textStyle: semiBold(fontSize: 16.sixteenSp(context),color: AppColors.white),
                   onTap: () {},
                 ),
 
                 Text(
                   "Upgrade to Pro Punter",
-                  style: bold(fontSize: 14.sp, color: AppColors.premiumYellow),
+                  style: bold(fontSize: 14.fourteenSp(context), color: AppColors.premiumYellow),
                 ),
                 Spacer(),
                 RichText(
@@ -42,14 +43,14 @@ class TipSlipScreen extends StatelessWidget {
                       TextSpan(
                         text: "Use Code: ",
                         style: bold(
-                          fontSize: 14.sp,
+                          fontSize: 14.fourteenSp(context),
                           fontFamily: AppFontFamily.primary,
                         ),
                       ),
                       TextSpan(
                         text: "‘PUNTGPT’",
                         style: bold(
-                          fontSize: 14.sp,
+                          fontSize: 14.fourteenSp(context),
                           color: Color(0xffE5B82E),
                           fontFamily: AppFontFamily.primary,
                         ),
@@ -65,7 +66,7 @@ class TipSlipScreen extends StatelessWidget {
     );
   }
 
-  Widget tipSlipItem() {
+  Widget tipSlipItem({required BuildContext context}) {
     return Container(
       margin: EdgeInsets.only(bottom: 8.h),
       padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 12.h),
@@ -84,14 +85,14 @@ class TipSlipScreen extends StatelessWidget {
             ),
             child: const Icon(Icons.check, color: Colors.white, size: 16),
           ),
-          15.w.horizontalSpace,
+          context.isBrowserMobile ? 90.w.horizontalSpace : 15.w.horizontalSpace,
 
-          //todo -----------> title
-          Text("8. Delicacy", style: semiBold(fontSize: 20.sp)),
+          //* -----------> title
+          Text("8. Delicacy", style: semiBold(fontSize: context.isBrowserMobile ? 34.sp : 20.sp)),
           10.horizontalSpace,
           Icon(Icons.keyboard_arrow_down_rounded),
           Spacer(),
-          Text("\$8.50", style: bold(fontSize: 20.sp)),
+          Text("\$8.50", style: bold(fontSize: context.isBrowserMobile ? 34.sp : 20.sp)),
         ],
       ),
     );
@@ -114,7 +115,7 @@ class TipSlipScreen extends StatelessWidget {
               Text(
                 "Tip Slip",
                 style: regular(
-                  fontSize: 24.sp,
+                  fontSize: (context.isBrowserMobile) ? 48.sp : 24.sp,
                   fontFamily: AppFontFamily.secondary,
                   height: 1.35,
                 ),

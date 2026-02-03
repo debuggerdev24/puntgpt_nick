@@ -26,7 +26,7 @@ class RaceStartTimingOptions extends StatelessWidget {
             }
             final fitsInScreen = totalWidth < constraints.maxWidth;
             return SizedBox(
-              height: 45.w.flexClamp(45, 55),
+              height: 45.w.flexClamp(40, 55),
               width: context.screenWidth,
               child: fitsInScreen
                   ? Center(
@@ -36,6 +36,7 @@ class RaceStartTimingOptions extends StatelessWidget {
                         children: List.generate(
                           timings.length,
                           (index) => _item(
+                            context: context,
                             text: timings[index],
                             onTap: () =>
                                 provider.selectedRaceTimingIndex = index,
@@ -49,6 +50,7 @@ class RaceStartTimingOptions extends StatelessWidget {
                       padding: EdgeInsets.symmetric(horizontal: 25.w),
                       scrollDirection: Axis.horizontal,
                       itemBuilder: (context, index) => _item(
+                        context: context,
                         text: timings[index],
                         onTap: () => provider.selectedRaceTimingIndex = index,
                         isSelected: provider.selectedRaceTimingIndex == index,
@@ -67,12 +69,14 @@ class RaceStartTimingOptions extends StatelessWidget {
     required String text,
     required VoidCallback onTap,
     required bool isSelected,
+    required BuildContext context,
   }) {
     return OnMouseTap(
       onTap: onTap,
       child: AnimatedContainer(
         duration: 450.ms,
         curve: Curves.decelerate,
+        alignment: Alignment.center,
         decoration: BoxDecoration(
           color: isSelected ? AppColors.primary : AppColors.white,
           border: Border.all(
@@ -81,11 +85,11 @@ class RaceStartTimingOptions extends StatelessWidget {
                 : AppColors.primary.setOpacity(0.15),
           ),
         ),
-        padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 18.w),
+        padding: EdgeInsets.symmetric( horizontal: 18.w),
         child: Text(
           text,
           style: semiBold(
-            fontSize: 16.sp,
+            fontSize: 16.sixteenSp(context),
             color: isSelected ? AppColors.white : AppColors.primary,
           ),
         ),

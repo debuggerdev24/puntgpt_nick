@@ -71,7 +71,7 @@ class _SearchSectionWebState extends State<SearchSectionWeb> {
                         ? 16.sp
                         : context.isTablet
                         ? 24.sp
-                        : (kIsWeb)
+                        : (context.isBrowserMobile)
                         ? 40.sp
                         : 16.sp,
                     height: 1.2,

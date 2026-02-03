@@ -1,8 +1,9 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:puntgpt_nick/core/constants/constants.dart';
 import 'package:puntgpt_nick/core/constants/text_style.dart';
+
+import '../../../../responsive/responsive_builder.dart';
 
 class VideoWidget extends StatelessWidget {
   const VideoWidget({super.key, this.height, this.width});
@@ -22,7 +23,7 @@ class VideoWidget extends StatelessWidget {
       child: Text(
         "Video",
         style: regular(
-          fontSize: (kIsWeb) ? 62.sp : 32.sp,
+          fontSize: (context.isBrowserMobile) ? 62.sp : 32.sp,
           fontFamily: AppFontFamily.secondary,
         ),
       ),

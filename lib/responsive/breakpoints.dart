@@ -2,7 +2,6 @@
 
 /// Breakpoint constants for responsive design
 class Breakpoints {
-
   Breakpoints._();
   // Mobile: 0 - 599 px
   static const double mobile = 0;

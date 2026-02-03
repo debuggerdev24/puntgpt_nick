@@ -4,9 +4,11 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:puntgpt_nick/core/constants/app_colors.dart';
 import 'package:puntgpt_nick/core/constants/text_style.dart';
+import 'package:puntgpt_nick/core/extensions/double_extensions.dart';
 import 'package:puntgpt_nick/core/widgets/app_devider.dart';
 import 'package:puntgpt_nick/core/widgets/app_filed_button.dart';
 import 'package:puntgpt_nick/core/widgets/app_outlined_button.dart';
+import 'package:puntgpt_nick/responsive/responsive_builder.dart';
 
 import '../../../provider/search_engine_provider.dart';
 
@@ -22,13 +24,13 @@ class SearchDetailScreen extends StatelessWidget {
         _buildListView(context: context),
         Spacer(),
         AppFilledButton(
-          textStyle: semiBold(fontSize: 16.sp, color: AppColors.white),
+          textStyle: semiBold(fontSize: 16.sixteenSp(context), color: AppColors.white),
           text: "Edit",
           onTap: () {},
           margin: EdgeInsets.fromLTRB(25.w, 0, 25.w, 6.h),
         ),
         AppOutlinedButton(
-          textStyle: semiBold(fontSize: 16.sp, color: AppColors.black),
+          textStyle: semiBold(fontSize: 16.sixteenSp(context), color: AppColors.black),
           text: "Delete",
           onTap: () {},
           margin: EdgeInsets.fromLTRB(25.w, 0, 25.w, 16.h),
@@ -44,7 +46,6 @@ class SearchDetailScreen extends StatelessWidget {
         children: [
           IconButton(
             padding: EdgeInsets.zero,
-
             onPressed: () {
               context.pop();
             },
@@ -58,12 +59,13 @@ class SearchDetailScreen extends StatelessWidget {
                 style: regular(
                   fontFamily: AppFontFamily.secondary,
                   height: 1.1,
+                  fontSize: (context.isBrowserMobile) ? 65.sp : 24,
                 ),
               ),
               Text(
                 "Manage your saved search",
                 style: medium(
-                  fontSize: 14.sp,
+                  fontSize: 14.fourteenSp(context),
                   color: AppColors.greyColor.withValues(alpha: 0.6),
                 ),
               ),
@@ -89,7 +91,7 @@ class SearchDetailScreen extends StatelessWidget {
             ),
             tilePadding: EdgeInsets.symmetric(horizontal: 25.w),
             iconColor: AppColors.greyColor,
-            title: Text("Track", style: semiBold(fontSize: 16.sp)),
+            title: Text("Track", style: semiBold(fontSize: 16.sixteenSp(context))),
             children: provider.trackItems.map((item) {
               bool isChecked = item["checked"];
               return InkWell(
@@ -106,7 +108,7 @@ class SearchDetailScreen extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(item["label"], style: semiBold(fontSize: 16.sp)),
+                          Text(item["label"], style: semiBold(fontSize: 16.sixteenSp(context))),
                           AnimatedContainer(
                             duration: const Duration(milliseconds: 250),
                             curve: Curves.easeInOut,

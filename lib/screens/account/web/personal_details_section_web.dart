@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -37,7 +36,7 @@ class PersonalDetailsSectionWeb extends StatelessWidget {
         ? 22.sp
         : context.isTablet
         ? 30.sp
-        : (kIsWeb)
+        : context.isBrowserMobile
         ? 38.sp
         : 22.sp;
     double fieldWidth = context.isDesktop ? 320.w : 380.w;

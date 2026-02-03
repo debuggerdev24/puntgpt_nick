@@ -50,7 +50,7 @@ extension ResponsiveTextScreenUtil on int {
     if (fontSize != null) {
       if (context.isTablet) return (fontSize + 8).sp;
       if (context.isBrowserMobile) return (fontSize + 16).sp;
-      return 16.sp;
+      return 14.sp;
     }
 
     if (context.isTablet) return 22.sp;
@@ -81,5 +81,30 @@ extension ResponsiveTextScreenUtil on int {
     if (context.isBrowserMobile) return 38.sp;
     return 22.sp; // desktop & fallback
   }
+
+  double twentyFourSp(BuildContext context, {double? fontSize}) {
+    if (fontSize != null) {
+      if (context.isTablet) return (fontSize + 8).sp;
+      if (context.isBrowserMobile) return (fontSize + 16).sp;
+      return 24.sp;
+    }
+
+    if (context.isTablet) return 32.sp;
+    if (context.isBrowserMobile) return 40.sp;
+    return 24.sp; // desktop & fallback
+  }
+
+  double eighteenSp(BuildContext context, {double? fontSize}) {
+    if (fontSize != null) {
+      if (context.isTablet) return (fontSize + 8).sp;
+      if (context.isBrowserMobile) return (fontSize + 16).sp;
+      return 18.sp;
+    }
+
+    if (context.isTablet) return 26.sp;
+    if (context.isBrowserMobile) return 34.sp;
+    return 18.sp;
+  }
+
 
 }

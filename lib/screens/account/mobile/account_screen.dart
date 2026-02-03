@@ -126,7 +126,7 @@ class AccountScreen extends StatelessWidget {
           child: AlertDialog(
             title: Text(
               "Are you sure you want to Log Out?",
-              style: regular(color: AppColors.black, fontSize: 19.sp),
+              style: regular(color: AppColors.black, fontSize: context.isBrowserMobile ? 65.sp : 19.sp),
             ),
             actions: [
               myActionButtonTheme(

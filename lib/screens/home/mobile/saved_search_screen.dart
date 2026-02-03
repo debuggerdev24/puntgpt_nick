@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:puntgpt_nick/core/constants/text_style.dart';
+import 'package:puntgpt_nick/core/extensions/double_extensions.dart';
 import 'package:puntgpt_nick/core/router/app/app_router.dart';
 import 'package:puntgpt_nick/core/router/app/app_routes.dart';
 import 'package:puntgpt_nick/core/widgets/app_devider.dart';
 import 'package:puntgpt_nick/core/widgets/app_filed_button.dart';
 import 'package:puntgpt_nick/responsive/responsive_builder.dart';
-
 import '../../../core/constants/app_colors.dart';
 
 class SavedSearchScreen extends StatelessWidget {
@@ -29,7 +29,7 @@ class SavedSearchScreen extends StatelessWidget {
             children: [
               Text(
                 "Upgrade to Pro Punter to save your custom Searches.",
-                style: bold(fontSize: 16.sp),
+                style: bold(fontSize: 16.sixteenSp(context)),
               ),
               16.h.verticalSpace,
               Row(
@@ -39,7 +39,7 @@ class SavedSearchScreen extends StatelessWidget {
                   Expanded(
                     child: Text(
                       "Have your form done and ready each time you open the app.",
-                      style: medium(fontSize: 14.sp),
+                      style: medium(fontSize: 14.fourteenSp(context)),
                     ),
                   ),
                 ],
@@ -47,11 +47,11 @@ class SavedSearchScreen extends StatelessWidget {
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("• ", style: medium(fontSize: 14.sp)),
+                  Text("• ", style: medium(fontSize: 14.fourteenSp(context))),
                   Expanded(
                     child: Text(
                       "Have one for favorite's, one for Roughies, one for heavy track conditions, or any system you thinks a winner!",
-                      style: medium(fontSize: 14.sp),
+                      style: medium(fontSize: 14.fourteenSp(context)),
                     ),
                   ),
                 ],
@@ -71,6 +71,7 @@ class SavedSearchScreen extends StatelessWidget {
         AppFilledButton(
           margin: EdgeInsets.fromLTRB(25.w, 0, 25.w, 25.h),
           text: "Save Current Search",
+          textStyle: semiBold(fontSize: 16.sixteenSp(context), color: AppColors.white),
           onTap: () {},
         ),
         // Expanded(
@@ -122,13 +123,13 @@ class SavedSearchScreen extends StatelessWidget {
             },
             child: Container(
               margin: EdgeInsets.only(left: 12.w),
-              padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 7.h),
+              padding: EdgeInsets.symmetric(horizontal: 12, vertical: 7.h),
               decoration: BoxDecoration(
                 border: Border.all(color: AppColors.premiumYellow),
               ),
               child: Text(
                 "Upgrade to Pro",
-                style: bold(fontSize: 14.sp, color: AppColors.premiumYellow),
+                style: bold(fontSize: 14.fourteenSp(context), color: AppColors.premiumYellow),
               ),
             ),
           ),
@@ -169,7 +170,6 @@ class SearchedItem extends StatelessWidget {
                   "Search 1",
                   style: semiBold(
                     fontSize: (context.isBrowserMobile) ? 40.sp : 20.sp,
-
                     color: AppColors.primary.withValues(alpha: 0.35),
                   ),
                 ),

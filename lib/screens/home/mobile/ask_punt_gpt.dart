@@ -83,6 +83,7 @@ class AskPuntGptScreen extends StatelessWidget {
 
                     style: regular(
                       fontFamily: AppFontFamily.secondary,
+                      fontSize: context.isBrowserMobile ? 40.sp : 20,
                       height: 1.35,
                       // fontSize: (kIsWeb) ? 38.sp : null,
                     ),

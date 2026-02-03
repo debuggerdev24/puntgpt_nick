@@ -153,7 +153,7 @@ class _DashboardState extends State<Dashboard> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
+          children:[
             Stack(
               alignment: Alignment.topCenter,
               children: [
@@ -199,7 +199,7 @@ class _DashboardState extends State<Dashboard> {
               text,
               textAlign: TextAlign.center,
               style: medium(
-                fontSize: 12.sp,
+                fontSize: 12.twelveSp(context),
                 color:
                     color?.withValues(
                       alpha: currentIndex == index ? 1 : opacity,

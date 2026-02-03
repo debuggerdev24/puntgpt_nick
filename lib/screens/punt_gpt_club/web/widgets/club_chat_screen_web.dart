@@ -19,13 +19,7 @@ class PunterClubChatSectionWeb extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final sixteenResponsive = context.isDesktop
-        ? 16.sp
-        : context.isTablet
-        ? 24.sp
-        : (context.isBrowserMobile)
-        ? 32.sp
-        : 16.sp;
+    
     final twelveResponsive = context.isDesktop
         ? 12.sp
         : context.isTablet
@@ -56,7 +50,6 @@ class PunterClubChatSectionWeb extends StatelessWidget {
                   context: context,
                   twelveResponsive: twelveResponsive,
                   fourteenResponsive: fourteenResponsive,
-                  sixteenResponsive: sixteenResponsive,
                 ),
               ),
               horizontalDivider(),
@@ -72,14 +65,14 @@ class PunterClubChatSectionWeb extends StatelessWidget {
               ),
               horizontalDivider(),
               TextField(
-                style: regular(fontSize: sixteenResponsive),
+                style: regular(fontSize: 16.sixteenSp(context)),
                 decoration: InputDecoration(
                   border: InputBorder.none,
                   prefix: SizedBox(width: 25.w),
                   hintText: "Type your message...",
                   hintStyle: medium(
                     fontStyle: FontStyle.italic,
-                    fontSize: sixteenResponsive,
+                    fontSize: 16.sixteenSp(context),
                     color: AppColors.greyColor.withValues(alpha: 0.6),
                   ),
                 ),
@@ -100,7 +93,7 @@ class PunterClubChatSectionWeb extends StatelessWidget {
     required BuildContext context,
     required double twelveResponsive,
     required double fourteenResponsive,
-    required double sixteenResponsive,
+    // required double sixteenResponsive,
   }) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -111,7 +104,7 @@ class PunterClubChatSectionWeb extends StatelessWidget {
             Text(
               "‘PuntGPT Legends’",
               style: regular(
-                fontSize: context.isDesktop ? 24.sp : 30.sp,
+                fontSize: context.isDesktop ? 24.sp : (context.isBrowserMobile) ? 24.sp : 30.sp,
                 fontFamily: AppFontFamily.secondary,
                 height: 1.35,
               ),
@@ -134,7 +127,7 @@ class PunterClubChatSectionWeb extends StatelessWidget {
               width: context.isDesktop ? 530.w : 580.w,
               withCloseControll: true,
               body: _inviteUserSheet(
-                sixteenResponsive: sixteenResponsive,
+                // sixteenResponsive: sixteenResponsive,
                 context: context,
               ),
             );
@@ -195,7 +188,7 @@ class PunterClubChatSectionWeb extends StatelessWidget {
               popUpMenu(
                 context: context,
                 position: position,
-                sixteenResponsive: sixteenResponsive,
+                
               );
             },
             child: ImageWidget(
@@ -212,7 +205,6 @@ class PunterClubChatSectionWeb extends StatelessWidget {
   Future<dynamic> popUpMenu({
     required BuildContext context,
     required RelativeRect position,
-    required double sixteenResponsive,
   }) {
     return showMenu(
       context: context,
@@ -229,7 +221,7 @@ class PunterClubChatSectionWeb extends StatelessWidget {
               withCloseControll: true,
               body: _inviteUserSheet(
                 context: context,
-                sixteenResponsive: sixteenResponsive,
+                
               ),
             );
           },
@@ -286,7 +278,7 @@ class PunterClubChatSectionWeb extends StatelessWidget {
 
   Widget _inviteUserSheet({
     required BuildContext context,
-    required double sixteenResponsive,
+    // required double sixteenResponsive,
   }) {
     return ColoredBox(
       color: AppColors.white,
@@ -313,9 +305,9 @@ class PunterClubChatSectionWeb extends StatelessWidget {
               //(Icons.search),
             ),
             24.verticalSpace,
-            _userBox(context: context, sixteenResponsive: sixteenResponsive),
+            _userBox(context: context),
             10.verticalSpace,
-            _userBox(context: context, sixteenResponsive: sixteenResponsive),
+            _userBox(context: context),
             Spacer(),
           ],
         ),
@@ -324,7 +316,6 @@ class PunterClubChatSectionWeb extends StatelessWidget {
   }
 
   Widget _userBox({
-    required double sixteenResponsive,
     required BuildContext context,
   }) {
     final boxSize = context.isDesktop
@@ -353,7 +344,7 @@ class PunterClubChatSectionWeb extends StatelessWidget {
           Text(
             "@otherpropunter_1",
             style: semiBold(
-              fontSize: sixteenResponsive,
+              fontSize: 16.sixteenSp(context),
               fontStyle: FontStyle.italic,
             ),
           ),

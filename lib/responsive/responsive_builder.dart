@@ -1,5 +1,6 @@
 // lib/responsive/responsive_builder.dart
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:puntgpt_nick/core/extensions/context_extensions.dart';
 import 'package:puntgpt_nick/responsive/breakpoints.dart';
@@ -68,11 +69,18 @@ enum DeviceType { mobileBrowser, mobilePhysical, tablet, desktop }
 
 /// Extension on BuildContext for easy responsive checks
 extension ResponsiveContext on BuildContext {
-  bool get isPhysicalMobile => Responsive.isMobile(this);
-  bool get isBrowserMobile => Responsive.isMobileBrowser(this);
+  bool get isPhysicalMobile {
+    // if (!kIsWeb) return false;
+    return Responsive.isMobile(this);
+  }
+
+  bool get isBrowserMobile {
+    if (!kIsWeb) return true;
+    return Responsive.isMobileBrowser(this);
+  }
+
   bool get isTablet => Responsive.isTablet(this);
   bool get isDesktop => Responsive.isDesktop(this);
-  bool get isMobileView =>
-      Responsive.isMobile(this) || Responsive.isMobileBrowser(this);
+  bool get isMobileView =>Responsive.isMobile(this) || Responsive.isMobileBrowser(this);
   DeviceType get deviceType => Responsive.getDeviceType(this);
 }

@@ -39,8 +39,7 @@ class AppFilledButton extends StatelessWidget {
         child: Container(
           margin: margin,
           alignment: AlignmentGeometry.center,
-          padding:
-              padding ?? EdgeInsets.symmetric(vertical: 12.h, horizontal: 15.w),
+          padding: padding ?? EdgeInsets.symmetric(vertical: 12.h, horizontal: 15.w),
           height: height,
           width: (width == null)
               ? (isExpand ?? true)

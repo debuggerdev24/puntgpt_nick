@@ -17,6 +17,15 @@ class HomeScreenTabWeb extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+Logger.info(
+      "is Physical Mobile ${context.isPhysicalMobile} ${context.screenWidth}",
+    );
+    Logger.info(
+      "is Browser Mobile  ${context.isBrowserMobile} ${context.screenWidth}",
+    );
+    Logger.info("is Tablet ${context.isTablet} ${context.screenWidth}");
+    Logger.info("is Desktop ${context.isDesktop} ${context.screenWidth}");
+    
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -63,8 +72,9 @@ class HomeScreenTabWeb extends StatelessWidget {
 
           textAlign: TextAlign.center,
           style: bold(
-            fontSize:context.isDesktop ? 16.sp : context.isTablet ? 22.sp : (kIsWeb) ? 30.sp : 14.sp,
+            fontSize:context.isDesktop ? 16.sp : context.isTablet ? 22.sp : (context.isPhysicalMobile) ? 30.sp : 28.sp,
             color: isSelected ? AppColors.white : AppColors.primary,
+
           ),
         ),
       ),

@@ -14,7 +14,6 @@ import 'package:puntgpt_nick/core/widgets/image_widget.dart';
 import 'package:puntgpt_nick/provider/punt_club/punter_club_provider.dart';
 import 'package:puntgpt_nick/responsive/responsive_builder.dart';
 import 'package:puntgpt_nick/screens/home/mobile/home_screen.dart';
-
 import '../../../core/widgets/app_filed_button.dart';
 import '../../../core/widgets/app_text_field.dart';
 
@@ -24,13 +23,14 @@ class PunterClubScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<PunterClubProvider>(
-      builder: (sheetContext2, provider, child) {
+      builder: (context, provider, child) {
         return Column(
           mainAxisSize: MainAxisSize.min,
           children: [
+            //* top bar
             Padding(
               padding: EdgeInsets.symmetric(
-                horizontal: (sheetContext2.isBrowserMobile) ? 35.w : 25.w,
+                horizontal: (context.isBrowserMobile) ? 35.w : 25.w,
                 vertical: 22.h,
               ),
               child: Row(
@@ -38,15 +38,15 @@ class PunterClubScreen extends StatelessWidget {
                   ImageWidget(
                     path: AppAssets.groupIcon,
                     type: ImageType.svg,
-                    height: (sheetContext2.isBrowserMobile) ? 42.w : null,
+                    height: (context.isBrowserMobile) ? 42.w : null,
                   ),
-                  (sheetContext2.isBrowserMobile)
+                  (context.isBrowserMobile)
                       ? 60.w.horizontalSpace
                       : 12.w.horizontalSpace,
                   Text(
                     "Your Punters Clubs:",
                     style: regular(
-                      fontSize: (sheetContext2.isBrowserMobile) ? 38.sp : 24.sp,
+                      fontSize: (context.isBrowserMobile) ? 38.sp : 24.sp,
                       fontFamily: AppFontFamily.secondary,
                     ),
                   ),
@@ -54,7 +54,7 @@ class PunterClubScreen extends StatelessWidget {
                   GestureDetector(
                     onTap: () {
                       showModalBottomSheet(
-                        context: sheetContext2,
+                        context: context,
                         useRootNavigator: true,
                         showDragHandle: true,
                         backgroundColor: AppColors.white,
@@ -67,15 +67,14 @@ class PunterClubScreen extends StatelessWidget {
                     child: badge.Badge(
                       position: badge.BadgePosition.topStart(
                         top: -10,
-                        start: 20.w,
+                        start: context.isBrowserMobile ? 48.w : 20.w,
                       ),
-
                       badgeStyle: badge.BadgeStyle(badgeColor: AppColors.black),
-                      badgeContent: const Text(
-                        '3',
+                      badgeContent: Text(
+                        '5',
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: 10,
+                          fontSize: context.isBrowserMobile ? 9 : 10,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -87,51 +86,22 @@ class PunterClubScreen extends StatelessWidget {
                       ),
                     ),
                   ),
+                  context.isBrowserMobile
+                      ? 14.w.horizontalSpace
+                      : 0.horizontalSpace,
+                  //* Create Punter Club Button
                   GestureDetector(
                     onTap: () {
                       showModalBottomSheet(
-                        context: sheetContext2,
+                        context: context,
                         backgroundColor: AppColors.white,
                         showDragHandle: true,
                         useRootNavigator: true,
                         builder: (sheetContext) {
-                          return Container(
-                            height: 310.h,
-                            padding: EdgeInsets.symmetric(horizontal: 25.w),
-                            child: Column(
-                              children: [
-                                Text(
-                                  "Create Punter Club",
-                                  style: regular(
-                                    fontSize: 24.sp,
-                                    fontFamily: AppFontFamily.secondary,
-                                  ),
-                                ),
-                                16.h.verticalSpace,
-                                horizontalDivider(),
-                                24.h.verticalSpace,
-                                AppTextField(
-                                  controller: provider.clubNameCtr,
-                                  hintText: "Enter Club Name",
-                                ),
-                                AppFilledButton(
-                                  margin: EdgeInsets.only(top: 24.h),
-                                  text: "Invite Users",
-                                  onTap: () {
-                                    sheetContext.pop();
-                                    showModalBottomSheet(
-                                      context: context,
-                                      isScrollControlled: true,
-                                      useRootNavigator: true,
-                                      backgroundColor: AppColors.white,
-                                      builder: (_) {
-                                        return InviteUserSheetView();
-                                      },
-                                    );
-                                  },
-                                ),
-                              ],
-                            ),
+                          return createClubSheet(
+                            provider,
+                            sheetContext,
+                            context,
                           );
                         },
                       );
@@ -194,7 +164,7 @@ class PunterClubScreen extends StatelessWidget {
               alignment: AlignmentGeometry.bottomRight,
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 25.w, vertical: 25.h),
-                child: askPuntGPTButton(sheetContext2),
+                child: askPuntGPTButton(context),
               ),
             ),
           ],
@@ -202,17 +172,62 @@ class PunterClubScreen extends StatelessWidget {
       },
     );
   }
+
+  Widget createClubSheet(
+    PunterClubProvider provider,
+    BuildContext sheetContext,
+    BuildContext context,
+  ) {
+    return Container(
+      height: 310.h,
+      padding: EdgeInsets.symmetric(horizontal: 25.w),
+      child: Column(
+        children: [
+          Text(
+            "Create Punter Club",
+            style: regular(
+              fontSize: 24.sp,
+              fontFamily: AppFontFamily.secondary,
+            ),
+          ),
+          16.h.verticalSpace,
+          horizontalDivider(),
+          24.h.verticalSpace,
+          AppTextField(
+            controller: provider.clubNameCtr,
+            hintText: "Enter Club Name",
+          ),
+          AppFilledButton(
+            margin: EdgeInsets.only(top: 24.h),
+            text: "Invite Users",
+            onTap: () {
+              sheetContext.pop();
+              showModalBottomSheet(
+                context: context,
+                isScrollControlled: true,
+                useRootNavigator: true,
+                backgroundColor: AppColors.white,
+                builder: (_) {
+                  return InviteUserSheet();
+                },
+              );
+            },
+          ),
+        ],
+      ),
+    );
+  }
 }
 
-class InviteUserSheetView extends StatelessWidget {
-  const InviteUserSheetView({super.key});
+class InviteUserSheet extends StatelessWidget {
+  const InviteUserSheet({super.key});
 
   @override
   Widget build(BuildContext context) {
     final provider = context.read<PunterClubProvider>();
     return SizedBox(
-      height: 0.89.sh,
-      child: Container(
+      height: context.screenHeight - 0.15.sh,
+      child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 25.w, vertical: 25.h),
         child: Stack(
           children: [
@@ -221,7 +236,7 @@ class InviteUserSheetView extends StatelessWidget {
                 Text(
                   "Invite Users",
                   style: regular(
-                    fontSize: 24.sp,
+                    fontSize: 24.twentyFourSp(context),
                     fontFamily: AppFontFamily.secondary,
                   ),
                 ),
@@ -235,7 +250,7 @@ class InviteUserSheetView extends StatelessWidget {
                   //(Icons.search),
                 ),
                 24.h.verticalSpace,
-                userBox(),
+                userBox(context: context),
               ],
             ),
             Padding(
@@ -246,7 +261,11 @@ class InviteUserSheetView extends StatelessWidget {
                   onTap: () {
                     context.pop();
                   },
-                  child: Icon(Icons.arrow_back_ios_new, size: 18.sp),
+
+                  child: Icon(
+                    Icons.arrow_back_ios_new,
+                    size: 18.eighteenSp(context),
+                  ),
                 ),
               ),
             ),
@@ -256,31 +275,37 @@ class InviteUserSheetView extends StatelessWidget {
     );
   }
 
-  Widget userBox() {
+  Widget userBox({required BuildContext context}) {
+    final height = (context.isBrowserMobile) ? 96.w : 48.w;
+    final width = (context.isBrowserMobile) ? 68.w : 48.w;
     return Container(
-      height: 48.w,
-
+      height: height,
       decoration: BoxDecoration(
         border: Border.all(color: AppColors.primary.withValues(alpha: 0.15)),
       ),
       child: Row(
         children: [
           Container(
-            height: 48.w,
-            width: 48.w,
+            height: height,
+            width: width,
             padding: EdgeInsets.all(12.w),
             decoration: BoxDecoration(color: AppColors.greyColor2),
             child: ImageWidget(type: ImageType.svg, path: AppAssets.userIcon),
           ),
-          15.w.horizontalSpace,
-          Text("@otherpropunter_1", style: semiBold(fontSize: 16.spMin)),
+          (context.isBrowserMobile)
+              ? 80.w.horizontalSpace
+              : 15.w.horizontalSpace,
+          Text(
+            "@otherpropunter_1",
+            style: semiBold(fontSize: 16.sixteenSp(context)),
+          ),
           Spacer(),
           Container(
-            height: 48.w,
-            width: 48.w,
+            height: height,
+            width: width,
             padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 12.h),
             decoration: BoxDecoration(color: AppColors.primary),
-            child: ImageWidget(path: AppAssets.addUser, type: ImageType.svg),
+            child: ImageWidget(path: AppAssets.addMember, type: ImageType.svg),
           ),
         ],
       ),
