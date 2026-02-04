@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:puntgpt_nick/core/constants/constants.dart';
@@ -21,6 +22,7 @@ ValueNotifier<bool> isNetworkConnected = ValueNotifier(true);
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(fileName: ".env");
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
@@ -99,10 +101,10 @@ todo Nick
 // TODO: refactor       // Default todo
 // FIXME: crash issue   // Red
 
-Web side
+ */
 
 
+ */
 
-flutter run --release -d web-server --web-port=5000 --web-hostname=0.0.0.0
-http://192.168.1.94:5000/
-*/*/
+// flutter run --release -d web-server --web-port=5000 --web-hostname=0.0.0.0
+// http://192.168.1.94:5000/

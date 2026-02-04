@@ -42,6 +42,7 @@ class _SplashScreenState extends State<SplashScreen> {
         if (isNetworkConnected.value) {
           if (LocaleStorageService.isFirstTime && authToken.isEmpty) {
             Logger.info("Inside if part");
+            Logger.info(AppConfig.apiBaseurl);
             context.goNamed(AppRoutes.ageConfirmationScreen.name);
             return;
           }

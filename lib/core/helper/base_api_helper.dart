@@ -10,6 +10,7 @@ class DioClient {
   factory DioClient() => _instance;
   DioClient._internal() {
     final baseOptions = BaseOptions(baseUrl: AppConfig.apiBaseurl);
+    Logger.info("API Base URL: ${AppConfig.apiBaseurl}");
     dio = Dio(baseOptions);
     dio.interceptors.add(
       InterceptorsWrapper(

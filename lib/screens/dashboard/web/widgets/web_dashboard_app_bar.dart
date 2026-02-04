@@ -285,7 +285,6 @@ class _WebDashboardAppBarState extends State<WebDashboardAppBar> {
     return IntrinsicWidth(
       child: Stack(
         alignment: AlignmentGeometry.bottomCenter,
-
         children: [
           Center(
             child: OnMouseTap(

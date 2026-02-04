@@ -101,36 +101,39 @@ class _WebDashboardState extends State<WebDashboard> {
         WebRouter.indexedStackNavigationShell!.goBranch(2);
         indexOfWebTab.value = 2;
       },
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        spacing: context.isTablet ? 20.w : 28.w,
+      child: _appLogoContent(context),
+    );
+  }
 
-        children: [
-          ImageWidget(
-            type: ImageType.asset,
-            path: AppAssets.webLogo,
+  Widget _appLogoContent(BuildContext context) {
+    return Row(
+      // mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      spacing: context.isTablet ? 20.w : 28.w,
+      children: [
+        ImageWidget(
+          type: ImageType.svg,
+          path: AppAssets.webLogo,
+          color: AppColors.white,
+          height: context.isTablet
+              ? 42.w
+              : (context.isBrowserMobile)
+              ? 58.w
+              : 30.w,
+        ),
+        Text(
+          "Dashboard",
+          style: regular(
             color: AppColors.white,
-            height: context.isTablet
-                ? 42.w
+            fontSize: context.isTablet
+                ? 22.sp
                 : (context.isBrowserMobile)
-                ? 58.w
-                : 30.w,
+                ? 35.sp
+                : 18.sp,
           ),
-
-          Text(
-            "Dashboard",
-
-            style: regular(
-              color: AppColors.white,
-              fontSize: context.isTablet
-                  ? 22.sp
-                  : (context.isBrowserMobile)
-                  ? 35.sp
-                  : 18.sp,
-            ),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
@@ -162,10 +165,10 @@ class _WebDashboardState extends State<WebDashboard> {
               provider.setIsMenuOpen = false;
               Logger.info("After: ${provider.isMenuOpen}");
             },
-            child: Row(children: [_appLogo(context)]),
+            child: _appLogoContent(context),
             text: "Subscribe to Pro Punter",
             icon: AppAssets.trophy,
-            index: 5,
+            index: 2,
             context: context,
           ),
           _menuItem(
