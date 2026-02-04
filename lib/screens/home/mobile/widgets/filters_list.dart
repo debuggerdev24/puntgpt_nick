@@ -113,7 +113,7 @@ class _FilterListState extends State<FilterList> {
 
   /// For Mobile
   Widget _buildFilterSection() {
-    final provider = context.watch<SearchEngineProvider>();
+    final provider = context.watch<HomeProvider>();
 
     return Column(
       children: [

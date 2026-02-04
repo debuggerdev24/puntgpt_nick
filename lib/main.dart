@@ -14,6 +14,7 @@ import 'package:puntgpt_nick/responsive/responsive_builder.dart';
 import 'package:puntgpt_nick/service/network/network_service.dart';
 import 'package:puntgpt_nick/service/storage/locale_storage_service.dart';
 import 'package:toastification/toastification.dart';
+
 import 'core/router/app/app_router.dart';
 
 ValueNotifier<bool> isNetworkConnected = ValueNotifier(true);
@@ -48,7 +49,7 @@ class MyApp extends StatelessWidget {
       child: MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (context) => AuthProvider()),
-          ChangeNotifierProvider(create: (context) => SearchEngineProvider()),
+          ChangeNotifierProvider(create: (context) => HomeProvider()),
           ChangeNotifierProvider(create: (context) => AccountProvider()),
           ChangeNotifierProvider(create: (context) => PunterClubProvider()),
           ChangeNotifierProvider(create: (context) => SubscriptionProvider()),
@@ -65,7 +66,7 @@ class MyApp extends StatelessWidget {
           child: ScreenUtilInit(
             minTextAdapt: true,
             splitScreenMode: true,
-            designSize: (!context.isPhysicalMobile)
+            designSize: (context.isPhysicalMobile)
                 ? Size(430, 932)
                 : Size(1440, 824),
             child: MaterialApp.router(
@@ -93,6 +94,7 @@ todo Nick
 
 //! NOTE: top bar        // Blue
 //? QUESTION: why here  // Green
+
 //* IMPORTANT           // Yellow
 // TODO: refactor       // Default todo
 // FIXME: crash issue   // Red
@@ -102,5 +104,5 @@ Web side
 
 
 flutter run --release -d web-server --web-port=5000 --web-hostname=0.0.0.0
-
+http://192.168.1.94:5000/
 */*/

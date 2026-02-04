@@ -17,7 +17,7 @@ class HomeScreenTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: Responsive.isMobileBrowser(context)
+      width: Responsive.isMobileWeb(context)
           ? double.maxFinite
           : 400.w.flexClamp(300, 500),
       child: IntrinsicHeight(
@@ -50,7 +50,7 @@ class HomeScreenTab extends StatelessWidget {
   }) {
     return OnMouseTap(
       onTap: () {
-        context.read<SearchEngineProvider>().changeTab = index;
+        context.read<HomeProvider>().changeTab = index;
         if (onTap != null && index == 0) {
           onTap!.call();
         }

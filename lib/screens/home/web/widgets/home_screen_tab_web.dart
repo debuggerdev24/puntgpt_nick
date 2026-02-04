@@ -54,7 +54,7 @@ Logger.info(
 
     return OnMouseTap(
       onTap: () {
-        context.read<SearchEngineProvider>().changeTab = index;
+        context.read<HomeProvider>().changeTab = index;
         if (onTap != null && index == 0) {
           onTap!.call();
         }

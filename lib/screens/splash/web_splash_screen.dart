@@ -35,6 +35,8 @@ class _WebSplashScreenState extends State<WebSplashScreen> {
     Logger.info("Authorized Token : $authToken");
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+
+
       _startTimer();
       Future.delayed(3.seconds).then((value) async {
         // return;

@@ -351,7 +351,7 @@ class PunterClubScreenWebScreen extends StatelessWidget {
     showDialog(
       context: context,
       builder: (dialogueCtx) {
-        final fieldWidth = context.isDesktop ? 344.w : 450.w;
+        final fieldWidth = 300.00;
         return ZoomIn(
           child: AlertDialog(
             shape: const RoundedRectangleBorder(
@@ -650,7 +650,7 @@ class PunterClubScreenWebScreen extends StatelessWidget {
     showDialog(
       context: context,
       builder: (dialogueCtx) {
-        final fieldWidth = context.isDesktop ? 344.w : 450.w;
+        final fieldWidth = 300.00;
         return ZoomIn(
           child: AlertDialog(
             shape: const RoundedRectangleBorder(
@@ -713,34 +713,37 @@ class PunterClubScreenWebScreen extends StatelessWidget {
                 ),
                 horizontalDivider(),
                 //todo Club Name Field
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  spacing: 24.w,
-                  children: [
-                    Row(children: []),
-                    SizedBox(
-                      width: fieldWidth,
-                      child: AppTextField(
-                        controller: provider.clubNameCtr,
-                        hintText: "Enter Username",
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 25.w),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    spacing: 24.w,
+                    children: [
+                      Row(children: []),
+                      SizedBox(
+                        width: fieldWidth.toDouble(),
+                        child: AppTextField(
+                          controller: provider.clubNameCtr,
+                          hintText: "Enter Username",
+                        ),
                       ),
-                    ),
-                    AppFilledButton(
-                      width: fieldWidth,
-                      text: "Create",
-                      onTap: () {
-                        // if (provider.clubNameCtr.text.isEmpty) {
-                        //
-                        // }
-                        dialogueCtx.pop();
-                        // _inviteUserDialogue(
-                        //   context: context,
-                        //   provider: provider,
-                        // );
-                      },
-                      margin: EdgeInsets.only(bottom: 30.w),
-                    ),
-                  ],
+                      AppFilledButton(
+                        width: fieldWidth.toDouble(),
+                        text: "Create",
+                        onTap: () {
+                          // if (provider.clubNameCtr.text.isEmpty) {
+                          //
+                          // }
+                          dialogueCtx.pop();
+                          // _inviteUserDialogue(
+                          //   context: context,
+                          //   provider: provider,
+                          // );
+                        },
+                        margin: EdgeInsets.only(bottom: 30.w),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),

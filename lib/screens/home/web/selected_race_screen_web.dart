@@ -61,7 +61,7 @@ class _SelectedRaceTableScreenWebState
         alignment: (kIsWeb && !context.isMobileView)
             ? Alignment.center
             : Alignment.centerLeft,
-        child: Consumer<SearchEngineProvider>(
+        child: Consumer<HomeProvider>(
           builder: (context, provider, child) {
             return SizedBox(
               width: bodyWidth,

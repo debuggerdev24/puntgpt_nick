@@ -72,7 +72,7 @@ class WebAgeConfirmationScreen extends StatelessWidget {
                         : null,
                   ),
                 ),
-                10.h.verticalSpace,
+                10.verticalSpace,
                 OnMouseTap(
                   child: AppOutlinedButton(
                     onTap: () => _onNoTap(context),

@@ -64,18 +64,18 @@ class _HomeScreenWebState extends State<HomeScreenWeb> {
     }
 
     return PopScope(
-      canPop: context.watch<SearchEngineProvider>().isSearched ? false : true,
+      canPop: context.watch<HomeProvider>().isSearched ? false : true,
       onPopInvokedWithResult: (didPop, result) {
-        if (context.read<SearchEngineProvider>().isSearched) {
-          context.read<SearchEngineProvider>().setIsSearched(value: false);
+        if (context.read<HomeProvider>().isSearched) {
+          context.read<HomeProvider>().setIsSearched(value: false);
         }
       },
       child: Scaffold(
-        body: Consumer<SearchEngineProvider>(
+        body: Consumer<HomeProvider>(
           builder:
               (
                 BuildContext context,
-                SearchEngineProvider provider,
+                HomeProvider provider,
                 Widget? child,
               ) {
                 return Column(
@@ -103,7 +103,7 @@ class _HomeScreenWebState extends State<HomeScreenWeb> {
   }
 
   Widget mobileView({
-    required SearchEngineProvider provider,
+    required HomeProvider provider,
     required GlobalKey<FormState> formKey,
   }) {
     return FadeInUp(
@@ -216,7 +216,7 @@ class _HomeScreenWebState extends State<HomeScreenWeb> {
   }
 
   Widget webView({
-    required SearchEngineProvider provider,
+    required HomeProvider provider,
     required GlobalKey<FormState> formKey,
   }) {
     final bodyWidth = context.isBrowserMobile

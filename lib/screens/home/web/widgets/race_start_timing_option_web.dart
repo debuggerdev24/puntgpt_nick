@@ -13,7 +13,7 @@ class RaceStartTimingOptionsWeb extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<SearchEngineProvider>(
+    return Consumer<HomeProvider>(
       builder: (context, provider, _) {
         final timings = provider.raceStartingTimings;
 

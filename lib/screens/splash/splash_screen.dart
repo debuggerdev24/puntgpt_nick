@@ -10,6 +10,9 @@ import 'package:puntgpt_nick/core/constants/constants.dart';
 import 'package:puntgpt_nick/core/constants/text_style.dart';
 import 'package:puntgpt_nick/core/router/app/app_routes.dart';
 import 'package:puntgpt_nick/core/widgets/image_widget.dart';
+import 'package:puntgpt_nick/main.dart';
+import 'package:puntgpt_nick/service/account/account_api_service.dart';
+import 'package:puntgpt_nick/service/auth/auth_api_service.dart';
 import 'package:puntgpt_nick/service/storage/locale_storage_service.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -31,69 +34,69 @@ class _SplashScreenState extends State<SplashScreen> {
     Logger.info("Authorized Token : $authToken");
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      context.pushNamed(AppRoutes.homeScreen.name);
-      return;
+      // context.pushNamed(AppRoutes.homeScreen.name);
+      // return;
 
-      // _startTimer();
-      // Future.delayed(3.seconds).then((value) async {
-      //   if (isNetworkConnected.value) {
-      //     if (LocaleStorageService.isFirstTime && authToken.isEmpty) {
-      //       Logger.info("Inside if part");
-      //       context.goNamed(AppRoutes.ageConfirmationScreen.name);
-      //       return;
-      //     }
-      //     //todo checking token is expire or not.
+      _startTimer();
+      Future.delayed(1.seconds).then((value) async {
+        if (isNetworkConnected.value) {
+          if (LocaleStorageService.isFirstTime && authToken.isEmpty) {
+            Logger.info("Inside if part");
+            context.goNamed(AppRoutes.ageConfirmationScreen.name);
+            return;
+          }
+          //todo checking token is expire or not.
 
-      //     final result = await AccountApiService.instance.getProfile();
-      //     result.fold(
-      //       (l) async {
-      //         if (l.errorMsg.startsWith("Unauthorized") &&
-      //             l.code.toString() == "401") {
-      //           // AppToast.error(
-      //           //   context: context,
-      //           //   message: "Access token is expired",
-      //           // );
-      //           Logger.info("Access token is expired");
-      //           Logger.info(
-      //             "Refresh token : ${LocaleStorageService.refreshToken}",
-      //           );
-      //           final result = await AuthApiService.instance.refreshToken();
+          final result = await AccountApiService.instance.getProfile();
+          result.fold(
+            (l) async {
+              if (l.errorMsg.startsWith("Unauthorized") &&
+                  l.code.toString() == "401") {
+                // AppToast.error(
+                //   context: context,
+                //   message: "Access token is expired",
+                // );
+                Logger.info("Access token is expired");
+                Logger.info(
+                  "Refresh token : ${LocaleStorageService.refreshToken}",
+                );
+                final result = await AuthApiService.instance.refreshToken();
 
-      //           result.fold(
-      //             (e) async {
-      //               Logger.error((e.code.toString() == "401").toString());
-      //               if (e.code.toString() == "401" ||
-      //                   e.code.toString() == "400") {
-      //                 // AppToast.error(
-      //                 //   context: context,
-      //                 //   message: "Refresh token is expired",
-      //                 // );
-      //                 Logger.info("Refresh token is expired");
-      //                 await LocaleStorageService.removeRefreshToken();
-      //                 await LocaleStorageService.removeAccessToken();
-      //                 context.goNamed(AppRoutes.ageConfirmationScreen.name);
-      //                 return;
-      //               }
-      //             },
-      //             (r) {
-      //               final newToken = r["access"];
+                result.fold(
+                  (e) async {
+                    Logger.error((e.code.toString() == "401").toString());
+                    if (e.code.toString() == "401" ||
+                        e.code.toString() == "400") {
+                      // AppToast.error(
+                      //   context: context,
+                      //   message: "Refresh token is expired",
+                      // );
+                      Logger.info("Refresh token is expired");
+                      await LocaleStorageService.removeRefreshToken();
+                      await LocaleStorageService.removeAccessToken();
+                      context.goNamed(AppRoutes.ageConfirmationScreen.name);
+                      return;
+                    }
+                  },
+                  (r) {
+                    final newToken = r["access"];
 
-      //               LocaleStorageService.saveUserToken(newToken);
-      //               context.goNamed(AppRoutes.homeScreen.name);
-      //             },
-      //           );
-      //         }
-      //       },
-      //       (r) {
-      //         context.goNamed(AppRoutes.homeScreen.name);
-      //       },
-      //     );
+                    LocaleStorageService.saveUserToken(newToken);
+                    context.goNamed(AppRoutes.homeScreen.name);
+                  },
+                );
+              }
+            },
+            (r) {
+              context.goNamed(AppRoutes.homeScreen.name);
+            },
+          );
 
-      //     return;
-      //   }
-      //   context.goNamed(AppRoutes.offlineViewScreen.name);
-      //   return;
-      // });
+          return;
+        }
+        context.goNamed(AppRoutes.offlineViewScreen.name);
+        return;
+      });
     
     });
   }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:puntgpt_nick/models/runner_model.dart';
 
-class SearchEngineProvider extends ChangeNotifier {
+class HomeProvider extends ChangeNotifier {
   bool isSearched = false, _isMenuOpen = false;
   int _selectedRaceTimingIndex = 0,
       _selectedTab = 0,

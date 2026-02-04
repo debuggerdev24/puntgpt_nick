@@ -54,7 +54,7 @@ class _WebDashboardState extends State<WebDashboard> {
           valueListenable: isNetworkConnected,
           builder: (context, value, child) {
             if (value) {
-              return Consumer<SearchEngineProvider>(
+              return Consumer<HomeProvider>(
                 builder: (context, provider, child) {
                   // Logger.info(
                   //   "panel status : ${provider.isMenuOpen.toString()}",
@@ -134,7 +134,7 @@ class _WebDashboardState extends State<WebDashboard> {
     );
   }
 
-  Widget _buildMenuPanel(BuildContext context, SearchEngineProvider provider) {
+  Widget _buildMenuPanel(BuildContext context, HomeProvider provider) {
     return Container(
       width: double.maxFinite,
       padding: EdgeInsets.symmetric(vertical: 16.h, horizontal: 16.w),

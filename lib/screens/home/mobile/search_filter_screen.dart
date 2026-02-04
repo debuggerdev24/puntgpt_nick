@@ -68,7 +68,7 @@ class SearchFilterScreen extends StatelessWidget {
   }
 
   Widget _buildFilterList({required BuildContext context}) {
-    final provider = context.watch<SearchEngineProvider>();
+    final provider = context.watch<HomeProvider>();
 
     return Column(
       children: [

@@ -128,7 +128,7 @@ class _WebDashboardAppBarState extends State<WebDashboardAppBar> {
       );
     }
     //todo menu bar for mobile
-    return Consumer<SearchEngineProvider>(
+    return Consumer<HomeProvider>(
       builder: (context, provider, child) {
         return Column(
           mainAxisSize: MainAxisSize.min,
@@ -155,7 +155,7 @@ class _WebDashboardAppBarState extends State<WebDashboardAppBar> {
     );
   }
 
-  Widget _menuIcon(BuildContext context, SearchEngineProvider provider) {
+  Widget _menuIcon(BuildContext context, HomeProvider provider) {
     if (!context.isDesktop) {
       return OnMouseTap(
         onTap: () {

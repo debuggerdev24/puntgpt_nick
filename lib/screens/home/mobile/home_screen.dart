@@ -55,19 +55,19 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
     GlobalKey<FormState> formKey = GlobalKey<FormState>();
     return PopScope(
-      canPop: context.watch<SearchEngineProvider>().isSearched ? false : true,
+      canPop: context.watch<HomeProvider>().isSearched ? false : true,
       onPopInvokedWithResult: (didPop, result) {
-        if (context.read<SearchEngineProvider>().isSearched) {
-          context.read<SearchEngineProvider>().setIsSearched(value: false);
+        if (context.read<HomeProvider>().isSearched) {
+          context.read<HomeProvider>().setIsSearched(value: false);
         }
       },
       child: Scaffold(
         resizeToAvoidBottomInset: true,
-        body: Consumer<SearchEngineProvider>(
+        body: Consumer<HomeProvider>(
           builder:
               (
                 BuildContext context,
-                SearchEngineProvider provider,
+                HomeProvider provider,
                 Widget? child,
               ) {
                 return Column(
@@ -103,7 +103,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
   Widget classicFormGuide({
     required BuildContext context,
-    required SearchEngineProvider provider,
+    required HomeProvider provider,
   }) {
     return SingleChildScrollView(
       padding: EdgeInsets.symmetric(horizontal: 25.w),
@@ -263,7 +263,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   }
 
   Widget puntGptSearchEngine({
-    required SearchEngineProvider provider,
+    required HomeProvider provider,
     required GlobalKey<FormState> formKey,
     required BuildContext context,
   }) {

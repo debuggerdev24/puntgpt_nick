@@ -40,7 +40,7 @@ class WebSignUpForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    log("is Mobile ${Responsive.isMobileBrowser(context)}");
+    log("is Mobile ${Responsive.isMobileWeb(context)}");
     log("is Desktop ${Responsive.isDesktop(context)}");
     log("is Tablet ${Responsive.isTablet(context)}");
     return Consumer<AuthProvider>(

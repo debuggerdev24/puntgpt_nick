@@ -49,9 +49,9 @@ class _SearchSectionWebState extends State<SearchSectionWeb> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<SearchEngineProvider>(
+    return Consumer<HomeProvider>(
       builder: (context, provider, child) => SizedBox(
-        width: Responsive.isMobileBrowser(context)
+        width: Responsive.isMobileWeb(context)
             ? double.maxFinite
             : context.isTablet
             ? 1200.w
@@ -124,7 +124,7 @@ class _SearchSectionWebState extends State<SearchSectionWeb> {
   /// For Mobile
 
   Widget _buildSearchView() {
-    final provider = context.watch<SearchEngineProvider>();
+    final provider = context.watch<HomeProvider>();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

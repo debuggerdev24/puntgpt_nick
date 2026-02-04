@@ -1,8 +1,10 @@
-// lib/responsive/responsive_builder.dart
+
+import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:puntgpt_nick/core/extensions/context_extensions.dart';
+import 'package:puntgpt_nick/core/helper/log_helper.dart';
 import 'package:puntgpt_nick/responsive/breakpoints.dart';
 
 /// Simpler responsive widget that takes widgets directly
@@ -21,18 +23,31 @@ class Responsive extends StatelessWidget {
   // Check if current screen is mobile
   static bool isMobile(BuildContext context) =>
       context.screenWidth < Breakpoints.mobileBrowser;
-  static bool isMobileBrowser(BuildContext context) =>
+  static bool isMobileWeb(BuildContext context) =>
       context.screenWidth < Breakpoints.tablet &&
       context.screenWidth > Breakpoints.mobileBrowser;
 
-  /// Check if current screen is tablet
-  static bool isTablet(BuildContext context) =>
-      context.screenWidth >= Breakpoints.tablet &&
-      context.screenWidth < Breakpoints.desktop;
+  //* Check if current screen is tablet
+  static bool isTablet(BuildContext context) {
+    if (!kIsWeb) return false;
 
-  /// Check if current screen is desktop
-  static bool isDesktop(BuildContext context) =>
-      context.screenWidth >= Breakpoints.desktop;
+    
+
+    return context.screenWidth >= Breakpoints.tablet &&
+      context.screenWidth < Breakpoints.desktop;
+  }
+  // static bool isTablet(BuildContext context) {
+  //   return context.screenWidth >= Breakpoints.tablet &&
+  //     context.screenWidth < Breakpoints.desktop;
+  // }
+
+  //* Check if current screen is desktop
+  static bool isDesktop(BuildContext context) {
+    if (!kIsWeb) return false;
+
+    
+    return context.screenWidth >= Breakpoints.desktop;
+  }
 
   /// Get current device type
   static DeviceType getDeviceType(BuildContext context) {
@@ -75,12 +90,11 @@ extension ResponsiveContext on BuildContext {
   }
 
   bool get isBrowserMobile {
-    if (!kIsWeb) return true;
-    return Responsive.isMobileBrowser(this);
+    return Responsive.isMobileWeb(this);
   }
 
   bool get isTablet => Responsive.isTablet(this);
   bool get isDesktop => Responsive.isDesktop(this);
-  bool get isMobileView =>Responsive.isMobile(this) || Responsive.isMobileBrowser(this);
+  bool get isMobileView =>Responsive.isMobile(this) || Responsive.isMobileWeb(this);
   DeviceType get deviceType => Responsive.getDeviceType(this);
 }
