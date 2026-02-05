@@ -8,15 +8,15 @@ import 'package:puntgpt_nick/core/router/web/web_routes.dart';
 import 'package:puntgpt_nick/core/widgets/app_devider.dart';
 import 'package:puntgpt_nick/core/widgets/app_filed_button.dart';
 import 'package:puntgpt_nick/core/widgets/on_button_tap.dart';
-import 'package:puntgpt_nick/models/runner_model.dart';
+import 'package:puntgpt_nick/models/search_engine/runner_model.dart';
 import 'package:puntgpt_nick/responsive/responsive_builder.dart';
 
 import '../../../../core/router/app/app_routes.dart';
 import '../../../../core/widgets/image_widget.dart';
 
 class RunnersListWeb extends StatelessWidget {
-  const RunnersListWeb({super.key, required this.runnerList});
-  final List<RunnerModel> runnerList;
+  const RunnersListWeb({super.key, required this.runnerData});
+  final RunnerDataModel runnerData;
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +43,7 @@ class RunnersListWeb extends StatelessWidget {
                   context.pushNamed(
                     (context.isMobileView && !kIsWeb)
                         ? WebRoutes.savedSearchedScreen.name
-                        : AppRoutes.savedSearched.name,
+                        : AppRoutes.savedSearchedScreen.name,
                   );
                 },
                 child: Row(
@@ -72,11 +72,12 @@ class RunnersListWeb extends StatelessWidget {
           child: ListView.separated(
             padding: EdgeInsets.symmetric(horizontal: 25.w),
 
-            itemCount: runnerList.length,
+            itemCount: runnerData.runnersList.length,
             separatorBuilder: (context, index) => 16.h.verticalSpace,
             itemBuilder: (context, index) {
-              final runner = runnerList[index];
-              return Runner(runner: runner);
+              final runner = runnerData.runnersList[index];
+              
+              return RunnerWidget(runner: runner);
             },
           ),
         ),
@@ -85,9 +86,9 @@ class RunnersListWeb extends StatelessWidget {
   }
 }
 
-class Runner extends StatelessWidget {
-  const Runner({super.key, required this.runner});
-  final RunnerModel runner;
+class RunnerWidget extends StatelessWidget {
+  const RunnerWidget({super.key, required this.runner});
+  final Runner runner;
 
   @override
   Widget build(BuildContext context) {
@@ -141,14 +142,14 @@ class Runner extends StatelessWidget {
                 ),
                 15.horizontalSpace,
                 Text(
-                  "${runner.number.toString()}. ",
+                  "${runner.raceNumber.toString()}. ",
                   style: bold(fontSize: sixteenFontSize),
                 ),
-                Text(runner.label, style: semiBold(fontSize: sixteenFontSize)),
+                Text(runner.jockeyName, style: semiBold(fontSize: sixteenFontSize)),
                 Spacer(),
 
                 Text(
-                  "\$${runner.price}",
+                  "\$${runner.odds}",
                   style: bold(fontSize: sixteenFontSize),
                 ),
               ],
@@ -158,7 +159,7 @@ class Runner extends StatelessWidget {
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 9.h),
             child: Text(
-              "${runner.date}. ",
+              "${runner.jumpTimeAu}. ",
               style: medium(fontSize: fourteenFontSize),
             ),
           ),
@@ -166,7 +167,7 @@ class Runner extends StatelessWidget {
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 9.h),
             child: Text(
-              "${runner.numberOfRace} Races",
+              "${runner.raceNumber} Races",
               style: medium(fontSize: fourteenFontSize),
             ),
           ),
@@ -175,7 +176,7 @@ class Runner extends StatelessWidget {
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 9.h),
             child: Text(
-              "Next race ${runner.nextRaceRemainTime}",
+              "Next race runner.nextRaceRemainTime",
               style: medium(fontSize: fourteenFontSize),
             ),
           ),
@@ -252,7 +253,7 @@ class Runner extends StatelessWidget {
                                     16.h,
                                   ),
                                   child: Text(
-                                    "‘Delicacy’ @8.50  might offer value as a top 3 contender, especially if the favourite gets caught wide or overworks early. Look for  signs like a strong final 400m that it's shown in recent form. I like your simple formula, not overthinking things. Keep in mind the favourite, ‘Makybe Diva’ is short odds @2.10 I can take you to the manual form guide for a look at the other runners in this race?",
+                                    "‘Delicacy’ @8.50  might offer value as a top 3 contender, especially if the favourite gets caught wide or overworks early. Look for signs like a strong final 400m that it's shown in recent form. I like your simple formula, not overthinking things. Keep in mind the favourite, ‘Makybe Diva’ is short odds @2.10 I can take you to the manual form guide for a look at the other runners in this race?",
                                     style: regular(fontSize: 16.sp),
                                   ),
                                 ),

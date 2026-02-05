@@ -77,7 +77,7 @@ class SearchDetailScreen extends StatelessWidget {
   }
 
   Widget _buildListView({required BuildContext context}) {
-    final provider = context.watch<HomeProvider>();
+    final provider = context.watch<SearchEngineProvider>();
 
     return Column(
       children: [

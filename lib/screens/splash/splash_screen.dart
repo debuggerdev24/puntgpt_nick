@@ -11,6 +11,7 @@ import 'package:puntgpt_nick/core/constants/text_style.dart';
 import 'package:puntgpt_nick/core/router/app/app_routes.dart';
 import 'package:puntgpt_nick/core/widgets/image_widget.dart';
 import 'package:puntgpt_nick/main.dart';
+import 'package:puntgpt_nick/responsive/responsive_builder.dart';
 import 'package:puntgpt_nick/service/account/account_api_service.dart';
 import 'package:puntgpt_nick/service/auth/auth_api_service.dart';
 import 'package:puntgpt_nick/service/storage/locale_storage_service.dart';
@@ -38,7 +39,16 @@ class _SplashScreenState extends State<SplashScreen> {
       // return;
 
       _startTimer();
-      Future.delayed(1.seconds).then((value) async {
+      Future.delayed(3.seconds).then((value) async {
+        Logger.info(
+          "is Physical Mobile ${context.isPhysicalMobile} ${context.screenWidth}",
+        );
+        Logger.info(
+          "is Browser Mobile  ${context.isBrowserMobile} ${context.screenWidth}",
+        );
+        Logger.info("is Tablet ${context.isTablet} ${context.screenWidth}");
+        Logger.info("is Desktop ${context.isDesktop} ${context.screenWidth}");
+
         if (isNetworkConnected.value) {
           if (LocaleStorageService.isFirstTime && authToken.isEmpty) {
             Logger.info("Inside if part");
@@ -98,7 +108,6 @@ class _SplashScreenState extends State<SplashScreen> {
         context.goNamed(AppRoutes.offlineViewScreen.name);
         return;
       });
-    
     });
   }
 

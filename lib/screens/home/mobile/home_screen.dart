@@ -8,12 +8,14 @@ import 'package:provider/provider.dart';
 import 'package:puntgpt_nick/core/constants/constants.dart';
 import 'package:puntgpt_nick/core/constants/text_style.dart';
 import 'package:puntgpt_nick/core/router/web/web_routes.dart';
+import 'package:puntgpt_nick/core/utils/app_toast.dart';
 import 'package:puntgpt_nick/core/widgets/image_widget.dart';
 import 'package:puntgpt_nick/responsive/responsive_builder.dart';
 import 'package:puntgpt_nick/screens/home/mobile/widgets/filters_list.dart';
 import 'package:puntgpt_nick/screens/home/mobile/widgets/home_screen_tab.dart';
 import 'package:puntgpt_nick/screens/home/mobile/widgets/race_start_timing_options.dart';
 import 'package:puntgpt_nick/screens/home/mobile/widgets/runners_list.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../../core/router/app/app_routes.dart';
 import '../../../core/widgets/app_filed_button.dart';
@@ -55,19 +57,19 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
     GlobalKey<FormState> formKey = GlobalKey<FormState>();
     return PopScope(
-      canPop: context.watch<HomeProvider>().isSearched ? false : true,
+      canPop: context.watch<SearchEngineProvider>().isSearched ? false : true,
       onPopInvokedWithResult: (didPop, result) {
-        if (context.read<HomeProvider>().isSearched) {
-          context.read<HomeProvider>().setIsSearched(value: false);
+        if (context.read<SearchEngineProvider>().isSearched) {
+          context.read<SearchEngineProvider>().setIsSearched(value: false);
         }
       },
       child: Scaffold(
         resizeToAvoidBottomInset: true,
-        body: Consumer<HomeProvider>(
+        body: Consumer<SearchEngineProvider>(
           builder:
               (
                 BuildContext context,
-                HomeProvider provider,
+                SearchEngineProvider provider,
                 Widget? child,
               ) {
                 return Column(
@@ -103,7 +105,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
   Widget classicFormGuide({
     required BuildContext context,
-    required HomeProvider provider,
+    required SearchEngineProvider provider,
   }) {
     return SingleChildScrollView(
       padding: EdgeInsets.symmetric(horizontal: 25.w),
@@ -263,7 +265,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   }
 
   Widget puntGptSearchEngine({
-    required HomeProvider provider,
+    required SearchEngineProvider provider,
     required GlobalKey<FormState> formKey,
     required BuildContext context,
   }) {
@@ -271,39 +273,14 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       spacing: 16,
       children: [
         //todo timing buttons
+        if(!provider.isSearched)
         RaceStartTimingOptions(),
         Expanded(
           child: (provider.isSearched)
-              ? RunnersList(runnerList: provider.runnersList)
+              ? RunnersList(runnerData: provider.runnerData)
               : FilterList(formKey: formKey),
         ),
-        if (provider.isSearched)
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: GestureDetector(
-              onTap: () {
-                context.pushNamed(AppRoutes.searchFilter.name);
-              },
-              child: Container(
-                decoration: BoxDecoration(color: AppColors.white),
-                alignment: AlignmentDirectional.bottomCenter,
-                padding: EdgeInsets.only(bottom: 14.h),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  spacing: 4,
-                  children: [
-                    ImageWidget(
-                      type: ImageType.svg,
-                      path: AppAssets.filter,
-                      height: 20.w.flexClamp(18, 22),
-                    ),
-                    Text("Filter", style: medium(fontSize: 16.sp)),
-                  ],
-                ),
-              ),
-            ),
-          )
-        else
+        if (!provider.isSearched)
           Align(
             alignment: Alignment.bottomCenter,
             child: Padding(
@@ -317,9 +294,18 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                   IntrinsicWidth(
                     child: AppFilledButton(
                       text: "Search",
-                      textStyle: semiBold(fontSize: 16.sixteenSp(context),color: AppColors.white),
+                      textStyle: semiBold(
+                        fontSize: 16.sixteenSp(context),
+                        color: AppColors.white,
+                      ),
                       onTap: () {
                         // formKey.currentState!.validate();
+                        provider.getSearchEngine(
+                          onError: (error) {
+                            AppToast.error(context: context, message: error);
+                          },
+                          onSuccess: () {},
+                        );
                         provider.setIsSearched(value: true);
                       },
                     ),
@@ -459,3 +445,5 @@ Widget askPuntGPTButton(BuildContext context) {
     ),
   );
 }
+
+

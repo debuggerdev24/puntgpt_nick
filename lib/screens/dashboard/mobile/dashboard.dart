@@ -9,6 +9,7 @@ import 'package:puntgpt_nick/core/utils/app_toast.dart';
 import 'package:puntgpt_nick/core/widgets/image_widget.dart';
 import 'package:puntgpt_nick/main.dart';
 import 'package:puntgpt_nick/provider/account/account_provider.dart';
+import 'package:puntgpt_nick/provider/search_engine_provider.dart';
 import 'package:puntgpt_nick/screens/dashboard/mobile/widgets/dashboard_app_bar.dart';
 import 'package:puntgpt_nick/screens/offline/widget/offline_view.dart';
 import 'package:puntgpt_nick/service/subscription/subscription_service.dart';
@@ -217,9 +218,10 @@ class _DashboardState extends State<Dashboard> {
 }
 
 void callInitAPIs({required BuildContext context}) {
+  final accountProvider = context.read<AccountProvider>();
   Future.wait([
-    context.read<AccountProvider>().getProfile(),
-    context.read<AccountProvider>().getSubscriptionPlans(
+    accountProvider.getProfile(),
+    accountProvider.getSubscriptionPlans(
       onFailed: (error) {
         AppToast.error(context: context, message: error);
       },
@@ -228,5 +230,7 @@ void callInitAPIs({required BuildContext context}) {
       provider: context.read<SubscriptionProvider>(),
       context: context,
     ),
+    
+
   ]);
 }

@@ -64,18 +64,18 @@ class _HomeScreenWebState extends State<HomeScreenWeb> {
     }
 
     return PopScope(
-      canPop: context.watch<HomeProvider>().isSearched ? false : true,
+      canPop: context.watch<SearchEngineProvider>().isSearched ? false : true,
       onPopInvokedWithResult: (didPop, result) {
-        if (context.read<HomeProvider>().isSearched) {
-          context.read<HomeProvider>().setIsSearched(value: false);
+        if (context.read<SearchEngineProvider>().isSearched) {
+          context.read<SearchEngineProvider>().setIsSearched(value: false);
         }
       },
       child: Scaffold(
-        body: Consumer<HomeProvider>(
+        body: Consumer<SearchEngineProvider>(
           builder:
               (
                 BuildContext context,
-                HomeProvider provider,
+                SearchEngineProvider provider,
                 Widget? child,
               ) {
                 return Column(
@@ -103,7 +103,7 @@ class _HomeScreenWebState extends State<HomeScreenWeb> {
   }
 
   Widget mobileView({
-    required HomeProvider provider,
+    required SearchEngineProvider provider,
     required GlobalKey<FormState> formKey,
   }) {
     return FadeInUp(
@@ -117,7 +117,7 @@ class _HomeScreenWebState extends State<HomeScreenWeb> {
                 RaceStartTimingOptionsWeb(),
                 Expanded(
                   child: (provider.isSearched)
-                      ? RunnersListWeb(runnerList: provider.runnersList)
+                      ? RunnersListWeb(runnerData: provider.runnerData!)
                       : FilterList(formKey: formKey),
                 ),
                 Align(
@@ -216,7 +216,7 @@ class _HomeScreenWebState extends State<HomeScreenWeb> {
   }
 
   Widget webView({
-    required HomeProvider provider,
+    required SearchEngineProvider provider,
     required GlobalKey<FormState> formKey,
   }) {
     final bodyWidth = context.isBrowserMobile

@@ -132,9 +132,9 @@ class AppRouter {
                 },
               ),
               GoRoute(
-                name: AppRoutes.savedSearched.name,
-                path: AppRoutes.savedSearched,
-                builder: (BuildContext context, GoRouterState state) {
+                name: AppRoutes.savedSearchedScreen.name,
+                path: AppRoutes.savedSearchedScreen,
+                builder: (context, state) {
                   return SavedSearchScreen();
                 },
               ),

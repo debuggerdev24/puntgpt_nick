@@ -17,7 +17,7 @@ class AppRoutes {
   static const String dashBoard = '/dashboard';
   static const String homeScreen = '/home';
   static const String searchFilter = '/search-filter';
-  static const String savedSearched = '/saved-search';
+  static const String savedSearchedScreen = '/saved-search';
   static const String searchDetails = '/search-detail';
   static const String askPuntGpt = '/ask-punt-gpt';
 

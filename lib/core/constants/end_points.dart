@@ -17,8 +17,8 @@ class EndPoints {
   static const String logOut = "/accounts/logout/";
 
   //* horse-race section
-  static String getUpcomingMeetings({required String jumpFilter}) =>
-      "horse-race/upcoming-runners/?jump_filter=$jumpFilter";
+  static String getUpcomingMeetings({required String jumpFilter, String? track}) =>
+      "/horse-race/upcoming-runners/?jump=$jumpFilter${(track != null) ? "&track=$track" : ""}";
 
   static String createSaveSearch = "/horse-race/saved-search/";
   static String getAllSaveSearch = "/horse-race/saved-search/";

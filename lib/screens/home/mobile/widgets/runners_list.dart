@@ -4,29 +4,43 @@ import 'package:go_router/go_router.dart';
 import 'package:puntgpt_nick/core/constants/constants.dart';
 import 'package:puntgpt_nick/core/constants/text_style.dart';
 import 'package:puntgpt_nick/core/widgets/app_filed_button.dart';
-import 'package:puntgpt_nick/models/runner_model.dart';
+import 'package:puntgpt_nick/models/search_engine/runner_model.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../../../core/router/app/app_routes.dart';
 import '../../../../core/widgets/image_widget.dart';
 import '../home_screen.dart';
 
 class RunnersList extends StatelessWidget {
-  const RunnersList({super.key, required this.runnerList});
-  final List<RunnerModel> runnerList;
-
+  const RunnersList({super.key,required this.runnerData});
+  
+  final RunnerDataModel? runnerData;
   @override
   Widget build(BuildContext context) {
-    return Column(
+    // return  _runnerShimmer();
+    final runners = runnerData?.runnersList;
+      if(runnerData == null) {
+        return Column(
+          children: [
+
+            _runnerShimmer(),
+          ],
+        );
+      }
+      if(runners!.isEmpty){
+        return Center(child: Text("No runners found!"));
+      }
+      return Column(
       children: [
         Padding(
           padding: EdgeInsets.fromLTRB(25.w, 0.h, 25.w, 8.h),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text("Total Runners: (20)", style: bold(fontSize: 16.sp)),
+              Text("Total Runners: (${runners.length})", style: bold(fontSize: 16.sp)),
               GestureDetector(
                 onTap: () {
-                  context.pushNamed(AppRoutes.savedSearched.name);
+                  context.push(AppRoutes.savedSearchedScreen);
                 },
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
@@ -53,10 +67,18 @@ class RunnersList extends StatelessWidget {
         Expanded(
           child: Stack(
             children: [
+              Align(
+                alignment: AlignmentGeometry.bottomRight,
+                child: Padding(
+                  padding: EdgeInsets.only(right: 25.w, bottom: 30.h),
+                  child: askPuntGPTButton(context),
+                ),
+              ),
               ListView.builder(
-                itemCount: runnerList.length,
+                itemCount: runners?.length ?? 0,
                 itemBuilder: (context, index) {
-                  final runner = runnerList[index];
+                  final runner = runners?[index];
+                  if (runner == null) return Center(child: Text("No runners found"));
                   return Container(
                     margin: EdgeInsets.fromLTRB(25.w, 0, 25.w, 16),
                     decoration: BoxDecoration(
@@ -98,16 +120,17 @@ class RunnersList extends StatelessWidget {
                               ),
                               15.horizontalSpace,
                               Text(
-                                "${runner.number.toString()}. ",
+                                "${runner.raceNumber.toString()}. ",
                                 style: bold(fontSize: 18.sp),
                               ),
                               Text(
-                                runner.label,
+                                runner.jockeyName,
                                 style: semiBold(fontSize: 18.sp),
                               ),
                               Spacer(),
                               Text(
-                                "\$${runner.price}",
+
+                                "\$${runner.odds}",
                                 style: bold(fontSize: 18.sp),
                               ),
                             ],
@@ -122,15 +145,16 @@ class RunnersList extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                "${runner.date}. ",
+                                "${runner.jumpTimeAu}. ",
                                 style: medium(fontSize: 16.sp),
                               ),
                               Text(
-                                "${runner.numberOfRace} Races",
+                                "${runner.raceNumber} Races",
                                 style: medium(fontSize: 16.sp),
                               ),
                               Text(
-                                runner.nextRaceRemainTime,
+                                
+                                "runner.nextRaceRemainTime",
                                 style: medium(fontSize: 16.sp),
                               ),
                             ],
@@ -226,7 +250,7 @@ class RunnersList extends StatelessWidget {
                                                   16.h,
                                                 ),
                                                 child: Text(
-                                                  "‘Delicacy’ @8.50  might offer value as a top 3 contender, especially if the favourite gets caught wide or overworks early. Look for  signs like a strong final 400m that it's shown in recent form. I like your simple formula, not overthinking things. Keep in mind the favourite, ‘Makybe Diva’ is short odds @2.10 I can take you to the manual form guide for a look at the other runners in this race?",
+                                                  "‘Delicacy’ @8.50  might offer value as a top 3 contender, especially if the favourite gets caught wide or overworks early. Look for signs like a strong final 400m that it's shown in recent form. I like your simple formula, not overthinking things. Keep in mind the favourite, ‘Makybe Diva’ is short odds @2.10 I can take you to the manual form guide for a look at the other runners in this race?",
                                                   style: regular(
                                                     fontSize: 16.sp,
                                                   ),
@@ -280,17 +304,173 @@ class RunnersList extends StatelessWidget {
                   );
                 },
               ),
-              Align(
-                alignment: AlignmentGeometry.bottomRight,
-                child: Padding(
-                  padding: EdgeInsets.only(right: 25.w, bottom: 30.h),
-                  child: askPuntGPTButton(context),
-                ),
-              ),
+              
             ],
           ),
         ),
+        Align(
+            alignment: Alignment.bottomCenter,
+            child: GestureDetector(
+              onTap: () {
+                context.push(AppRoutes.searchFilter);
+              },
+              child: Container(
+                decoration: BoxDecoration(color: AppColors.white),
+                alignment: AlignmentDirectional.bottomCenter,
+                padding: EdgeInsets.only(bottom: 14.h),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  spacing: 4,
+                  children: [
+                    ImageWidget(
+                      type: ImageType.svg,
+                      path: AppAssets.filter,
+                      height: 20.w.flexClamp(18, 22),
+                    ),
+                    Text("Filter", style: medium(fontSize: 16.sp)),
+                  ],
+                ),
+              ),
+            ),
+          )
       ],
+    );
+  
+    }
+
+  Widget _runnerShimmer() {
+    return Expanded(
+      child: ListView.builder(
+        itemCount: 5, // Show 5 shimmer items
+        itemBuilder: (context, index) {
+          return Container(
+            margin: EdgeInsets.fromLTRB(25.w, 0, 25.w, 16),
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: AppColors.greyColor.withValues(alpha: 0.15),
+              ),
+            ),
+            child: Shimmer.fromColors(
+              baseColor: AppColors.shimmerBaseColor,
+              highlightColor: AppColors.shimmerHighlightColor,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Header section with checkbox, name, and odds
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(12, 12, 12, 3),
+                    child: Row(
+                      children: [
+                        // Checkbox shimmer
+                        Container(
+                          width: 22,
+                          height: 22,
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: AppColors.greyColor.withValues(alpha: 0.15),
+                            ),
+                            color: Colors.white,
+                          ),
+                        ),
+                        15.horizontalSpace,
+                        // Race number shimmer
+                        Container(
+                          width: 30.w,
+                          height: 18.h,
+                          color: Colors.white,
+                        ),
+                        5.horizontalSpace,
+                        // Jockey name shimmer
+                        Container(
+                          width: 120.w,
+                          height: 18.h,
+                          color: Colors.white,
+                        ),
+                        Spacer(),
+                        // Odds shimmer
+                        Container(
+                          width: 60.w,
+                          height: 18.h,
+                          color: Colors.white,
+                        ),
+                      ],
+                    ),
+                  ),
+                  // Divider
+                  Divider(
+                    color: AppColors.greyColor.withValues(alpha: 0.15),
+                    height: 1,
+                  ),
+                  // Date/time info row
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(12, 6, 12, 2),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          width: 80.w,
+                          height: 16.h,
+                          color: Colors.white,
+                        ),
+                        Container(
+                          width: 70.w,
+                          height: 16.h,
+                          color: Colors.white,
+                        ),
+                        Container(
+                          width: 90.w,
+                          height: 16.h,
+                          color: Colors.white,
+                        ),
+                      ],
+                    ),
+                  ),
+                  // Divider
+                  Divider(
+                    color: AppColors.greyColor.withValues(alpha: 0.15),
+                    height: 1,
+                  ),
+                  // "Odds may differ with:" text shimmer
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(12, 6, 12, 2),
+                    child: Container(
+                      width: 150.w,
+                      height: 16.h,
+                      color: Colors.white,
+                    ),
+                  ),
+                  // Divider
+                  Divider(
+                    color: AppColors.greyColor.withValues(alpha: 0.15),
+                    height: 1,
+                  ),
+                  // Buttons section
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(8, 6, 8, 16),
+                    child: Row(
+                      spacing: 6.w,
+                      children: [
+                        Expanded(
+                          child: Container(
+                            height: 44.h,
+                            color: Colors.white,
+                          ),
+                        ),
+                        Expanded(
+                          child: Container(
+                            height: 44.h,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
+      ),
     );
   }
 }

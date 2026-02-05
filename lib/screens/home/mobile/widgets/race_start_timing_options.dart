@@ -12,9 +12,9 @@ class RaceStartTimingOptions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<HomeProvider>(
+    return Consumer<SearchEngineProvider>(
       builder: (context, provider, _) {
-        final timings = provider.raceStartingTimings;
+        final timings = provider.raceTimingEnums.map((e) => e.value).toList();
 
         return LayoutBuilder(
           builder: (context, constraints) {
@@ -38,10 +38,11 @@ class RaceStartTimingOptions extends StatelessWidget {
                           (index) => _item(
                             context: context,
                             text: timings[index],
-                            onTap: () =>
-                                provider.selectedRaceTimingIndex = index,
+                            onTap: () => provider.selectedRaceTimingEnum =
+                                provider.raceTimingEnums[index],
                             isSelected:
-                                provider.selectedRaceTimingIndex == index,
+                                provider.selectedRaceTimingEnum ==
+                                provider.raceTimingEnums[index],
                           ),
                         ),
                       ),
@@ -52,8 +53,11 @@ class RaceStartTimingOptions extends StatelessWidget {
                       itemBuilder: (context, index) => _item(
                         context: context,
                         text: timings[index],
-                        onTap: () => provider.selectedRaceTimingIndex = index,
-                        isSelected: provider.selectedRaceTimingIndex == index,
+                        onTap: () => provider.selectedRaceTimingEnum =
+                            provider.raceTimingEnums[index],
+                        isSelected:
+                            provider.selectedRaceTimingEnum ==
+                            provider.raceTimingEnums[index],
                       ),
                       separatorBuilder: (_, __) => const SizedBox(width: 15),
                       itemCount: timings.length,
@@ -85,7 +89,7 @@ class RaceStartTimingOptions extends StatelessWidget {
                 : AppColors.primary.setOpacity(0.15),
           ),
         ),
-        padding: EdgeInsets.symmetric( horizontal: 18.w),
+        padding: EdgeInsets.symmetric(horizontal: 18.w),
         child: Text(
           text,
           style: semiBold(

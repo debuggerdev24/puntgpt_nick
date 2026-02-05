@@ -50,7 +50,7 @@ class HomeScreenTab extends StatelessWidget {
   }) {
     return OnMouseTap(
       onTap: () {
-        context.read<HomeProvider>().changeTab = index;
+        context.read<SearchEngineProvider>().changeTab = index;
         if (onTap != null && index == 0) {
           onTap!.call();
         }

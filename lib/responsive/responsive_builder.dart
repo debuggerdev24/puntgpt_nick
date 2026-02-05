@@ -31,7 +31,6 @@ class Responsive extends StatelessWidget {
   static bool isTablet(BuildContext context) {
     if (!kIsWeb) return false;
 
-    
 
     return context.screenWidth >= Breakpoints.tablet &&
       context.screenWidth < Breakpoints.desktop;

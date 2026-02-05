@@ -13,9 +13,9 @@ class RaceStartTimingOptionsWeb extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<HomeProvider>(
+    return Consumer<SearchEngineProvider>(
       builder: (context, provider, _) {
-        final timings = provider.raceStartingTimings;
+        final timings = provider.raceTimingEnums.map((e) => e.value).toList();
 
         return LayoutBuilder(
           builder: (context, constraints) {
@@ -39,8 +39,8 @@ class RaceStartTimingOptionsWeb extends StatelessWidget {
                     timings.length,
                     (index) => _item(
                       text: timings[index],
-                      onTap: () => provider.selectedRaceTimingIndex = index,
-                      isSelected: provider.selectedRaceTimingIndex == index,
+                      onTap: () => provider.selectedRaceTimingEnum = provider.raceTimingEnums[index],
+                      isSelected: provider.selectedRaceTimingEnum == provider.raceTimingEnums[index],
                       context: context,
                     ),
                   ),

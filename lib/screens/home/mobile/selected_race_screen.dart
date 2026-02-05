@@ -23,7 +23,7 @@ class _SelectedRaceScreenState extends State<SelectedRaceScreen> {
   String selItem = "R1";
   @override
   Widget build(BuildContext context) {
-    return Consumer<HomeProvider>(
+    return Consumer<SearchEngineProvider>(
       builder: (context, provider, child) {
         return Stack(
           children: [

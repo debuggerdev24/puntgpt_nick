@@ -10,7 +10,6 @@ import 'package:puntgpt_nick/core/widgets/image_widget.dart';
 import 'package:puntgpt_nick/core/widgets/on_button_tap.dart';
 import 'package:puntgpt_nick/provider/search_engine_provider.dart';
 import 'package:puntgpt_nick/responsive/responsive_builder.dart';
-import 'package:puntgpt_nick/screens/home/web/widgets/runners_list_web.dart';
 
 import '../../../../core/router/app/app_routes.dart';
 import '../../../../core/widgets/app_filed_button.dart';
@@ -49,7 +48,7 @@ class _SearchSectionWebState extends State<SearchSectionWeb> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<HomeProvider>(
+    return Consumer<SearchEngineProvider>(
       builder: (context, provider, child) => SizedBox(
         width: Responsive.isMobileWeb(context)
             ? double.maxFinite
@@ -124,7 +123,7 @@ class _SearchSectionWebState extends State<SearchSectionWeb> {
   /// For Mobile
 
   Widget _buildSearchView() {
-    final provider = context.watch<HomeProvider>();
+    final provider = context.watch<SearchEngineProvider>();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -334,7 +333,7 @@ class _SearchSectionWebState extends State<SearchSectionWeb> {
                       mainAxisSpacing: 16.h,
                     ),
                     itemBuilder: (context, index) {
-                      return Runner(runner: provider.runnersList[0]);
+                      return SizedBox.shrink();//Runner(runner: provider.runnersList[0]);
                     },
                     itemCount: 10,
                   ),

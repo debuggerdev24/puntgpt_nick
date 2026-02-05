@@ -38,9 +38,9 @@ class _FilterListState extends State<FilterList> {
 
   void onSaveSearchTap() {
     context.pushNamed(
-      (context.isMobileView && !context.isBrowserMobile)
-          ? WebRoutes.savedSearchedScreen.name
-          : AppRoutes.savedSearched.name,
+      (context.isPhysicalMobile)
+          ? AppRoutes.savedSearchedScreen.name
+          : WebRoutes.savedSearchedScreen.name
     );
   }
 
@@ -113,7 +113,7 @@ class _FilterListState extends State<FilterList> {
 
   /// For Mobile
   Widget _buildFilterSection() {
-    final provider = context.watch<HomeProvider>();
+    final provider = context.watch<SearchEngineProvider>();
 
     return Column(
       children: [

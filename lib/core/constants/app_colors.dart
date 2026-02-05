@@ -14,4 +14,7 @@ class AppColors {
   static const Color greyColor2 = Color(0xffEBF2F0);
   static const Color greyColor = Color(0xff030c09);
   static const Color backGroundColor = Color(0xffFAFAFA);
+  
+  static const Color shimmerBaseColor = Color(0xFFE2E4E8);
+  static const Color shimmerHighlightColor = Color(0xFFFBFCFF);
 }
