@@ -36,17 +36,11 @@ class _FilterListState extends State<FilterList> {
     super.dispose();
   }
 
-  void onSaveSearchTap() {
-    context.pushNamed(
-      (context.isPhysicalMobile)
-          ? AppRoutes.savedSearchedScreen.name
-          : WebRoutes.savedSearchedScreen.name
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
     final bodyHorizontalPadding = (context.isBrowserMobile) ? 50.w : 25.w;
+    final provider = context.read<SearchEngineProvider>();
     return SizedBox(
       width: double.maxFinite,
       child: Column(
@@ -80,7 +74,15 @@ class _FilterListState extends State<FilterList> {
                   ),
                 ),
                 OnMouseTap(
-                  onTap: onSaveSearchTap,
+                  onTap: () {
+                    context.pushNamed(
+                      (context.isPhysicalMobile)
+                          ? AppRoutes.savedSearchedScreen.name
+                          : WebRoutes.savedSearchedScreen.name,
+                    );
+                    //* calling the api to get all saved searches
+                    provider.getAllSaveSearch();
+                  },
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -140,10 +142,10 @@ class _FilterListState extends State<FilterList> {
             ),
 
             children: provider.trackItems.map((item) {
-              bool isChecked = item["checked"];
+              bool isChecked = item.checked;
               return InkWell(
                 onTap: () {
-                  provider.toggleTrackItem(item["label"], !isChecked);
+                  provider.toggleTrackItem(item.trackType.value, !isChecked);
                 },
                 splashColor: Colors.transparent,
                 highlightColor: Colors.transparent,
@@ -156,7 +158,7 @@ class _FilterListState extends State<FilterList> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            item["label"],
+                            item.trackType.value,
                             style: semiBold(
                               fontSize: (context.isBrowserMobile)
                                   ? 36.sp

@@ -162,10 +162,10 @@ class _SearchSectionWebState extends State<SearchSectionWeb> {
                         ),
                       ),
                       children: provider.trackItems.map((item) {
-                        bool isChecked = item["checked"];
+                        bool isChecked = item.checked;
                         return InkWell(
                           onTap: () {
-                            provider.toggleTrackItem(item["label"], !isChecked);
+                            provider.toggleTrackItem(item.trackType.value, !isChecked);
                           },
                           splashColor: Colors.transparent,
                           highlightColor: Colors.transparent,
@@ -183,7 +183,7 @@ class _SearchSectionWebState extends State<SearchSectionWeb> {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      item["label"],
+                                      item.trackType.value,
                                       style: semiBold(
                                         fontSize: context.isDesktop
                                             ? 14.sp

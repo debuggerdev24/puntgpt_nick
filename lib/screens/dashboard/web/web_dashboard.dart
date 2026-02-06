@@ -95,15 +95,15 @@ class _WebDashboardState extends State<WebDashboard> {
     );
   }
 
-  Widget _appLogo(BuildContext context) {
-    return OnMouseTap(
-      onTap: () {
-        WebRouter.indexedStackNavigationShell!.goBranch(2);
-        indexOfWebTab.value = 2;
-      },
-      child: _appLogoContent(context),
-    );
-  }
+  // Widget _appLogo(BuildContext context) {
+  //   return OnMouseTap(
+  //     onTap: () {
+  //       WebRouter.indexedStackNavigationShell!.goBranch(2);
+  //       indexOfWebTab.value = 2;
+  //     },
+  //     child: _appLogoContent(context),
+  //   );
+  // }
 
   Widget _appLogoContent(BuildContext context) {
     return Row(

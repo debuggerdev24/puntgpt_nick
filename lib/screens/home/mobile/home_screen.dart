@@ -15,8 +15,6 @@ import 'package:puntgpt_nick/screens/home/mobile/widgets/filters_list.dart';
 import 'package:puntgpt_nick/screens/home/mobile/widgets/home_screen_tab.dart';
 import 'package:puntgpt_nick/screens/home/mobile/widgets/race_start_timing_options.dart';
 import 'package:puntgpt_nick/screens/home/mobile/widgets/runners_list.dart';
-import 'package:shimmer/shimmer.dart';
-
 import '../../../core/router/app/app_routes.dart';
 import '../../../core/widgets/app_filed_button.dart';
 import '../../../provider/search_engine_provider.dart';
@@ -305,6 +303,15 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                             AppToast.error(context: context, message: error);
                           },
                           onSuccess: () {},
+                        );
+                        provider.createSaveSearch(
+                          onError: (error) {
+                            AppToast.error(context: context, message: error);
+                          },
+                          
+                          onSuccess: () {
+                            AppToast.success(context: context, message: "Search saved successfully");
+                          },
                         );
                         provider.setIsSearched(value: true);
                       },

@@ -5,10 +5,12 @@ import 'package:provider/provider.dart';
 import 'package:puntgpt_nick/core/constants/app_colors.dart';
 import 'package:puntgpt_nick/core/constants/text_style.dart';
 import 'package:puntgpt_nick/core/extensions/double_extensions.dart';
+import 'package:puntgpt_nick/core/utils/app_toast.dart';
 import 'package:puntgpt_nick/core/widgets/app_devider.dart';
 import 'package:puntgpt_nick/core/widgets/app_filed_button.dart';
 import 'package:puntgpt_nick/core/widgets/app_outlined_button.dart';
 import 'package:puntgpt_nick/responsive/responsive_builder.dart';
+import 'package:puntgpt_nick/screens/home/mobile/widgets/home_section_shimmers.dart';
 
 import '../../../provider/search_engine_provider.dart';
 
@@ -17,25 +19,62 @@ class SearchDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        topBar(context),
-        horizontalDivider(),
-        _buildListView(context: context),
-        Spacer(),
-        AppFilledButton(
-          textStyle: semiBold(fontSize: 16.sixteenSp(context), color: AppColors.white),
-          text: "Edit",
-          onTap: () {},
-          margin: EdgeInsets.fromLTRB(25.w, 0, 25.w, 6.h),
-        ),
-        AppOutlinedButton(
-          textStyle: semiBold(fontSize: 16.sixteenSp(context), color: AppColors.black),
-          text: "Delete",
-          onTap: () {},
-          margin: EdgeInsets.fromLTRB(25.w, 0, 25.w, 16.h),
-        ),
-      ],
+    return Consumer<SearchEngineProvider>(
+      builder: (context, provider, child) {
+        // Show shimmer while details are loading
+        if (provider.selectedSaveSearch == null) {
+          return searchDetailShimmer(context: context);
+        }
+
+        // Actual content when data is available
+        return Column(
+          children: [
+            topBar(context),
+            horizontalDivider(),
+            _trackedView(context: context,provider: provider),
+            Spacer(),
+            if (!provider.isEditSavedSearch) ...[
+              AppFilledButton(
+                textStyle: semiBold(
+                  fontSize: 16.sixteenSp(context),
+                  color: AppColors.white,
+                ),
+                text: "Edit",
+                onTap: () {
+                  provider.setIsEditSavedSearch = !provider.isEditSavedSearch;
+                },
+                margin: EdgeInsets.fromLTRB(25.w, 0, 25.w, 6.h),
+              ),
+              AppOutlinedButton(
+                textStyle: semiBold(
+                  fontSize: 16.sixteenSp(context),
+                  color: AppColors.black,
+                ),
+                text: "Delete",
+                onTap: () {},
+                margin: EdgeInsets.fromLTRB(25.w, 0, 25.w, 16.h),
+              ),
+            ] else
+              AppFilledButton(
+                textStyle: semiBold(
+                  fontSize: 16.sixteenSp(context),
+                  color: AppColors.white,
+                ),
+                margin: EdgeInsets.fromLTRB(25.w, 0, 25.w, 6.h),
+                text: "Save",
+                onTap: () {
+                  provider.editSaveSearch(
+                    
+                    onSuccess: () {
+                      AppToast.success(context: context, message: "Search edited successfully");
+
+                    },
+                  );
+                },
+              ),
+          ],
+        );
+      },
     );
   }
 
@@ -76,8 +115,8 @@ class SearchDetailScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildListView({required BuildContext context}) {
-    final provider = context.watch<SearchEngineProvider>();
+  Widget _trackedView({required BuildContext context,required SearchEngineProvider provider}) {
+    
 
     return Column(
       children: [
@@ -91,12 +130,20 @@ class SearchDetailScreen extends StatelessWidget {
             ),
             tilePadding: EdgeInsets.symmetric(horizontal: 25.w),
             iconColor: AppColors.greyColor,
-            title: Text("Track", style: semiBold(fontSize: 16.sixteenSp(context))),
-            children: provider.trackItems.map((item) {
-              bool isChecked = item["checked"];
+            title: Text(
+              "Track",
+              style: semiBold(fontSize: 16.sixteenSp(context)),
+            ),
+            children: provider.savedSearchTrackItems.map((item) {
+              bool isChecked = item.checked;
               return InkWell(
                 onTap: () {
-                  provider.toggleTrackItem(item["label"], !isChecked);
+                  if (provider.isEditSavedSearch) {
+                  provider.updateSavedSearchTrackItem(
+                      item.trackType.value,
+                      !isChecked,
+                    );
+                  }
                 },
                 splashColor: Colors.transparent,
                 highlightColor: Colors.transparent,
@@ -108,7 +155,10 @@ class SearchDetailScreen extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(item["label"], style: semiBold(fontSize: 16.sixteenSp(context))),
+                          Text(
+                            item.trackType.value,
+                            style: semiBold(fontSize: 16.sixteenSp(context)),
+                          ),
                           AnimatedContainer(
                             duration: const Duration(milliseconds: 250),
                             curve: Curves.easeInOut,

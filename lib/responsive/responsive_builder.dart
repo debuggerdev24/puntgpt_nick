@@ -1,10 +1,8 @@
 
-import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:puntgpt_nick/core/extensions/context_extensions.dart';
-import 'package:puntgpt_nick/core/helper/log_helper.dart';
 import 'package:puntgpt_nick/responsive/breakpoints.dart';
 
 /// Simpler responsive widget that takes widgets directly

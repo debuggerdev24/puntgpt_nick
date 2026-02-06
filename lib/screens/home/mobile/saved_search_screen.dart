@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import 'package:puntgpt_nick/core/constants/text_style.dart';
 import 'package:puntgpt_nick/core/extensions/double_extensions.dart';
 import 'package:puntgpt_nick/core/router/app/app_router.dart';
 import 'package:puntgpt_nick/core/router/app/app_routes.dart';
+import 'package:puntgpt_nick/core/utils/date_formater.dart';
 import 'package:puntgpt_nick/core/widgets/app_devider.dart';
 import 'package:puntgpt_nick/core/widgets/app_filed_button.dart';
+import 'package:puntgpt_nick/models/search_engine/search_model.dart';
+import 'package:puntgpt_nick/provider/search_engine_provider.dart';
 import 'package:puntgpt_nick/responsive/responsive_builder.dart';
+import 'package:puntgpt_nick/screens/home/mobile/widgets/home_section_shimmers.dart';
+
 import '../../../core/constants/app_colors.dart';
 
 class SavedSearchScreen extends StatelessWidget {
@@ -22,79 +28,80 @@ class SavedSearchScreen extends StatelessWidget {
       children: [
         topBar(context: context),
         horizontalDivider(),
-        20.h.verticalSpace,
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 25.w),
-          child: Column(
-            children: [
-              Text(
-                "Upgrade to Pro Punter to save your custom Searches.",
-                style: bold(fontSize: 16.sixteenSp(context)),
-              ),
-              16.h.verticalSpace,
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text("• ", style: medium(fontSize: 14.sp)),
-                  Expanded(
-                    child: Text(
-                      "Have your form done and ready each time you open the app.",
-                      style: medium(fontSize: 14.fourteenSp(context)),
+        Consumer<SearchEngineProvider>(
+          builder: (context, provider, child) => Expanded(
+            child: ListView(
+              padding: EdgeInsets.zero,
+              children: [
+                20.h.verticalSpace,
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 25.w),
+                  child: Column(
+                    children: [
+                      Text(
+                        "Upgrade to Pro Punter to save your custom Searches.",
+                        style: bold(fontSize: 16.sixteenSp(context)),
+                      ),
+                      16.h.verticalSpace,
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("• ", style: medium(fontSize: 14.sp)),
+                          Expanded(
+                            child: Text(
+                              "Have your form done and ready each time you open the app.",
+                              style: medium(fontSize: 14.fourteenSp(context)),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "• ",
+                            style: medium(fontSize: 14.fourteenSp(context)),
+                          ),
+                          Expanded(
+                            child: Text(
+                              "Have one for favorite's, one for Roughies, one for heavy track conditions, or any system you thinks a winner!",
+                              style: medium(fontSize: 14.fourteenSp(context)),
+                            ),
+                          ),
+                        ],
+                      ),
+                      32.h.verticalSpace,
+                    ],
+                  ),
+                ),
+
+                if (provider.saveSearches == null)
+                  ...List.generate(
+                    5,
+                    (index) => searchedItemShimmer(context: context),
+                  ),
+                if (provider.saveSearches != null) ...[
+                  ...List.generate(provider.saveSearches!.length, (index) => SearchedItem(search: provider.saveSearches![index], onTap: () => provider.getSaveSearchDetails(id: provider.saveSearches![index].id.toString()))),
+                  //provider.saveSearches!.map((e) => ),
+                  Padding(
+                    padding: EdgeInsets.only(bottom: 14.h),
+                    child: horizontalDivider(),
+                  ),
+                  
+                  AppFilledButton(
+                    margin: EdgeInsets.fromLTRB(25.w, 20.h, 25.w, 25.h),
+                    text: "Save Current Search",
+                    textStyle: semiBold(
+                      fontSize: 16.sixteenSp(context),
+                      color: AppColors.white,
                     ),
+                    onTap: () {},
                   ),
                 ],
-              ),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text("• ", style: medium(fontSize: 14.fourteenSp(context))),
-                  Expanded(
-                    child: Text(
-                      "Have one for favorite's, one for Roughies, one for heavy track conditions, or any system you thinks a winner!",
-                      style: medium(fontSize: 14.fourteenSp(context)),
-                    ),
-                  ),
-                ],
-              ),
-              34.h.verticalSpace,
-            ],
+              ],
+            ),
           ),
         ),
-        SearchedItem(),
-        horizontalDivider(),
-        SearchedItem(),
-        Padding(
-          padding: EdgeInsets.only(bottom: 14.h),
-          child: horizontalDivider(),
-        ),
-        Spacer(),
-        AppFilledButton(
-          margin: EdgeInsets.fromLTRB(25.w, 0, 25.w, 25.h),
-          text: "Save Current Search",
-          textStyle: semiBold(fontSize: 16.sixteenSp(context), color: AppColors.white),
-          onTap: () {},
-        ),
-        // Expanded(
-        //   child: ListView.separated(
-        //     shrinkWrap: true,
-        //     separatorBuilder: (context, index) {
-        //       return horizontalDivider();
-        //     },
-        //     itemCount: 2,
-        //     itemBuilder: (context, index) {
-        //       return Column(
-        //         children: [
-        //           SearchedItem(),
-        //           if (index == 1)
-        //             Padding(
-        //               padding: EdgeInsets.only(bottom: 14.h),
-        //               child: horizontalDivider(),
-        //             ),
-        //         ],
-        //       );
-        //     },
-        //   ),
-        // ),
       ],
     );
   }
@@ -129,7 +136,10 @@ class SavedSearchScreen extends StatelessWidget {
               ),
               child: Text(
                 "Upgrade to Pro",
-                style: bold(fontSize: 14.fourteenSp(context), color: AppColors.premiumYellow),
+                style: bold(
+                  fontSize: 14.fourteenSp(context),
+                  color: AppColors.premiumYellow,
+                ),
               ),
             ),
           ),
@@ -147,8 +157,9 @@ class SavedSearchScreen extends StatelessWidget {
 }
 
 class SearchedItem extends StatelessWidget {
-  const SearchedItem({super.key});
-
+  const SearchedItem({super.key, required this.search, required this.onTap});
+  final SaveSearchModel search;
+  final VoidCallback onTap;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -157,8 +168,10 @@ class SearchedItem extends StatelessWidget {
         vertical: (context.isBrowserMobile) ? 24.w : 14.h,
       ),
       child: GestureDetector(
+        
         onTap: () {
           context.pushNamed(AppRoutes.searchDetails.name);
+          onTap.call();
         },
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -167,14 +180,15 @@ class SearchedItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Search 1",
+                  search.name,
                   style: semiBold(
                     fontSize: (context.isBrowserMobile) ? 40.sp : 20.sp,
                     color: AppColors.primary.withValues(alpha: 0.35),
                   ),
                 ),
                 Text(
-                  "Sep 30, 2025",
+                  // "Sep 30, 2025"
+                  DateFormatter.formatDateLong(search.createdAt),
                   style: semiBold(
                     fontSize: (context.isBrowserMobile) ? 30.sp : 12.sp,
                     color: AppColors.primary.withValues(alpha: 0.2),
@@ -182,7 +196,8 @@ class SearchedItem extends StatelessWidget {
                 ),
                 6.5.h.verticalSpace,
                 Text(
-                  "Randwick • 1200m • >20%",
+                  search.comment,
+                  // "Randwick • 1200m • >20%",
                   style: regular(
                     fontSize: (context.isBrowserMobile) ? 40.sp : 20.sp,
                     color: AppColors.primary.withValues(alpha: 0.27),

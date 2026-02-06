@@ -11,16 +11,25 @@ enum JumpType {
   jumps_tomorrow("Jumps tomorrow");
 
   final String value;
+  // ignore: sort_constructors_first
   const JumpType(this.value);
 
 }
 
 
 enum TrackType {
-  placed_last_start("placed_last_start"),
-  placed_at_distance("placed_at_distance"),
-  placed_at_track("placed_at_track");
+  placed_last_start("Placed last start"),
+  placed_at_distance("Placed at distance"),
+  placed_at_track("Placed at track"),
+  wins_at_track("Wins at track"),
+  win_at_distance("Win at distance"),
+  won_last_start("Won last start"),
+  won_last_12_months("Won last 12 months"),
+  jockey_horse_wins("Jockey horse wins"),
+  barrier("Barrier"),
+  odds_range("Odds range");
 
-  final String value;
+  final dynamic value;
+  // ignore: sort_constructors_first
   const TrackType(this.value);
 }

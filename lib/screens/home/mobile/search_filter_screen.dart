@@ -86,10 +86,10 @@ class SearchFilterScreen extends StatelessWidget {
             iconColor: AppColors.greyColor,
             title: Text("Track", style: semiBold(fontSize: 16.sp)),
             children: provider.trackItems.map((item) {
-              bool isChecked = item["checked"];
+              bool isChecked = item.checked;
               return InkWell(
                 onTap: () {
-                  provider.toggleTrackItem(item["label"], !isChecked);
+                  provider.toggleTrackItem(item.trackType.value, !isChecked);
                 },
                 splashColor: Colors.transparent,
                 highlightColor: Colors.transparent,
@@ -101,7 +101,7 @@ class SearchFilterScreen extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(item["label"], style: semiBold(fontSize: 16.sp)),
+                          Text(item.trackType.value, style: semiBold(fontSize: 16.sp)),
                           AnimatedContainer(
                             duration: const Duration(milliseconds: 250),
                             curve: Curves.easeInOut,

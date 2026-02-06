@@ -21,8 +21,7 @@ class RunnersList extends StatelessWidget {
     final runners = runnerData?.runnersList;
       if(runnerData == null) {
         return Column(
-          children: [
-
+          children:[
             _runnerShimmer(),
           ],
         );
@@ -31,7 +30,7 @@ class RunnersList extends StatelessWidget {
         return Center(child: Text("No runners found!"));
       }
       return Column(
-      children: [
+      children:[
         Padding(
           padding: EdgeInsets.fromLTRB(25.w, 0.h, 25.w, 8.h),
           child: Row(
@@ -75,7 +74,7 @@ class RunnersList extends StatelessWidget {
                 ),
               ),
               ListView.builder(
-                itemCount: runners?.length ?? 0,
+                itemCount: runners.length ,
                 itemBuilder: (context, index) {
                   final runner = runners?[index];
                   if (runner == null) return Center(child: Text("No runners found"));
