@@ -63,6 +63,7 @@ class SearchEngineProvider extends ChangeNotifier {
     TrackItemModel.fromTrackType(TrackType.placed_last_start),
     TrackItemModel.fromTrackType(TrackType.placed_at_distance),
     TrackItemModel.fromTrackType(TrackType.placed_at_track),
+    TrackItemModel.fromTrackType(TrackType.odds_range),
   ];
 
   //* Saved Search Screen Track Section (Checkboxes)
@@ -70,6 +71,7 @@ class SearchEngineProvider extends ChangeNotifier {
     TrackItemModel.fromTrackType(TrackType.placed_last_start),
     TrackItemModel.fromTrackType(TrackType.placed_at_distance),
     TrackItemModel.fromTrackType(TrackType.placed_at_track),
+    TrackItemModel.fromTrackType(TrackType.odds_range),
   ];
 
   //* Toggle method for track checkboxes

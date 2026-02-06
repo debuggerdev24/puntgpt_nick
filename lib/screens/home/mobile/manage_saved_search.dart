@@ -29,7 +29,7 @@ class SearchDetailScreen extends StatelessWidget {
         // Actual content when data is available
         return Column(
           children: [
-            topBar(context),
+            topBar(context: context,title: provider.selectedSaveSearch?.name ?? ""),
             horizontalDivider(),
             _trackedView(context: context,provider: provider),
             Spacer(),
@@ -64,7 +64,6 @@ class SearchDetailScreen extends StatelessWidget {
                 text: "Save",
                 onTap: () {
                   provider.editSaveSearch(
-                    
                     onSuccess: () {
                       AppToast.success(context: context, message: "Search edited successfully");
 
@@ -78,7 +77,7 @@ class SearchDetailScreen extends StatelessWidget {
     );
   }
 
-  Widget topBar(BuildContext context) {
+  Widget topBar({required BuildContext context,required String title}) {
     return Padding(
       padding: EdgeInsets.fromLTRB(5.w, 14.h, 25.w, 14.h),
       child: Row(
@@ -94,7 +93,7 @@ class SearchDetailScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Search 1",
+                title,
                 style: regular(
                   fontFamily: AppFontFamily.secondary,
                   height: 1.1,

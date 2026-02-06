@@ -21,12 +21,12 @@ enum TrackType {
   placed_last_start("Placed last start"),
   placed_at_distance("Placed at distance"),
   placed_at_track("Placed at track"),
-  wins_at_track("Wins at track"),
-  win_at_distance("Win at distance"),
-  won_last_start("Won last start"),
-  won_last_12_months("Won last 12 months"),
-  jockey_horse_wins("Jockey horse wins"),
-  barrier("Barrier"),
+  // wins_at_track("Wins at track"),
+  // win_at_distance("Win at distance"),
+  // won_last_start("Won last start"),
+  // won_last_12_months("Won last 12 months"),
+  // jockey_horse_wins("Jockey horse wins"),
+  // barrier("Barrier"),
   odds_range("Odds range");
 
   final dynamic value;
