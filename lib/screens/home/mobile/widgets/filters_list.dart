@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -7,6 +8,7 @@ import 'package:puntgpt_nick/core/constants/text_style.dart';
 import 'package:puntgpt_nick/core/router/app/app_routes.dart';
 import 'package:puntgpt_nick/core/router/web/web_routes.dart';
 import 'package:puntgpt_nick/core/widgets/app_devider.dart';
+import 'package:puntgpt_nick/core/widgets/app_text_field.dart';
 import 'package:puntgpt_nick/core/widgets/image_widget.dart';
 import 'package:puntgpt_nick/core/widgets/on_button_tap.dart';
 import 'package:puntgpt_nick/provider/search_engine_provider.dart';
@@ -21,7 +23,6 @@ class FilterList extends StatefulWidget {
 }
 
 class _FilterListState extends State<FilterList> {
-
 
   @override
   Widget build(BuildContext context) {
@@ -102,7 +103,6 @@ class _FilterListState extends State<FilterList> {
   /// For Mobile
   Widget _buildFilterSection() {
     final provider = context.watch<SearchEngineProvider>();
-
     return Column(
       children: [
         horizontalDivider(),
@@ -111,6 +111,7 @@ class _FilterListState extends State<FilterList> {
             dividerColor: AppColors.transparent,
           ), //AppColors.greyColor.withValues(alpha: 0.2)
           child: ExpansionTile(
+            initiallyExpanded: true,
             childrenPadding: EdgeInsets.only(
               left: (context.isBrowserMobile) ? 50.w : 25.w,
               right: (context.isBrowserMobile) ? 50.w : 25.w,
@@ -126,8 +127,8 @@ class _FilterListState extends State<FilterList> {
                 fontSize: (context.isBrowserMobile) ? 36.sp : 16.sp,
               ),
             ),
-
-            children: provider.trackItems.map((item) {
+            children: [
+              ...provider.trackItems.map((item) {
               bool isChecked = item.checked;
               return InkWell(
                 onTap: () {
@@ -184,6 +185,64 @@ class _FilterListState extends State<FilterList> {
                 ),
               );
             }).toList(),
+            10.verticalSpace,
+
+            horizontalDivider(),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 14),
+              child: AppTextField(
+                inputFormatter: [FilteringTextInputFormatter.digitsOnly],
+                keyboardType: TextInputType.number,
+                controller: provider.oddsRangeCtr,
+                hintText: "Odds Range",
+              ),
+            ),
+            horizontalDivider(),
+
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 14),
+              child: AppTextField(
+                
+                
+                controller: TextEditingController(),
+                hintText: "Wins at track",
+
+              ),
+            ),
+            horizontalDivider(),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 14),
+              child: AppTextField(
+                
+                
+                controller: provider.winsAtDistanceCtr,
+                hintText: "Wins at distance",
+
+              ),
+            ),
+            
+            horizontalDivider(),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 14),
+              child: AppTextField(
+                inputFormatter: [FilteringTextInputFormatter.digitsOnly],
+                keyboardType: TextInputType.number,
+                controller: provider.jockeyHorseWinsCtr,
+                hintText: "Jockey horse wins",
+              ),
+            ),
+            horizontalDivider(),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 14),
+              child: AppTextField(
+                inputFormatter: [FilteringTextInputFormatter.digitsOnly],
+                keyboardType: TextInputType.number,
+                controller: provider.barrierCtr,
+                hintText: "Barrier",
+              ),
+            ),
+            
+            ]
           ),
         ),
         horizontalDivider(),

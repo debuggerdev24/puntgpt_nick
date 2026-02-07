@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -271,26 +273,29 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       spacing: 16,
       children: [
         //todo timing buttons
-        if(!provider.isSearched)
-        RaceStartTimingOptions(),
+        if (!provider.isSearched) RaceStartTimingOptions(),
         Expanded(
-          child: (provider.isSearched)
-              ? RunnersList(runnerData: provider.runnerData)
-              : FilterList(formKey: formKey),
-        ),
-        if (!provider.isSearched)
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  askPuntGPTButton(context),
-                  10.verticalSpace,
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                (provider.isSearched)
+                    ? RunnersList(runnerData: provider.runnerData)
+                    : FilterList(formKey: formKey),
+                if (!provider.isSearched) ...[
+                  20.verticalSpace,
+                  Align(
+                    alignment: Alignment.bottomRight,
+                    child: Padding(
+                      padding: EdgeInsets.only(right: 20),
+                      child: askPuntGPTButton(context),
+                    ),
+                  ),
                   IntrinsicWidth(
                     child: AppFilledButton(
+                      margin: EdgeInsets.symmetric(
+                        horizontal: 24.w,
+                        vertical: 10,
+                      ),
                       text: "Search",
                       textStyle: semiBold(
                         fontSize: 16.sixteenSp(context),
@@ -308,20 +313,35 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                           onError: (error) {
                             AppToast.error(context: context, message: error);
                           },
-                          
+
                           onSuccess: () {
-                            AppToast.success(context: context, message: "Search saved successfully");
+                            AppToast.success(
+                              context: context,
+                              message: "Search saved successfully",
+                            );
                           },
                         );
                         provider.setIsSearched(value: true);
                       },
                     ),
                   ),
-                  10.verticalSpace,
                 ],
-              ),
+              ],
             ),
           ),
+        ),
+        // if (provider.isSearched)
+        //   Align(
+        //     alignment: Alignment.bottomCenter,
+        //     child: Padding(
+        //       padding: EdgeInsets.symmetric(horizontal: 20),
+        //       child: Column(
+        //         crossAxisAlignment: CrossAxisAlignment.end,
+        //         mainAxisSize: MainAxisSize.min,
+        //         children: [],
+        //       ),
+        //     ),
+        //   ),
       ],
     );
   }
@@ -452,5 +472,3 @@ Widget askPuntGPTButton(BuildContext context) {
     ),
   );
 }
-
-

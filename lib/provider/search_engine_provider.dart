@@ -11,6 +11,7 @@ class SearchEngineProvider extends ChangeNotifier {
   int _selectedTab = 0, _selectedRace = 0, _selectedDay = 0;
   JumpType _selectedRaceTimingEnum = JumpType.jumps_within_10mins;
   JumpType get selectedRaceTimingEnum => _selectedRaceTimingEnum;
+  TextEditingController oddsRangeCtr = TextEditingController(),winsAtTrackCtr = TextEditingController(),winsAtDistanceCtr = TextEditingController(),jockeyHorseWinsCtr = TextEditingController(),barrierCtr = TextEditingController();
   List<SaveSearchModel>? saveSearches;
   SaveSearchModel? selectedSaveSearch;
   set selectedRaceTimingEnum(JumpType value) {
@@ -63,7 +64,9 @@ class SearchEngineProvider extends ChangeNotifier {
     TrackItemModel.fromTrackType(TrackType.placed_last_start),
     TrackItemModel.fromTrackType(TrackType.placed_at_distance),
     TrackItemModel.fromTrackType(TrackType.placed_at_track),
-    TrackItemModel.fromTrackType(TrackType.odds_range),
+    TrackItemModel.fromTrackType(TrackType.won_last_start),
+    TrackItemModel.fromTrackType(TrackType.won_last_12_months),
+    // TrackItemModel.fromTrackType(TrackType.odds_range),
   ];
 
   //* Saved Search Screen Track Section (Checkboxes)
@@ -71,7 +74,7 @@ class SearchEngineProvider extends ChangeNotifier {
     TrackItemModel.fromTrackType(TrackType.placed_last_start),
     TrackItemModel.fromTrackType(TrackType.placed_at_distance),
     TrackItemModel.fromTrackType(TrackType.placed_at_track),
-    TrackItemModel.fromTrackType(TrackType.odds_range),
+    // TrackItemModel.fromTrackType(TrackType.odds_range),
   ];
 
   //* Toggle method for track checkboxes
@@ -148,9 +151,14 @@ class SearchEngineProvider extends ChangeNotifier {
         "name": "Custom Name",
         "filters": {
           "track": "Flemington",
-          trackItems[0].trackType.name: trackItems[0].checked,
-          trackItems[1].trackType.name: trackItems[1].checked,
-          trackItems[2].trackType.name: trackItems[2].checked,
+          "placed_last_start": trackItems[0].checked,
+          "placed_at_distance": trackItems[1].checked,
+          "placed_at_track": trackItems[2].checked,
+          "odds_range": oddsRangeCtr.text,
+          "wins_at_track": winsAtTrackCtr.text,
+          "win_at_distance": winsAtDistanceCtr.text,
+          "jockey_horse_wins": jockeyHorseWinsCtr.text,
+          "barrier": barrierCtr.text,
         },
         "comment": "Custom comment",
       },
