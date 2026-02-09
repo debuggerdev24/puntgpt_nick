@@ -9,6 +9,7 @@ import 'package:puntgpt_nick/core/utils/app_toast.dart';
 import 'package:puntgpt_nick/core/widgets/image_widget.dart';
 import 'package:puntgpt_nick/main.dart';
 import 'package:puntgpt_nick/provider/account/account_provider.dart';
+import 'package:puntgpt_nick/provider/search_engine_provider.dart';
 import 'package:puntgpt_nick/screens/dashboard/mobile/widgets/dashboard_app_bar.dart';
 import 'package:puntgpt_nick/screens/offline/widget/offline_view.dart';
 import 'package:puntgpt_nick/service/subscription/subscription_service.dart';
@@ -41,9 +42,9 @@ class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      // resizeToAvoidBottomInset: false,
       backgroundColor: AppColors.white,
-      extendBody: false,
+      // extendBody: false,
       body: SafeArea(
         bottom: false,
         child: Column(
@@ -218,6 +219,7 @@ class _DashboardState extends State<Dashboard> {
 
 void callInitAPIs({required BuildContext context}) {
   final accountProvider = context.read<AccountProvider>();
+  final searchEngineProvider = context.read<SearchEngineProvider>();
   Future.wait([
     accountProvider.getProfile(),
     accountProvider.getSubscriptionPlans(
@@ -225,6 +227,9 @@ void callInitAPIs({required BuildContext context}) {
         AppToast.error(context: context, message: error);
       },
     ),
+    searchEngineProvider.getTrackDetails(),
+    searchEngineProvider.getDistanceDetails(),
+    searchEngineProvider.getBarrierDetails(),
     SubscriptionService.instance.initialize(
       provider: context.read<SubscriptionProvider>(),
       context: context,

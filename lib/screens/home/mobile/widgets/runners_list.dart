@@ -20,14 +20,19 @@ class RunnersList extends StatelessWidget {
     // return  _runnerShimmer();
     final runners = runnerData?.runnersList;
       if(runnerData == null) {
-        return Column(
-          children:[
-            _runnerShimmer(),
-          ],
-        );
+        return _runnerShimmer();
       }
       if(runners!.isEmpty){
-        return Center(child: Text("No runners found!"));
+        // Use a SizedBox with height to ensure proper centering in scrollable context
+        return SizedBox(
+          height: MediaQuery.of(context).size.height * 0.6,
+          child: Center(
+            child: Text(
+              "No runners found!",
+              style: medium(fontSize: 16.sp),
+            ),
+          ),
+        );
       }
       return Column(
       children:[
@@ -63,21 +68,16 @@ class RunnersList extends StatelessWidget {
             ],
           ),
         ),
-        Expanded(
-          child: Stack(
-            children: [
-              Align(
-                alignment: AlignmentGeometry.bottomRight,
-                child: Padding(
-                  padding: EdgeInsets.only(right: 25.w, bottom: 30.h),
-                  child: askPuntGPTButton(context),
-                ),
-              ),
-              ListView.builder(
-                itemCount: runners.length ,
-                itemBuilder: (context, index) {
-                  final runner = runners?[index];
-                  if (runner == null) return Center(child: Text("No runners found"));
+        Stack(
+          children: [
+
+            
+            ListView.builder(
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              itemCount: runners.length ,
+              itemBuilder: (context, index) {
+                  final runner = runners[index];
                   return Container(
                     margin: EdgeInsets.fromLTRB(25.w, 0, 25.w, 16),
                     decoration: BoxDecoration(
@@ -303,10 +303,15 @@ class RunnersList extends StatelessWidget {
                   );
                 },
               ),
-              
+              Align(
+                alignment: Alignment.bottomRight,
+                child: Padding(
+                  padding: EdgeInsets.only(right: 25.w, bottom: 30.h),
+                  child: askPuntGPTButton(context),
+                ),
+              ),
             ],
           ),
-        ),
         Align(
             alignment: Alignment.bottomCenter,
             child: GestureDetector(
@@ -331,17 +336,18 @@ class RunnersList extends StatelessWidget {
                 ),
               ),
             ),
-          )
+          ),
       ],
     );
   
     }
 
   Widget _runnerShimmer() {
-    return Expanded(
-      child: ListView.builder(
-        itemCount: 5, // Show 5 shimmer items
-        itemBuilder: (context, index) {
+    return ListView.builder(
+      shrinkWrap: true,
+      physics: NeverScrollableScrollPhysics(),
+      itemCount: 5, // Show 5 shimmer items
+      itemBuilder: (context, index) {
           return Container(
             margin: EdgeInsets.fromLTRB(25.w, 0, 25.w, 16),
             decoration: BoxDecoration(
@@ -469,7 +475,6 @@ class RunnersList extends StatelessWidget {
             ),
           );
         },
-      ),
     );
   }
 }

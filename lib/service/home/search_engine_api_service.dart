@@ -6,6 +6,29 @@ class SearchEngineAPISearvice {
   SearchEngineAPISearvice._();
   static SearchEngineAPISearvice instance = SearchEngineAPISearvice._();
 
+
+  Future<Either<ApiException, Map<String, dynamic>>> getTrackDetails() async {
+    return await BaseApiHelper.instance.get<Map<String, dynamic>>(
+      EndPoints.trackDetails,
+    );
+  }
+  Future<Either<ApiException, Map<String, dynamic>>> getDistanceDetails() async {
+    return await BaseApiHelper.instance.get<Map<String, dynamic>>(
+      EndPoints.distanceDetails,
+    );
+  }
+
+  Future<Either<ApiException, Map<String, dynamic>>> getBarrierDetails() async {
+    return await BaseApiHelper.instance.get<Map<String, dynamic>>(
+      EndPoints.barrierDetails,
+    );
+  }
+  Future<Either<ApiException, Map<String, dynamic>>> getSearchFilterDetails() async {
+    return await BaseApiHelper.instance.get<Map<String, dynamic>>(
+      EndPoints.searchFilterDetails,
+    );
+  }
+
   Future<Either<ApiException, Map<String, dynamic>>> getSearchEngine({
     required String jumpFilter,
     String? track,
@@ -53,4 +76,5 @@ class SearchEngineAPISearvice {
       EndPoints.deleteSaveSearch(id: id),
     );
   }
+  
 }

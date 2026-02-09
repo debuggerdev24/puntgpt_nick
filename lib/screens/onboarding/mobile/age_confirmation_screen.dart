@@ -40,7 +40,7 @@ class AgeConfirmationScreen extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: context.isMobileView
+      bottomNavigationBar: context.isPhysicalMobile
           ? Padding(
               padding: EdgeInsets.fromLTRB(
                 25,

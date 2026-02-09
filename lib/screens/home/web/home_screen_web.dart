@@ -10,7 +10,7 @@ import 'package:puntgpt_nick/core/constants/text_style.dart';
 import 'package:puntgpt_nick/core/widgets/app_devider.dart';
 import 'package:puntgpt_nick/core/widgets/image_widget.dart';
 import 'package:puntgpt_nick/core/widgets/on_button_tap.dart';
-import 'package:puntgpt_nick/screens/home/mobile/widgets/filters_list.dart';
+import 'package:puntgpt_nick/screens/home/mobile/widgets/search_section.dart';
 import 'package:puntgpt_nick/screens/home/mobile/widgets/home_screen_tab.dart';
 import 'package:puntgpt_nick/screens/home/mobile/widgets/race_table.dart';
 import 'package:puntgpt_nick/screens/home/web/widgets/chat_section_web.dart';
@@ -118,7 +118,7 @@ class _HomeScreenWebState extends State<HomeScreenWeb> {
                 Expanded(
                   child: (provider.isSearched)
                       ? RunnersListWeb(runnerData: provider.runnerData!)
-                      : FilterList(formKey: formKey),
+                      : SearchView(providerh: provider),
                 ),
                 Align(
                   alignment: AlignmentGeometry.bottomCenter,

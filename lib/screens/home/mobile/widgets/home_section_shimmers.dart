@@ -1,8 +1,200 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:puntgpt_nick/core/constants/app_colors.dart';
+import 'package:puntgpt_nick/core/widgets/app_devider.dart';
 import 'package:puntgpt_nick/responsive/responsive_builder.dart';
 import 'package:shimmer/shimmer.dart';
+
+
+/// Shimmer for the Search Detail screen (home_screen)
+Widget homeScreenShimmer({required BuildContext context}) {
+  final bodyHorizontalPadding = (context.isBrowserMobile) ? 50.w : 25.w;
+
+  return Shimmer.fromColors(
+    baseColor: AppColors.shimmerBaseColor,
+    highlightColor: AppColors.shimmerHighlightColor,
+    child: Expanded(
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            // "Search for a horse..." title shimmer
+            Padding(
+              padding: EdgeInsets.fromLTRB(
+                bodyHorizontalPadding,
+                16.w,
+                bodyHorizontalPadding,
+                0,
+              ),
+              child: Container(
+                width: (context.isBrowserMobile) ? 420.w : 220.w,
+                height: (context.isBrowserMobile) ? 40.h : 18.h,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(4),
+                ),
+              ),
+            ),
+        
+            // "Total runners" row shimmer
+            Padding(
+              padding: EdgeInsets.fromLTRB(
+                (context.isBrowserMobile) ? 50.w : 25.w,
+                12.w,
+                (context.isBrowserMobile) ? 50.w : 25.w,
+                20.w,
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                    width: (context.isBrowserMobile) ? 260.w : 140.w,
+                    height: (context.isBrowserMobile) ? 32.h : 18.h,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                  ),
+                  Container(
+                    width: (context.isBrowserMobile) ? 260.w : 150.w,
+                    height: (context.isBrowserMobile) ? 32.h : 18.h,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+        
+            horizontalDivider(),
+        
+            // Filters area shimmer
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: bodyHorizontalPadding),
+              child: Column(
+                children: [
+                  // Track dropdown shimmer
+                  Container(
+                    margin: EdgeInsets.symmetric(vertical: 20.w),
+                    height: (context.isBrowserMobile) ? 56.h : 46.h,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                  ),
+                  horizontalDivider(),
+        
+                  // First checkbox row shimmer (e.g. "Placed last start")
+                  Padding(
+                    padding: EdgeInsets.symmetric(vertical: 19.w),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          width: (context.isBrowserMobile) ? 260.w : 160.w,
+                          height: (context.isBrowserMobile) ? 32.h : 18.h,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                        ),
+                        Container(
+                          width: (context.isBrowserMobile) ? 40.sp : 22.sp,
+                          height: (context.isBrowserMobile) ? 40.sp : 22.sp,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(2),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  horizontalDivider(),
+        
+                  // "Placed at distance" dropdown shimmer
+                  Container(
+                    margin: EdgeInsets.symmetric(vertical: 20.w),
+                    height: (context.isBrowserMobile) ? 56.h : 46.h,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                  ),
+                  horizontalDivider(),
+        
+                  // "Odds range" text field shimmer
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 14),
+                    child: Container(
+                      height: (context.isBrowserMobile) ? 56.h : 46.h,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                    ),
+                  ),
+                  horizontalDivider(),
+        
+                  // Additional dropdown / text-field rows shimmer
+                  ...List.generate(4, (index) {
+                    return Column(
+                      children: [
+                        Container(
+                          margin: EdgeInsets.symmetric(vertical: 20.w),
+                          height: (context.isBrowserMobile) ? 56.h : 46.h,
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                        ),
+                        horizontalDivider(),
+                      ],
+                    );
+                  }),
+        
+                  // Final checkbox row shimmer (e.g. "Won last start")
+                  Padding(
+                    padding: EdgeInsets.symmetric(vertical: 20.w),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          width: (context.isBrowserMobile) ? 260.w : 160.w,
+                          height: (context.isBrowserMobile) ? 32.h : 18.h,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                        ),
+                        Container(
+                          width: (context.isBrowserMobile) ? 40.sp : 22.sp,
+                          height: (context.isBrowserMobile) ? 40.sp : 22.sp,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(2),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  horizontalDivider(),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    ),
+  );
+}
+
 
 Widget searchedItemShimmer({required BuildContext context}) {
   return Padding(

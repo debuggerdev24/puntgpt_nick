@@ -161,7 +161,7 @@ class _SearchSectionWebState extends State<SearchSectionWeb> {
                               : 14.sp,
                         ),
                       ),
-                      children: provider.trackItems.map((item) {
+                      children: provider.trackBoolItems.map((item) {
                         bool isChecked = item.checked;
                         return InkWell(
                           onTap: () {

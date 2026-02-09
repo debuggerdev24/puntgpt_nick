@@ -17,6 +17,11 @@ class EndPoints {
   static const String logOut = "/accounts/logout/";
 
   //* horse-race section
+  static String trackDetails = "/horse-race/track-displaying/";
+  static String distanceDetails = "/horse-race/distance-displaying/";
+  static String searchFilterDetails = "/horse-race/search-filter-display/";
+  static String barrierDetails = "/horse-race/barrier-display/";
+
   static String getUpcomingMeetings({required String jumpFilter, String? track}) =>
       "/horse-race/upcoming-runners/?jump=$jumpFilter${(track != null) ? "&track=$track" : ""}";
 

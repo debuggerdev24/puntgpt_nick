@@ -39,7 +39,7 @@ class RaceStartTimingOptionsWeb extends StatelessWidget {
                     timings.length,
                     (index) => _item(
                       text: timings[index],
-                      onTap: () => provider.selectedRaceTimingEnum = provider.raceTimingEnums[index],
+                      onTap: () => provider.setSelectedRaceTimingEnum = provider.raceTimingEnums[index],
                       isSelected: provider.selectedRaceTimingEnum == provider.raceTimingEnums[index],
                       context: context,
                     ),

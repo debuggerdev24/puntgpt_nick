@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +11,8 @@ import 'package:puntgpt_nick/core/router/web/web_routes.dart';
 import 'package:puntgpt_nick/core/utils/app_toast.dart';
 import 'package:puntgpt_nick/core/widgets/image_widget.dart';
 import 'package:puntgpt_nick/responsive/responsive_builder.dart';
-import 'package:puntgpt_nick/screens/home/mobile/widgets/filters_list.dart';
+import 'package:puntgpt_nick/screens/home/mobile/widgets/home_section_shimmers.dart';
+import 'package:puntgpt_nick/screens/home/mobile/widgets/search_section.dart';
 import 'package:puntgpt_nick/screens/home/mobile/widgets/home_screen_tab.dart';
 import 'package:puntgpt_nick/screens/home/mobile/widgets/race_start_timing_options.dart';
 import 'package:puntgpt_nick/screens/home/mobile/widgets/runners_list.dart';
@@ -64,40 +63,39 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         }
       },
       child: Scaffold(
-        resizeToAvoidBottomInset: true,
+        // resizeToAvoidBottomInset: true,
         body: Consumer<SearchEngineProvider>(
-          builder:
-              (
-                BuildContext context,
-                SearchEngineProvider provider,
-                Widget? child,
-              ) {
-                return Column(
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(25.w, 16.h, 25.w, 0),
-                      child: HomeScreenTab(selectedIndex: provider.selectedTab),
-                    ),
-                    16.h.verticalSpace,
-                    Expanded(
-                      child: FadeInUp(
-                        from: 1,
-                        key: ValueKey(provider.selectedTab),
-                        child: (provider.selectedTab == 0)
-                            ? puntGptSearchEngine(
-                                provider: provider,
-                                formKey: formKey,
-                                context: context,
-                              )
-                            : classicFormGuide(
-                                context: context,
-                                provider: provider,
-                              ),
-                      ),
-                    ),
-                  ],
-                );
-              },
+          builder: (context, provider, child) {
+            if (provider.trackDetails == null ||
+                provider.distanceDetails == null) {
+              return homeScreenShimmer(context: context);
+            }
+            return Column(
+              children: [
+                Padding(
+                  padding: EdgeInsets.fromLTRB(25.w, 16.w, 25.w, 0),
+                  child: HomeScreenTab(selectedIndex: provider.selectedTab),
+                ),
+                16.w.verticalSpace,
+                Expanded(
+                  child: FadeInUp(
+                    from: 1,
+                    key: ValueKey(provider.selectedTab),
+                    child: (provider.selectedTab == 0)
+                        ? puntGptSearchEngine(
+                            provider: provider,
+                            formKey: formKey,
+                            context: context,
+                          )
+                        : classicFormGuide(
+                            context: context,
+                            provider: provider,
+                          ),
+                  ),
+                ),
+              ],
+            );
+          },
         ),
       ),
     );
@@ -273,14 +271,16 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       spacing: 16,
       children: [
         //todo timing buttons
-        if (!provider.isSearched) RaceStartTimingOptions(),
         Expanded(
           child: SingleChildScrollView(
             child: Column(
               children: [
-                (provider.isSearched)
-                    ? RunnersList(runnerData: provider.runnerData)
-                    : FilterList(formKey: formKey),
+                if (provider.isSearched)
+                  RunnersList(runnerData: provider.runnerData)
+                else ...[
+                  RaceStartTimingOptions(),
+                  SearchView(providerh: provider),
+                ],
                 if (!provider.isSearched) ...[
                   20.verticalSpace,
                   Align(

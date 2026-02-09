@@ -11,10 +11,49 @@ class SearchEngineProvider extends ChangeNotifier {
   int _selectedTab = 0, _selectedRace = 0, _selectedDay = 0;
   JumpType _selectedRaceTimingEnum = JumpType.jumps_within_10mins;
   JumpType get selectedRaceTimingEnum => _selectedRaceTimingEnum;
-  TextEditingController oddsRangeCtr = TextEditingController(),winsAtTrackCtr = TextEditingController(),winsAtDistanceCtr = TextEditingController(),jockeyHorseWinsCtr = TextEditingController(),barrierCtr = TextEditingController();
+  TextEditingController oddsRangeCtr = TextEditingController(),
+      jockeyHorseWinsCtr = TextEditingController();
   List<SaveSearchModel>? saveSearches;
+  List<String>? trackDetails,
+      distanceDetails,
+      searchFilterDetails,
+      barrierList;
   SaveSearchModel? selectedSaveSearch;
-  set selectedRaceTimingEnum(JumpType value) {
+
+  String? selectedTrack,
+      selectedPlaceAtDistance,
+      selectedWinsAtTrack,
+      selectedWinsAtDistance,
+      selectedPlaceAtTrack,
+      selectedBarrier;
+
+  set setSelectedTrack(String value) {
+    selectedTrack = value;
+    notifyListeners();
+  }
+  set setSelectedPlaceAtDistance(String value) {
+    selectedPlaceAtDistance = value;
+    notifyListeners();
+  }
+  set setSelectedWinsAtTrack(String value) {
+    selectedWinsAtTrack = value;
+    notifyListeners();
+  }
+
+  set setSelectedWinsAtDistance(String value) {
+    selectedWinsAtDistance = value;
+    notifyListeners();
+  }
+  set setSelectedPlaceAtTrack(String value) {
+    selectedPlaceAtTrack = value;
+    notifyListeners();
+  }
+  set setSelectedBarrier(String value) {
+    selectedBarrier = value;
+    notifyListeners();
+  }
+
+  set setSelectedRaceTimingEnum(JumpType value) {
     _selectedRaceTimingEnum = value;
     notifyListeners();
   }
@@ -24,6 +63,8 @@ class SearchEngineProvider extends ChangeNotifier {
   int get selectedDay => _selectedDay;
   bool get isMenuOpen => _isMenuOpen;
   bool get isEditSavedSearch => _isEditSavedSearch;
+
+  
   set setIsEditSavedSearch(bool value) {
     _isEditSavedSearch = value;
     notifyListeners();
@@ -49,7 +90,7 @@ class SearchEngineProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// Maps race starting timing indices to their corresponding JumpType enums
+  // Maps race starting timing indices to their corresponding JumpType enums
   List<JumpType> raceTimingEnums = [
     JumpType.jumps_within_10mins,
     JumpType.jumps_within_an_hour,
@@ -60,10 +101,8 @@ class SearchEngineProvider extends ChangeNotifier {
   String get selectedRaceTimingApiString => selectedRaceTimingEnum.name;
 
   //* Home Screen Track Section (Checkboxes)
-  final List<TrackItemModel> trackItems = [
+  final List<TrackItemModel> trackBoolItems = [
     TrackItemModel.fromTrackType(TrackType.placed_last_start),
-    TrackItemModel.fromTrackType(TrackType.placed_at_distance),
-    TrackItemModel.fromTrackType(TrackType.placed_at_track),
     TrackItemModel.fromTrackType(TrackType.won_last_start),
     TrackItemModel.fromTrackType(TrackType.won_last_12_months),
     // TrackItemModel.fromTrackType(TrackType.odds_range),
@@ -72,18 +111,18 @@ class SearchEngineProvider extends ChangeNotifier {
   //* Saved Search Screen Track Section (Checkboxes)
   final List<TrackItemModel> savedSearchTrackItems = [
     TrackItemModel.fromTrackType(TrackType.placed_last_start),
-    TrackItemModel.fromTrackType(TrackType.placed_at_distance),
-    TrackItemModel.fromTrackType(TrackType.placed_at_track),
+    TrackItemModel.fromTrackType(TrackType.won_last_start),
+    TrackItemModel.fromTrackType(TrackType.won_last_12_months),
     // TrackItemModel.fromTrackType(TrackType.odds_range),
   ];
 
   //* Toggle method for track checkboxes
   void toggleTrackItem(String label, bool value) {
-    final index = trackItems.indexWhere(
+    final index = trackBoolItems.indexWhere(
       (item) => item.trackType.value == label,
     );
     if (index != -1) {
-      trackItems[index] = trackItems[index].copyWith(checked: value);
+      trackBoolItems[index] = trackBoolItems[index].copyWith(checked: value);
       notifyListeners();
     }
   }
@@ -108,7 +147,69 @@ class SearchEngineProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  //* APIs functions
+  //todo APIs functions
+
+  Future<void> getTrackDetails() async {
+    trackDetails = null;
+    notifyListeners();
+    final result = await SearchEngineAPISearvice.instance.getTrackDetails();
+
+    result.fold(
+      (l) {
+        Logger.error(l.errorMsg);
+      },
+      (r) {
+        final data = r["data"];
+        if (data is List) {
+          trackDetails = data.map((e) => e.toString()).toList();
+        } else {
+          trackDetails = null;
+        }
+      },
+    );
+    notifyListeners();
+  }
+
+  Future<void> getDistanceDetails() async {
+    distanceDetails = null;
+    notifyListeners();
+    final result = await SearchEngineAPISearvice.instance.getDistanceDetails();
+    result.fold(
+      (l) {
+        Logger.error(l.errorMsg);
+      },
+      (r) {
+        final data = r["data"];
+        if (data is List) {
+          distanceDetails = data.map((e) => e.toString()).toList();
+        } else {
+          distanceDetails = null;
+        }
+      },
+    );
+    notifyListeners();
+  }
+
+  Future<void> getBarrierDetails() async {
+    barrierList = null;
+    notifyListeners();
+    final result = await SearchEngineAPISearvice.instance.getBarrierDetails();
+    result.fold(
+      (l) {
+        Logger.error(l.errorMsg);
+      },
+      (r) {
+        final data = r["data"];
+        if (data is List) {
+          barrierList = data.map((e) => e.toString()).toList();
+        } else {
+          barrierList = null;
+        }
+      },
+    );
+    notifyListeners();
+  }
+
   Future<void> getSearchEngine({
     required Function(String error) onError,
     required VoidCallback onSuccess,
@@ -116,7 +217,7 @@ class SearchEngineProvider extends ChangeNotifier {
     runnerData = null;
     notifyListeners();
     // Get the first checked track item, if any
-    final checkedTrackItem = trackItems
+    final checkedTrackItem = trackBoolItems
         .where((item) => item.checked == true)
         .firstOrNull;
     final trackValue = checkedTrackItem?.trackType.name;
@@ -151,14 +252,18 @@ class SearchEngineProvider extends ChangeNotifier {
         "name": "Custom Name",
         "filters": {
           "track": "Flemington",
-          "placed_last_start": trackItems[0].checked,
-          "placed_at_distance": trackItems[1].checked,
-          "placed_at_track": trackItems[2].checked,
+          "placed_last_start": trackBoolItems[0].checked,
+          "placed_at_distance": selectedPlaceAtDistance,
+          "placed_at_track": selectedPlaceAtTrack,
           "odds_range": oddsRangeCtr.text,
-          "wins_at_track": winsAtTrackCtr.text,
-          "win_at_distance": winsAtDistanceCtr.text,
+          "wins_at_track": selectedWinsAtTrack,
+          "win_at_distance": selectedWinsAtDistance,
+          "won_last_start": trackBoolItems[1].checked,
+          "won_last_12_months": trackBoolItems[2].checked,
           "jockey_horse_wins": jockeyHorseWinsCtr.text,
-          "barrier": barrierCtr.text,
+          "barrier": selectedBarrier,
+          "jockey_strike_rate_last_12_months": "",
+          
         },
         "comment": "Custom comment",
       },

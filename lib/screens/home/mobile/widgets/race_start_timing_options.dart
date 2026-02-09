@@ -38,7 +38,7 @@ class RaceStartTimingOptions extends StatelessWidget {
                           (index) => _item(
                             context: context,
                             text: timings[index],
-                            onTap: () => provider.selectedRaceTimingEnum =
+                            onTap: () => provider.setSelectedRaceTimingEnum =
                                 provider.raceTimingEnums[index],
                             isSelected:
                                 provider.selectedRaceTimingEnum ==
@@ -53,7 +53,7 @@ class RaceStartTimingOptions extends StatelessWidget {
                       itemBuilder: (context, index) => _item(
                         context: context,
                         text: timings[index],
-                        onTap: () => provider.selectedRaceTimingEnum =
+                        onTap: () => provider.setSelectedRaceTimingEnum =
                             provider.raceTimingEnums[index],
                         isSelected:
                             provider.selectedRaceTimingEnum ==

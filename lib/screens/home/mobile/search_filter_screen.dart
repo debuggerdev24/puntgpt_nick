@@ -85,7 +85,7 @@ class SearchFilterScreen extends StatelessWidget {
             tilePadding: EdgeInsets.symmetric(horizontal: 25.w),
             iconColor: AppColors.greyColor,
             title: Text("Track", style: semiBold(fontSize: 16.sp)),
-            children: provider.trackItems.map((item) {
+            children: provider.trackBoolItems.map((item) {
               bool isChecked = item.checked;
               return InkWell(
                 onTap: () {
