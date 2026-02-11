@@ -18,7 +18,7 @@ import 'package:puntgpt_nick/screens/home/mobile/widgets/race_start_timing_optio
 import 'package:puntgpt_nick/screens/home/mobile/widgets/runners_list_screen.dart';
 import '../../../core/router/app/app_routes.dart';
 import '../../../core/widgets/app_filed_button.dart';
-import '../../../provider/search_engine_provider.dart';
+import '../../../provider/search_engine/search_engine_provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});

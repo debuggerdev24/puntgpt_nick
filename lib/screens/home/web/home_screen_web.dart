@@ -23,7 +23,7 @@ import 'package:puntgpt_nick/screens/home/web/widgets/search_section_web.dart';
 import '../../../core/router/app/app_routes.dart';
 import '../../../core/router/web/web_routes.dart';
 import '../../../core/widgets/app_filed_button.dart';
-import '../../../provider/search_engine_provider.dart';
+import '../../../provider/search_engine/search_engine_provider.dart';
 import '../../../responsive/responsive_builder.dart';
 import '../mobile/home_screen.dart';
 

@@ -17,7 +17,7 @@ import 'package:puntgpt_nick/core/widgets/app_text_field_drop_down.dart';
 import 'package:puntgpt_nick/responsive/responsive_builder.dart';
 import 'package:puntgpt_nick/screens/home/mobile/widgets/home_section_shimmers.dart';
 
-import '../../../provider/search_engine_provider.dart';
+import '../../../provider/search_engine/search_engine_provider.dart';
 
 class SearchDetailScreen extends StatelessWidget {
   const SearchDetailScreen({super.key});

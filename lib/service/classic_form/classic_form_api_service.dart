@@ -1,0 +1,14 @@
+import 'package:dartz/dartz.dart';
+import 'package:puntgpt_nick/core/constants/end_points.dart';
+import 'package:puntgpt_nick/core/helper/base_api_helper.dart';
+
+class ClassicFormAPIService {
+  ClassicFormAPIService._();
+  static ClassicFormAPIService instance = ClassicFormAPIService._();
+
+  Future<Either<ApiException, Map<String, dynamic>>> getClassicForm({required String jumpFilter}) async {
+    return await BaseApiHelper.instance.get<Map<String, dynamic>>(
+      EndPoints.getClassicFormGuide(jumpFilter: jumpFilter),
+    );
+  }
+}

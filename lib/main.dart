@@ -9,7 +9,7 @@ import 'package:puntgpt_nick/core/router/web/web_router.dart';
 import 'package:puntgpt_nick/provider/account/account_provider.dart';
 import 'package:puntgpt_nick/provider/auth/auth_provider.dart';
 import 'package:puntgpt_nick/provider/punt_club/punter_club_provider.dart';
-import 'package:puntgpt_nick/provider/search_engine_provider.dart';
+import 'package:puntgpt_nick/provider/search_engine/search_engine_provider.dart';
 import 'package:puntgpt_nick/provider/subscription/subscription_provider.dart';
 import 'package:puntgpt_nick/responsive/responsive_builder.dart';
 import 'package:puntgpt_nick/service/network/network_service.dart';
@@ -93,8 +93,23 @@ todo Joseph
 todo Nick
 
 
-
-
+name: "Custom Name 3",
+filters: {
+track: Flemington
+placed_last_start: true
+placed_at_distance: 0 - 1000m
+placed_at_track: 0 - 1000m
+odds_range: 2
+wins_at_track: Adaminaby
+win_at_distance:0 - 1000m
+won_last_start: true
+won_last_12_months: true
+jockey_horse_wins: 1
+barrier: 1 - 3
+jockey_strike_rate_last_12_months: ""
+},
+"comment": Custom comment
+}
 
 
 //! NOTE: top bar        // Blue

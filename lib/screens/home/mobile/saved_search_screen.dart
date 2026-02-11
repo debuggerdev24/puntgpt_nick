@@ -8,9 +8,9 @@ import 'package:puntgpt_nick/core/router/app/app_router.dart';
 import 'package:puntgpt_nick/core/router/app/app_routes.dart';
 import 'package:puntgpt_nick/core/utils/date_formater.dart';
 import 'package:puntgpt_nick/core/widgets/app_devider.dart';
-import 'package:puntgpt_nick/core/widgets/app_filed_button.dart';
+
 import 'package:puntgpt_nick/models/search_engine/search_model.dart';
-import 'package:puntgpt_nick/provider/search_engine_provider.dart';
+import 'package:puntgpt_nick/provider/search_engine/search_engine_provider.dart';
 import 'package:puntgpt_nick/responsive/responsive_builder.dart';
 import 'package:puntgpt_nick/screens/home/mobile/widgets/home_section_shimmers.dart';
 
