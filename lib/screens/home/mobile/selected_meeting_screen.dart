@@ -3,6 +3,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:puntgpt_nick/core/helper/log_helper.dart';
 import 'package:puntgpt_nick/core/utils/date_formater.dart';
 import 'package:puntgpt_nick/core/widgets/app_filed_button.dart';
 
@@ -33,15 +34,6 @@ class _SelectedMeetingScreenState extends State<SelectedMeetingScreen> {
           children: [
             Column(
               children: [
-                // Padding(
-                //   padding: EdgeInsets.fromLTRB(25.w, 16.h, 25.w, 0),
-                //   child: HomeScreenTab(
-                //     selectedIndex: provider.selectedTab,
-                //     onTap: () {
-                //       context.pop();
-                //     },
-                //   ),
-                // ),
                 topBar(context: context, provider: provider),
                 //* Race selection view
                 Expanded(
@@ -258,7 +250,6 @@ class _SelectedRaceTableState extends State<SelectedRaceTable> {
         : null;
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
-
       child: Container(
         width: 1.4.sw,
         decoration: BoxDecoration(
@@ -268,7 +259,7 @@ class _SelectedRaceTableState extends State<SelectedRaceTable> {
           border: TableBorder.symmetric(
             inside: BorderSide(color: AppColors.primary.withValues(alpha: 0.2)),
           ),
-          columnWidths: {0: FlexColumnWidth(1.6), 1: FlexColumnWidth(5)},
+          columnWidths: {0: FlexColumnWidth(1.7.w), 1: FlexColumnWidth(4.5.w)},
           defaultVerticalAlignment: TableCellVerticalAlignment.middle,
           children: List.generate(selections.length, (index) {
             final selection = selections[index];
@@ -392,22 +383,29 @@ class _ExpandedStatsContent extends StatelessWidget {
   final Selection selection;
   final int distance;
 
-  static String _formatStat(dynamic value) {
-    if (value == null) return '—';
-    if (value is Map) {
-      final runs = value['runs'];
-      final wins = value['wins'];
-      final seconds = value['seconds'];
-      final thirds = value['thirds'];
-      final parts = <String>[];
-      if (runs != null) parts.add('runs: $runs');
-      if (wins != null) parts.add('wins: $wins');
-      if (seconds != null) parts.add('seconds: $seconds');
-      if (thirds != null) parts.add('thirds: $thirds');
-      if (parts.isEmpty) return value.toString();
-      return parts.join(', ');
-    }
-    return value.toString();
+  static String _formatStat(HorseStatsDetails value) {
+    // if (value == null) return '—';
+    final runs = value.runs;
+    final wins = value.wins;
+    final seconds = value.seconds;
+    final thirds = value.thirds;
+    final winPercentage = value.winPercentage;
+    final placePercentage = value.placePercentage;
+    final roi = value.roi;
+    final parts = <String>[];
+    parts.add('runs: $runs');
+    parts.add('wins: $wins');
+    parts.add('seconds: $seconds');
+    parts.add('thirds: $thirds');
+    parts.add('winPercentage: $winPercentage');
+    parts.add('placePercentage: $placePercentage');
+    parts.add('roi: $roi');
+    Logger.info(
+      'HorseStatsDetails: ${runs}, ${wins}, ${seconds}, ${thirds}, ${winPercentage}, ${placePercentage}, ${roi}',
+    );
+    if (parts.isEmpty) return value.toString();
+    return parts.join(', ');
+    // return value.toString();
   }
 
   static String _formatForm(List<FormHistory> formHistory) {
@@ -445,13 +443,39 @@ class _ExpandedStatsContent extends StatelessWidget {
         children: [
           for (final e in rows.entries) ...[
             if (e.key != rows.keys.first) 8.h.verticalSpace,
-            Text(
-              '${e.key}: ${e.value}',
-              style: medium(fontSize: 14.sp, color: AppColors.primary),
-              softWrap: true,
-              overflow: TextOverflow.ellipsis,
-              maxLines: 3,
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  '${e.key}: ',
+                  style: bold(fontSize: 15.sp, color: AppColors.primary),
+                ),
+                Expanded(
+                  child: Text(
+                    '${e.value}',
+                    style: medium(fontSize: 14.sp, color: AppColors.primary),
+                  ),
+                ),
+              ],
             ),
+
+            // Text.rich(
+            //   TextSpan(
+            //     children: [
+            //       TextSpan(
+            //         text: '${e.key}: ',
+            //         style: bold(fontSize: 15.sp, color: AppColors.primary),
+            //       ),
+            //       TextSpan(
+            //         text: '${e.value}',
+            //         style: medium(fontSize: 14.sp, color: AppColors.primary),
+            //       ),
+            //     ],
+            //   ),
+            //   softWrap: true,
+            //   overflow: TextOverflow.ellipsis,
+            //   maxLines: 3,
+            // ),
           ],
         ],
       ),

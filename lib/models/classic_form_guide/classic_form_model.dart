@@ -5,18 +5,25 @@ class ClassicFormModel {
     required this.trackName,
     required this.meetingDate,
     required this.races,
+    required this.meetingAustralianTime,
   });
 
   factory ClassicFormModel.fromJson(Map<String, dynamic> json) =>
       ClassicFormModel(
-        meetingId: json["meeting_id"],
-        meetingName: json["meeting_name"],
-        trackName: json["track_name"],
-        meetingDate: json["meeting_date"],
-        races: List<Race>.from(json["races"].map((x) => Race.fromJson(x))),
+        meetingId: (json["meeting_id"] as int?) ?? 0,
+        meetingName: (json["meeting_name"] as String?) ?? "",
+        trackName: (json["track_name"] as String?) ?? "",
+        meetingDate: (json["meeting_date"] as String?) ?? "",
+        meetingAustralianTime:
+            (json["meeting_australian_time"] as String?) ?? "",
+        races:
+            (json["races"] as List<dynamic>?)
+                ?.map((x) => Race.fromJson(x as Map<String, dynamic>))
+                .toList() ??
+            [],
       );
   int meetingId;
-  String meetingName, trackName, meetingDate;
+  String meetingName, trackName, meetingDate, meetingAustralianTime;
   List<Race> races;
 }
 
@@ -29,18 +36,24 @@ class Race {
     required this.raceAustralianTime,
   });
 
-  factory Race.fromJson(Map<String, dynamic> json) => Race(
-    raceId: json["raceId"],
-    raceName: json["race_name"],
-    raceNumber: json["race_number"],
-    raceTimeUtc: DateTime.parse(json["race_time_utc"]),
-    raceAustralianTime: json["race_australian_time"],
-  );
-  int raceId;
-  String raceName;
-  int raceNumber;
+  factory Race.fromJson(Map<String, dynamic> json) {
+    final raceTimeUtc = json["race_time_utc"] ?? json["raceTimeUtc"];
+    return Race(
+      raceId: (json["race_id"] ?? json["raceId"]) as int? ?? 0,
+      raceName: (json["race_name"] ?? json["raceName"]) as String? ?? "",
+      raceNumber: (json["race_number"] ?? json["raceNumber"]) as int? ?? 0,
+      raceTimeUtc: raceTimeUtc != null
+          ? DateTime.tryParse(raceTimeUtc.toString()) ?? DateTime.now()
+          : DateTime.now(),
+      raceAustralianTime:
+          (json["race_australian_time"] ?? json["raceAustralianTime"])
+              as String? ??
+          "",
+    );
+  }
+  int raceId, raceNumber;
   DateTime raceTimeUtc;
-  String raceAustralianTime;
+  String raceAustralianTime, raceName;
 
   Map<String, dynamic> toJson() => {
     "raceId": raceId,

@@ -14,8 +14,8 @@ enum JumpType {
 enum ClassicFormDay {
   yesterday("Yesterday"),
   today("Today"),
-  tomorrow("Tomorrow"),
-  day_after_tomorrow("After Tomorrow");
+  tomorrow("Tomorrow");
+  // day_after_tomorrow("After Tomorrow");
 
   final String value;
   // ignore: sort_constructors_first

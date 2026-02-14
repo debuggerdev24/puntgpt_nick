@@ -75,7 +75,7 @@ class DateFormatter {
   static String formatDateWithOrdinal(DateTime date) {
     final day = date.day;
     final monthYear = DateFormat('MMMM, yyyy').format(date);
-    return '${day}${_ordinalSuffix(day)} $monthYear';
+    return '$day${_ordinalSuffix(day)} $monthYear';
   }
 
   /// Format race date and time from UTC string (e.g. ISO): "2nd February, 2026, 2:35 PM"

@@ -578,3 +578,181 @@ Widget selectedRaceScreenShimmer({required BuildContext context}) {
     ),
   );
 }
+
+/// Shimmer for the Classic Form Guide view. Matches layout: "Next to go" cards,
+/// day tabs, and race table rows.
+Widget classicFormGuideShimmer({required BuildContext context}) {
+  return Shimmer.fromColors(
+    baseColor: AppColors.shimmerBaseColor,
+    highlightColor: AppColors.shimmerHighlightColor,
+    child: SingleChildScrollView(
+      padding: EdgeInsets.symmetric(horizontal: 25.w),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // "Next to go" title shimmer
+          Container(
+            width: 100.w,
+            height: 18.h,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(4),
+            ),
+          ),
+          10.verticalSpace,
+          // Next to go cards shimmer (horizontal)
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: List.generate(2, (_) {
+                return Container(
+                  width: 240.w,
+                  margin: EdgeInsets.only(right: 8.w),
+                  padding: EdgeInsets.fromLTRB(16.w, 12.h, 14.w, 14.h),
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: AppColors.shimmerBaseColor.withValues(alpha: 0.5),
+                    ),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        width: 80.w,
+                        height: 16.h,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                      ),
+                      6.w.verticalSpace,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            width: 120.w,
+                            height: 14.h,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(4),
+                            ),
+                          ),
+                          Container(
+                            width: 40.w,
+                            height: 14.h,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(4),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                );
+              }),
+            ),
+          ),
+          // Days tabs shimmer
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: List.generate(4, (_) {
+                return Container(
+                  margin: EdgeInsets.only(top: 24.h, bottom: 16.h, right: 8.w),
+                  width: 70.w,
+                  height: 42.h,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    border: Border.all(
+                      color: AppColors.shimmerBaseColor.withValues(alpha: 0.5),
+                    ),
+                  ),
+                );
+              }),
+            ),
+          ),
+          // Race table shimmer
+          Container(
+            width: 1.6.sw,
+            margin: EdgeInsets.only(bottom: 55.h),
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: AppColors.shimmerBaseColor.withValues(alpha: 0.5),
+              ),
+            ),
+            child: Column(
+              children: List.generate(8, (index) {
+                return Container(
+                  padding: EdgeInsets.symmetric(
+                    vertical: 12.h,
+                    horizontal: 16.w,
+                  ),
+                  decoration: BoxDecoration(
+                    border: Border(
+                      bottom: BorderSide(
+                        color: AppColors.shimmerBaseColor.withValues(
+                          alpha: 0.3,
+                        ),
+                      ),
+                    ),
+                  ),
+                  child: Row(
+                    children: [
+                      // Meeting name column
+                      Expanded(
+                        flex: 35,
+                        child: Container(
+                          width: 90.w,
+                          height: 16.h,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(2),
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        flex: 10,
+                        child: Container(
+                          width: 20.w,
+                          height: 14.h,
+                          decoration: BoxDecoration(
+                            color: Colors.white.withValues(alpha: 0.6),
+                            borderRadius: BorderRadius.circular(2),
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        flex: 30,
+                        child: Container(
+                          width: 70.w,
+                          height: 14.h,
+                          decoration: BoxDecoration(
+                            color: Colors.white.withValues(alpha: 0.6),
+                            borderRadius: BorderRadius.circular(2),
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        flex: 30,
+                        child: Container(
+                          width: 40.w,
+                          height: 14.h,
+                          decoration: BoxDecoration(
+                            color: Colors.white.withValues(alpha: 0.6),
+                            borderRadius: BorderRadius.circular(2),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              }),
+            ),
+          ),
+          25.h.verticalSpace,
+        ],
+      ),
+    ),
+  );
+}

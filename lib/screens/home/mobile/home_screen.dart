@@ -7,7 +7,6 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:puntgpt_nick/core/constants/constants.dart';
 import 'package:puntgpt_nick/core/constants/text_style.dart';
-import 'package:puntgpt_nick/core/enum/app_enums.dart';
 import 'package:puntgpt_nick/core/router/web/web_routes.dart';
 import 'package:puntgpt_nick/core/utils/app_toast.dart';
 import 'package:puntgpt_nick/core/widgets/image_widget.dart';
@@ -72,8 +71,11 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                 provider.distanceDetails == null) {
               return homeScreenShimmer(context: context);
             }
+            // if (context.watch<ClassicFormGuideProvider>().classicFormGuide == null) {
+            //   return classicFormGuideShimmer(context: context);
+            // }
             return Column(
-              children: [
+              children:[
                 Padding(
                   padding: EdgeInsets.fromLTRB(25.w, 16.w, 25.w, 0),
                   child: HomeScreenTab(selectedIndex: provider.selectedTab),
@@ -84,17 +86,30 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                     from: 1,
                     key: ValueKey(provider.selectedTab),
                     child: (provider.selectedTab == 0)
-                        ? puntGptSearchEngine(
+                        ? puntGptSearchEngineView(
                             provider: provider,
                             formKey: formKey,
                             context: context,
                           )
                         : Consumer<ClassicFormGuideProvider>(
-                            builder: (context, provider, child) =>
-                                classicFormGuide(
-                                  context: context,
-                                  provider: provider,
+                            builder: (context, provider, child) => Stack(
+                              children: [
+                                provider.classicFormGuide == null
+                                    ? classicFormGuideShimmer(context: context)
+                                    : classicFormGuideView(
+                                        context: context,
+                                        provider: provider,
+                                      ),
+                                Positioned(
+                                  right: 20.w,
+                                  bottom: 20.w,
+                                  child: askPuntGPTButton(
+                                    context,
+                                    EdgeInsets.zero,
+                                  ),
                                 ),
+                              ],
+                            ),
                           ),
                   ),
                 ),
@@ -106,7 +121,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     );
   }
 
-  Widget classicFormGuide({
+  Widget classicFormGuideView({
     required BuildContext context,
     required ClassicFormGuideProvider provider,
   }) {
@@ -118,6 +133,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         children: [
           Text("Next to go", style: bold(fontSize: 16.sp)),
           10.verticalSpace,
+          //* Next to go list
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: IntrinsicHeight(
@@ -131,6 +147,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
               ),
             ),
           ),
+          //* Days list
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Row(
@@ -172,10 +189,9 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
               }),
             ),
           ),
-
+          //* Race table
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
-
             child: Container(
               width: 1.6.sw,
               margin: EdgeInsets.only(bottom: 55.h),
@@ -192,20 +208,20 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                 ),
                 columnWidths: {
                   0: FlexColumnWidth(3.5.w),
-                  1: FlexColumnWidth(6.w),
+                  1: FlexColumnWidth(1.w),
                   2: FlexColumnWidth(3.w),
                   3: FlexColumnWidth(3.w),
                 },
                 defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-                children: List.generate(provider.classicFormGuide.length, (
+                children: List.generate(provider.classicFormGuide!.length, (
                   index,
                 ) {
-                  final classicForm = provider.classicFormGuide[index];
+                  final classicForm = provider.classicFormGuide![index];
                   return _buildRow(
                     col1: classicForm.meetingName,
                     col2: "",
                     col3: classicForm.meetingDate,
-                    col4: "14:35",
+                    col4: classicForm.meetingAustralianTime,
                     onTap: () {
                       provider.getMeetingRaceList(
                         meetingId: classicForm.meetingId.toString(),
@@ -287,17 +303,14 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
               ),
             ),
           ),
-          Align(
-            alignment: AlignmentGeometry.bottomRight,
-            child: askPuntGPTButton(context),
-          ),
+
           25.h.verticalSpace,
         ],
       ),
     );
   }
 
-  Widget puntGptSearchEngine({
+  Widget puntGptSearchEngineView({
     required SearchEngineProvider provider,
     required GlobalKey<FormState> formKey,
     required BuildContext context,
@@ -322,7 +335,10 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                     alignment: Alignment.bottomRight,
                     child: Padding(
                       padding: EdgeInsets.only(right: 20),
-                      child: askPuntGPTButton(context),
+                      child: askPuntGPTButton(
+                        context,
+                        EdgeInsets.only(right: 20),
+                      ),
                     ),
                   ),
                   IntrinsicWidth(
@@ -352,6 +368,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                             }
                           },
                         );
+
                         provider.createSaveSearch(
                           onError: (error) {
                             AppToast.error(context: context, message: error);
@@ -472,7 +489,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   }
 }
 
-Widget askPuntGPTButton(BuildContext context) {
+Widget askPuntGPTButton(BuildContext context, [EdgeInsets? margin]) {
   return GestureDetector(
     onTap: () {
       // if(){
@@ -483,6 +500,7 @@ Widget askPuntGPTButton(BuildContext context) {
       // }
     },
     child: Container(
+      margin: margin,
       padding: EdgeInsets.symmetric(
         vertical: 12.r.flexClamp(12, 15),
         horizontal: 15.r.flexClamp(15, 18),

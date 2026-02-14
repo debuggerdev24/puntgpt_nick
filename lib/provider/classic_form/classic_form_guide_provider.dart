@@ -19,10 +19,10 @@ class ClassicFormGuideProvider extends ChangeNotifier {
     ClassicFormDay.yesterday,
     ClassicFormDay.today,
     ClassicFormDay.tomorrow,
-    ClassicFormDay.day_after_tomorrow,
+    // ClassicFormDay.day_after_tomorrow,
   ];
 
-  List<ClassicFormModel> get classicFormGuide => _classicFormGuideList!;
+  List<ClassicFormModel>? get classicFormGuide => _classicFormGuideList;
   MeetingDetailsModel? get meetingRace => _meetingRaceList;
   List<NextRaceModel> get nextRaceList => _nextRaceList ?? [];
   RaceDetailsModel? get raceFieldDetail => _raceFieldDetail;
@@ -42,6 +42,8 @@ class ClassicFormGuideProvider extends ChangeNotifier {
 
   //* Get classic form guide
   Future<void> getClassicFormGuide() async {
+    _classicFormGuideList = null;
+    notifyListeners();
     final response = await ClassicFormAPIService.instance.getClassicForm(
       jumpFilter: days[selectedDay].name,
     );
