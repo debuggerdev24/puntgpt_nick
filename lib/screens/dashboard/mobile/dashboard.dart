@@ -9,7 +9,7 @@ import 'package:puntgpt_nick/core/utils/app_toast.dart';
 import 'package:puntgpt_nick/core/widgets/image_widget.dart';
 import 'package:puntgpt_nick/main.dart';
 import 'package:puntgpt_nick/provider/account/account_provider.dart';
-import 'package:puntgpt_nick/provider/classic_form/classic_form_guide_provider.dart';
+import 'package:puntgpt_nick/provider/classic_form/classic_form_provider.dart';
 import 'package:puntgpt_nick/provider/search_engine/search_engine_provider.dart';
 import 'package:puntgpt_nick/screens/dashboard/mobile/widgets/dashboard_app_bar.dart';
 import 'package:puntgpt_nick/screens/offline/widget/offline_view.dart';
@@ -221,7 +221,7 @@ class _DashboardState extends State<Dashboard> {
 void callInitAPIs({required BuildContext context}) {
   final accountProvider = context.read<AccountProvider>();
   final searchEngineProvider = context.read<SearchEngineProvider>();
-  final classicFormGuideProvider = context.read<ClassicFormGuideProvider>();
+  final classicFormGuideProvider = context.read<ClassicFormProvider>();
   Future.wait([
     accountProvider.getProfile(),
     accountProvider.getSubscriptionPlans(

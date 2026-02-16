@@ -35,4 +35,21 @@ class ClassicFormAPIService {
       EndPoints.getRaceFieldDetail(id: id),
     );
   }
+
+  Future<Either<ApiException, Map<String, dynamic>>> getTipsAndAnalysis({
+    required String raceId,
+  }) async {
+    return await BaseApiHelper.instance.get<Map<String, dynamic>>(
+      EndPoints.getTipsAndAnalysis(raceId: raceId),
+    );
+  }
+
+  Future<Either<ApiException, Map<String, dynamic>>> getSpeedMaps({
+    required String meetingId,
+    required String raceId,
+  }) async {
+    return await BaseApiHelper.instance.get<Map<String, dynamic>>(
+      EndPoints.getSpeedMaps(meetingId: meetingId, raceId: raceId),
+    );
+  }
 }

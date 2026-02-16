@@ -24,6 +24,8 @@ class AppRoutes {
   static const String changePassword = '/change-password';
   static const String tipSlipScreen = '/tip-slip';
   static const String selectedRace = '/selected-race';
+  static const String tipsAndAnalysis = '/tips-and-analysis';
+  static const String speedMaps = '/speed-maps';
 
   //2nd tab
   static const String puntGptClub = '/punt-gpt-club';
@@ -40,8 +42,6 @@ class AppRoutes {
   static const String selectedPlanScreen = '/selected-plan';
   static const String currentPlanScreen = '/current-plan';
   static const String runnersScreen = '/runners-screen';
-
-  
 }
 
 extension AppRoutesExtension on String {

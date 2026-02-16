@@ -7,7 +7,7 @@ import 'package:puntgpt_nick/core/widgets/app_outlined_button.dart';
 import 'package:puntgpt_nick/core/widgets/image_widget.dart';
 import 'package:puntgpt_nick/core/widgets/on_button_tap.dart';
 import 'package:puntgpt_nick/responsive/responsive_builder.dart';
-import 'package:puntgpt_nick/screens/home/web/widgets/chat_section_web.dart';
+import 'package:puntgpt_nick/screens/home/search_engine/web/widgets/chat_section_web.dart';
 
 import '../../../../core/constants/text_style.dart';
 import '../../../../core/widgets/app_devider.dart';

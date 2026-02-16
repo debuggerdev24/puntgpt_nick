@@ -17,8 +17,8 @@ import 'package:puntgpt_nick/screens/auth/screens/web/web_reset_password_screen.
 import 'package:puntgpt_nick/screens/auth/screens/web/web_sign_up_screen.dart';
 import 'package:puntgpt_nick/screens/auth/screens/web/web_verify_otp_screen.dart';
 import 'package:puntgpt_nick/screens/dashboard/web/web_dashboard.dart';
-import 'package:puntgpt_nick/screens/home/web/home_screen_web.dart';
-import 'package:puntgpt_nick/screens/home/web/tip_slip_screen_web.dart';
+import 'package:puntgpt_nick/screens/home/search_engine/web/home_screen_web.dart';
+import 'package:puntgpt_nick/screens/home/search_engine/web/tip_slip_screen_web.dart';
 import 'package:puntgpt_nick/screens/onboarding/web/web_age_confirmation.dart';
 import 'package:puntgpt_nick/screens/punt_gpt_club/mobile/club_chat_screen.dart';
 import 'package:puntgpt_nick/screens/punt_gpt_club/web/punter_club_screen_web.dart';
@@ -26,9 +26,9 @@ import 'package:puntgpt_nick/screens/splash/web_splash_screen.dart';
 
 import '../../../screens/account/web/account_screen_web.dart';
 import '../../../screens/bookies/web/bookies_screen_web.dart';
-import '../../../screens/home/mobile/ask_punt_gpt.dart';
-import '../../../screens/home/mobile/saved_search_screen.dart';
-import '../../../screens/home/web/selected_race_screen_web.dart';
+import '../../../screens/home/search_engine/mobile/ask_punt_gpt.dart';
+import '../../../screens/home/search_engine/mobile/saved_search_screen.dart';
+import '../../../screens/home/search_engine/web/selected_race_screen_web.dart';
 import '../../../screens/onboarding/web/web_onboarding_screen.dart';
 import '../../../screens/punt_gpt_club/mobile/punt_club_screen.dart';
 

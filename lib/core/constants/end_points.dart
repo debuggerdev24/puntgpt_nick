@@ -64,8 +64,13 @@ class EndPoints {
   static String getRaceFieldDetail({required String id}) =>
       "/horse-race/races/$id/field/";
 
-  static String getTipsAndAnalysis({required String meetingId}) =>
-      "/horse-race/races/$meetingId/tips/";
+  static String getTipsAndAnalysis({required String raceId}) =>
+      "/horse-race/races/$raceId/tips/";
+
+  static String getSpeedMaps({
+    required String meetingId,
+    required String raceId,
+  }) => "/horse-race/meetings/$meetingId/races/$raceId/speed-map/";
 
   //* display
 

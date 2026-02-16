@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:puntgpt_nick/core/enum/app_enums.dart';
 import 'package:puntgpt_nick/core/helper/log_helper.dart';
-import 'package:puntgpt_nick/models/search_engine/runner_model.dart';
-import 'package:puntgpt_nick/models/search_engine/search_model.dart';
-import 'package:puntgpt_nick/models/search_engine/track_item_model.dart';
+import 'package:puntgpt_nick/models/home/search_engine/runner_model.dart';
+import 'package:puntgpt_nick/models/home/search_engine/search_model.dart';
+import 'package:puntgpt_nick/models/home/search_engine/track_item_model.dart';
 import 'package:puntgpt_nick/service/search_engine/search_engine_api_service.dart';
 
 class SearchEngineProvider extends ChangeNotifier {

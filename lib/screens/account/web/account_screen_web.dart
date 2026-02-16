@@ -15,7 +15,7 @@ import 'package:puntgpt_nick/screens/account/web/current_plan_section_web.dart';
 import 'package:puntgpt_nick/screens/account/web/manage_subscription_section_web.dart';
 import 'package:puntgpt_nick/screens/account/web/personal_details_section_web.dart';
 import 'package:puntgpt_nick/screens/account/web/selected_plan_section_web.dart';
-import 'package:puntgpt_nick/screens/home/web/home_screen_web.dart';
+import 'package:puntgpt_nick/screens/home/search_engine/web/home_screen_web.dart';
 
 import '../../../core/utils/app_toast.dart';
 import '../../../provider/auth/auth_provider.dart';

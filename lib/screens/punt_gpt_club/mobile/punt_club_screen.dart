@@ -13,7 +13,7 @@ import 'package:puntgpt_nick/core/widgets/app_outlined_button.dart';
 import 'package:puntgpt_nick/core/widgets/image_widget.dart';
 import 'package:puntgpt_nick/provider/punt_club/punter_club_provider.dart';
 import 'package:puntgpt_nick/responsive/responsive_builder.dart';
-import 'package:puntgpt_nick/screens/home/mobile/home_screen.dart';
+import 'package:puntgpt_nick/screens/home/search_engine/mobile/home_screen.dart';
 import '../../../core/widgets/app_filed_button.dart';
 import '../../../core/widgets/app_text_field.dart';
 

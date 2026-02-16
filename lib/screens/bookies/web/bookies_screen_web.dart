@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:puntgpt_nick/screens/home/web/home_screen_web.dart';
+import 'package:puntgpt_nick/screens/home/search_engine/web/home_screen_web.dart';
 
 class BookiesScreenWeb extends StatelessWidget {
   const BookiesScreenWeb({super.key});

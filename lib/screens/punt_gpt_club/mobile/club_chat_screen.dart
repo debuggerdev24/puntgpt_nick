@@ -5,13 +5,13 @@ import 'package:puntgpt_nick/core/constants/constants.dart';
 import 'package:puntgpt_nick/core/widgets/image_widget.dart';
 import 'package:puntgpt_nick/core/widgets/on_button_tap.dart';
 import 'package:puntgpt_nick/responsive/responsive_builder.dart';
-import 'package:puntgpt_nick/screens/home/mobile/home_screen.dart';
-import 'package:puntgpt_nick/screens/home/web/home_screen_web.dart';
+import 'package:puntgpt_nick/screens/home/search_engine/mobile/home_screen.dart';
+import 'package:puntgpt_nick/screens/home/search_engine/web/home_screen_web.dart';
 import 'package:puntgpt_nick/screens/punt_gpt_club/mobile/punt_club_screen.dart';
 
 import '../../../core/constants/text_style.dart';
 import '../../../core/widgets/app_devider.dart';
-import '../../home/mobile/widgets/chat_section.dart';
+import '../../home/search_engine/mobile/widgets/chat_section.dart';
 
 class PuntClubChatScreen extends StatelessWidget {
   const PuntClubChatScreen({super.key, required this.title});

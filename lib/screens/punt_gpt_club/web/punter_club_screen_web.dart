@@ -18,7 +18,7 @@ import '../../../core/widgets/app_devider.dart';
 import '../../../core/widgets/app_filed_button.dart';
 import '../../../core/widgets/app_text_field.dart';
 import '../../../core/widgets/on_button_tap.dart';
-import '../../home/web/home_screen_web.dart';
+import '../../home/search_engine/web/home_screen_web.dart';
 
 class PunterClubScreenWebScreen extends StatelessWidget {
   const PunterClubScreenWebScreen({super.key});
