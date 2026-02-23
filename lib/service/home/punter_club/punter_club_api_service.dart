@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:puntgpt_nick/core/constants/end_points.dart';
 import 'package:puntgpt_nick/core/helper/base_api_helper.dart';
+import 'package:puntgpt_nick/core/helper/log_helper.dart';
 
 class PuntClubApiService {
 
@@ -22,15 +23,23 @@ class PuntClubApiService {
   }
 
   //users invite list
-  Future<Either<ApiException, Map<String, dynamic>>> getUsersInviteList({required String groupId,required String grpName}) async {
+  Future<Either<ApiException, Map<String, dynamic>>> getUsersInviteList({required String groupId}) async {
     return await BaseApiHelper.instance.get<Map<String, dynamic>>(
-      EndPoints.getUserInviteList(groupId: groupId, grpName: grpName),
+      EndPoints.getUserInviteList(groupId: groupId),
     );
   }
 
   Future<Either<ApiException, Map<String, dynamic>>> getNotificationList() async {
     return await BaseApiHelper.instance.get<Map<String, dynamic>>(
       EndPoints.getAllNotification,
+    );
+  }
+
+  Future<Either<ApiException, Map<String, dynamic>>> inviteUser({required List<String> userIds, required String groupId}) async {
+    Logger.info("invite user: $userIds, groupId: $groupId");
+    return await BaseApiHelper.instance.post<Map<String, dynamic>>(
+      EndPoints.inviteUser(groupId: groupId),
+      data: {"user_ids": userIds},
     );
   }
 }

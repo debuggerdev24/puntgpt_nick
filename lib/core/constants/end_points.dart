@@ -87,8 +87,8 @@ class EndPoints {
   //* chat group
   static const String createChatGroup = "/chat-group/create-group/";
   static String getChatGroups = "/chat-group/list-groups/";
-  static String chatGroupInvitation({required String id}) => "/chat-group/invite-user-to-group/$id/";
-  static String getUserInviteList({required String groupId,required String grpName}) =>
+  static String inviteUser({required String groupId}) => "/chat-group/invite-user-to-group/$groupId/";
+  static String getUserInviteList({required String groupId}) =>
       "/chat-group/invitation-user-list/?group_id=$groupId";
   static String acceptInvitation({required String id}) =>
       "/chat-group/invite/5/$id/accept/";

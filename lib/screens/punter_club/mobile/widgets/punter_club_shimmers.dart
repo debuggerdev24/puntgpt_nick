@@ -128,53 +128,50 @@ class PunterClubShimmers {
     return Shimmer.fromColors(
       baseColor: AppColors.shimmerBaseColor,
       highlightColor: AppColors.shimmerHighlightColor,
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 25.w),
-        child: Column(
-          children: [
-            // Title shimmer
-            Container(
-              margin: EdgeInsets.only(top: 8.h),
-              height: 24.h,
-              width: 160.w,
+      child: Column(
+        children: [
+          // Title shimmer
+          Container(
+            margin: EdgeInsets.only(top: 8.h),
+            height: 24.h,
+            width: 160.w,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(4),
+            ),
+          ),
+          16.h.verticalSpace,
+          horizontalDivider(),
+          // Body shimmer (notification list)
+          Expanded(
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  19.h.verticalSpace,
+                  ...List.generate(
+                    3,
+                    (_) => _notificationBoxShimmer(context),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          // Clear all button shimmer
+          SafeArea(
+            child: Container(
+              margin: EdgeInsets.symmetric(vertical: 10.w,horizontal: 20.w),
+              height: 48.h,
+              width: double.infinity,
               decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.circular(4),
-              ),
-            ),
-            16.h.verticalSpace,
-            horizontalDivider(),
-            // Body shimmer (notification list)
-            Expanded(
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    19.h.verticalSpace,
-                    ...List.generate(
-                      3,
-                      (_) => _notificationBoxShimmer(context),
-                    ),
-                  ],
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(
+                  color: AppColors.redButton.withValues(alpha: 0.7),
                 ),
               ),
             ),
-            // Clear all button shimmer
-            SafeArea(
-              child: Container(
-                margin: EdgeInsets.symmetric(vertical: 10.h),
-                height: 48.h,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(
-                    color: AppColors.redButton.withValues(alpha: 0.7),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

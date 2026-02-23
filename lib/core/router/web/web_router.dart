@@ -30,7 +30,7 @@ import '../../../screens/home/search_engine/mobile/ask_puntgpt_screen.dart';
 import '../../../screens/home/search_engine/mobile/saved_search_screen.dart';
 import '../../../screens/home/search_engine/web/selected_race_screen_web.dart';
 import '../../../screens/onboarding/web/web_onboarding_screen.dart';
-import '../../../screens/punter_club/mobile/punt_club_screen.dart';
+import '../../../screens/punter_club/mobile/punter_club_screen.dart';
 
 class WebRouter {
   static final rootNavigatorKey = GlobalKey<NavigatorState>();

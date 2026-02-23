@@ -103,7 +103,9 @@ class _DashboardState extends State<Dashboard> {
                   onTap: () {
                     indexOfTab.value = 1;
                     AppRouter.indexedStackNavigationShell?.goBranch(1);
-                    context.read<PuntClubProvider>().getChatGroups();
+                    final provider = context.read<PuntClubProvider>();
+                    provider.getChatGroups();
+                    provider.getNotifications();
                   },
 
                   text: "PuntGPT Punter Club",
@@ -237,7 +239,9 @@ void callInitAPIs({required BuildContext context}) {
     searchEngineProvider.getBarrierDetails(),
     classicFormGuideProvider.getClassicFormGuide(),
     classicFormGuideProvider.getNextToGo(),
-    puntClubProvider.getChatGroups(),
+    // puntClubProvider.getChatGroups(),
+    
+
     // classicFormGuideProvider.getPunterClub(),
     SubscriptionService.instance.initialize(
       provider: context.read<SubscriptionProvider>(),

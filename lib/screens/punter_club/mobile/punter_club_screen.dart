@@ -34,9 +34,7 @@ class PunterClubScreen extends StatelessWidget {
         if (provider.chatGroupsList == null) {
           return PunterClubShimmers.punterClubScreenShimmer(context: context);
         }
-        if (provider.chatGroupsList!.isEmpty) {
-          return Center(child: Text("No chat groups found"));
-        }
+
         return Stack(
           children: [
             Column(
@@ -45,46 +43,54 @@ class PunterClubScreen extends StatelessWidget {
                 //* top bar
                 topBar(context: context, provider: provider),
                 horizontalDivider(),
-                ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: provider.chatGroupsList!.length,
-                  padding: EdgeInsets.zero,
-                  itemBuilder: (context, index) {
-                    final chatGroup = provider.chatGroupsList![index];
-                    return GestureDetector(
-                      behavior: HitTestBehavior.opaque,
-                      onTap: () {
-                        provider.selectedGroup = index;
-                        context.pushNamed(
-                          (context.isMobileView && kIsWeb)
-                              ? WebRoutes.punterClubChatScreen.name
-                              : AppRoutes.punterClubChatScreen.name,
-                          extra: chatGroup.name,
-                        );
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: (index % 2 == 0) ? null : AppColors.primary,
-                        ),
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 25.w,
-                          vertical: 20.h,
-                        ),
+                Expanded(
+                  child: (provider.chatGroupsList!.isEmpty)
+                      ? Center(child: Text("No chat groups found"))
+                      : ListView.separated(
+                          separatorBuilder: (context, index) =>
+                              horizontalDivider(),
+                          shrinkWrap: true,
+                          itemCount: provider.chatGroupsList!.length,
+                          padding: EdgeInsets.zero,
+                          itemBuilder: (context, index) {
+                            final chatGroup = provider.chatGroupsList![index];
+                            return GestureDetector(
+                              behavior: HitTestBehavior.opaque,
+                              onTap: () {
+                                provider.selectedGroup = index;
+                                context.pushNamed(
+                                  (context.isMobileView && kIsWeb)
+                                      ? WebRoutes.punterClubChatScreen.name
+                                      : AppRoutes.punterClubChatScreen.name,
+                                  extra: chatGroup.name,
+                                );
+                              },
+                              child: Container(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 25.w,
+                                  vertical: 20.h,
+                                ),
 
-                        child: Text(
-                          chatGroup.name,
-                          style: bold(
-                            fontSize: (context.isBrowserMobile) ? 32.sp : 16.sp,
-                            color: (index % 2 == 0) ? null : AppColors.white,
-                          ),
+                                child: Text(
+                                  chatGroup.name,
+                                  style: bold(
+                                    fontSize: (context.isBrowserMobile)
+                                        ? 32.sp
+                                        : 16.sp,
+                                    // color: (index % 2 == 0) ? null : AppColors.white,
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
                         ),
-                      ),
-                    );
-                  },
                 ),
+
                 horizontalDivider(),
-                Spacer(),
-                Align(
+                // Spacer(),
+                ],
+            ),
+            Align(
                   alignment: AlignmentGeometry.bottomRight,
                   child: Padding(
                     padding: EdgeInsets.symmetric(
@@ -94,9 +100,7 @@ class PunterClubScreen extends StatelessWidget {
                     child: askPuntGPTButton(context),
                   ),
                 ),
-              ],
-            ),
-
+              
             if (provider.isCreatingChatGroupLoading) FullPageIndicator(),
           ],
         );
@@ -135,7 +139,7 @@ class PunterClubScreen extends StatelessWidget {
           //* Notification sheet button
           GestureDetector(
             onTap: () {
-              provider.getNotificationList();
+              
               showModalBottomSheet(
                 context: context,
                 useRootNavigator: true,
@@ -154,7 +158,7 @@ class PunterClubScreen extends StatelessWidget {
               ),
               badgeStyle: badge.BadgeStyle(badgeColor: AppColors.black),
               badgeContent: Text(
-                '5',
+                provider.notificationList?.length.toString() ?? '0',
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: context.isBrowserMobile ? 9 : 10,
@@ -253,10 +257,11 @@ class PunterClubScreen extends StatelessWidget {
                     final router = GoRouter.of(ctx!);
                     final location = router.state.name; // path
                     Logger.info('Current route location: $location');
-                    if(location == AppRoutes.puntGptClub.name) {
-                      provider.getUsersInviteList(groupId: provider.grpId, grpName: provider.grpName);
+                    if (location == AppRoutes.puntGptClub.name) {
+                      provider.getUsersInviteList(groupId: provider.grpId);
                     }
                     // if(provider.) {
+                    //* Show invite user sheet
                     showModalBottomSheet(
                       context: context,
                       isScrollControlled: true,
@@ -278,144 +283,236 @@ class PunterClubScreen extends StatelessWidget {
   }
 }
 
-class InviteUserSheet extends StatelessWidget {
+class InviteUserSheet extends StatefulWidget {
   const InviteUserSheet({super.key, this.showInviteLater = false});
   final bool? showInviteLater;
 
   @override
+  State<InviteUserSheet> createState() => _InviteUserSheetState();
+}
+
+class _InviteUserSheetState extends State<InviteUserSheet> {
+  @override
   Widget build(BuildContext context) {
     return Consumer<PuntClubProvider>(
       builder: (context, provider, child) {
-        //* Show shimmer while user list is loading (userInvitesList not yet set)
+        // Show shimmer while user list is loading
         if (provider.userInvitesList == null) {
-          return Padding(
-            padding: EdgeInsets.only(
-              bottom: MediaQuery.viewInsetsOf(context).bottom,
-            ),
-            child: SizedBox(
-              height: context.screenHeight - 0.15.sh,
-              child: PunterClubShimmers.inviteUserSheetShimmer(
-                context: context,
-              ),
-            ),
+          return SizedBox(
+            height: context.screenHeight - 0.15.sh,
+            child: PunterClubShimmers.inviteUserSheetShimmer(context: context),
           );
         }
         if (provider.userInvitesList!.isEmpty) {
           return const Center(child: Text("No users to invite"));
         }
 
-        final list = provider.userInvitesList!;
-        return Padding(
-          padding: EdgeInsets.only(
-            bottom: MediaQuery.viewInsetsOf(context).bottom,
-          ),
-          child: SizedBox(
-            height: context.screenHeight - 0.15.sh,
-            child: Padding(
-              padding: EdgeInsets.fromLTRB(25.w, 5, 25.w, 25.w),
-              child: Stack(
-                children: [
-                  Column(
-                    children: [
-                      Text(
-                        "Invite Users",
-                        style: regular(
-                          fontSize: 24.twentyFourSp(context),
-                          fontFamily: AppFontFamily.secondary,
+        final filtered = provider.filteredUserList;
+        final isSearching = provider.searchNameCtr.text.trim().isNotEmpty;
+        final keyboardHeight = MediaQuery.viewInsetsOf(context).bottom;
+        final selectedIds = provider.selectedIds;
+        final hasSelection = selectedIds.isNotEmpty;
+
+        return SizedBox(
+          height: context.screenHeight - 0.15.sh,
+          child: Stack(
+            children: [
+              Padding(
+                // bottom padding = keyboard height so content lifts above keyboard
+                padding: EdgeInsets.fromLTRB(25.w, 5, 25.w, keyboardHeight),
+                child: Stack(
+                  children: [
+                    Column(
+                      children: [
+                        //* Title
+                        Text(
+                          "Invite Users",
+                          style: regular(
+                            fontSize: 24.twentyFourSp(context),
+                            fontFamily: AppFontFamily.secondary,
+                          ),
                         ),
-                      ),
-                      20.h.verticalSpace,
-                      horizontalDivider(),
-                      20.h.verticalSpace,
-                      AppTextField(
-                        controller: provider.searchNameCtr,
-                        hintText: "Search by username",
-                        trailingIcon: AppAssets.searchIcon,
-                      ),
-                      8.w.verticalSpace,
-                      Expanded(
-                        child: list.isEmpty
-                            ? const Center(child: Text("No users to invite"))
-                            : ListView.builder(
-                                itemCount: 20,
-                                itemBuilder: (context, index) {
-                                  return userBox(
-                                    context: context,
-                                    user: list[index],
-                                  );
-                                },
+                        20.h.verticalSpace,
+                        horizontalDivider(),
+                        20.h.verticalSpace,
+                        // Search field
+                        AppTextField(
+                          controller: provider.searchNameCtr,
+                          hintText: "Search by username",
+                          trailingIcon: AppAssets.searchIcon,
+                        ),
+                        8.w.verticalSpace,
+                        // User list
+                        Expanded(
+                          child: filtered.isEmpty
+                              ? Center(
+                                  child: Text(
+                                    isSearching
+                                        ? 'No users found for "${provider.searchNameCtr.text.trim()}"'
+                                        : "No users to invite",
+                                  ),
+                                )
+                              : ListView.builder(
+                                  itemCount: filtered.length,
+                                  itemBuilder: (context, index) {
+                                    final user = filtered[index];
+                                    final isSelected = selectedIds.contains(
+                                      user.id,
+                                    );
+                                    return _userBox(
+                                      context: context,
+                                      user: user,
+                                      isSelected: isSelected,
+                                      onTap: () => provider.toggleUser(user.id),
+                                    );
+                                  },
+                                ),
+                        ),
+                        // Send button — visible only when at least one user is selected
+                        AnimatedSwitcher(
+                          duration: const Duration(milliseconds: 220),
+                          transitionBuilder: (child, animation) =>
+                              SizeTransition(
+                                sizeFactor: animation,
+                                axisAlignment: -1,
+                                child: child,
                               ),
-                      ),
-                      if (showInviteLater == true)
-                        AppOutlinedButton(
-                          margin: EdgeInsets.only(top: 8.w),
-                          text: "Invite Later",
-                          onTap: () {
-                            context.pop();
-                          },
+                          child: hasSelection
+                              ? AppFilledButton(
+                                  key: ValueKey(selectedIds.length),
+                                  margin: EdgeInsets.only(top: 8.w, bottom: 4),
+                                  text: selectedIds.length == 1
+                                      ? "Send Invite"
+                                      : "Send to All (${selectedIds.length})",
+                                  onTap: () {
+                                    provider.inviteUser(
+                                      groupId: (provider.grpId.isEmpty)
+                                          ? provider
+                                                .chatGroupsList![provider
+                                                    .selectedGroup]
+                                                .id
+                                                .toString()
+                                          : provider.grpId,
+                                      userIds: selectedIds
+                                          .map((id) => id.toString())
+                                          .toList(),
+
+                                      context: context,
+                                    );
+                                  },
+                                )
+                              : const SizedBox.shrink(),
                         ),
-                    ],
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(top: 7),
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: GestureDetector(
-                        onTap: () => context.pop(),
-                        child: Icon(
-                          Icons.arrow_back_ios_new,
-                          size: 18.eighteenSp(context),
+                        if (widget.showInviteLater == true)
+                          AppOutlinedButton(
+                            margin: EdgeInsets.only(top: 8.w),
+                            text: "Invite Later",
+                            onTap: () => context.pop(),
+                          ),
+                      ],
+                    ),
+                    //* Back arrow
+                    Padding(
+                      padding: EdgeInsets.only(top: 7),
+                      child: Align(
+                        alignment: Alignment.topLeft,
+                        child: GestureDetector(
+                          onTap: () => context.pop(),
+                          child: Icon(
+                            Icons.arrow_back_ios_new,
+                            size: 18.eighteenSp(context),
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
+              if (provider.isInvitingUser) FullPageIndicator(),
+            ],
           ),
         );
       },
     );
   }
 
-  Widget userBox({
+  Widget _userBox({
     required BuildContext context,
     required UserInvitesList user,
+    required bool isSelected,
+    required VoidCallback onTap,
   }) {
     final height = (context.isBrowserMobile) ? 96.w : 48.w;
     final width = (context.isBrowserMobile) ? 68.w : 48.w;
-    return Container(
-      margin: EdgeInsets.only(top: 8.w),
-      height: height,
-      decoration: BoxDecoration(
-        border: Border.all(color: AppColors.primary.withValues(alpha: 0.15)),
-      ),
-      child: Row(
-        children: [
-          Container(
-            height: height,
-            width: width,
-            padding: EdgeInsets.all(12.w),
-            decoration: BoxDecoration(color: AppColors.greyColor2),
-            child: ImageWidget(type: ImageType.svg, path: AppAssets.userIcon),
+
+    return GestureDetector(
+      onTap: onTap,
+      behavior: HitTestBehavior.opaque,
+      child: Container(
+        margin: EdgeInsets.only(top: 8.w),
+        height: height,
+        decoration: BoxDecoration(
+          border: Border.all(
+            color: isSelected
+                ? AppColors.green.withValues(alpha: 0.5)
+                : AppColors.primary.withValues(alpha: 0.15),
+            width: isSelected ? 1.5 : 1,
           ),
-          (context.isBrowserMobile)
-              ? 80.w.horizontalSpace
-              : 15.w.horizontalSpace,
-          Text(user.name, style: semiBold(fontSize: 16.sixteenSp(context))),
-          Spacer(),
-          Container(
-            height: height,
-            width: width,
-            padding: EdgeInsets.symmetric(horizontal: 11.w, vertical: 11.w),
-            decoration: BoxDecoration(color: AppColors.primary),
-            child: ImageWidget(
-              path: AppAssets.addMember,
-              type: ImageType.asset,
-              color: AppColors.white,
+        ),
+        child: Row(
+          children: [
+            // Avatar
+            Container(
+              height: height,
+              width: width,
+              padding: EdgeInsets.all(12.w),
+              decoration: BoxDecoration(color: AppColors.greyColor2),
+              child: ImageWidget(type: ImageType.svg, path: AppAssets.userIcon),
             ),
-          ),
-        ],
+            (context.isBrowserMobile)
+                ? 80.w.horizontalSpace
+                : 15.w.horizontalSpace,
+            // Username
+            Expanded(
+              child: Text(
+                user.name,
+                style: semiBold(fontSize: 16.sixteenSp(context)),
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+            // Right action: green tick when selected, add-member icon otherwise
+            AnimatedSwitcher(
+              duration: const Duration(milliseconds: 180),
+              child: isSelected
+                  ? Container(
+                      key: const ValueKey('selected'),
+                      height: height,
+                      width: width,
+                      decoration: BoxDecoration(color: AppColors.green),
+                      child: Icon(
+                        Icons.check_rounded,
+                        color: AppColors.white,
+                        size: (context.isBrowserMobile) ? 36 : 22,
+                      ),
+                    )
+                  : Container(
+                      key: const ValueKey('unselected'),
+                      height: height,
+                      width: width,
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 11.w,
+                        vertical: 11.w,
+                      ),
+                      decoration: BoxDecoration(color: AppColors.primary),
+                      child: ImageWidget(
+                        path: AppAssets.addMember,
+                        type: ImageType.asset,
+                        color: AppColors.white,
+                      ),
+                    ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -430,7 +527,6 @@ class NotificationSheetView extends StatelessWidget {
     return Consumer<PuntClubProvider>(
       builder: (context, provider, _) {
         final notifications = provider.notificationList;
-
         if (notifications == null) {
           return PunterClubShimmers.notificationSheetShimmer(context: context);
         }
@@ -458,23 +554,22 @@ class NotificationSheetView extends StatelessWidget {
                   fontFamily: AppFontFamily.secondary,
                 ),
               ),
-              16.h.verticalSpace,
+              16.w.verticalSpace,
               horizontalDivider(),
+              18.w.verticalSpace,
               Expanded(
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      19.h.verticalSpace,
-                      for (final n in notifications)
-                        notificationBox(context: context, notification: n),
-                    ],
-                  ),
+                child: ListView.builder(
+                  itemCount: notifications.length,
+                  itemBuilder: (context, index) {
+                    final notification = notifications[index];
+                    return notificationBox(context: context, notification: notification);
+                  },
                 ),
               ),
               SafeArea(
                 child: AppOutlinedButton(
                   borderColor: AppColors.redButton,
-                  margin: EdgeInsets.symmetric(vertical: 10.h),
+                  margin: EdgeInsets.fromLTRB(20.w, 10.w, 20.w, 15.w),
                   textStyle: semiBold(
                     fontSize: 16.sp,
                     color: AppColors.redButton,

@@ -4,13 +4,14 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:puntgpt_nick/core/constants/constants.dart';
 import 'package:puntgpt_nick/core/router/app/app_router.dart';
+import 'package:puntgpt_nick/core/utils/custom_loader.dart';
 import 'package:puntgpt_nick/core/widgets/image_widget.dart';
 import 'package:puntgpt_nick/core/widgets/on_button_tap.dart';
 import 'package:puntgpt_nick/provider/punt_club/punter_club_provider.dart';
 import 'package:puntgpt_nick/responsive/responsive_builder.dart';
 import 'package:puntgpt_nick/screens/home/search_engine/mobile/home_screen.dart';
 import 'package:puntgpt_nick/screens/home/search_engine/web/home_screen_web.dart';
-import 'package:puntgpt_nick/screens/punter_club/mobile/punt_club_screen.dart';
+import 'package:puntgpt_nick/screens/punter_club/mobile/punter_club_screen.dart';
 import '../../../core/constants/text_style.dart';
 import '../../../core/widgets/app_devider.dart';
 import '../../home/search_engine/mobile/widgets/chat_section.dart';
@@ -41,6 +42,7 @@ class PuntClubChatScreen extends StatelessWidget {
                         : askPuntGPTButton(context),
                   ),
                 ),
+                
               ],
             ),
           ),
@@ -129,7 +131,7 @@ class PuntClubChatScreen extends StatelessWidget {
                   final grp = provider.chatGroupsList![provider.selectedGroup];
                   provider.getUsersInviteList(
                     groupId: grp.id.toString(),
-                    grpName: grp.name,
+                    // grpName: grp.name,
                   );
                   showModalBottomSheet(
                     context: context,

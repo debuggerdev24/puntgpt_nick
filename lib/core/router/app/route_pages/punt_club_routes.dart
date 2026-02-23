@@ -1,7 +1,7 @@
 import 'package:go_router/go_router.dart';
 import 'package:puntgpt_nick/core/router/app/app_routes.dart';
 import 'package:puntgpt_nick/screens/punter_club/mobile/club_chat_screen.dart';
-import 'package:puntgpt_nick/screens/punter_club/mobile/punt_club_screen.dart';
+import 'package:puntgpt_nick/screens/punter_club/mobile/punter_club_screen.dart';
 
 class PuntClubRoutes {
   static final List<RouteBase> routes = [

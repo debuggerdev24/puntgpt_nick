@@ -4,11 +4,11 @@ class UserInvitesList {
   factory UserInvitesList.fromJson(Map<String, dynamic> json) => UserInvitesList(
     id: json['id'],
     name: json['name'],
-    membershipStatus: json['membership_status'],
+    membershipStatus: json['membership_status'] ?? "null",
   );
 
   UserInvitesList({required this.id, required this.name, required this.membershipStatus});
   final int id;
   final String name;
-  final String membershipStatus;
+  final String? membershipStatus;
 }

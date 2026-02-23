@@ -30,6 +30,7 @@ class AppTextField extends StatelessWidget {
     this.readOnly,
     this.onSubmit,
     this.margin,
+    this.onChanged,
   });
 
   final TextEditingController controller;
@@ -40,6 +41,7 @@ class AppTextField extends StatelessWidget {
   final bool obscureText;
   final dynamic trailingIcon;
   final VoidCallback? onTrailingIconTap, onTap, onSubmit;
+  final ValueChanged? onChanged;
   final FormFieldValidator<String>? validator;
   final AutovalidateMode? autovalidateMode;
   final bool? enabled, readOnly;
@@ -53,6 +55,7 @@ class AppTextField extends StatelessWidget {
     return Padding(
       padding: margin ??EdgeInsets.zero,
       child: TextFormField(
+        onChanged: onChanged,
         onTap: onTap,
         readOnly: readOnly ?? false,
         controller: controller,
