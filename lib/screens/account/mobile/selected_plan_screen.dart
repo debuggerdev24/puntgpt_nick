@@ -1,19 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
-import 'package:puntgpt_nick/core/widgets/app_filed_button.dart';
-import 'package:puntgpt_nick/core/widgets/app_outlined_button.dart';
-import 'package:puntgpt_nick/core/widgets/on_button_tap.dart';
+import 'package:puntgpt_nick/core/app_imports.dart';
 import 'package:puntgpt_nick/models/account/subscription_plan_model.dart';
 import 'package:puntgpt_nick/provider/subscription/subscription_provider.dart';
-import 'package:puntgpt_nick/responsive/responsive_builder.dart';
 import 'package:puntgpt_nick/screens/account/mobile/widgets/subscription_plan.dart';
-
-import '../../../core/constants/text_style.dart';
-import '../../../core/enum/app_enums.dart';
-import '../../../core/helper/log_helper.dart';
-import '../../../core/widgets/app_devider.dart';
 
 class SelectedPlanScreen extends StatelessWidget {
   const SelectedPlanScreen({super.key, required this.plan});

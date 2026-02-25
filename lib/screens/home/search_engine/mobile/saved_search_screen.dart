@@ -1,20 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
-import 'package:puntgpt_nick/core/constants/text_style.dart';
-import 'package:puntgpt_nick/core/extensions/double_extensions.dart';
-import 'package:puntgpt_nick/core/router/app/app_router.dart';
-import 'package:puntgpt_nick/core/router/app/app_routes.dart';
-import 'package:puntgpt_nick/core/utils/date_formater.dart';
-import 'package:puntgpt_nick/core/widgets/app_devider.dart';
-
+import 'package:puntgpt_nick/core/app_imports.dart';
 import 'package:puntgpt_nick/models/home/search_engine/search_model.dart';
 import 'package:puntgpt_nick/provider/home/search_engine/search_engine_provider.dart';
-import 'package:puntgpt_nick/responsive/responsive_builder.dart';
 import 'package:puntgpt_nick/screens/home/search_engine/mobile/widgets/home_section_shimmers.dart';
-
-import '../../../../core/constants/app_colors.dart';
 
 class SavedSearchScreen extends StatelessWidget {
   const SavedSearchScreen({super.key});

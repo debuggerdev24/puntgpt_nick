@@ -202,11 +202,12 @@ class SearchEngineProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  bool isGettingRunners = false;
   Future<void> getSearchEngine({
     // required Function(String error) onError,
     required VoidCallback onSuccess,
   }) async {
-    runnerData = null;
+    isGettingRunners = true;
     notifyListeners();
     // Get the first checked track item, if any
     String? trackValue;
@@ -230,11 +231,12 @@ class SearchEngineProvider extends ChangeNotifier {
       (r) {
         Logger.info(r.toString());
         runnerData = (r["data"] != null)
-            ? RunnerDataModel.fromJson(r["data"])
+            ? RunnerDataModel.fromJson(r["data"] as Map<String, dynamic>)
             : null;
         onSuccess.call();
       },
     );
+    isGettingRunners = false;
     notifyListeners();
   }
 

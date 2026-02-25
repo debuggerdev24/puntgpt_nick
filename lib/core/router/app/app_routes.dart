@@ -84,7 +84,7 @@ manageSubscriptionScreen,
 offlineViewScreen,
 selectedPlanScreen,
 currentPlanScreen,
-runnersScreen,
+runnersScreen, groupMembersScreen,
 }
 
 

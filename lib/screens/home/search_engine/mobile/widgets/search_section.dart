@@ -1,19 +1,5 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
-import 'package:puntgpt_nick/core/constants/constants.dart';
-import 'package:puntgpt_nick/core/constants/text_style.dart';
-import 'package:puntgpt_nick/core/router/app/app_routes.dart';
-import 'package:puntgpt_nick/core/router/web/web_routes.dart';
-import 'package:puntgpt_nick/core/widgets/app_devider.dart';
-import 'package:puntgpt_nick/core/widgets/app_text_field.dart';
-import 'package:puntgpt_nick/core/widgets/app_text_field_drop_down.dart';
-import 'package:puntgpt_nick/core/widgets/image_widget.dart';
-import 'package:puntgpt_nick/core/widgets/on_button_tap.dart';
+import 'package:puntgpt_nick/core/app_imports.dart';
 import 'package:puntgpt_nick/provider/home/search_engine/search_engine_provider.dart';
-import 'package:puntgpt_nick/responsive/responsive_builder.dart';
 
 class SearchFields extends StatelessWidget {
   const SearchFields({super.key, required this.providerh});

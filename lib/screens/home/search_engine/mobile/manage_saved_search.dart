@@ -1,21 +1,6 @@
-import 'package:animate_do/animate_do.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
-import 'package:puntgpt_nick/core/constants/constants.dart';
-import 'package:puntgpt_nick/core/constants/text_style.dart';
-import 'package:puntgpt_nick/core/utils/app_toast.dart';
-import 'package:puntgpt_nick/core/widgets/app_devider.dart';
-import 'package:puntgpt_nick/core/widgets/app_filed_button.dart';
-import 'package:puntgpt_nick/core/widgets/app_outlined_button.dart';
-import 'package:puntgpt_nick/core/widgets/app_text_field.dart';
-import 'package:puntgpt_nick/core/widgets/app_text_field_drop_down.dart';
-import 'package:puntgpt_nick/responsive/responsive_builder.dart';
+import 'package:puntgpt_nick/core/app_imports.dart';
+import 'package:puntgpt_nick/provider/home/search_engine/search_engine_provider.dart';
 import 'package:puntgpt_nick/screens/home/search_engine/mobile/widgets/home_section_shimmers.dart';
-
-import '../../../../provider/home/search_engine/search_engine_provider.dart';
 
 class SearchDetailScreen extends StatelessWidget {
   const SearchDetailScreen({super.key});
@@ -148,7 +133,7 @@ class SearchDetailScreen extends StatelessWidget {
               provider.clearSavedSearchFields();
               context.pop();
             },
-            icon: Icon(Icons.arrow_back_ios_rounded, size: 16.h),
+            icon: Icon(Icons.arrow_back_ios_rounded, size: 16.w),
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -158,7 +143,7 @@ class SearchDetailScreen extends StatelessWidget {
                 style: regular(
                   fontFamily: AppFontFamily.secondary,
                   height: 1.1,
-                  fontSize: (context.isBrowserMobile) ? 65.sp : 24,
+                  fontSize: (context.isBrowserMobile) ? 65.sp : 24.sp,
                 ),
               ),
               Text(

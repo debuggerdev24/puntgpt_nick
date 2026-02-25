@@ -1,20 +1,5 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
-import 'package:puntgpt_nick/core/utils/custom_loader.dart';
-import 'package:puntgpt_nick/core/utils/de_bouncing.dart';
-import 'package:puntgpt_nick/core/utils/field_validators.dart';
-import 'package:puntgpt_nick/core/widgets/app_filed_button.dart';
-
-import '../../../core/constants/app_assets.dart';
-import '../../../core/constants/app_colors.dart';
-import '../../../core/constants/text_style.dart';
-import '../../../core/helper/log_helper.dart';
-import '../../../core/utils/app_toast.dart';
-import '../../../core/widgets/app_devider.dart';
-import '../../../core/widgets/app_text_field.dart';
-import '../../../provider/account/account_provider.dart';
+import 'package:puntgpt_nick/core/app_imports.dart';
+import 'package:puntgpt_nick/provider/account/account_provider.dart';
 
 class ChangePasswordScreen extends StatefulWidget {
   const ChangePasswordScreen({super.key});

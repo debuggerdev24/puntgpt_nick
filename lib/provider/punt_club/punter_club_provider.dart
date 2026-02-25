@@ -11,7 +11,7 @@ class PuntClubProvider extends ChangeNotifier {
     searchNameCtr = TextEditingController();
     searchNameCtr.addListener(notifyListeners);
   }
-  int selectedGroup = 0,notificationCount = 0;
+  int selectedGroup = 0, notificationCount = 0;
   String groupId = "";
   late final TextEditingController searchNameCtr;
   final TextEditingController clubNameCtr = TextEditingController();
@@ -25,22 +25,20 @@ class PuntClubProvider extends ChangeNotifier {
     super.dispose();
   }
 
-  //* filtered user list for search
-  List<UserInvitesList> get filteredUserList {
-    final query = searchNameCtr.text.trim().toLowerCase();
-    if (userInvitesList == null) return [];
-    if (query.isEmpty) return userInvitesList!;
-    return userInvitesList!
-        .where((u) => u.name.toLowerCase().contains(query))
-        .toList();
-  }
-
   List<ChatGroupModel>? chatGroupsList;
   List<UserInvitesList>? userInvitesList;
   List<NotificationModel>? notificationList;
+  List<GroupMembersModel>? groupMembersList;
   int _selectedPunters = 0;
   int get selectedPunterWeb => _selectedPunters;
   final Set<int> selectedIds = {};
+  String? selectedGroupId;
+
+  set setSelectedChatGroupIndex(int value) {
+    selectedGroup = value;
+    selectedGroupId = chatGroupsList![selectedGroup].id.toString();
+    Logger.info("selectedGroupId: $selectedGroupId");
+  }
 
   void toggleUser(int id) {
     if (selectedIds.contains(id)) {
@@ -79,7 +77,10 @@ class PuntClubProvider extends ChangeNotifier {
 
   //* create chat group
   bool isCreatingChatGroupLoading = false;
-  Future<void> createChatGroup({required VoidCallback onSuccess, required Function(String error) onError}) async {
+  Future<void> createChatGroup({
+    required VoidCallback onSuccess,
+    required Function(String error) onError,
+  }) async {
     isCreatingChatGroupLoading = true;
     notifyListeners();
     final response = await PuntClubApiService.instance.createChatGroup(
@@ -96,7 +97,9 @@ class PuntClubProvider extends ChangeNotifier {
         onSuccess.call();
         clubNameCtr.clear();
         final data = r["data"];
-        final club = (data is Map && data.containsKey("club")) ? data["club"] : data;
+        final club = (data is Map && data.containsKey("club"))
+            ? data["club"]
+            : data;
         groupId = (club["id"]).toString();
         Logger.info("groupId: $groupId");
         getChatGroups();
@@ -104,7 +107,7 @@ class PuntClubProvider extends ChangeNotifier {
     );
     clubNameCtr.clear();
     isCreatingChatGroupLoading = false;
-notifyListeners();
+    notifyListeners();
   }
 
   //* get chat groups
@@ -146,6 +149,16 @@ notifyListeners();
         notifyListeners();
       },
     );
+  }
+
+    //* filtered user list for search
+  List<UserInvitesList> get filteredUserList {
+    final query = searchNameCtr.text.trim().toLowerCase();
+    if (userInvitesList == null) return [];
+    if (query.isEmpty) return userInvitesList!;
+    return userInvitesList!
+        .where((u) => u.name.toLowerCase().contains(query))
+        .toList();
   }
 
   //* get notification list
@@ -216,8 +229,6 @@ notifyListeners();
     notifyListeners();
   }
 
-
-
   //* delete single notification
   Future<void> deleteSingleNotification({
     required String notificationId,
@@ -237,20 +248,15 @@ notifyListeners();
     );
   }
 
-
   //* delete all notification
   bool isDeletingAllNotification = false;
   Future<void> deleteAllNotification() async {
     isDeletingAllNotification = true;
     notifyListeners();
     final response = await PuntClubApiService.instance.deleteAllNotification();
-    response.fold(
-      (l) {
-        Logger.error("delete all notification error: ${l.errorMsg}");
-      },
-      (r) {
-      },
-    );
+    response.fold((l) {
+      Logger.error("delete all notification error: ${l.errorMsg}");
+    }, (r) {});
     isDeletingAllNotification = false;
     notifyListeners();
   }
@@ -281,12 +287,18 @@ notifyListeners();
   }
 
   //* user name setup
-  bool isUserNameSetup = false;
-  Future<void> userNameSetup({required String username, required VoidCallback onSuccess}) async {
-    isUserNameSetup = true;
+  bool isUserNameSetupLoading = false;
+  Future<void> userNameSetup({
+    required VoidCallback onSuccess,
+  }) async {
+    isUserNameSetupLoading = true;
     notifyListeners();
-    Logger.info("user name setup: $groupId, $username");
-    final response = await PuntClubApiService.instance.userNameSetup(groupId: groupId, username: username);
+    
+    Logger.info("user name setup: $selectedGroupId, ${usernameCtr.text.trim()}");
+    final response = await PuntClubApiService.instance.userNameSetup(
+      groupId: selectedGroupId!,
+      username: usernameCtr.text.trim(),
+    );
     response.fold(
       (l) {
         Logger.error("user name setup error: ${l.errorMsg}");
@@ -295,17 +307,19 @@ notifyListeners();
         onSuccess.call();
       },
     );
-    isUserNameSetup = false;
+    usernameCtr.clear();
+    isUserNameSetupLoading = false;
     notifyListeners();
   }
 
   //* reject invitation
-  bool isRejectingInvitation = false;
+  // bool isRejectingInvitation = false;
   Future<void> rejectInvitation({
     required String rejectId,
     required VoidCallback onSuccess,
   }) async {
-    isRejectingInvitation = true;
+    // isRejectingInvitation = true;
+    notificationList = null;
     notifyListeners();
     final response = await PuntClubApiService.instance.rejectInvitation(
       rejectId: rejectId,
@@ -319,7 +333,51 @@ notifyListeners();
         getNotifications();
       },
     );
-    isRejectingInvitation = false;
+    // isRejectingInvitation = false;
+    // notifyListeners();
+  }
+
+  //* get group members list
+  Future<void> getGroupMembersList({required String groupId}) async {
+    groupMembersList = null;
+    notifyListeners();
+    final response = await PuntClubApiService.instance.getGroupMembersList(
+      groupId: groupId,
+    );
+    response.fold(
+      (l) {
+        Logger.error("get group members list error: ${l.errorMsg}");
+      },
+      (r) {
+        groupMembersList = ((r["data"] as List).isNotEmpty)
+            ? (r["data"] as List)
+                  .map((e) => GroupMembersModel.fromJson(e))
+                  .toList()
+            : [];
+        notifyListeners();
+      },
+    );
+    notifyListeners();
+  }
+
+  //* leave group
+  bool isLeavingGroup = false;
+  Future<void> leaveGroup({required VoidCallback onSuccess}) async {
+    isLeavingGroup = true;
+    notifyListeners();
+    final response = await PuntClubApiService.instance.leaveGroup(
+      groupId: selectedGroupId!,
+    );
+    response.fold(
+      (l) {
+        Logger.error("leave group error: ${l.errorMsg}");
+      },
+      (r) {
+        onSuccess.call();
+        getChatGroups();
+      },
+    );
+    isLeavingGroup = false;
     notifyListeners();
   }
 }

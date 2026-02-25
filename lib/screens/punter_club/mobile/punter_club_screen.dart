@@ -1,110 +1,101 @@
 import 'package:badges/badges.dart' as badge;
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
-import 'package:puntgpt_nick/core/constants/constants.dart';
-import 'package:puntgpt_nick/core/constants/text_style.dart';
-import 'package:puntgpt_nick/core/router/app/app_routes.dart';
-import 'package:puntgpt_nick/core/router/web/web_routes.dart';
-import 'package:puntgpt_nick/core/utils/app_toast.dart';
-import 'package:puntgpt_nick/core/utils/custom_loader.dart';
-import 'package:puntgpt_nick/core/utils/date_formater.dart';
-import 'package:puntgpt_nick/core/widgets/app_devider.dart';
-import 'package:puntgpt_nick/core/widgets/app_outlined_button.dart';
-import 'package:puntgpt_nick/core/widgets/image_widget.dart';
+import 'package:puntgpt_nick/core/app_imports.dart';
 import 'package:puntgpt_nick/models/punt_club/notification_model.dart';
 import 'package:puntgpt_nick/models/punt_club/user_invites_list.dart';
 import 'package:puntgpt_nick/provider/punt_club/punter_club_provider.dart';
-import 'package:puntgpt_nick/responsive/responsive_builder.dart';
 import 'package:puntgpt_nick/screens/home/search_engine/mobile/home_screen.dart';
+import 'package:puntgpt_nick/screens/punter_club/mobile/widgets/dialogue_sheets.dart';
 import 'package:puntgpt_nick/screens/punter_club/mobile/widgets/punter_club_shimmers.dart';
-
-import '../../../core/widgets/app_filed_button.dart';
-import '../../../core/widgets/app_text_field.dart';
 
 class PunterClubScreen extends StatelessWidget {
   const PunterClubScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<PuntClubProvider>(
-      builder: (context, provider, child) {
-        if (provider.chatGroupsList == null) {
-          return PunterClubShimmers.punterClubScreenShimmer(context: context);
-        }
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) {
+        AppRouter.indexedStackNavigationShell?.goBranch(0);
+      },
+      child: Consumer<PuntClubProvider>(
+        builder: (context, provider, child) {
+          if (provider.chatGroupsList == null) {
+            return PunterClubShimmers.punterClubScreenShimmer(context: context);
+          }
 
-        return Stack(
-          children: [
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                //* top bar
-                topBar(context: context, provider: provider),
-                horizontalDivider(),
-                Expanded(
-                  child: (provider.chatGroupsList!.isEmpty)
-                      ? Center(child: Text("No chat groups found"))
-                      : ListView.separated(
-                          separatorBuilder: (context, index) =>
-                              horizontalDivider(),
-                          shrinkWrap: true,
-                          itemCount: provider.chatGroupsList!.length,
-                          padding: EdgeInsets.zero,
-                          itemBuilder: (context, index) {
-                            final chatGroup = provider.chatGroupsList![index];
-                            return GestureDetector(
-                              behavior: HitTestBehavior.opaque,
-                              onTap: () {
-                                provider.selectedGroup = index;
-                                context.pushNamed(
-                                  (context.isMobileView && kIsWeb)
-                                      ? WebRoutes.punterClubChatScreen.name
-                                      : AppRoutes.punterClubChatScreen.name,
-                                  extra: chatGroup.name,
-                                );
-                              },
-                              child: Container(
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: 25.w,
-                                  vertical: 20.h,
-                                ),
+          return Stack(
+            children: [
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  //* top bar
+                  topBar(context: context, provider: provider),
+                  horizontalDivider(),
+                  Expanded(
+                    child: (provider.chatGroupsList!.isEmpty)
+                        ? Center(child: Text("No chat groups found"))
+                        : ListView.separated(
+                            separatorBuilder: (context, index) =>
+                                horizontalDivider(),
+                            shrinkWrap: true,
+                            itemCount: provider.chatGroupsList!.length,
+                            padding: EdgeInsets.zero,
+                            itemBuilder: (context, index) {
+                              final chatGroup = provider.chatGroupsList![index];
+                              return GestureDetector(
+                                behavior: HitTestBehavior.opaque,
+                                onTap: () {
+                                  provider.setSelectedChatGroupIndex = index;
+                                  context.pushNamed(
+                                    (context.isMobileView && kIsWeb)
+                                        ? WebRoutes.punterClubChatScreen.name
+                                        : AppRoutes.punterClubChatScreen.name,
+                                    extra: chatGroup.name,
+                                  );
+                                },
+                                child: Container(
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: 25.w,
+                                    vertical: 20.h,
+                                  ),
 
-                                child: Text(
-                                  chatGroup.name,
-                                  style: bold(
-                                    fontSize: (context.isBrowserMobile)
-                                        ? 32.sp
-                                        : 16.sp,
-                                    // color: (index % 2 == 0) ? null : AppColors.white,
+                                  child: Text(
+                                    chatGroup.name,
+                                    style: bold(
+                                      fontSize: (context.isBrowserMobile)
+                                          ? 32.sp
+                                          : 16.sp,
+                                      // color: (index % 2 == 0) ? null : AppColors.white,
+                                    ),
                                   ),
                                 ),
-                              ),
-                            );
-                          },
-                        ),
-                ),
+                              );
+                            },
+                          ),
+                  ),
 
-                horizontalDivider(),
-                // Spacer(),
-              ],
-            ),
-            Align(
-              alignment: AlignmentGeometry.bottomRight,
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 25.w, vertical: 25.h),
-                child: askPuntGPTButton(context),
+                  horizontalDivider(),
+                  // Spacer(),
+                ],
               ),
-            ),
-
-            if (provider.isCreatingChatGroupLoading ||
-                // provider.isUserNameSetup ||
-                provider.isInvitingUser)
-              FullPageIndicator(),
-          ],
-        );
-      },
+              Align(
+                alignment: AlignmentGeometry.bottomRight,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 25.w,
+                    vertical: 25.h,
+                  ),
+                  child: askPuntGPTButton(context),
+                ),
+              ),
+              if (provider.isCreatingChatGroupLoading ||
+                  // provider.isUserNameSetup ||
+                  provider.isInvitingUser)
+                FullPageIndicator(),
+            ],
+          );
+        },
+      ),
     );
   }
 
@@ -579,13 +570,16 @@ class NotificationSheetView extends StatelessWidget {
                       context: context,
                       notification: notification,
                       onReject: () {
-                        provider.removeNotificationAt(index);
+                        final rootNav = Navigator.of(
+                          context,
+                          rootNavigator: true,
+                        );
                         provider.rejectInvitation(
                           rejectId: notification.inviteId!,
                           onSuccess: () {
                             AppToast.success(
-                              context: context,
-                              message: "Notification deleted successfully",
+                              context: rootNav.context,
+                              message: "Invitation declined successfully",
                             );
                           },
                         );
@@ -619,17 +613,18 @@ class NotificationSheetView extends StatelessWidget {
                               useRootNavigator: true,
                               builder: (sheetContext) {
                                 return createUserNameSheet(
-                                  sheetContext: sheetContext,
+                                  context: sheetContext,
                                   provider: provider,
                                   onSubmit: () {
                                     sheetContext.pop();
                                     provider.userNameSetup(
-                                      username: provider.usernameCtr.text
-                                          .trim(),
+                                     
+
                                       onSuccess: () {
                                         AppToast.success(
                                           context: rootNav.context,
-                                          message: "Username created successfully",
+                                          message:
+                                              "Username created successfully",
                                         );
                                       },
                                     );
@@ -662,11 +657,11 @@ class NotificationSheetView extends StatelessWidget {
                   text: "Clear all",
                   onTap: () {
                     provider.clearNotificationList();
-                    AppToast.success(
-                      context: context,
-                      message: "All notifications deleted successfully",
-                    );
                     provider.deleteAllNotification();
+                    // AppToast.success(
+                    //   context: context,
+                    //   message: "All notifications deleted successfully",
+                    // );
                   },
                 ),
               ),
@@ -677,52 +672,7 @@ class NotificationSheetView extends StatelessWidget {
     );
   }
 
-  Widget createUserNameSheet({
-    required BuildContext sheetContext,
-    required PuntClubProvider provider,
-    required VoidCallback onSubmit,
-  }) {
-    return Padding(
-      padding: EdgeInsets.only(
-        bottom: MediaQuery.viewInsetsOf(sheetContext).bottom,
-      ),
-      child: Container(
-        height: 370.w,
-        padding: EdgeInsets.symmetric(horizontal: 25.w),
-        child: Column(
-          children: [
-            Text(
-              "Create Username",
-              style: regular(
-                fontSize: 24.sp,
-                fontFamily: AppFontFamily.secondary,
-              ),
-            ),
-            10.h.verticalSpace,
-            Text(
-              "Your username will be displayed to your club members.",
-              style: semiBold(
-                fontSize: 14.sp,
-                color: AppColors.primary.withValues(alpha: 0.6),
-              ),
-            ),
-            22.w.verticalSpace,
-            horizontalDivider(),
-            24.w.verticalSpace,
-            AppTextField(
-              controller: provider.usernameCtr,
-              hintText: "Enter username",
-            ),
-            AppFilledButton(
-              margin: EdgeInsets.only(top: 24.w),
-              text: "Save",
-              onTap: onSubmit,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+
 
   Widget notificationBox({
     required BuildContext context,
@@ -841,3 +791,4 @@ class NotificationSheetView extends StatelessWidget {
     );
   }
 }
+  

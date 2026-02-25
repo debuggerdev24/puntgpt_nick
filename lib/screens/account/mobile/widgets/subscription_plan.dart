@@ -1,12 +1,6 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:puntgpt_nick/core/app_imports.dart';
 import 'package:puntgpt_nick/models/account/subscription_plan_model.dart';
-import 'package:puntgpt_nick/responsive/responsive_builder.dart';
-
-import '../../../../core/constants/app_assets.dart';
-import '../../../../core/constants/app_colors.dart';
-import '../../../../core/constants/text_style.dart';
-import '../../../../core/widgets/image_widget.dart';
 
 class SubscriptionPlanMobile extends StatelessWidget {
   const SubscriptionPlanMobile({super.key, required this.plan});

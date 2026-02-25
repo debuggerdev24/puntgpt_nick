@@ -76,5 +76,16 @@ class PuntClubApiService {
 
     );
   }
-  
+
+  Future<Either<ApiException, Map<String, dynamic>>> getGroupMembersList({required String groupId}) async {
+    return await BaseApiHelper.instance.get<Map<String, dynamic>>(
+      EndPoints.groupMembersList(groupId: groupId),
+    );
+  }
+
+  Future<Either<ApiException, Map<String, dynamic>>> leaveGroup({required String groupId}) async {
+    return await BaseApiHelper.instance.post<Map<String, dynamic>>(
+      EndPoints.leaveGroup(groupId: groupId),
+    );
+  }
 }

@@ -1,9 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:puntgpt_nick/core/constants/app_colors.dart';
-import 'package:puntgpt_nick/core/widgets/app_devider.dart';
-import 'package:puntgpt_nick/responsive/responsive_builder.dart';
-import 'package:shimmer/shimmer.dart';
+import 'package:puntgpt_nick/core/app_imports.dart';
 
 /// Shimmer for the Search Detail screen (home_screen)
 Widget homeScreenShimmer({required BuildContext context}) {

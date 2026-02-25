@@ -16,3 +16,19 @@ class ChatGroupModel {
   String name;
   DateTime createdAt;
 }
+
+//*group members model
+class GroupMembersModel {
+
+  factory GroupMembersModel.fromJson(Map<String, dynamic> json) => GroupMembersModel(
+    userName: json["group_username"],
+    joinedAt: DateTime.parse(json["joined_at"]),
+  );
+
+  GroupMembersModel({
+    required this.userName,
+    required this.joinedAt,
+  });
+  String userName;
+  DateTime joinedAt;
+}

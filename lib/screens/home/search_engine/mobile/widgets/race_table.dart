@@ -1,13 +1,4 @@
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
-import 'package:puntgpt_nick/core/router/web/web_routes.dart';
-import 'package:puntgpt_nick/responsive/responsive_builder.dart';
-
-import '../../../../../core/constants/app_colors.dart';
-import '../../../../../core/constants/text_style.dart';
-import '../../../../../core/router/app/app_routes.dart';
+import 'package:puntgpt_nick/core/app_imports.dart';
 
 class RaceTable extends StatelessWidget {
   const RaceTable({super.key});

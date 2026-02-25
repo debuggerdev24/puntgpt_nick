@@ -42,6 +42,17 @@ class DateFormatter {
     return DateFormat('hh:mm a').format(date);
   }
 
+  /// Parse time string (ISO or similar) and format as "hh:mm am/pm"
+  static String formatTimeFromString(String? timeStr) {
+    if (timeStr == null || timeStr.isEmpty) return '-';
+    try {
+      final dt = DateTime.parse(timeStr).toLocal();
+      return formatTimeOnly(dt);
+    } catch (e) {
+      return timeStr;
+    }
+  }
+
   // Format: ISO 8601 (2025-07-01T08:30:00)
   static String formatToIso(DateTime date) {
     return date.toIso8601String();

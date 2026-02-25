@@ -12,7 +12,6 @@ class BotProvider extends ChangeNotifier {
         Logger.error(l.errorMsg);
       },
       (r) {
-        final data = r["data"];
 
       },
     );

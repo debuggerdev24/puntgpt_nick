@@ -1,22 +1,5 @@
-import 'package:animate_do/animate_do.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
-import 'package:puntgpt_nick/core/router/app/app_routes.dart';
-import 'package:puntgpt_nick/core/router/web/web_router.dart';
-import 'package:puntgpt_nick/core/router/web/web_routes.dart';
-import 'package:puntgpt_nick/core/utils/app_toast.dart';
-import 'package:puntgpt_nick/core/utils/custom_loader.dart';
-import 'package:puntgpt_nick/core/widgets/on_button_tap.dart';
+import 'package:puntgpt_nick/core/app_imports.dart';
 import 'package:puntgpt_nick/provider/auth/auth_provider.dart';
-import 'package:puntgpt_nick/responsive/responsive_builder.dart';
-
-import '../../../core/constants/app_colors.dart';
-import '../../../core/constants/text_style.dart';
-import '../../../core/router/app/app_router.dart';
-import '../../../core/widgets/app_devider.dart';
 
 class AccountScreen extends StatelessWidget {
   const AccountScreen({super.key});
@@ -124,6 +107,7 @@ class AccountScreen extends StatelessWidget {
       builder: (dialogContext) {
         return ZoomIn(
           child: AlertDialog(
+            backgroundColor: AppColors.white,
             title: Text(
               "Are you sure you want to Log Out?",
               style: regular(color: AppColors.black, fontSize: context.isBrowserMobile ? 65.sp : 19.sp),

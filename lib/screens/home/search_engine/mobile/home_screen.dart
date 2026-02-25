@@ -1,26 +1,13 @@
-import 'package:animate_do/animate_do.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
-import 'package:puntgpt_nick/core/constants/constants.dart';
-import 'package:puntgpt_nick/core/constants/text_style.dart';
-import 'package:puntgpt_nick/core/router/web/web_routes.dart';
-import 'package:puntgpt_nick/core/utils/app_toast.dart';
-import 'package:puntgpt_nick/core/widgets/image_widget.dart';
+import 'package:puntgpt_nick/core/app_imports.dart';
 import 'package:puntgpt_nick/models/home/classic_form_guide/next_race_model.dart';
-import 'package:puntgpt_nick/responsive/responsive_builder.dart';
+import 'package:puntgpt_nick/provider/home/classic_form/classic_form_provider.dart';
+import 'package:puntgpt_nick/provider/home/search_engine/search_engine_provider.dart';
 import 'package:puntgpt_nick/screens/home/search_engine/mobile/widgets/home_section_shimmers.dart';
-import 'package:puntgpt_nick/screens/home/search_engine/mobile/widgets/search_section.dart';
 import 'package:puntgpt_nick/screens/home/search_engine/mobile/widgets/home_screen_tab.dart';
 import 'package:puntgpt_nick/screens/home/search_engine/mobile/widgets/race_start_timing_options.dart';
-import 'package:puntgpt_nick/screens/home/search_engine/mobile/widgets/runners_list_screen.dart';
-import '../../../../core/router/app/app_routes.dart';
-import '../../../../core/widgets/app_filed_button.dart';
-import '../../../../provider/home/classic_form/classic_form_provider.dart';
-import '../../../../provider/home/search_engine/search_engine_provider.dart';
+import 'package:puntgpt_nick/screens/home/search_engine/mobile/widgets/runners_screen.dart';
+import 'package:puntgpt_nick/screens/home/search_engine/mobile/widgets/search_section.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -83,10 +70,21 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                     from: 1,
                     key: ValueKey(provider.selectedTab),
                     child: (provider.selectedTab == 0)
-                        ? puntGptSearchEngineView(
-                            provider: provider,
-                            formKey: formKey,
-                            context: context,
+                        ? Stack(
+                            children: [
+                              puntGptSearchEngineView(
+                                provider: provider,
+                                formKey: formKey,
+                                context: context,
+                              ),
+                              Align(
+                                alignment: Alignment.bottomRight,
+                                child: askPuntGPTButton(
+                                  context,
+                                  EdgeInsets.only(right: 18.w, bottom: 18.w),
+                                ),
+                              ),
+                            ],
                           )
                         : Consumer<ClassicFormProvider>(
                             builder: (context, provider, child) =>
@@ -321,63 +319,54 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         //todo timing buttons
         Expanded(
           child: SingleChildScrollView(
+            padding: EdgeInsets.only(bottom: 100.w),
             child: Column(
               children: [
-                if (provider.isSearched)
-                  RunnersList(runnerData: provider.runnerData)
-                else ...[
+                // if (provider.isSearched)
+                //   RunnersListScreen(runnerData: provider.runnerData)
+                // else
+                ...[
                   RaceStartTimingOptions(),
                   SearchFields(providerh: provider),
                 ],
                 if (!provider.isSearched) ...[
                   20.verticalSpace,
-                  Align(
-                    alignment: Alignment.bottomRight,
-                    child: Padding(
-                      padding: EdgeInsets.only(right: 20),
-                      child: askPuntGPTButton(
-                        context,
-                        EdgeInsets.only(right: 20),
-                      ),
-                    ),
-                  ),
                   IntrinsicWidth(
                     child: AppFilledButton(
-                      margin: EdgeInsets.symmetric(
-                        horizontal: 24.w,
-                        vertical: 10,
-                      ),
+                      margin: EdgeInsets.symmetric(horizontal: 24.w),
                       text: "Search",
                       textStyle: semiBold(
                         fontSize: 16.sixteenSp(context),
                         color: AppColors.white,
                       ),
+
                       onTap: () {
+                        context.pushNamed(AppRoutes.runnersScreen.name);
                         // formKey.currentState!.validate();
                         provider.getSearchEngine(
                           onSuccess: () {
+                            AppToast.success(context: context, message: "Search successful");
                             // Navigate to runners screen after data is loaded
-                            if (provider.runnerData != null) {
-                              context.pushNamed(
-                                AppRoutes.runnersScreen.name,
-                                extra: provider.runnerData,
-                              );
-                            }
+                            // if (provider.runnerData != null) {
+                            //   context.pushNamed(
+                            //     AppRoutes.runnersScreen.name,
+                            //     extra: provider.runnerData,
+                            //   );
+                            // }
                           },
                         );
 
-                        provider.createSaveSearch(
-                          onError: (error) {
-                            AppToast.error(context: context, message: error);
-                          },
-                          onSuccess: () {
-                            AppToast.success(
-                              context: context,
-                              message: "Search saved successfully",
-                            );
-                          },
-                        );
-                        // provider.setIsSearched(value: true);
+                        // provider.createSaveSearch(
+                        //   onError: (error) {
+                        //     AppToast.error(context: context, message: error);
+                        //   },
+                        //   onSuccess: () {
+                        //     AppToast.success(
+                        //       context: context,
+                        //       message: "Search saved successfully",
+                        //     );
+                        //   },
+                        // );
                       },
                     ),
                   ),

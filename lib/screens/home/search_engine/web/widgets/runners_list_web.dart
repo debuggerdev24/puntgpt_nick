@@ -142,14 +142,14 @@ class RunnerWidget extends StatelessWidget {
                 ),
                 15.horizontalSpace,
                 Text(
-                  "${runner.raceNumber.toString()}. ",
+                  "${runner.raceNumber?.toString() ?? '-'}. ",
                   style: bold(fontSize: sixteenFontSize),
                 ),
-                Text(runner.jockeyName, style: semiBold(fontSize: sixteenFontSize)),
+                Text(runner.jockeyName ?? '-', style: semiBold(fontSize: sixteenFontSize)),
                 Spacer(),
 
                 Text(
-                  "\$${runner.odds}",
+                  "\$${runner.odds ?? '-'}",
                   style: bold(fontSize: sixteenFontSize),
                 ),
               ],
@@ -159,7 +159,7 @@ class RunnerWidget extends StatelessWidget {
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 9.h),
             child: Text(
-              "${runner.jumpTimeAu}. ",
+              "${runner.jumpTimeAu ?? '-'}. ",
               style: medium(fontSize: fourteenFontSize),
             ),
           ),
@@ -167,7 +167,7 @@ class RunnerWidget extends StatelessWidget {
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 9.h),
             child: Text(
-              "${runner.raceNumber} Races",
+              "${runner.raceNumber ?? '-'} Races",
               style: medium(fontSize: fourteenFontSize),
             ),
           ),

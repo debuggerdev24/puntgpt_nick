@@ -1,9 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:puntgpt_nick/core/constants/app_colors.dart';
-import 'package:puntgpt_nick/core/widgets/app_devider.dart';
-import 'package:puntgpt_nick/responsive/responsive_builder.dart';
-import 'package:shimmer/shimmer.dart';
+import 'package:puntgpt_nick/core/app_imports.dart';
 
 class PunterClubShimmers {
   // Shimmer for the Punter Club screen. Matches layout: top bar ("Your Punters Clubs:"
@@ -379,6 +374,70 @@ class PunterClubShimmers {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  /// Shimmer for the Group Members screen list. Matches layout: circular
+  /// profile icon on the left, member name and "Joined on..." text on the right,
+  /// with separators between rows.
+  static Widget groupMembersScreenShimmer({required BuildContext context}) {
+    return Shimmer.fromColors(
+      baseColor: AppColors.shimmerBaseColor,
+      highlightColor: AppColors.shimmerHighlightColor,
+      child: Padding(
+        padding: EdgeInsets.only(top: 10.w),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: List.generate(10, (index) {
+              return Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 23.w, vertical: 16.h),
+                    child: Row(
+                      children: [
+                        Container(
+                          height: 40.w,
+                          width: 40.w,
+                          decoration: const BoxDecoration(
+                            color: Colors.white,
+                            shape: BoxShape.circle,
+                          ),
+                        ),
+                        SizedBox(width: 16.w),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            spacing: 8,
+                            children: [
+                              Container(
+                                height: 16.h,
+                                width: (context.isBrowserMobile) ? 160.w : 100.w,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(4),
+                                ),
+                              ),
+                              Container(
+                                height: 14.h,
+                                width: (context.isBrowserMobile) ? 220.w : 180.w,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(4),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  horizontalDivider(),
+                ],
+              );
+            }),
+        ),
       ),
     );
   }

@@ -97,11 +97,12 @@ class EndPoints {
       "/chat-group/username-setup/$groupId/";
   static String getGroupMemberInfo({required String id}) =>
       "/chat-group/group-member-info/$id/";
-  static String leaveGroup({required String id}) =>
-      "/chat-group/leave-group/$id/";
+  static String leaveGroup({required String groupId}) =>
+      "/chat-group/leave-group/$groupId/";
   static String getChatHistory({required String id}) =>
       "/chat-group/history/$id/";
-
+  static String groupMembersList({required String groupId}) =>
+      "/chat-group/group-member-info/$groupId/";
   //* bot
   static const String bot = "/bot/chat/";
 }

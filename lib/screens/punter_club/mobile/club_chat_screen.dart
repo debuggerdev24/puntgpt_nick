@@ -1,19 +1,9 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
-import 'package:puntgpt_nick/core/constants/constants.dart';
-import 'package:puntgpt_nick/core/router/app/app_router.dart';
-import 'package:puntgpt_nick/core/utils/custom_loader.dart';
-import 'package:puntgpt_nick/core/widgets/image_widget.dart';
-import 'package:puntgpt_nick/core/widgets/on_button_tap.dart';
+import 'package:puntgpt_nick/core/app_imports.dart';
 import 'package:puntgpt_nick/provider/punt_club/punter_club_provider.dart';
-import 'package:puntgpt_nick/responsive/responsive_builder.dart';
 import 'package:puntgpt_nick/screens/home/search_engine/mobile/home_screen.dart';
 import 'package:puntgpt_nick/screens/home/search_engine/web/home_screen_web.dart';
 import 'package:puntgpt_nick/screens/punter_club/mobile/punter_club_screen.dart';
-import '../../../core/constants/text_style.dart';
-import '../../../core/widgets/app_devider.dart';
+import 'package:puntgpt_nick/screens/punter_club/mobile/widgets/dialogue_sheets.dart';
 import '../../home/search_engine/mobile/widgets/chat_section.dart';
 
 class PuntClubChatScreen extends StatelessWidget {
@@ -26,45 +16,50 @@ class PuntClubChatScreen extends StatelessWidget {
       context.pop();
     }
     return Consumer<PuntClubProvider>(
-      builder: (context, provider, child) => Column(
+      builder: (context, provider, child) => Stack(
         children: [
-          topBar(context: context, provider: provider),
-          Expanded(
-            child: Stack(
-              children: [
-                ListView(children: [ChatSection(), ChatSection()]),
-                Padding(
-                  padding: EdgeInsets.only(bottom: 25.h, right: 25.w),
-                  child: Align(
-                    alignment: AlignmentGeometry.bottomRight,
-                    child: (context.isBrowserMobile)
-                        ? askPuntGPTButtonWeb(context: context)
-                        : askPuntGPTButton(context),
-                  ),
-                ),
-              ],
-            ),
-          ),
           Column(
-            mainAxisSize: MainAxisSize.min,
             children: [
-              horizontalDivider(),
-              TextField(
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  prefix: SizedBox(
-                    width: (context.isBrowserMobile) ? 35.w : 25.w,
-                  ),
-                  hintText: "Type your message...",
-                  hintStyle: medium(
-                    fontStyle: FontStyle.italic,
-                    fontSize: (context.isBrowserMobile) ? 28.sp : 14.sp,
-                    color: AppColors.greyColor.withValues(alpha: 0.6),
-                  ),
+              topBar(context: context, provider: provider),
+              Expanded(
+                child: Stack(
+                  children: [
+                    ListView(children: [ChatSection(), ChatSection()]),
+                    Padding(
+                      padding: EdgeInsets.only(bottom: 25.h, right: 25.w),
+                      child: Align(
+                        alignment: AlignmentGeometry.bottomRight,
+                        child: (context.isBrowserMobile)
+                            ? askPuntGPTButtonWeb(context: context)
+                            : askPuntGPTButton(context),
+                      ),
+                    ),
+                  ],
                 ),
+              ),
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  horizontalDivider(),
+                  TextField(
+                    decoration: InputDecoration(
+                      border: InputBorder.none,
+                      prefix: SizedBox(
+                        width: (context.isBrowserMobile) ? 35.w : 25.w,
+                      ),
+                      hintText: "Type your message...",
+                      hintStyle: medium(
+                        fontStyle: FontStyle.italic,
+                        fontSize: (context.isBrowserMobile) ? 28.sp : 14.sp,
+                        color: AppColors.greyColor.withValues(alpha: 0.6),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
+          if (provider.isLeavingGroup || provider.isUserNameSetupLoading) FullPageIndicator(),
         ],
       ),
     );
@@ -97,12 +92,6 @@ class PuntClubChatScreen extends StatelessWidget {
                   GestureDetector(
                     onTap: () {
                       //* getting current location
-                      // final ctx = AppRouter.rootNavigatorKey.currentContext;
-                      // if (ctx != null) {
-                      //   final router = GoRouter.of(ctx);
-                      //   final location = router.state.name; // path
-                      //   Logger.info('Current route location: $location');
-                      // }
                       provider.getUsersInviteList(groupId: provider.groupId);
                     },
                     child: Text(
@@ -124,7 +113,6 @@ class PuntClubChatScreen extends StatelessWidget {
                 ],
               ),
               Spacer(),
-
               OnMouseTap(
                 onTap: () {
                   final grp = provider.chatGroupsList![provider.selectedGroup];
@@ -161,8 +149,11 @@ class PuntClubChatScreen extends StatelessWidget {
                     useRootNavigator: true,
                     showDragHandle: true,
                     backgroundColor: AppColors.white,
-                    builder: (context) {
-                      return OptionsSheetView();
+                    builder: (sheetContext) {
+                      return OptionsSheetView(
+                        provider: provider,
+                        sheetContext: sheetContext,
+                      );
                     },
                   );
                 },
@@ -183,7 +174,13 @@ class PuntClubChatScreen extends StatelessWidget {
 }
 
 class OptionsSheetView extends StatelessWidget {
-  const OptionsSheetView({super.key});
+  const OptionsSheetView({
+    super.key,
+    required this.provider,
+    required this.sheetContext,
+  });
+  final PuntClubProvider provider;
+  final BuildContext sheetContext;
 
   @override
   Widget build(BuildContext context) {
@@ -191,7 +188,6 @@ class OptionsSheetView extends StatelessWidget {
         ? 40.w.verticalSpace
         : 24.w.verticalSpace;
     return SizedBox(
-      // height:0.89.sh,
       height: context.screenHeight - 0.15.sh,
       child: Padding(
         padding: EdgeInsets.fromLTRB(25.w, 0, 25.w, 25.h),
@@ -207,28 +203,158 @@ class OptionsSheetView extends StatelessWidget {
             18.h.verticalSpace,
             horizontalDivider(),
             spacing,
-            optionItem(title: "View Members", context: context),
+            optionItem(
+              title: "View Members",
+              onTap: () {
+                context.pop();
+                provider.getGroupMembersList(
+                  groupId: provider.chatGroupsList![provider.selectedGroup].id
+                      .toString(),
+                );
+                context.pushNamed(AppRoutes.groupMembersScreen.name);
+              },
+            ),
             spacing,
             horizontalDivider(),
             spacing,
-            optionItem(title: "Change Name", context: context),
+            optionItem(
+              title: "Change Name",
+              onTap: () {
+                context.pop();
+                // final currentCtx = AppRouter.rootNavigatorKey.currentContext;
+                showModalBottomSheet(
+                  context: context,
+                  isScrollControlled: true,
+                  useRootNavigator: true,
+                  showDragHandle: true,
+                  backgroundColor: AppColors.white,
+                  builder: (sheetContext) {
+                    return createUserNameSheet(
+                      context: sheetContext,
+                      provider: provider,
+                      onSubmit: () {
+                        sheetContext.pop();
+
+                        provider.userNameSetup(
+                          onSuccess: () {
+                            final currentCtx =
+                                AppRouter.rootNavigatorKey.currentContext;
+                            AppToast.success(
+                              context: currentCtx!,
+                              message: "Name updated successfully",
+                            );
+                          },
+                        );
+                      },
+                    );
+                  },
+                );
+              },
+            ),
             spacing,
             horizontalDivider(),
+            Spacer(),
+            AppOutlinedButton(
+              borderColor: AppColors.red,
+              textStyle: semiBold(fontSize: 18.sp, color: AppColors.red),
+              text: "Leave Group",
+              onTap: () {
+                context.pop();
+                final cuttentCtx = AppRouter.rootNavigatorKey.currentContext;
+                showLeaveGroupConfirmation(
+                  context: cuttentCtx!,
+                  onLeaveGroup: () {
+                    provider.leaveGroup(
+                      onSuccess: () {
+                        final cuttentCtx =
+                            AppRouter.rootNavigatorKey.currentContext;
+                        if (cuttentCtx != null && cuttentCtx.mounted) {
+                          AppToast.success(
+                            context: cuttentCtx,
+                            message: "Group left successfully",
+                          );
+                          cuttentCtx.pop();
+                        }
+                      },
+                    );
+                  },
+                );
+              },
+            ),
           ],
         ),
       ),
     );
   }
 
-  Widget optionItem({required String title, required BuildContext context}) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      spacing: 11.w,
-      children: [
-        Text(title, style: semiBold(fontSize: 16.sixteenSp(context))),
+  Widget optionItem({required String title, required VoidCallback onTap}) {
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: onTap,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        spacing: 11.w,
+        children: [
+          Text(title, style: semiBold(fontSize: 16.sp)),
 
-        Icon(Icons.arrow_forward_ios_rounded, size: 12),
-      ],
+          Icon(Icons.arrow_forward_ios_rounded, size: 12),
+        ],
+      ),
+    );
+  }
+
+  void showLeaveGroupConfirmation({
+    required BuildContext context,
+    required VoidCallback onLeaveGroup,
+  }) {
+    showDialog(
+      context: context,
+
+      builder: (dialogContext) {
+        return ZoomIn(
+          child: AlertDialog(
+            backgroundColor: AppColors.white,
+            title: Text(
+              "Are you sure you want to Quit Group?",
+              style: regular(
+                color: AppColors.black,
+                fontSize: context.isBrowserMobile ? 65.sp : 19.sp,
+              ),
+            ),
+            actions: [
+              myActionButtonTheme(
+                onPressed: () async {
+                  dialogContext.pop();
+                  onLeaveGroup.call();
+                },
+                title: "Yes",
+              ),
+              myActionButtonTheme(
+                onPressed: () {
+                  dialogContext.pop();
+                },
+                title: "Cancel",
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Widget myActionButtonTheme({
+    required VoidCallback onPressed,
+    required String title,
+  }) {
+    return TextButton(
+      onPressed: onPressed,
+      child: Text(
+        title,
+        style: regular(
+          color: (title == "Yes") ? AppColors.red : AppColors.black,
+          fontSize: 16.5,
+        ),
+      ),
     );
   }
 }

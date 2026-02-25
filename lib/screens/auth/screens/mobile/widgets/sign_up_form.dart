@@ -1,13 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:provider/provider.dart';
-import 'package:puntgpt_nick/core/constants/constants.dart';
-import 'package:puntgpt_nick/core/helper/date_picker.dart';
-import 'package:puntgpt_nick/core/utils/date_formater.dart';
-import 'package:puntgpt_nick/core/utils/field_validators.dart';
-import 'package:puntgpt_nick/core/widgets/app_text_field.dart';
-import 'package:puntgpt_nick/core/widgets/app_text_field_drop_down.dart';
+import 'package:puntgpt_nick/core/app_imports.dart';
 import 'package:puntgpt_nick/provider/auth/auth_provider.dart';
 
 class SignUpForm extends StatelessWidget {

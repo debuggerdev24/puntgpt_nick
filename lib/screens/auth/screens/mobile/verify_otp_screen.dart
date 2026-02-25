@@ -1,15 +1,6 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pinput/pinput.dart';
-import 'package:provider/provider.dart';
-import 'package:puntgpt_nick/core/utils/custom_loader.dart';
-import 'package:puntgpt_nick/core/widgets/app_outlined_button.dart';
+import 'package:puntgpt_nick/core/app_imports.dart';
 import 'package:puntgpt_nick/provider/auth/auth_provider.dart';
-import 'package:puntgpt_nick/responsive/responsive_builder.dart';
-
-import '../../../../core/constants/app_colors.dart';
-import '../../../../core/constants/text_style.dart';
-import '../../../../core/widgets/app_filed_button.dart';
 
 class VerifyOtpScreen extends StatelessWidget {
   const VerifyOtpScreen({super.key});

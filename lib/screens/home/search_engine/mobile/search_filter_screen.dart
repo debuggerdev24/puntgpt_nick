@@ -1,12 +1,5 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
-import 'package:puntgpt_nick/core/constants/app_colors.dart';
-import 'package:puntgpt_nick/core/constants/text_style.dart';
-import 'package:puntgpt_nick/core/widgets/app_filed_button.dart';
-
-import '../../../../provider/home/search_engine/search_engine_provider.dart';
+import 'package:puntgpt_nick/core/app_imports.dart';
+import 'package:puntgpt_nick/provider/home/search_engine/search_engine_provider.dart';
 
 class SearchFilterScreen extends StatelessWidget {
   const SearchFilterScreen({super.key});

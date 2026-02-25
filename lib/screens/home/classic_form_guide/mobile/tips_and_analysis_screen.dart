@@ -1,16 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
-import 'package:puntgpt_nick/core/constants/app_colors.dart';
-import 'package:puntgpt_nick/core/constants/text_style.dart';
-import 'package:puntgpt_nick/core/widgets/app_devider.dart';
-import 'package:puntgpt_nick/core/widgets/image_widget.dart';
+import 'package:puntgpt_nick/core/app_imports.dart';
 import 'package:puntgpt_nick/models/home/classic_form_guide/tips_analysis_model.dart';
 import 'package:puntgpt_nick/provider/home/classic_form/classic_form_provider.dart';
-import 'package:puntgpt_nick/responsive/responsive_builder.dart';
 import 'package:puntgpt_nick/screens/home/search_engine/mobile/widgets/home_section_shimmers.dart';
-import 'package:shimmer/shimmer.dart';
 
 class TipAndAnalysisScreen extends StatelessWidget {
   const TipAndAnalysisScreen({super.key});
@@ -249,7 +240,7 @@ class TipAndAnalysisScreen extends StatelessWidget {
     return Column(
       children: [
         Padding(
-          padding: EdgeInsets.fromLTRB(4.w, 8, 25.w, 20.w),
+          padding: EdgeInsets.fromLTRB(4.w, 8.w, 25.w, 8.w),
           child: Row(
             children: [
               IconButton(

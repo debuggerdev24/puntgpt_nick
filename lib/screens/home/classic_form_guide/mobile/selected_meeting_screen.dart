@@ -1,20 +1,9 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
-import 'package:puntgpt_nick/core/helper/log_helper.dart';
-import 'package:puntgpt_nick/core/router/app/app_routes.dart';
-import 'package:puntgpt_nick/core/utils/date_formater.dart';
-import 'package:puntgpt_nick/core/widgets/app_filed_button.dart';
-
+import 'package:puntgpt_nick/core/app_imports.dart';
 import 'package:puntgpt_nick/models/home/classic_form_guide/race_details_model.dart';
 import 'package:puntgpt_nick/provider/home/classic_form/classic_form_provider.dart';
 import 'package:puntgpt_nick/screens/home/search_engine/mobile/home_screen.dart';
 import 'package:puntgpt_nick/screens/home/search_engine/mobile/widgets/home_section_shimmers.dart';
-import '../../../../core/constants/app_colors.dart';
-import '../../../../core/constants/text_style.dart';
-import '../../../../core/widgets/app_devider.dart';
 
 class SelectedMeetingScreen extends StatelessWidget {
   const SelectedMeetingScreen({super.key});
@@ -29,61 +18,63 @@ class SelectedMeetingScreen extends StatelessWidget {
         return Stack(
           children: [
             Column(
+              
               children: [
                 topBar(context: context, provider: provider),
                 //* Race selection view
                 Expanded(
                   child: SingleChildScrollView(
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Container(
-                          alignment: Alignment.centerLeft,
-                          margin: EdgeInsets.fromLTRB(25.w, 25.h, 25.w, 0),
-                          decoration: BoxDecoration(
-                            border: Border.all(color: AppColors.primary),
-                          ),
+                        Padding(
+                          padding: EdgeInsets.fromLTRB(25.w, 25.h, 25.w, 0),
                           child: SingleChildScrollView(
                             scrollDirection: Axis.horizontal,
-                            child: Row(
-                              // crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: List.generate(
-                                provider.meetingRace!.races.length,
-                                (index) {
-                                  final race =
-                                      provider.meetingRace!.races[index];
-                                  return GestureDetector(
-                                    onTap: () {
-                                      provider.changeSelectedRace = index;
-                                      provider.getRaceFieldDetail(
-                                        id: race.raceId.toString(),
-                                      );
-                                    },
-                                    child: AnimatedContainer(
-                                      padding: EdgeInsetsGeometry.symmetric(
-                                        vertical: 12,
-                                        horizontal: 12,
-                                      ),
-                                      alignment: AlignmentGeometry.center,
-                                      duration: 400.milliseconds,
-                                      decoration: BoxDecoration(
-                                        color: (provider.selectedRace == index)
-                                            ? AppColors.primary
-                                            : null,
-                                      ),
-                                      child: Text(
-                                        "R${index + 1}",
-                                        style: semiBold(
-                                          fontSize: 16.sp,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(color: AppColors.primary),
+                              ),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: List.generate(
+                                  provider.meetingRace!.races.length,
+                                  (index) {
+                                    final race =
+                                        provider.meetingRace!.races[index];
+                                    return GestureDetector(
+                                      onTap: () {
+                                        provider.changeSelectedRace = index;
+                                        provider.getRaceFieldDetail(
+                                          id: race.raceId.toString(),
+                                        );
+                                      },
+                                      child: AnimatedContainer(
+                                        padding: EdgeInsets.symmetric(
+                                          vertical: 12,
+                                          horizontal: 12,
+                                        ),
+                                        duration: 400.milliseconds,
+                                        decoration: BoxDecoration(
                                           color:
                                               (provider.selectedRace == index)
-                                              ? AppColors.white
-                                              : AppColors.primary,
+                                                  ? AppColors.primary
+                                                  : null,
+                                        ),
+                                        child: Text(
+                                          "R${index + 1}",
+                                          style: semiBold(
+                                            fontSize: 16.sp,
+                                            color:
+                                                (provider.selectedRace == index)
+                                                    ? AppColors.white
+                                                    : AppColors.primary,
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                  );
-                                },
+                                    );
+                                  },
+                                ),
                               ),
                             ),
                           ),
@@ -164,7 +155,7 @@ class SelectedMeetingScreen extends StatelessWidget {
   }
 
   Widget _raceSubNavBar({required String title, required VoidCallback onTap}) {
-    const tabs = ['', 'Speed Maps', 'Sectionals'];
+
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: onTap,
@@ -435,7 +426,7 @@ class _ExpandedStatsContent extends StatelessWidget {
     parts.add('placePercentage: $placePercentage');
     parts.add('roi: $roi');
     Logger.info(
-      'HorseStatsDetails: ${runs}, ${wins}, ${seconds}, ${thirds}, ${winPercentage}, ${placePercentage}, ${roi}',
+      'HorseStatsDetails: $runs, $wins, $seconds, $thirds, $winPercentage, $placePercentage, $roi',
     );
     if (parts.isEmpty) return value.toString();
     return parts.join(', ');
@@ -486,7 +477,7 @@ class _ExpandedStatsContent extends StatelessWidget {
                 ),
                 Expanded(
                   child: Text(
-                    '${e.value}',
+                    e.value,
                     style: medium(fontSize: 14.sp, color: AppColors.primary),
                   ),
                 ),

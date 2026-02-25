@@ -9,7 +9,7 @@ import 'package:puntgpt_nick/screens/home/search_engine/mobile/manage_saved_sear
 import 'package:puntgpt_nick/screens/home/search_engine/mobile/saved_search_screen.dart';
 import 'package:puntgpt_nick/screens/home/classic_form_guide/mobile/selected_meeting_screen.dart';
 import 'package:puntgpt_nick/screens/home/classic_form_guide/mobile/tips_and_analysis_screen.dart';
-import 'package:puntgpt_nick/screens/home/search_engine/mobile/widgets/runners_list_screen.dart';
+import 'package:puntgpt_nick/screens/home/search_engine/mobile/widgets/runners_screen.dart';
 
 class DashBoardRoutes {
   static final List<RouteBase> routes = <RouteBase>[
@@ -52,10 +52,10 @@ class DashBoardRoutes {
       name: AppRoutes.runnersScreen.name,
       path: AppRoutes.runnersScreen.path,
       builder: (BuildContext context, GoRouterState state) {
-        final runnerData = state.extra != null
-            ? state.extra as RunnerDataModel
-            : null;
-        return RunnersList(runnerData: runnerData);
+        // final runnerData = state.extra != null
+        //     ? state.extra as RunnerDataModel
+        //     : null;
+        return RunnersListScreen();
       },
     ),
     GoRoute(
