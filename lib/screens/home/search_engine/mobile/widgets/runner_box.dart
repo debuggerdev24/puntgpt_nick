@@ -114,6 +114,7 @@ class RunnerBox extends StatelessWidget {
                       vertical: 12.h,
                       horizontal: 6.w,
                     ),
+                    
                       onTap: onAddToTipSlip,
                       // child: progressIndicator(),
                     child: _isThisRunnerLoading(context) ? progressIndicator() : null,
@@ -122,6 +123,8 @@ class RunnerBox extends StatelessWidget {
                 Expanded(
                   child: GestureDetector(
                     onTap: () {
+                      onCompareToField.call();
+
                       showModalBottomSheet(
                         showDragHandle: true,
                         isScrollControlled: true,

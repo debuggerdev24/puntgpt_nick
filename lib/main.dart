@@ -61,13 +61,6 @@ jockey_strike_rate_last_12_months: ""
 //* IMPORTANT           // Yellow
 // TODO: refactor       // Default todo
 
--> Worked on integarted below APIs:
-  - add to tip slip
-  - get tip slips
-  - remove from tip slip
--> Worked on improve the code efficiency by avoiding unnecessary imprts, and locate it at the file only once.
--> Worked on updated the shimmer effect for he runners screen and cerated the new shimmer effect for the tip slip screen.
--> Worked on added the new formatter fro the format time according o the figma.
 
 
  */

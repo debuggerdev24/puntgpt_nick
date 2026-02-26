@@ -1,4 +1,5 @@
 import 'package:puntgpt_nick/core/app_imports.dart';
+import 'package:puntgpt_nick/models/home/search_engine/compare_horse_model.dart';
 import 'package:puntgpt_nick/models/home/search_engine/runner_model.dart';
 import 'package:puntgpt_nick/models/home/search_engine/search_model.dart';
 import 'package:puntgpt_nick/models/home/search_engine/tip_slip_model.dart';
@@ -29,6 +30,7 @@ class SearchEngineProvider extends ChangeNotifier {
   List<String>? trackDetails, distanceDetails, searchFilterDetails, barrierList;
   SaveSearchModel? selectedSaveSearch;
   List<RunnerModel>? runnersList;
+  CompareHorseModel? compareHorse;
 
   String? selectedTrack,
       selectedPlaceAtDistance,
@@ -239,32 +241,42 @@ class SearchEngineProvider extends ChangeNotifier {
         final runners = data["runners"] ?? [];
 
         if (runners.isEmpty) {
+          runnersList = [];
           notifyListeners();
           return;
         }
 
         final int total = runners.length;
-        final int chunkSize = (total / 3).ceil();
+        final int chunkSize = (total / 6).ceil();
+
+
+        runnersList = [];
 
         for (int i = 0; i < total; i += chunkSize) {
-          final chunk = runners.skip(i).take(chunkSize);
-
+          final end = (i + chunkSize).clamp(0, total);
+          final chunk = runners.sublist(i, end);
+          Logger.info("chunk: ${chunk.length}");
           final convertedChunk = chunk
-              .map((e) => RunnerModel.fromJson(e))
+              .map<RunnerModel>((e) => RunnerModel.fromJson(e as Map<String, dynamic>))
               .toList();
-          runnersList = [...runnersList ?? [], ...convertedChunk];
-          // runnersList!.addAll(convertedChunk);
-
+          runnersList!.addAll(convertedChunk);
           notifyListeners();
 
-          // Optional small delay to allow UI frame rendering
-          await Future.delayed(const Duration(milliseconds: 50));
+          // Yield to event loop so UI can paint (no fixed delay)
+          if (end < total) {
+            await Future.delayed(Duration.zero);
+          }
         }
 
         onSuccess.call();
-        notifyListeners();
       },
     );
+    // final data = r["data"];
+    // final runners = data["runners"] as List;
+    // runnersList = runners.map((e) => RunnerModel.fromJson(e)).toList();
+    // onSuccess.call();
+
+    notifyListeners();
   }
 
   Future<void> createSaveSearch({
@@ -617,7 +629,10 @@ class SearchEngineProvider extends ChangeNotifier {
         Logger.error(l.errorMsg);
       },
       (r) {
-        Logger.info(r.toString());
+        final data = r as Map<String, dynamic>;
+        
+        compareHorse = CompareHorseModel.fromJson(data);;
+        notifyListeners();
       },
     );
   }

@@ -111,8 +111,9 @@ class SearchEngineAPISearvice {
     required Map<String, dynamic> data,
   }) async {
     return await BaseApiHelper.instance.post(
+      data: data,
       EndPoints.compareHorses,
-      parser: (data) => data,
+      
     );
   }
 }

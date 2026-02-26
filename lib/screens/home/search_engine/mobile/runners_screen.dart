@@ -69,19 +69,27 @@ class RunnersListScreen extends StatelessWidget {
                         itemCount: runners.length,
                         itemBuilder: (context, index) {
                           final runner = runners[index];
-                          return RunnerBox(runner: runner,
-                          onAddToTipSlip: () {
-                            provider.createTipSlip(
-                              selectionId: runner.selectionId?.toString() ?? '',
-                              onError: (error) {
-                                AppToast.error(context: context, message: error);
-                              },
-                              context: context,
-                            );
-                          },
-                          onCompareToField: () {
-                            // provider.setSelectedRunnerIndex = index;
-                          },
+                          return RunnerBox(
+                            runner: runner,
+                            onAddToTipSlip: () {
+                              provider.createTipSlip(
+                                selectionId:
+                                    runner.selectionId?.toString() ?? '',
+                                onError: (error) {
+                                  AppToast.error(
+                                    context: context,
+                                    message: error,
+                                  );
+                                },
+                                context: context,
+                              );
+                            },
+                            onCompareToField: () {
+                              provider.compareHorses(
+                                selectionId:
+                                    runner.selectionId?.toString() ?? '',
+                              );
+                            },
                           );
                         },
                       ),
