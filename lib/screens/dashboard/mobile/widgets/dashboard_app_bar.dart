@@ -57,61 +57,65 @@ class _DashboardAppBarState extends State<DashboardAppBar> {
   }
 
   Widget _tipSlip() {
-    return SizedBox(
-      height: (12.h.flexClamp(18, 22) * 1.2) + 20,
-      child: GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onTap: () {
-          context.read<SearchEngineProvider>().getTipSlips();
-          if (kIsWeb) {
-            WebRouter.indexedStackNavigationShell!.goBranch(3);
-            return;
-          }
-          context.pushNamed(AppRoutes.tipSlipScreen.name);
-        },
-        child: Stack(
-          alignment: Alignment.center,
-          children: [
-            Padding(
-              padding: EdgeInsets.only(right: 12.w),
-              child: Text(
-                "Tip Slip",
-                style: bold(
-                  height: 1.2,
-                  fontSize: context.isTablet
-                      ? 32.sp
-                      : (context.isBrowserMobile)
-                      ? 40.sp
-                      : 20.sp,
-                  color: AppColors.white,
-                ),
-              ),
-            ),
-            Positioned(
-              top: 4,
-              right: 0,
-              child: Container(
-                padding: EdgeInsets.symmetric(
-                  horizontal: 3,
-                  vertical: (context.isBrowserMobile) ? 3 : 1,
-                ),
-                decoration: BoxDecoration(color: AppColors.white),
-                child: Text(
-                  "10",
-                  style: semiBold(
-                    fontSize: context.isTablet
-                        ? 18.sp
-                        : (context.isBrowserMobile)
-                        ? 24.sp
-                        : 12.sp,
-                    color: AppColors.black,
+    return Consumer<SearchEngineProvider>(
+      builder: (context, provider, child) {
+        return SizedBox(
+          height: (12.h.flexClamp(18, 22) * 1.2) + 20,
+          child: GestureDetector(
+            behavior: HitTestBehavior.opaque,
+            onTap: () {
+              provider.getAllTipSlips();
+              if (kIsWeb) {
+                WebRouter.indexedStackNavigationShell!.goBranch(3);
+                return;
+              }
+              context.pushNamed(AppRoutes.tipSlipScreen.name);
+            },
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(right: 12.w),
+                  child: Text(
+                    "Tip Slip",
+                    style: bold(
+                      height: 1.2,
+                      fontSize: context.isTablet
+                          ? 32.sp
+                          : (context.isBrowserMobile)
+                          ? 40.sp
+                          : 20.sp,
+                      color: AppColors.white,
+                    ),
                   ),
                 ),
-              ),
+                Positioned(
+                  top: 4,
+                  right: 0,
+                  child: Container(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 3,
+                      vertical: (context.isBrowserMobile) ? 3 : 1,
+                    ),
+                    decoration: BoxDecoration(color: AppColors.white),
+                    child: Text(
+                      provider.tipSlips?.length.toString() ?? "0",//tipSlips?.length.toString() ?? "0",
+                      style: semiBold(
+                        fontSize: context.isTablet
+                            ? 18.sp
+                            : (context.isBrowserMobile)
+                            ? 24.sp
+                            : 12.sp,
+                        color: AppColors.black,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
-      ),
+          ),
+        );
+      }
     );
   }
 

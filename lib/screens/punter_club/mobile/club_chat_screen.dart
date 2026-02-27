@@ -51,7 +51,7 @@ class PuntClubChatScreen extends StatelessWidget {
                       hintStyle: medium(
                         fontStyle: FontStyle.italic,
                         fontSize: (context.isBrowserMobile) ? 28.sp : 14.sp,
-                        color: AppColors.greyColor.withValues(alpha: 0.6),
+                        color: AppColors.primary.withValues(alpha: 0.6),
                       ),
                     ),
                   ),
@@ -107,7 +107,7 @@ class PuntClubChatScreen extends StatelessWidget {
                     "11 Member",
                     style: semiBold(
                       fontSize: (context.isBrowserMobile) ? 30.sp : 14.sp,
-                      color: AppColors.greyColor.withValues(alpha: 0.6),
+                      color: AppColors.primary.withValues(alpha: 0.6),
                     ),
                   ),
                 ],

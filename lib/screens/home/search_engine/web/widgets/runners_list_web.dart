@@ -96,7 +96,7 @@ class RunnerWidget extends StatelessWidget {
     return Container(
       margin: EdgeInsets.only(bottom: (context.isBrowserMobile) ? 0 : 16.h),
       decoration: BoxDecoration(
-        border: Border.all(color: AppColors.greyColor.withValues(alpha: 0.15)),
+        border: Border.all(color: AppColors.primary.withValues(alpha: 0.15)),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -207,7 +207,7 @@ class RunnerWidget extends StatelessWidget {
                             margin: EdgeInsets.fromLTRB(22.w, 5.h, 22.w, 25.h),
                             decoration: BoxDecoration(
                               border: Border.all(
-                                color: AppColors.greyColor.withValues(
+                                color: AppColors.primary.withValues(
                                   alpha: 0.15,
                                 ),
                               ),
@@ -228,7 +228,7 @@ class RunnerWidget extends StatelessWidget {
                                   ),
                                 ),
                                 Divider(
-                                  color: AppColors.greyColor.withValues(
+                                  color: AppColors.primary.withValues(
                                     alpha: 0.2,
                                   ),
                                 ),

@@ -1,7 +1,10 @@
 import 'package:puntgpt_nick/core/app_imports.dart';
 
-/// Shimmer for the Search Detail screen (home_screen)
-Widget homeScreenShimmer({required BuildContext context}) {
+class HomeSectionShimmers {
+  HomeSectionShimmers._();
+
+  /// Shimmer for the Search Detail screen (home_screen)
+  static Widget homeScreenShimmer({required BuildContext context}) {
   final bodyHorizontalPadding = (context.isBrowserMobile) ? 50.w : 25.w;
 
   return Shimmer.fromColors(
@@ -184,9 +187,9 @@ Widget homeScreenShimmer({required BuildContext context}) {
       ),
     ),
   );
-}
+  }
 
-Widget searchedItemShimmer({required BuildContext context}) {
+  static Widget searchedItemShimmer({required BuildContext context}) {
   return Padding(
     padding: EdgeInsets.symmetric(
       horizontal: (context.isBrowserMobile) ? 35.w : 25.w,
@@ -245,10 +248,10 @@ Widget searchedItemShimmer({required BuildContext context}) {
       ),
     ),
   );
-}
+  }
 
-/// Shimmer for the Search Detail screen (manage_saved_search)
-Widget searchDetailShimmer({required BuildContext context}) {
+  /// Shimmer for the Search Detail screen (manage_saved_search)
+  static Widget searchDetailShimmer({required BuildContext context}) {
   return Column(
     children: [
       // Top bar shimmer (back arrow + title + subtitle)
@@ -391,11 +394,11 @@ Widget searchDetailShimmer({required BuildContext context}) {
       ),
     ],
   );
-}
+  }
 
-/// Shimmer for the Selected Race screen. Matches layout: top bar, race tabs (R1–R7),
-/// sub-nav (Tips & Analysis, Speed Maps, Sectionals), and race table rows.
-Widget selectedRaceScreenShimmer({required BuildContext context}) {
+  /// Shimmer for the Selected Race screen. Matches layout: top bar, race tabs (R1–R7),
+  /// sub-nav (Tips & Analysis, Speed Maps, Sectionals), and race table rows.
+  static Widget selectedRaceScreenShimmer({required BuildContext context}) {
   return Shimmer.fromColors(
     baseColor: AppColors.shimmerBaseColor,
     highlightColor: AppColors.shimmerHighlightColor,
@@ -572,11 +575,11 @@ Widget selectedRaceScreenShimmer({required BuildContext context}) {
       ],
     ),
   );
-}
+  }
 
-/// Shimmer for the Classic Form Guide view. Matches layout: "Next to go" cards,
-/// day tabs, and race table rows.
-Widget classicFormGuideShimmer({required BuildContext context}) {
+  /// Shimmer for the Classic Form Guide view. Matches layout: "Next to go" cards,
+  /// day tabs, and race table rows.
+  static Widget classicFormGuideShimmer({required BuildContext context}) {
   return Shimmer.fromColors(
     baseColor: AppColors.shimmerBaseColor,
     highlightColor: AppColors.shimmerHighlightColor,
@@ -750,11 +753,11 @@ Widget classicFormGuideShimmer({required BuildContext context}) {
       ),
     ),
   );
-}
+  }
 
-/// Shimmer for the Tips & Analysis screen. Matches layout: top bar (back + title +
-/// subtitle), Analysis heading + text block, Tips heading + tip cards (silks, details, odds).
-Widget tipsAndAnalysisScreenShimmer({required BuildContext context}) {
+  /// Shimmer for the Tips & Analysis screen. Matches layout: top bar (back + title +
+  /// subtitle), Analysis heading + text block, Tips heading + tip cards (silks, details, odds).
+  static Widget tipsAndAnalysisScreenShimmer({required BuildContext context}) {
   return Shimmer.fromColors(
     baseColor: AppColors.shimmerBaseColor,
     highlightColor: AppColors.shimmerHighlightColor,
@@ -957,12 +960,12 @@ Widget tipsAndAnalysisScreenShimmer({required BuildContext context}) {
       ],
     ),
   );
-}
+  }
 
-/// Shimmer for the Tip Slip screen. Matches layout: top bar (back + title +
-/// subtitle), list of tip slip items (chevron, silks, horse details, odds, remove),
-/// Play Fantasy Picks button, Upgrade to Pro Punter text.
-Widget tipSlipScreenShimmer({required BuildContext context}) {
+    /// Shimmer for the Tip Slip screen. Matches layout: top bar (back + title +
+  /// subtitle), list of tip slip items (chevron, silks, horse details, odds, remove),
+  /// Play Fantasy Picks button, Upgrade to Pro Punter text.
+  static Widget tipSlipScreenShimmer({required BuildContext context}) {
   return Shimmer.fromColors(
     baseColor: AppColors.shimmerBaseColor,
     highlightColor: AppColors.shimmerHighlightColor,
@@ -1020,7 +1023,7 @@ Widget tipSlipScreenShimmer({required BuildContext context}) {
                     padding: EdgeInsets.symmetric(vertical: 15.w),
                     itemCount: 4,
                     itemBuilder: (context, index) {
-                      return _tipSlipItemShimmer(context: context);
+                      return HomeSectionShimmers._tipSlipItemShimmer(context: context);
                     },
                   ),
                 ),
@@ -1050,9 +1053,9 @@ Widget tipSlipScreenShimmer({required BuildContext context}) {
       ],
     ),
   );
-}
+  }
 
-Widget _tipSlipItemShimmer({required BuildContext context}) {
+  static Widget _tipSlipItemShimmer({required BuildContext context}) {
   return Container(
     margin: EdgeInsets.only(bottom: 12.h),
     padding: EdgeInsets.all(12.w),
@@ -1136,9 +1139,81 @@ Widget _tipSlipItemShimmer({required BuildContext context}) {
       ],
     ),
   );
-}
+  }
 
-Widget runnerShimmer() {
+    /// Shimmer for the Analysis and Field Comparison modal bottom sheet.
+  /// Matches layout: title area, divider, body paragraph area.
+  /// Height sized to fill the modal body like the actual analysis text.
+  static Widget fieldComparisonShimmer({required BuildContext context}) {
+  final lineHeight = 16.h;
+  final lineSpacing = 6.h;
+  final bodyLines = <double>[
+    double.infinity,
+    280.w,
+    double.infinity,
+    240.w,
+    double.infinity,
+    200.w,
+    double.infinity,
+    260.w,
+    double.infinity,
+    220.w,
+    double.infinity,
+    180.w,
+    double.infinity,
+  ];
+  return Shimmer.fromColors(
+    baseColor: AppColors.shimmerBaseColor,
+    highlightColor: AppColors.shimmerHighlightColor,
+    child: Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // Title shimmer - "Analysis and Field Comparison"
+        Align(
+          alignment: Alignment.center,
+          child: Padding(
+            padding: EdgeInsets.fromLTRB(14.w, 18.h, 14.w, 12.h),
+            child: Container(
+              
+              width: 220.w,
+              height: 20.h,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(4),
+              ),
+            ),
+          ),
+        ),
+        Divider(
+          color: AppColors.primary.withValues(alpha: 0.9),
+        ),
+        // Body paragraph shimmer - fills modal height like actual text block
+        Padding(
+          padding: EdgeInsets.fromLTRB(22.w, 10.h, 22.w, 16.h),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              for (var i = 0; i < bodyLines.length; i++) ...[
+                if (i > 0) SizedBox(height: lineSpacing),
+                Container(
+                  width: bodyLines[i],
+                  height: lineHeight,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                ),
+              ],
+            ],
+          ),
+        ),
+      ],
+    ),
+  );
+  }
+
+  static Widget runnerShimmer() {
   return Column(
     children: [
       // Total Runners + Saved Searches row shimmer
@@ -1194,7 +1269,7 @@ Widget runnerShimmer() {
               margin: EdgeInsets.fromLTRB(25.w, 0, 25.w, 16),
               decoration: BoxDecoration(
                 border: Border.all(
-                  color: AppColors.greyColor.withValues(alpha: 0.15),
+                  color: AppColors.primary.withValues(alpha: 0.15),
                 ),
               ),
               child: Shimmer.fromColors(
@@ -1214,7 +1289,7 @@ Widget runnerShimmer() {
                             height: 22,
                             decoration: BoxDecoration(
                               border: Border.all(
-                                color: AppColors.greyColor.withValues(
+                                color: AppColors.primary.withValues(
                                   alpha: 0.15,
                                 ),
                               ),
@@ -1247,7 +1322,7 @@ Widget runnerShimmer() {
                     ),
                     // Divider
                     Divider(
-                      color: AppColors.greyColor.withValues(alpha: 0.15),
+                      color: AppColors.primary.withValues(alpha: 0.15),
                       height: 1,
                     ),
                     // Date/time info row
@@ -1276,7 +1351,7 @@ Widget runnerShimmer() {
                     ),
                     // Divider
                     Divider(
-                      color: AppColors.greyColor.withValues(alpha: 0.15),
+                      color: AppColors.primary.withValues(alpha: 0.15),
                       height: 1,
                     ),
                     // "Odds may differ with:" text shimmer
@@ -1290,7 +1365,7 @@ Widget runnerShimmer() {
                     ),
                     // Divider
                     Divider(
-                      color: AppColors.greyColor.withValues(alpha: 0.15),
+                      color: AppColors.primary.withValues(alpha: 0.15),
                       height: 1,
                     ),
                     // Buttons section
@@ -1317,4 +1392,57 @@ Widget runnerShimmer() {
       ),
     ],
   );
+  }
+
+    /// Shimmer for bot response loading in Ask @PuntGPT chat.
+  /// Matches ChatSection layout: sender label, timestamp, content lines.
+  static Widget chatMessageShimmer({required BuildContext context}) {
+  final horizontalPadding = (context.isBrowserMobile) ? 35.w : 25.w;
+  return Shimmer.fromColors(
+    baseColor: AppColors.shimmerBaseColor,
+    highlightColor: AppColors.shimmerHighlightColor,
+    child: Padding(
+      padding: EdgeInsets.fromLTRB(horizontalPadding, 12.h, 25.w, 0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            width: (context.isBrowserMobile) ? 120.w : 80.w,
+            height: (context.isBrowserMobile) ? 32.h : 18.h,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(4),
+            ),
+          ),
+          SizedBox(height: 4.h),
+          Container(
+            width: (context.isBrowserMobile) ? 100.w : 70.w,
+            height: (context.isBrowserMobile) ? 26.h : 14.h,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(4),
+            ),
+          ),
+          SizedBox(height: 12.h),
+          ...List.generate(
+            4,
+            (i) => Padding(
+              padding: EdgeInsets.only(bottom: 6.h),
+              child: Container(
+                width: i == 2 ? 200.w : double.infinity,
+                height: (context.isBrowserMobile) ? 32.h : 16.h,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(4),
+                ),
+              ),
+            ),
+          ),
+          16.h.verticalSpace,
+          horizontalDivider(),
+        ],
+      ),
+    ),
+  );
+  }
 }

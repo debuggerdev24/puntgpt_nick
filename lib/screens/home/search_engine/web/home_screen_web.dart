@@ -495,7 +495,7 @@ Widget askPuntGPTSheetView(BuildContext context) {
               "Chat with AI",
               style: medium(
                 fontSize: context.isDesktop ? 12.sp : 22.sp,
-                color: AppColors.greyColor.withValues(alpha: 0.6),
+                color: AppColors.primary.withValues(alpha: 0.6),
               ),
             ),
           ],
@@ -519,7 +519,7 @@ Widget askPuntGPTSheetView(BuildContext context) {
           hintStyle: medium(
             fontStyle: FontStyle.italic,
             fontSize: context.isDesktop ? 16.sp : 22.sp,
-            color: AppColors.greyColor.withValues(alpha: 0.6),
+            color: AppColors.primary.withValues(alpha: 0.6),
           ),
         ),
       ),

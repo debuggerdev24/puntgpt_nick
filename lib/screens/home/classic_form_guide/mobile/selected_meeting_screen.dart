@@ -2,6 +2,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:puntgpt_nick/core/app_imports.dart';
 import 'package:puntgpt_nick/models/home/classic_form_guide/race_details_model.dart';
 import 'package:puntgpt_nick/provider/home/classic_form/classic_form_provider.dart';
+import 'package:puntgpt_nick/provider/home/search_engine/search_engine_provider.dart';
 import 'package:puntgpt_nick/screens/home/search_engine/mobile/home_screen.dart';
 import 'package:puntgpt_nick/screens/home/search_engine/mobile/widgets/home_section_shimmers.dart';
 
@@ -13,12 +14,11 @@ class SelectedMeetingScreen extends StatelessWidget {
     return Consumer<ClassicFormProvider>(
       builder: (context, provider, child) {
         if (provider.meetingRace == null || provider.raceFieldDetail == null) {
-          return selectedRaceScreenShimmer(context: context);
+          return HomeSectionShimmers.selectedRaceScreenShimmer(context: context);
         }
         return Stack(
           children: [
             Column(
-              
               children: [
                 topBar(context: context, provider: provider),
                 //* Race selection view
@@ -58,8 +58,8 @@ class SelectedMeetingScreen extends StatelessWidget {
                                         decoration: BoxDecoration(
                                           color:
                                               (provider.selectedRace == index)
-                                                  ? AppColors.primary
-                                                  : null,
+                                              ? AppColors.primary
+                                              : null,
                                         ),
                                         child: Text(
                                           "R${index + 1}",
@@ -67,8 +67,8 @@ class SelectedMeetingScreen extends StatelessWidget {
                                             fontSize: 16.sp,
                                             color:
                                                 (provider.selectedRace == index)
-                                                    ? AppColors.white
-                                                    : AppColors.primary,
+                                                ? AppColors.white
+                                                : AppColors.primary,
                                           ),
                                         ),
                                       ),
@@ -148,6 +148,15 @@ class SelectedMeetingScreen extends StatelessWidget {
                 child: askPuntGPTButton(context),
               ),
             ),
+            Consumer<SearchEngineProvider>(
+              builder: (context, provider, child) {
+                
+                if(provider.isCreatingTipSlip) {
+                  return FullPageIndicator();
+                }
+                return Container();
+              },
+            ),
           ],
         );
       },
@@ -155,7 +164,6 @@ class SelectedMeetingScreen extends StatelessWidget {
   }
 
   Widget _raceSubNavBar({required String title, required VoidCallback onTap}) {
-
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: onTap,
@@ -230,7 +238,7 @@ class SelectedMeetingScreen extends StatelessWidget {
                       "PuntGPT Legends Stakes ${race.distance} ${race.distanceUnits}, ${DateFormatter.formatRaceDateTime(race.startTimeUtc)}",
                       style: semiBold(
                         fontSize: 14.sp,
-                        color: AppColors.greyColor.withValues(alpha: 0.6),
+                        color: AppColors.primary.withValues(alpha: 0.6),
                       ),
                     ),
                   ],
@@ -310,8 +318,8 @@ class _SelectedRaceTableState extends State<SelectedRaceTable> {
                             : Colors.transparent,
                         child: Padding(
                           padding: EdgeInsets.symmetric(
-                            vertical: 12,
-                            horizontal: 12,
+                            vertical: 10.w,
+                            horizontal: 8.w,
                           ),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -324,7 +332,7 @@ class _SelectedRaceTableState extends State<SelectedRaceTable> {
                                 ),
                               ),
                               if (isExpanded) ...[
-                                12.h.verticalSpace,
+                                12.w.verticalSpace,
                                 Text(
                                   "\$${selection.oddsWin}",
                                   style: semiBold(
@@ -341,7 +349,16 @@ class _SelectedRaceTableState extends State<SelectedRaceTable> {
                                   ),
                                   padding: EdgeInsets.symmetric(vertical: 9.h),
                                   color: AppColors.white,
-                                  onTap: () {},
+                                  onTap: () {
+                                    context
+                                        .read<SearchEngineProvider>()
+                                        .createTipSlip(
+                                          context: context,
+                                          selectionId: selection.selectionId
+                                              .toString(),
+
+                                        );
+                                  },
                                 ),
                               ],
                             ],

@@ -233,7 +233,7 @@ class AccountScreen extends StatelessWidget {
                     "Manage your PuntGPT Account",
                     style: semiBold(
                       fontSize: (context.isBrowserMobile) ? 26.sp : 14.sp,
-                      color: AppColors.greyColor.withValues(alpha: 0.6),
+                      color: AppColors.primary.withValues(alpha: 0.6),
                     ),
                   ),
                 ],

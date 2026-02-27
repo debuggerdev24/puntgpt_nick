@@ -1,7 +1,13 @@
 import 'package:puntgpt_nick/core/app_imports.dart';
+import 'package:puntgpt_nick/models/bot/chat_message_model.dart';
 
 class ChatSection extends StatelessWidget {
-  const ChatSection({super.key});
+  const ChatSection({
+    super.key,
+    required this.message,
+  });
+
+  final ChatMessageModel message;
 
   @override
   Widget build(BuildContext context) {
@@ -16,19 +22,19 @@ class ChatSection extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "@you",
+            message.senderLabel,
             style: semiBold(fontSize: context.isBrowserMobile ? 32.sp : 18.sp),
           ),
           Text(
-            "12:41 PM",
+            DateFormatter.formatTimeOnly(message.timestamp),
             style: semiBold(
               fontSize: (context.isBrowserMobile) ? 26.5.sp : 14.5.sp,
-              color: AppColors.greyColor.withValues(alpha: 0.6),
+              color: AppColors.primary.withValues(alpha: 0.6),
             ),
           ),
           3.h.verticalSpace,
           Text(
-            "mdsndjkjvdjkvbdjkfvbdf c mnbbnxmnfklfjkfjkdm,nnm,nbm,cnvm,bncmnbmcb",
+            message.content,
             style: regular(fontSize: context.isBrowserMobile ? 32.sp : 16.sp),
           ),
           16.h.verticalSpace,

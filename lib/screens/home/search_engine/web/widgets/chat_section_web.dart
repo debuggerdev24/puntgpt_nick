@@ -18,7 +18,7 @@ class ChatSectionWeb extends StatelessWidget {
             "12:41 PM",
             style: semiBold(
               fontSize: context.isDesktop ? 12.sp : 22.sp,
-              color: AppColors.greyColor.withValues(alpha: 0.6),
+              color: AppColors.primary.withValues(alpha: 0.6),
             ),
           ),
           3.w.verticalSpace,

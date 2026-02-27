@@ -52,7 +52,7 @@ class SubscriptionPlanWeb extends StatelessWidget {
           decoration: BoxDecoration(
             color: AppColors.white,
             border: Border.all(
-              color: AppColors.greyColor.withValues(alpha: 0.2),
+              color: AppColors.primary.withValues(alpha: 0.2),
             ),
           ),
           child: Column(

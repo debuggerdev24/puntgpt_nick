@@ -11,7 +11,7 @@ class SearchDetailScreen extends StatelessWidget {
       builder: (context, provider, child) {
         // Show shimmer while details are loading
         if (provider.selectedSaveSearch == null) {
-          return searchDetailShimmer(context: context);
+          return HomeSectionShimmers.searchDetailShimmer(context: context);
         }
 
         //* Actual content when data is available
@@ -150,7 +150,7 @@ class SearchDetailScreen extends StatelessWidget {
                 "Manage your saved search",
                 style: medium(
                   fontSize: 14.fourteenSp(context),
-                  color: AppColors.greyColor.withValues(alpha: 0.6),
+                  color: AppColors.primary.withValues(alpha: 0.6),
                 ),
               ),
             ],

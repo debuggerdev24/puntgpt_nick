@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:puntgpt_nick/core/extensions/context_extensions.dart';
@@ -28,10 +26,8 @@ class Responsive extends StatelessWidget {
   //* Check if current screen is tablet
   static bool isTablet(BuildContext context) {
     if (!kIsWeb) return false;
-
-
     return context.screenWidth >= Breakpoints.tablet &&
-      context.screenWidth < Breakpoints.desktop;
+        context.screenWidth < Breakpoints.desktop;
   }
   // static bool isTablet(BuildContext context) {
   //   return context.screenWidth >= Breakpoints.tablet &&
@@ -42,7 +38,6 @@ class Responsive extends StatelessWidget {
   static bool isDesktop(BuildContext context) {
     if (!kIsWeb) return false;
 
-    
     return context.screenWidth >= Breakpoints.desktop;
   }
 
@@ -92,6 +87,7 @@ extension ResponsiveContext on BuildContext {
 
   bool get isTablet => Responsive.isTablet(this);
   bool get isDesktop => Responsive.isDesktop(this);
-  bool get isMobileView =>Responsive.isMobile(this) || Responsive.isMobileWeb(this);
+  bool get isMobileView =>
+      Responsive.isMobile(this) || Responsive.isMobileWeb(this);
   DeviceType get deviceType => Responsive.getDeviceType(this);
 }

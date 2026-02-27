@@ -134,7 +134,7 @@ class _SearchSectionWebState extends State<SearchSectionWeb> {
                         bottom: 8.h,
                       ),
                       tilePadding: EdgeInsets.symmetric(horizontal: 25.w),
-                      iconColor: AppColors.greyColor,
+                      iconColor: AppColors.primary,
                       title: Text(
                         "Track",
                         style: semiBold(
@@ -158,7 +158,7 @@ class _SearchSectionWebState extends State<SearchSectionWeb> {
                           child: Column(
                             children: [
                               Divider(
-                                color: AppColors.greyColor.withValues(
+                                color: AppColors.primary.withValues(
                                   alpha: 0.2,
                                 ),
                               ),
@@ -224,7 +224,7 @@ class _SearchSectionWebState extends State<SearchSectionWeb> {
                           child: Column(
                             children: [
                               Divider(
-                                color: AppColors.greyColor.withValues(
+                                color: AppColors.primary.withValues(
                                   alpha: 0.2,
                                 ),
                               ),
@@ -290,7 +290,7 @@ class _SearchSectionWebState extends State<SearchSectionWeb> {
                           child: Column(
                             children: [
                               Divider(
-                                color: AppColors.greyColor.withValues(
+                                color: AppColors.primary.withValues(
                                   alpha: 0.2,
                                 ),
                               ),

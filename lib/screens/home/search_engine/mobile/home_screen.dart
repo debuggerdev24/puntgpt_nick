@@ -55,7 +55,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
           builder: (context, provider, child) {
             if (provider.trackDetails == null ||
                 provider.distanceDetails == null) {
-              return homeScreenShimmer(context: context);
+              return HomeSectionShimmers.homeScreenShimmer(context: context);
             }
             return Column(
               children: [
@@ -88,7 +88,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                         : Consumer<ClassicFormProvider>(
                             builder: (context, provider, child) =>
                                 provider.classicFormGuide == null
-                                ? classicFormGuideShimmer(context: context)
+                                ? HomeSectionShimmers.classicFormGuideShimmer(context: context)
                                 : Stack(
                                     children: [
                                       classicFormGuideView(
@@ -347,7 +347,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                             // AppToast.success(context: context, message: "Search successful");
                           },
                         );
-
                         // provider.createSaveSearch(
                         //   onError: (error) {
                         //     AppToast.error(context: context, message: error);

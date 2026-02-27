@@ -184,7 +184,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                     "Change Password for your account.",
                     style: semiBold(
                       fontSize: 14.sp,
-                      color: AppColors.greyColor.withValues(alpha: 0.6),
+                      color: AppColors.primary.withValues(alpha: 0.6),
                     ),
                   ),
                 ],

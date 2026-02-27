@@ -68,7 +68,7 @@ class SearchFilterScreen extends StatelessWidget {
         Theme(
           data: Theme.of(
             context,
-          ).copyWith(dividerColor: AppColors.greyColor.withValues(alpha: 0.2)),
+          ).copyWith(dividerColor: AppColors.primary.withValues(alpha: 0.2)),
           child: ExpansionTile(
             childrenPadding: EdgeInsets.only(
               left: 25.w,
@@ -76,7 +76,7 @@ class SearchFilterScreen extends StatelessWidget {
               bottom: 8.h,
             ),
             tilePadding: EdgeInsets.symmetric(horizontal: 25.w),
-            iconColor: AppColors.greyColor,
+            iconColor: AppColors.primary,
             title: Text("Track", style: semiBold(fontSize: 16.sp)),
             children: [
               // Placed last start
@@ -88,7 +88,7 @@ class SearchFilterScreen extends StatelessWidget {
                 highlightColor: Colors.transparent,
                 child: Column(
                   children: [
-                    Divider(color: AppColors.greyColor.withValues(alpha: 0.2)),
+                    Divider(color: AppColors.primary.withValues(alpha: 0.2)),
                     Padding(
                       padding: EdgeInsets.symmetric(vertical: 8.h),
                       child: Row(
@@ -134,7 +134,7 @@ class SearchFilterScreen extends StatelessWidget {
                 highlightColor: Colors.transparent,
                 child: Column(
                   children: [
-                    Divider(color: AppColors.greyColor.withValues(alpha: 0.2)),
+                    Divider(color: AppColors.primary.withValues(alpha: 0.2)),
                     Padding(
                       padding: EdgeInsets.symmetric(vertical: 8.h),
                       child: Row(
@@ -180,7 +180,7 @@ class SearchFilterScreen extends StatelessWidget {
                 highlightColor: Colors.transparent,
                 child: Column(
                   children: [
-                    Divider(color: AppColors.greyColor.withValues(alpha: 0.2)),
+                    Divider(color: AppColors.primary.withValues(alpha: 0.2)),
                     Padding(
                       padding: EdgeInsets.symmetric(vertical: 8.h),
                       child: Row(

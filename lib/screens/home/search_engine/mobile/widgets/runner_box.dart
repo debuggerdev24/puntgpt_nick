@@ -1,19 +1,27 @@
 import 'package:puntgpt_nick/core/app_imports.dart';
 import 'package:puntgpt_nick/models/home/search_engine/runner_model.dart';
 import 'package:puntgpt_nick/provider/home/search_engine/search_engine_provider.dart';
+import 'package:puntgpt_nick/screens/home/search_engine/mobile/widgets/home_section_shimmers.dart';
 
 class RunnerBox extends StatelessWidget {
-  const RunnerBox({super.key, required this.runner, required this.onAddToTipSlip, required this.onCompareToField});
+  const RunnerBox({
+    super.key,
+    required this.runner,
+    required this.onAddToTipSlip,
+    required this.onCompareToField,
+    required this.onAddToSaveSearch,
+  });
   final RunnerModel runner;
   final VoidCallback onAddToTipSlip;
   final VoidCallback onCompareToField;
+  final Function(String name, BuildContext context) onAddToSaveSearch;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.fromLTRB(25.w, 0, 25.w, 16),
       decoration: BoxDecoration(
-        border: Border.all(color: AppColors.greyColor.withValues(alpha: 0.15)),
+        border: Border.all(color: AppColors.primary.withValues(alpha: 0.15)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -23,30 +31,27 @@ class RunnerBox extends StatelessWidget {
             padding: EdgeInsets.fromLTRB(8.w, 12, 8.w, 3),
             child: Row(
               children: [
-                AnimatedContainer(
-                  duration: const Duration(milliseconds: 250),
-                  curve: Curves.easeInOut,
-                  width: 22,
-                  height: 22,
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color:
-                          // isChecked
-                          //     ? Colors.green
-                          //     :
-                          AppColors.primary.setOpacity(0.15),
-                    ),
-                    color: Colors
-                        .transparent, //isChecked ? Colors.green : Colors.transparent,
-                  ),
-                  child: Icon(Icons.check, color: Colors.white, size: 16),
-                  // isChecked
-                  //     ? const Icon(Icons.check, color: Colors.white, size: 16)
-                  //     : null,
-                ),
-                15.horizontalSpace,
+                // AnimatedContainer(
+                //   duration: const Duration(milliseconds: 250),
+                //   curve: Curves.easeInOut,
+                //   width: 22,
+                //   height: 22,
+                //   decoration: BoxDecoration(
+                //     border: Border.all(
+                //       color:
+                //           // isChecked
+                //           //     ? Colors.green
+                //           //     :
+                //           AppColors.primary.setOpacity(0.15),
+                //     ),
+                //     color: Colors
+                //         .transparent, //isChecked ? Colors.green : Colors.transparent,
+                //   ),
+                //   child: Icon(Icons.check, color: Colors.white, size: 16),
+                //
+                // ),
                 Text(
-                  "${runner.barrier?.toString() ?? '-'}. ",
+                  " ${runner.barrier?.toString() ?? '-'}. ",
                   style: bold(fontSize: 18.sp),
                 ),
                 if ((runner.silksImage ?? '').isNotEmpty)
@@ -56,16 +61,26 @@ class RunnerBox extends StatelessWidget {
                     height: 24.w,
                   ),
                 if ((runner.silksImage ?? '').isNotEmpty) 4.horizontalSpace,
-                Text(
-                  runner.horseName ?? '-',
-                  style: semiBold(fontSize: 18.sp),
-                ),
+                Text(runner.horseName ?? '-', style: semiBold(fontSize: 18.sp)),
                 Spacer(),
-                Text("\$${runner.odds ?? '-'}", style: bold(fontSize: 18.sp)),
+                Text("\$${runner.odds ?? '-'} ", style: bold(fontSize: 18.sp)),
+                // if (context.read<SearchEngineProvider>().saveSearches?.any(
+                //       (element) => element.id == runner.selectionId,
+                //     ) ??
+                //     false)
+                //   Icon(Icons.bookmark_add_outlined)
+                // else
+                GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onTap: () {
+                    _showSaveSearchDialog(context: context, onSave: onAddToSaveSearch);
+                  },
+                  child: Icon(Icons.bookmark_add_outlined),
+                ),
               ],
             ),
           ),
-          Divider(color: AppColors.greyColor.withValues(alpha: 0.15)),
+          Divider(color: AppColors.primary.withValues(alpha: 0.15)),
           //*----------- second row section
           Padding(
             padding: EdgeInsets.fromLTRB(8.w, 6, 8.w, 2),
@@ -83,7 +98,7 @@ class RunnerBox extends StatelessWidget {
               ],
             ),
           ),
-          Divider(color: AppColors.greyColor.withValues(alpha: 0.15)),
+          Divider(color: AppColors.primary.withValues(alpha: 0.15)),
           //*----------- third row section
           Padding(
             padding: EdgeInsets.fromLTRB(8.w, 6, 8.w, 2),
@@ -97,7 +112,7 @@ class RunnerBox extends StatelessWidget {
           //     style: medium(fontSize: 16.sp),
           //   ),
           // ),
-          Divider(color: AppColors.greyColor.withValues(alpha: 0.15)),
+          Divider(color: AppColors.primary.withValues(alpha: 0.15)),
           Padding(
             padding: EdgeInsets.fromLTRB(8.w, 6, 8.w, 16),
             child: Row(
@@ -114,10 +129,12 @@ class RunnerBox extends StatelessWidget {
                       vertical: 12.h,
                       horizontal: 6.w,
                     ),
-                    
-                      onTap: onAddToTipSlip,
-                      // child: progressIndicator(),
-                    child: _isThisRunnerLoading(context) ? progressIndicator() : null,
+
+                    onTap: onAddToTipSlip,
+                    // child: progressIndicator(),
+                    child: _isThisRunnerLoading(context)
+                        ? progressIndicator()
+                        : null,
                   ),
                 ),
                 Expanded(
@@ -125,67 +142,13 @@ class RunnerBox extends StatelessWidget {
                     onTap: () {
                       onCompareToField.call();
 
-                      showModalBottomSheet(
-                        showDragHandle: true,
-                        isScrollControlled: true,
-                        context: context,
-                        builder: (context) {
-                          return Container(
-                            margin: EdgeInsets.fromLTRB(22.w, 5.h, 22.w, 25.h),
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                color: AppColors.greyColor.withValues(
-                                  alpha: 0.15,
-                                ),
-                              ),
-                            ),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Padding(
-                                  padding: EdgeInsets.fromLTRB(
-                                    14.w,
-                                    18.h,
-                                    14.w,
-                                    12.h,
-                                  ),
-                                  child: Text(
-                                    "Analysis and Field Comparison",
-                                    style: semiBold(fontSize: 16.sp),
-                                  ),
-                                ),
-                                Divider(
-                                  color: AppColors.greyColor.withValues(
-                                    alpha: 0.2,
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.fromLTRB(
-                                    22.w,
-                                    10.h,
-                                    22.w,
-                                    16.h,
-                                  ),
-                                  child: Text(
-                                    "‘Delicacy’ @8.50  might offer value as a top 3 contender, especially if the favourite gets caught wide or overworks early. Look for signs like a strong final 400m that it's shown in recent form. I like your simple formula, not overthinking things. Keep in mind the favourite, ‘Makybe Diva’ is short odds @2.10 I can take you to the manual form guide for a look at the other runners in this race?",
-                                    style: regular(fontSize: 16.sp),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          );
-                        },
-                      );
+                      showCompareToField(context);
                     },
                     child: Container(
                       padding: EdgeInsets.symmetric(
                         vertical: 12.h,
                         horizontal: 8.w,
                       ),
-                      // padding: EdgeInsets.symmetric(
-                      //   vertical: 8.h,
-                      //   horizontal: 6.w,
-                      // ),
                       decoration: BoxDecoration(
                         color: AppColors.white,
                         border: Border.all(color: AppColors.primary),
@@ -214,9 +177,136 @@ class RunnerBox extends StatelessWidget {
     );
   }
 
+  Future<dynamic> showCompareToField(BuildContext context) {
+    return showModalBottomSheet(
+      showDragHandle: true,
+      isScrollControlled: true,
+      context: context,
+      builder: (modalContext) {
+        return Container(
+          margin: EdgeInsets.fromLTRB(22.w, 5.h, 22.w, 25.h),
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: AppColors.primary.withValues(alpha: 0.15),
+            ),
+          ),
+          child: Consumer<SearchEngineProvider>(
+            builder: (_, provider, __) {
+              if (provider.compareHorse == null) {
+                return HomeSectionShimmers.fieldComparisonShimmer(context: modalContext);
+              }
+              return Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(14.w, 18.h, 14.w, 12.h),
+                    child: Text(
+                      "Analysis and Field Comparison",
+                      style: semiBold(fontSize: 16.sp),
+                    ),
+                  ),
+                  Divider(color: AppColors.primary.withValues(alpha: 0.2)),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(22.w, 10.h, 22.w, 16.h),
+                    child: Text(
+                      provider.compareHorse?.summary ??
+                          "Unable to load analysis.",
+                      style: regular(fontSize: 16.sp),
+                    ),
+                  ),
+                ],
+              );
+            },
+          ),
+        );
+      },
+    );
+  }
+
+  void _showSaveSearchDialog({required BuildContext context, required Function(String name, BuildContext context) onSave}) {
+    showDialog(
+      context: context,
+      builder: (dialogContext) {
+        
+        return ZoomIn(
+        child: _SaveSearchDialogContent(
+          onCancel: () => context.pop(dialogContext),
+          onSave: onSave
+        ),
+      );
+      },
+    );
+  }
+
   bool _isThisRunnerLoading(BuildContext context) {
     final provider = context.read<SearchEngineProvider>();
     return provider.isCreatingTipSlip &&
         provider.creatingForSelectionId == runner.selectionId?.toString();
+  }
+}
+
+class _SaveSearchDialogContent extends StatefulWidget {
+  const _SaveSearchDialogContent({
+    required this.onCancel,
+    required this.onSave,
+  });
+  final VoidCallback onCancel;
+  final void Function(String name, BuildContext context) onSave;
+
+  @override
+  State<_SaveSearchDialogContent> createState() =>
+      _SaveSearchDialogContentState();
+}
+
+class _SaveSearchDialogContentState extends State<_SaveSearchDialogContent> {
+  late final TextEditingController _nameController;
+
+  @override
+  void initState() {
+    super.initState();
+    _nameController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      backgroundColor: AppColors.white,
+      title: Text(
+        "Save Search",
+        style: semiBold(fontSize: 18.sp, color: AppColors.black),
+      ),
+      content: AppTextField(
+        controller: _nameController,
+        hintText: "Enter search name",
+        textStyle: medium(fontSize: 16.sp, color: AppColors.black),
+      ),
+      actions: [
+        TextButton(
+          onPressed: widget.onCancel,
+          child: Text("Cancel", style: medium(fontSize: 16.sp)),
+        ),
+        TextButton(
+          onPressed: () {
+            final name = _nameController.text.trim();
+            if (name.isEmpty) {
+              AppToast.error(
+                context: context,
+                message: "Please enter a search name",
+              );
+              return;
+            }
+            widget.onSave(name, context);
+          },
+          child: Text("Yes", style: semiBold(fontSize: 16.sp)),
+        ),
+      ],
+    );
   }
 }

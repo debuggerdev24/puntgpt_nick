@@ -228,9 +228,8 @@ void callInitAPIs({required BuildContext context}) {
     searchEngineProvider.getBarrierDetails(),
     classicFormGuideProvider.getClassicFormGuide(),
     classicFormGuideProvider.getNextToGo(),
-
     puntClubProvider.getNotifications(),
-
+    searchEngineProvider.getAllTipSlips(),
     // classicFormGuideProvider.getPunterClub(),
     SubscriptionService.instance.initialize(
       provider: context.read<SubscriptionProvider>(),

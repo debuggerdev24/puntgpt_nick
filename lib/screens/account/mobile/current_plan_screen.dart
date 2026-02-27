@@ -84,7 +84,7 @@ class CurrentPlanScreen extends StatelessWidget {
                     "Manage your Subscription Plan",
                     style: semiBold(
                       fontSize: (context.isBrowserMobile) ? 28.sp : 14.sp,
-                      color: AppColors.greyColor.withValues(alpha: 0.6),
+                      color: AppColors.primary.withValues(alpha: 0.6),
                     ),
                   ),
                 ],

@@ -68,7 +68,7 @@ class SavedSearchScreen extends StatelessWidget {
                 if (provider.saveSearches == null)
                   ...List.generate(
                     5,
-                    (index) => searchedItemShimmer(context: context),
+                    (index) => HomeSectionShimmers.searchedItemShimmer(context: context,),
                   ),
                 if (provider.saveSearches != null) ...[
                   ...List.generate(

@@ -225,7 +225,7 @@ class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
                     style: semiBold(
                       fontSize: (context.isBrowserMobile) ? 26.sp : 14.sp,
 
-                      color: AppColors.greyColor.withValues(alpha: 0.6),
+                      color: AppColors.primary.withValues(alpha: 0.6),
                     ),
                   ),
                 ],

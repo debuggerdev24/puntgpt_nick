@@ -7,7 +7,7 @@ Divider horizontalDivider({
   double? endIndent,
   double? opacity,
 }) => Divider(
-  color: AppColors.greyColor.withValues(alpha: opacity ?? 0.2),
+  color: AppColors.primary.withValues(alpha: opacity ?? 0.2),
   height: height ?? 1,
   endIndent: endIndent,
 );
@@ -20,7 +20,7 @@ Widget verticalDivider({
 }) {
   return height == null
       ? VerticalDivider(
-          color: AppColors.greyColor.withValues(alpha: 0.2),
+          color: AppColors.primary.withValues(alpha: 0.2),
           width: width ?? 1,
           indent: indent,
           endIndent: endIndent,
@@ -28,7 +28,7 @@ Widget verticalDivider({
       : SizedBox(
           height: height,
           child: VerticalDivider(
-            color: AppColors.greyColor.withValues(alpha: 0.2),
+            color: AppColors.primary.withValues(alpha: 0.2),
             width: width ?? 1,
           ),
         );

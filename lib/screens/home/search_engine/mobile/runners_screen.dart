@@ -15,7 +15,7 @@ class RunnersListScreen extends StatelessWidget {
       builder: (context, provider, child) {
         final runners = provider.runnersList;
         if (provider.runnersList == null) {
-          return runnerShimmer();
+          return HomeSectionShimmers.runnerShimmer();
         }
         if (runners!.isEmpty) {
           return Center(
@@ -71,16 +71,29 @@ class RunnersListScreen extends StatelessWidget {
                           final runner = runners[index];
                           return RunnerBox(
                             runner: runner,
+                            onAddToSaveSearch: (name, dialogContext) {
+                              context.pop(dialogContext);
+                              provider
+                                  .createSaveSearch(
+                                    name: name,
+                                    onError: (error) {
+                                      AppToast.error(
+                                        context: context,
+                                        message: error,
+                                      );
+                                    },
+                                    onSuccess: () {
+                                      AppToast.success(
+                                        context: context,
+                                        message: "Search saved successfully",
+                                      );
+                                    },
+                                  );
+                            },
                             onAddToTipSlip: () {
                               provider.createTipSlip(
                                 selectionId:
                                     runner.selectionId?.toString() ?? '',
-                                onError: (error) {
-                                  AppToast.error(
-                                    context: context,
-                                    message: error,
-                                  );
-                                },
                                 context: context,
                               );
                             },
@@ -130,8 +143,8 @@ class RunnersListScreen extends StatelessWidget {
                 ),
               ],
             ),
-            // if(provider.isCreatingTipSlip)
-            // FullPageIndicator()
+            if(provider.isCreatingSaveSearch)
+            FullPageIndicator()
           ],
         );
       },

@@ -11,7 +11,7 @@ class SubscriptionPlanMobile extends StatelessWidget {
       margin: EdgeInsets.symmetric(horizontal: 25.w, vertical: 12.h),
       padding: EdgeInsets.symmetric(horizontal: 18.w, vertical: 22.h),
       decoration: BoxDecoration(
-        border: Border.all(color: AppColors.greyColor.withValues(alpha: 0.2)),
+        border: Border.all(color: AppColors.primary.withValues(alpha: 0.2)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

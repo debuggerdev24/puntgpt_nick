@@ -27,7 +27,7 @@ class GroupMembersScreen extends StatelessWidget {
                         return ListTile(
                           contentPadding: EdgeInsets.symmetric(horizontal: 23.w),
                           title: Text(groupMember.userName,style: semiBold(fontSize: 18.sp)),
-                          subtitle: Text("Joined on ${DateFormatter.formatWithTime(groupMember.joinedAt)}",style: medium(fontSize: 15.sp,color: AppColors.greyColor.withValues(alpha: 0.6),)),
+                          subtitle: Text("Joined on ${DateFormatter.formatWithTime(groupMember.joinedAt)}",style: medium(fontSize: 15.sp,color: AppColors.primary.withValues(alpha: 0.6),)),
                           leading: ImageWidget(path: AppAssets.userIcon, type: ImageType.svg,width: 25.w,),
                         );
                       },

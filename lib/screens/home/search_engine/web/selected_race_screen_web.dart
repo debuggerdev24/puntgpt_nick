@@ -175,7 +175,7 @@ class _SelectedRaceTableScreenWebState
                           : (context.isBrowserMobile)
                           ? 24.sp
                           : 12.sp,
-                      color: AppColors.greyColor.withValues(alpha: 0.6),
+                      color: AppColors.primary.withValues(alpha: 0.6),
                     ),
                   ),
                 ],

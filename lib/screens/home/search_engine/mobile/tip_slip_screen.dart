@@ -11,8 +11,8 @@ class TipSlipScreen extends StatelessWidget {
     return Consumer<SearchEngineProvider>(
       builder: (context, provider, child) {
         final tipSlips = provider.tipSlips;
-        if (tipSlips != null) {
-          return tipSlipScreenShimmer(context: context);
+        if (tipSlips == null) {
+          return HomeSectionShimmers.tipSlipScreenShimmer(context: context);
         }
         return Column(
           children: [
@@ -25,7 +25,7 @@ class TipSlipScreen extends StatelessWidget {
                     Expanded(
                       child: ListView.builder(
                         padding: EdgeInsets.symmetric(vertical: 15.w),
-                        itemCount: tipSlips!.length,
+                        itemCount: tipSlips.length,
                         itemBuilder: (context, index) {
                           final tipSlip = tipSlips[index];
                           return tipSlipItem(
@@ -718,7 +718,7 @@ class TipSlipScreen extends StatelessWidget {
     return Column(
       children: [
         Padding(
-          padding: EdgeInsets.symmetric(vertical: 15.w, horizontal: 25.w),
+          padding: EdgeInsets.symmetric(vertical: 12.w, horizontal: 25.w),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             spacing: 14.w,
@@ -744,7 +744,7 @@ class TipSlipScreen extends StatelessWidget {
                     "Your selected picks for the next race",
                     style: medium(
                       fontSize: 14.fourteenSp(context),
-                      color: AppColors.greyColor.withValues(alpha: 0.6),
+                      color: AppColors.primary.withValues(alpha: 0.6),
                     ),
                   ),
                 ],

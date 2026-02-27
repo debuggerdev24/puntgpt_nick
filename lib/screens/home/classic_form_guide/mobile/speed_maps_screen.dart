@@ -616,7 +616,7 @@ class _SpeedMapsScreenState extends State<SpeedMapsScreen> {
                       "Race ${speedMaps.raceNumber} - ${speedMaps.meetingName}",
                       style: semiBold(
                         fontSize: 14.sp,
-                        color: AppColors.greyColor.withValues(alpha: 0.6),
+                        color: AppColors.primary.withValues(alpha: 0.6),
                       ),
                     ),
                   ],

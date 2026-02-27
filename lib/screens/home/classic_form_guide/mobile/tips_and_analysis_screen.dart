@@ -11,7 +11,7 @@ class TipAndAnalysisScreen extends StatelessWidget {
     return Consumer<ClassicFormProvider>(
       builder: (context, provider, child) {
         if (provider.tipsAndAnalysis == null) {
-          return tipsAndAnalysisScreenShimmer(context: context);
+          return HomeSectionShimmers.tipsAndAnalysisScreenShimmer(context: context);
         }
 
         final tipsAnalysis = provider.tipsAndAnalysis!;
@@ -264,7 +264,7 @@ class TipAndAnalysisScreen extends StatelessWidget {
                       "Expert insights to help you pick winners",
                       style: semiBold(
                         fontSize: (context.isBrowserMobile) ? 26.sp : 14.sp,
-                        color: AppColors.greyColor.withValues(alpha: 0.6),
+                        color: AppColors.primary.withValues(alpha: 0.6),
                       ),
                     ),
                   ],
