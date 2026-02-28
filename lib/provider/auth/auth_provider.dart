@@ -149,7 +149,7 @@ class AuthProvider extends ChangeNotifier {
         );
         await LocaleStorageService.saveUserToken(data["access"]);
         await LocaleStorageService.saveUserRefreshToken(data["refresh"]);
-        await LocaleStorageService.saveUserId(data["user_id"].toString());
+        await LocaleStorageService.saveUserId(int.parse(data["user_id"].toString()));
         await LocaleStorageService.setIsUserLoggedIn();
         await LocaleStorageService.setLoggedInUserEmail(
           loginEmailCtr.text.trim(),

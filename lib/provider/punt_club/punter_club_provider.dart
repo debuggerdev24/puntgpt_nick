@@ -35,36 +35,48 @@ class PuntClubProvider extends ChangeNotifier {
 
   //* ========== CHAT (WebSocket) ==========
   /// List of messages in the current group chat.
-  final List<ClubChatMessageModel> chatMessages = [];
+  List<ClubChatMessageModel>? chatMessages;
+
   /// Typing indicators: sender_id -> sender_username.
   final Map<int, String> typingUsers = {};
-  /// Last connected group id – used to avoid clearing messages when reconnecting to same group.
-  String? _lastConnectedGroupId;
+
+  /// Typing users excluding current user (so we don't show "You are typing").
+
+  /// Call this with our display name (e.g. from profile or group username) to filter own typing.
+  void setMyDisplayName(String? name) {
+    if (name != null && name.trim().isNotEmpty) _myDisplayName = name.trim();
+  }
+
+  /// Tracks which group we're chatting in, to avoid clearing messages when re-entering.
+  String? _currentChatGroupId;
+
+  /// Our display name in this group (e.g. "Meera") - used to filter own typing indicator.
+  String? _myDisplayName;
+
   /// Current user id for "is mine" check. From LocaleStorageService.
-  int get _currentUserId =>
-      int.tryParse(LocaleStorageService.userId) ?? 0;
+  int get _currentUserId => LocaleStorageService.userId;
+
   /// True if a message was sent by the current user.
   bool isMyMessage(ClubChatMessageModel m) => m.senderId == _currentUserId;
 
   /// Connects to chat WebSocket for the selected group and loads history.
-  /// When reconnecting to the *same* group, keeps existing messages instead of clearing.
+  /// Keeps existing messages when re-entering the same group.
   Future<void> connectChat() async {
     final groupId = selectedGroupId ?? this.groupId;
     if (groupId.isEmpty) return;
-    // Only clear when switching to a different group (prevents messages disappearing when navigating back)
-    final isSameGroup = _lastConnectedGroupId == groupId;
+
+    final isSameGroup = groupId == _currentChatGroupId;
     if (!isSameGroup) {
-      chatMessages.clear();
+      chatMessages = null;
+
       typingUsers.clear();
-      _lastConnectedGroupId = groupId;
+      _currentChatGroupId = groupId;
       notifyListeners();
       await _loadChatHistory(groupId);
-    } else {
-      // Reconnecting to same group: keep messages, just reconnect WebSocket
-      typingUsers.clear();
     }
-    // Connect WebSocket and listen for events.
-    Logger.info('connecting to chat: $groupId');
+    typingUsers.clear();
+
+    Logger.info('[PuntClubProvider] connecting to chat: $groupId');
     ChatService.instance.connect(groupId: groupId);
     _chatEventSubscription?.cancel();
     _chatEventSubscription = ChatService.instance.events.listen(_onChatEvent);
@@ -73,22 +85,28 @@ class PuntClubProvider extends ChangeNotifier {
 
   /// Loads chat history from REST API before WebSocket takes over.
   Future<void> _loadChatHistory(String gid) async {
-    final r = await PuntClubApiService.instance.getChatGroupHistory(groupId: gid);
-    r.fold(
-      (l) => Logger.error('[PuntClubProvider] load chat history: ${l.errorMsg}'),
-      (data) {
-        final list = data['data'] ?? data['messages'];
-        if (list is List) {
-          for (final e in list) {
-            final m = e is Map ? Map<String, dynamic>.from(e) : null;
-            if (m != null && (m['message_id'] != null || m['id'] != null)) {
-              chatMessages.add(ClubChatMessageModel.fromNewMessageJson(m));
-            }
-          }
-          notifyListeners();
+          // chatMessages = [];
+
+    final result = await PuntClubApiService.instance.getChatGroupHistory(
+      groupId: gid,
+    );
+    result.fold(
+      (l) =>
+          Logger.error('[PuntClubProvider] load chat history: ${l.errorMsg}'),
+      (r) {
+        final data = r["data"]['history'] ?? [];
+        if (data.isEmpty) {
+          chatMessages = [];
+          return;
         }
+        final chats = List<ClubChatMessageModel>.from(
+          (data as List).map((e) => ClubChatMessageModel.fromJson(e)),
+        );
+        chatMessages = chats;
+        Logger.info('[PuntClubProvider] chat messages: ${chatMessages!.length}');
       },
     );
+    notifyListeners();
   }
 
   /// Handles incoming WebSocket events by "type" field.
@@ -97,7 +115,7 @@ class PuntClubProvider extends ChangeNotifier {
     switch (type) {
       case 'message':
         // New message: add to list
-        chatMessages.add(ClubChatMessageModel.fromNewMessageJson(e));
+        chatMessages!.add(ClubChatMessageModel.fromJson(e));
         break;
       case 'message_edited':
         _handleMessageEdited(e);
@@ -123,8 +141,10 @@ class PuntClubProvider extends ChangeNotifier {
   void _handleMessageEdited(Map<String, dynamic> e) {
     final id = _intFrom(e['message_id']);
     final content = (e['content'] ?? '').toString();
-    final editedAt = e['edited_at'] != null ? DateTime.tryParse(e['edited_at'].toString()) : null;
-    for (final m in chatMessages) {
+    final editedAt = e['edited_at'] != null
+        ? DateTime.tryParse(e['edited_at'].toString())
+        : null;
+    for (final m in chatMessages!) {
       if (m.messageId == id) {
         m.content = content;
         m.isEdited = true;
@@ -136,21 +156,46 @@ class PuntClubProvider extends ChangeNotifier {
 
   void _handleMessageDeleted(Map<String, dynamic> e) {
     final id = _intFrom(e['message_id']);
-    chatMessages.removeWhere((m) => m.messageId == id);
+    chatMessages!.removeWhere((m) => m.messageId == id);
   }
 
   void _handleTyping(Map<String, dynamic> e) {
-    final senderId = _intFrom(e['sender_id'] ?? e['user_id']);
-    final username = (e['sender_username'] ?? e['username'] ?? '').toString();
-    // Don't show self: exclude current user and invalid sender_id (0)
-    if (senderId > 0 && senderId != _currentUserId) {
-      typingUsers[senderId] = username;
+    Logger.info('[PuntClubProvider] typing: ${e.toString()}}');
+    final senderId = _intFrom(e['sender_id']);
+    Logger.info('[PuntClubProvider] typing: ${senderId.toString()}}');
+
+    final username = (e['sender_username'] ?? '').toString().trim();
+    final isMe =
+        senderId == _currentUserId ||
+        (_myDisplayName != null &&
+            _myDisplayName!.isNotEmpty &&
+            username.toLowerCase() == _myDisplayName!.toLowerCase());
+    if (!isMe && username.isNotEmpty) typingUsers[senderId] = username;
+    Logger.info('[PuntClubProvider] typing users: ${typingUsers.toString()}}');
+    Logger.info(
+      '[PuntClubProvider] other users typing: ${otherUsersTyping.toString()}}',
+    );
+    Logger.info('[PuntClubProvider] user Id: ${_currentUserId.toString()}}');
+  }
+
+  Map<int, String> get otherUsersTyping {
+    //* typingUsers data:
+    //* typing users: {126: Meera}}
+    final result = <int, String>{};
+    for (final e in typingUsers.entries) {
+      final isMe =
+          e.key == _currentUserId ||
+          (_myDisplayName != null &&
+              _myDisplayName!.isNotEmpty &&
+              e.value.trim().toLowerCase() == _myDisplayName!.toLowerCase());
+      if (!isMe) result[e.key] = e.value;
     }
+    return result;
   }
 
   void _handleStopTyping(Map<String, dynamic> e) {
-    final senderId = _intFrom(e['sender_id'] ?? e['user_id']);
-    if (senderId > 0) typingUsers.remove(senderId);
+    final senderId = _intFrom(e['sender_id']);
+    typingUsers.remove(senderId);
   }
 
   void _handleError(Map<String, dynamic> e) {
@@ -164,14 +209,12 @@ class PuntClubProvider extends ChangeNotifier {
     return int.tryParse(v.toString()) ?? 0;
   }
 
-  /// Disconnects from chat and clears messages/typing.
+  /// Disconnects from chat. Keeps messages so they persist when re-entering.
   void disconnectChat() {
     _chatEventSubscription?.cancel();
     _chatEventSubscription = null;
     ChatService.instance.disconnect();
-    chatMessages.clear();
     typingUsers.clear();
-    _lastConnectedGroupId = null;
     notifyListeners();
   }
 
@@ -337,7 +380,7 @@ class PuntClubProvider extends ChangeNotifier {
     );
   }
 
-    //* filtered user list for search
+  //* filtered user list for search
   List<UserInvitesList> get filteredUserList {
     final query = searchNameCtr.text.trim().toLowerCase();
     if (userInvitesList == null) return [];
@@ -474,13 +517,13 @@ class PuntClubProvider extends ChangeNotifier {
 
   //* user name setup
   bool isUserNameSetupLoading = false;
-  Future<void> userNameSetup({
-    required VoidCallback onSuccess,
-  }) async {
+  Future<void> userNameSetup({required VoidCallback onSuccess}) async {
     isUserNameSetupLoading = true;
     notifyListeners();
-    
-    Logger.info("user name setup: $selectedGroupId, ${usernameCtr.text.trim()}");
+
+    Logger.info(
+      "user name setup: $selectedGroupId, ${usernameCtr.text.trim()}",
+    );
     final response = await PuntClubApiService.instance.userNameSetup(
       groupId: selectedGroupId!,
       username: usernameCtr.text.trim(),
@@ -566,6 +609,4 @@ class PuntClubProvider extends ChangeNotifier {
     isLeavingGroup = false;
     notifyListeners();
   }
-
-
 }

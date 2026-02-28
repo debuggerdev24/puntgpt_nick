@@ -17,10 +17,13 @@ class TipSlipScreen extends StatelessWidget {
         return Column(
           children: [
             topBar(context),
+
             Expanded(
               child: Padding(
                 padding: EdgeInsets.fromLTRB(25.w, 0, 25.w, 10.w),
-                child: Column(
+                child: tipSlips.isEmpty
+                    ? _buildEmptyState(context)
+                    : Column(
                   children: [
                     Expanded(
                       child: ListView.builder(
@@ -69,8 +72,116 @@ class TipSlipScreen extends StatelessWidget {
                         color: AppColors.premiumYellow,
                       ),
                     ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
-                    // RichText(
+  Widget _buildEmptyState(BuildContext context) {
+    return Center(
+      child: SingleChildScrollView(
+        padding: EdgeInsets.symmetric(horizontal: 32.w, vertical: 24.h),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            // Decorative icon container
+            Container(
+              // width: 120.w,
+              padding: EdgeInsets.all(25.w),
+              decoration: BoxDecoration(
+                color: AppColors.primary.withValues(alpha: 0.04),
+                shape: BoxShape.circle,
+                border: Border.all(
+                  color: AppColors.primary.withValues(alpha: 0.12),
+                  width: 1.5,
+                ),
+              ),
+              child: Center(
+                child: Icon(
+                  Icons.bookmark_border_rounded,
+                  size: 56.sp,
+                  color: AppColors.primary.withValues(alpha: 0.35),
+                ),
+              ),
+            ),
+            20.w.verticalSpace,
+            Text(
+              "Your tip slip is empty",
+              textAlign: TextAlign.center,
+              style: bold(
+                fontSize: context.isBrowserMobile ? 36.sp : 22.sp,
+                color: AppColors.primary,
+              ),
+            ),
+            12.w.verticalSpace,
+            Text(
+              "Add picks from races to build your slip and track your selections",
+              textAlign: TextAlign.center,
+              style: regular(
+                fontSize: context.isBrowserMobile ? 28.sp : 14.sp,
+                color: AppColors.primary.withValues(alpha: 0.6),
+                height: 1.4,
+              ),
+            ),
+
+            // Dashed placeholder card
+            Container(
+              width: double.infinity,
+              margin: EdgeInsets.only(top: 15.w),
+              padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 20.h),
+              decoration: BoxDecoration(
+                color: AppColors.primary.withValues(alpha: 0.02),
+                borderRadius: BorderRadius.circular(12.r),
+                border: Border.all(
+                  color: AppColors.primary.withValues(alpha: 0.15),
+                  width: 1.5,
+                  strokeAlign: BorderSide.strokeAlignInside,
+                ),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.add_circle_outline_rounded,
+                    size: 20.sp,
+                    color: AppColors.primary.withValues(alpha: 0.5),
+                  ),
+                  10.w.horizontalSpace,
+                  Text(
+                    "Your picks will appear here",
+                    style: medium(
+                      fontSize: context.isBrowserMobile ? 26.sp : 13.sp,
+                      color: AppColors.primary.withValues(alpha: 0.5),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            // 36.h.verticalSpace,
+            // AppFilledButton(
+            //   width: double.infinity,
+            //   margin: EdgeInsets.symmetric(horizontal: 24.w),
+            //   text: "Browse Races",
+            //   textStyle: semiBold(
+            //     fontSize: 16.sixteenSp(context),
+            //     color: AppColors.white,
+            //   ),
+            //   onTap: () {
+            //     context.pop();
+            //   },
+            // ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  // RichText(
                     //   text: TextSpan(
                     //     children: [
                     //       TextSpan(
@@ -91,15 +202,6 @@ class TipSlipScreen extends StatelessWidget {
                     //     ],
                     //   ),
                     // ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        );
-      },
-    );
-  }
 
   // Widget tipSlipItem({required BuildContext context}) {
   //   return Container(

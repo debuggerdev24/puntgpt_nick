@@ -378,6 +378,169 @@ class PunterClubShimmers {
     );
   }
 
+  /// Shimmer for the Club Chat screen. Matches layout: header (back + group name +
+  /// member count + icons), message list (left-aligned @username + timestamp +
+  /// content bubbles), and input bar (divider + text field + send button).
+  /// Display until chat history is loaded and socket is connected.
+  static Widget clubChatScreenShimmer({required BuildContext context}) {
+    final horizontalPadding = (context.isBrowserMobile) ? 35.w : 25.w;
+    return Shimmer.fromColors(
+      baseColor: AppColors.shimmerBaseColor,
+      highlightColor: AppColors.shimmerHighlightColor,
+      child: Column(
+        children: [
+          // Header: back arrow, group name, member count, add icon, info icon
+          Padding(
+            padding: EdgeInsets.fromLTRB(horizontalPadding, 12.w, horizontalPadding, 7.w),
+            child: Row(
+              children: [
+                Container(
+                  height: 16.h.flexClamp(16, 24),
+                  width: 20.w,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                ),
+                SizedBox(width: 8.w),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      height: (context.isBrowserMobile) ? 28.h : 18.h,
+                      width: (context.isBrowserMobile) ? 120.w : 80.w,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                    ),
+                    SizedBox(height: 4.h),
+                    Container(
+                      height: (context.isBrowserMobile) ? 18.h : 12.h,
+                      width: (context.isBrowserMobile) ? 100.w : 60.w,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                    ),
+                  ],
+                ),
+                const Spacer(),
+                Container(
+                  height: (context.isBrowserMobile) ? 28.w : 22.w,
+                  width: (context.isBrowserMobile) ? 28.w : 22.w,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                ),
+                SizedBox(width: (context.isBrowserMobile) ? 20.w : 12.w),
+                Container(
+                  height: (context.isBrowserMobile) ? 28.w : 22.w,
+                  width: (context.isBrowserMobile) ? 28.w : 22.w,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          horizontalDivider(),
+          // Message list area: multiple message placeholders
+          Expanded(
+            child: ListView(
+              padding: EdgeInsets.only(bottom: 100.h, left: 0, right: 0, top: 8.h),
+              children: [
+                _clubChatMessageShimmer(context, 0.35),
+                _clubChatMessageShimmer(context, 0.55),
+                _clubChatMessageShimmer(context, 0.25),
+                _clubChatMessageShimmer(context, 0.75),
+                _clubChatMessageShimmer(context, 0.4),
+                _clubChatMessageShimmer(context, 0.6),
+                _clubChatMessageShimmer(context, 0.3),
+              ],
+            ),
+          ),
+          // Input bar: divider + text field + send button
+          horizontalDivider(),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: horizontalPadding, vertical: 12.h),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Container(
+                    height: (context.isBrowserMobile) ? 56.h : 44.h,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(
+                        color: AppColors.shimmerBaseColor.withValues(alpha: 0.6),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(width: 8.w),
+                Container(
+                  height: (context.isBrowserMobile) ? 44.w : 36.w,
+                  width: (context.isBrowserMobile) ? 44.w : 36.w,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  static Widget _clubChatMessageShimmer(BuildContext context, double widthFraction) {
+    final msgPadding = (context.isBrowserMobile) ? 35.w : 25.w;
+    return Padding(
+      padding: EdgeInsets.fromLTRB(msgPadding, 12.h, 25.w, 0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                height: (context.isBrowserMobile) ? 20.h : 16.h,
+                width: (context.isBrowserMobile) ? 100.w : 70.w,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(4),
+                ),
+              ),
+              SizedBox(width: 8.w),
+              Container(
+                height: (context.isBrowserMobile) ? 18.h : 14.h,
+                width: (context.isBrowserMobile) ? 70.w : 50.w,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(4),
+                ),
+              ),
+            ],
+          ),
+          6.h.verticalSpace,
+          Container(
+            height: (context.isBrowserMobile) ? 20.h : 16.h,
+            width: MediaQuery.sizeOf(context).width * widthFraction,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(4),
+            ),
+          ),
+          12.h.verticalSpace,
+          horizontalDivider(),
+        ],
+      ),
+    );
+  }
+
   /// Shimmer for the Group Members screen list. Matches layout: circular
   /// profile icon on the left, member name and "Joined on..." text on the right,
   /// with separators between rows.

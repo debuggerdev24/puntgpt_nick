@@ -4,11 +4,10 @@ import 'package:puntgpt_nick/core/app_imports.dart';
 import 'package:puntgpt_nick/models/punt_club/club_chat_message_model.dart';
 import 'package:puntgpt_nick/services/punter_club/chat_service.dart';
 import 'package:puntgpt_nick/provider/punt_club/punter_club_provider.dart';
-import 'package:puntgpt_nick/screens/home/search_engine/mobile/home_screen.dart';
-import 'package:puntgpt_nick/screens/home/search_engine/web/home_screen_web.dart';
 import 'package:puntgpt_nick/screens/punter_club/mobile/punter_club_screen.dart';
 import 'package:puntgpt_nick/screens/punter_club/mobile/widgets/club_chat_message_bubble.dart';
 import 'package:puntgpt_nick/screens/punter_club/mobile/widgets/dialogue_sheets.dart';
+import 'package:puntgpt_nick/screens/punter_club/mobile/widgets/punter_club_shimmers.dart';
 
 /// Club chat screen: connects to WebSocket, shows messages, supports send/edit/delete and typing.
 class PuntClubChatScreen extends StatefulWidget {
@@ -23,12 +22,16 @@ class _PuntClubChatScreenState extends State<PuntClubChatScreen> {
   final TextEditingController _messageController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
   bool _hasInitiatedChat = false;
+  bool _showGoToBottomButton = false;
   StreamSubscription<ChatConnectionState>? _connectionSubscription;
 
   @override
   void initState() {
     super.initState();
-    _connectionSubscription = ChatService.instance.connectionState.listen((state) {
+    _scrollController.addListener(onScroll);
+    _connectionSubscription = ChatService.instance.connectionState.listen((
+      state,
+    ) {
       if (state == ChatConnectionState.connected && mounted) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
           if (mounted) {
@@ -51,6 +54,24 @@ class _PuntClubChatScreenState extends State<PuntClubChatScreen> {
     super.dispose();
   }
 
+  void onScroll() {
+    final position = _scrollController.position;
+    final isNotAtBottom = position.pixels <= position.maxScrollExtent - 35.w;
+    Logger.info('${position.pixels.toInt()} : ${position.maxScrollExtent.toInt()} : $isNotAtBottom');
+    
+    setState(() {
+      _showGoToBottomButton = isNotAtBottom;
+    });
+  }
+
+  void scrollToBottom() {
+    _scrollController.animateTo(
+      _scrollController.position.maxScrollExtent * 2,
+      duration: Duration(milliseconds: 450),
+      curve: Curves.easeInOut,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     if (!context.isMobileView) {
@@ -68,70 +89,74 @@ class _PuntClubChatScreenState extends State<PuntClubChatScreen> {
             });
           }
         }
-        return Stack(
-          children: [
-            Column(
-              children: [
-                _topBar(context: context, provider: provider),
-                Expanded(
-                  child: Stack(
-                    children: [
-                      // Message list
-                      ListView.builder(
-                        controller: _scrollController,
-                        padding: EdgeInsets.only(
-                          bottom: 100.h,
-                          left: 0,
-                          right: 0,
-                          top: 8.h,
-                        ),
-                        itemCount: provider.chatMessages.length + 1,
-                        itemBuilder: (context, index) {
-                          if (index == 0 && provider.chatMessages.isEmpty) {
-                            return _buildEmptyState(context);
-                          }
-                          if (index >= provider.chatMessages.length) {
-                            return const SizedBox.shrink();
-                          }
-                          final msg = provider.chatMessages[index];
-                          return ClubChatMessageBubble(
-                            message: msg,
-                            isOwnMessage: provider.isMyMessage(msg),
-                            onEdit: () =>
-                                _showEditDialog(context, provider, msg),
-                            onDelete: () =>
-                                _showDeleteDialog(context, provider, msg),
-                          );
-                        },
-                      ),
-                      // Typing indicator bar (above input)
-                      if (provider.typingUsers.isNotEmpty)
-                        Positioned(
-                          left: 0,
-                          right: 0,
-                          bottom: 60.h,
-                          child: _buildTypingIndicator(provider),
-                        ),
-                      // Ask PuntGPT FAB
-                      Padding(
-                        padding: EdgeInsets.only(bottom: 25.h, right: 25.w),
-                        child: Align(
-                          alignment: Alignment.bottomRight,
-                          child: context.isBrowserMobile
-                              ? askPuntGPTButtonWeb(context: context)
-                              : askPuntGPTButton(context),
-                        ),
-                      ),
-                    ],
-                  ),
+        return StreamBuilder<ChatConnectionState>(
+          stream: ChatService.instance.connectionState,
+          initialData: ChatService.instance.state,
+          builder: (context, connSnapshot) {
+            final isSocketConnected =
+                connSnapshot.data == ChatConnectionState.connected;
+            final isHistoryLoaded = provider.chatMessages != null;
+            final showShimmer = !isHistoryLoaded || !isSocketConnected;
+
+            if (showShimmer) {
+              return SizedBox.expand(
+                child: PunterClubShimmers.clubChatScreenShimmer(
+                  context: context,
                 ),
-                // Input area
-                _buildInputArea(context, provider),
+              );
+            }
+            return Stack(
+              children: [
+                Column(
+                  children: [
+                    _topBar(context: context, provider: provider),
+                    Expanded(
+                      child: Stack(
+                        children: [
+                          //* Message list
+                          ListView.builder(
+                            controller: _scrollController,
+                            padding: EdgeInsets.only(bottom: 4.w),
+                            itemCount: provider.chatMessages!.length + 1,
+                            itemBuilder: (context, index) {
+                              if (index == 0 &&
+                                  provider.chatMessages!.isEmpty) {
+                                return _buildEmptyState(context);
+                              }
+                              if (index >= provider.chatMessages!.length) {
+                                return const SizedBox.shrink();
+                              }
+                              final msg = provider.chatMessages![index];
+                              return ClubChatMessageBubble(
+                                message: msg,
+                                isOwnMessage: provider.isMyMessage(msg),
+                                onEdit: () =>
+                                    _showEditDialog(context, provider, msg),
+                                onDelete: () =>
+                                    _showDeleteDialog(context, provider, msg),
+                              );
+                            },
+                          ),
+                          //* Typing indicator bar (above input) - only other users
+                          if (provider.otherUsersTyping.isNotEmpty)
+                            Positioned(
+                              left: 0,
+                              right: 0,
+                              bottom: 60.w,
+                              child: _buildTypingIndicator(provider),
+                            ),
+                        ],
+                      ),
+                    ),
+                    // Input area
+                    _buildInputArea(context, provider),
+                  ],
+                ),
+                if (_showGoToBottomButton) Align(alignment: Alignment.bottomRight,child: goToBottomButton()),
+                if (provider.isLeavingGroup) const FullPageIndicator(),
               ],
-            ),
-            if (provider.isLeavingGroup || provider.isUserNameSetupLoading)
-              const FullPageIndicator(),
-          ],
+            );
+          },
         );
       },
     );
@@ -152,14 +177,14 @@ class _PuntClubChatScreenState extends State<PuntClubChatScreen> {
     );
   }
 
-  /// Typing indicator: "User1, User2 are typing..."
+  /// Typing indicator: "User1, User2 are typing..." (excludes current user)
   Widget _buildTypingIndicator(PuntClubProvider provider) {
-    final names = provider.typingUsers.values.toList();
+    final names = provider.otherUsersTyping.values.toList();
     final text = names.length == 1
         ? '${names.first} is typing...'
         : names.length == 2
-            ? '${names[0]} and ${names[1]} are typing...'
-            : '${names[0]} and ${names.length - 1} others are typing...';
+        ? '${names[0]} and ${names[1]} are typing...'
+        : '${names[0]} and ${names.length - 1} others are typing...';
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 25.w),
       padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
@@ -191,6 +216,29 @@ class _PuntClubChatScreenState extends State<PuntClubChatScreen> {
     );
   }
 
+  Widget goToBottomButton() {
+    return Padding(
+      padding: EdgeInsets.only(bottom: 65,right: 12),
+      child: Material(
+        color: AppColors.primary.withValues(alpha: 1),
+        borderRadius: BorderRadius.circular(50.r),
+        elevation: 8,
+        child: InkWell(
+          onTap: scrollToBottom,
+          borderRadius: BorderRadius.circular(24.r),
+          child: Padding(
+            padding: EdgeInsets.all(10.w),
+            child: Icon(
+              Icons.keyboard_arrow_down_rounded,
+              size: 28.w,
+              color: AppColors.white,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
   Widget _buildInputArea(BuildContext context, PuntClubProvider provider) {
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -200,7 +248,14 @@ class _PuntClubChatScreenState extends State<PuntClubChatScreen> {
           children: [
             Expanded(
               child: TextField(
+                style: regular(
+                  fontSize: context.isBrowserMobile ? 32.sp : 18.sp,
+                ),
                 controller: _messageController,
+                minLines: 1,
+                maxLines: 2,
+                keyboardType: TextInputType.multiline,
+                textInputAction: TextInputAction.send,
                 decoration: InputDecoration(
                   border: InputBorder.none,
                   prefix: SizedBox(
@@ -296,9 +351,7 @@ class _PuntClubChatScreenState extends State<PuntClubChatScreen> {
       builder: (ctx) => AlertDialog(
         backgroundColor: AppColors.white,
         title: const Text('Delete message'),
-        content: const Text(
-          'Are you sure you want to delete this message?',
-        ),
+        content: const Text('Are you sure you want to delete this message?'),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
@@ -323,7 +376,7 @@ class _PuntClubChatScreenState extends State<PuntClubChatScreen> {
     return Column(
       children: [
         Padding(
-          padding: EdgeInsets.fromLTRB(4.w, 10.w, 25.w, 14.w),
+          padding: EdgeInsets.fromLTRB(4.w, 7.w, 25.w, 7.w),
           child: Row(
             children: [
               IconButton(
@@ -342,10 +395,9 @@ class _PuntClubChatScreenState extends State<PuntClubChatScreen> {
                 children: [
                   GestureDetector(
                     onTap: () {
-                      final grp = provider.chatGroupsList![provider.selectedGroup];
-                      provider.getUsersInviteList(
-                        groupId: grp.id.toString(),
-                      );
+                      final grp =
+                          provider.chatGroupsList![provider.selectedGroup];
+                      provider.getUsersInviteList(groupId: grp.id.toString());
                     },
                     child: Text(
                       widget.title,
@@ -386,7 +438,9 @@ class _PuntClubChatScreenState extends State<PuntClubChatScreen> {
                   color: AppColors.primary,
                 ),
               ),
-              (context.isBrowserMobile) ? 40.w.horizontalSpace : 20.w.horizontalSpace,
+              (context.isBrowserMobile)
+                  ? 40.w.horizontalSpace
+                  : 20.w.horizontalSpace,
               GestureDetector(
                 onTap: () {
                   showModalBottomSheet(

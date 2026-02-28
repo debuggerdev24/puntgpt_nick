@@ -58,9 +58,9 @@ class LocaleStorageService {
       await _pref.setBool(_isFirstTime, value);
 
   //todo register customer id
-  static String get userId => _pref.getString(_registerUserId) ?? '';
-  static Future<void> saveUserId(String value) async =>
-      await _pref.setString(_registerUserId, value);
+  static int get userId => _pref.getInt(_registerUserId) ?? 0;
+  static Future<void> saveUserId(int value) async =>
+      await _pref.setInt(_registerUserId, value);
 
   //todo save and get the user refresh auth token
   static String get refreshToken => _pref.getString(_refreshTokenKey) ?? '';

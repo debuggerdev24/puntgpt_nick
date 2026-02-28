@@ -15,15 +15,15 @@ class ClubChatMessageModel {
   /// Parses new message broadcast from server.
   /// { "type": "message", "message_id": 42, "sender_id": 101, "sender_username": "...", "content": "...", "created_at": "...", "is_edited": false }
   /// Also supports REST history format with "id" instead of "message_id".
-  factory ClubChatMessageModel.fromNewMessageJson(Map<String, dynamic> json) {
+  factory ClubChatMessageModel.fromJson(Map<String, dynamic> json) {
     return ClubChatMessageModel(
-      messageId: _intFrom(json['message_id'] ?? json['id']),
-      senderId: _intFrom(json['sender_id']),
-      senderUsername: (json['sender_username'] ?? '').toString(),
-      content: (json['content'] ?? '').toString(),
+      messageId: _intFrom(json['id']),
+      senderId: _intFrom(json['sender_user_id']),
+      senderUsername: (json['sender_username'] ?? ''),
+      content: (json['content'] ?? ''),
       createdAt: _parseDateTime(json['created_at']),
       isEdited: json['is_edited'] == true,
-      editedAt: json['edited_at'] != null ? _parseDateTime(json['edited_at']) : null,
+      // editedAt: json['edited_at'] != null ? _parseDateTime(json['edited_at']) : null,
     );
   }
 

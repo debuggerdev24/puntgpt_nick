@@ -1,3 +1,5 @@
+
+
 import 'package:puntgpt_nick/core/app_imports.dart';
 import 'package:puntgpt_nick/provider/home/search_engine/search_engine_provider.dart';
 
@@ -15,39 +17,29 @@ class SearchFields extends StatelessWidget {
         builder: (context, provider, child) => Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
-          
+
           children: [
             //* Search for a horse that meets your criteria:
+
+            //* Saved Searches
             Padding(
               padding: EdgeInsets.fromLTRB(
                 bodyHorizontalPadding,
-                16.w,
-                bodyHorizontalPadding,
-                0,
-              ),
-              child: Text(
-                "Search for a horse that meets your criteria:",
-                style: bold(
-                  fontSize: (context.isBrowserMobile) ? 36.sp : 16.sp,
-                  height: 1.2,
-                ),
-              ),
-            ),
-            //* Total Runners
-            Padding(
-              padding: EdgeInsets.fromLTRB(
-                (context.isBrowserMobile) ? 50.w : 25.w,
                 12.w,
-                (context.isBrowserMobile) ? 50.w : 25.w,
+                bodyHorizontalPadding,
                 20.w,
               ),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                // mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Text(
-                    "Total Runners: (20)",
-                    style: bold(
-                      fontSize: (context.isBrowserMobile) ? 36.sp : 16.sp,
+                  Expanded(
+                    child: Text(
+                      "Search for a horse that meets your criteria:",
+                      style: bold(
+                        fontSize: (context.isBrowserMobile) ? 36.sp : 16.sp,
+                        height: 1.2,
+                      ),
                     ),
                   ),
                   OnMouseTap(
@@ -57,7 +49,6 @@ class SearchFields extends StatelessWidget {
                             ? AppRoutes.savedSearchedScreen.name
                             : WebRoutes.savedSearchedScreen.name,
                       );
-                      //* calling the api to get all saved searches
                       provider.getAllSaveSearch();
                     },
                     child: Row(
@@ -73,7 +64,6 @@ class SearchFields extends StatelessWidget {
                           "Saved Searches",
                           style: bold(
                             fontSize: (context.isBrowserMobile) ? 36.sp : 16.sp,
-
                             decoration: TextDecoration.underline,
                           ),
                         ),
@@ -167,7 +157,9 @@ class SearchFields extends StatelessWidget {
                     child: GestureDetector(
                       behavior: HitTestBehavior.opaque,
                       onTap: () {
-                        provider.togglePlacedLastStart(!provider.placedLastStart);
+                        provider.togglePlacedLastStart(
+                          !provider.placedLastStart,
+                        );
                       },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -324,7 +316,9 @@ class SearchFields extends StatelessWidget {
                     child: GestureDetector(
                       behavior: HitTestBehavior.opaque,
                       onTap: () {
-                        provider.toggleWonLast12Months(!provider.wonLast12Months);
+                        provider.toggleWonLast12Months(
+                          !provider.wonLast12Months,
+                        );
                       },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
