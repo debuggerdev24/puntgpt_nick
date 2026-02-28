@@ -144,9 +144,13 @@ class ChatService {
     }
   }
 
-  void sendMessage(String content) {
+  void sendMessage(String content, {String? senderUsername}) {
     if (content.trim().isEmpty) return;
-    _send({'type': 'message', 'content': content.trim()});
+    final payload = <String, dynamic>{'type': 'message', 'content': content.trim()};
+    if (senderUsername != null && senderUsername.trim().isNotEmpty) {
+      payload['sender_username'] = senderUsername.trim();
+    }
+    _send(payload);
   }
 
   void sendEdit(int messageId, String content) {
@@ -158,8 +162,12 @@ class ChatService {
     _send({'type': 'delete', 'message_id': messageId});
   }
 
-  void sendTyping() {
-    _send({'type': 'typing'});
+  void sendTyping({String? senderUsername}) {
+    final payload = <String, dynamic>{'type': 'typing'};
+    if (senderUsername != null && senderUsername.trim().isNotEmpty) {
+      payload['sender_username'] = senderUsername.trim();
+    }
+    _send(payload);
   }
 
   void sendStopTyping() {

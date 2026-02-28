@@ -533,6 +533,7 @@ class OptionsSheetView extends StatelessWidget {
                         sheetContext.pop();
                         provider.userNameSetup(
                           onSuccess: () {
+                          
                             final currentCtx =
                                 AppRouter.rootNavigatorKey.currentContext;
                             AppToast.success(

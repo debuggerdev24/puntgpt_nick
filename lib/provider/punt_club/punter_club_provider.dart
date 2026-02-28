@@ -85,7 +85,7 @@ class PuntClubProvider extends ChangeNotifier {
 
   /// Loads chat history from REST API before WebSocket takes over.
   Future<void> _loadChatHistory(String gid) async {
-          // chatMessages = [];
+    // chatMessages = [];
 
     final result = await PuntClubApiService.instance.getChatGroupHistory(
       groupId: gid,
@@ -103,7 +103,9 @@ class PuntClubProvider extends ChangeNotifier {
           (data as List).map((e) => ClubChatMessageModel.fromJson(e)),
         );
         chatMessages = chats;
-        Logger.info('[PuntClubProvider] chat messages: ${chatMessages!.length}');
+        Logger.info(
+          '[PuntClubProvider] chat messages: ${chatMessages!.length}',
+        );
       },
     );
     notifyListeners();
@@ -532,7 +534,14 @@ class PuntClubProvider extends ChangeNotifier {
       (l) {
         Logger.error("user name setup error: ${l.errorMsg}");
       },
-      (r) {
+      (r) async {
+        final newName = usernameCtr.text.trim();
+        if (newName.isNotEmpty) {
+          setMyDisplayName(newName);
+        }
+        // Reconnect chat socket so backend picks up updated name
+        disconnectChat();
+        await connectChat();
         onSuccess.call();
       },
     );

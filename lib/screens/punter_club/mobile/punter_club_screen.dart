@@ -620,9 +620,8 @@ class NotificationSheetView extends StatelessWidget {
                                   onSubmit: () {
                                     sheetContext.pop();
                                     provider.userNameSetup(
-                                     
-
                                       onSuccess: () {
+                                        
                                         AppToast.success(
                                           context: rootNav.context,
                                           message:
