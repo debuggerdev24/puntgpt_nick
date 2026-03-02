@@ -100,9 +100,82 @@ class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
                             ),
                           ),
                           6.h.verticalSpace,
+                          PhoneCountryFieldForAccount(
+                            provider: provider,
+                            readOnly: readOnly,
+                          ),
+                          //todo --------------> address
+                          14.h.verticalSpace,
+                          Text(
+                            "Address Line 1",
+                            style: semiBold(
+                              fontSize: (context.isBrowserMobile)
+                                  ? 28.sp
+                                  : 14.sp,
+                            ),
+                          ),
+                          6.h.verticalSpace,
                           AppTextField(
-                            controller: provider.phoneCtr,
-                            hintText: "Enter Your Phone",
+                            controller: provider.addressLine1Ctr,
+                            hintText: "Enter Address Line 1",
+                            readOnly: readOnly,
+                            textStyle: medium(
+                              fontSize: (context.isBrowserMobile)
+                                  ? 32.sp
+                                  : 16.sp,
+                            ),
+                            hintStyle: medium(
+                              fontSize: (context.isBrowserMobile)
+                                  ? 28.sp
+                                  : 14.sp,
+                            ),
+                            validator: (value) => FieldValidators().required(
+                              value,
+                              "Address Line 1",
+                            ),
+                          ),
+                          14.h.verticalSpace,
+                          Text(
+                            "Address Line 2",
+                            style: semiBold(
+                              fontSize: (context.isBrowserMobile)
+                                  ? 28.sp
+                                  : 14.sp,
+                            ),
+                          ),
+                          6.h.verticalSpace,
+                          AppTextField(
+                            controller: provider.addressLine2Ctr,
+                            hintText: "Enter Address Line 2",
+                            readOnly: readOnly,
+                            textStyle: medium(
+                              fontSize: (context.isBrowserMobile)
+                                  ? 32.sp
+                                  : 16.sp,
+                            ),
+                            hintStyle: medium(
+                              fontSize: (context.isBrowserMobile)
+                                  ? 28.sp
+                                  : 14.sp,
+                            ),
+                            validator: (value) => FieldValidators().required(
+                              value,
+                              "Address Line 2",
+                            ),
+                          ),
+                          14.h.verticalSpace,
+                          Text(
+                            "Suburb",
+                            style: semiBold(
+                              fontSize: (context.isBrowserMobile)
+                                  ? 28.sp
+                                  : 14.sp,
+                            ),
+                          ),
+                          6.h.verticalSpace,
+                          AppTextField(
+                            controller: provider.suburbCtr,
+                            hintText: "Enter Suburb",
                             readOnly: readOnly,
                             textStyle: medium(
                               fontSize: (context.isBrowserMobile)
@@ -115,7 +188,46 @@ class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
                                   : 14.sp,
                             ),
                             validator: (value) =>
-                                FieldValidators().mobileNumber(value),
+                                FieldValidators().required(value, "Suburb"),
+                          ),
+                          14.h.verticalSpace,
+                          Text(
+                            "Post Code",
+                            style: semiBold(
+                              fontSize: (context.isBrowserMobile)
+                                  ? 28.sp
+                                  : 14.sp,
+                            ),
+                          ),
+                          6.h.verticalSpace,
+                          AppTextField(
+                            controller: provider.postCodeCtr,
+                            hintText: "Enter Post Code",
+                            readOnly: readOnly,
+                            keyboardType: TextInputType.number,
+                            inputFormatter: [
+                              FilteringTextInputFormatter.digitsOnly,
+                            ],
+                            textStyle: medium(
+                              fontSize: (context.isBrowserMobile)
+                                  ? 32.sp
+                                  : 16.sp,
+                            ),
+                            hintStyle: medium(
+                              fontSize: (context.isBrowserMobile)
+                                  ? 28.sp
+                                  : 14.sp,
+                            ),
+                            validator: (value) {
+                              final r = FieldValidators().required(
+                                value,
+                                "Post Code",
+                              );
+                              if (r != null) return r;
+                              final min = FieldValidators().minLength(value, 3);
+                              if (min != null) return min;
+                              return FieldValidators().maxLength(value, 10);
+                            },
                           ),
                           // Spacer(),
                           if (provider.isEdit)
@@ -127,7 +239,6 @@ class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
                                     : 18.sp,
                                 color: AppColors.white,
                               ),
-
                               onTap: () {
                                 deBouncer.run(() {
                                   if (_formKey.currentState!.validate()) {
@@ -156,7 +267,7 @@ class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
                                   }
                                 });
                               },
-                              margin: EdgeInsets.only(top: 190.h),
+                              margin: EdgeInsets.only(top: 22.w),
                             ),
 
                           AppOutlinedButton(
@@ -171,8 +282,8 @@ class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
                                   : 18.sp,
                             ),
                             margin: EdgeInsets.only(
-                              bottom: 22.h,
-                              top: (!provider.isEdit) ? 220.h : 8.h,
+                              bottom: 22.w,
+                              top: 22.w, //220
                             ), //
                           ),
                         ],
@@ -196,9 +307,9 @@ class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
         Padding(
           padding: EdgeInsets.fromLTRB(
             5.w,
-            12.h,
+            9.w,
             (!provider.isEdit) ? 25.w : 8.w,
-            16.h,
+            10.w,
           ),
           child: Row(
             children: [

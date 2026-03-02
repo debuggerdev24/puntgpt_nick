@@ -84,7 +84,7 @@ class _DashboardState extends State<Dashboard> {
                     indexOfTab.value = 0;
                     AppRouter.indexedStackNavigationShell?.goBranch(0);
                   },
-                  text: "Subscribe to\nPro Punter",
+                  text: "Upgrade to\nPro Punter",
                   icon: AppAssets.trophy,
                   color: AppColors.premiumYellow,
                   index: 0,
@@ -230,7 +230,6 @@ void callInitAPIs({required BuildContext context}) {
     classicFormGuideProvider.getNextToGo(),
     puntClubProvider.getNotifications(),
     searchEngineProvider.getAllTipSlips(),
-    
 
     // classicFormGuideProvider.getPunterClub(),
     SubscriptionService.instance.initialize(

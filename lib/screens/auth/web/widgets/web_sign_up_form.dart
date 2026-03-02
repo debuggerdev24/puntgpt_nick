@@ -143,33 +143,11 @@ class WebSignUpForm extends StatelessWidget {
                           color: AppColors.primary.setOpacity(0.4),
                         ),
                       ),
-                      AppTextField(
-                        controller: provider.countryCtr,
-                        hintText: "Country",
-                        validator: (value) =>
-                            FieldValidators().required(value, "Country"),
-                        hintStyle: medium(
-                          fontSize: (context.isBrowserMobile) ? 28.sp : 16.sp,
-                          color: AppColors.primary.setOpacity(0.4),
-                        ),
-                      ),
+                      PhoneCountryField(provider: provider),
                       AppTextField(
                         controller: provider.emailCtr,
                         hintText: "Email",
                         validator: FieldValidators().email,
-                        hintStyle: medium(
-                          fontSize: (context.isBrowserMobile) ? 28.sp : 16.sp,
-                          color: AppColors.primary.setOpacity(0.4),
-                        ),
-                      ),
-                      AppTextField(
-                        keyboardType: TextInputType.number,
-                        inputFormatter: [
-                          FilteringTextInputFormatter.digitsOnly,
-                        ],
-                        controller: provider.phoneCtr,
-                        hintText: "Phone",
-                        validator: FieldValidators().mobileNumber,
                         hintStyle: medium(
                           fontSize: (context.isBrowserMobile) ? 28.sp : 16.sp,
                           color: AppColors.primary.setOpacity(0.4),
@@ -366,20 +344,6 @@ class WebSignUpForm extends StatelessWidget {
                                 },
                               ),
                             ),
-                            Expanded(
-                              child: AppTextField(
-                                controller: provider.countryCtr,
-                                hintText: "Country",
-                                hintStyle: medium(
-                                  fontSize: (Responsive.isTablet(context))
-                                      ? 22.sp
-                                      : 16.sp,
-                                  color: AppColors.primary.setOpacity(0.4),
-                                ),
-                                validator: (value) => FieldValidators()
-                                    .required(value, "Country"),
-                              ),
-                            ),
                           ],
                         ),
                         Row(
@@ -400,18 +364,7 @@ class WebSignUpForm extends StatelessWidget {
                               ),
                             ),
                             Expanded(
-                              child: AppTextField(
-                                controller: provider.phoneCtr,
-                                hintText: "Phone",
-                                hintStyle: medium(
-                                  fontSize: (Responsive.isTablet(context))
-                                      ? 22.sp
-                                      : 16.sp,
-
-                                  color: AppColors.primary.setOpacity(0.4),
-                                ),
-                                validator: FieldValidators().mobileNumber,
-                              ),
+                              child: PhoneCountryField(provider: provider),
                             ),
                           ],
                         ),

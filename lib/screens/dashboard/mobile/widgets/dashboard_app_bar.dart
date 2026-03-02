@@ -1,5 +1,6 @@
 import 'package:puntgpt_nick/core/app_imports.dart';
 import 'package:puntgpt_nick/provider/home/search_engine/search_engine_provider.dart';
+import 'package:puntgpt_nick/provider/subscription/subscription_provider.dart';
 
 class DashboardAppBar extends StatefulWidget {
   const DashboardAppBar({super.key, required this.navigationShell});
@@ -40,6 +41,7 @@ class _DashboardAppBarState extends State<DashboardAppBar> {
               : 32.w,
           color: AppColors.white,
         ),
+        1.5.verticalSpace,
         Text(
           "PuntGPT",
           style: regular(
@@ -47,11 +49,29 @@ class _DashboardAppBarState extends State<DashboardAppBar> {
                 ? 32.sp
                 : (context.isBrowserMobile)
                 ? 48.sp
-                : 16.sp,
+                : 14.sp,
+            height: 1,
+
             fontFamily: AppFontFamily.secondary,
             color: AppColors.white,
           ),
         ),
+        if (!context.read<SubscriptionProvider>().isSubscribed) ...[
+          Text(
+            textAlign: TextAlign.center,
+            "Pro",
+            style: regular(
+              height: 1,
+              fontSize: context.isTablet
+                  ? 32.sp
+                  : (context.isBrowserMobile)
+                  ? 48.sp
+                  : 14.sp,
+              fontFamily: AppFontFamily.secondary,
+              color: AppColors.premiumYellow,
+            ),
+          ),
+        ],
       ],
     );
   }
@@ -60,7 +80,7 @@ class _DashboardAppBarState extends State<DashboardAppBar> {
     return Consumer<SearchEngineProvider>(
       builder: (context, provider, child) {
         return SizedBox(
-          height: (12.h.flexClamp(18, 22) * 1.2) + 20,
+          height: (12.w.flexClamp(18, 22) * 1.2) + 20,
           child: GestureDetector(
             behavior: HitTestBehavior.opaque,
             onTap: () {
@@ -75,7 +95,9 @@ class _DashboardAppBarState extends State<DashboardAppBar> {
               alignment: Alignment.center,
               children: [
                 Padding(
-                  padding: EdgeInsets.only(right: 12.w),
+                  padding: EdgeInsets.only(
+                    right: (provider.tipSlips?.isNotEmpty ?? false) ? 8.w : 6.w,
+                  ),
                   child: Text(
                     "Tip Slip",
                     style: bold(
@@ -89,33 +111,35 @@ class _DashboardAppBarState extends State<DashboardAppBar> {
                     ),
                   ),
                 ),
-                Positioned(
-                  top: 4,
-                  right: 0,
-                  child: Container(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 3,
-                      vertical: (context.isBrowserMobile) ? 3 : 1,
-                    ),
-                    decoration: BoxDecoration(color: AppColors.white),
-                    child: Text(
-                      provider.tipSlips?.length.toString() ?? "0",//tipSlips?.length.toString() ?? "0",
-                      style: semiBold(
-                        fontSize: context.isTablet
-                            ? 18.sp
-                            : (context.isBrowserMobile)
-                            ? 24.sp
-                            : 12.sp,
-                        color: AppColors.black,
+                if (provider.tipSlips?.isNotEmpty ?? false)
+                  Positioned(
+                    top: 4,
+                    right: 0,
+                    child: Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 3,
+                        vertical: (context.isBrowserMobile) ? 3 : 1,
+                      ),
+                      decoration: BoxDecoration(color: AppColors.white),
+                      child: Text(
+                        provider.tipSlips?.length.toString() ??
+                            "0", //tipSlips?.length.toString() ?? "0",
+                        style: semiBold(
+                          fontSize: context.isTablet
+                              ? 18.sp
+                              : (context.isBrowserMobile)
+                              ? 24.sp
+                              : 12.sp,
+                          color: AppColors.black,
+                        ),
                       ),
                     ),
                   ),
-                ),
               ],
             ),
           ),
         );
-      }
+      },
     );
   }
 

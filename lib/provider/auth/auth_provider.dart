@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:country_picker/country_picker.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:puntgpt_nick/core/app_imports.dart';
 import 'package:puntgpt_nick/services/auth/auth_api_service.dart';
@@ -22,8 +23,15 @@ class AuthProvider extends ChangeNotifier {
       addressLine1Ctr = TextEditingController(),
       addressLine2Ctr = TextEditingController(),
       suburbCtr = TextEditingController(),
-      postCodeCtr = TextEditingController(),
-      countryCtr = TextEditingController();
+      postCodeCtr = TextEditingController();
+
+  /// Selected country for phone (from country_picker). Used for country name in API and phone validation.
+  Country? _selectedCountry;
+  Country? get selectedPhoneCountry => _selectedCountry;
+  set selectedPhoneCountry(Country? value) {
+    _selectedCountry = value;
+    notifyListeners();
+  }
 
   int _selectedTab = 0, _resendSeconds = 0;
   Timer? _resendTimer;
@@ -90,6 +98,13 @@ class AuthProvider extends ChangeNotifier {
       );
       return;
     }
+    if (_selectedCountry == null) {
+      AppToast.warning(
+        context: context,
+        message: "Please select a country for your mobile number.",
+      );
+      return;
+    }
 
     isSignUpLoading = true;
     notifyListeners();
@@ -99,7 +114,8 @@ class AuthProvider extends ChangeNotifier {
       dob: dobCtr.text.trim(),
       state: selectedState!,
       email: emailCtr.text.trim(),
-      phone: phoneCtr.text.trim(),
+      phone:
+          '+${_selectedCountry!.phoneCode}${phoneCtr.text.replaceAll(RegExp(r'[^0-9]'), '')}',
       password: passwordCtr.text.trim(),
       confirmPassword: confirmPasswordCtr.text.trim(),
       agreedToTerms: isReadTermsAndConditions.toString(),
@@ -107,7 +123,7 @@ class AuthProvider extends ChangeNotifier {
       addressLine2: addressLine2Ctr.text.trim(),
       suburb: suburbCtr.text.trim(),
       postCode: postCodeCtr.text.trim(),
-      country: countryCtr.text.trim(),
+      country: _selectedCountry!.name,
     );
 
     result.fold(
@@ -366,7 +382,7 @@ class AuthProvider extends ChangeNotifier {
     addressLine2Ctr.clear();
     suburbCtr.clear();
     postCodeCtr.clear();
-    countryCtr.clear();
+    selectedPhoneCountry = null;
     selectedState = "";
     _isReadTermsAndConditions = false;
   }

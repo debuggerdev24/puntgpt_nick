@@ -1,5 +1,7 @@
 import 'package:puntgpt_nick/core/app_imports.dart';
+import 'package:puntgpt_nick/core/widgets/subscription_gate_view.dart';
 import 'package:puntgpt_nick/provider/bot/bot_provider.dart';
+import 'package:puntgpt_nick/provider/subscription/subscription_provider.dart';
 import 'package:puntgpt_nick/screens/home/search_engine/mobile/widgets/chat_section.dart';
 import 'package:puntgpt_nick/screens/home/search_engine/mobile/widgets/home_section_shimmers.dart';
 
@@ -64,13 +66,29 @@ class _AskPuntGptScreenState extends State<AskPuntGptScreen> {
     if (!context.isMobileView) {
       context.pop();
     }
-    return Consumer<BotProvider>(
-      builder: (context, provider, child) {
+    return Consumer2<BotProvider, SubscriptionProvider>(
+      builder: (context, provider, subProvider, child) {
         if (provider.errorMessage != null) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
             AppToast.error(context: context, message: provider.errorMessage!);
             provider.clearError();
           });
+        }
+        if (!subProvider.isSubscribed) {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              topBar(context),
+              Expanded(
+                child: SubscriptionGateView(
+                  featureTitle: "Subscribe to use Ask PuntGPT",
+                  featureDescription:
+                      "Chat with AI for tips, form guides, track conditions and race analysis.",
+                  icon: Icons.smart_toy_rounded,
+                ),
+              ),
+            ],
+          );
         }
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,

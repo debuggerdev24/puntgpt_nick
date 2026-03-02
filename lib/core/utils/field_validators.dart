@@ -150,6 +150,30 @@ class FieldValidators {
     return null;
   }
 
+  /// Validates phone number for the selected country (from country_picker).
+  /// [nationalNumber] is digits only (no country code). [country] must be non-null.
+  String? phoneNumberForCountry(String? nationalNumber, dynamic country) {
+    if (country == null) {
+      return 'Select a country';
+    }
+    if (nationalNumber == null || nationalNumber.trim().isEmpty) {
+      return 'Mobile number is required!';
+    }
+    final digits = nationalNumber.replaceAll(RegExp(r'[^0-9]'), '');
+    final example = (country.example?.toString() ?? '');
+    final expectedLength = example.replaceAll(RegExp(r'[^0-9]'), '').length;
+    if (expectedLength == 0) {
+      if (digits.length < 7 || digits.length > 15) {
+        return 'Enter a valid mobile number (7-15 digits)';
+      }
+      return null;
+    }
+    if (digits.length != expectedLength) {
+      return 'Enter a valid ${country.name} number ($expectedLength digits)';
+    }
+    return null;
+  }
+
   String? match(String? val, String matchValue, String errorMessage) {
     if (val == null || val.trim().isEmpty) {
       return 'Please enter the password!';

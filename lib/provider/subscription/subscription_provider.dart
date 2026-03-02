@@ -5,18 +5,22 @@ import '../../core/enum/app_enums.dart';
 
 class SubscriptionProvider extends ChangeNotifier {
   /// Store all active subscriptions
-  final Set<AppEnum> _activeSubscriptions = {};
+  final Set<AppEnum> _activeSubscriptions = {
+    // AppEnum.monthlyPlan,
+  };
 
   bool _isSubscriptionProcessing = false;
 
   bool get isSubscriptionProcessing => _isSubscriptionProcessing;
 
-  bool get isTier1Subscribed =>
+  bool get isMonthlyPlanSubscribed =>
       _activeSubscriptions.contains(AppEnum.monthlyPlan);
-  bool get isTier2Subscribed =>
-      _activeSubscriptions.contains(AppEnum.yearlyPlan);
-  bool get isTier3Subscribed =>
+  bool get isAnnualPlanSubscribed =>
+      _activeSubscriptions.contains(AppEnum.annualPlan);
+  bool get isLifeTimePlanSubscribed =>
       _activeSubscriptions.contains(AppEnum.lifeTimePlan);
+
+  bool get isSubscribed => _activeSubscriptions.isNotEmpty;
 
   //todo Expose active set read-only
   Set<AppEnum> get activeSubscriptions => {..._activeSubscriptions};

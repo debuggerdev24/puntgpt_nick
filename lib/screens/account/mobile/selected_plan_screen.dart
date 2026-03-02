@@ -27,7 +27,7 @@ class SelectedPlanScreen extends StatelessWidget {
           onTap: () {
             var selectedPlan = AppEnum.monthlyPlan;
             if (plan.id == 3) {
-              selectedPlan = AppEnum.yearlyPlan;
+              selectedPlan = AppEnum.annualPlan;
             } else if (plan.id == 4) {
               selectedPlan = AppEnum.lifeTimePlan;
             }

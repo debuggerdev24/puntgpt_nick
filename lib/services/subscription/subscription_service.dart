@@ -15,7 +15,7 @@ class SubscriptionService {
   // todo Mock product IDs for now
   static const Map<AppEnum, String> productIds = {
     AppEnum.monthlyPlan: "com.monthlyPlan",
-    AppEnum.yearlyPlan: "com.yearlyPlan",
+    AppEnum.annualPlan: "com.yearlyPlan",
     // AppEnum.yearlyPlan: "mock.tier3.monthly",
   };
 

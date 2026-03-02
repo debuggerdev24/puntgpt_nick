@@ -115,14 +115,102 @@ class PersonalDetailsSectionWeb extends StatelessWidget {
                               "Phone",
                               style: semiBold(fontSize: sixteenResponsive),
                             ),
-                            AppTextField(
+                            PhoneCountryFieldForAccount(
+                              provider: provider,
                               readOnly: readOnly,
-                              validator: (value) => FieldValidators().required(
-                                value,
-                                "Phone Number",
-                              ),
-                              controller: provider.phoneCtr,
-                              hintText: "Enter your Phone Number",
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        width: fieldWidth,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          spacing: 5.h,
+                          children: [
+                            Text(
+                              "Address Line 1",
+                              style: semiBold(fontSize: sixteenResponsive),
+                            ),
+                            AppTextField(
+                              controller: provider.addressLine1Ctr,
+                              hintText: "Enter Address Line 1",
+                              readOnly: readOnly,
+                              validator: (value) =>
+                                  FieldValidators().required(
+                                      value, "Address Line 1"),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        width: fieldWidth,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          spacing: 5.h,
+                          children: [
+                            Text(
+                              "Address Line 2",
+                              style: semiBold(fontSize: sixteenResponsive),
+                            ),
+                            AppTextField(
+                              controller: provider.addressLine2Ctr,
+                              hintText: "Enter Address Line 2",
+                              readOnly: readOnly,
+                              validator: (value) =>
+                                  FieldValidators().required(
+                                      value, "Address Line 2"),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        width: fieldWidth,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          spacing: 5.h,
+                          children: [
+                            Text(
+                              "Suburb",
+                              style: semiBold(fontSize: sixteenResponsive),
+                            ),
+                            AppTextField(
+                              controller: provider.suburbCtr,
+                              hintText: "Enter Suburb",
+                              readOnly: readOnly,
+                              validator: (value) =>
+                                  FieldValidators().required(value, "Suburb"),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        width: fieldWidth,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          spacing: 5.h,
+                          children: [
+                            Text(
+                              "Post Code",
+                              style: semiBold(fontSize: sixteenResponsive),
+                            ),
+                            AppTextField(
+                              controller: provider.postCodeCtr,
+                              hintText: "Enter Post Code",
+                              readOnly: readOnly,
+                              keyboardType: TextInputType.number,
+                              inputFormatter: [
+                                FilteringTextInputFormatter.digitsOnly,
+                              ],
+                              validator: (value) {
+                                final r = FieldValidators()
+                                    .required(value, "Post Code");
+                                if (r != null) return r;
+                                final min =
+                                    FieldValidators().minLength(value, 3);
+                                if (min != null) return min;
+                                return FieldValidators().maxLength(value, 10);
+                              },
                             ),
                           ],
                         ),

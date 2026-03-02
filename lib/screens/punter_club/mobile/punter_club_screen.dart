@@ -1,8 +1,10 @@
 import 'package:badges/badges.dart' as badge;
 import 'package:puntgpt_nick/core/app_imports.dart';
+import 'package:puntgpt_nick/core/widgets/subscription_gate_view.dart';
 import 'package:puntgpt_nick/models/punt_club/notification_model.dart';
 import 'package:puntgpt_nick/models/punt_club/user_invites_list.dart';
 import 'package:puntgpt_nick/provider/punt_club/punter_club_provider.dart';
+import 'package:puntgpt_nick/provider/subscription/subscription_provider.dart';
 import 'package:puntgpt_nick/screens/home/search_engine/mobile/home_screen.dart';
 import 'package:puntgpt_nick/screens/punter_club/mobile/widgets/dialogue_sheets.dart';
 import 'package:puntgpt_nick/screens/punter_club/mobile/widgets/punter_club_shimmers.dart';
@@ -17,8 +19,25 @@ class PunterClubScreen extends StatelessWidget {
       onPopInvokedWithResult: (didPop, result) {
         AppRouter.indexedStackNavigationShell?.goBranch(0);
       },
-      child: Consumer<PuntClubProvider>(
-        builder: (context, provider, child) {
+      child: Consumer2<PuntClubProvider, SubscriptionProvider>(
+        builder: (context, provider, subProvider, child) {
+          if (!subProvider.isSubscribed) {
+            return Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                topBar(context: context, provider: provider),
+                horizontalDivider(),
+                Expanded(
+                  child: SubscriptionGateView(
+                    featureTitle: "Subscribe to access Punter Club",
+                    featureDescription:
+                        "Create and join clubs, chat with members, and share tips.",
+                    icon: Icons.groups_rounded,
+                  ),
+                ),
+              ],
+            );
+          }
           if (provider.chatGroupsList == null) {
             return PunterClubShimmers.punterClubScreenShimmer(context: context);
           }
@@ -33,7 +52,10 @@ class PunterClubScreen extends StatelessWidget {
                   horizontalDivider(),
                   Expanded(
                     child: (provider.chatGroupsList!.isEmpty)
-                        ? Center(child: Text("No chat groups found"))
+                        ? _buildEmptyStateCreateFirstGroup(
+                            context: context,
+                            provider: provider,
+                          )
                         : ListView.separated(
                             separatorBuilder: (context, index) =>
                                 horizontalDivider(),
@@ -273,6 +295,80 @@ class PunterClubScreen extends StatelessWidget {
                   },
                 );
               },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+
+  Widget _buildEmptyStateCreateFirstGroup({
+    required BuildContext context,
+    required PuntClubProvider provider,
+  }) {
+    return Center(
+      child: SingleChildScrollView(
+        padding: EdgeInsets.symmetric(horizontal: 32.w),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              padding: EdgeInsets.all((context.isBrowserMobile) ? 32.w : 24.w),
+              decoration: BoxDecoration(
+                color: AppColors.primary.withValues(alpha: 0.06),
+                shape: BoxShape.circle,
+              ),
+              child: Icon(
+                Icons.add_circle_outline_rounded,
+                size: (context.isBrowserMobile) ? 80.w : 56.w,
+                color: AppColors.primary.withValues(alpha: 0.6),
+              ),
+            ),
+            24.h.verticalSpace,
+            Text(
+              "Create your first chat group",
+              style: semiBold(
+                fontSize: (context.isBrowserMobile) ? 28.sp : 20.sp,
+                fontFamily: AppFontFamily.secondary,
+                color: AppColors.primary,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            12.h.verticalSpace,
+            Text(
+              "Start a club to chat with friends, share tips and discuss races.",
+              style: regular(
+                fontSize: (context.isBrowserMobile) ? 24.sp : 14.sp,
+                color: AppColors.primary.withValues(alpha: 0.6),
+                height: 1.45,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            28.h.verticalSpace,
+            AppFilledButton(
+              onTap: () {
+                showModalBottomSheet(
+                  context: context,
+                  isScrollControlled: true,
+                  backgroundColor: AppColors.white,
+                  showDragHandle: true,
+                  useRootNavigator: true,
+                  builder: (sheetContext) {
+                    return createChatGroupSheet(provider, sheetContext, context);
+                  },
+                );
+              },
+              text: "Create chat group",
+              textStyle: semiBold(
+                fontSize: (context.isBrowserMobile) ? 26.sp : 16.sp,
+                color: AppColors.white,
+              ),
+              padding: EdgeInsets.symmetric(
+                horizontal: 28.w,
+                vertical: 14.h,
+              ),
             ),
           ],
         ),

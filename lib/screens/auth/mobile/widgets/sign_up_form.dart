@@ -104,25 +104,13 @@ class SignUpForm extends StatelessWidget {
                   return FieldValidators().maxLength(value, 10);
                 },
               ),
-              AppTextField(
-                controller: provider.countryCtr,
-                hintText: "Country",
-                validator: (value) =>
-                    FieldValidators().required(value, "Country"),
-              ),
+              PhoneCountryField(provider: provider),
               AppTextField(
                 controller: provider.emailCtr,
                 hintText: "Email",
                 validator: FieldValidators().email,
               ),
 
-              AppTextField(
-                keyboardType: TextInputType.number,
-                inputFormatter: [FilteringTextInputFormatter.digitsOnly],
-                controller: provider.phoneCtr,
-                hintText: "Phone",
-                validator: FieldValidators().mobileNumber,
-              ),
               AppTextField(
                 controller: provider.passwordCtr,
                 hintText: "Password",

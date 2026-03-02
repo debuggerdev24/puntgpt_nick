@@ -1,3 +1,4 @@
+import 'package:country_picker/country_picker.dart';
 import 'package:puntgpt_nick/core/app_imports.dart';
 import 'package:puntgpt_nick/models/account/profile_model.dart';
 import 'package:puntgpt_nick/models/account/subscription_plan_model.dart';
@@ -10,6 +11,18 @@ class AccountProvider extends ChangeNotifier {
   TextEditingController currentPassCtr = TextEditingController();
   TextEditingController newPassCtr = TextEditingController();
   TextEditingController confirmPassCtr = TextEditingController();
+  TextEditingController addressLine1Ctr = TextEditingController();
+  TextEditingController addressLine2Ctr = TextEditingController();
+  TextEditingController suburbCtr = TextEditingController();
+  TextEditingController postCodeCtr = TextEditingController();
+
+  /// Selected country for phone (national number in phoneCtr). Used for profile update.
+  Country? _selectedPhoneCountry;
+  Country? get selectedPhoneCountry => _selectedPhoneCountry;
+  set selectedPhoneCountry(Country? value) {
+    _selectedPhoneCountry = value;
+    notifyListeners();
+  }
 
   late ProfileModel profile;
   late List<SubscriptionPlanModel> plans;
@@ -93,11 +106,54 @@ class AccountProvider extends ChangeNotifier {
         profile = ProfileModel.fromJson(data);
         nameCtr.text = profile.name;
         emailCtr.text = profile.email;
-        phoneCtr.text = profile.phone;
+        addressLine1Ctr.text = profile.addressLine1 ?? '';
+        addressLine2Ctr.text = profile.addressLine2 ?? '';
+        suburbCtr.text = profile.suburb ?? '';
+        postCodeCtr.text = profile.postCode ?? '';
+        _parsePhoneAndCountry(profile.phone);
         notifyListeners();
       },
     );
   }
+
+  /// Parses E.164 phone (e.g. +61412345678) into selectedPhoneCountry + national digits in phoneCtr.
+  void _parsePhoneAndCountry(String fullPhone) {
+    final digits = fullPhone.replaceAll(RegExp(r'[^0-9]'), '');
+    if (digits.isEmpty) {
+      selectedPhoneCountry = null;
+      phoneCtr.clear();
+      return;
+    }
+    final country = _findCountryByPhoneCode(digits);
+    if (country != null) {
+      selectedPhoneCountry = country;
+      final codeLen = (country.phoneCode).replaceAll(RegExp(r'[^0-9]'), '').length;
+      phoneCtr.text = codeLen < digits.length ? digits.substring(codeLen) : '';
+    } else {
+      selectedPhoneCountry = null;
+      phoneCtr.text = digits;
+    }
+  }
+
+  Country? _findCountryByPhoneCode(String digits) {
+    for (var len = 3; len >= 1; len--) {
+      if (digits.length >= len) {
+        final code = digits.substring(0, len);
+        final iso = _phoneCodeToIso[code];
+        if (iso != null) {
+          try {
+            final c = CountryService().findByCode(iso);
+            if (c != null) return c;
+          } catch (_) {}
+        }
+      }
+    }
+    return null;
+  }
+
+  static const Map<String, String> _phoneCodeToIso = {
+    '1': 'us', '7': 'ru', '20': 'eg', '27': 'za', '30': 'gr', '31': 'nl', '32': 'be', '33': 'fr', '34': 'es', '36': 'hu', '39': 'it', '40': 'ro', '41': 'ch', '43': 'at', '44': 'gb', '45': 'dk', '46': 'se', '47': 'no', '48': 'pl', '49': 'de', '51': 'pe', '52': 'mx', '53': 'cu', '54': 'ar', '55': 'br', '56': 'cl', '57': 'co', '58': 've', '60': 'my', '61': 'au', '62': 'id', '63': 'ph', '64': 'nz', '65': 'sg', '66': 'th', '81': 'jp', '82': 'kr', '84': 'vn', '86': 'cn', '90': 'tr', '91': 'in', '92': 'pk', '93': 'af', '94': 'lk', '98': 'ir',
+  };
 
   //todo update profile
   bool isUpdateProfileLoading = false;
@@ -106,15 +162,26 @@ class AccountProvider extends ChangeNotifier {
     required Function(String error) onFailed,
     required Function() onNoChanges,
   }) async {
-    //todo check the profile has been changed or not.
     final name = nameCtr.text.trim();
     final email = emailCtr.text.trim();
-    final phone = phoneCtr.text.trim();
+    final phone = _selectedPhoneCountry != null
+        ? '+${_selectedPhoneCountry!.phoneCode}${phoneCtr.text.replaceAll(RegExp(r'[^0-9]'), '')}'
+        : phoneCtr.text.trim();
+    final countryName = _selectedPhoneCountry?.name ?? profile.country ?? '';
+    final addr1 = addressLine1Ctr.text.trim();
+    final addr2 = addressLine2Ctr.text.trim();
+    final sub = suburbCtr.text.trim();
+    final post = postCodeCtr.text.trim();
 
     final noChanges =
         name == profile.name.trim() &&
         email == profile.email.trim() &&
-        phone == profile.phone.trim();
+        phone == profile.phone.trim() &&
+        countryName == (profile.country ?? '').trim() &&
+        addr1 == (profile.addressLine1 ?? '').trim() &&
+        addr2 == (profile.addressLine2 ?? '').trim() &&
+        sub == (profile.suburb ?? '').trim() &&
+        post == (profile.postCode ?? '').trim();
 
     if (noChanges) {
       onNoChanges.call();
@@ -123,9 +190,14 @@ class AccountProvider extends ChangeNotifier {
     isUpdateProfileLoading = true;
     notifyListeners();
     final data = {
-      "name": nameCtr.text.trim(),
-      "phone": phoneCtr.text.trim(),
-      "email": emailCtr.text.trim(),
+      "name": name,
+      "phone": phone,
+      "email": email,
+      "address_line_1": addr1,
+      "address_line_2": addr2,
+      "suburb": sub,
+      "post_code": post,
+      "country": countryName,
     };
     final result = await AccountApiService.instance.updateProfile(data: data);
     result.fold(

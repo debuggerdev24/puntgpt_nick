@@ -1,6 +1,7 @@
 import 'package:modal_side_sheet/modal_side_sheet.dart';
+import 'package:puntgpt_nick/core/widgets/subscription_gate_view.dart';
 import 'package:puntgpt_nick/provider/punt_club/punter_club_provider.dart';
-
+import 'package:puntgpt_nick/provider/subscription/subscription_provider.dart';
 import 'package:puntgpt_nick/screens/punter_club/web/widgets/club_chat_screen_web.dart';
 import 'package:puntgpt_nick/core/app_imports.dart';
 import '../../home/search_engine/web/home_screen_web.dart';
@@ -43,8 +44,16 @@ class PunterClubScreenWebScreen extends StatelessWidget {
           Center(
             child: SizedBox(
               width: bodyWidth,
-              child: Consumer<PuntClubProvider>(
-                builder: (context, provider, child) {
+              child: Consumer2<PuntClubProvider, SubscriptionProvider>(
+                builder: (context, provider, subProvider, child) {
+                  if (!subProvider.isSubscribed) {
+                    return SubscriptionGateView(
+                      featureTitle: "Subscribe to access Punter Club",
+                      featureDescription:
+                          "Create and join clubs, chat with members, and share tips.",
+                      icon: Icons.groups_rounded,
+                    );
+                  }
                   return Row(
                     children: [
                       //todo ---------------> left panel

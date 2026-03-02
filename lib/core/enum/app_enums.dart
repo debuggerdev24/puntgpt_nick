@@ -1,4 +1,4 @@
-enum AppEnum { monthlyPlan, yearlyPlan, lifeTimePlan }
+enum AppEnum { monthlyPlan, annualPlan, lifeTimePlan }
 
 enum JumpType {
   jumps_within_10mins("Jumps within 10mins"),
