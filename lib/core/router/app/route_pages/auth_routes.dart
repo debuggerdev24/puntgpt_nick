@@ -4,7 +4,6 @@ import 'package:puntgpt_nick/screens/auth/mobile/login_screen.dart';
 import 'package:puntgpt_nick/screens/auth/mobile/reset_password_screen.dart';
 import 'package:puntgpt_nick/screens/auth/mobile/sign_up_screen.dart';
 import 'package:puntgpt_nick/screens/auth/mobile/verify_otp_screen.dart';
-import 'package:puntgpt_nick/screens/home/search_engine/mobile/search_filter_screen.dart';
 
 class AuthRoutes {
 
