@@ -4,19 +4,48 @@ import 'package:puntgpt_nick/screens/home/search_engine/mobile/widgets/home_sect
 import 'package:puntgpt_nick/screens/home/search_engine/mobile/widgets/runner_box.dart';
 import 'home_screen.dart';
 
-class RunnersListScreen extends StatelessWidget {
+class RunnersListScreen extends StatefulWidget {
   const RunnersListScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    // return  _runnerShimmer();
+  State<RunnersListScreen> createState() => _RunnersListScreenState();
+}
 
+class _RunnersListScreenState extends State<RunnersListScreen> {
+  final ScrollController _scrollController = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(_onScroll);
+  }
+
+  @override
+  void dispose() {
+    _scrollController.removeListener(_onScroll);
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _onScroll() {
+    final provider = context.read<SearchEngineProvider>();
+    if (!provider.hasMoreRunners || provider.isLoadingMoreRunners) return;
+    final pos = _scrollController.position;
+    if (pos.pixels >= pos.maxScrollExtent - 200) {
+      provider.loadNextRunners();
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Consumer<SearchEngineProvider>(
       builder: (context, provider, child) {
         final runners = provider.runnersList;
         if (provider.runnersList == null) {
           return HomeSectionShimmers.runnerShimmer();
         }
+
+        final totalDisplay = provider.totalRunners ?? runners!.length;
 
         return Stack(
           children: [
@@ -28,7 +57,7 @@ class RunnersListScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "Total Runners: (${runners?.length ?? 0})",
+                        "Total Runners: ($totalDisplay)",
                         style: bold(fontSize: 16.sp),
                       ),
                       GestureDetector(
@@ -63,9 +92,14 @@ class RunnersListScreen extends StatelessWidget {
                       : Stack(
                           children: [
                             ListView.builder(
+                              controller: _scrollController,
                               padding: EdgeInsets.only(bottom: 95.w),
-                              itemCount: runners.length,
+                              itemCount: runners.length +
+                                  (provider.isLoadingMoreRunners ? 1 : 0),
                               itemBuilder: (context, index) {
+                                if (index >= runners.length) {
+                                  return _buildBottomLoadingShimmer(context);
+                                }
                                 final runner = runners[index];
                                 return RunnerBox(
                                   runner: runner,
@@ -150,6 +184,62 @@ class RunnersListScreen extends StatelessWidget {
           ],
         );
       },
+    );
+  }
+
+  Widget _buildBottomLoadingShimmer(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.fromLTRB(25.w, 16.w, 25.w, 24.w),
+      child: Shimmer.fromColors(
+        baseColor: AppColors.shimmerBaseColor,
+        highlightColor: AppColors.shimmerHighlightColor,
+        child: Row(
+          children: [
+            Container(
+              width: 24.w,
+              height: 24.w,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(4),
+              ),
+            ),
+            SizedBox(width: 12.w),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
+                    height: 14.h,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                  ),
+                  SizedBox(height: 6.h),
+                  Container(
+                    height: 12.h,
+                    width: 120.w,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              width: 48.w,
+              height: 20.h,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(4),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 

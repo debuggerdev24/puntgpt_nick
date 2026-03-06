@@ -21,6 +21,17 @@ class SearchEngineProvider extends ChangeNotifier {
   List<RunnerModel>? runnersList;
   CompareHorseModel? compareHorse;
 
+  /// Pagination from upcoming-runners API (data.total_runners, data.total_pages, data.page).
+  int? totalRunners;
+  int? totalPages;
+  int _runnersCurrentPage = 1;
+  bool isLoadingMoreRunners = false;
+
+  bool get hasMoreRunners {
+    if (totalPages == null) return false;
+    return _runnersCurrentPage < totalPages!;
+  }
+
   @override
   void dispose() {
     super.dispose();
@@ -224,8 +235,11 @@ class SearchEngineProvider extends ChangeNotifier {
 
   Future<void> getSearchEngine({required VoidCallback onSuccess}) async {
     runnersList = null;
+    totalRunners = null;
+    totalPages = null;
+    _runnersCurrentPage = 1;
     notifyListeners();
-    // Get the first checked track item, if any
+
     String? trackValue;
     if (placedLastStart) {
       trackValue = "placed_last_start";
@@ -238,52 +252,69 @@ class SearchEngineProvider extends ChangeNotifier {
     final result = await SearchEngineAPISearvice.instance.getSearchEngine(
       jumpFilter: selectedRaceTimingApiString,
       track: trackValue,
+      page: 1,
     );
     result.fold(
       (l) {
         Logger.error("get search engine error: ${l.errorMsg}");
         runnersList = null;
       },
-      (r) async {
-        final data = r["data"];
-        final runners = data["runners"] ?? [];
-
-        if (runners.isEmpty) {
-          runnersList = [];
-          notifyListeners();
-          return;
-        }
-
-        final int total = runners.length;
-        final int chunkSize = (total / 6).ceil();
-
-
-        runnersList = [];
-
-        for (int i = 0; i < total; i += chunkSize) {
-          final end = (i + chunkSize).clamp(0, total);
-          final chunk = runners.sublist(i, end);
-          Logger.info("chunk: ${chunk.length}");
-          final convertedChunk = chunk
-              .map<RunnerModel>((e) => RunnerModel.fromJson(e as Map<String, dynamic>))
-              .toList();
-          runnersList!.addAll(convertedChunk);
-          notifyListeners();
-
-          // Yield to event loop so UI can paint (no fixed delay)
-          if (end < total) {
-            await Future.delayed(Duration.zero);
-          }
-        }
-
+      (r) {
+        final data = r["data"] as Map<String, dynamic>?;
+        final runners = data?["runners"] as List? ?? [];
+        runnersList = runners
+            .map<RunnerModel>(
+                (e) => RunnerModel.fromJson(e as Map<String, dynamic>))
+            .toList();
+        totalRunners = data?["total_runners"] as int?;
+        totalPages = data?["total_pages"] as int?;
+        _runnersCurrentPage = data?["page"] as int? ?? 1;
         onSuccess.call();
       },
     );
-    // final data = r["data"];
-    // final runners = data["runners"] as List;
-    // runnersList = runners.map((e) => RunnerModel.fromJson(e)).toList();
-    // onSuccess.call();
+    notifyListeners();
+  }
 
+  //* Load next page of runners and append to [runnersList]. No-op if no more pages or already loading.
+  Future<void> loadNextRunners() async {
+    if (!hasMoreRunners || isLoadingMoreRunners || runnersList == null) return;
+
+    isLoadingMoreRunners = true;
+    notifyListeners();
+
+    String? trackValue;
+    if (placedLastStart) {
+      trackValue = "placed_last_start";
+    } else if (wonLastStart) {
+      trackValue = "won_last_start";
+    } else if (wonLast12Months) {
+      trackValue = "won_last_12_months";
+    }
+
+    final nextPage = _runnersCurrentPage + 1;
+    final result = await SearchEngineAPISearvice.instance.getSearchEngine(
+      jumpFilter: selectedRaceTimingApiString,
+      track: trackValue,
+      page: nextPage,
+    );
+
+    result.fold(
+      (l) {
+        Logger.error("load next runners error: ${l.errorMsg}");
+      },
+      (r) {
+        final data = r["data"] as Map<String, dynamic>?;
+        final runners = data?["runners"] as List? ?? [];
+        final converted = runners
+            .map<RunnerModel>(
+                (e) => RunnerModel.fromJson(e as Map<String, dynamic>))
+            .toList();
+        runnersList!.addAll(converted);
+        _runnersCurrentPage = data?["page"] as int? ?? nextPage;
+      },
+    );
+
+    isLoadingMoreRunners = false;
     notifyListeners();
   }
 

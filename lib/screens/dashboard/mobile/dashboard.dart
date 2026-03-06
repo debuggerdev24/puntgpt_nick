@@ -95,6 +95,7 @@ class _DashboardState extends State<Dashboard> {
                     AppRouter.indexedStackNavigationShell?.goBranch(1);
                     final provider = context.read<PuntClubProvider>();
                     provider.getChatGroups();
+                    provider.getNotifications();
                   },
 
                   text: "PuntGPT Punter Club",

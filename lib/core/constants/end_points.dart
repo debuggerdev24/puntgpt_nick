@@ -25,8 +25,12 @@ class EndPoints {
   static String getUpcomingMeetings({
     required String jumpFilter,
     String? track,
-  }) =>
-      "/horse-race/upcoming-runners/?jump=$jumpFilter${(track != null) ? "&track=$track" : ""}";
+    int? page,
+  }) {
+    var path = "/horse-race/upcoming-runners/?jump=$jumpFilter${(track != null) ? "&track=$track" : ""}";
+    if (page != null && page > 1) path += "&page=$page";
+    return path;
+  }
 
   static String createSaveSearch = "/horse-race/saved-search/";
   static String getAllSaveSearch = "/horse-race/saved-search/";

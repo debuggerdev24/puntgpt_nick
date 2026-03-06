@@ -392,7 +392,7 @@ class PuntClubProvider extends ChangeNotifier {
   }
 
   //* get notification list
-  Future<void> getNotifications() async {
+  Future<void> getNotifications({required}) async {
     notificationList = null;
     notifyListeners();
     final response = await PuntClubApiService.instance.getNotificationList();
@@ -497,6 +497,7 @@ class PuntClubProvider extends ChangeNotifier {
   Future<void> acceptInvitation({
     required String inviteId,
     required VoidCallback onSuccess,
+    required Function(String error) onFailed,
   }) async {
     isAcceptingInvitation = true;
     notifyListeners();
@@ -506,6 +507,10 @@ class PuntClubProvider extends ChangeNotifier {
     response.fold(
       (l) {
         Logger.error("accept invitation error: ${l.errorMsg}");
+        final errorMsg = l.errorMsg.toLowerCase();
+        if (errorMsg.contains("invalid") || errorMsg.contains("expired")) {
+          onFailed.call("Invitation is expired");
+        }
       },
       (r) {
         onSuccess.call();

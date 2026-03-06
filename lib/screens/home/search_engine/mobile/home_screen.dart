@@ -156,8 +156,8 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                   child: AnimatedContainer(
                     duration: 400.milliseconds,
                     margin: EdgeInsets.only(
-                      top: 24.h,
-                      bottom: 16.h,
+                      top: 24.w,
+                      bottom: 16.w,
                       right: 8.w,
                     ),
                     padding: EdgeInsets.symmetric(
@@ -224,8 +224,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                         meetingId: classicForm.meetingId.toString(),
                       );
                       provider.getRaceFieldDetail(
-                        id: classicForm.races[provider.selectedRace].raceId
-                            .toString(),
+                        id: classicForm.races[provider.selectedRace].raceId.toString(),
                       );
                       context.pushNamed(AppRoutes.selectedRace.name);
                     },
@@ -324,12 +323,11 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                 // if (provider.isSearched)
                 //   RunnersListScreen(runnerData: provider.runnerData)
                 // else
-                ...[
+                // ...[
                   RaceStartTimingOptions(),
                   SearchFields(providerh: provider),
-                ],
-                if (!provider.isSearched) ...[
-                  20.verticalSpace,
+                // ],
+                20.verticalSpace,
                   IntrinsicWidth(
                     child: AppFilledButton(
                       margin: EdgeInsets.symmetric(horizontal: 24.w),
@@ -361,7 +359,9 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                       },
                     ),
                   ),
-                ],
+                // if (!provider.isSearched) ...[
+                  
+                // ],
               ],
             ),
           ),

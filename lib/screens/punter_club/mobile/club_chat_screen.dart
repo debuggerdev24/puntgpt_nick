@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:puntgpt_nick/core/app_imports.dart';
 import 'package:puntgpt_nick/models/punt_club/club_chat_message_model.dart';
 import 'package:puntgpt_nick/provider/punt_club/punter_club_provider.dart';
-import 'package:puntgpt_nick/screens/punter_club/mobile/punter_club_screen.dart';
 import 'package:puntgpt_nick/screens/punter_club/mobile/widgets/club_chat_message_bubble.dart';
 import 'package:puntgpt_nick/screens/punter_club/mobile/widgets/dialogue_sheets.dart';
 import 'package:puntgpt_nick/screens/punter_club/mobile/widgets/invite_user_sheet.dart';

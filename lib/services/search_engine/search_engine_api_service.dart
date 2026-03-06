@@ -35,9 +35,14 @@ class SearchEngineAPISearvice {
   Future<Either<ApiException, Map<String, dynamic>>> getSearchEngine({
     required String jumpFilter,
     String? track,
+    int? page,
   }) async {
     return await BaseApiHelper.instance.get<Map<String, dynamic>>(
-      EndPoints.getUpcomingMeetings(jumpFilter: jumpFilter, track: track),
+      EndPoints.getUpcomingMeetings(
+        jumpFilter: jumpFilter,
+        track: track,
+        page: page,
+      ),
     );
   }
 

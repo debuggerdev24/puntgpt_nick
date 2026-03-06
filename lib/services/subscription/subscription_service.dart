@@ -14,8 +14,8 @@ class SubscriptionService {
 
   // todo Mock product IDs for now
   static const Map<SubscriptionEnum, String> productIds = {
-    SubscriptionEnum.monthlyPlan: "com.monthlyPlan",
-    SubscriptionEnum.annualPlan: "com.yearlyPlan",
+    SubscriptionEnum.monthlyPlan: "com.puntgpt.propunter.monthly",
+    SubscriptionEnum.annualPlan: "com.puntgpt.propunter.yearly",
     // AppEnum.yearlyPlan: "mock.tier3.monthly",
   };
 
@@ -40,6 +40,7 @@ class SubscriptionService {
 
     await _loadProducts(context: context);
 
+    //* Adding listener to the purchase stream
     _purchaseSub = _iap.purchaseStream.listen(
       (purchases) => _handlePurchases(purchases, provider),
       onError: (e) => Logger.error("Error inside the listener ${e.toString()}"),
@@ -61,20 +62,14 @@ class SubscriptionService {
 
     for (var product in _products) {
       if (!context.mounted) return;
-
-      AppToast.success(
-        context: context,
-        message: "Product is ${product.title}",
-      );
       Logger.info("Products loaded: ${product.id}");
       Logger.info("Products loaded: ${product.title}");
       Logger.info("Products loaded: ${product.price}");
     }
   }
 
-  // ---------------------------------------------------------------------------
-  // BUY (CALLED BY PROVIDER)
-  // ---------------------------------------------------------------------------
+  //* BUY (CALLED BY PROVIDER)
+
   Future<bool> buy({
     required SubscriptionEnum tier,
     required BuildContext context,

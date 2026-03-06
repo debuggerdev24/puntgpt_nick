@@ -96,6 +96,12 @@ class NotificationSheetView extends StatelessWidget {
 
                         provider.acceptInvitation(
                           inviteId: notification.inviteId!,
+                          onFailed: (error) {
+                            AppToast.error(
+                              context: rootNav.context,
+                              message: error,
+                            );
+                          },
                           onSuccess: () {
                             // Pop the notification sheet first.
                             // Show toast and username sheet using the root

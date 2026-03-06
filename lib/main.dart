@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-
 import 'package:puntgpt_nick/punt_gpt_app.dart';
 import 'package:puntgpt_nick/services/storage/locale_storage_service.dart';
 import 'package:toastification/toastification.dart';
@@ -18,7 +17,6 @@ Future<void> main() async {
     DeviceOrientation.portraitDown,
   ]);
   await Future.wait([LocaleStorageService.init()]);
-
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
@@ -30,13 +28,13 @@ Future<void> main() async {
   runApp(ToastificationWrapper(child: const PuntGPTApp()));
 }
 
-
 /*
 
 todo Joseph
 
-
 todo Nick
+
+
 
 
 
@@ -57,8 +55,6 @@ jockey_strike_rate_last_12_months: ""
 },
 "comment": Custom comment
 }
-
-
 //! NOTE: top bar        // Blue
 //? QUESTION: why here  // Green
 
@@ -66,9 +62,10 @@ jockey_strike_rate_last_12_months: ""
 // TODO: refactor       // Default todo
 pro -2 meera a 16
 pro -3 parth
-*/
-Meera a id: 
 
+*/
+
+Meera a id:
 
 */ 
 // eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzcwMzQyNjI0LCJpYXQiOjE3NzAyNzA2MjQsImp0aSI6IjZiZTNjZDk4MWJmZTQ1ZmNiOWYzNzFjYzFjZWI4NTg2IiwidXNlcl9pZCI6IjEyIn0.tGc7GDTFWzOYOOf_osADeFAC3oN0bYbay9fFPi7a3P4
