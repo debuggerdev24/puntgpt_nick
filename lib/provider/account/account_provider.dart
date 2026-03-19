@@ -1,7 +1,6 @@
 import 'package:country_picker/country_picker.dart';
 import 'package:puntgpt_nick/core/app_imports.dart';
 import 'package:puntgpt_nick/models/account/profile_model.dart';
-import 'package:puntgpt_nick/models/account/subscription_plan_model.dart';
 import 'package:puntgpt_nick/services/account/account_api_service.dart';
 import 'package:puntgpt_nick/services/storage/locale_storage_service.dart';
 
@@ -26,33 +25,16 @@ class AccountProvider extends ChangeNotifier {
   }
 
   late ProfileModel profile;
-  late List<SubscriptionPlanModel> plans;
-  int selectedPlanId = 0;
   bool _currentPassObscure = true,
       _newPassObscure = true,
       _confirmPassObscure = true,
       _isEdit = false,
-      _isShowCurrentPlan = false,
-      _isShowSelectedPlan = false,
       _isShowChangePassword = false;
 
-  bool get showCurrentPlan => _isShowCurrentPlan;
   bool get showChangePassword => _isShowChangePassword;
-  bool get showSelectedPlan => _isShowSelectedPlan;
 
   int _selectedTab = 0;
   int get selectedAccountTabWeb => _selectedTab;
-
-  void setIsShowSelectedPlan({required bool showSelectedPlan, int? planIndex}) {
-    _isShowSelectedPlan = !_isShowSelectedPlan;
-    selectedPlanId = planIndex ?? 1;
-    notifyListeners();
-  }
-
-  set setIsShowCurrentPlan(bool value) {
-    _isShowCurrentPlan = !_isShowCurrentPlan;
-    notifyListeners();
-  }
 
   set setIsShowChangePassword(bool value) {
     _isShowChangePassword = !_isShowChangePassword;
@@ -245,22 +227,4 @@ class AccountProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // todo get subscription plans
-  Future<void> getSubscriptionPlans({
-    // required Function onSuccess,
-    required Function(String error) onFailed,
-  }) async {
-    final result = await AccountApiService.instance.getSubscriptionPlans();
-
-    result.fold(
-      (l) {
-        onFailed.call(l.errorMsg);
-      },
-      (r) {
-        final data = r["data"] as List; //data
-        plans = data.map((e) => SubscriptionPlanModel.fromJson(e)).toList();
-        notifyListeners();
-      },
-    );
-  }
 }

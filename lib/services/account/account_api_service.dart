@@ -31,10 +31,5 @@ class AccountApiService {
     );
   }
 
-  Future<Either<ApiException, Map<String, dynamic>>>
-  getSubscriptionPlans() async {
-    return await BaseApiHelper.instance.get<Map<String, dynamic>>(
-      EndPoints.getSubscriptionPlans,
-    );
-  }
+  
 }

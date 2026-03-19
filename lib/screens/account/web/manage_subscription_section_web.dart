@@ -2,7 +2,7 @@ import 'package:puntgpt_nick/core/app_imports.dart';
 import 'package:puntgpt_nick/core/constants/app_strings.dart';
 import 'package:puntgpt_nick/core/widgets/guest_create_account_sheet.dart';
 import 'package:puntgpt_nick/main.dart';
-import 'package:puntgpt_nick/provider/account/account_provider.dart';
+import 'package:puntgpt_nick/provider/subscription/subscription_provider.dart';
 import 'package:puntgpt_nick/screens/account/web/widgets/subscription_plan_web.dart';
 
 class ManageSubscriptionSectionWeb extends StatelessWidget {
@@ -13,7 +13,7 @@ class ManageSubscriptionSectionWeb extends StatelessWidget {
     final fourteenResponsive = context.isDesktop ? 14.sp : 22.sp;
     // double subscriptionBoxWidth = context.isDesktop ? 340.w : 510.w;
 
-    return Consumer<AccountProvider>(
+    return Consumer<SubscriptionProvider>(
       builder: (context, provider, child) {
         final plans = provider.plans;
         return Expanded(
@@ -116,7 +116,7 @@ class ManageSubscriptionSectionWeb extends StatelessWidget {
 
   Widget topBar({
     required double twelveResponsive,
-    required AccountProvider provider,
+    required SubscriptionProvider provider,
     required BuildContext context,
   }) {
     return Align(

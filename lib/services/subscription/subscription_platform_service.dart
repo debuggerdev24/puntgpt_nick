@@ -60,10 +60,9 @@ class SubscriptionService {
       Logger.error(e.toString());
     }
 
-    Logger.info("I am here");
+
 
     for (var product in _products) {
-      if (!context.mounted) return;
       Logger.info("Products loaded: ${product.id}");
       Logger.info("Products loaded: ${product.title}");
       Logger.info("Products loaded: ${product.price}");
@@ -71,10 +70,8 @@ class SubscriptionService {
   }
 
   //* BUY (CALLED BY PROVIDER)
-
   Future<bool> buy({
     required SubscriptionEnum tier,
-    required BuildContext context,
   }) async {
     try {
       final productId = productIds[tier];
@@ -88,9 +85,9 @@ class SubscriptionService {
       await _iap.buyNonConsumable(purchaseParam: param);
       return true;
     } catch (e, s) {
-      if (context.mounted) {
-        AppToast.error(context: context, message: "Buy error: $e\n$s");
-      }
+
+        Logger.error("Buy error: $e\n$s");
+
 
       return false;
     }

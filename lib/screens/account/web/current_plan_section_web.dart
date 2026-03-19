@@ -1,5 +1,5 @@
 import 'package:puntgpt_nick/core/app_imports.dart';
-import 'package:puntgpt_nick/provider/account/account_provider.dart';
+import 'package:puntgpt_nick/provider/subscription/subscription_provider.dart';
 import 'package:puntgpt_nick/screens/account/web/widgets/subscription_plan_web.dart';
 
 class CurrentPlanSectionWeb extends StatelessWidget {
@@ -10,9 +10,10 @@ class CurrentPlanSectionWeb extends StatelessWidget {
     final fourteenResponsive = context.isDesktop ? 14.sp : 22.sp;
     double subscriptionBoxWidth = context.isDesktop ? 340.w : 510.w;
 
-    return Consumer<AccountProvider>(
+    return Consumer<SubscriptionProvider>(
       builder: (context, provider, child) {
         final plans = provider.plans;
+        final currentPlan = plans.isNotEmpty ? plans.first : null;
         return Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -34,10 +35,19 @@ class CurrentPlanSectionWeb extends StatelessWidget {
                         style: bold(fontSize: fourteenResponsive),
                       ),
                       12.w.verticalSpace,
-                      SubscriptionPlanWeb(
-                        plan: plans[0],
-                        isCurrentPlan: provider.showCurrentPlan,
-                      ),
+                      if (currentPlan != null)
+                        SubscriptionPlanWeb(
+                          plan: currentPlan,
+                          isCurrentPlan: provider.showCurrentPlan,
+                        )
+                      else
+                        Padding(
+                          padding: EdgeInsets.all(24.w),
+                          child: Text(
+                            "No current plan",
+                            style: regular(fontSize: 16.sp, color: AppColors.primary.withValues(alpha: 0.7)),
+                          ),
+                        ),
 
                       //todo renew button
                       AppFilledButton(
@@ -120,7 +130,7 @@ class CurrentPlanSectionWeb extends StatelessWidget {
 
   Widget topBar({
     required double twelveResponsive,
-    required AccountProvider provider,
+    required SubscriptionProvider provider,
     required BuildContext context,
   }) {
     final twentyTwoResponsive = context.isDesktop ? 22.sp : 30.sp;

@@ -5,6 +5,7 @@ import 'package:puntgpt_nick/main.dart';
 
 import 'package:puntgpt_nick/provider/account/account_provider.dart';
 import 'package:puntgpt_nick/provider/auth/auth_provider.dart';
+import 'package:puntgpt_nick/provider/subscription/subscription_provider.dart';
 import 'package:puntgpt_nick/screens/account/web/change_password_section_web.dart';
 import 'package:puntgpt_nick/screens/account/web/current_plan_section_web.dart';
 import 'package:puntgpt_nick/screens/account/web/manage_subscription_section_web.dart';
@@ -69,8 +70,9 @@ class _AccountScreenWebState extends State<AccountScreenWeb> {
           Center(
             child: SizedBox(
               width: bodyWidth,
-              child: Consumer<AccountProvider>(
-                builder: (context, provider, child) {
+              child: Consumer2<AccountProvider, SubscriptionProvider>(
+                builder: (context, accountProvider, subscriptionProvider, child) {
+                  final provider = accountProvider;
                   return Row(
                     children: [
                       //todo ---------------> left panel
@@ -161,14 +163,11 @@ class _AccountScreenWebState extends State<AccountScreenWeb> {
                         else
                           //todo change password section
                           PersonalDetailsSectionWeb()
-                      else if (provider.showSelectedPlan)
-                        //todo selected plan section
+                      else if (subscriptionProvider.showSelectedPlan)
                         SelectedPlanSectionWeb()
-                      else if (provider.showCurrentPlan)
-                        //todo current plan section
+                      else if (subscriptionProvider.showCurrentPlan)
                         CurrentPlanSectionWeb()
                       else
-                        //todo all plans section
                         ManageSubscriptionSectionWeb(),
 
                       verticalDivider(),

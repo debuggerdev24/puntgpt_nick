@@ -1,7 +1,7 @@
 import 'package:puntgpt_nick/core/constants/app_strings.dart';
 import 'package:puntgpt_nick/core/widgets/guest_create_account_sheet.dart';
 import 'package:puntgpt_nick/main.dart';
-import 'package:puntgpt_nick/provider/account/account_provider.dart';
+import 'package:puntgpt_nick/provider/subscription/subscription_provider.dart';
 import 'package:puntgpt_nick/screens/account/mobile/widgets/subscription_plan.dart';
 import 'package:puntgpt_nick/core/app_imports.dart';
 
@@ -10,7 +10,7 @@ class ManageSubscriptionScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<AccountProvider>(
+    return Consumer<SubscriptionProvider>(
       builder: (context, provider, child) {
         return PopScope(
           canPop: provider.showCurrentPlan ? false : true,
@@ -90,7 +90,7 @@ class ManageSubscriptionScreen extends StatelessWidget {
     );
   }
 
-  Widget topBar(BuildContext context, AccountProvider provider) {
+  Widget topBar(BuildContext context, SubscriptionProvider provider) {
     return Column(
       children: [
         Padding(

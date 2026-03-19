@@ -24,7 +24,7 @@ class SelectedPlanScreen extends StatelessWidget {
         ),
         AppFilledButton(
           text: "Pay & Subscribe",
-          onTap: () {
+          onTap: () async {
             var selectedPlan = SubscriptionEnum.monthlyPlan;
             if (plan.id == 3) {
               selectedPlan = SubscriptionEnum.annualPlan;
@@ -32,10 +32,10 @@ class SelectedPlanScreen extends StatelessWidget {
               selectedPlan = SubscriptionEnum.lifeTimePlan;
             }
             Logger.info(selectedPlan.name);
-            context.read<SubscriptionProvider>().buy(
-              tier: selectedPlan,
-              context: context,
-            );
+            final subscriptionProvider = context.read<SubscriptionProvider>();
+            await subscriptionProvider.initiateSubscription(planId: plan.id);
+
+            subscriptionProvider.buy(tier: selectedPlan, context: context);
           },
           margin: EdgeInsets.symmetric(horizontal: 25.w, vertical: 12.h),
         ),

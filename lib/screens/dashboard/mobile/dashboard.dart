@@ -221,7 +221,7 @@ void callInitAPIs({required BuildContext context}) {
   // final isGuest = LocaleStorageService.acccessToken.isEmpty;
   final futures = <Future>[
     accountProvider.getProfile(),
-    accountProvider.getSubscriptionPlans(
+    subsProvider.getSubscriptionPlans(
       onFailed: (error) {
         AppToast.error(context: context, message: error);
       },

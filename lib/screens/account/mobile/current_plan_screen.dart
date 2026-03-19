@@ -1,5 +1,5 @@
 import 'package:puntgpt_nick/core/app_imports.dart';
-import 'package:puntgpt_nick/provider/account/account_provider.dart';
+import 'package:puntgpt_nick/provider/subscription/subscription_provider.dart';
 import 'package:puntgpt_nick/screens/account/mobile/widgets/subscription_plan.dart';
 
 class CurrentPlanScreen extends StatelessWidget {
@@ -7,11 +7,21 @@ class CurrentPlanScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<AccountProvider>(
-      builder: (context, provider, child) => Column(
-        children: [
-          topBar(context),
-          SubscriptionPlanMobile(plan: provider.plans[0]),
+    return Consumer<SubscriptionProvider>(
+      builder: (context, provider, child) {
+        final currentPlan = provider.plans.isNotEmpty ? provider.plans.first : null;
+        return Column(
+          children: [
+            topBar(context),
+            if (currentPlan != null) SubscriptionPlanMobile(plan: currentPlan)
+            else
+              Padding(
+                padding: EdgeInsets.all(24.w),
+                child: Text(
+                  "No current plan",
+                  style: regular(fontSize: 16.sp, color: AppColors.primary.withValues(alpha: 0.7)),
+                ),
+              ),
           // if (context.isBrowserMobile) 40.w.verticalSpace,
           Center(
             child: Text(
@@ -21,9 +31,9 @@ class CurrentPlanScreen extends StatelessWidget {
                 color: AppColors.primary.withValues(alpha: 0.6),
               ),
             ),
-          ),
-          Spacer(),
-          AppFilledButton(
+            ),
+            Spacer(),
+            AppFilledButton(
             margin: EdgeInsets.only(bottom: 10.h, left: 25.w, right: 25.w),
             text: "Renew",
             textStyle: semiBold(
@@ -51,7 +61,8 @@ class CurrentPlanScreen extends StatelessWidget {
             },
           ),
         ],
-      ),
+      );
+      },
     );
   }
 

@@ -208,7 +208,9 @@ class AccountScreen extends StatelessWidget {
     return Column(
       children: [
         Padding(
-          padding: EdgeInsets.fromLTRB(5.w, 8.w, 25.w, 10.w),
+          padding: EdgeInsets.fromLTRB(4.w, 4.w, 25.w, 6.w),
+          
+          //padding: EdgeInsets.fromLTRB(5.w, 8.w, 25.w, 10.w),
           child: Row(
             children: [
               IconButton(

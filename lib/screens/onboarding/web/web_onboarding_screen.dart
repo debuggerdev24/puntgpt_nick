@@ -77,7 +77,7 @@ class WebOnboardingScreen extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 15),
           child: Column(
             children: [
-              30.h.verticalSpace,
+              30.verticalSpace,
               Wrap(
                 alignment: WrapAlignment.start,
                 crossAxisAlignment: WrapCrossAlignment.center,
@@ -95,13 +95,14 @@ class WebOnboardingScreen extends StatelessWidget {
                       Text(
                         "Mug Punter?",
                         style: regular(
-                          fontSize: context.isDesktop
-                              ? 38.sp
-                              : context.isTablet
-                              ? 50.sp
-                              : context.isBrowserMobile
-                              ? 62.sp
-                              : 48.sp,
+                          fontSize: 38,
+                          // context.isDesktop
+                          //     ? 38.sp
+                          //     : context.isTablet
+                          //     ? 50.sp
+                          //     : context.isBrowserMobile
+                          //     ? 62.sp
+                          //     : 48.sp,
 
                           height: context.isPhysicalMobile ? 1 : null,
 
@@ -111,13 +112,14 @@ class WebOnboardingScreen extends StatelessWidget {
                       Text(
                         "Become Pro with AI.",
                         style: regular(
-                          fontSize: context.isDesktop
-                              ? 38.sp
-                              : context.isTablet
-                              ? 50.sp
-                              : context.isBrowserMobile
-                              ? 62.sp
-                              : 48.sp,
+                          fontSize: 38,
+                          // context.isDesktop
+                          //     ? 38.sp
+                          //     : context.isTablet
+                          //     ? 50.sp
+                          //     : context.isBrowserMobile
+                          //     ? 62.sp
+                          //     : 48.sp,
                           fontFamily: AppFontFamily.secondary,
                           height: context.isPhysicalMobile ? 1 : null,
                           color: AppColors.premiumYellow,
@@ -127,7 +129,7 @@ class WebOnboardingScreen extends StatelessWidget {
                   ),
                 ],
               ),
-              50.h.verticalSpace,
+              50.verticalSpace,
               Wrap(
                 alignment: WrapAlignment.center,
                 crossAxisAlignment: WrapCrossAlignment.center,
@@ -156,7 +158,7 @@ class WebOnboardingScreen extends StatelessWidget {
                             ? Text(
                                 planData[index]['title'],
                                 style: regular(
-                                  fontSize: 24.sp.flexClamp(18, 26),
+                                  fontSize: 24,
                                   fontFamily: AppFontFamily.secondary,
                                 ),
                               )
@@ -167,7 +169,7 @@ class WebOnboardingScreen extends StatelessWidget {
                                     TextSpan(
                                       text: planData[index]['title'].toString(),
                                       style: regular(
-                                        fontSize: 24.sp.flexClamp(20, 26),
+                                        fontSize: 24,
                                         fontFamily: AppFontFamily.secondary,
                                         color: AppColors.primary,
                                       ),
@@ -175,7 +177,7 @@ class WebOnboardingScreen extends StatelessWidget {
                                     TextSpan(
                                       text: ' ‘Pro Punter’ ',
                                       style: regular(
-                                        fontSize: 24.sp.flexClamp(20, 26),
+                                        fontSize: 24,
                                         fontFamily: AppFontFamily.secondary,
                                         color: AppColors.premiumYellow,
                                       ),
@@ -183,7 +185,7 @@ class WebOnboardingScreen extends StatelessWidget {
                                     TextSpan(
                                       text: 'Account',
                                       style: regular(
-                                        fontSize: 24.sp.flexClamp(20, 26),
+                                        fontSize: 24,
                                         fontFamily: AppFontFamily.secondary,
                                         color: AppColors.primary,
                                       ),
@@ -202,14 +204,14 @@ class WebOnboardingScreen extends StatelessWidget {
                                 ImageWidget(
                                   type: ImageType.svg,
                                   path: item['icon'],
-                                  height: 20.w.clamp(18, 25),
+                                  height: 20,
                                 ),
                                 SizedBox(width: 10),
                                 Flexible(
                                   child: Text(
                                     item['text'],
                                     style: regular(
-                                      fontSize: 16.sp.clamp(14, 18),
+                                      fontSize: 16,
                                     ),
                                   ),
                                 ),
@@ -217,7 +219,7 @@ class WebOnboardingScreen extends StatelessWidget {
                             );
                           },
                         ),
-                        (index == 0) ? 48.w.verticalSpace : 40.w.verticalSpace,
+                        (index == 0) ? 48.verticalSpace : 40.verticalSpace,
                         planData[index]['price'].toString().isEmpty
                             ? const SizedBox()
                             : Row(
@@ -225,13 +227,13 @@ class WebOnboardingScreen extends StatelessWidget {
                                   Text(
                                     "\$ ${planData[index]['price'].toString()}",
                                     style: bold(
-                                      fontSize: 24.sp.flexClamp(20, 26),
+                                      fontSize: 24,
                                     ),
                                   ),
                                   Text(
                                     " /${planData[index]['title'].toString().toLowerCase()}",
                                     style: bold(
-                                      fontSize: 14.sp.flexClamp(12, 16),
+                                      fontSize: 14,
                                       color: AppColors.primary.setOpacity(0.6),
                                     ),
                                   ),
@@ -243,20 +245,13 @@ class WebOnboardingScreen extends StatelessWidget {
                               : "Subscribe",
                           textStyle: semiBold(
                             color: AppColors.white,
-                            fontSize: context.isDesktop
-                                ? 18.sp
-                                : context.isTablet
-                                ? 26.sp
-                                : context.isBrowserMobile
-                                ? 38.sp
-                                : 18.sp,
+                            fontSize: 16,
                           ),
                           onTap: () {
                             context
                                 .read<AuthProvider>()
                                 .clearSignUpControllers();
                             LocaleStorageService.setIsFirstTime(false);
-
                             context.pushNamed(
                               WebRoutes.signUpScreen.name,
                            
@@ -268,7 +263,7 @@ class WebOnboardingScreen extends StatelessWidget {
                   );
                 }),
               ),
-              50.w.verticalSpace,
+              50.verticalSpace,
             ],
           ),
         ),

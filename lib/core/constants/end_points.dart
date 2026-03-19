@@ -114,4 +114,9 @@ class EndPoints {
       "/chat-group/group-member-info/$groupId/";
   //* bot
   static const String bot = "/bot/chat/";
+
+  //* subscription
+  static const String initiateSubscription = "/subscription/initiate-subscription/";
+  static const String validateSubscription= "/subscription/validate-subscription/";
+
 }

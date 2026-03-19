@@ -1,5 +1,6 @@
 import 'package:puntgpt_nick/core/app_imports.dart';
 import 'package:puntgpt_nick/provider/account/account_provider.dart';
+import 'package:puntgpt_nick/provider/subscription/subscription_provider.dart';
 import 'package:puntgpt_nick/screens/account/web/widgets/subscription_plan_web.dart';
 
 class SelectedPlanSectionWeb extends StatelessWidget {
@@ -9,9 +10,11 @@ class SelectedPlanSectionWeb extends StatelessWidget {
   Widget build(BuildContext context) {
     double subscriptionBoxWidth = context.isDesktop ? 340.w : 510.w;
 
-    return Consumer<AccountProvider>(
+    return Consumer<SubscriptionProvider>(
       builder: (context, provider, child) {
         final plans = provider.plans;
+        final selectedPlan = plans.where((e) => e.id == provider.selectedPlanId).firstOrNull;
+        final accountProvider = context.read<AccountProvider>();
         return Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -28,13 +31,19 @@ class SelectedPlanSectionWeb extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       22.w.verticalSpace,
-                      //todo show current plan
-                      SubscriptionPlanWeb(
-                        plan: plans
-                            .where((e) => e.id == provider.selectedPlanId)
-                            .first,
-                        isCurrentPlan: provider.showCurrentPlan,
-                      ),
+                      if (selectedPlan != null)
+                        SubscriptionPlanWeb(
+                          plan: selectedPlan,
+                          isCurrentPlan: provider.showCurrentPlan,
+                        )
+                      else
+                        Padding(
+                          padding: EdgeInsets.all(24.w),
+                          child: Text(
+                            "No plan selected",
+                            style: regular(fontSize: 16.sp, color: AppColors.primary.withValues(alpha: 0.7)),
+                          ),
+                        ),
                       AppOutlinedButton(
                         margin: EdgeInsets.only(
                           top: context.isDesktop ? 24.w : 34.w,
@@ -52,13 +61,13 @@ class SelectedPlanSectionWeb extends StatelessWidget {
                         padding: EdgeInsets.symmetric(
                           vertical: context.isDesktop ? 12.w : 16.5.w,
                         ),
-                        child: (provider.isUpdateProfileLoading)
+                        child: accountProvider.isUpdateProfileLoading
                             ? webProgressIndicator(context)
                             : null,
                       ),
                       AppFilledButton(
                         margin: EdgeInsets.only(
-                          top: 12.w, //context.isDesktop ? 24.w : 34.w,
+                          top: 12.w,
                         ),
                         width: subscriptionBoxWidth,
                         text: "Pay & Subscribe",
@@ -70,7 +79,7 @@ class SelectedPlanSectionWeb extends StatelessWidget {
                         padding: EdgeInsets.symmetric(
                           vertical: context.isDesktop ? 12.w : 16.5.w,
                         ),
-                        child: (provider.isUpdateProfileLoading)
+                        child: accountProvider.isUpdateProfileLoading
                             ? webProgressIndicator(context)
                             : null,
                       ),
@@ -100,7 +109,7 @@ class SelectedPlanSectionWeb extends StatelessWidget {
 
   Widget topBar({
     required double twelveResponsive,
-    required AccountProvider provider,
+    required SubscriptionProvider provider,
     required BuildContext context,
   }) {
     final twentyTwoResponsive = context.isDesktop ? 22.sp : 30.sp;
