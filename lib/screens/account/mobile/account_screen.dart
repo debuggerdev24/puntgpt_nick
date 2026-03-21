@@ -3,6 +3,7 @@ import 'package:puntgpt_nick/core/constants/app_strings.dart';
 import 'package:puntgpt_nick/core/widgets/guest_create_account_sheet.dart';
 import 'package:puntgpt_nick/main.dart';
 import 'package:puntgpt_nick/provider/auth/auth_provider.dart';
+import 'package:puntgpt_nick/provider/subscription/subscription_provider.dart';
 
 class AccountScreen extends StatelessWidget {
   const AccountScreen({super.key});
@@ -67,7 +68,9 @@ class AccountScreen extends StatelessWidget {
                   children: [
                     Text(
                       "Terms & Conditions",
-                      style: bold(fontSize: (context.isBrowserMobile) ? 30.sp : 14.sp),
+                      style: bold(
+                        fontSize: (context.isBrowserMobile) ? 30.sp : 14.sp,
+                      ),
                     ),
                     Container(
                       width: 1,
@@ -77,7 +80,9 @@ class AccountScreen extends StatelessWidget {
                     ),
                     Text(
                       "AI disclaimer",
-                      style: bold(fontSize: (context.isBrowserMobile) ? 30.sp : 14.sp),
+                      style: bold(
+                        fontSize: (context.isBrowserMobile) ? 30.sp : 14.sp,
+                      ),
                     ),
                     Container(
                       width: 1,
@@ -87,7 +92,9 @@ class AccountScreen extends StatelessWidget {
                     ),
                     Text(
                       "Privacy Policy",
-                      style: bold(fontSize: (context.isBrowserMobile) ? 30.sp : 14.sp),
+                      style: bold(
+                        fontSize: (context.isBrowserMobile) ? 30.sp : 14.sp,
+                      ),
                     ),
                   ],
                 ),
@@ -121,7 +128,10 @@ class AccountScreen extends StatelessWidget {
             backgroundColor: AppColors.white,
             title: Text(
               "Are you sure you want to Log Out?",
-              style: regular(color: AppColors.black, fontSize: context.isBrowserMobile ? 65.sp : 19.sp),
+              style: regular(
+                color: AppColors.black,
+                fontSize: context.isBrowserMobile ? 65.sp : 19.sp,
+              ),
             ),
             actions: [
               myActionButtonTheme(
@@ -133,6 +143,10 @@ class AccountScreen extends StatelessWidget {
                         context: context,
                         message: "Log Out Successfully",
                       );
+                      context
+                          .read<SubscriptionProvider>()
+                          .activeSubscriptions
+                          .clear();
                       context.goNamed(AppRoutes.onboardingScreen.name);
                     },
                     onFailed: (error) {
@@ -209,7 +223,7 @@ class AccountScreen extends StatelessWidget {
       children: [
         Padding(
           padding: EdgeInsets.fromLTRB(4.w, 4.w, 25.w, 6.w),
-          
+
           //padding: EdgeInsets.fromLTRB(5.w, 8.w, 25.w, 10.w),
           child: Row(
             children: [

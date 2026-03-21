@@ -34,10 +34,9 @@ class _SavedSearchScreenState extends State<SavedSearchScreen> {
 
   Widget _buildTopBar(BuildContext context, {required bool isSubscribed}) {
     return Padding(
-      padding: EdgeInsets.fromLTRB(2.w, 6.w, 0.w, 6.w),
-
+      padding: EdgeInsets.fromLTRB(4.w, 4.w, 0.w, 4.w),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
+        // crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           IconButton(
             padding: EdgeInsets.zero,
@@ -217,13 +216,16 @@ class _SavedSearchScreenState extends State<SavedSearchScreen> {
               Container(
                 padding: EdgeInsets.all(10.w),
                 decoration: BoxDecoration(
-                  color: AppColors.premiumYellow.withValues(alpha: 0.15),
+                  color: AppColors.primary.withValues(alpha: 0.08),
                   shape: BoxShape.circle,
+                  border: Border.all(
+                    color: AppColors.primary.withValues(alpha: 0.12),
+                  ),
                 ),
                 child: Icon(
                   Icons.workspace_premium_rounded,
                   size: 24.sp,
-                  color: AppColors.premiumYellow,
+                  color: AppColors.primary,
                 ),
               ),
               12.w.horizontalSpace,
@@ -264,7 +266,7 @@ class _SavedSearchScreenState extends State<SavedSearchScreen> {
                 fontSize: (context.isBrowserMobile) ? 24.sp : 14.sp,
                 color: AppColors.white,
               ),
-              color: AppColors.premiumYellow,
+              color: AppColors.primary,
               padding: EdgeInsets.symmetric(vertical: 12.h),
             ),
           ),

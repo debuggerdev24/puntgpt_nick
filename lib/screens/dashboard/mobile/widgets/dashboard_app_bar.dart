@@ -18,9 +18,8 @@ class _DashboardAppBarState extends State<DashboardAppBar> {
       width: double.maxFinite,
       padding: EdgeInsets.symmetric(
         horizontal: (context.isBrowserMobile) ? 40.w : 16.w,
-        vertical: 8.h,
+        vertical: 8.w,
       ),
-
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [_appLogo(), _bannerAd(), _tipSlip()],
@@ -56,7 +55,7 @@ class _DashboardAppBarState extends State<DashboardAppBar> {
             color: AppColors.white,
           ),
         ),
-        if (!context.read<SubscriptionProvider>().isSubscribed) ...[
+        if (context.read<SubscriptionProvider>().isSubscribed) ...[
           Text(
             textAlign: TextAlign.center,
             "Pro",

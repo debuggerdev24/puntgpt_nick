@@ -145,7 +145,7 @@ class SelectedMeetingScreen extends StatelessWidget {
               alignment: Alignment.bottomRight,
               child: Padding(
                 padding: EdgeInsets.only(bottom: 25.h, right: 25.w),
-                child: askPuntGPTButton(context),
+                child: askPuntGPTButton(context: context),
               ),
             ),
             Consumer<SearchEngineProvider>(

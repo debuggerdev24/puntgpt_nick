@@ -147,7 +147,7 @@ class _RunnersListScreenState extends State<RunnersListScreen> {
                                   right: 25.w,
                                   bottom: 30.h,
                                 ),
-                                child: askPuntGPTButton(context),
+                                child: askPuntGPTButton(context: context),
                               ),
                             ),
                           ],

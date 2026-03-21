@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:puntgpt_nick/core/app_imports.dart';
+import 'package:puntgpt_nick/main.dart';
 import 'package:puntgpt_nick/services/auth/auth_api_service.dart';
 import 'package:puntgpt_nick/services/storage/locale_storage_service.dart';
 
@@ -14,8 +15,6 @@ class AuthProvider extends ChangeNotifier {
       passwordCtr = TextEditingController(),
       confirmPasswordCtr = TextEditingController(),
       dobCtr = TextEditingController(),
-      loginEmailCtr = TextEditingController(),
-      loginPasswordCtr = TextEditingController(),
       forgotPasswordCtr = TextEditingController(text: "test@gmail.com"),
       newPasswordCtr = TextEditingController(),
       resetConfirmPasswordCtr = TextEditingController(),
@@ -127,61 +126,69 @@ class AuthProvider extends ChangeNotifier {
       (l) {
         Logger.error(l.apiErrorMsg!);
       },
-      (r) {
+      (r) async {
+        // context.pushNamed(
+        //   (kIsWeb) ? WebRoutes.logInScreen.name : AppRoutes.loginScreen.name,
+        // );
+
+        await login(context: context, showLoginToast: false);
         AppToast.success(context: context, message: "Register Successfully.");
-        context.pushNamed(
-          (kIsWeb) ? WebRoutes.logInScreen.name : AppRoutes.loginScreen.name,
-        );
 
         clearSignUpControllers();
         clearLoginControllers();
+        isSignUpLoading = false;
+        notifyListeners();
       },
     );
-    isSignUpLoading = false;
-    notifyListeners();
   }
 
   //todo user login
   bool isLoginLoading = false;
-  Future<void> loginUser({required BuildContext context}) async {
+  Future<void> login({
+    required BuildContext context,
+    bool? showLoginToast = true,
+  }) async {
     isLoginLoading = true;
     notifyListeners();
 
     final result = await AuthApiService.instance.loginWithEmailPassword(
-      email: loginEmailCtr.text.trim(),
-      password: loginPasswordCtr.text.trim(),
+      email: emailCtr.text.trim(),
+      password: passwordCtr.text.trim(),
     );
 
     result.fold(
       (l) {
         Logger.error(l.apiErrorMsg ?? l.errorMsg);
-        AppToast.error(
-          context: context,
-          message: l.errorMsg.isNotEmpty ? l.errorMsg : "Login failed. Please try again.",
-        );
+        AppToast.error(context: context, message: l.errorMsg);
       },
       (r) async {
         final data = r["data"];
-        AppToast.success(
-          context: context,
-          message: "Login Successfully.",
-          duration: 4.seconds,
-        );
+        if (showLoginToast == true) {
+          AppToast.success(
+            context: context,
+            message: "Login Successfully.",
+            duration: 4.seconds,
+          );
+        }
+
         await LocaleStorageService.saveUserToken(data["access"]);
         await LocaleStorageService.saveUserRefreshToken(data["refresh"]);
-        await LocaleStorageService.saveUserId(int.parse(data["user_id"].toString()));
+        await LocaleStorageService.saveUserId(
+          int.parse(data["user_id"].toString()),
+        );
         await LocaleStorageService.setIsUserLoggedIn();
         await LocaleStorageService.setLoggedInUserEmail(
-          loginEmailCtr.text.trim(),
+          emailCtr.text.trim(),
         );
         await LocaleStorageService.setLoggedInUserPassword(
-          loginPasswordCtr.text.trim(),
+          passwordCtr.text.trim(),
         );
 
         if (context.mounted) {
           context.goNamed(
             (kIsWeb) ? WebRoutes.homeScreen.name : AppRoutes.homeScreen.name,
           );
+          isGuest = false;
         }
         clearLoginControllers();
       },
@@ -356,6 +363,7 @@ class AuthProvider extends ChangeNotifier {
       (r) {
         LocaleStorageService.removeAccessToken();
         LocaleStorageService.removeRefreshToken();
+
         onSuccess.call();
       },
     );
@@ -382,7 +390,7 @@ class AuthProvider extends ChangeNotifier {
   }
 
   void clearLoginControllers() {
-    loginEmailCtr.clear();
-    loginPasswordCtr.clear();
+    emailCtr.clear();
+    passwordCtr.clear();
   }
 }

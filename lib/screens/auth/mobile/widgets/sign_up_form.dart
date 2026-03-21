@@ -90,18 +90,16 @@ class SignUpForm extends StatelessWidget {
               ),
               AppTextField(
                 controller: provider.postCodeCtr,
-                
                 keyboardType: TextInputType.number,
                 inputFormatter: [
                   FilteringTextInputFormatter.digitsOnly,
+                  LengthLimitingTextInputFormatter(4),
                 ],
                 hintText: "Post Code",
                 validator: (value) {
                   final r = FieldValidators().required(value, "Post Code");
                   if (r != null) return r;
-                  final min = FieldValidators().minLength(value, 3);
-                  if (min != null) return min;
-                  return FieldValidators().maxLength(value, 10);
+                  return FieldValidators().lengthValidator(value, 4);
                 },
               ),
               PhoneCountryField(provider: provider),

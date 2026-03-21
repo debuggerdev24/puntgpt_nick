@@ -306,10 +306,10 @@ class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
       children: [
         Padding(
           padding: EdgeInsets.fromLTRB(
-            5.w,
-            9.w,
+            4.w,
+            4.w,
             (!provider.isEdit) ? 25.w : 8.w,
-            10.w,
+            6.w,
           ),
           child: Row(
             children: [

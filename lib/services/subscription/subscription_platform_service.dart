@@ -69,6 +69,11 @@ class SubscriptionService {
     }
   }
 
+  //* RESTORE (CALLED BY PROVIDER) — replays past purchases for this user.
+  Future<void> restorePurchases() async {
+    await _iap.restorePurchases();
+  }
+
   //* BUY (CALLED BY PROVIDER)
   Future<bool> buy({
     required SubscriptionEnum tier,

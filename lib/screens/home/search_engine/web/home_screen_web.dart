@@ -140,7 +140,7 @@ class _HomeScreenWebState extends State<HomeScreenWeb> {
                             crossAxisAlignment: CrossAxisAlignment.end,
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              askPuntGPTButton(context),
+                              askPuntGPTButton(context: context),
                               10.verticalSpace,
                               IntrinsicWidth(
                                 child: AppFilledButton(
@@ -190,7 +190,7 @@ class _HomeScreenWebState extends State<HomeScreenWeb> {
                     RaceTable(),
                     Align(
                       alignment: AlignmentGeometry.bottomRight,
-                      child: askPuntGPTButton(context),
+                      child: askPuntGPTButton(context: context),
                     ),
                     25.h.verticalSpace,
                   ],

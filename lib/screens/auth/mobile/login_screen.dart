@@ -51,16 +51,16 @@ class LoginScreen extends StatelessWidget {
                       Form(
                         key: formKey,
                         child: Column(
-                          spacing: 8.h,
+                          spacing: 8.w,
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             AppTextField(
-                              controller: provider.loginEmailCtr,
+                              controller: provider.emailCtr,
                               hintText: "Email",
                               validator: FieldValidators().email,
                             ),
                             AppTextField(
-                              controller: provider.loginPasswordCtr,
+                              controller: provider.passwordCtr,
                               hintText: "Password",
                               obscureText: provider.showLoginPass,
                               validator: FieldValidators().password,
@@ -72,7 +72,7 @@ class LoginScreen extends StatelessWidget {
                               onSubmit: () async {
                                 if (formKey.currentState!.validate()) {
                                   // context.go(AppRoutes.home);
-                                   provider.loginUser(context: context);
+                                   provider.login(context: context);
                                 }
                               },
                             ),
@@ -100,7 +100,7 @@ class LoginScreen extends StatelessWidget {
                         onTap: () async {
                           if (formKey.currentState!.validate()) {
                             // context.go(AppRoutes.home);
-                            await provider.loginUser(context: context);
+                            await provider.login(context: context);
                           }
                         },
                       ),

@@ -19,6 +19,14 @@ class SelectedPlanScreen extends StatelessWidget {
             SubscriptionPlanMobile(plan: plan),
             Spacer(),
             AppFilledButton(
+              text: "restore",
+              margin: EdgeInsets.symmetric(horizontal: 25.w, vertical: 12.w),
+
+              onTap: () {
+                _onRestore(context: context, plan: plan);
+              },
+            ),
+            AppFilledButton(
               text: "Pay & Subscribe",
               onTap: () => _onPayAndSubscribe(context: context, plan: plan),
               margin: EdgeInsets.symmetric(horizontal: 25.w, vertical: 12.w),
@@ -35,6 +43,14 @@ class SelectedPlanScreen extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  Future<void> _onRestore({
+    required BuildContext context,
+    required SubscriptionPlanModel plan,
+  }) async {
+    final subscriptionProvider = context.read<SubscriptionProvider>();
+    await subscriptionProvider.restore(context: context);
   }
 
   Widget topBar({required BuildContext context, required String planName}) {

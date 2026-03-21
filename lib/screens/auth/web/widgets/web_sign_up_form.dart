@@ -130,13 +130,16 @@ class WebSignUpForm extends StatelessWidget {
                       AppTextField(
                         controller: provider.postCodeCtr,
                         hintText: "Post Code",
+                        keyboardType: TextInputType.number,
+                        inputFormatter: [
+                          FilteringTextInputFormatter.digitsOnly,
+                          LengthLimitingTextInputFormatter(4),
+                        ],
                         validator: (value) {
                           final r =
                               FieldValidators().required(value, "Post Code");
                           if (r != null) return r;
-                          final min = FieldValidators().minLength(value, 3);
-                          if (min != null) return min;
-                          return FieldValidators().maxLength(value, 10);
+                          return FieldValidators().lengthValidator(value, 4);
                         },
                         hintStyle: medium(
                           fontSize: (context.isBrowserMobile) ? 28.sp : 16.sp,
@@ -327,6 +330,11 @@ class WebSignUpForm extends StatelessWidget {
                               child: AppTextField(
                                 controller: provider.postCodeCtr,
                                 hintText: "Post Code",
+                                keyboardType: TextInputType.number,
+                                inputFormatter: [
+                                  FilteringTextInputFormatter.digitsOnly,
+                                  LengthLimitingTextInputFormatter(4),
+                                ],
                                 hintStyle: medium(
                                   fontSize: (Responsive.isTablet(context))
                                       ? 22.sp
@@ -337,10 +345,10 @@ class WebSignUpForm extends StatelessWidget {
                                   final r = FieldValidators()
                                       .required(value, "Post Code");
                                   if (r != null) return r;
-                                  final min =
-                                      FieldValidators().minLength(value, 3);
-                                  if (min != null) return min;
-                                  return FieldValidators().maxLength(value, 10);
+                                  return FieldValidators().lengthValidator(
+                                    value,
+                                    4,
+                                  );
                                 },
                               ),
                             ),

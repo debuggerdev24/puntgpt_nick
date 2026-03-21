@@ -452,11 +452,10 @@ class TipSlipScreen extends StatelessWidget {
 
   Widget topBar(BuildContext context) {
     return Column(
-      children: [
+      children:[
         Padding(
           padding: EdgeInsets.fromLTRB(5.w, 6.w, 25.w, 8.w),
-
-          // padding: EdgeInsets.symmetric(vertical: 12.w, horizontal: 25.w),
+          
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             // spacing: 14.w,
@@ -487,8 +486,7 @@ class TipSlipScreen extends StatelessWidget {
                   ),
                 ],
               ),
-
-              25.h.verticalSpace,
+              25.w.verticalSpace,
             ],
           ),
         ),

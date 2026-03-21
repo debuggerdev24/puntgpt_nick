@@ -80,7 +80,7 @@ class WebLoginScreen extends StatelessWidget {
                             ),
                             60.h.verticalSpace,
                             AppTextField(
-                              controller: provider.loginEmailCtr,
+                              controller: provider.emailCtr,
                               validator: FieldValidators().email,
                               hintText: "Email",
                               // hintStyle: medium(
@@ -95,14 +95,14 @@ class WebLoginScreen extends StatelessWidget {
                               // ),
                               onSubmit: () {
                                 if (formKey.currentState!.validate()) {
-                                  provider.loginUser(context: context);
+                                  provider.login(context: context);
                                   return;
                                 }
                               },
                             ),
                             16.h.verticalSpace,
                             AppTextField(
-                              controller: provider.loginPasswordCtr,
+                              controller: provider.passwordCtr,
                               hintText: "Password",
                               validator: (value) {
                                 return FieldValidators().required(
@@ -112,7 +112,7 @@ class WebLoginScreen extends StatelessWidget {
                               },
                               onSubmit: () {
                                 if (formKey.currentState!.validate()) {
-                                  provider.loginUser(context: context);
+                                  provider.login(context: context);
                                   return;
                                 }
                               },
@@ -154,7 +154,7 @@ class WebLoginScreen extends StatelessWidget {
                               text: "Login",
                               onTap: () {
                                 if (formKey.currentState!.validate()) {
-                                  provider.loginUser(context: context);
+                                  provider.login(context: context);
                                 }
                               },
                               textStyle: semiBold(

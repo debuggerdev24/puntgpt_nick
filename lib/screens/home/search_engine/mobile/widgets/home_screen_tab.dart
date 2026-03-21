@@ -1,5 +1,7 @@
 import 'package:puntgpt_nick/core/app_imports.dart';
+import 'package:puntgpt_nick/provider/home/classic_form/classic_form_provider.dart';
 import 'package:puntgpt_nick/provider/home/search_engine/search_engine_provider.dart';
+
 class HomeScreenTab extends StatelessWidget {
   const HomeScreenTab({super.key, required this.selectedIndex, this.onTap});
 
@@ -42,10 +44,14 @@ class HomeScreenTab extends StatelessWidget {
   }) {
     return OnMouseTap(
       onTap: () {
-        context.read<SearchEngineProvider>().changeTab = index;
-        // if (index == 1) {
-        //   context.read<ClassicFormGuideProvider>().getClassicFormGuide();
-        // }
+        final provider = context.read<SearchEngineProvider>();
+        provider.changeTab = index;
+        if (index == 1) {
+          final classicFormProvider = context.read<ClassicFormProvider>();
+          classicFormProvider.getClassicFormGuide();
+          classicFormProvider.getNextToGo();
+
+        }
         if (onTap != null && index == 0) {
           onTap!.call();
         }
