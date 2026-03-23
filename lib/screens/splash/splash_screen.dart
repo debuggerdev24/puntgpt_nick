@@ -55,25 +55,16 @@ class _SplashScreenState extends State<SplashScreen> {
             (l) async {
               if (l.errorMsg.startsWith("Unauthorized") &&
                   l.code.toString() == "401") {
-                // AppToast.error(
-                //   context: context,
-                //   message: "Access token is expired",
-                // );
+              
                 Logger.info("Access token is expired");
-                Logger.info(
-                  "Refresh token : ${LocaleStorageService.refreshToken}",
-                );
+                Logger.info("Refresh token : ${LocaleStorageService.refreshToken}",);
                 final result = await AuthApiService.instance.refreshToken();
 
                 result.fold(
                   (e) async {
                     Logger.error((e.code.toString() == "401").toString());
                     if (e.code.toString() == "401" ||
-                        e.code.toString() == "400") {
-                      // AppToast.error(
-                      //   context: context,
-                      //   message: "Refresh token is expired",
-                      // );
+                        e.code.toString() == "400") {                      
                       Logger.info("Refresh token is expired");
                       await LocaleStorageService.removeRefreshToken();
                       await LocaleStorageService.removeAccessToken();
@@ -83,7 +74,6 @@ class _SplashScreenState extends State<SplashScreen> {
                   },
                   (r) {
                     final newToken = r["access"];
-
                     LocaleStorageService.saveUserToken(newToken);
                     context.goNamed(AppRoutes.homeScreen.name);
                   },

@@ -8,17 +8,25 @@ import 'package:puntgpt_nick/provider/subscription/subscription_provider.dart';
 class AppStartupCoordinator {
   AppStartupCoordinator._();
 
-  static Future<void> run({required BuildContext context}) async {
+  static Future<void> run({
+    required BuildContext context,
+    bool? callRestore,
+  }) async {
     final accountProvider = context.read<AccountProvider>();
     final searchEngineProvider = context.read<SearchEngineProvider>();
     final puntClubProvider = context.read<PuntClubProvider>();
     final subsProvider = context.read<SubscriptionProvider>();
 
-    // IAP listener must run before restore; plans must load before productId → planId mapping.
+    //* IAP listener must run before restore; plans must load before productId → planId mapping.
     await subsProvider.initialize(context: context);
     await subsProvider.getSubscriptionPlans();
-    if (!isGuest) {
-      await subsProvider.restorePurchasesAtStartup(context: context);
+
+    if (!isGuest && (callRestore ?? true)) {
+    final hasActiveSubscription = await subsProvider.getCurrentSubscription();
+
+      if (!hasActiveSubscription) {
+        await subsProvider.restorePurchasesAtStartup(context: context);
+      }
     }
 
     final futures = <Future<dynamic>>[

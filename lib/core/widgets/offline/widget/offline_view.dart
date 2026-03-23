@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:puntgpt_nick/core/app_imports.dart';
 import 'package:puntgpt_nick/core/widgets/offline/mobile_offline_view.dart';
 

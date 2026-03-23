@@ -11,12 +11,12 @@ class SubscriptionService {
   static const Map<SubscriptionEnum, String> productIds = {
     SubscriptionEnum.monthlyPlan: "com.puntgpt.propunter.monthly",
     SubscriptionEnum.annualPlan: "com.puntgpt.propunter.yearly",
-    // AppEnum.yearlyPlan: "mock.tier3.monthly",
+    SubscriptionEnum.lifeTimePlan: "com.puntgpt.propunter.lifetime",
   };  
 
   List<ProductDetails> _products = [];
 
-  /// Purchase stream for the provider to listen to.
+  //* Purchase stream for the provider to listen to.
   Stream<List<PurchaseDetails>> get purchaseStream => _iap.purchaseStream;
 
   // ---------------------------------------------------------------------------
@@ -35,7 +35,7 @@ class SubscriptionService {
     await loadProducts(context: context);
   }
 
-  /// Maps a store product ID to [SubscriptionEnum]. Used by the provider when handling purchases.
+  //* Maps a store product ID to [SubscriptionEnum]. Used by the provider when handling purchases.
   SubscriptionEnum? getTierFromProductId(String productId) {
     try {
       return productIds.entries.firstWhere((e) => e.value == productId).key;
@@ -44,7 +44,7 @@ class SubscriptionService {
     }
   }
 
-  /// Completes a purchase on the store. Call from provider after handling the purchase.
+  //* Completes a purchase on the store. Call from provider after handling the purchase.
   void completePurchase(PurchaseDetails purchase) {
     _iap.completePurchase(purchase);
   }

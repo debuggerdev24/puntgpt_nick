@@ -5,6 +5,7 @@ import 'package:puntgpt_nick/screens/dashboard/mobile/widgets/dashboard_app_bar.
 import 'package:puntgpt_nick/core/widgets/offline/widget/offline_view.dart';
 import 'package:puntgpt_nick/services/app_startup/app_startup_coordinator.dart';
 
+// ignore: library_private_types_in_public_api
 final GlobalKey<_DashboardState> dashboardKey = GlobalKey<_DashboardState>();
 ValueNotifier<int> indexOfTab = ValueNotifier(0);
 

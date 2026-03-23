@@ -30,13 +30,14 @@ class SubscriptionProvider extends ChangeNotifier {
   Timer? _restoreIdleTimer;
   bool _restoreStreamEmitted = false;
 
-  /// When true, [initiateSubscription] does not toggle [isSubscriptionProcessing] (used during startup restore).
+  //* When true, [initiateSubscription] does not toggle [isSubscriptionProcessing] (used during startup restore).
   bool _silentSubscriptionFlow = false;
 
   List<SubscriptionPlanModel> plans = [];
   int selectedPlanId = 0;
-  bool _isShowCurrentPlan = false;
-  bool _isShowSelectedPlan = false;
+  bool _isShowCurrentPlan = false,
+      _isShowSelectedPlan = false,
+      _showPurchaseSuccessToast = true;
 
   bool get showCurrentPlan => _isShowCurrentPlan;
   bool get showSelectedPlan => _isShowSelectedPlan;
@@ -52,12 +53,14 @@ class SubscriptionProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  /*
   bool get isMonthlyPlanSubscribed =>
       _activeSubscriptions.contains(SubscriptionEnum.monthlyPlan);
   bool get isAnnualPlanSubscribed =>
       _activeSubscriptions.contains(SubscriptionEnum.annualPlan);
   bool get isLifeTimePlanSubscribed =>
       _activeSubscriptions.contains(SubscriptionEnum.lifeTimePlan);
+  */
   bool get isSubscribed => _activeSubscriptions.isNotEmpty;
 
   Set<SubscriptionEnum> get activeSubscriptions => {..._activeSubscriptions};
@@ -121,37 +124,40 @@ class SubscriptionProvider extends ChangeNotifier {
     }
   }
 
+  //* Purchased purchase
   void _handlePurchaseStatusPurchased(PurchaseDetails purchase) {
     _processSuccessfulPurchase(purchase);
   }
 
+  //* Restored purchase
   void _handlePurchaseStatusRestored(PurchaseDetails purchase) {
+    Logger.info("Purchase restored: ${purchase.productID}");
     final planId = planIdFromProductId(purchase.productID);
     if (planId != null) {
+      _showPurchaseSuccessToast = false;
       initiateSubscription(
         planId: planId,
         silent: _silentSubscriptionFlow,
         onSuccess: () => _processSuccessfulPurchase(purchase),
         onFailed: (error) {
           Logger.error("initiateSubscription on restore failed: $error");
-          _processSuccessfulPurchase(purchase);
         },
       );
-    } else {
-      _processSuccessfulPurchase(purchase);
     }
   }
 
-  /// Called after [getSubscriptionPlans] so [planByProductId] works. No loading overlay / toasts.
-  Future<void> restorePurchasesAtStartup({required BuildContext context}) async {
+  //* Called after getSubscriptionPlans so [planByProductId] works. No loading overlay / toasts.
+  Future<void> restorePurchasesAtStartup({
+    required BuildContext context,
+  }) async {
     if (isGuest) return;
     try {
       _silentSubscriptionFlow = true;
+      // _showPurchaseSuccessToast = false;
       Logger.info("restorePurchasesAtStartup: querying store");
       await SubscriptionService.instance.restorePurchases();
-      await Future<void>.delayed(const Duration(milliseconds: 2500));
     } catch (e, st) {
-      Logger.error("restorePurchasesAtStartup: $e\n$st");
+      Logger.error("restorePurchasesAtStartup : $e\n$st");
     } finally {
       _silentSubscriptionFlow = false;
     }
@@ -170,13 +176,12 @@ class SubscriptionProvider extends ChangeNotifier {
 
   //* Triggers store restore; purchases arrive on [purchaseStream] and are handled like new purchases.
   Future<void> restore({required BuildContext context}) async {
-    Logger.info("Restoring purchases");
     _restoreIdleTimer?.cancel();
     _restoreStreamEmitted = false;
     setSubscriptionProcessStatus(status: true);
     notifyListeners();
 
-    _restoreIdleTimer = Timer(const Duration(seconds: 4), () {
+    _restoreIdleTimer = Timer(const Duration(seconds: 3), () {
       if (!_restoreStreamEmitted) {
         final ctx = AppRouter.rootNavigatorKey.currentContext;
         if (ctx != null && ctx.mounted) {
@@ -224,7 +229,6 @@ class SubscriptionProvider extends ChangeNotifier {
       switch (Platform.operatingSystem) {
         case "android":
           //* Android localVerificationData is a JSON string.
-
           try {
             final decoded = jsonDecode(localData);
             Logger.info("Decode data : $decoded");
@@ -257,6 +261,7 @@ class SubscriptionProvider extends ChangeNotifier {
         _ => '',
       };
 
+      //* Validate the subscription in the backend
       validateSubscription(token: tokenForValidation);
 
       if (purchase.pendingCompletePurchase) {
@@ -269,14 +274,12 @@ class SubscriptionProvider extends ChangeNotifier {
       setSubscriptionProcessStatus(status: false);
       _restoreIdleTimer?.cancel();
       _restoreIdleTimer = null;
-      final ctx = AppRouter.rootNavigatorKey.currentContext;
-      if (ctx != null && ctx.mounted) {
-        AppToast.error(
-          context: ctx,
-          message:
-              "This purchase doesn’t match the app’s product IDs (${purchase.productID}). Check Play Console / App Store Connect.",
-        );
-      }
+      // final ctx = AppRouter.rootNavigatorKey.currentContext;
+      // if (ctx != null && ctx.mounted) {
+      //   Logger.error(
+      //         "This purchase doesn’t match the app’s product IDs (${purchase.productID}). Check Play Console / App Store Connect.",
+      //   );
+      // }
       notifyListeners();
     }
   }
@@ -296,7 +299,7 @@ class SubscriptionProvider extends ChangeNotifier {
   }
 
   void _handlePurchaseStatusPending(PurchaseDetails purchase) {
-    // Purchase still processing; no action until status updates.
+    //* Purchase still processing; no action until status updates.
   }
 
   //*------------- Subscriptions APIs functions --------------------------------
@@ -309,18 +312,15 @@ class SubscriptionProvider extends ChangeNotifier {
       (r) {
         final data = r["data"] as List;
         plans = data.map((e) => SubscriptionPlanModel.fromJson(e)).toList();
-        if (!isGuest) {
-          getCurrentSubscription();
-        }
         notifyListeners();
       },
     );
   }
 
-  Future<void> getCurrentSubscription() async {
+  Future<bool> getCurrentSubscription() async {
     currentPlan = null;
-    final result = await SubscriptionApiService.instance
-        .getCurrentSubscription();
+    bool hasActiveSubscription = false;
+    final result = await SubscriptionApiService.instance.getCurrentSubscription();
     result.fold(
       (l) {
         Logger.error(l.errorMsg);
@@ -328,20 +328,22 @@ class SubscriptionProvider extends ChangeNotifier {
       (r) {
         final data = r["data"];
         if (data is Map && data["product_id"] != null) {
+          hasActiveSubscription = true;
           final plan = _planById(data["plan_id"]);
           final tier = SubscriptionService.instance.getTierFromProductId(
             data["product_id"] as String,
           );
-          Logger.info("Tier: $tier");
           if (plan != null && tier != null) {
             currentPlan = plan;
-            Logger.info("Current Plan: $currentPlan");
             addSubscription(tier);
             notifyListeners();
           }
+        } else {
+          Logger.error("Current subscription not found");
         }
       },
     );
+    return hasActiveSubscription;
   }
 
   SubscriptionPlanModel? _planById(dynamic id) {
@@ -363,8 +365,7 @@ class SubscriptionProvider extends ChangeNotifier {
   }
 
   //* Backend `plan_id` for APIs such as [initiateSubscription].
-  int? planIdFromProductId(String productId) =>
-      planByProductId(productId)?.id;
+  int? planIdFromProductId(String productId) => planByProductId(productId)?.id;
 
   //* Build context for startup.
   BuildContext? _shellContextForStartup() {
@@ -385,20 +386,21 @@ class SubscriptionProvider extends ChangeNotifier {
     final Map<String, dynamic> dataMap = data is Map<String, dynamic>
         ? data
         : <String, dynamic>{};
-
     final hasShell = kIsWeb
         ? WebRouter.indexedStackNavigationShell != null
         : AppRouter.indexedStackNavigationShell != null;
 
     if (hasShell) {
+      //* If the shell is available, navigate to the home screen.
       if (kIsWeb) {
-        // Web [WebRouter] shell: index 2 = home / search (0=bookies, 1=punter club).
+        //* Web [WebRouter] shell: index 2 = home / search (0=bookies, 1=punter club).
         indexOfWebTab.value = 2;
         WebRouter.indexedStackNavigationShell?.goBranch(
           2,
           initialLocation: true,
         );
       } else {
+        //* Mobile [AppRouter] shell: index 0 = home.
         indexOfTab.value = 0;
         AppRouter.indexedStackNavigationShell?.goBranch(
           0,
@@ -406,6 +408,7 @@ class SubscriptionProvider extends ChangeNotifier {
         );
       }
     } else {
+      //* If the shell is not available, navigate to the home screen.
       final rootKey = kIsWeb
           ? WebRouter.rootNavigatorKey
           : AppRouter.rootNavigatorKey;
@@ -421,30 +424,34 @@ class SubscriptionProvider extends ChangeNotifier {
       final ctx = _shellContextForStartup();
       if (ctx == null || !ctx.mounted) return;
 
-      try {
-        await AppStartupCoordinator.run(context: ctx);
-      } catch (e, st) {
-        Logger.error('AppStartupCoordinator.run failed: $e\n$st');
-      }
+      await AppStartupCoordinator.run(context: ctx,callRestore: false);
 
       if (!ctx.mounted) return;
 
+      if(_showPurchaseSuccessToast){
       AppToast.success(
-        context: ctx,
-        message: '${dataMap["plan"]} subscribed successfully',
-      );
+          context: ctx,
+          message: '${dataMap["plan"]} subscribed successfully.',
+        );
+      }
+      _showPurchaseSuccessToast = true;
     });
     setSubscriptionProcessStatus(status: false);
   }
 
-  //*Initiate a subscription
+  //* Initiate a subscription
   Future<void> initiateSubscription({
     required int planId,
     Function(String error)? onFailed,
     VoidCallback? onSuccess,
     bool silent = false,
   }) async {
-    if (!silent) setSubscriptionProcessStatus(status: true);
+    if (!silent) {
+      setSubscriptionProcessStatus(status: true);
+    } else {
+      Logger.info("Subscription restored successfully.");
+    }
+
     final data = {
       "target_plan_id": planId,
       "platform": Platform.isAndroid ? "android" : "ios",
@@ -456,12 +463,11 @@ class SubscriptionProvider extends ChangeNotifier {
       (l) {
         final msg = l.errorMsg.toLowerCase();
         if (msg.contains("already subscribed")) {
-          onSuccess?.call();
-        } else {
-          if (!silent) setSubscriptionProcessStatus(status: false);
           onFailed?.call(l.errorMsg);
+        } else {
           Logger.error(l.errorMsg);
         }
+        if (!silent) setSubscriptionProcessStatus(status: false);
       },
       (r) {
         onSuccess?.call();
@@ -475,14 +481,13 @@ class SubscriptionProvider extends ChangeNotifier {
       setSubscriptionProcessStatus(status: false);
       _restoreIdleTimer?.cancel();
       _restoreIdleTimer = null;
-      final ctx = AppRouter.rootNavigatorKey.currentContext;
-      if (ctx != null && ctx.mounted) {
-        AppToast.error(
-          context: ctx,
-          message:
-              "Could not read a valid purchase token from the store. Try again or use Pay & Subscribe.",
-        );
-      }
+      // final ctx = AppRouter.rootNavigatorKey.currentContext;
+      // if (ctx != null && ctx.mounted) {
+      //   AppToast.error(
+      //     context: ctx,
+      //     message:"Could not read a valid purchase token from the store. Try again or use Pay & Subscribe.",
+      //   );
+      // }
       notifyListeners();
       return;
     }
@@ -506,9 +511,9 @@ class SubscriptionProvider extends ChangeNotifier {
         setSubscriptionProcessStatus(status: false);
         _restoreIdleTimer?.cancel();
         _restoreIdleTimer = null;
-        final ctx = AppRouter.rootNavigatorKey.currentContext;
+        // final ctx = AppRouter.rootNavigatorKey.currentContext;
         // if (ctx != null && ctx.mounted) {
-          // AppToast.error(context: ctx, message: l.errorMsg);
+        // AppToast.error(context: ctx, message: l.errorMsg);
         // }
         notifyListeners();
       },

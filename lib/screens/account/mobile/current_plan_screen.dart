@@ -26,23 +26,23 @@ class CurrentPlanScreen extends StatelessWidget {
                 ),
               ),
               Spacer(),
-              AppFilledButton(
-                margin: EdgeInsets.only(bottom: 10.h, left: 25.w, right: 25.w),
-                text: "Renew",
-                textStyle: semiBold(
-                  fontSize: (context.isBrowserMobile) ? 30.sp : 18.sp,
-                  color: AppColors.white,
-                ),
-                onTap: () {},
-              ),
-              AppOutlinedButton(
-                margin: EdgeInsets.only(bottom: 10.h, left: 25.w, right: 25.w),
-                text: "Change Plan",
-                textStyle: semiBold(
-                  fontSize: (context.isBrowserMobile) ? 30.sp : 18.sp,
-                ),
-                onTap: () {},
-              ),
+              // AppFilledButton(
+              //   margin: EdgeInsets.only(bottom: 10.h, left: 25.w, right: 25.w),
+              //   text: "Renew",
+              //   textStyle: semiBold(
+              //     fontSize: (context.isBrowserMobile) ? 30.sp : 18.sp,
+              //     color: AppColors.white,
+              //   ),
+              //   onTap: () {},
+              // ),
+              // AppOutlinedButton(
+              //   margin: EdgeInsets.only(bottom: 10.h, left: 25.w, right: 25.w),
+              //   text: "Change Plan",
+              //   textStyle: semiBold(
+              //     fontSize: (context.isBrowserMobile) ? 30.sp : 18.sp,
+              //   ),
+              //   onTap: () {},
+              // ),
               AppOutlinedButton(
                 margin: EdgeInsets.only(bottom: 25.h, left: 25.w, right: 25.w),
                 text: "Cancel",

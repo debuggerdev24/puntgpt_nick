@@ -21,7 +21,6 @@ class SelectedPlanScreen extends StatelessWidget {
             AppFilledButton(
               text: "restore",
               margin: EdgeInsets.symmetric(horizontal: 25.w, vertical: 12.w),
-
               onTap: () {
                 _onRestore(context: context, plan: plan);
               },
@@ -91,7 +90,7 @@ class SelectedPlanScreen extends StatelessWidget {
     Logger.info(plan.productIdAndroid.toString());
     final tier = SubscriptionService.instance.getTierFromProductId(
       plan.productIdAndroid.toString(),
-    ); //_subscriptionTierForPlanId(plan.id);
+    ); 
     Logger.info(tier!.name);
 
     final subscriptionProvider = context.read<SubscriptionProvider>();

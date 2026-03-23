@@ -132,8 +132,8 @@ class AuthProvider extends ChangeNotifier {
         // );
 
         await login(context: context, showLoginToast: false);
+        // ignore: use_build_context_synchronously
         AppToast.success(context: context, message: "Register Successfully.");
-
         clearSignUpControllers();
         clearLoginControllers();
         isSignUpLoading = false;

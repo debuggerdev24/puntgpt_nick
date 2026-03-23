@@ -3,9 +3,6 @@ import 'package:puntgpt_nick/core/app_imports.dart';
 import 'package:puntgpt_nick/provider/account/account_provider.dart';
 import 'package:puntgpt_nick/provider/auth/auth_provider.dart';
 
-/// Mobile number input with integrated country picker (flag + dropdown inside the field).
-/// Uses [AuthProvider.phoneCtr] for national number and [AuthProvider.selectedPhoneCountry] for country.
-/// Validates length according to selected country's example.
 class PhoneCountryField extends StatelessWidget {
   const PhoneCountryField({
     super.key,
@@ -13,6 +10,7 @@ class PhoneCountryField extends StatelessWidget {
     this.hintText = 'Mobile number',
     this.hintStyle,
   });
+
 
   final AuthProvider provider;
   final String hintText;
@@ -63,140 +61,101 @@ class PhoneCountryField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<AuthProvider>(
       builder: (context, authProvider, _) {
-        final country = authProvider.selectedPhoneCountry ?? CountryService().findByCode("au")!;
+        final country =
+            authProvider.selectedPhoneCountry ??
+            CountryService().findByCode("au")!;
+        final maxLen = _maxLengthForCountry(country);
 
         return Padding(
           padding: EdgeInsets.only(bottom: 8.w),
-          child: FormField<String>(
+          child: TextFormField(
+            controller: authProvider.phoneCtr,
+            keyboardType: TextInputType.phone,
+            maxLength: maxLen,
+            inputFormatters: [
+              FilteringTextInputFormatter.digitsOnly,
+              LengthLimitingTextInputFormatter(maxLen),
+            ],
             validator: (_) => FieldValidators().phoneNumberForCountry(
               authProvider.phoneCtr.text.trim(),
               country,
             ),
-            builder: (formState) {
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                spacing: 6.w,
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      color: AppColors.white,
-                      borderRadius: BorderRadius.circular(8.r),
-                      border: Border.all(
-                        color: formState.hasError
-                            ? AppColors.red
-                            : AppColors.primary.withValues(alpha: 0.15),
-                        width: formState.hasError ? 1.5 : 1,
-                      ),
+            style: medium(fontSize: context.isBrowserMobile ? 28.sp : 16.sp),
+            decoration: InputDecoration(
+              hintText: (country.fullExampleWithPlusSign ?? '')
+                  .replaceFirst('+${country.phoneCode}', '')
+                  .trim(),
+              hintStyle: hintStyle ??
+                  medium(
+                    fontSize: context.isBrowserMobile ? 28.sp : 14.sp,
+                    color: AppColors.primary.withValues(alpha: 0.5),
+                  ),
+              counterText: '',
+              isDense: true,
+              contentPadding: EdgeInsets.symmetric(
+                horizontal: 12.w,
+                vertical: 16.h,
+              ),
+              filled: true,
+              fillColor: AppColors.white,
+              prefixIconConstraints: BoxConstraints(minWidth: 0, minHeight: 0),
+              prefixIcon: Padding(
+                padding: EdgeInsets.only(left: 23.w, right: 8.w),
+                child: Text(
+                  '+${country.phoneCode}',
+                  style: medium(
+                    fontSize: context.isBrowserMobile ? 28.sp : 16.sp,
+                    color: AppColors.primary.withValues(alpha: 0.8),
+                  ),
+                ),
+              ),
+              suffixIconConstraints: BoxConstraints(minWidth: 0, minHeight: 0),
+              suffixIcon: Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  onTap: () => _openCountryPicker(context),
+                  borderRadius: BorderRadius.horizontal(
+                    right: Radius.circular(8.r),
+                  ),
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 14.w,
+                      vertical: 14.h,
                     ),
                     child: Row(
+                      mainAxisSize: MainAxisSize.min,
                       children: [
-                        23.horizontalSpace,
-
-                        // Padding(
-                        //   padding: EdgeInsets.only(left: 16.w),
-                        //   child: Icon(
-                        //     Icons.phone_outlined,
-                        //     size: 20.w,
-                        //     color: AppColors.primary.withValues(alpha: 0.6),
-                        //   ),
-                        // ),
-                        // SizedBox(width: 10.w),
-                          Text(
-                            '+${country.phoneCode}',
-                            style: medium(
-                              fontSize: context.isBrowserMobile ? 28.sp : 16.sp,
-                              color: AppColors.primary.withValues(alpha: 0.8),
-                            ),
-                          ),
-                        8.w.horizontalSpace,
-                        Expanded(
-                          child: TextFormField(
-                            controller: authProvider.phoneCtr,
-                            keyboardType: TextInputType.phone,
-                            maxLength: _maxLengthForCountry(country),
-                            inputFormatters: [
-                              FilteringTextInputFormatter.digitsOnly,
-                              LengthLimitingTextInputFormatter(
-                                  _maxLengthForCountry(country)),
-                            ],
-                            decoration: InputDecoration(
-                              hintText: (country.fullExampleWithPlusSign ?? '')
-                                      .replaceFirst('+${country.phoneCode}', '')
-                                      .trim(),
-                              hintStyle: hintStyle ??
-                                  medium(
-                                    fontSize: context.isBrowserMobile
-                                        ? 28.sp
-                                        : 14.sp,
-                                    color: AppColors.primary.withValues(alpha: 0.5),
-                                  ),
-                              border: InputBorder.none,
-                              contentPadding: EdgeInsets.symmetric(
-                                horizontal: 12.w,
-                                vertical: 16.h,
-                              ),
-                              isDense: true,
-                              counterText: '',
-                            ),
-                            style: medium(
-                              fontSize: context.isBrowserMobile ? 28.sp : 16.sp,
-                            ),
-                            onChanged: (_) {
-                              formState.didChange(authProvider.phoneCtr.text);
-                            },
-                          ),
-                        ),
-                        Material(
-                          color: Colors.transparent,
-                          child: InkWell(
-                            onTap: () => _openCountryPicker(context),
-                            borderRadius: BorderRadius.horizontal(
-                              right: Radius.circular(8.r),
-                            ),
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: 14.w,
-                                vertical: 14.h,
-                              ),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Text(
-                                    country.flagEmoji ,
-                                    style: TextStyle(fontSize: 22.sp),
-                                  ),
-                                  SizedBox(width: 4.w),
-                                  Icon(
-                                    Icons.keyboard_arrow_down_rounded,
-                                    size: 22.w,
-                                    color: AppColors.primary.withValues(alpha: 0.7),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
+                        Text(country.flagEmoji, style: TextStyle(fontSize: 22.sp)),
+                        SizedBox(width: 4.w),
+                        Icon(
+                          Icons.keyboard_arrow_down_rounded,
+                          size: 22.w,
+                          color: AppColors.primary.withValues(alpha: 0.7),
                         ),
                       ],
                     ),
                   ),
-                  //! Error message
-                  if (formState.hasError) ...[
-                    
-                    Padding(
-                      padding: EdgeInsets.only(left: 29.w),
-                      child: Text(
-                        formState.errorText!,
-                        style: medium(
-                          fontSize: context.isBrowserMobile ? 24.sp : 13.sp,
-                          color: AppColors.red,
-                        ),
-                      ),
-                    ),
-                  ],
-                ],
-              );
-            },
+                ),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(
+                  color: AppColors.primary.withValues(alpha: 0.15),
+                ),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: AppColors.primary),
+              ),
+              errorBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: AppColors.red, width: 1.5),
+              ),
+              focusedErrorBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: AppColors.red, width: 1.5),
+              ),
+              errorStyle: medium(
+                fontSize: context.isBrowserMobile ? 24.sp : 13.sp,
+                color: AppColors.red,
+              ),
+            ),
           ),
         );
       },
@@ -264,148 +223,98 @@ class PhoneCountryFieldForAccount extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<AccountProvider>(
       builder: (context, accountProvider, _) {
-        final country = accountProvider.selectedPhoneCountry ?? CountryService().findByCode('au');
+        final country =
+            accountProvider.selectedPhoneCountry ??
+            CountryService().findByCode('au')!;
+        final maxLen = _maxLengthForCountry(country);
 
-        if (readOnly) {
-          final displayPhone = country != null
-              ? '+${country.phoneCode} ${accountProvider.phoneCtr.text}'
-              : accountProvider.phoneCtr.text;
-          return Padding(
-            padding: EdgeInsets.only(bottom: 8.w),
-            child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
-              decoration: BoxDecoration(
-                color: AppColors.white,
-                borderRadius: BorderRadius.circular(8.r),
-                border: Border.all(color: AppColors.primary.withValues(alpha: 0.15)),
-              ),
-              child: Row(
-                children: [
-                  if (country != null) ...[
-                    Text(country.flagEmoji, style: TextStyle(fontSize: 22.sp)),
-                    SizedBox(width: 8.w),
-                  ],
-                  Expanded(
-                    child: Text(
-                      displayPhone.isEmpty ? '—' : displayPhone,
-                      style: medium(
-                        fontSize: context.isBrowserMobile ? 28.sp : 16.sp,
-                        color: AppColors.primary.withValues(alpha: 0.8),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          );
-        }
-
-        final c = country;
         return Padding(
           padding: EdgeInsets.only(bottom: 8.w),
-          child: FormField<String>(
-            validator: (_) => FieldValidators().phoneNumberForCountry(
-              accountProvider.phoneCtr.text.trim(),
-              country,
-            ),
-            builder: (formState) {
-              final maxLen = c != null ? _maxLengthForCountry(c) : 15;
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                spacing: 6.w,
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      color: AppColors.white,
-                      borderRadius: BorderRadius.circular(8.r),
-                      border: Border.all(
-                        color: formState.hasError
-                            ? AppColors.red
-                            : AppColors.primary.withValues(alpha: 0.15),
-                        width: formState.hasError ? 1.5 : 1,
-                      ),
-                    ),
-                    child: Row(
-                      children: [
-                        23.horizontalSpace,
-                        Text(
-                          c != null ? '+${c.phoneCode}' : 'Select country',
-                          style: medium(
-                            fontSize: context.isBrowserMobile ? 28.sp : 16.sp,
-                            color: AppColors.primary.withValues(alpha: 0.8),
-                          ),
-                        ),
-                        8.w.horizontalSpace,
-                        Expanded(
-                          child: TextFormField(
-                            controller: accountProvider.phoneCtr,
-                            keyboardType: TextInputType.phone,
-                            maxLength: maxLen,
-                            readOnly: readOnly,
-                            inputFormatters: [
-                              FilteringTextInputFormatter.digitsOnly,
-                              LengthLimitingTextInputFormatter(maxLen),
-                            ],
-                            decoration: InputDecoration(
-                              hintText: c != null
-                                  ? (c.fullExampleWithPlusSign ?? '')
-                                      .replaceFirst('+${c.phoneCode}', '')
-                                      .trim()
-                                  : hintText,
-                              hintStyle: hintStyle ??
-                                  medium(
-                                    fontSize: context.isBrowserMobile ? 28.sp : 14.sp,
-                                    color: AppColors.primary.withValues(alpha: 0.5),
-                                  ),
-                              border: InputBorder.none,
-                              contentPadding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 16.h),
-                              isDense: true,
-                              counterText: '',
-                            ),
-                            style: medium(fontSize: context.isBrowserMobile ? 28.sp : 16.sp),
-                            onChanged: (_) => formState.didChange(accountProvider.phoneCtr.text),
-                          ),
-                        ),
-                        Material(
-                          color: Colors.transparent,
-                          child: InkWell(
-                            onTap: () => _openCountryPicker(context),
-                            borderRadius: BorderRadius.horizontal(right: Radius.circular(8.r)),
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 14.h),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Text(
-                                    c?.flagEmoji ?? '🌐',
-                                    style: TextStyle(fontSize: 22.sp),
-                                  ),
-                                  SizedBox(width: 4.w),
-                                  Icon(Icons.keyboard_arrow_down_rounded, size: 22.w,
-                                      color: AppColors.primary.withValues(alpha: 0.7)),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+          child: TextFormField(
+            controller: accountProvider.phoneCtr,
+            keyboardType: TextInputType.phone,
+            maxLength: maxLen,
+            readOnly: readOnly,
+            inputFormatters: [
+              FilteringTextInputFormatter.digitsOnly,
+              LengthLimitingTextInputFormatter(maxLen),
+            ],
+            validator: readOnly
+                ? null
+                : (_) => FieldValidators().phoneNumberForCountry(
+                    accountProvider.phoneCtr.text.trim(),
+                    country,
                   ),
-                  if (formState.hasError)
-                    Padding(
-                      padding: EdgeInsets.only(left: 29.w),
-                      child: Text(
-                        formState.errorText!,
-                        style: medium(
-                          fontSize: context.isBrowserMobile ? 24.sp : 13.sp,
-                          color: AppColors.red,
+            style: medium(fontSize: context.isBrowserMobile ? 28.sp : 16.sp),
+            decoration: InputDecoration(
+              hintText: (country.fullExampleWithPlusSign ?? '')
+                  .replaceFirst('+${country.phoneCode}', '')
+                  .trim(),
+              hintStyle: hintStyle ??
+                  medium(
+                    fontSize: context.isBrowserMobile ? 28.sp : 14.sp,
+                    color: AppColors.primary.withValues(alpha: 0.5),
+                  ),
+              counterText: '',
+              isDense: true,
+              contentPadding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 16.h),
+              filled: true,
+              fillColor: AppColors.white,
+              prefixIconConstraints: BoxConstraints(minWidth: 0, minHeight: 0),
+              prefixIcon: Padding(
+                padding: EdgeInsets.only(left: 23.w, right: 8.w),
+                child: Text(
+                  '+${country.phoneCode}',
+                  style: medium(
+                    fontSize: context.isBrowserMobile ? 28.sp : 16.sp,
+                    color: AppColors.primary.withValues(alpha: 0.8),
+                  ),
+                ),
+              ),
+              suffixIconConstraints: BoxConstraints(minWidth: 0, minHeight: 0),
+              suffixIcon: readOnly
+                  ? null
+                  : Material(
+                      color: Colors.transparent,
+                      child: InkWell(
+                        onTap: () => _openCountryPicker(context),
+                        borderRadius: BorderRadius.horizontal(
+                          right: Radius.circular(8.r),
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 14.h),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(country.flagEmoji, style: TextStyle(fontSize: 22.sp)),
+                              4.w.horizontalSpace,
+                              Icon(
+                                Icons.keyboard_arrow_down_rounded,
+                                size: 22.w,
+                                color: AppColors.primary.withValues(alpha: 0.7),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                ],
-              );
-            },
+              enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: AppColors.primary.withValues(alpha: 0.15)),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: AppColors.primary),
+              ),
+              errorBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: AppColors.red, width: 1.5),
+              ),
+              focusedErrorBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: AppColors.red, width: 1.5),
+              ),
+              errorStyle: medium(
+                fontSize: context.isBrowserMobile ? 24.sp : 13.sp,
+                color: AppColors.red,
+              ),
+            ),
           ),
         );
       },
