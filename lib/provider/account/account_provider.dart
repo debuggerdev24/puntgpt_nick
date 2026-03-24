@@ -13,6 +13,7 @@ class AccountProvider extends ChangeNotifier {
   TextEditingController confirmPassCtr = TextEditingController();
   TextEditingController addressLine1Ctr = TextEditingController();
   TextEditingController addressLine2Ctr = TextEditingController();
+  TextEditingController stateCtr = TextEditingController();
   TextEditingController suburbCtr = TextEditingController();
   TextEditingController postCodeCtr = TextEditingController();
 
@@ -92,6 +93,7 @@ class AccountProvider extends ChangeNotifier {
         emailCtr.text = profile.email;
         addressLine1Ctr.text = profile.addressLine1 ?? '';
         addressLine2Ctr.text = profile.addressLine2 ?? '';
+        stateCtr.text = profile.state ?? '';
         suburbCtr.text = profile.suburb ?? '';
         postCodeCtr.text = profile.postCode ?? '';
         _parsePhoneAndCountry(profile.phone);
@@ -139,6 +141,8 @@ class AccountProvider extends ChangeNotifier {
     '1': 'us', '7': 'ru', '20': 'eg', '27': 'za', '30': 'gr', '31': 'nl', '32': 'be', '33': 'fr', '34': 'es', '36': 'hu', '39': 'it', '40': 'ro', '41': 'ch', '43': 'at', '44': 'gb', '45': 'dk', '46': 'se', '47': 'no', '48': 'pl', '49': 'de', '51': 'pe', '52': 'mx', '53': 'cu', '54': 'ar', '55': 'br', '56': 'cl', '57': 'co', '58': 've', '60': 'my', '61': 'au', '62': 'id', '63': 'ph', '64': 'nz', '65': 'sg', '66': 'th', '81': 'jp', '82': 'kr', '84': 'vn', '86': 'cn', '90': 'tr', '91': 'in', '92': 'pk', '93': 'af', '94': 'lk', '98': 'ir',
   };
 
+ 
+
   //todo update profile
   bool isUpdateProfileLoading = false;
   Future<void> updateProfile({
@@ -154,6 +158,7 @@ class AccountProvider extends ChangeNotifier {
     final countryName = _selectedPhoneCountry?.name ?? profile.country ?? '';
     final addr1 = addressLine1Ctr.text.trim();
     final addr2 = addressLine2Ctr.text.trim();
+    final state = stateCtr.text.trim();
     final sub = suburbCtr.text.trim();
     final post = postCodeCtr.text.trim();
 
@@ -164,6 +169,7 @@ class AccountProvider extends ChangeNotifier {
         countryName == (profile.country ?? '').trim() &&
         addr1 == (profile.addressLine1 ?? '').trim() &&
         addr2 == (profile.addressLine2 ?? '').trim() &&
+        state == (profile.state ?? '').trim() &&
         sub == (profile.suburb ?? '').trim() &&
         post == (profile.postCode ?? '').trim();
 
@@ -179,6 +185,7 @@ class AccountProvider extends ChangeNotifier {
       "email": email,
       "address_line_1": addr1,
       "address_line_2": addr2,
+      "state": state,
       "suburb": sub,
       "post_code": post,
       "country": countryName,

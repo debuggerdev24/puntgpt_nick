@@ -26,50 +26,49 @@ class ManageSubscriptionScreen extends StatelessWidget {
               Expanded(
                 child: ListView(
                   padding: EdgeInsets.zero,
-                  children: [
-                    ...List.generate(provider.plans.length, (index) {
-                      final plan = provider.plans[index];
-                      return GestureDetector(
-                        onTap: () {
-                          deBouncer.run(() {
-                            if (isGuest) {
-                              showGuestCreateAccountSheet(
-                                context,
-                                message: AppStrings.guestManageSubscriptionMessage,
-                              );
-                              return;
-                            }
-                            context.pushNamed(
-                              (kIsWeb && context.isMobileView)
-                                  ? WebRoutes.selectedPlanScreen.name
-                                  : AppRoutes.selectedPlanScreen.name,
-                              extra: plan,
-                            );
-                          });
-                        },
-                        child: SubscriptionPlanMobile(plan: plan),
-                      );
-                    }),
-                    8.w.verticalSpace,
-                    if (!isGuest)
-                    AppFilledButton(
-                      margin: EdgeInsets.fromLTRB(25.w, 20.h, 25.w, 20.h),
-                      text: "See Current Plan",
-                      textStyle: semiBold(
-                        fontSize: (context.isBrowserMobile) ? 30.sp : 18.sp,
-                        color: AppColors.white,
-                      ),
+                  children: List.generate(provider.plans.length, (index) {
+                    final plan = provider.plans[index];
+                    return GestureDetector(
                       onTap: () {
-                        context.pushNamed(
-                          (kIsWeb && context.isMobileView)
-                              ? WebRoutes.currentPlanScreen.name
-                              : AppRoutes.currentPlanScreen.name,
-                        );
+                        deBouncer.run(() {
+                          if (isGuest) {
+                            showGuestCreateAccountSheet(
+                              context,
+                              message:
+                                  AppStrings.guestManageSubscriptionMessage,
+                            );
+                            return;
+                          }
+                          context.pushNamed(
+                            (kIsWeb && context.isMobileView)
+                                ? WebRoutes.selectedPlanScreen.name
+                                : AppRoutes.selectedPlanScreen.name,
+                            extra: plan,
+                          );
+                        });
                       },
-                    ),
-                  ],
+                      child: SubscriptionPlanMobile(plan: plan),
+                    );
+                  }),
                 ),
               ),
+              // 8.w.verticalSpace,
+              if (!isGuest)
+                AppFilledButton(
+                  margin: EdgeInsets.fromLTRB(25.w, 5.w, 25.w, 10.w),
+                  text: "See Current Plan",
+                  textStyle: semiBold(
+                    fontSize: (context.isBrowserMobile) ? 30.sp : 18.sp,
+                    color: AppColors.white,
+                  ),
+                  onTap: () {
+                    context.pushNamed(
+                      (kIsWeb && context.isMobileView)
+                          ? WebRoutes.currentPlanScreen.name
+                          : AppRoutes.currentPlanScreen.name,
+                    );
+                  },
+                ),
             ],
           ),
         );
@@ -94,7 +93,7 @@ class ManageSubscriptionScreen extends StatelessWidget {
     return Column(
       children: [
         Padding(
-          padding: EdgeInsets.fromLTRB(4.w, 4.w, 25.w, 6.w),
+          padding: EdgeInsets.fromLTRB(4.w, 5.w, 25.w, 6.w),
           child: Row(
             children: [
               IconButton(

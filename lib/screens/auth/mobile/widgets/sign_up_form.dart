@@ -9,13 +9,15 @@ class SignUpForm extends StatelessWidget {
 
   void _pickDob(BuildContext context, AuthProvider provider) async {
     final DateTime today = DateTime.now();
-    final DateTime lastDate = DateTime(today.year, today.month, today.day);
+    final DateTime maxDob = DateTime(today.year - 18, today.month, today.day);
     final DateTime firstDate = DateTime(1900);
+    final DateTime initialDate = maxDob;
 
     DateTime? selectedDate = await showAppDatePicker(
       context,
+      initialDate: initialDate,
       firstDate: firstDate,
-      lastDate: lastDate,
+      lastDate: maxDob,
     );
     if (selectedDate != null) {
       provider.dobCtr.text = DateFormatter.registerApiFormate(selectedDate);

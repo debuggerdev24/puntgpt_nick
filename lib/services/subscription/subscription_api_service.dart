@@ -33,4 +33,10 @@ class SubscriptionApiService {
       data: data,
     );
   }
+
+  Future<Either<ApiException, Map<String, dynamic>>> cancelSubscription() async {
+    return await BaseApiHelper.instance.post<Map<String, dynamic>>(
+      EndPoints.cancelSubscription,
+    );
+  }
 }

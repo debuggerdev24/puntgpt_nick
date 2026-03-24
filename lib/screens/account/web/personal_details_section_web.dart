@@ -115,10 +115,17 @@ class PersonalDetailsSectionWeb extends StatelessWidget {
                               "Phone",
                               style: semiBold(fontSize: sixteenResponsive),
                             ),
-                            PhoneCountryFieldForAccount(
-                              provider: provider,
-                              readOnly: readOnly,
-                            ),
+                            if (readOnly)
+                              AppTextField(
+                                controller: provider.phoneCtr,
+                                hintText: "Enter Phone",
+                                readOnly: true,
+                              )
+                            else
+                              PhoneCountryFieldForAccount(
+                                provider: provider,
+                                readOnly: false,
+                              ),
                           ],
                         ),
                       ),
@@ -160,6 +167,26 @@ class PersonalDetailsSectionWeb extends StatelessWidget {
                               validator: (value) =>
                                   FieldValidators().required(
                                       value, "Address Line 2"),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        width: fieldWidth,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          spacing: 5.h,
+                          children: [
+                            Text(
+                              "State",
+                              style: semiBold(fontSize: sixteenResponsive),
+                            ),
+                            AppTextField(
+                              controller: provider.stateCtr,
+                              hintText: "Enter State",
+                              readOnly: readOnly,
+                              validator: (value) =>
+                                  FieldValidators().required(value, "State"),
                             ),
                           ],
                         ),

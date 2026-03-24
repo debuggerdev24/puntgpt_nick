@@ -20,9 +20,10 @@ class AppStartupCoordinator {
     //* IAP listener must run before restore; plans must load before productId → planId mapping.
     await subsProvider.initialize(context: context);
     await subsProvider.getSubscriptionPlans();
+    final hasActiveSubscription = await subsProvider.getCurrentSubscription();
+
 
     if (!isGuest && (callRestore ?? true)) {
-    final hasActiveSubscription = await subsProvider.getCurrentSubscription();
 
       if (!hasActiveSubscription) {
         await subsProvider.restorePurchasesAtStartup(context: context);

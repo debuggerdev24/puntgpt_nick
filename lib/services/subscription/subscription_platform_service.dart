@@ -77,6 +77,7 @@ class SubscriptionService {
   //* BUY (CALLED BY PROVIDER)
   Future<bool> buy({
     required SubscriptionEnum tier,
+    required String appAccountToken,
   }) async {
     try {
       final productId = productIds[tier];
@@ -84,10 +85,10 @@ class SubscriptionService {
         (p) => p.id == productId,
         orElse: () => throw Exception("Product not found"),
       );
+      Logger.info("appAccountToken: $appAccountToken");
+      final param = PurchaseParam(productDetails: product,applicationUserName: appAccountToken);
 
-      final param = PurchaseParam(productDetails: product);
-
-      await _iap.buyNonConsumable(purchaseParam: param);
+      await _iap.buyNonConsumable(purchaseParam: param, );
       return true;
     } catch (e, s) {
 

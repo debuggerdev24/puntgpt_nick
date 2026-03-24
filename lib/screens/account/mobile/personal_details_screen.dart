@@ -89,8 +89,8 @@ class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
                             validator: (value) =>
                                 FieldValidators().email(value),
                           ),
-                          //todo --------------> phone
-                          14.h.verticalSpace,
+                          //* --------------> phone
+                          14.w.verticalSpace,
                           Text(
                             "Phone",
                             style: semiBold(
@@ -100,10 +100,27 @@ class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
                             ),
                           ),
                           6.h.verticalSpace,
-                          PhoneCountryFieldForAccount(
-                            provider: provider,
-                            readOnly: readOnly,
-                          ),
+                          if (readOnly)
+                            AppTextField(
+                              controller: provider.phoneCtr,
+                              hintText: "Enter Phone",
+                              readOnly: true,
+                              textStyle: medium(
+                                fontSize: (context.isBrowserMobile)
+                                    ? 32.sp
+                                    : 16.sp,
+                              ),
+                              hintStyle: medium(
+                                fontSize: (context.isBrowserMobile)
+                                    ? 28.sp
+                                    : 14.sp,
+                              ),
+                            )
+                          else
+                            PhoneCountryFieldForAccount(
+                              provider: provider,
+                              readOnly: false,
+                            ),
                           //todo --------------> address
                           14.h.verticalSpace,
                           Text(
@@ -164,6 +181,33 @@ class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
                             ),
                           ),
                           14.h.verticalSpace,
+                          Text(
+                            "State",
+                            style: semiBold(
+                              fontSize: (context.isBrowserMobile)
+                                  ? 28.sp
+                                  : 14.sp,
+                            ),
+                          ),
+                          6.w.verticalSpace,
+                          AppTextField(
+                            controller: provider.stateCtr,
+                            hintText: "Enter State",
+                            readOnly: readOnly,
+                            textStyle: medium(
+                              fontSize: (context.isBrowserMobile)
+                                  ? 32.sp
+                                  : 16.sp,
+                            ),
+                            hintStyle: medium(
+                              fontSize: (context.isBrowserMobile)
+                                  ? 28.sp
+                                  : 14.sp,
+                            ),
+                            validator: (value) =>
+                                FieldValidators().required(value, "State"),
+                          ),
+                          14.w.verticalSpace,
                           Text(
                             "Suburb",
                             style: semiBold(
@@ -283,7 +327,7 @@ class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
                             ),
                             margin: EdgeInsets.only(
                               bottom: 22.w,
-                              top: 22.w, //220
+                              top: 18.w, //220
                             ), //
                           ),
                         ],

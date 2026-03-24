@@ -11,7 +11,6 @@ class CurrentPlanScreen extends StatelessWidget {
       builder: (context, provider, child) {
         final currentPlan = provider.currentPlan;
         return Column(
-
           children: [
             topBar(context),
             if (currentPlan != null) ...[
@@ -26,6 +25,7 @@ class CurrentPlanScreen extends StatelessWidget {
                 ),
               ),
               Spacer(),
+
               // AppFilledButton(
               //   margin: EdgeInsets.only(bottom: 10.h, left: 25.w, right: 25.w),
               //   text: "Renew",
@@ -44,13 +44,22 @@ class CurrentPlanScreen extends StatelessWidget {
               //   onTap: () {},
               // ),
               AppOutlinedButton(
-                margin: EdgeInsets.only(bottom: 25.h, left: 25.w, right: 25.w),
+                margin: EdgeInsets.only(bottom: 12.w, left: 25.w, right: 25.w),
                 text: "Cancel",
                 textStyle: semiBold(
                   fontSize: (context.isBrowserMobile) ? 30.sp : 18.sp,
                 ),
-                onTap: () {
-                  context.pop();
+                onTap: () async {
+                  await provider.cnacelSubcripton(
+                    context: context,
+                    onSuccess: () {
+                      AppToast.success(
+                        context: context,
+                        message:
+                            "Subscription cancellation is successful. Your plan will remain active until its expiry date.",
+                      );
+                    },
+                  );
                 },
               ),
             ] else

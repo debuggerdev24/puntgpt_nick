@@ -18,13 +18,13 @@ class SelectedPlanScreen extends StatelessWidget {
             14.w.verticalSpace,
             SubscriptionPlanMobile(plan: plan),
             Spacer(),
-            AppFilledButton(
-              text: "restore",
-              margin: EdgeInsets.symmetric(horizontal: 25.w, vertical: 12.w),
-              onTap: () {
-                _onRestore(context: context, plan: plan);
-              },
-            ),
+            // AppFilledButton(
+            //   text: "restore",
+            //   margin: EdgeInsets.symmetric(horizontal: 25.w, vertical: 12.w),
+            //   onTap: () {
+            //     _onRestore(context: context, plan: plan);
+            //   },
+            // ),
             AppFilledButton(
               text: "Pay & Subscribe",
               onTap: () => _onPayAndSubscribe(context: context, plan: plan),
@@ -56,15 +56,15 @@ class SelectedPlanScreen extends StatelessWidget {
     return Column(
       children: [
         Padding(
-          padding: EdgeInsets.fromLTRB(23.w, 12.w, 25.w, 14.w),
+          padding: EdgeInsets.all(4.w),
           child: Row(
-            spacing: 8.w,
+            // spacing: 8.w,
             children: [
-              OnMouseTap(
-                onTap: () {
+              IconButton(
+                onPressed: () {
                   context.pop();
                 },
-                child: Icon(Icons.arrow_back_ios_rounded, size: 18.w),
+                icon: Icon(Icons.arrow_back_ios_rounded, size: 18.w),
               ),
               Expanded(
                 child: Text(
@@ -90,15 +90,18 @@ class SelectedPlanScreen extends StatelessWidget {
     Logger.info(plan.productIdAndroid.toString());
     final tier = SubscriptionService.instance.getTierFromProductId(
       plan.productIdAndroid.toString(),
-    ); 
-    Logger.info(tier!.name);
+    );
 
     final subscriptionProvider = context.read<SubscriptionProvider>();
     await subscriptionProvider.initiateSubscription(
       planId: plan.id,
-      onSuccess: () {
+      onSuccess: (appAccountToken) {
         if (!context.mounted) return;
-        subscriptionProvider.buy(tier: tier, context: context);
+        subscriptionProvider.buy(
+          tier: tier!,
+          context: context,
+          appAccountToken: appAccountToken,
+        );
       },
       onFailed: (error) {
         AppToast.info(context: context, message: error);

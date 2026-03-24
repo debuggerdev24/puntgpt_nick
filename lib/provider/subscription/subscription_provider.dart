@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:puntgpt_nick/core/app_imports.dart';
 import 'package:puntgpt_nick/main.dart';
@@ -13,18 +12,18 @@ import 'package:puntgpt_nick/screens/dashboard/web/web_dashboard.dart'
 import 'package:puntgpt_nick/services/app_startup/app_startup_coordinator.dart';
 import 'package:puntgpt_nick/services/subscription/subscription_api_service.dart';
 import 'package:puntgpt_nick/services/subscription/subscription_platform_service.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SubscriptionProvider extends ChangeNotifier {
   SubscriptionPlanModel? currentPlan;
   SubscriptionEnum? tier;
-  final Set<SubscriptionEnum> _activeSubscriptions = {
-    // SubscriptionEnum.monthlyPlan,
-  };
+  final Set<SubscriptionEnum> _activeSubscriptions = {};
 
   bool _isSubscriptionProcessing = false;
   bool get isSubscriptionProcessing => _isSubscriptionProcessing;
 
   StreamSubscription<List<PurchaseDetails>>? _purchaseSub;
+  String _appAccountToken = "";
 
   //* Fires if [restorePurchases] emits nothing on the purchase stream (no prior purchase, or store delay).
   Timer? _restoreIdleTimer;
@@ -138,7 +137,7 @@ class SubscriptionProvider extends ChangeNotifier {
       initiateSubscription(
         planId: planId,
         silent: _silentSubscriptionFlow,
-        onSuccess: () => _processSuccessfulPurchase(purchase),
+        onSuccess: (appAccountToken) => _processSuccessfulPurchase(purchase),
         onFailed: (error) {
           Logger.error("initiateSubscription on restore failed: $error");
         },
@@ -167,8 +166,12 @@ class SubscriptionProvider extends ChangeNotifier {
   Future<void> buy({
     required SubscriptionEnum tier,
     required BuildContext context,
+    required String appAccountToken,
   }) async {
-    final ok = await SubscriptionService.instance.buy(tier: tier);
+    final ok = await SubscriptionService.instance.buy(
+      tier: tier,
+      appAccountToken: appAccountToken,
+    );
     if (!ok) {
       setSubscriptionProcessStatus(status: false);
     }
@@ -223,6 +226,8 @@ class SubscriptionProvider extends ChangeNotifier {
     if (tier != null) {
       final localData = purchase.verificationData.localVerificationData;
       final serverData = purchase.verificationData.serverVerificationData;
+      final decoded = jsonDecode(localData);
+
       Logger.info("serverVerificationData : $serverData");
       String? backendValidationToken;
       //* Process the verification data based on the platform.
@@ -230,7 +235,6 @@ class SubscriptionProvider extends ChangeNotifier {
         case "android":
           //* Android localVerificationData is a JSON string.
           try {
-            final decoded = jsonDecode(localData);
             Logger.info("Decode data : $decoded");
             backendValidationToken = decoded["purchaseToken"] as String?;
             Logger.info(
@@ -242,7 +246,6 @@ class SubscriptionProvider extends ChangeNotifier {
         case "ios":
           //* iOS localVerificationData can be a receipt string (not JSON).
           try {
-            final decoded = jsonDecode(localData);
             Logger.info("Decode data : $decoded");
             if (decoded is Map) {
               backendValidationToken = decoded["transactionId"]?.toString();
@@ -250,7 +253,6 @@ class SubscriptionProvider extends ChangeNotifier {
           } catch (_) {
             Logger.error("iOS localVerificationData decode failed");
           }
-
           Logger.info("Transaction Id For iOS: \n$backendValidationToken");
         default:
           break;
@@ -312,6 +314,8 @@ class SubscriptionProvider extends ChangeNotifier {
       (r) {
         final data = r["data"] as List;
         plans = data.map((e) => SubscriptionPlanModel.fromJson(e)).toList();
+        //*removing mug punter account according to the client requirement
+        plans.removeAt(0);
         notifyListeners();
       },
     );
@@ -320,7 +324,8 @@ class SubscriptionProvider extends ChangeNotifier {
   Future<bool> getCurrentSubscription() async {
     currentPlan = null;
     bool hasActiveSubscription = false;
-    final result = await SubscriptionApiService.instance.getCurrentSubscription();
+    final result = await SubscriptionApiService.instance
+        .getCurrentSubscription();
     result.fold(
       (l) {
         Logger.error(l.errorMsg);
@@ -424,12 +429,12 @@ class SubscriptionProvider extends ChangeNotifier {
       final ctx = _shellContextForStartup();
       if (ctx == null || !ctx.mounted) return;
 
-      await AppStartupCoordinator.run(context: ctx,callRestore: false);
+      await AppStartupCoordinator.run(context: ctx, callRestore: false);
 
       if (!ctx.mounted) return;
 
-      if(_showPurchaseSuccessToast){
-      AppToast.success(
+      if (_showPurchaseSuccessToast) {
+        AppToast.success(
           context: ctx,
           message: '${dataMap["plan"]} subscribed successfully.',
         );
@@ -443,12 +448,11 @@ class SubscriptionProvider extends ChangeNotifier {
   Future<void> initiateSubscription({
     required int planId,
     Function(String error)? onFailed,
-    VoidCallback? onSuccess,
+    Function(String appAccountToken)? onSuccess,
     bool silent = false,
   }) async {
     if (!silent) {
       setSubscriptionProcessStatus(status: true);
-    } else {
       Logger.info("Subscription restored successfully.");
     }
 
@@ -456,6 +460,7 @@ class SubscriptionProvider extends ChangeNotifier {
       "target_plan_id": planId,
       "platform": Platform.isAndroid ? "android" : "ios",
     };
+
     final result = await SubscriptionApiService.instance.initiateSubscription(
       data: data,
     );
@@ -470,11 +475,14 @@ class SubscriptionProvider extends ChangeNotifier {
         if (!silent) setSubscriptionProcessStatus(status: false);
       },
       (r) {
-        onSuccess?.call();
+        _appAccountToken = r["data"]["app_account_token"] as String? ?? "";
+        // Logger.info("appAccountToken: $_appAccountToken");
+        onSuccess?.call(_appAccountToken);
       },
     );
   }
 
+  //* Validate the subscription
   Future<void> validateSubscription({required String token}) async {
     if (token.isEmpty) {
       Logger.error("validateSubscription: empty token");
@@ -511,10 +519,6 @@ class SubscriptionProvider extends ChangeNotifier {
         setSubscriptionProcessStatus(status: false);
         _restoreIdleTimer?.cancel();
         _restoreIdleTimer = null;
-        // final ctx = AppRouter.rootNavigatorKey.currentContext;
-        // if (ctx != null && ctx.mounted) {
-        // AppToast.error(context: ctx, message: l.errorMsg);
-        // }
         notifyListeners();
       },
       (r) async {
@@ -541,10 +545,63 @@ class SubscriptionProvider extends ChangeNotifier {
     );
   }
 
-  Future<void> cancel(SubscriptionEnum tier) async {
-    _activeSubscriptions.remove(tier);
+  //* Cancel the subscription
+  bool isCancelSubscriptionLoading = false;
+  Future<void> cnacelSubcripton({
+    required BuildContext context,
+    required VoidCallback onSuccess,
+  }) async {
+    if (Platform.isIOS) {
+      final url = Uri.parse("https://apps.apple.com/account/subscriptions");
+      final launched = await launchUrl(
+        url,
+        mode: LaunchMode.externalApplication,
+      );
+      if (!launched && context.mounted) {
+        AppToast.error(
+          context: context,
+          message: "Could not open App Store subscription management.",
+        );
+      }
+      return;
+    }
+
+    if (!Platform.isAndroid) return;
+
+    isCancelSubscriptionLoading = true;
+    notifyListeners();
+
+    final result = await SubscriptionApiService.instance.cancelSubscription();
+    result.fold(
+      (l) {
+        Logger.error(l.errorMsg);
+      },
+      (r) {
+        // final success = r["success"] == true;
+        // if (!success) {
+        //   final msg =
+        //       r["message"]?.toString() ??
+        //       "Could not cancel subscription. Please try again.";
+        //   if (context.mounted) {
+        //     AppToast.error(context: context, message: msg);
+        //   }
+        //   return;
+        // }
+
+        // currentPlan = null;
+        // notifyListeners();
+        onSuccess.call();
+      },
+    );
+
+    isCancelSubscriptionLoading = false;
     notifyListeners();
   }
+
+  // Future<void> cancel(SubscriptionEnum tier) async {
+  //   _activeSubscriptions.remove(tier);
+  //   notifyListeners();
+  // }
 
   @override
   void dispose() {
