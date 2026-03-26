@@ -22,7 +22,7 @@ class SearchEngineProvider extends ChangeNotifier {
   List<RunnerModel>? runnersList;
   CompareHorseModel? compareHorse;
 
-  /// Pagination from upcoming-runners API (data.total_runners, data.total_pages, data.page).
+  //* Pagination from upcoming-runners API (data.total_runners, data.total_pages, data.page).
   int? totalRunners;
   int? totalPages;
   int _runnersCurrentPage = 1;
@@ -126,6 +126,8 @@ class SearchEngineProvider extends ChangeNotifier {
 
   //* Home Screen Track Section (Checkboxes) - Simple boolean variables
   bool placedLastStart = false;
+  bool placedAtDistance = false;
+  bool wonAtDistance = false;
   bool wonLastStart = false;
   bool wonLast12Months = false;
 
@@ -145,6 +147,16 @@ class SearchEngineProvider extends ChangeNotifier {
 
   void toggleWonLastStart(bool value) {
     wonLastStart = value;
+    notifyListeners();
+  }
+
+  void togglePlacedAtDistance(bool value) {
+    placedAtDistance = value;
+    notifyListeners();
+  }
+
+  void toggleWonAtDistance(bool value) {
+    wonAtDistance = value;
     notifyListeners();
   }
 
@@ -234,26 +246,23 @@ class SearchEngineProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> getSearchEngine({required VoidCallback onSuccess}) async {
+  Future<void> getUpcomingRunner({
+    required bool isSubscribed,
+    required VoidCallback onSuccess,
+  }) async {
     runnersList = null;
     totalRunners = null;
     totalPages = null;
     _runnersCurrentPage = 1;
     notifyListeners();
 
-    String? trackValue;
-    if (placedLastStart) {
-      trackValue = "placed_last_start";
-    } else if (wonLastStart) {
-      trackValue = "won_last_start";
-    } else if (wonLast12Months) {
-      trackValue = "won_last_12_months";
-    }
+   
 
     final result = await SearchEngineAPISearvice.instance.getSearchEngine(
-      jumpFilter: selectedRaceTimingApiString,
-      track: trackValue,
+        // jumpFilter: selectedRaceTimingApiString,
+
       page: 1,
+      filters: _buildSaveSearchFilters(isSubscribed: isSubscribed),
     );
     result.fold(
       (l) {
@@ -277,26 +286,19 @@ class SearchEngineProvider extends ChangeNotifier {
   }
 
   //* Load next page of runners and append to [runnersList]. No-op if no more pages or already loading.
-  Future<void> loadNextRunners() async {
+  Future<void> loadNextRunners({required bool isSubscribed}) async {
     if (!hasMoreRunners || isLoadingMoreRunners || runnersList == null) return;
 
     isLoadingMoreRunners = true;
     notifyListeners();
 
-    String? trackValue;
-    if (placedLastStart) {
-      trackValue = "placed_last_start";
-    } else if (wonLastStart) {
-      trackValue = "won_last_start";
-    } else if (wonLast12Months) {
-      trackValue = "won_last_12_months";
-    }
+
 
     final nextPage = _runnersCurrentPage + 1;
     final result = await SearchEngineAPISearvice.instance.getSearchEngine(
-      jumpFilter: selectedRaceTimingApiString,
-      track: trackValue,
+
       page: nextPage,
+      filters: _buildSaveSearchFilters(isSubscribed: isSubscribed),
     );
 
     result.fold(
@@ -320,8 +322,47 @@ class SearchEngineProvider extends ChangeNotifier {
   }
 
   bool isCreatingSaveSearch = false;
+  Map<String, dynamic> _buildSaveSearchFilters({required bool isSubscribed}) {
+    final filters = <String, dynamic>{
+      "jump": selectedRaceTimingApiString,
+      "track": selectedTrack ?? "",
+      "placed_at_track": selectedPlaceAtTrack ?? "",
+      "odds_range": oddsRangeCtr.text.isNotEmpty ? oddsRangeCtr.text : "",
+    };
+
+    if (placedLastStart) {
+      filters["placed_last_start"] = true;
+    }
+    if (placedAtDistance) {
+      filters["placed_at_distance"] = true;
+    }
+
+    if (isSubscribed) {
+      filters.addAll({
+        "wins_at_track": selectedWinsAtTrack ?? "",
+        "jockey_horse_wins": jockeyHorseWinsCtr.text.isNotEmpty
+            ? jockeyHorseWinsCtr.text
+            : "",
+        "barrier": selectedBarrier ?? "",
+      });
+      if (wonAtDistance) {
+        filters["win_at_distance"] = true;
+      }
+      if (wonLastStart) {
+        filters["won_last_start"] = true;
+      }
+      if (wonLast12Months) {
+        filters["won_last_12_months"] = true;
+      }
+    }
+
+    filters["jockey_strike_rate_last_12_months"] = "";
+    return filters;
+  }
+
   Future<void> createSaveSearch({
     required String name,
+    required bool isSubscribed,
     required Function(String error) onError,
     required VoidCallback onSuccess,
   }) async {
@@ -329,20 +370,7 @@ class SearchEngineProvider extends ChangeNotifier {
     notifyListeners();
     final data = {
       "name": name,
-      "filters": {
-        "track": "Flemington",
-        "placed_last_start": placedLastStart,
-        "placed_at_distance": selectedPlaceAtDistance,
-        "placed_at_track": selectedPlaceAtTrack,
-        "odds_range": oddsRangeCtr.text,
-        "wins_at_track": selectedWinsAtTrack,
-        "win_at_distance": selectedWinsAtDistance,
-        "won_last_start": wonLastStart,
-        "won_last_12_months": wonLast12Months,
-        "jockey_horse_wins": jockeyHorseWinsCtr.text,
-        "barrier": selectedBarrier,
-        "jockey_strike_rate_last_12_months": "",
-      },
+      "filters": _buildSaveSearchFilters(isSubscribed: isSubscribed),
       "comment": "Custom comment",
     };
     Logger.info(data.toString());
@@ -373,6 +401,8 @@ class SearchEngineProvider extends ChangeNotifier {
     selectedWinsAtDistance = null;
     selectedBarrier = null;
     placedLastStart = false;
+    placedAtDistance = false;
+    wonAtDistance = false;
     wonLastStart = false;
     wonLast12Months = false;
     notifyListeners();
@@ -390,6 +420,8 @@ class SearchEngineProvider extends ChangeNotifier {
     selectedWinsAtDistance = null;
     selectedBarrier = null;
     placedLastStart = false;
+    placedAtDistance = false;
+    wonAtDistance = false;
     wonLastStart = false;
     wonLast12Months = false;
     selectedSaveSearch = null;
@@ -439,11 +471,6 @@ class SearchEngineProvider extends ChangeNotifier {
           selectedTrack = (filters.track != null && filters.track!.isNotEmpty)
               ? filters.track
               : null;
-          selectedPlaceAtDistance =
-              (filters.placedAtDistance != null &&
-                  filters.placedAtDistance!.isNotEmpty)
-              ? filters.placedAtDistance
-              : null;
           selectedPlaceAtTrack =
               (filters.placedAtTrack != null &&
                   filters.placedAtTrack!.isNotEmpty)
@@ -453,11 +480,6 @@ class SearchEngineProvider extends ChangeNotifier {
               (filters.winsAtTrack != null && filters.winsAtTrack!.isNotEmpty)
               ? filters.winsAtTrack
               : null;
-          selectedWinsAtDistance =
-              (filters.winAtDistance != null &&
-                  filters.winAtDistance!.isNotEmpty)
-              ? filters.winAtDistance
-              : null;
           selectedBarrier =
               (filters.barrier != null && filters.barrier!.isNotEmpty)
               ? filters.barrier
@@ -465,6 +487,8 @@ class SearchEngineProvider extends ChangeNotifier {
 
           // Boolean fields - default to false if null
           placedLastStart = filters.placedLastStart ?? false;
+          placedAtDistance = _parseFlexibleBool(filters.placedAtDistance);
+          wonAtDistance = _parseFlexibleBool(filters.winAtDistance);
           wonLastStart = filters.wonLastStart ?? false;
           wonLast12Months = filters.wonLast12Months ?? false;
 
@@ -499,12 +523,12 @@ class SearchEngineProvider extends ChangeNotifier {
 
     // Compare all fields
     if (!stringsEqual(selectedTrack, filters.track)) return true;
-    if (!stringsEqual(selectedPlaceAtDistance, filters.placedAtDistance)) {
+    if (placedAtDistance != _parseFlexibleBool(filters.placedAtDistance)) {
       return true;
     }
     if (!stringsEqual(selectedPlaceAtTrack, filters.placedAtTrack)) return true;
     if (!stringsEqual(selectedWinsAtTrack, filters.winsAtTrack)) return true;
-    if (!stringsEqual(selectedWinsAtDistance, filters.winAtDistance)) {
+    if (wonAtDistance != _parseFlexibleBool(filters.winAtDistance)) {
       return true;
     }
     if (!stringsEqual(selectedBarrier, filters.barrier)) return true;
@@ -532,28 +556,16 @@ class SearchEngineProvider extends ChangeNotifier {
     return false; // No changes detected
   }
 
-  Future<void> editSaveSearch({required VoidCallback onSuccess}) async {
+  Future<void> editSaveSearch({
+    required bool isSubscribed,
+    required VoidCallback onSuccess,
+  }) async {
     final id = selectedSaveSearch!.id.toString();
     final result = await SearchEngineAPISearvice.instance.editSaveSearch(
       id: id,
       data: {
         "name": selectedSaveSearch?.name ?? "Custom edited Name",
-        "filters": {
-          "track": selectedTrack ?? "",
-          "placed_last_start": placedLastStart,
-          "placed_at_distance": selectedPlaceAtDistance ?? "",
-          "placed_at_track": selectedPlaceAtTrack ?? "",
-          "odds_range": oddsRangeCtr.text.isNotEmpty ? oddsRangeCtr.text : "",
-          "wins_at_track": selectedWinsAtTrack ?? "",
-          "win_at_distance": selectedWinsAtDistance ?? "",
-          "won_last_start": wonLastStart,
-          "won_last_12_months": wonLast12Months,
-          "jockey_horse_wins": jockeyHorseWinsCtr.text.isNotEmpty
-              ? jockeyHorseWinsCtr.text
-              : "",
-          "barrier": selectedBarrier ?? "",
-          "jockey_strike_rate_last_12_months": "",
-        },
+        "filters": _buildSaveSearchFilters(isSubscribed: isSubscribed),
         "comment": selectedSaveSearch?.comment ?? "Custom edited comment",
       },
     );
@@ -586,6 +598,17 @@ class SearchEngineProvider extends ChangeNotifier {
         getAllSaveSearch();
       },
     );
+  }
+
+  bool _parseFlexibleBool(dynamic value) {
+    if (value == null) return false;
+    if (value is bool) return value;
+    if (value is num) return value == 1;
+    if (value is String) {
+      final v = value.trim().toLowerCase();
+      return v == "true" || v == "1" || v == "yes";
+    }
+    return false;
   }
 
   //! ============= tip slip section ====================

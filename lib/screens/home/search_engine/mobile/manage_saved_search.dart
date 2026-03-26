@@ -1,5 +1,6 @@
 import 'package:puntgpt_nick/core/app_imports.dart';
 import 'package:puntgpt_nick/provider/home/search_engine/search_engine_provider.dart';
+import 'package:puntgpt_nick/provider/subscription/subscription_provider.dart';
 import 'package:puntgpt_nick/screens/home/search_engine/mobile/widgets/home_section_shimmers.dart';
 
 class SearchDetailScreen extends StatelessWidget {
@@ -88,6 +89,9 @@ class SearchDetailScreen extends StatelessWidget {
 
                     // Proceed with saving if changes are detected
                     provider.editSaveSearch(
+                      isSubscribed: context
+                          .read<SubscriptionProvider>()
+                          .isSubscribed,
                       onSuccess: () {
                         provider.getAllSaveSearch();
                         AppToast.success(
@@ -122,42 +126,15 @@ class SearchDetailScreen extends StatelessWidget {
     required SearchEngineProvider provider,
     required String title,
   }) {
-    return Padding(
-      padding: EdgeInsets.fromLTRB(5.w, 14.h, 25.w, 14.h),
-      child: Row(
-        children: [
-          IconButton(
-            padding: EdgeInsets.zero,
-            onPressed: () {
-              // Clear saved search fields when navigating back
-              provider.clearSavedSearchFields();
-              context.pop();
-            },
-            icon: Icon(Icons.arrow_back_ios_rounded, size: 16.w),
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                title,
-                style: regular(
-                  fontFamily: AppFontFamily.secondary,
-                  height: 1.1,
-                  fontSize: (context.isBrowserMobile) ? 65.sp : 24.sp,
-                ),
-              ),
-              Text(
-                "Manage your saved search",
-                style: medium(
-                  fontSize: 14.fourteenSp(context),
-                  color: AppColors.primary.withValues(alpha: 0.6),
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
+    return AppScreenTopBar(
+      title: title,
+      slogan: "Manage your saved search",
+      onBack: () {
+        provider.clearSavedSearchFields();
+        context.pop();
+      },
+    );  
+   
   }
 
   Widget searchDetailsView({
@@ -235,17 +212,63 @@ class SearchDetailScreen extends StatelessWidget {
           ),
           horizontalDivider(),
           //* Placed at distance Section
-          AppTextFieldDropdown(
-            margin: EdgeInsets.symmetric(vertical: 20.w),
-            enabled: isEditMode,
-            items: provider.distanceDetails ?? [],
-            selectedValue: provider.selectedPlaceAtDistance,
-            onChange: isEditMode
-                ? (selectedValue) {
-                    provider.setSelectedPlaceAtDistance = selectedValue;
-                  }
-                : (_) {},
-            hintText: "Placed at distance",
+          // AppTextFieldDropdown(
+          //   margin: EdgeInsets.symmetric(vertical: 20.w),
+          //   enabled: isEditMode,
+          //   items: provider.distanceDetails ?? [],
+          //   selectedValue: provider.selectedPlaceAtDistance,
+          //   onChange: isEditMode
+          //       ? (selectedValue) {
+          //           provider.setSelectedPlaceAtDistance = selectedValue;
+          //         }
+          //       : (_) {},
+          //   hintText: "Placed at distance",
+          // ),
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 19.w),
+            child: GestureDetector(
+              behavior: HitTestBehavior.opaque,
+              onTap: isEditMode
+                  ? () {
+                      provider.togglePlacedAtDistance(!provider.placedAtDistance);
+                    }
+                  : null,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Placed at distance",
+                    style: semiBold(
+                      fontSize: (context.isBrowserMobile) ? 36.sp : 16.sp,
+                    ),
+                  ),
+                  AnimatedContainer(
+                    duration: const Duration(milliseconds: 250),
+                    curve: Curves.easeInOut,
+                    width: (context.isBrowserMobile) ? 40.sp : 22.sp,
+                    height: (context.isBrowserMobile) ? 40.sp : 22.sp,
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: provider.placedAtDistance
+                            ? Colors.green
+                            : AppColors.primary.setOpacity(0.15),
+                      ),
+                      borderRadius: BorderRadius.circular(1),
+                      color: provider.placedAtDistance
+                          ? Colors.green
+                          : Colors.transparent,
+                    ),
+                    child: provider.placedAtDistance
+                        ? Icon(
+                            Icons.check,
+                            color: Colors.white,
+                            size: (context.isBrowserMobile) ? 30.sp : 18.sp,
+                          )
+                        : null,
+                  ),
+                ],
+              ),
+            ),
           ),
           horizontalDivider(),
           //* Placed at track Section
@@ -288,18 +311,63 @@ class SearchDetailScreen extends StatelessWidget {
           ),
           horizontalDivider(),
           //* Wins at distance Section
-          AppTextFieldDropdown(
-            items: provider.distanceDetails ?? [],
-            selectedValue: provider.selectedWinsAtDistance,
-            onChange: isEditMode
-                ? (selectedValue) {
-                    provider.setSelectedWinsAtDistance = selectedValue;
-                  }
-                : (_) {},
-            margin: EdgeInsets.symmetric(vertical: 20.w),
-            enabled: isEditMode,
-
-            hintText: "Wins at distance",
+          // AppTextFieldDropdown(
+          //   items: provider.distanceDetails ?? [],
+          //   selectedValue: provider.selectedWinsAtDistance,
+          //   onChange: isEditMode
+          //       ? (selectedValue) {
+          //           provider.setSelectedWinsAtDistance = selectedValue;
+          //         }
+          //       : (_) {},
+          //   margin: EdgeInsets.symmetric(vertical: 20.w),
+          //   enabled: isEditMode,
+          //   hintText: "Wins at distance",
+          // ),
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 19.w),
+            child: GestureDetector(
+              behavior: HitTestBehavior.opaque,
+              onTap: isEditMode
+                  ? () {
+                      provider.toggleWonAtDistance(!provider.wonAtDistance);
+                    }
+                  : null,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Won at distance",
+                    style: semiBold(
+                      fontSize: (context.isBrowserMobile) ? 36.sp : 16.sp,
+                    ),
+                  ),
+                  AnimatedContainer(
+                    duration: const Duration(milliseconds: 250),
+                    curve: Curves.easeInOut,
+                    width: (context.isBrowserMobile) ? 40.sp : 22.sp,
+                    height: (context.isBrowserMobile) ? 40.sp : 22.sp,
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: provider.wonAtDistance
+                            ? Colors.green
+                            : AppColors.primary.setOpacity(0.15),
+                      ),
+                      borderRadius: BorderRadius.circular(1),
+                      color: provider.wonAtDistance
+                          ? Colors.green
+                          : Colors.transparent,
+                    ),
+                    child: provider.wonAtDistance
+                        ? Icon(
+                            Icons.check,
+                            color: Colors.white,
+                            size: (context.isBrowserMobile) ? 30.sp : 18.sp,
+                          )
+                        : null,
+                  ),
+                ],
+              ),
+            ),
           ),
           horizontalDivider(),
           //* Won last start Section
@@ -441,8 +509,7 @@ class SearchDetailScreen extends StatelessWidget {
               "Are you sure you want to delete this search?",
               style: regular(
                 color: AppColors.black,
-                fontSize:
-                    context.isBrowserMobile ? 65.sp : 19.sp,
+                fontSize: context.isBrowserMobile ? 65.sp : 19.sp,
               ),
             ),
             actions: [

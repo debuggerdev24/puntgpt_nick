@@ -24,6 +24,7 @@ class SubscriptionProvider extends ChangeNotifier {
 
   StreamSubscription<List<PurchaseDetails>>? _purchaseSub;
   String _appAccountToken = "";
+  bool _isUserInitiatedPurchaseFlow = false;
 
   //* When true, [initiateSubscription] does not toggle [isSubscriptionProcessing] (used during startup restore).
   bool _silentSubscriptionFlow = false;
@@ -123,6 +124,14 @@ class SubscriptionProvider extends ChangeNotifier {
 
   //* Restored purchase
   void _handlePurchaseStatusRestored(PurchaseDetails purchase) {
+    if (Platform.isIOS && _isUserInitiatedPurchaseFlow) {
+      Logger.info(
+        "iOS pay flow: restored status received for ${purchase.productID}; handling as purchase.",
+      );
+      _handlePurchaseStatusPurchased(purchase);
+      return;
+    }
+
     Logger.info(
       "_handlePurchaseStatusRestored: Purchase restored: ${purchase.productID}",
     );
@@ -170,11 +179,13 @@ class SubscriptionProvider extends ChangeNotifier {
     required BuildContext context,
     required String appAccountToken,
   }) async {
+    _isUserInitiatedPurchaseFlow = Platform.isIOS;
     final ok = await SubscriptionService.instance.buy(
       tier: tier,
       appAccountToken: appAccountToken,
     );
     if (!ok) {
+      _isUserInitiatedPurchaseFlow = false;
       setSubscriptionProcessStatus(status: false);
     }
   }
@@ -262,6 +273,7 @@ class SubscriptionProvider extends ChangeNotifier {
   }
 
   void _handlePurchaseStatusCanceled(PurchaseDetails purchase) {
+    _isUserInitiatedPurchaseFlow = false;
     setSubscriptionProcessStatus(status: false);
     final ctx = AppRouter.rootNavigatorKey.currentContext;
     if (ctx != null && ctx.mounted) {
@@ -272,6 +284,7 @@ class SubscriptionProvider extends ChangeNotifier {
   void _handlePurchaseStatusError(PurchaseDetails purchase) {
     Logger.error("Purchase error: ${purchase.error}");
 
+    _isUserInitiatedPurchaseFlow = false;
     setSubscriptionProcessStatus(status: false);
   }
 
@@ -362,6 +375,7 @@ class SubscriptionProvider extends ChangeNotifier {
   Future<void> _afterSubscriptionValidatedSuccess({
     required Map<String, dynamic> response,
   }) async {
+    _isUserInitiatedPurchaseFlow = false;
     setSubscriptionProcessStatus(status: false);
 
     final data = response['data'];

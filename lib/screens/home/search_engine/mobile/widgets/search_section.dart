@@ -143,15 +143,60 @@ class SearchFields extends StatelessWidget {
 
                   horizontalDivider(),
                   //* Placed at distance Section
-                  AppTextFieldDropdown(
-                    margin: EdgeInsets.symmetric(vertical: 20.w),
-                    items: provider.distanceDetails ?? [],
-                    selectedValue: provider.selectedPlaceAtDistance,
-                    // selectedValue: "Placed at distance",
-                    onChange: (selectedValue) {
-                      provider.setSelectedPlaceAtDistance = selectedValue;
-                    },
-                    hintText: "Placed at distance",
+                  // AppTextFieldDropdown(
+                  //   margin: EdgeInsets.symmetric(vertical: 20.w),
+                  //   items: provider.distanceDetails ?? [],
+                  //   selectedValue: provider.selectedPlaceAtDistance,
+                  //   onChange: (selectedValue) {
+                  //     provider.setSelectedPlaceAtDistance = selectedValue;
+                  //   },
+                  //   hintText: "Placed at distance",
+                  // ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(vertical: 19.w),
+                    child: GestureDetector(
+                      behavior: HitTestBehavior.opaque,
+                      onTap: () {
+                        provider.togglePlacedAtDistance(
+                          !provider.placedAtDistance,
+                        );
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Placed at distance",
+                            style: semiBold(
+                              fontSize: (context.isBrowserMobile) ? 36.sp : 16.sp,
+                            ),
+                          ),
+                          AnimatedContainer(
+                            duration: const Duration(milliseconds: 250),
+                            curve: Curves.easeInOut,
+                            width: (context.isBrowserMobile) ? 40.sp : 22.sp,
+                            height: (context.isBrowserMobile) ? 40.sp : 22.sp,
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: provider.placedAtDistance
+                                    ? Colors.green
+                                    : AppColors.primary.setOpacity(0.15),
+                              ),
+                              borderRadius: BorderRadius.circular(1),
+                              color: provider.placedAtDistance
+                                  ? Colors.green
+                                  : Colors.transparent,
+                            ),
+                            child: provider.placedAtDistance
+                                ? Icon(
+                                    Icons.check,
+                                    color: Colors.white,
+                                    size: (context.isBrowserMobile) ? 30.sp : 18.sp,
+                                  )
+                                : null,
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                   horizontalDivider(),
                   //* Placed at track
@@ -171,13 +216,16 @@ class SearchFields extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.symmetric(vertical: 14),
                       child: AppTextField(
+                        textInputAction: TextInputAction.done,
                         inputFormatter: [
                           FilteringTextInputFormatter.digitsOnly,
+                          
                         ],
                         keyboardType: TextInputType.number,
                         controller: provider.oddsRangeCtr,
                         hintText: "Odds Range",
                       ),
+
                     ),
                     horizontalDivider(),
                     //* Win at track Section
@@ -191,14 +239,58 @@ class SearchFields extends StatelessWidget {
                       hintText: "Win at track",
                     ),
                     horizontalDivider(),
-                    AppTextFieldDropdown(
-                      items: provider.distanceDetails ?? [],
-                      selectedValue: provider.selectedWinsAtDistance,
-                      onChange: (selectedValue) {
-                        provider.setSelectedWinsAtDistance = selectedValue;
-                      },
-                      margin: EdgeInsets.symmetric(vertical: 20.w),
-                      hintText: "Wins at distance",
+                    // AppTextFieldDropdown(
+                    //   items: provider.distanceDetails ?? [],
+                    //   selectedValue: provider.selectedWinsAtDistance,
+                    //   onChange: (selectedValue) {
+                    //     provider.setSelectedWinsAtDistance = selectedValue;
+                    //   },
+                    //   margin: EdgeInsets.symmetric(vertical: 20.w),
+                    //   hintText: "Won at distance",
+                    // ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(vertical: 19.w),
+                      child: GestureDetector(
+                        behavior: HitTestBehavior.opaque,
+                        onTap: () {
+                          provider.toggleWonAtDistance(!provider.wonAtDistance);
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "Won at distance",
+                              style: semiBold(
+                                fontSize: (context.isBrowserMobile) ? 36.sp : 16.sp,
+                              ),
+                            ),
+                            AnimatedContainer(
+                              duration: const Duration(milliseconds: 250),
+                              curve: Curves.easeInOut,
+                              width: (context.isBrowserMobile) ? 40.sp : 22.sp,
+                              height: (context.isBrowserMobile) ? 40.sp : 22.sp,
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: provider.wonAtDistance
+                                      ? Colors.green
+                                      : AppColors.primary.setOpacity(0.15),
+                                ),
+                                borderRadius: BorderRadius.circular(1),
+                                color: provider.wonAtDistance
+                                    ? Colors.green
+                                    : Colors.transparent,
+                              ),
+                              child: provider.wonAtDistance
+                                  ? Icon(
+                                      Icons.check,
+                                      color: Colors.white,
+                                      size: (context.isBrowserMobile) ? 30.sp : 18.sp,
+                                    )
+                                  : null,
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                     horizontalDivider(),
                     //* Won last start Section
@@ -305,6 +397,7 @@ class SearchFields extends StatelessWidget {
                     horizontalDivider(),
                     AppTextField(
                       margin: EdgeInsets.symmetric(vertical: 20.w),
+                      textInputAction: TextInputAction.done,
                       inputFormatter: [FilteringTextInputFormatter.digitsOnly],
                       keyboardType: TextInputType.number,
                       controller: provider.jockeyHorseWinsCtr,

@@ -33,7 +33,7 @@ class AppScreenTopBar extends StatelessWidget {
                     style: regular(
                       fontSize: (context.isBrowserMobile) ? 36.sp : 24.sp,
                       fontFamily: AppFontFamily.secondary,
-                      height: 1.15,
+                      height: 1.1,
                     ),
                   ),
                   Text(

@@ -1,4 +1,5 @@
 import 'package:puntgpt_nick/core/app_imports.dart';
+import 'package:badges/badges.dart' as badges;
 import 'package:puntgpt_nick/provider/home/search_engine/search_engine_provider.dart';
 import 'package:puntgpt_nick/provider/subscription/subscription_provider.dart';
 
@@ -50,44 +51,47 @@ class _DashboardAppBarState extends State<DashboardAppBar> {
                 ? 48.sp
                 : 14.sp,
             height: 1,
-
             fontFamily: AppFontFamily.secondary,
             color: AppColors.white,
           ),
         ),
-        if (context.read<SubscriptionProvider>().isSubscribed)
-          Text(
-            textAlign: TextAlign.center,
-            "Pro", // : "Upgrade to\nPro Punter",
-            style: regular(
-              height: 1,
-              fontSize: 14.sp,
-              // context.isTablet
-              //     ? 32.sp
-              //     : (context.isBrowserMobile)
-              //     ? 48.sp
-              //     : 14.sp,
-              fontFamily: AppFontFamily.secondary,
-              color: AppColors.premiumYellow,
-            ),
-          )
-        else
-          Text(
-            textAlign: TextAlign.center,
-            "Upgrade to\nPro Punter",
-            style: regular(
-              height: 1,
-              fontSize: 12.sp,
-              // context.isTablet
-              //     ? 32.sp
-              //     : (context.isBrowserMobile)
-              //     ? 48.sp
-              //     : 14.sp,
+        Consumer<SubscriptionProvider>(
+          builder: (context, subscriptionProvider, child) {
+            if (subscriptionProvider.isSubscribed) {
+              return Text(
+                textAlign: TextAlign.center,
+                "Pro", // : "Upgrade to\nPro Punter",
+                style: regular(
+                  height: 1,
+                  fontSize: 14.sp,
+                  // context.isTablet
+                  //     ? 32.sp
+                  //     : (context.isBrowserMobile)
+                  //     ? 48.sp
+                  //     : 14.sp,
+                  fontFamily: AppFontFamily.secondary,
+                  color: AppColors.premiumYellow,
+                ),
+              );
+            }
+            return Text(
+              textAlign: TextAlign.center,
+              "Upgrade to\nPro Punter",
+              style: regular(
+                height: 1,
+                fontSize: 12.sp,
+                // context.isTablet
+                //     ? 32.sp
+                //     : (context.isBrowserMobile)
+                //     ? 48.sp
+                //     : 14.sp,
 
-              fontFamily: AppFontFamily.secondary,
-              color: AppColors.premiumYellow,
-            ),
-          ),
+                fontFamily: AppFontFamily.secondary,
+                color: AppColors.premiumYellow,
+              ),
+            );
+          },
+        ),
       ],
     );
   }
@@ -96,7 +100,7 @@ class _DashboardAppBarState extends State<DashboardAppBar> {
     return Consumer<SearchEngineProvider>(
       builder: (context, provider, child) {
         return SizedBox(
-          height: (12.w.flexClamp(18, 22) * 1.2) + 20,
+          // height: (12.w.flexClamp(18, 22) * 1.2) + 20,
           child: GestureDetector(
             behavior: HitTestBehavior.opaque,
             onTap: () {
@@ -107,51 +111,44 @@ class _DashboardAppBarState extends State<DashboardAppBar> {
               }
               context.pushNamed(AppRoutes.tipSlipScreen.name);
             },
-            child: Stack(
-              alignment: Alignment.center,
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(
-                    right: (provider.tipSlips?.isNotEmpty ?? false) ? 8.w : 6.w,
-                  ),
-                  child: Text(
-                    "Tip Slip",
-                    style: bold(
-                      height: 1.2,
-                      fontSize: context.isTablet
-                          ? 32.sp
-                          : (context.isBrowserMobile)
-                          ? 40.sp
-                          : 20.sp,
-                      color: AppColors.white,
-                    ),
+            child: badges.Badge(
+              showBadge: provider.tipSlips?.isNotEmpty ?? false,
+              position: badges.BadgePosition.topEnd(
+                top
+                : -11,
+                end: context.isBrowserMobile ? -14.w : -5,
+              ),
+              badgeStyle: badges.BadgeStyle(
+                badgeColor: AppColors.white,
+                borderRadius: BorderRadius.circular(2),
+                elevation: 0,
+              ),
+              badgeContent: Text(
+                provider.tipSlips?.length.toString() ?? "0",
+                style: semiBold(
+                  fontSize: context.isTablet
+                      ? 18.sp
+                      : (context.isBrowserMobile)
+                          ? 24.sp
+                          : 12.sp,
+                  color: AppColors.black,
+                ),
+              ),
+              child: Padding(
+                padding: EdgeInsets.only(right: 6.w),
+                child: Text(
+                  "Tip Slip",
+                  style: bold(
+                    height: 1.2,
+                    fontSize: context.isTablet
+                        ? 32.sp
+                        : (context.isBrowserMobile)
+                            ? 40.sp
+                            : 18.sp,
+                    color: AppColors.white,
                   ),
                 ),
-                if (provider.tipSlips?.isNotEmpty ?? false)
-                  Positioned(
-                    top: 4,
-                    right: 0,
-                    child: Container(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 3,
-                        vertical: (context.isBrowserMobile) ? 3 : 1,
-                      ),
-                      decoration: BoxDecoration(color: AppColors.white),
-                      child: Text(
-                        provider.tipSlips?.length.toString() ??
-                            "0", //tipSlips?.length.toString() ?? "0",
-                        style: semiBold(
-                          fontSize: context.isTablet
-                              ? 18.sp
-                              : (context.isBrowserMobile)
-                              ? 24.sp
-                              : 12.sp,
-                          color: AppColors.black,
-                        ),
-                      ),
-                    ),
-                  ),
-              ],
+              ),
             ),
           ),
         );
@@ -162,7 +159,7 @@ class _DashboardAppBarState extends State<DashboardAppBar> {
   Widget _bannerAd() {
     return Expanded(
       child: Container(
-        height: 55.h,
+        height: 55.w,
         width: context.screenWidth - 50,
         margin: EdgeInsets.symmetric(horizontal: 20.w),
         decoration: BoxDecoration(

@@ -101,7 +101,7 @@ class _SavedSearchScreenState extends State<SavedSearchScreen> {
       return _buildEmptyState(context);
     }
     return ListView.builder(
-      padding: EdgeInsets.symmetric(vertical: 8.h),
+      // padding: EdgeInsets.symmetric(vertical: 8.h),
       itemCount: provider.saveSearches!.length,
       itemBuilder: (context, index) => SearchedItem(
         search: provider.saveSearches![index],
@@ -396,22 +396,23 @@ class SearchedItem extends StatelessWidget {
                     search.name,
                     style: semiBold(
                       fontSize: (context.isBrowserMobile) ? 40.sp : 20.sp,
-                      color: AppColors.primary.withValues(alpha: 0.35),
+                      color: AppColors.primary,
                     ),
                   ),
                   Text(
                     DateFormatter.formatDateLong(search.createdAt),
                     style: semiBold(
                       fontSize: (context.isBrowserMobile) ? 30.sp : 12.sp,
-                      color: AppColors.primary.withValues(alpha: 0.2),
+                      color: AppColors.primary,
                     ),
                   ),
-                  6.5.h.verticalSpace,
+                  6.5.w
+                  .verticalSpace,
                   Text(
                     search.comment,
                     style: regular(
                       fontSize: (context.isBrowserMobile) ? 40.sp : 20.sp,
-                      color: AppColors.primary.withValues(alpha: 0.27),
+                      color: AppColors.primary,
                     ),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,

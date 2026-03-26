@@ -83,17 +83,21 @@ class _DashboardState extends State<Dashboard> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 spacing: 15.w,
                 children: [
-                  _navItem(
-                    onTap: () {
-                      indexOfTab.value = 0;
-                      AppRouter.indexedStackNavigationShell?.goBranch(0);
+                  Consumer<SubscriptionProvider>(
+                    builder: (context, subscriptionProvider, child) {
+                      return _navItem(
+                        onTap: () {
+                          indexOfTab.value = 0;
+                          AppRouter.indexedStackNavigationShell?.goBranch(0);
+                        },
+                        text: subscriptionProvider.isSubscribed
+                            ? "Home"
+                            : "Upgrade to\nPro Punter",
+                        icon: AppAssets.trophy,
+                        color: AppColors.premiumYellow,
+                        index: 0,
+                      );
                     },
-                    text: context.read<SubscriptionProvider>().isSubscribed
-                        ? "Home"
-                        : "Upgrade to\nPro Punter",
-                    icon: AppAssets.trophy,
-                    color: AppColors.premiumYellow,
-                    index: 0,
                   ),
                   _navItem(
                     onTap: () {

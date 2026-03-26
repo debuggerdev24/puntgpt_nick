@@ -46,15 +46,15 @@ class Filters {
   factory Filters.fromJson(Map<String, dynamic> json) => Filters(
     track: json["track"],
     placedAtTrack: json["placed_at_track"]?.toString(),
-    placedLastStart: _parseBool(json["placed_last_start"]),
-    placedAtDistance: json["placed_at_distance"]?.toString(),
+    placedLastStart: json["placed_last_start"] as bool? ?? false,
+    placedAtDistance: json["placed_at_distance"] as bool? ?? false,
     barrier: json["barrier"],
     oddsRange: json["odds_range"],
     winsAtTrack: json["wins_at_track"],
-    wonLastStart: _parseBool(json["won_last_start"]),
-    winAtDistance: json["win_at_distance"],
+    wonLastStart: json["won_last_start"] as bool? ?? false,
+    winAtDistance: json["win_at_distance"] as bool? ?? false,
     jockeyHorseWins: json["jockey_horse_wins"],
-    wonLast12Months: _parseBool(json["won_last_12_months"]),
+    wonLast12Months: json["won_last_12_months"] as bool? ?? false,
     jockeyStrikeRateLast12Months: json["jockey_strike_rate_last_12_months"],
   );
   bool? placedLastStart,
@@ -62,25 +62,12 @@ class Filters {
       wonLast12Months;
   String? track,
       placedAtTrack,
-      placedAtDistance,
       barrier,
       oddsRange,
       winsAtTrack,
-      winAtDistance,
       jockeyHorseWins,
       jockeyStrikeRateLast12Months;
-
-  /// Helper method to parse boolean values from JSON
-  /// Handles both string ("true"/"false") and boolean (true/false) values
-  /// Returns null if the value is not present
-  static bool? _parseBool(dynamic value) {
-    if (value == null) return null;
-    if (value is bool) return value;
-    if (value is String) {
-      return value.toLowerCase() == "true";
-    }
-    return null;
-  }
+  bool? placedAtDistance, winAtDistance;
 
   /// Converts Filters to a map of filter keys and their values
   /// Only includes filters that have non-null values
@@ -95,8 +82,8 @@ class Filters {
     if (placedLastStart != null) {
       map["placed_last_start"] = placedLastStart;
     }
-    if (placedAtDistance != null) {
-      map["placed_at_distance"] = placedAtDistance;
+    if (placedAtDistance == true) {
+      map["placed_at_distance"] = true;
     }
     if (barrier != null && barrier!.isNotEmpty) {
       map["barrier"] = barrier;
@@ -110,8 +97,8 @@ class Filters {
     if (wonLastStart != null) {
       map["won_last_start"] = wonLastStart;
     }
-    if (winAtDistance != null && winAtDistance!.isNotEmpty) {
-      map["win_at_distance"] = winAtDistance;
+    if (winAtDistance == true) {
+      map["win_at_distance"] = true;
     }
     if (jockeyHorseWins != null && jockeyHorseWins!.isNotEmpty) {
       map["jockey_horse_wins"] = jockeyHorseWins;

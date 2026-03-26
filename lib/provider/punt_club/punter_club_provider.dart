@@ -113,7 +113,7 @@ class PuntClubProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// Handles incoming WebSocket events by "type" field.
+  //* Handles incoming WebSocket events by "type" field.
   void _onChatEvent(Map<String, dynamic> e) {
     final type = (e['type'] ?? '').toString();
     switch (type) {

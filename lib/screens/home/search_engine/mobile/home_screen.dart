@@ -3,6 +3,7 @@ import 'package:puntgpt_nick/core/app_imports.dart';
 import 'package:puntgpt_nick/models/home/classic_form_guide/next_race_model.dart';
 import 'package:puntgpt_nick/provider/home/classic_form/classic_form_provider.dart';
 import 'package:puntgpt_nick/provider/home/search_engine/search_engine_provider.dart';
+import 'package:puntgpt_nick/provider/subscription/subscription_provider.dart';
 import 'package:puntgpt_nick/screens/home/search_engine/mobile/widgets/home_section_shimmers.dart';
 import 'package:puntgpt_nick/screens/home/search_engine/mobile/widgets/home_screen_tab.dart';
 import 'package:puntgpt_nick/screens/home/search_engine/mobile/widgets/race_start_timing_options.dart';
@@ -196,10 +197,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
           ),
           //* Race table
           provider.classicFormGuide!.isEmpty
-              ? _buildRaceTableEmptyState(
-                  context: context,
-                  provider: provider,
-                )
+              ? _buildRaceTableEmptyState(context: context, provider: provider)
               : SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: Container(
@@ -224,96 +222,98 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                       },
                       defaultVerticalAlignment:
                           TableCellVerticalAlignment.middle,
-                      children: List.generate(provider.classicFormGuide!.length, (
-                        index,
-                      ) {
-                        final classicForm = provider.classicFormGuide![index];
-                        return _buildRow(
-                          col1: classicForm.meetingName,
-                          // col2: "",
-                          col3: classicForm.meetingDate,
-                          col4: classicForm.meetingAustralianTime,
-                          onTap: () {
-                            provider.getMeetingRaceList(
-                              meetingId: classicForm.meetingId.toString(),
-                            );
-                            provider.getRaceFieldDetail(
-                              id: classicForm
-                                  .races[provider.selectedRace].raceId
-                                  .toString(),
-                            );
-                            context.pushNamed(AppRoutes.selectedRace.name);
-                          },
-                        );
-                      }),
-                //   _buildRow(
-                //     col1: "Flemington",
-                //     col2: "R2. Race Sponsor",
-                //     col3: "2025-09-28",
-                //     col4: "14:35",
-                //     onTap: () {
-                //       context.pushNamed(AppRoutes.selectedRace.name);
-                //     },
-                //   ),
-                //   _buildRow(
-                //     col1: "Morphettville",
-                //     col2: "R3. Race Sponsor",
-                //     col3: "2025-09-28",
-                //     col4: "14:35",
-                //     onTap: () {
-                //       context.pushNamed(AppRoutes.selectedRace.name);
-                //     },
-                //   ),
-                //   _buildRow(
-                //     col1: "Doomben",
-                //     col2: "R4. Race Sponsor",
-                //     col3: "2025-09-28",
-                //     col4: "14:35",
-                //     onTap: () {
-                //       context.pushNamed(AppRoutes.selectedRace.name);
-                //       context.pushNamed(AppRoutes.selectedRace.name);
-                //     },
-                //   ),
-                //   _buildRow(
-                //     col1: "Gold Coast",
-                //     col2: "R5. Race Sponsor",
-                //     col3: "2025-09-28",
-                //     col4: "14:35",
-                //     onTap: () {
-                //       context.pushNamed(AppRoutes.selectedRace.name);
-                //     },
-                //   ),
-                //   _buildRow(
-                //     col1: "Ascot",
-                //     col2: "R6. Race Sponsor",
-                //     col3: "2025-09-28",
-                //     col4: "14:35",
-                //     onTap: () {
-                //       context.pushNamed(AppRoutes.selectedRace.name);
-                //     },
-                //   ),
-                //   _buildRow(
-                //     col1: "Newcastle",
-                //     col2: "R7. Race Sponsor",
-                //     col3: "2025-09-28",
-                //     col4: "14:35",
-                //     onTap: () {
-                //       context.pushNamed(AppRoutes.selectedRace.name);
-                //     },
-                //   ),
-                //   _buildRow(
-                //     col1: "etc...",
-                //     col2: "etc...",
-                //     col3: "etc...",
-                //     col4: "etc...",
-                //     onTap: () {
-                //       context.pushNamed(AppRoutes.selectedRace.name);
-                //     },
-                //   ),
-                // ],
-              ),
-            ),
-          ),
+                      children: List.generate(
+                        provider.classicFormGuide!.length,
+                        (index) {
+                          final classicForm = provider.classicFormGuide![index];
+                          return _buildRow(
+                            col1: classicForm.meetingName,
+                            // col2: "",
+                            col3: classicForm.meetingDate,
+                            col4: classicForm.meetingAustralianTime,
+                            onTap: () {
+                              provider.getMeetingRaceList(
+                                meetingId: classicForm.meetingId.toString(),
+                              );
+                              provider.getRaceFieldDetail(
+                                id: classicForm
+                                    .races[provider.selectedRace]
+                                    .raceId
+                                    .toString(),
+                              );
+                              context.pushNamed(AppRoutes.selectedRace.name);
+                            },
+                          );
+                        },
+                      ),
+                      //   _buildRow(
+                      //     col1: "Flemington",
+                      //     col2: "R2. Race Sponsor",
+                      //     col3: "2025-09-28",
+                      //     col4: "14:35",
+                      //     onTap: () {
+                      //       context.pushNamed(AppRoutes.selectedRace.name);
+                      //     },
+                      //   ),
+                      //   _buildRow(
+                      //     col1: "Morphettville",
+                      //     col2: "R3. Race Sponsor",
+                      //     col3: "2025-09-28",
+                      //     col4: "14:35",
+                      //     onTap: () {
+                      //       context.pushNamed(AppRoutes.selectedRace.name);
+                      //     },
+                      //   ),
+                      //   _buildRow(
+                      //     col1: "Doomben",
+                      //     col2: "R4. Race Sponsor",
+                      //     col3: "2025-09-28",
+                      //     col4: "14:35",
+                      //     onTap: () {
+                      //       context.pushNamed(AppRoutes.selectedRace.name);
+                      //       context.pushNamed(AppRoutes.selectedRace.name);
+                      //     },
+                      //   ),
+                      //   _buildRow(
+                      //     col1: "Gold Coast",
+                      //     col2: "R5. Race Sponsor",
+                      //     col3: "2025-09-28",
+                      //     col4: "14:35",
+                      //     onTap: () {
+                      //       context.pushNamed(AppRoutes.selectedRace.name);
+                      //     },
+                      //   ),
+                      //   _buildRow(
+                      //     col1: "Ascot",
+                      //     col2: "R6. Race Sponsor",
+                      //     col3: "2025-09-28",
+                      //     col4: "14:35",
+                      //     onTap: () {
+                      //       context.pushNamed(AppRoutes.selectedRace.name);
+                      //     },
+                      //   ),
+                      //   _buildRow(
+                      //     col1: "Newcastle",
+                      //     col2: "R7. Race Sponsor",
+                      //     col3: "2025-09-28",
+                      //     col4: "14:35",
+                      //     onTap: () {
+                      //       context.pushNamed(AppRoutes.selectedRace.name);
+                      //     },
+                      //   ),
+                      //   _buildRow(
+                      //     col1: "etc...",
+                      //     col2: "etc...",
+                      //     col3: "etc...",
+                      //     col4: "etc...",
+                      //     onTap: () {
+                      //       context.pushNamed(AppRoutes.selectedRace.name);
+                      //     },
+                      //   ),
+                      // ],
+                    ),
+                  ),
+                ),
 
           25.w.verticalSpace,
         ],
@@ -354,10 +354,10 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
                     onTap: () {
                       context.pushNamed(AppRoutes.runnersScreen.name);
-                      provider.getSearchEngine(
-                        onSuccess: () {
-                          // AppToast.success(context: context, message: "Search successful");
-                        },
+                      provider.getUpcomingRunner(
+                        isSubscribed:
+                            context.read<SubscriptionProvider>().isSubscribed,
+                        onSuccess: () {},
                       );
                       // provider.createSaveSearch(
                       //   onError: (error) {
@@ -487,50 +487,49 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     required BuildContext context,
     required ClassicFormProvider provider,
   }) {
-    final dayLabel =
-        provider.days[provider.selectedDay].value.toLowerCase();
+    final dayLabel = provider.days[provider.selectedDay].value.toLowerCase();
     return Container(
-      width: double.infinity,
-      margin: EdgeInsets.only(bottom: 55.w),
-      padding: EdgeInsets.symmetric(vertical: 28.w, horizontal: 20.w),
-      decoration: BoxDecoration(
-        color: AppColors.primary.withValues(alpha: 0.03),
-        border: Border.all(
-          color: AppColors.primary.withValues(alpha: 0.15),
-        ),
-        borderRadius: BorderRadius.circular(12.r),
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Container(
-            padding: EdgeInsets.all(14.w),
-            decoration: BoxDecoration(
-              color: AppColors.green.withValues(alpha: 0.1),
-              shape: BoxShape.circle,
-              border: Border.all(
-                color: AppColors.green.withValues(alpha: 0.22),
+          width: double.infinity,
+          margin: EdgeInsets.only(bottom: 55.w),
+          padding: EdgeInsets.symmetric(vertical: 28.w, horizontal: 20.w),
+          decoration: BoxDecoration(
+            color: AppColors.primary.withValues(alpha: 0.03),
+            border: Border.all(
+              color: AppColors.primary.withValues(alpha: 0.15),
+            ),
+            borderRadius: BorderRadius.circular(12.r),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                padding: EdgeInsets.all(14.w),
+                decoration: BoxDecoration(
+                  color: AppColors.green.withValues(alpha: 0.1),
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: AppColors.green.withValues(alpha: 0.22),
+                  ),
+                ),
+                child: Icon(
+                  Icons.calendar_today_outlined,
+                  size: 30.sp,
+                  color: AppColors.primary.withValues(alpha: 0.55),
+                ),
               ),
-            ),
-            child: Icon(
-              Icons.calendar_today_outlined,
-              size: 30.sp,
-              color: AppColors.primary.withValues(alpha: 0.55),
-            ),
+              14.w.verticalSpace,
+              Text(
+                "No races for $dayLabel",
+                style: semiBold(
+                  fontSize: 16.sp,
+                  fontFamily: AppFontFamily.secondary,
+                  color: AppColors.primary,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ],
           ),
-          14.w.verticalSpace,
-          Text(
-            "No races for $dayLabel",
-            style: semiBold(
-              fontSize: 16.sp,
-              fontFamily: AppFontFamily.secondary,
-              color: AppColors.primary,
-            ),
-            textAlign: TextAlign.center,
-          ),
-        ],
-      ),
-    )
+        )
         .animate()
         .fadeIn(duration: 350.ms)
         .slideY(
@@ -582,10 +581,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   }
 }
 
-Widget askPuntGPTButton({
-  required BuildContext context,
-  EdgeInsets? margin,
-}) {
+Widget askPuntGPTButton({required BuildContext context, EdgeInsets? margin}) {
   return GestureDetector(
     onTap: () {
       // if(){

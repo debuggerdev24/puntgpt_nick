@@ -33,16 +33,27 @@ class SearchEngineAPISearvice {
   }
 
   Future<Either<ApiException, Map<String, dynamic>>> getSearchEngine({
-    required String jumpFilter,
-    String? track,
-    int? page,
+
+    required int page,
+    Map<String, dynamic>? filters,
   }) async {
+    final queryParameters = <String, dynamic>{
+      // "jump": jumpFilter,
+
+      "page": page,
+    };
+    if (filters != null && filters.isNotEmpty) {
+      filters.forEach((key, value) {
+        if (value == null) return;
+        if (value is String && value.trim().isEmpty) return;
+        if (value is bool && value == false) return;
+        queryParameters[key] = value;
+      });
+    }
+
     return await BaseApiHelper.instance.get<Map<String, dynamic>>(
-      EndPoints.getUpcomingMeetings(
-        jumpFilter: jumpFilter,
-        track: track,
-        page: page,
-      ),
+      EndPoints.getUpcomingRunners,
+      queryParameters: queryParameters,
     );
   }
 
@@ -118,7 +129,6 @@ class SearchEngineAPISearvice {
     return await BaseApiHelper.instance.post(
       data: data,
       EndPoints.compareHorses,
-      
     );
   }
 }

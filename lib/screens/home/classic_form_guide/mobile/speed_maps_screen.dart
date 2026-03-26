@@ -37,17 +37,7 @@ class _SpeedMapsScreenState extends State<SpeedMapsScreen> {
             ),
 
             if (speedMaps.speedMapsList.isEmpty)
-              Expanded(
-                child: Center(
-                  child: Text(
-                    'No speed maps found',
-                    style: medium(
-                      fontSize: 16.sp,
-                      color: AppColors.primary.withValues(alpha: 0.7),
-                    ),
-                  ),
-                ),
-              )
+              Expanded(child: _buildEmptyState(context))
             else
               Expanded(
                 child: SingleChildScrollView(
@@ -76,6 +66,63 @@ class _SpeedMapsScreenState extends State<SpeedMapsScreen> {
           ],
         );
       },
+    );
+  }
+
+  Widget _buildEmptyState(BuildContext context) {
+    return Center(
+      child: SingleChildScrollView(
+        padding: EdgeInsets.symmetric(horizontal: 28.w, vertical: 24.h),
+        child: Container(
+          width: double.infinity,
+          padding: EdgeInsets.symmetric(horizontal: 22.w, vertical: 24.h),
+          decoration: BoxDecoration(
+            color: AppColors.primary.withValues(alpha: 0.03),
+            borderRadius: BorderRadius.circular(16.r),
+            border: Border.all(
+              color: AppColors.primary.withValues(alpha: 0.12),
+              width: 1.4,
+            ),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                padding: EdgeInsets.all((context.isBrowserMobile) ? 22.w : 16.w),
+                decoration: BoxDecoration(
+                  color: AppColors.primary.withValues(alpha: 0.08),
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(
+                  Icons.insights_rounded,
+                  size: (context.isBrowserMobile) ? 56.sp : 40.sp,
+                  color: AppColors.primary.withValues(alpha: 0.55),
+                ),
+              ),
+              16.h.verticalSpace,
+              Text(
+                "No speed map data available",
+                textAlign: TextAlign.center,
+                style: semiBold(
+                  fontSize: (context.isBrowserMobile) ? 30.sp : 20.sp,
+                  fontFamily: AppFontFamily.secondary,
+                  color: AppColors.primary,
+                ),
+              ),
+              10.w.verticalSpace,
+              Text(
+                "No speed map data is available for this race yet. Please check back shortly.",
+                textAlign: TextAlign.center,
+                style: regular(
+                  fontSize: (context.isBrowserMobile) ? 24.sp : 14.sp,
+                  color: AppColors.primary.withValues(alpha: 0.65),
+                  height: 1.45,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 
