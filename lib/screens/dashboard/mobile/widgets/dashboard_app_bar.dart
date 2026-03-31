@@ -2,6 +2,7 @@ import 'package:puntgpt_nick/core/app_imports.dart';
 import 'package:badges/badges.dart' as badges;
 import 'package:puntgpt_nick/provider/home/search_engine/search_engine_provider.dart';
 import 'package:puntgpt_nick/provider/subscription/subscription_provider.dart';
+import 'package:puntgpt_nick/screens/dashboard/mobile/dashboard.dart';
 
 class DashboardAppBar extends StatefulWidget {
   const DashboardAppBar({super.key, required this.navigationShell});
@@ -27,48 +28,85 @@ class _DashboardAppBarState extends State<DashboardAppBar> {
       child: SafeArea(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [_appLogo(), _bannerAd(), _tipSlip()],
+          children: [
+            _appLogo(),
+            // Column(
+            //   mainAxisAlignment: MainAxisAlignment.center,
+            //   crossAxisAlignment: CrossAxisAlignment.center,
+            //   children: [
+            //     Icon(Icons.home, color: AppColors.white),
+            //     Text(
+            //       "Home",
+            //       style: regular(color: AppColors.white, fontSize: 12.sp),
+            //     ),
+            //   ],
+            // ),
+            _bannerAd(),
+            _tipSlip(),
+          ],
         ),
       ),
     );
   }
 
   Widget _appLogo() {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        ImageWidget(
-          path: AppAssets.horse,
-          width: context.isTablet
-              ? 55.sp
-              : (context.isBrowserMobile)
-              ? 62.w
-              : 32.w,
-          color: AppColors.white,
-        ),
-        1.5.verticalSpace,
-        Text(
-          "PuntGPT",
-          style: regular(
-            fontSize: context.isTablet
-                ? 32.sp
+    return GestureDetector(
+      onTap: () {
+        indexOfTab.value = 0;
+        AppRouter.indexedStackNavigationShell?.goBranch(0);
+      },
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          ImageWidget(
+            path: AppAssets.horse,
+            width: context.isTablet
+                ? 55.sp
                 : (context.isBrowserMobile)
-                ? 48.sp
-                : 14.sp,
-            height: 1,
-            fontFamily: AppFontFamily.secondary,
+                ? 62.w
+                : 32.w,
             color: AppColors.white,
           ),
-        ),
-        Consumer<SubscriptionProvider>(
-          builder: (context, subscriptionProvider, child) {
-            if (subscriptionProvider.isSubscribed) {
+          1.5.verticalSpace,
+          Text(
+            "PuntGPT",
+            style: regular(
+              fontSize: context.isTablet
+                  ? 32.sp
+                  : (context.isBrowserMobile)
+                  ? 48.sp
+                  : 14.sp,
+              height: 1,
+              fontFamily: AppFontFamily.secondary,
+              color: AppColors.white,
+            ),
+          ),
+          Consumer<SubscriptionProvider>(
+            builder: (context, subscriptionProvider, child) {
+              if (subscriptionProvider.isSubscribed) {
+                return Text(
+                  textAlign: TextAlign.center,
+                  "Pro", // : "Upgrade to\nPro Punter",
+                  style: regular(
+                    height: 1,
+                    fontSize: 14.sp,
+                    // context.isTablet
+                    //     ? 32.sp
+                    //     : (context.isBrowserMobile)
+                    //     ? 48.sp
+                    //     : 14.sp,
+                    fontFamily: AppFontFamily.secondary,
+                    color: AppColors.premiumYellow,
+                  ),
+                );
+              }
               return Text(
                 textAlign: TextAlign.center,
-                "Pro", // : "Upgrade to\nPro Punter",
+                "Upgrade to\nPro Punter",
                 style: regular(
                   height: 1,
-                  fontSize: 14.sp,
+                  fontSize: 12.sp,
+
                   // context.isTablet
                   //     ? 32.sp
                   //     : (context.isBrowserMobile)
@@ -78,26 +116,10 @@ class _DashboardAppBarState extends State<DashboardAppBar> {
                   color: AppColors.premiumYellow,
                 ),
               );
-            }
-            return Text(
-              textAlign: TextAlign.center,
-              "Upgrade to\nPro Punter",
-              style: regular(
-                height: 1,
-                fontSize: 12.sp,
-
-                // context.isTablet
-                //     ? 32.sp
-                //     : (context.isBrowserMobile)
-                //     ? 48.sp
-                //     : 14.sp,
-                fontFamily: AppFontFamily.secondary,
-                color: AppColors.premiumYellow,
-              ),
-            );
-          },
-        ),
-      ],
+            },
+          ),
+        ],
+      ),
     );
   }
 

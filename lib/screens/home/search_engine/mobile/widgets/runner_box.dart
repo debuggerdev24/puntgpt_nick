@@ -8,8 +8,6 @@ import 'package:puntgpt_nick/screens/home/search_engine/mobile/widgets/home_sect
 
 /// Placeholder until API exposes weight; swap for `runner.weightKg` when available.
 
-
-
 String _displayName(String? name) {
   final t = name?.trim();
   if (t == null || t.isEmpty) return '—';
@@ -64,7 +62,7 @@ class RunnerBox extends StatelessWidget {
                   ),
                   Spacer(),
                   ImageWidget(path: AppAssets.unibatLogo, height: 26.w),
-                  6.horizontalSpace,
+                  6.w.horizontalSpace,
                   Text(
                     runner.odds != null ? "\$${runner.odds} " : '- ',
                     style: bold(fontSize: 18.sp),
@@ -144,8 +142,6 @@ class RunnerBox extends StatelessWidget {
                           ],
                         ),
                       ),
-
-                      
                     ],
                   ),
                 ],
@@ -246,7 +242,7 @@ class RunnerBox extends StatelessWidget {
       context: context,
       builder: (modalContext) {
         return Container(
-          margin: EdgeInsets.fromLTRB(22.w, 5.h, 22.w, 25.h),
+          margin: EdgeInsets.fromLTRB(22.w, 5.w, 22.w, 25.w),
           decoration: BoxDecoration(
             border: Border.all(
               color: AppColors.primary.withValues(alpha: 0.15),
@@ -265,24 +261,23 @@ class RunnerBox extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     Padding(
-                      padding: EdgeInsets.fromLTRB(14.w, 18.h, 14.w, 12.h),
+                      padding: EdgeInsets.fromLTRB(14.w, 18.w, 14.w, 12.w),
                       child: Text(
-                        "Analysis and Field Comparison",
+                        "AI Analysis and Field Comparison",
                         style: semiBold(fontSize: 16.sp),
                         textAlign: TextAlign.center,
                       ),
                     ),
                     Divider(color: AppColors.primary.withValues(alpha: 0.2)),
                     Padding(
-                      padding: EdgeInsets.fromLTRB(22.w, 10.h, 22.w, 12.h),
+                      padding: EdgeInsets.fromLTRB(22.w, 10.w, 22.w, 12.w),
                       child: Text(
-                        provider.compareHorse?.summary ??
-                            "Unable to load analysis.",
+                        provider.compareHorse?.summary ?? "Unable to load analysis.",
                         style: regular(fontSize: 16.sp),
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.fromLTRB(22.w, 0, 22.w, 20.h),
+                      padding: EdgeInsets.fromLTRB(22.w, 0, 22.w, 20.w),
                       child: Container(
                         padding: EdgeInsets.all(14.w),
                         decoration: BoxDecoration(

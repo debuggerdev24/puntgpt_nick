@@ -135,6 +135,7 @@ class WebSignUpBottomSection extends StatelessWidget {
                       : (context.isBrowserMobile)
                       ? 22.sp
                       : 14.sp,
+                  decoration: TextDecoration.underline,
                 ),
               ),
               Container(

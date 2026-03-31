@@ -66,74 +66,85 @@ class _DashboardState extends State<Dashboard> {
           ),
         ],
       ),
-      bottomNavigationBar: SafeArea(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
+      bottomNavigationBar: ColoredBox(
+        color: AppColors.primary,
+        child: SafeArea(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                width: context.screenWidth,
+                color: AppColors.primary,
+                padding: EdgeInsets.symmetric(vertical: 14.w, horizontal: 10.w),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  spacing: 15.w,
+                  children: [
+                    Consumer<SubscriptionProvider>(
+                      builder: (context, subscriptionProvider, child) {
+                        return _navItem(
+                          onTap: () {
+                            // indexOfTab.value = 0;
+                            // AppRouter.indexedStackNavigationShell?.goBranch(0);
+                          },
+                          text: "Instagram",
+                          icon: AppAssets.instagramLogo,
+                          color: AppColors.premiumYellow,
+                          index: 0,
+                        );
+                        // return _navItem(
+                        //   onTap: () {
+                        //     // indexOfTab.value = 0;
+                        //     // AppRouter.indexedStackNavigationShell?.goBranch(0);
+                        //   },
+                        //   text: subscriptionProvider.isSubscribed
+                        //       ? "Home"
+                        //       : "Upgrade to\nPro Punter",
+                        //   icon: AppAssets.trophy,
+                        //   color: AppColors.premiumYellow,
+                        //   index: 0,
+                        // );
+                      },
+                    ),
+                    _navItem(
+                      onTap: () {
+                        indexOfTab.value = 1;
+                        AppRouter.indexedStackNavigationShell?.goBranch(1);
+                        final provider = context.read<PuntClubProvider>();
+                        provider.getChatGroups();
+                        provider.getNotifications();
+                      },
 
-          children: [
-            Container(
-              width: context.screenWidth,
-              color: AppColors.primary,
-              padding: EdgeInsets.symmetric(vertical: 14.w, horizontal: 10.w),
-        
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                spacing: 15.w,
-                children: [
-                  Consumer<SubscriptionProvider>(
-                    builder: (context, subscriptionProvider, child) {
-                      return _navItem(
-                        onTap: () {
-                          indexOfTab.value = 0;
-                          AppRouter.indexedStackNavigationShell?.goBranch(0);
-                        },
-                        text: subscriptionProvider.isSubscribed
-                            ? "Home"
-                            : "Upgrade to\nPro Punter",
-                        icon: AppAssets.trophy,
-                        color: AppColors.premiumYellow,
-                        index: 0,
-                      );
-                    },
-                  ),
-                  _navItem(
-                    onTap: () {
-                      indexOfTab.value = 1;
-                      AppRouter.indexedStackNavigationShell?.goBranch(1);
-                      final provider = context.read<PuntClubProvider>();
-                      provider.getChatGroups();
-                      provider.getNotifications();
-                    },
-        
-                    text: "PuntGPT Punters Club",
-                    icon: AppAssets.group,
-        
-                    hasLock: false,
-                    index: 1,
-                  ),
-                  _navItem(
-                    onTap: () {
-                      indexOfTab.value = 2;
-                      AppRouter.indexedStackNavigationShell?.goBranch(2);
-                    },
-                    text: "Bookies",
-                    icon: AppAssets.bookings,
-                    color: AppColors.green,
-                    index: 2,
-                  ),
-                  _navItem(
-                    onTap: () {
-                      indexOfTab.value = 3;
-                      AppRouter.indexedStackNavigationShell?.goBranch(3);
-                    },
-                    text: "Account",
-                    icon: AppAssets.profile,
-                    index: 3,
-                  ),
-                ],
+                      text: "PuntGPT Punters Club",
+                      icon: AppAssets.group,
+
+                      hasLock: false,
+                      index: 1,
+                    ),
+                    _navItem(
+                      onTap: () {
+                        indexOfTab.value = 2;
+                        AppRouter.indexedStackNavigationShell?.goBranch(2);
+                      },
+                      text: "Bookies",
+                      icon: AppAssets.bookings,
+                      color: AppColors.green,
+                      index: 2,
+                    ),
+                    _navItem(
+                      onTap: () {
+                        indexOfTab.value = 3;
+                        AppRouter.indexedStackNavigationShell?.goBranch(3);
+                      },
+                      text: "Account",
+                      icon: AppAssets.profile,
+                      index: 3,
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -147,57 +158,29 @@ class _DashboardState extends State<Dashboard> {
     Color? color,
     bool hasLock = false,
   }) {
-    // log(AppRouter.indexedStackNavigationShell!.currentIndex.toString());
     final currentIndex = AppRouter.indexedStackNavigationShell?.currentIndex;
     final opacity = 0.62;
+    bool isSvg = (icon.contains(".svg"));
     return Expanded(
       child: GestureDetector(
         behavior: HitTestBehavior.opaque,
         onTap: onTap,
         child: Column(
-          mainAxisSize: MainAxisSize.min,
+          spacing: isSvg ? 0 : 3.2.w,
+          mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Stack(
-              alignment: Alignment.topCenter,
-              children: [
-                ImageWidget(
-                  path: icon,
-                  type: ImageType.svg,
-                  color:
-                      color?.withValues(
-                        alpha: currentIndex == index ? 1 : opacity,
-                      ) ??
-                      AppColors.white.withValues(
-                        alpha: currentIndex == index ? 1 : opacity,
-                      ),
-                  height: 32.w.flexClamp(28, 36),
-                ),
-                if (hasLock) ...[
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        height: 32.w.flexClamp(28, 36),
-                        width: 32.w.flexClamp(28, 36),
-                      ),
-                      ImageWidget(
-                        path: AppAssets.lock,
-                        type: ImageType.svg,
-                        color:
-                            color?.withValues(
-                              alpha: currentIndex == index ? 1 : opacity,
-                            ) ??
-                            AppColors.white.withValues(
-                              alpha: currentIndex == index ? 1 : opacity,
-                            ),
-                        height: 16.w.flexClamp(14, 18),
-                      ),
-                    ],
+            ImageWidget(
+              path: icon,
+              type: isSvg ? ImageType.svg : ImageType.asset,
+              color:
+                  color?.withValues(
+                    alpha: currentIndex == index ? 1 : opacity,
+                  ) ??
+                  AppColors.white.withValues(
+                    alpha: currentIndex == index ? 1 : opacity,
                   ),
-                ],
-              ],
+              height: isSvg ? 32.w.flexClamp(28, 36) : 28.w,
             ),
             Text(
               text,

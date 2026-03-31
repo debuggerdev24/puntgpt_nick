@@ -149,17 +149,10 @@ class SearchDetailScreen extends StatelessWidget {
       child: Column(
         children: [
           //* Track Section
-          AppTextFieldDropdown(
+          AppMultiSelectTrackDropdown(
             enabled: isEditMode,
-
             margin: EdgeInsets.symmetric(vertical: 20.w),
             items: provider.trackList ?? [],
-            selectedValue: provider.selectedTrack,
-            onChange: isEditMode
-                ? (selectedValue) {
-                    provider.setSelectedTrack = selectedValue;
-                  }
-                : (_) {},
             hintText: "Select Track",
           ),
           horizontalDivider(),
@@ -196,10 +189,10 @@ class SearchDetailScreen extends StatelessWidget {
           //* Placed at track Section
           SearchCheckboxField(
             title: "Placed at track",
-            isChecked: provider.selectedPlaceAtTrack == true,
+            isChecked: provider.placeAtTrack == true,
             onTap: isEditMode
                 ? () {
-                    final current = provider.selectedPlaceAtTrack;
+                    final current = provider.placeAtTrack;
                     provider.setSelectedPlaceAtTrack =
                         current == null ? true : !current;
                   }

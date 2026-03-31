@@ -84,6 +84,8 @@ class AccountScreen extends StatelessWidget {
                     Text(
                       "AI disclaimer",
                       style: bold(
+                        decoration: TextDecoration.underline,
+
                         fontSize: (context.isBrowserMobile) ? 30.sp : 14.sp,
                       ),
                     ),
@@ -142,10 +144,16 @@ class AccountScreen extends StatelessWidget {
               "Are you sure you want to Log Out?",
               style: regular(
                 color: AppColors.black,
-                fontSize: context.isBrowserMobile ? 65.sp : 19.sp,
+                fontSize: context.isBrowserMobile ? 65.sp : 18.sp,
               ),
             ),
             actions: [
+              myActionButtonTheme(
+                onPressed: () {
+                  context.pop();
+                },
+                title: "Cancel",
+              ),
               myActionButtonTheme(
                 onPressed: () async {
                   context.pop(dialogContext);
@@ -167,12 +175,6 @@ class AccountScreen extends StatelessWidget {
                 },
                 title: "Yes",
               ),
-              myActionButtonTheme(
-                onPressed: () {
-                  context.pop();
-                },
-                title: "Cancel",
-              ),
             ],
           ),
         );
@@ -190,7 +192,7 @@ class AccountScreen extends StatelessWidget {
         title,
         style: regular(
           color: (title == "Yes") ? AppColors.red : AppColors.black,
-          fontSize: 16.5,
+          fontSize: 16.sp,
         ),
       ),
     );

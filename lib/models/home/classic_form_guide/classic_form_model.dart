@@ -6,10 +6,12 @@ class ClassicFormModel {
     required this.meetingDate,
     required this.races,
     required this.meetingAustralianTime,
+    required this.country,
   });
 
   factory ClassicFormModel.fromJson(Map<String, dynamic> json) =>
       ClassicFormModel(
+        country: (json["country"] as String?) ?? "",
         meetingId: (json["meeting_id"] as int?) ?? 0,
         meetingName: (json["meeting_name"] as String?) ?? "",
         trackName: (json["track_name"] as String?) ?? "",
@@ -23,7 +25,7 @@ class ClassicFormModel {
             [],
       );
   int meetingId;
-  String meetingName, trackName, meetingDate, meetingAustralianTime;
+  String meetingName, trackName, meetingDate, meetingAustralianTime,country;
   List<Race> races;
 }
 

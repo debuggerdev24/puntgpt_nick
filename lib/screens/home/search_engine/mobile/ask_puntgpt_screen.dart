@@ -104,9 +104,7 @@ class _AskPuntGptScreenState extends State<AskPuntGptScreen> {
                     ListView.builder(
                       controller: _scrollController,
                       padding: EdgeInsets.only(bottom: 80.w),
-                      itemCount:
-                          provider.messages.length +
-                          (provider.isLoading ? 1 : 0),
+                      itemCount:provider.messages.length + (provider.isLoading ? 1 : 0),
                       itemBuilder: (context, index) {
                         if (index < provider.messages.length) {
                           return Padding(

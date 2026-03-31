@@ -11,17 +11,17 @@ class ChatBubble extends StatelessWidget {
   Widget build(BuildContext context) {
     final maxW = MediaQuery.sizeOf(context).width * 0.88;
 
-    final fill = isUser ? AppColors.greyColor : const Color(0xFF1C1C1C);
-    final border = isUser
+    final fill = !isUser ? AppColors.greyColor : const Color(0xFF1C1C1C);
+    final border = !isUser
         ? AppColors.primary.withValues(alpha: 0.3)
         : AppColors.white.withValues(alpha: 0.15);
-    final labelColor = isUser
+    final labelColor = !isUser
         ? AppColors.primary.withValues(alpha: 0.9)
         : AppColors.white.withValues(alpha: 0.8);
-    final timeColor = isUser
+    final timeColor = !isUser
         ? AppColors.primary.withValues(alpha: 0.45)
         : AppColors.white.withValues(alpha: 0.7);
-    final msgColor = isUser ? AppColors.primary : AppColors.white;
+    final msgColor = !isUser ? AppColors.primary : AppColors.white;
     final borderRadius = isUser
         ? const BorderRadius.only(
             topLeft: Radius.circular(18),

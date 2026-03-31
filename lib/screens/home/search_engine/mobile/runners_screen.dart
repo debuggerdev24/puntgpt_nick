@@ -140,9 +140,7 @@ class _RunnersListScreenState extends State<RunnersListScreen> {
                                     );
                                   },
                                   onCompareToField: () {
-                                    provider.compareHorses(
-                                      selectionId:
-                                          runner.selectionId?.toString() ?? '',
+                                    provider.compareHorses(selectionId: runner.selectionId?.toString() ?? '',
                                     );
                                   },
                                   onOpenClassicFormGuide: () async {

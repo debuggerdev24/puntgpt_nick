@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:badges/badges.dart' as badge;
 import 'package:puntgpt_nick/core/app_imports.dart';
 import 'package:puntgpt_nick/core/widgets/subscription_gate_view.dart';
@@ -206,27 +208,45 @@ class PunterClubScreen extends StatelessWidget {
   }) {
     return Padding(
       padding: EdgeInsets.symmetric(
-        horizontal: (context.isBrowserMobile) ? 35.w : 25.w,
-        vertical: 18.w,
+        horizontal: (context.isBrowserMobile) ? 35.w : 24.w,
+        vertical: 7.w,
       ),
       child: Row(
+        // crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          ImageWidget(
-            path: AppAssets.groupIcon,
-            type: ImageType.svg,
-            height: (context.isBrowserMobile) ? 42.w : null,
+          Padding(
+            padding: EdgeInsets.only(bottom: 15),
+            child: ImageWidget(
+              path: AppAssets.groupIcon,
+              type: ImageType.svg,
+              height: (context.isBrowserMobile) ? 42.w : null,
+            ),
           ),
           (context.isBrowserMobile)
               ? 60.w.horizontalSpace
               : 12.w.horizontalSpace,
-          Text(
-            "Your Punters Clubs:",
-            style: regular(
-              fontSize: (context.isBrowserMobile) ? 38.sp : 24.sp,
-              fontFamily: AppFontFamily.secondary,
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Your Punters Clubs:",
+                  style: regular(
+                    fontSize: (context.isBrowserMobile) ? 38.sp : 24.sp,
+                    fontFamily: AppFontFamily.secondary,
+                  ),
+                ),
+                Text(
+                  "Start a Punters Club chat — @puntgpt for AI tips.",
+                  style: semiBold(
+                    fontSize: (context.isBrowserMobile) ? 28.sp : 14.sp,
+                    color: AppColors.primary.withValues(alpha: 0.6),
+                  ),
+                ),
+              ],
             ),
           ),
-          Spacer(),
+
           //* Notification sheet button
           GestureDetector(
             onTap: () {

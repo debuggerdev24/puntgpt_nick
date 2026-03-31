@@ -34,49 +34,62 @@ class SignUpBottomSection extends StatelessWidget {
           ],
         ),
         10.w.verticalSpace,
-        AppFilledButton(text: "Create Account", onTap: onSignUpTap),
+        AppFilledButton(
+          text: "Create Account",
+          onTap: onSignUpTap,
+          margin: EdgeInsets.symmetric(horizontal: 25.w),
+        ),
         10.w.verticalSpace,
-        Wrap(
-          alignment: WrapAlignment.center,
-          crossAxisAlignment: WrapCrossAlignment.center,
-          children: [
-            Text(
-              "Terms & Conditions",
-              style: bold(
-                fontSize: 14.sp,
-                decoration: TextDecoration.underline,
-              ),
-            ),
-            Container(
-              width: 1,
-              height: 20,
-              color: AppColors.primary,
-              margin: EdgeInsets.symmetric(horizontal: 10),
-            ),
-            // Text("AI disclaimer", style: bold(fontSize: 14.sp)),
-            // Container(
-            //   width: 1,
-            //   height: 20,
-            //   color: AppColors.primary,
-            //   margin: EdgeInsets.symmetric(horizontal: 10),
-            // ),
-            // ),
-            OnMouseTap(
-              onTap: () {
-                launchUrl(
-                  Uri.parse(kPrivacyPolicyUrl),
-                  mode: LaunchMode.externalApplication,
-                );
-              },
-              child: Text(
-                "Privacy Policy",
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 5),
+          child: Wrap(
+            alignment: WrapAlignment.center,
+            crossAxisAlignment: WrapCrossAlignment.center,
+            children: [
+              Text(
+                "Terms & Conditions",
                 style: bold(
                   fontSize: 14.sp,
                   decoration: TextDecoration.underline,
                 ),
               ),
-            ),
-          ],
+              Container(
+                width: 1,
+                height: 20,
+                color: AppColors.primary,
+                margin: EdgeInsets.symmetric(horizontal: 10),
+              ),
+              Text(
+                "AI disclaimer",
+                style: bold(
+                  fontSize: 14.sp,
+                  decoration: TextDecoration.underline,
+                ),
+              ),
+              Container(
+                width: 1,
+                height: 20,
+                color: AppColors.primary,
+                margin: EdgeInsets.symmetric(horizontal: 10),
+              ),
+
+              OnMouseTap(
+                onTap: () {
+                  launchUrl(
+                    Uri.parse(kPrivacyPolicyUrl),
+                    mode: LaunchMode.externalApplication,
+                  );
+                },
+                child: Text(
+                  "Privacy Policy",
+                  style: bold(
+                    fontSize: 14.sp,
+                    decoration: TextDecoration.underline,
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ],
     );

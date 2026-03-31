@@ -6,8 +6,7 @@ import 'package:puntgpt_nick/screens/auth/mobile/widgets/sign_up_form.dart';
 import 'package:puntgpt_nick/screens/auth/mobile/widgets/sign_up_title.dart';
 
 class SignUpScreen extends StatelessWidget {
-  const SignUpScreen({super.key, });
-
+  const SignUpScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +15,6 @@ class SignUpScreen extends StatelessWidget {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: const SystemUiOverlayStyle(
         statusBarIconBrightness: Brightness.light,
-        
       ),
       child: SafeArea(
         child: Scaffold(
@@ -25,40 +23,49 @@ class SignUpScreen extends StatelessWidget {
             child: Consumer<AuthProvider>(
               builder: (context, provider, child) {
                 Logger.info(provider.isSignUpLoading.toString());
-        
+
                 return Stack(
                   children: [
                     SingleChildScrollView(
-                      padding: EdgeInsets.fromLTRB(25.w, 0, 25.w, 30.h),
                       child: Column(
                         children: [
-                          //* title
-                          SignUpTitle(),
-                          20.w.verticalSpace,
-                          //* main body
-                          SignUpForm(formKey: formKey),
-                          12.w.verticalSpace,
-                          //* bottom section
-                          SizedBox(
-                            width: context.isMobileView
-                                ? double.maxFinite
-                                : context.screenWidth * 0.8.flexClamp(null, 800),
-                            child: AppCheckBox(
-                              value: provider.isReadTermsAndConditions,
-                              onChanged: (value) {
-                                provider.isReadTermsAndConditions = value;
-                              },
-                              label: Text(
-                                "I have read and accept the Terms & Conditions, AI disclaimer and understand my personal information will be handled in accordance with the Privacy Policy.",
-                                style: regular(
-                                  fontSize: 14.sp,
-                                  height: 1.4,
-                                  color: AppColors.primary.withValues(alpha: 0.8),
+                          Padding(
+                            padding: EdgeInsets.fromLTRB(25.w, 0, 25.w, 30.w),
+                            child: Column(
+                              children: [
+                                //* title
+                                SignUpTitle(),
+                                20.w.verticalSpace,
+                                //* main body
+                                SignUpForm(formKey: formKey),
+                                12.w.verticalSpace,
+                                //* bottom section
+                                SizedBox(
+                                  width: context.isMobileView
+                                      ? double.maxFinite
+                                      : context.screenWidth *
+                                            0.8.flexClamp(null, 800),
+                                  child: AppCheckBox(
+                                    value: provider.isReadTermsAndConditions,
+                                    onChanged: (value) {
+                                      provider.isReadTermsAndConditions = value;
+                                    },
+                                    label: Text(
+                                      "I have read and accept the Terms & Conditions, AI disclaimer and understand my personal information will be handled in accordance with the Privacy Policy.",
+                                      style: regular(
+                                        fontSize: 14.sp,
+                                        height: 1.4,
+                                        color: AppColors.primary.withValues(
+                                          alpha: 0.8,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
                                 ),
-                              ),
+
+                              ],
                             ),
                           ),
-                          30.w.verticalSpace,
                           SignUpBottomSection(
                             onLoginTap: () {
                               context.pushReplacementNamed(
@@ -74,6 +81,7 @@ class SignUpScreen extends StatelessWidget {
                               });
                             },
                           ),
+                          30.w.verticalSpace,
                         ],
                       ),
                     ),
@@ -88,4 +96,3 @@ class SignUpScreen extends StatelessWidget {
     );
   }
 }
-

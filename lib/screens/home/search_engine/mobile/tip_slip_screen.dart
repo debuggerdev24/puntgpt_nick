@@ -24,60 +24,129 @@ class TipSlipScreen extends StatelessWidget {
                 child: tipSlips.isEmpty
                     ? _buildEmptyState(context)
                     : Column(
-                  children: [
-                    Expanded(
-                      child: ListView.builder(
-                        padding: EdgeInsets.symmetric(vertical: 15.w),
-                        itemCount: tipSlips.length,
-                        itemBuilder: (context, index) {
-                          final tipSlip = tipSlips[index];
-                          return TipSlipItem(
-                            tipSlip: tipSlip,
-                            isExpanded: provider.expandedTipSlipId == tipSlip.id,
-                            onTap: () => provider.toggleTipSlipExpand(tipSlip.id),
-                            onRemove: () {
-                              final removedId = tipSlips[index].id;
-                              if (provider.expandedTipSlipId == removedId) {
-                                provider.toggleTipSlipExpand(removedId);
-                              }
-                              provider.removeTipSlipAt(index);
-                              AppToast.success(
-                                context: context,
-                                message: "Removed from tip slip successfully",
-                              );
-                              provider.removeFromTipSlip(
-                                tipSlipId: removedId.toString(),
-                              );
-                            },
-                          );
-                        },
-                      ),
-                    ),
+                        children: [
+                          Expanded(
+                            child: ListView.builder(
+                              clipBehavior: Clip.none,
+                              padding: EdgeInsets.symmetric(vertical: 15.w),
+                              itemCount: tipSlips.length,
+                              itemBuilder: (context, index) {
+                                final tipSlip = tipSlips[index];
+                                return TipSlipItem(
+                                  tipSlip: tipSlip,
+                                  isExpanded:
+                                      provider.expandedTipSlipId == tipSlip.id,
+                                  onTap: () =>
+                                      provider.toggleTipSlipExpand(tipSlip.id),
+                                  onRemove: () {
+                                    final removedId = tipSlips[index].id;
+                                    if (provider.expandedTipSlipId ==
+                                        removedId) {
+                                      provider.toggleTipSlipExpand(removedId);
+                                    }
+                                    provider.removeTipSlipAt(index);
+                                    AppToast.success(
+                                      context: context,
+                                      message:
+                                          "Removed from tip slip successfully",
+                                    );
+                                    provider.removeFromTipSlip(
+                                      tipSlipId: removedId.toString(),
+                                    );
+                                  },
+                                );
+                              },
+                            ),
+                          ),
 
-                    AppFilledButton(
-                      margin: EdgeInsets.only(top: 8, bottom: 12.h),
-                      text: "Play Fantasy Picks (4)",
-                      textStyle: semiBold(
-                        fontSize: 16.sixteenSp(context),
-                        color: AppColors.white,
+                          _unibetDabbleCard(
+                            context: context,
+                            logoHeight: context.isBrowserMobile ? 36.w : 32.w,
+                          ),
+                        ],
                       ),
-                      onTap: () {},
-                    ),
-
-                    Text(
-                      "Upgrade to Pro Punter",
-                      style: bold(
-                        fontSize: 14.fourteenSp(context),
-                        color: AppColors.premiumYellow,
-                      ),
-                    ),
-                  ],
-                ),
               ),
             ),
           ],
         );
       },
+    );
+  }
+
+  Widget _unibetDabbleCard({
+    required BuildContext context,
+    required double logoHeight,
+  }) {
+    final isWideMobile = context.isBrowserMobile;
+    final labelStyle = semiBold(
+      fontSize: isWideMobile ? 22.sp : 12.sp,
+      color: AppColors.primary.withValues(alpha: 0.5),
+    );
+    final minLogoH = isWideMobile ? 40.w : 36.w;
+
+    Widget logoColumn({
+      required String label,
+      required String semanticsLabel,
+      required String assetPath,
+    }) {
+      return Expanded(
+        child: Semantics(
+          label: semanticsLabel,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(label, textAlign: TextAlign.center, style: labelStyle),
+              10.w.verticalSpace,
+              Center(
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(minHeight: minLogoH),
+                  child: ImageWidget(
+                    path: assetPath,
+                    type: ImageType.asset,
+                    height: logoHeight,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
+    return Semantics(
+      label: 'Partner bookmakers: Unibet and Dabble',
+      container: true,
+      child: Container(
+        padding: EdgeInsets.symmetric(vertical: 8.w),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10.r),
+          border: Border.all(color: AppColors.primary.withValues(alpha: 0.12)),
+          boxShadow: [
+            BoxShadow(
+              color: AppColors.black.withValues(alpha: 0.04),
+              blurRadius: 8,
+              offset: const Offset(0, 2),
+            ),
+          ],
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            logoColumn(
+              label: 'Unibet',
+              semanticsLabel: 'Unibet partner logo',
+              assetPath: AppAssets.unibatLogo,
+            ),
+            SizedBox(width: 16.w),
+            logoColumn(
+              label: 'Dabble',
+              semanticsLabel: 'Dabble partner logo',
+              assetPath: AppAssets.dabbleLogo,
+            ),
+          ],
+        ),
+      ),
     );
   }
 
@@ -181,26 +250,26 @@ class TipSlipScreen extends StatelessWidget {
   }
 
   // RichText(
-                    //   text: TextSpan(
-                    //     children: [
-                    //       TextSpan(
-                    //         text: "Use Code: ",
-                    //         style: bold(
-                    //           fontSize: 14.fourteenSp(context),
-                    //           fontFamily: AppFontFamily.primary,
-                    //         ),
-                    //       ),
-                    //       TextSpan(
-                    //         text: "‘PUNTGPT’",
-                    //         style: bold(
-                    //           fontSize: 14.fourteenSp(context),
-                    //           color: Color(0xffE5B82E),
-                    //           fontFamily: AppFontFamily.primary,
-                    //         ),
-                    //       ),
-                    //     ],
-                    //   ),
-                    // ),
+  //   text: TextSpan(
+  //     children: [
+  //       TextSpan(
+  //         text: "Use Code: ",
+  //         style: bold(
+  //           fontSize: 14.fourteenSp(context),
+  //           fontFamily: AppFontFamily.primary,
+  //         ),
+  //       ),
+  //       TextSpan(
+  //         text: "‘PUNTGPT’",
+  //         style: bold(
+  //           fontSize: 14.fourteenSp(context),
+  //           color: Color(0xffE5B82E),
+  //           fontFamily: AppFontFamily.primary,
+  //         ),
+  //       ),
+  //     ],
+  //   ),
+  // ),
 
   // Widget tipSlipItem({required BuildContext context}) {
   //   return Container(
@@ -452,10 +521,10 @@ class TipSlipScreen extends StatelessWidget {
 
   Widget topBar(BuildContext context) {
     return Column(
-      children:[
+      children: [
         Padding(
           padding: EdgeInsets.fromLTRB(5.w, 6.w, 25.w, 8.w),
-          
+
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             // spacing: 14.w,

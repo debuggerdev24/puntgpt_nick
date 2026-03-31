@@ -56,7 +56,7 @@ class RunnerModel {
               ? (json["odds"] as num).toDouble()
               : double.tryParse(json["odds"].toString()))
         : null,
-    weight: json["weight"],
+    weight: json["weight"].toString(),
     form: json["form"],
   );
 

@@ -33,6 +33,7 @@ class ClassicFormGuideView extends StatelessWidget {
                     ),
                   ),
                 ),
+          //* Next to go tabs
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Row(
@@ -76,54 +77,31 @@ class ClassicFormGuideView extends StatelessWidget {
           ),
           provider.classicFormGuide!.isEmpty
               ? _buildRaceTableEmptyState(context: context, provider: provider)
-              : SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Container(
-                    width: 1.4.sw,
-                    margin: EdgeInsets.only(bottom: 55.w),
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: AppColors.primary.withValues(alpha: 0.3),
-                      ),
-                    ),
-                    child: Table(
-                      border: TableBorder.symmetric(
-                        inside: BorderSide(
-                          color: AppColors.primary.withValues(alpha: 0.2),
-                        ),
-                      ),
-                      columnWidths: {
-                        0: FlexColumnWidth(3.w),
-                        1: FlexColumnWidth(2.w),
-                        2: FlexColumnWidth(2.w),
+              : ListView.separated(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  padding: EdgeInsets.only(bottom: 55.w),
+                  itemCount: provider.classicFormGuide!.length,
+                  separatorBuilder: (_, __) => 10.w.verticalSpace,
+                  itemBuilder: (context, index) {
+                    final classicForm = provider.classicFormGuide![index];
+                    return _classicMeetingListItem(
+                      context: context,
+                      meetingName: classicForm.meetingName,
+                      meetingDate: classicForm.country,
+                      meetingTime: classicForm.meetingAustralianTime,
+                      onTap: () {
+                        provider.getMeetingRaceList(
+                          meetingId: classicForm.meetingId.toString(),
+                        );
+                        provider.getRaceFieldDetail(
+                          id: classicForm.races[provider.selectedRace].raceId
+                              .toString(),
+                        );
+                        context.pushNamed(AppRoutes.selectedRace.name);
                       },
-                      defaultVerticalAlignment:
-                          TableCellVerticalAlignment.middle,
-                      children: List.generate(
-                        provider.classicFormGuide!.length,
-                        (index) {
-                          final classicForm = provider.classicFormGuide![index];
-                          return _buildTableRow(
-                            col1: classicForm.meetingName,
-                            col3: classicForm.meetingDate,
-                            col4: classicForm.meetingAustralianTime,
-                            onTap: () {
-                              provider.getMeetingRaceList(
-                                meetingId: classicForm.meetingId.toString(),
-                              );
-                              provider.getRaceFieldDetail(
-                                id: classicForm
-                                    .races[provider.selectedRace]
-                                    .raceId
-                                    .toString(),
-                              );
-                              context.pushNamed(AppRoutes.selectedRace.name);
-                            },
-                          );
-                        },
-                      ),
-                    ),
-                  ),
+                    );
+                  },
                 ),
           25.w.verticalSpace,
         ],
@@ -132,39 +110,134 @@ class ClassicFormGuideView extends StatelessWidget {
   }
 }
 
-TableRow _buildTableRow({
-  required String col1,
-  required String col3,
-  required String col4,
+Widget _classicMeetingListItem({
+  required BuildContext context,
+  required String meetingName,
+  required String meetingDate,
+  required String meetingTime,
   required VoidCallback onTap,
 }) {
-  return TableRow(
-    children: [
-      GestureDetector(
-        onTap: onTap,
-        child: Padding(
-          padding: EdgeInsets.only(left: 16.w, top: 8.w, bottom: 8.w),
-          child: Text(col1, style: semiBold(fontSize: 16.sp)),
+  return Material(
+    color: Colors.transparent,
+    child: InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(10.r),
+      child: Container(
+        width: double.infinity,
+        padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.w),
+        decoration: BoxDecoration(
+          color: AppColors.white,
+          borderRadius: BorderRadius.circular(10.r),
+          border: Border.all(color: AppColors.primary.withValues(alpha: 0.12)),
+          boxShadow: [
+            BoxShadow(
+              color: AppColors.black.withValues(alpha: 0.04),
+              blurRadius: 10,
+              offset: const Offset(0, 2),
+            ),
+          ],
+        ),
+        child: Row(
+          children: [
+            Expanded(
+              child: Column(
+                spacing: 4.w,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    meetingName,
+                    style: semiBold(fontSize: 16.sp, color: AppColors.primary),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  Text(
+                    meetingDate,
+                    style: regular(
+                      fontSize: 13.sp,
+                      color: AppColors.primary.withValues(alpha: 0.55),
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
+              ),
+            ),
+            10.w.horizontalSpace,
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 6.h),
+              decoration: BoxDecoration(
+                color: AppColors.primary.withValues(alpha: 0.06),
+                borderRadius: BorderRadius.circular(8.r),
+              ),
+              child: Text(
+                meetingTime,
+                style: semiBold(
+                  fontSize: 12.sp,
+                  color: AppColors.primary.withValues(alpha: 0.8),
+                ),
+              ),
+            ),
+            10.w.horizontalSpace,
+            Icon(
+              Icons.chevron_right_rounded,
+              color: AppColors.primary.withValues(alpha: 0.35),
+            ),
+          ],
         ),
       ),
-      GestureDetector(
-        onTap: onTap,
-        child: Padding(
-          padding: EdgeInsets.only(left: 16.w, top: 8.w, bottom: 8.w),
-          child: Text(col3, style: semiBold(fontSize: 16.sp)),
-        ),
-      ),
-      GestureDetector(
-        onTap: onTap,
-        child: Padding(
-          padding: EdgeInsets.only(left: 16.w, top: 8.w, bottom: 8.w),
-          child: Text(col4, style: semiBold(fontSize: 16.sp)),
-        ),
-      ),
-    ],
+    ),
   );
 }
 
+// SingleChildScrollView(
+//   scrollDirection: Axis.horizontal,
+//   child: Container(
+//     width: 1.4.sw,
+//     margin: EdgeInsets.only(bottom: 55.w),
+//     decoration: BoxDecoration(
+//       border: Border.all(
+//         color: AppColors.primary.withValues(alpha: 0.3),
+//       ),
+//     ),
+//     child: Table(
+//       border: TableBorder.symmetric(
+//         inside: BorderSide(
+//           color: AppColors.primary.withValues(alpha: 0.2),
+//         ),
+//       ),
+//       columnWidths: {
+//         0: FlexColumnWidth(3.w),
+//         1: FlexColumnWidth(2.w),
+//         2: FlexColumnWidth(2.w),
+//       },
+//       defaultVerticalAlignment:
+//           TableCellVerticalAlignment.middle,
+//       children: List.generate(
+//         provider.classicFormGuide!.length,
+//         (index) {
+//           final classicForm = provider.classicFormGuide![index];
+//           return _buildTableRow(
+//             col1: classicForm.meetingName,
+//             col3: classicForm.meetingDate,
+//             col4: classicForm.meetingAustralianTime,
+//             onTap: () {
+//               provider.getMeetingRaceList(
+//                 meetingId: classicForm.meetingId.toString(),
+//               );
+//               provider.getRaceFieldDetail(
+//                 id: classicForm
+//                     .races[provider.selectedRace]
+//                     .raceId
+//                     .toString(),
+//               );
+//               context.pushNamed(AppRoutes.selectedRace.name);
+//             },
+//           );
+//         },
+//       ),
+//     ),
+//   ),
+// ),
 Widget _buildNextToGoEmptyState({required BuildContext context}) {
   return Container(
         width: double.infinity,
@@ -219,9 +292,7 @@ Widget _buildRaceTableEmptyState({
         padding: EdgeInsets.symmetric(vertical: 28.w, horizontal: 20.w),
         decoration: BoxDecoration(
           color: AppColors.primary.withValues(alpha: 0.03),
-          border: Border.all(
-            color: AppColors.primary.withValues(alpha: 0.15),
-          ),
+          border: Border.all(color: AppColors.primary.withValues(alpha: 0.15)),
           borderRadius: BorderRadius.circular(12.r),
         ),
         child: Column(

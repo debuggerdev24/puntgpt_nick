@@ -29,15 +29,11 @@ class SearchFields extends StatelessWidget {
                     padding: EdgeInsets.symmetric(vertical: 18.w),
                     child: horizontalDivider(),
                   ),
-                  //* Track Section
-                  AppTextFieldDropdown(
+                  //* Track Section — multi-select; API: track: "Ararat, Sapphire Coast"
+                  AppMultiSelectTrackDropdown(
                     margin: EdgeInsets.only(bottom: 18.w),
                     items: provider.trackList ?? [],
-                    selectedValue: provider.selectedTrack,
-                    onChange: (selectedValue) {
-                      provider.setSelectedTrack = selectedValue;
-                    },
-                    hintText: "Select Track",
+                    hintText: "All Track",
                   ),
                   horizontalDivider(),
                   //* Placed at last start Section
@@ -71,9 +67,9 @@ class SearchFields extends StatelessWidget {
                   //* Placed at track
                   SearchCheckboxField(
                     title: "Placed at track",
-                    isChecked: provider.selectedPlaceAtTrack == true,
+                    isChecked: provider.placeAtTrack == true,
                     onTap: () {
-                      final current = provider.selectedPlaceAtTrack;
+                      final current = provider.placeAtTrack;
                       provider.setSelectedPlaceAtTrack = current == null
                           ? true
                           : !current;
