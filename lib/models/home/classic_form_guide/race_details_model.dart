@@ -1,26 +1,26 @@
-class RaceDetailsModel {
-  factory RaceDetailsModel.fromJson(Map<String, dynamic> json) =>
-      RaceDetailsModel(
-        race: Race.fromJson(json["race"] as Map<String, dynamic>? ?? {}),
-        selections: List<Selection>.from(
-          ((json["selections"] as List?) ??
-                      ((json["race"] as Map<String, dynamic>?)?["selections"]
-                          as List?))
-                  ?.map(
-                    (x) =>
-                        Selection.fromJson((x ?? {}) as Map<String, dynamic>),
-                  ) ??
-              [],
-        ),
-      );
+// class RaceDetailsModel {
+//   factory RaceDetailsModel.fromJson(Map<String, dynamic> json) =>
+//       RaceDetailsModel(
+//         race: Race.fromJson(json["race"] as Map<String, dynamic>? ?? {}),
+//         // selections: List<Selection>.from(
+//         //   ((json["selections"] as List?) ??
+//         //               ((json["race"] as Map<String, dynamic>?)?["selections"]
+//         //                   as List?))
+//         //           ?.map(
+//         //             (x) =>
+//         //                 Selection.fromJson((x ?? {}) as Map<String, dynamic>),
+//         //           ) ??
+//         //       [],
+//         // ),
+//       );
 
-  RaceDetailsModel({required this.race, required this.selections});
-  Race race;
-  List<Selection> selections;
-}
+//   RaceDetailsModel({required this.race});
+//   Race race;
+//   // List<Selection> selections;
+// }
 
-class Race {
-  Race({
+class RaceDetails {
+  RaceDetails({
     required this.raceId,
     required this.number,
     required this.name,
@@ -32,9 +32,13 @@ class Race {
     required this.tipsSourceName,
     required this.tipsSourceImage,
     required this.selections,
+    required this.australianTime,
+    required this.trackType,
+    required this.prizeMoney,
+    required this.stage,
   });
 
-  factory Race.fromJson(Map<String, dynamic> json) => Race(
+  factory RaceDetails.fromJson(Map<String, dynamic> json) => RaceDetails(
     raceId: json["raceId"] as int? ?? 0,
     number: json["number"] as int? ?? 0,
     name: json["name"] as String? ?? '',
@@ -42,9 +46,11 @@ class Race {
     startTimeUtc: json["startTimeUtc"] != null
         ? DateTime.parse(json["startTimeUtc"].toString())
         : DateTime.now(),
-    trackCondition:
-        trackConditionValues.map[json["track_condition"]] ??
-        TrackCondition.GOOD,
+    australianTime: json["australian_time"] as String? ?? '',
+    trackType: json["track_type"] as String? ?? '',
+    prizeMoney: json["prize_money"] as String? ?? '',
+    stage: json["stage"] as String? ?? '',
+    trackCondition:json["track_condition"],
     tipAnalysisText: json["tip_analysis_text"] as String? ?? '',
     tipsSourceBrand: json["tips_source_brand"] as String? ?? '',
     tipsSourceName: json["tips_source_name"] as String? ?? '',
@@ -56,16 +62,16 @@ class Race {
           [],
     ),
   );
-  int raceId;
-  int number;
-  String name;
-  int distance;
+  int raceId, distance, number;
+
   DateTime startTimeUtc;
-  TrackCondition trackCondition;
-  String tipAnalysisText;
-  String tipsSourceBrand;
-  String tipsSourceName;
-  String tipsSourceImage;
+
+  String name,
+      trackCondition,
+      tipAnalysisText,
+      tipsSourceBrand,
+      tipsSourceName,
+      tipsSourceImage,australianTime,trackType,prizeMoney,stage;
   List<Selection> selections;
 }
 
@@ -104,170 +110,21 @@ class Selection {
       (json["horse_stats"] ?? json["horseStats"]) as Map<String, dynamic>? ??
           {},
     ),
-    formHistory: List<FormHistory>.from(
-      (json["form_history"] as List?)?.map(
-            (x) => FormHistory.fromJson((x ?? {}) as Map<String, dynamic>),
-          ) ??
-          [],
-    ),
+    formHistory: json["form_history"],
   );
   int selectionId, number, barrier;
-  String trackName, jockeyName, silksImage, horseName, trainerName;
+  String trackName, jockeyName, silksImage, horseName, trainerName, formHistory;
 
   double weight;
   dynamic oddsWin;
   bool isScratched;
   int? tipPosition;
   HorseStats horseStats;
-  List<FormHistory> formHistory;
 }
 
-class FormHistory {
-  FormHistory({
-    required this.date,
-    required this.meetingName,
-    required this.trackName,
-    required this.trackState,
-    required this.raceNumber,
-    required this.raceName,
-    required this.distance,
-    required this.trackCondition,
-    required this.trackType,
-    required this.prizeMoney,
-    required this.resultPosition,
-    required this.totalStarters,
-    required this.margin,
-    required this.weightCarried,
-    required this.startingPrice,
-    required this.jockeyName,
-    required this.trainerName,
-    required this.barrier,
-    required this.winnerHorseName,
-    required this.secondHorseName,
-    required this.thirdHorseName,
-    required this.isTrial,
-  });
 
-  factory FormHistory.fromJson(Map<String, dynamic> json) => FormHistory(
-    date: json["date"] != null
-        ? DateTime.parse(json["date"].toString())
-        : DateTime.now(),
-    meetingName: json["meeting_name"] as String? ?? '',
-    trackName: json["track_name"] as String? ?? '',
-    trackState: trackStateValues.map[json["track_state"]] ?? TrackState.ACT,
-    raceNumber: json["race_number"] as int? ?? 0,
-    raceName: json["race_name"] as String? ?? '',
-    distance: json["distance"] as int? ?? 0,
-    trackCondition:
-        trackConditionValues.map[json["track_condition"]] ??
-        TrackCondition.GOOD,
-    trackType: trackTypeValues.map[json["track_type"]] ?? TrackType.TURF,
-    prizeMoney: json["prize_money"],
-    resultPosition: json["result_position"] as int? ?? 0,
-    totalStarters: json["total_starters"] as int? ?? 0,
-    margin: json["margin"],
-    weightCarried: json["weight_carried"],
-    startingPrice: json["starting_price"],
-    jockeyName: json["jockey_name"] as String? ?? '',
-    trainerName:
-        trainerNameValues.map[json["trainer_name"]] ??
-        TrainerName.DANNY_WILLIAMS,
-    barrier: json["barrier"] as int?,
-    winnerHorseName: json["winner_horse_name"] as String? ?? '',
-    secondHorseName: json["second_horse_name"] as String? ?? '',
-    thirdHorseName: json["third_horse_name"] as String? ?? '',
-    isTrial: json["is_trial"] as bool? ?? false,
-  );
-  DateTime date;
-  String meetingName;
-  String trackName;
-  TrackState trackState;
-  int raceNumber;
-  String raceName;
-  int distance;
-  TrackCondition trackCondition;
-  TrackType trackType;
-  String? prizeMoney;
-  int resultPosition;
-  int totalStarters;
-  String? margin;
-  String? weightCarried;
-  String? startingPrice;
-  String jockeyName;
-  TrainerName trainerName;
-  int? barrier;
-  String winnerHorseName;
-  String secondHorseName;
-  String thirdHorseName;
-  bool isTrial;
 
-  Map<String, dynamic> toJson() => {
-    "date":
-        "${date.year.toString().padLeft(4, '0')}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}",
-    "meeting_name": meetingName,
-    "track_name": trackName,
-    "track_state": trackStateValues.reverse[trackState],
-    "race_number": raceNumber,
-    "race_name": raceName,
-    "distance": distance,
-    "track_condition": trackConditionValues.reverse[trackCondition],
-    "track_type": trackTypeValues.reverse[trackType],
-    "prize_money": prizeMoney,
-    "result_position": resultPosition,
-    "total_starters": totalStarters,
-    "margin": margin,
-    "weight_carried": weightCarried,
-    "starting_price": startingPrice,
-    "jockey_name": jockeyName,
-    "trainer_name": trainerNameValues.reverse[trainerName],
-    "barrier": barrier,
-    "winner_horse_name": winnerHorseName,
-    "second_horse_name": secondHorseName,
-    "third_horse_name": thirdHorseName,
-    "is_trial": isTrial,
-  };
-}
 
-enum TrackCondition { GOOD, HEAVY, SOFT, SYNTHETIC }
-
-final trackConditionValues = EnumValues({
-  "Good": TrackCondition.GOOD,
-  "Heavy": TrackCondition.HEAVY,
-  "Soft": TrackCondition.SOFT,
-  "Synthetic": TrackCondition.SYNTHETIC,
-});
-
-enum TrackState { ACT, NSW }
-
-final trackStateValues = EnumValues({
-  "ACT": TrackState.ACT,
-  "NSW": TrackState.NSW,
-});
-
-enum TrackType { AWT, TURF }
-
-final trackTypeValues = EnumValues({
-  "AWT": TrackType.AWT,
-  "Turf": TrackType.TURF,
-});
-
-enum TrainerName {
-  DANNY_WILLIAMS,
-  GRATZ_VELLA,
-  JOHN_ROLFE,
-  ROB_POTTER,
-  SCOTT_COLLINGS,
-  STEPHEN_HILL,
-}
-
-final trainerNameValues = EnumValues({
-  "Danny Williams": TrainerName.DANNY_WILLIAMS,
-  "Gratz Vella": TrainerName.GRATZ_VELLA,
-  "John Rolfe": TrainerName.JOHN_ROLFE,
-  "Rob Potter": TrainerName.ROB_POTTER,
-  "Scott Collings": TrainerName.SCOTT_COLLINGS,
-  "Stephen Hill": TrainerName.STEPHEN_HILL,
-});
 
 class HorseStats {
   HorseStats({
@@ -327,17 +184,4 @@ class HorseStatsDetails {
   double placePercentage, winPercentage, roi;
 }
 
-enum TrackName { GOULBURN }
 
-final trackNameValues = EnumValues({"Goulburn": TrackName.GOULBURN});
-
-class EnumValues<T> {
-  EnumValues(this.map);
-  Map<String, T> map;
-  late Map<T, String> reverseMap;
-
-  Map<T, String> get reverse {
-    reverseMap = map.map((k, v) => MapEntry(v, k));
-    return reverseMap;
-  }
-}

@@ -17,9 +17,9 @@ class AppScreenTopBar extends StatelessWidget {
     return Column(
       children: [
         Padding(
-          padding: EdgeInsets.fromLTRB(4.w, 7.w, 25.w, 7.5.w),
+          padding: EdgeInsets.fromLTRB(4.w, 5.w, 25.w, 6.w),
           child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               IconButton(
                 padding: EdgeInsets.zero,
@@ -29,6 +29,7 @@ class AppScreenTopBar extends StatelessWidget {
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
                       title,

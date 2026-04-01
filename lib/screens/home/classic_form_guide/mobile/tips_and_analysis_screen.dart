@@ -11,10 +11,12 @@ class TipAndAnalysisScreen extends StatelessWidget {
     return Consumer<ClassicFormProvider>(
       builder: (context, provider, child) {
         if (provider.tipsAndAnalysis == null) {
-          return HomeSectionShimmers.tipsAndAnalysisScreenShimmer(context: context);
+          return HomeSectionShimmers.tipsAndAnalysisScreenShimmer(
+            context: context,
+          );
         }
 
-        final tipsAnalysis = provider.tipsAndAnalysis!;
+        final tips = provider.tipsAndAnalysis!.tips;
         final segments = provider.tipAnalysisSegments;
 
         return Column(
@@ -22,10 +24,10 @@ class TipAndAnalysisScreen extends StatelessWidget {
           children: [
             topBar(context: context),
             Expanded(
-              child: (tipsAnalysis.tips.isEmpty)
+              child: (tips.isEmpty)
                   ? Center(
                       child: Padding(
-                        padding: EdgeInsets.symmetric(vertical: 40.h),
+                        padding: EdgeInsets.symmetric(vertical: 40.w),
                         child: Text(
                           "No tip and analysis found",
                           style: medium(
@@ -92,10 +94,7 @@ class TipAndAnalysisScreen extends StatelessWidget {
                             ),
                           ),
                           12.w.verticalSpace,
-
-                          ...tipsAnalysis.tips.map((tip) => _buildTipCard(tip)),
-
-                          // 12.w.verticalSpace,
+                          ...tips.map((tip) => _buildTipCard(tip)),
                         ],
                       ),
                     ),
@@ -124,7 +123,7 @@ class TipAndAnalysisScreen extends StatelessWidget {
   Widget _buildTipCard(Tip tip) {
     return Container(
       margin: EdgeInsets.only(bottom: 12.h),
-      padding: EdgeInsets.all(16.w),
+      padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 7.w),
       decoration: BoxDecoration(
         color: Colors.white,
         border: Border.all(
@@ -135,45 +134,10 @@ class TipAndAnalysisScreen extends StatelessWidget {
       ),
       child: Row(
         children: [
-          //* Silks Image (SVG from network)
-          ClipRRect(
-            borderRadius: BorderRadius.circular(6.r),
-            child: Container(
-              width: 40.w,
-              height: 40.w,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                border: Border.all(
-                  color: AppColors.primary.withValues(alpha: 0.15),
-                  width: 1,
-                ),
-                borderRadius: BorderRadius.circular(6.r),
-              ),
-              clipBehavior: Clip.antiAlias,
-              child: ImageWidget(
-                path: tip.silksImage,
-                type: ImageType.svg,
-                width: 40.w,
-                height: 40.w,
-                fit: BoxFit.contain,
-                placeholder: _silksImageShimmer(),
-                errorWidget: Container(
-                  color: AppColors.primary.withValues(alpha: 0.1),
-                  alignment: Alignment.center,
-                  child: Text(
-                    '${tip.number}',
-                    style: semiBold(fontSize: 14.sp, color: AppColors.primary),
-                  ),
-                ),
-              ),
-            ),
-          ),
-
-          12.w.horizontalSpace,
-
-          // Horse Details
+          //* Horse Details
           Expanded(
             child: Column(
+              spacing: 4.w,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
@@ -185,43 +149,54 @@ class TipAndAnalysisScreen extends StatelessWidget {
                         color: AppColors.primary,
                       ),
                     ),
+                    //* Silks Image (SVG from network)
+                    ImageWidget(
+                      path: tip.silksImage,
+                      type: ImageType.svg,
+                      width: 30.w,
+                      height: 30.w,
+                      fit: BoxFit.contain,
+                      placeholder: _silksImageShimmer(),
+                    ),
                     Expanded(
                       child: Text(
-                        tip.horseName,
+                        "${tip.horseName} (${tip.barrier})",
                         style: semiBold(
                           fontSize: 16.sp,
                           color: AppColors.primary,
                         ),
-                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
                   ],
                 ),
-                4.w.verticalSpace,
                 Text(
-                  tip.jockeyName,
+                  "J: ${tip.jockeyName}\nT: ${tip.trainerName}",
                   style: regular(
                     fontSize: 13.sp,
                     color: AppColors.primary.withValues(alpha: 0.7),
                   ),
                   overflow: TextOverflow.ellipsis,
                 ),
-                2.w.verticalSpace,
-                Text(
-                  'Barrier ${tip.barrier}',
-                  style: regular(
-                    fontSize: 12.sp,
-                    color: AppColors.primary.withValues(alpha: 0.6),
-                  ),
-                ),
+                // Text(tip.tipPosition.toString()),
+                // Text(tip.isBestBet.toString()),
+                // Text(tip.isBestValue.toString()),
+                // Text(tip.isScratched.toString()),
+                // Text(tip.unibetFixedOddsWin.toString()),
               ],
             ),
           ),
-
-          // Odds
+          5.w.horizontalSpace,
+          //* Unibet logo
+          ImageWidget(
+            path: AppAssets.unibatLogo,
+            type: ImageType.asset,
+            height: 28.w,
+          ),
+          10.w.horizontalSpace,
+          //* Odds
           if (tip.unibetFixedOddsWin != null)
             Container(
-              padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
+              padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 6.w),
               decoration: BoxDecoration(
                 color: AppColors.primary.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(4.r),
@@ -237,44 +212,10 @@ class TipAndAnalysisScreen extends StatelessWidget {
   }
 
   Widget topBar({required BuildContext context}) {
-    return Column(
-      children: [
-        Padding(
-          padding: EdgeInsets.fromLTRB(4.w, 8.w, 25.w, 8.w),
-          child: Row(
-            children: [
-              IconButton(
-                padding: EdgeInsets.zero,
-                onPressed: () => context.pop(),
-                icon: Icon(Icons.arrow_back_ios_rounded, size: 14.w),
-              ),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Tips & Analysis",
-                      style: regular(
-                        fontSize: 24.sp,
-                        fontFamily: AppFontFamily.secondary,
-                        height: 1.35,
-                      ),
-                    ),
-                    Text(
-                      "Expert insights to help you pick winners",
-                      style: semiBold(
-                        fontSize: (context.isBrowserMobile) ? 26.sp : 14.sp,
-                        color: AppColors.primary.withValues(alpha: 0.6),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-        horizontalDivider(),
-      ],
+    return AppScreenTopBar(
+      title: "Tips & Analysis",
+      slogan: "Expert insights to help you pick winners",
+      onBack: () => context.pop(),
     );
   }
 }

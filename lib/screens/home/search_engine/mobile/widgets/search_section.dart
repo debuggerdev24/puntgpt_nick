@@ -20,7 +20,7 @@ class SearchFields extends StatelessWidget {
         builder: (context, provider, child) => Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
-          children: [
+          children:[
             Padding(
               padding: EdgeInsets.symmetric(horizontal: bodyHorizontalPadding),
               child: Column(
@@ -33,7 +33,7 @@ class SearchFields extends StatelessWidget {
                   AppMultiSelectTrackDropdown(
                     margin: EdgeInsets.only(bottom: 18.w),
                     items: provider.trackList ?? [],
-                    hintText: "All Track",
+                    hintText: "All Tracks",
                   ),
                   horizontalDivider(),
                   //* Placed at last start Section

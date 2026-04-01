@@ -1,6 +1,13 @@
 import 'package:puntgpt_nick/core/app_imports.dart';
 import 'package:puntgpt_nick/models/home/classic_form_guide/speed_maps_model.dart';
 import 'package:puntgpt_nick/provider/home/classic_form/classic_form_provider.dart';
+import 'package:puntgpt_nick/screens/home/search_engine/mobile/widgets/home_section_shimmers.dart';
+
+/// Matches [TipSlipItem] list styling — soft greys, white cards.
+const _kListTextPrimary = Color(0xFF424242);
+const _kListTextMuted = Color(0xFF757575);
+const _kListBorder = Color(0xFFE0E0E0);
+const _kListOddsBg = Color(0xFFEEEEEE);
 
 class SpeedMapsScreen extends StatefulWidget {
   const SpeedMapsScreen({super.key});
@@ -18,20 +25,20 @@ class _SpeedMapsScreenState extends State<SpeedMapsScreen> {
       builder: (context, provider, child) {
         final speedMaps = provider.speedMaps;
         if (speedMaps == null) {
-          return const Center(child: CircularProgressIndicator());
+          return HomeSectionShimmers.speedMapsScreenShimmer(context: context);
         }
 
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Tab Selector
+            //* Tab Selector
             Row(
-
               children: [
                 16.w.horizontalSpace,
                 GestureDetector(
                   onTap: () => context.pop(),
-                  child: Icon(Icons.arrow_back_ios_rounded, size: 16.w)),
+                  child: Icon(Icons.arrow_back_ios_rounded, size: 16.w),
+                ),
                 Expanded(child: _buildTabSelector()),
               ],
             ),
@@ -43,21 +50,21 @@ class _SpeedMapsScreenState extends State<SpeedMapsScreen> {
                 child: SingleChildScrollView(
                   padding: EdgeInsets.symmetric(
                     horizontal: 16.w,
-                    vertical: 16.h,
+                    vertical: 16.w,
                   ),
                   child: Column(
                     children: [
-                      // Visual Speed Map
+                      //* Visual Speed Map
                       _buildVisualSpeedMap(speedMaps.speedMapsList),
 
                       24.h.verticalSpace,
 
-                      // Legend
+                      //* Legend
                       _buildLegend(),
 
                       24.h.verticalSpace,
 
-                      // List of horses
+                      //* List of horses
                       _buildHorsesList(speedMaps.speedMapsList),
                     ],
                   ),
@@ -88,7 +95,9 @@ class _SpeedMapsScreenState extends State<SpeedMapsScreen> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Container(
-                padding: EdgeInsets.all((context.isBrowserMobile) ? 22.w : 16.w),
+                padding: EdgeInsets.all(
+                  (context.isBrowserMobile) ? 22.w : 16.w,
+                ),
                 decoration: BoxDecoration(
                   color: AppColors.primary.withValues(alpha: 0.08),
                   shape: BoxShape.circle,
@@ -176,7 +185,7 @@ class _SpeedMapsScreenState extends State<SpeedMapsScreen> {
   }
 
   Widget _buildVisualSpeedMap(List<SpeedMap> speedMaps) {
-    // Sort horses based on selected tab
+    //* Sort horses based on selected tab
     List<SpeedMap> sortedMaps = List.from(speedMaps);
 
     if (_selectedTab == 0) {
@@ -206,10 +215,10 @@ class _SpeedMapsScreenState extends State<SpeedMapsScreen> {
       ),
       child: Stack(
         children: [
-          // Background gradient showing track sections
+          //* Background gradient showing track sections
           _buildTrackGradient(),
 
-          // Position labels at bottom
+          //* Position labels at bottom
           Positioned(
             bottom: 8.h,
             left: 0,
@@ -247,15 +256,15 @@ class _SpeedMapsScreenState extends State<SpeedMapsScreen> {
 
     return Container(
       decoration: BoxDecoration(
-        gradient: LinearGradient(
+        gradient: const LinearGradient(
           begin: Alignment.centerLeft,
           end: Alignment.centerRight,
           colors: [
-            const Color(0xFFE8F5E9),
-            const Color(0xFFC8E6C9),
-            const Color(0xFFA5D6A7),
-            const Color(0xFF81C784),
-            const Color(0xFF66BB6A),
+            Color(0xFFE0E0E0),
+            Color(0xFFBDBDBD),
+            Color(0xFF9E9E9E),
+            Color(0xFF616161),
+            Color(0xFF212121),
           ],
         ),
         borderRadius: BorderRadius.circular(8.r),
@@ -267,16 +276,26 @@ class _SpeedMapsScreenState extends State<SpeedMapsScreen> {
           children: [
             Text(
               leftLabel,
-              style: semiBold(
-                fontSize: 11.sp,
-                color: AppColors.primary.withValues(alpha: 0.6),
+              style: semiBold(fontSize: 11.sp, color: Colors.white).copyWith(
+                shadows: const [
+                  Shadow(
+                    color: Color(0x80000000),
+                    blurRadius: 4,
+                    offset: Offset(0, 1),
+                  ),
+                ],
               ),
             ),
             Text(
               rightLabel,
-              style: semiBold(
-                fontSize: 11.sp,
-                color: AppColors.primary.withValues(alpha: 0.6),
+              style: semiBold(fontSize: 11.sp, color: Colors.white).copyWith(
+                shadows: const [
+                  Shadow(
+                    color: Color(0x80000000),
+                    blurRadius: 4,
+                    offset: Offset(0, 1),
+                  ),
+                ],
               ),
             ),
           ],
@@ -304,10 +323,7 @@ class _SpeedMapsScreenState extends State<SpeedMapsScreen> {
                 .map(
                   (label) => Text(
                     label,
-                    style: semiBold(
-                      fontSize: 8.sp,
-                      color: AppColors.primary.withValues(alpha: 0.5),
-                    ),
+                    style: semiBold(fontSize: 8.sp, color: _kListTextMuted),
                   ),
                 )
                 .toList(),
@@ -347,14 +363,11 @@ class _SpeedMapsScreenState extends State<SpeedMapsScreen> {
             height: 40.w,
             decoration: BoxDecoration(
               color: Colors.white,
-              border: Border.all(
-                color: AppColors.primary.withValues(alpha: 0.3),
-                width: 2,
-              ),
+              border: Border.all(color: _kListBorder, width: 1),
               borderRadius: BorderRadius.circular(6.r),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.1),
+                  color: Colors.black.withValues(alpha: 0.06),
                   blurRadius: 4,
                   offset: const Offset(0, 2),
                 ),
@@ -367,13 +380,13 @@ class _SpeedMapsScreenState extends State<SpeedMapsScreen> {
                 fit: BoxFit.cover,
                 errorBuilder: (context, error, stackTrace) {
                   return Container(
-                    color: AppColors.primary.withValues(alpha: 0.1),
+                    color: _kListOddsBg,
                     child: Center(
                       child: Text(
                         '${speedMap.selection.number}',
                         style: semiBold(
                           fontSize: 14.sp,
-                          color: AppColors.primary,
+                          color: _kListTextMuted,
                         ),
                       ),
                     ),
@@ -382,12 +395,12 @@ class _SpeedMapsScreenState extends State<SpeedMapsScreen> {
               ),
             ),
           ),
-          4.h.verticalSpace,
+          4.w.verticalSpace,
           Container(
             constraints: BoxConstraints(maxWidth: 60.w),
             child: Text(
               speedMap.selection.horse.name,
-              style: semiBold(fontSize: 9.sp, color: AppColors.primary),
+              style: semiBold(fontSize: 9.sp, color: _kListTextPrimary),
               textAlign: TextAlign.center,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
@@ -399,20 +412,21 @@ class _SpeedMapsScreenState extends State<SpeedMapsScreen> {
   }
 
   Widget _buildLegend() {
+    // Darker greys (fast = darkest) so legend reads clearly on white — not washed out.
     final items = _selectedTab == 0
         ? [
-            ('Very Fast', const Color(0xFF66BB6A)),
-            ('Fast', const Color(0xFF81C784)),
-            ('Moderate', const Color(0xFFA5D6A7)),
-            ('Slow', const Color(0xFFC8E6C9)),
-            ('Very Slow', const Color(0xFFE8F5E9)),
+            ('Very Fast', const Color(0xFF616161)),
+            ('Fast', const Color(0xFF757575)),
+            ('Moderate', const Color(0xFF8A8A8A)),
+            ('Slow', const Color(0xFF9E9E9E)),
+            ('Very Slow', const Color(0xFFB5B5B5)),
           ]
         : [
-            ('Leader', const Color(0xFF66BB6A)),
-            ('On Pace', const Color(0xFF81C784)),
-            ('Off Pace', const Color(0xFFA5D6A7)),
-            ('Midfield', const Color(0xFFC8E6C9)),
-            ('Backmarker', const Color(0xFFE8F5E9)),
+            ('Leader', const Color(0xFF616161)),
+            ('On Pace', const Color(0xFF757575)),
+            ('Off Pace', const Color(0xFF8A8A8A)),
+            ('Midfield', const Color(0xFF9E9E9E)),
+            ('Backmarker', const Color(0xFFB5B5B5)),
           ];
 
     return Wrap(
@@ -424,20 +438,20 @@ class _SpeedMapsScreenState extends State<SpeedMapsScreen> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Container(
-                  width: 16.w,
-                  height: 16.w,
+                  width: 18.w,
+                  height: 18.w,
                   decoration: BoxDecoration(
                     color: item.$2,
                     borderRadius: BorderRadius.circular(3.r),
                     border: Border.all(
-                      color: AppColors.primary.withValues(alpha: 0.2),
+                      color: const Color(0xFF9E9E9E).withValues(alpha: 0.45),
                     ),
                   ),
                 ),
                 6.w.horizontalSpace,
                 Text(
                   item.$1,
-                  style: medium(fontSize: 12.sp, color: AppColors.primary),
+                  style: semiBold(fontSize: 12.sp, color: _kListTextPrimary),
                 ),
               ],
             ),
@@ -467,75 +481,49 @@ class _SpeedMapsScreenState extends State<SpeedMapsScreen> {
     }
 
     return Column(
-      children: sortedMaps
-          .map((speedMap) => _buildHorseCard(speedMap))
-          .toList(),
+      children: List.generate(sortedMaps.length, (index) {
+        return _buildHorseCard(speedMap: sortedMaps[index], index: index);
+      }),
     );
   }
 
-  Widget _buildHorseCard(SpeedMap speedMap) {
+  Widget _buildHorseCard({required SpeedMap speedMap, required int index}) {
     String speedLabel = '';
-    Color labelColor = Colors.grey;
+    Color tagBg = _kListOddsBg;
 
     if (_selectedTab == 0) {
       speedLabel = speedMap.barrierSpeedLabel;
-      labelColor = _getSpeedColor(speedMap.barrierSpeedLabel);
+      tagBg = _getSpeedTagBackground(speedMap.barrierSpeedLabel);
     } else if (_selectedTab == 1) {
       speedLabel = speedMap.settlingSpeedLabel;
-      labelColor = _getPositionColor(speedMap.settlingSpeedLabel);
+      tagBg = _getPositionTagBackground(speedMap.settlingSpeedLabel);
     } else {
       speedLabel = speedMap.closingSpeedLabel;
-      labelColor = _getPositionColor(speedMap.closingSpeedLabel);
+      tagBg = _getPositionTagBackground(speedMap.closingSpeedLabel);
     }
 
     return Container(
-      margin: EdgeInsets.only(bottom: 12.h),
-      padding: EdgeInsets.all(14.w),
+      margin: EdgeInsets.only(bottom: 12.w),
+      padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.w),
       decoration: BoxDecoration(
-        color: labelColor.withValues(alpha: 0.15),
-        border: Border.all(color: labelColor.withValues(alpha: 0.3), width: 1),
+        color: Colors.white,
+        border: Border.all(color: _kListBorder),
         borderRadius: BorderRadius.circular(8.r),
       ),
       child: Row(
         children: [
-          // Silks Image
-          Container(
+          //* Silks Image
+          ImageWidget(
+            path: speedMap.selection.silksImage,
+            type: ImageType.svg,
             width: 40.w,
             height: 40.w,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              border: Border.all(
-                color: AppColors.primary.withValues(alpha: 0.15),
-                width: 1,
-              ),
-              borderRadius: BorderRadius.circular(6.r),
-            ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(6.r),
-              child: Image.network(
-                speedMap.selection.silksImage,
-                fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) {
-                  return Container(
-                    color: AppColors.primary.withValues(alpha: 0.1),
-                    child: Center(
-                      child: Text(
-                        '${speedMap.selection.number}',
-                        style: semiBold(
-                          fontSize: 14.sp,
-                          color: AppColors.primary,
-                        ),
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ),
+            fit: BoxFit.cover,
           ),
 
           12.w.horizontalSpace,
 
-          // Horse Details
+          //* Horse Details
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -546,57 +534,62 @@ class _SpeedMapsScreenState extends State<SpeedMapsScreen> {
                       '${speedMap.selection.number}. ',
                       style: semiBold(
                         fontSize: 16.sp,
-                        color: AppColors.primary,
+                        color: _kListTextPrimary,
                       ),
                     ),
                     Expanded(
                       child: Text(
-                        speedMap.selection.horse.name,
+                        "J: ${speedMap.selection.horse.name} (${speedMap.selection.barrier})",
                         style: semiBold(
                           fontSize: 16.sp,
-                          color: AppColors.primary,
+                          color: _kListTextPrimary,
                         ),
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
                   ],
                 ),
-                4.h.verticalSpace,
+                4.w.verticalSpace,
                 Text(
-                  speedMap.selection.jockey.name,
-                  style: regular(
-                    fontSize: 13.sp,
-                    color: AppColors.primary.withValues(alpha: 0.7),
-                  ),
+                  "J:${speedMap.selection.jockey.name}",
+                  style: regular(fontSize: 13.sp, color: _kListTextMuted),
                   overflow: TextOverflow.ellipsis,
                 ),
-                4.h.verticalSpace,
+                4.w.verticalSpace,
                 Container(
-                  padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 3.h),
+                  padding: EdgeInsets.symmetric(horizontal: 7.w, vertical: 3.w),
                   decoration: BoxDecoration(
-                    color: labelColor,
-                    borderRadius: BorderRadius.circular(4.r),
+                    color: tagBg,
+                    borderRadius: BorderRadius.circular(6.r),
+                    border: Border.all(color: _kListBorder),
                   ),
                   child: Text(
                     speedLabel,
-                    style: semiBold(fontSize: 11.sp, color: Colors.white),
+                    style: semiBold(fontSize: 11.sp, color: _kListTextPrimary),
                   ),
                 ),
               ],
             ),
           ),
 
-          // Odds
+          //* Odds
+          ImageWidget(
+            path: AppAssets.unibatLogo,
+            type: ImageType.asset,
+            height: 28.w,
+          ),
+          8.w.horizontalSpace,
           if (speedMap.selection.unibetFixedOddsWin.isNotEmpty)
             Container(
-              padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
+              padding: EdgeInsets.symmetric(horizontal: 9.w, vertical: 6.w),
               decoration: BoxDecoration(
-                color: AppColors.primary.withValues(alpha: 0.1),
-                borderRadius: BorderRadius.circular(4.r),
+                color: _kListOddsBg,
+                borderRadius: BorderRadius.circular(6.r),
+                border: Border.all(color: _kListBorder),
               ),
               child: Text(
                 '\$${speedMap.selection.unibetFixedOddsWin}',
-                style: semiBold(fontSize: 15.sp, color: AppColors.primary),
+                style: semiBold(fontSize: 15.sp, color: _kListTextPrimary),
               ),
             ),
         ],
@@ -604,39 +597,40 @@ class _SpeedMapsScreenState extends State<SpeedMapsScreen> {
     );
   }
 
-  Color _getSpeedColor(String speedLabel) {
+  /// Light grey ramp for tags (matches tip slip “soft” look).
+  Color _getSpeedTagBackground(String speedLabel) {
     switch (speedLabel.toLowerCase()) {
       case 'very fast':
-        return const Color(0xFF66BB6A);
+        return const Color(0xFFD6D6D6);
       case 'fast':
-        return const Color(0xFF81C784);
+        return const Color(0xFFDDDDDD);
       case 'moderate':
-        return const Color(0xFFA5D6A7);
+        return const Color(0xFFE3E3E3);
       case 'slow':
-        return const Color(0xFFC8E6C9);
+        return const Color(0xFFE8E8E8);
       case 'very slow':
-        return const Color(0xFFB0BEC5);
+        return const Color(0xFFEEEEEE);
       default:
-        return Colors.grey;
+        return _kListOddsBg;
     }
   }
 
-  Color _getPositionColor(String positionLabel) {
+  Color _getPositionTagBackground(String positionLabel) {
     switch (positionLabel.toLowerCase()) {
       case 'leader':
-        return const Color(0xFF66BB6A);
+        return const Color(0xFFD6D6D6);
       case 'on-pace':
       case 'on pace':
-        return const Color(0xFF81C784);
+        return const Color(0xFFDDDDDD);
       case 'off-pace':
       case 'off pace':
-        return const Color(0xFFA5D6A7);
+        return const Color(0xFFE3E3E3);
       case 'midfield':
-        return const Color(0xFFC8E6C9);
+        return const Color(0xFFE8E8E8);
       case 'backmarker':
-        return const Color(0xFFB0BEC5);
+        return const Color(0xFFEEEEEE);
       default:
-        return Colors.grey;
+        return _kListOddsBg;
     }
   }
 

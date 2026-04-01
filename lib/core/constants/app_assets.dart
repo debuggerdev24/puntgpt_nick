@@ -43,4 +43,5 @@ class AppAssets {
   static const unibatLogo = "$_imagePath/unibat_logo.png";
   static const dabbleLogo = "$_imagePath/dabble.jpeg";
   static const instagramLogo = "$_imagePath/instagram.png";
+  static const dabbleBanner = "$_imagePath/dabble_banner.png";
 }

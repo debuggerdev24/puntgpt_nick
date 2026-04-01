@@ -1,6 +1,6 @@
 import 'package:puntgpt_nick/core/app_imports.dart';
 import 'package:puntgpt_nick/models/home/classic_form_guide/classic_form_model.dart';
-import 'package:puntgpt_nick/models/home/classic_form_guide/meeting_race_model.dart';
+import 'package:puntgpt_nick/models/home/classic_form_guide/meeting_race_model.dart' hide Race;
 import 'package:puntgpt_nick/models/home/classic_form_guide/next_race_model.dart';
 import 'package:puntgpt_nick/models/home/classic_form_guide/race_details_model.dart';
 import 'package:puntgpt_nick/models/home/classic_form_guide/speed_maps_model.dart';
@@ -14,7 +14,7 @@ class ClassicFormProvider extends ChangeNotifier {
   // int selectedSubNavIndex = 0;
   List<ClassicFormModel>? _classicFormGuideList;
   MeetingDetailsModel? _meetingRaceList;
-  RaceDetailsModel? _raceFieldDetail;
+  RaceDetails? _raceFieldDetail;
   TipsAnalysisModel? _tipsAndAnalysis;
   SpeedMapsModel? _speedMaps;
   List<ClassicFormDay> days = [
@@ -27,7 +27,7 @@ class ClassicFormProvider extends ChangeNotifier {
   List<ClassicFormModel>? get classicFormGuide => _classicFormGuideList;
   MeetingDetailsModel? get raceList => _meetingRaceList;
   List<NextRaceModel> get nextRaceList => _nextRaceList ?? [];
-  RaceDetailsModel? get raceFieldDetail => _raceFieldDetail;
+  RaceDetails? get raceDetails => _raceFieldDetail;
   TipsAnalysisModel? get tipsAndAnalysis => _tipsAndAnalysis;
   SpeedMapsModel? get speedMaps => _speedMaps;
 
@@ -139,7 +139,6 @@ class ClassicFormProvider extends ChangeNotifier {
   //* Get meeting race list
   Future<void> getMeetingRaceList({required String meetingId}) async {
     _meetingRaceList = null;
-
     final response = await ClassicFormAPIService.instance.getMeetingRaceList(
       meetingId: meetingId,
     );
@@ -175,7 +174,7 @@ class ClassicFormProvider extends ChangeNotifier {
       (r) {
         final data = r["data"];
         _raceFieldDetail = data is Map<String, dynamic>
-            ? RaceDetailsModel.fromJson(data)
+            ? RaceDetails.fromJson(data["race"])
             : null;
       },
     );

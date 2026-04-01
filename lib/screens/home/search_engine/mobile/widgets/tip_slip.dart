@@ -7,273 +7,247 @@ class TipSlipItem extends StatelessWidget {
     required this.tipSlip,
     required this.isExpanded,
     required this.onTap,
-    this.onRemove,
+    required this.listPosition,
   });
 
   final TipSlipModel tipSlip;
   final bool isExpanded;
   final VoidCallback onTap;
-  final VoidCallback? onRemove;
+
+  final int listPosition;
+
+  /// Light “clean list” palette — soft greys, not solid black.
+  static const Color _textPrimary = Color(0xFF424242);
+  static const Color _textMuted = Color(0xFF757575);
+  static const Color _border = Color(0xFFE0E0E0);
+  static const Color _borderExpanded = Color(0xFFBDBDBD);
+  static const Color _oddsBg = Color(0xFFEEEEEE);
+  static const Color _expandedFill = Color(0xFFFAFAFA);
 
   @override
   Widget build(BuildContext context) {
     final selection = tipSlip.selection;
-    final closeSize = 15.sp;
-    return Stack(
-      clipBehavior: Clip.none,
-      children: [
-        Container(
-          margin: EdgeInsets.only(bottom: 12.w),
-          decoration: BoxDecoration(
-            border: Border.all(
-              color: isExpanded
-                  ? AppColors.primary
-                  : AppColors.primary.withValues(alpha: 0.3),
-              width: isExpanded ? 2 : 1,
-            ),
+    return Container(
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: isExpanded ? _borderExpanded : _border,
+          width: isExpanded ? 1.5 : 1,
+        ),
+        borderRadius: BorderRadius.circular(8.r),
+        color: isExpanded ? _expandedFill : Colors.white,
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          InkWell(
+            onTap: onTap,
             borderRadius: BorderRadius.circular(8.r),
-            color: isExpanded
-                ? AppColors.primary.withValues(alpha: 0.05)
-                : Colors.white,
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              InkWell(
-                onTap: onTap,
-                borderRadius: BorderRadius.circular(8.r),
-                child: Padding(
-                  padding: EdgeInsets.fromLTRB(6.w, 12.w, 6.w, 11.w),
-                  child: Row(
-                    children: [
-                      AnimatedRotation(
-                        turns: isExpanded ? 0.5 : 0,
-                        duration: const Duration(milliseconds: 600),
-                        curve: Curves.linear,
-                        child: Icon(
-                          Icons.keyboard_arrow_down_rounded,
-                          color: AppColors.primary.withValues(alpha: 0.8),
+            child: Padding(
+              padding: EdgeInsets.fromLTRB(4.w, 10.w, 7.w, 10.w),
+              child: Row(
+                children: [
+                  SizedBox(
+                    width: context.isBrowserMobile ? 32.w : 22.w,
+                    child: Center(
+                      child: Text(
+                        '$listPosition.',
+                        style: semiBold(
+                          fontSize: context.isBrowserMobile ? 26.sp : 14.sp,
+                          color: _textMuted,
                         ),
                       ),
-                      4.w.horizontalSpace,
-                      _buildSilksOrPlaceholder(
-                        silksImage: selection.silksImage,
-                        number: selection.number,
-                        context: context,
+                    ),
+                  ),
+                  2.w.horizontalSpace,
+                  _buildSilksOrPlaceholder(
+                    silksImage: selection.silksImage,
+                    number: selection.number,
+                    context: context,
+                  ),
+                  8.w.horizontalSpace,
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children:[
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              '${selection.number}. ',
+                              style: semiBold(
+                                fontSize: context.isBrowserMobile
+                                    ? 32.sp
+                                    : 16.sp,
+                                color: _textPrimary,
+                              ),
+                            ),
+                            Expanded(
+                              child: Text(
+                                "${selection.horseName} (${selection.barrier})",
+                                style: semiBold(
+                                  fontSize: context.isBrowserMobile
+                                      ? 32.sp
+                                      : 16.sp,
+                                  color: _textPrimary,
+                                  height: 1.2,
+                                ),
+                                // overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                          ],
+                        ),
+                        4.w.verticalSpace,
+                        Text(
+                          '${selection.trackName} • R${selection.raceNumber} • ${selection.distance}m',
+                          style: regular(
+                            fontSize: context.isBrowserMobile ? 26.sp : 13.sp,
+                            color: _textMuted,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  4.5.w.horizontalSpace,
+                  ImageWidget(
+                    path: AppAssets.unibatLogo,
+                    type: ImageType.asset,
+                    height: 28.w,
+                  ),
+                  Container(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 8.w,
+                      vertical: 6.w,
+                    ),
+                    margin: EdgeInsets.only(left: 8.w),
+                    decoration: BoxDecoration(
+                      color: _oddsBg,
+                      borderRadius: BorderRadius.circular(6.r),
+                      border: Border.all(color: _border),
+                    ),
+                    child: Text(
+                      '\$${selection.unibetFixedOddsWin}',
+                      style: bold(
+                        fontSize: context.isBrowserMobile ? 32.sp : 16.sp,
+                        color: _textPrimary,
                       ),
-                      8.w.horizontalSpace,
-                      Expanded(
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          AnimatedSize(
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.easeInOut,
+            alignment: Alignment.topCenter,
+            child: isExpanded
+                ? Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Divider(
+                        height: 1,
+                        color: _border,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 12.w,
+                          vertical: 12.h,
+                        ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  '${selection.number}. ',
-                                  style: semiBold(
-                                    fontSize: context.isBrowserMobile
-                                        ? 32.sp
-                                        : 16.sp,
-                                    color: AppColors.primary,
-                                  ),
+                            Container(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 8.w,
+                                vertical: 6.h,
+                              ),
+                              decoration: BoxDecoration(
+                                color: _oddsBg,
+                                borderRadius: BorderRadius.circular(4.r),
+                                border: Border.all(color: _border),
+                              ),
+                              child: Text(
+                                selection.raceName,
+                                style: medium(
+                                  fontSize: context.isBrowserMobile
+                                      ? 24.sp
+                                      : 12.sp,
+                                  color: _textPrimary,
                                 ),
-                                Expanded(
-                                  child: Text(
-                                    "${selection.horseName} (${selection.barrier})",
-                                    style: semiBold(
-                                      fontSize: context.isBrowserMobile
-                                          ? 32.sp
-                                          : 16.sp,
-                                      color: AppColors.primary,
-                                      height: 1.2,
-                                    ),
-                                    // overflow: TextOverflow.ellipsis,
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                            12.w.verticalSpace,
+                            _buildDetailRow(
+                              context: context,
+                              icon: Icons.access_time,
+                              label: 'Race Time',
+                              value: DateFormatter.formatRaceDateTime(
+                                selection.startTimeUtc.toIso8601String(),
+                              ),
+                            ),
+                            8.w.verticalSpace,
+                            _buildDetailRow(
+                              context: context,
+                              icon: Icons.person_outline,
+                              label: 'Jockey',
+                              value: selection.jockeyName,
+                            ),
+                            8.w.verticalSpace,
+                            _buildDetailRow(
+                              context: context,
+                              icon: Icons.school_outlined,
+                              label: 'Trainer',
+                              value: selection.trainerName,
+                            ),
+                            8.w.verticalSpace,
+                            // _buildDetailRow(
+                            //   context: context,
+                            //   icon: Icons.location_on_outlined,
+                            //   label: 'Track',
+                            //   value: selection.trackName,
+                            // ),
+                            12.w.verticalSpace,
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.bookmark_added_outlined,
+                                  size: 13.sp,
+                                  color: _textMuted,
+                                ),
+                                6.w.horizontalSpace,
+                                Text(
+                                  'Added ${_formatAddedTime(tipSlip.addedAt)}',
+                                  style: regular(
+                                    fontSize: context.isBrowserMobile
+                                        ? 22.sp
+                                        : 11.sp,
+                                    color: _textMuted,
+                                    fontStyle: FontStyle.italic,
                                   ),
                                 ),
                               ],
-                            ),
-                            4.w.verticalSpace,
-                            Text(
-                              '${selection.trackName} • R${selection.raceNumber} • ${selection.distance}m',
-                              style: regular(
-                                fontSize: context.isBrowserMobile
-                                    ? 26.sp
-                                    : 13.sp,
-                                color: AppColors.primary.withValues(alpha: 0.7),
-                              ),
-                              overflow: TextOverflow.ellipsis,
                             ),
                           ],
                         ),
                       ),
-
-                      // 12.w.horizontalSpace,
-                      ImageWidget(
-                        path: AppAssets.unibatLogo,
-                        type: ImageType.asset,
-                        height: 28.w,
-                      ),
-                      Container(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 8.w,
-                          vertical: 6.w,
-                        ),
-                        margin: EdgeInsets.only(left: 8.w),
-                        decoration: BoxDecoration(
-                          color: AppColors.primary.withValues(alpha: 0.1),
-                          borderRadius: BorderRadius.circular(4.r),
-                        ),
-                        child: Text(
-                          '\$${selection.unibetFixedOddsWin}',
-                          style: bold(
-                            fontSize: context.isBrowserMobile ? 32.sp : 16.sp,
-                            color: AppColors.primary,
-                          ),
-                        ),
-                      ),
                     ],
-                  ),
-                ),
-              ),
-              AnimatedSize(
-                duration: const Duration(milliseconds: 300),
-                curve: Curves.easeInOut,
-                alignment: Alignment.topCenter,
-                child: isExpanded
-                    ? Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Divider(
-                            height: 1,
-                            color: AppColors.primary.withValues(alpha: 0.2),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 12.w,
-                              vertical: 12.h,
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                  padding: EdgeInsets.symmetric(
-                                    horizontal: 8.w,
-                                    vertical: 6.h,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    color: AppColors.primary.withValues(
-                                      alpha: 0.08,
-                                    ),
-                                    borderRadius: BorderRadius.circular(4.r),
-                                  ),
-                                  child: Text(
-                                    selection.raceName,
-                                    style: medium(
-                                      fontSize: context.isBrowserMobile
-                                          ? 24.sp
-                                          : 12.sp,
-                                      color: AppColors.primary,
-                                    ),
-                                    maxLines: 2,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                ),
-                                12.w.verticalSpace,
-                                _buildDetailRow(
-                                  context: context,
-                                  icon: Icons.access_time,
-                                  label: 'Race Time',
-                                  value: DateFormatter.formatRaceDateTime(
-                                    selection.startTimeUtc.toIso8601String(),
-                                  ),
-                                ),
-                                8.w.verticalSpace,
-                                _buildDetailRow(
-                                  context: context,
-                                  icon: Icons.person_outline,
-                                  label: 'Jockey',
-                                  value: selection.jockeyName,
-                                ),
-                                8.w.verticalSpace,
-                                _buildDetailRow(
-                                  context: context,
-                                  icon: Icons.school_outlined,
-                                  label: 'Trainer',
-                                  value: selection.trainerName,
-                                ),
-                                8.w.verticalSpace,
-                                // _buildDetailRow(
-                                //   context: context,
-                                //   icon: Icons.location_on_outlined,
-                                //   label: 'Track',
-                                //   value: selection.trackName,
-                                // ),
-                                12.w.verticalSpace,
-                                Row(
-                                  children: [
-                                    Icon(
-                                      Icons.bookmark_added_outlined,
-                                      size: 13.sp,
-                                      color: AppColors.primary.withValues(
-                                        alpha: 0.5,
-                                      ),
-                                    ),
-                                    6.w.horizontalSpace,
-                                    Text(
-                                      'Added ${_formatAddedTime(tipSlip.addedAt)}',
-                                      style: regular(
-                                        fontSize: context.isBrowserMobile
-                                            ? 22.sp
-                                            : 11.sp,
-                                        color: AppColors.primary.withValues(
-                                          alpha: 0.5,
-                                        ),
-                                        fontStyle: FontStyle.italic,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      )
-                    : const SizedBox.shrink(),
-              ),
-            ],
+                  )
+                : const SizedBox.shrink(),
           ),
-        ),
-        if (onRemove != null)
-          Positioned(
-            top: -6.2,
-            right: -5,
-            child: Container(
-              padding: EdgeInsets.all(2.9.w),
-              decoration: BoxDecoration(
-                color: AppColors.primary,
-                shape: BoxShape.circle,
-              ),
-              alignment: Alignment.center,
-              child: GestureDetector(
-                behavior: HitTestBehavior.opaque,
-                onTap: () => _showRemoveTipConfirmation(context, onRemove!),
-                child: Icon(
-                  Icons.close,
-                  size: closeSize,
-                  color: AppColors.white,
-                ),
-              ),
-            ),
-          ),
-      ],
+        ],
+      ),
     );
   }
 
-  static void _showRemoveTipConfirmation(
-    BuildContext context,
-    VoidCallback onConfirmRemove,
-  ) {
+  // Shown before deleting a tip (e.g. swipe delete).
+  static void showRemoveConfirmationDialog({
+    required BuildContext context,
+    required VoidCallback onConfirmRemove,
+  }) {
     showDialog<void>(
       context: context,
       builder: (dialogContext) => AlertDialog(
@@ -313,14 +287,14 @@ class TipSlipItem extends StatelessWidget {
         Icon(
           icon,
           size: 16.sp,
-          color: AppColors.primary.withValues(alpha: 0.6),
+          color: _textMuted,
         ),
         8.w.horizontalSpace,
         Text(
           '$label: ',
           style: semiBold(
             fontSize: context.isBrowserMobile ? 24.sp : 12.sp,
-            color: AppColors.primary.withValues(alpha: 0.7),
+            color: _textMuted,
           ),
         ),
         Expanded(
@@ -328,7 +302,7 @@ class TipSlipItem extends StatelessWidget {
             value,
             style: regular(
               fontSize: context.isBrowserMobile ? 24.sp : 12.sp,
-              color: AppColors.primary.withValues(alpha: 0.9),
+              color: _textPrimary,
             ),
             overflow: TextOverflow.ellipsis,
           ),
@@ -370,7 +344,7 @@ class TipSlipItem extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         border: Border.all(
-          color: AppColors.primary.withValues(alpha: 0.15),
+          color: _border,
           width: 1,
         ),
         borderRadius: BorderRadius.circular(6.r),
@@ -389,11 +363,11 @@ class TipSlipItem extends StatelessWidget {
   }
 
   static Widget _silksPlaceholder({required int number}) => Container(
-    color: AppColors.primary.withValues(alpha: 0.08),
+    color: _expandedFill,
     alignment: Alignment.center,
     child: Text(
       '$number',
-      style: semiBold(fontSize: 16.sp, color: AppColors.primary),
+      style: semiBold(fontSize: 16.sp, color: _textMuted),
     ),
   );
 }

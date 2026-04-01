@@ -5,6 +5,7 @@ import 'package:puntgpt_nick/provider/subscription/subscription_provider.dart';
 import 'package:puntgpt_nick/screens/dashboard/mobile/widgets/dashboard_app_bar.dart';
 import 'package:puntgpt_nick/core/widgets/offline/widget/offline_view.dart';
 import 'package:puntgpt_nick/services/app_startup/app_startup_coordinator.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 // ignore: library_private_types_in_public_api
 final GlobalKey<_DashboardState> dashboardKey = GlobalKey<_DashboardState>();
@@ -84,13 +85,12 @@ class _DashboardState extends State<Dashboard> {
                       builder: (context, subscriptionProvider, child) {
                         return _navItem(
                           onTap: () {
-                            // indexOfTab.value = 0;
-                            // AppRouter.indexedStackNavigationShell?.goBranch(0);
+                            launchUrl(Uri.parse("https://www.instagram.com/puntgpt/"));
                           },
                           text: "Instagram",
                           icon: AppAssets.instagramLogo,
-                          color: AppColors.premiumYellow,
-                          index: 0,
+                          color: AppColors.white,
+                          index: -1,
                         );
                         // return _navItem(
                         //   onTap: () {

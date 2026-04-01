@@ -3,6 +3,7 @@ import 'package:badges/badges.dart' as badges;
 import 'package:puntgpt_nick/provider/home/search_engine/search_engine_provider.dart';
 import 'package:puntgpt_nick/provider/subscription/subscription_provider.dart';
 import 'package:puntgpt_nick/screens/dashboard/mobile/dashboard.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class DashboardAppBar extends StatefulWidget {
   const DashboardAppBar({super.key, required this.navigationShell});
@@ -184,18 +185,25 @@ class _DashboardAppBarState extends State<DashboardAppBar> {
 
   Widget _bannerAd() {
     return Expanded(
-      child: Container(
-        height: 55.w,
-        width: context.screenWidth - 50,
-        margin: EdgeInsets.symmetric(horizontal: 20.w),
-        decoration: BoxDecoration(
-          color: AppColors.white,
-          borderRadius: BorderRadius.circular(8),
-        ),
-        alignment: Alignment.center,
-        child: Text(
-          "Ad",
-          style: regular(fontSize: (context.isBrowserMobile) ? 30.sp : 16.sp),
+      child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: () {
+          launchUrl(Uri.parse(AppConfig.dabbleUrl));
+        },
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 18.w),
+          
+          child: ImageWidget(
+            
+            path: AppAssets.dabbleBanner,
+            type: ImageType.asset,
+            
+            // width: context.screenWidth - 50,
+          ),
+          // child: Text(
+          //   "Ad",
+          //   style: regular(fontSize: (context.isBrowserMobile) ? 30.sp : 16.sp),
+          // ),
         ),
       ),
     );

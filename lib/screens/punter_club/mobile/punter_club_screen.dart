@@ -212,10 +212,10 @@ class PunterClubScreen extends StatelessWidget {
         vertical: 7.w,
       ),
       child: Row(
-        // crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Padding(
-            padding: EdgeInsets.only(bottom: 15),
+            padding: EdgeInsets.only(bottom: 24.w),
             child: ImageWidget(
               path: AppAssets.groupIcon,
               type: ImageType.svg,
@@ -234,6 +234,7 @@ class PunterClubScreen extends StatelessWidget {
                   style: regular(
                     fontSize: (context.isBrowserMobile) ? 38.sp : 24.sp,
                     fontFamily: AppFontFamily.secondary,
+                    height: 1,
                   ),
                 ),
                 Text(
@@ -241,6 +242,7 @@ class PunterClubScreen extends StatelessWidget {
                   style: semiBold(
                     fontSize: (context.isBrowserMobile) ? 28.sp : 14.sp,
                     color: AppColors.primary.withValues(alpha: 0.6),
+                    height: 1.3,
                   ),
                 ),
               ],

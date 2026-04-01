@@ -2,6 +2,7 @@ import 'package:puntgpt_nick/core/app_imports.dart';
 import 'package:puntgpt_nick/provider/home/search_engine/search_engine_provider.dart';
 import 'package:puntgpt_nick/screens/home/search_engine/mobile/widgets/home_section_shimmers.dart';
 import 'package:puntgpt_nick/screens/home/search_engine/mobile/widgets/tip_slip.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 
 class TipSlipScreen extends StatelessWidget {
   const TipSlipScreen({super.key});
@@ -32,28 +33,57 @@ class TipSlipScreen extends StatelessWidget {
                               itemCount: tipSlips.length,
                               itemBuilder: (context, index) {
                                 final tipSlip = tipSlips[index];
-                                return TipSlipItem(
-                                  tipSlip: tipSlip,
-                                  isExpanded:
-                                      provider.expandedTipSlipId == tipSlip.id,
-                                  onTap: () =>
-                                      provider.toggleTipSlipExpand(tipSlip.id),
-                                  onRemove: () {
-                                    final removedId = tipSlips[index].id;
-                                    if (provider.expandedTipSlipId ==
-                                        removedId) {
-                                      provider.toggleTipSlipExpand(removedId);
-                                    }
-                                    provider.removeTipSlipAt(index);
-                                    AppToast.success(
-                                      context: context,
-                                      message:
-                                          "Removed from tip slip successfully",
-                                    );
-                                    provider.removeFromTipSlip(
-                                      tipSlipId: removedId.toString(),
-                                    );
-                                  },
+                                void remove() {
+                                  final removedId = tipSlips[index].id;
+                                  if (provider.expandedTipSlipId == removedId) {
+                                    provider.toggleTipSlipExpand(removedId);
+                                  }
+                                  provider.removeTipSlipAt(index);
+                                  AppToast.success(
+                                    context: context,
+                                    message:
+                                        "Removed from tip slip successfully",
+                                  );
+                                  provider.removeFromTipSlip(
+                                    tipSlipId: removedId.toString(),
+                                  );
+                                }
+
+                                return Padding(
+                                  padding: EdgeInsets.only(bottom: 12.w),
+                                  child: Slidable(
+                                    key: ValueKey(tipSlip.id),
+                                    endActionPane: ActionPane(
+                                      motion: BehindMotion(),
+                                      extentRatio: 0.28,
+                                      children: [
+                                        SlidableAction(
+                                          onPressed: (_) =>
+                                              TipSlipItem.showRemoveConfirmationDialog(
+                                                context: context,
+                                                onConfirmRemove: remove,
+                                              ),
+                                          backgroundColor: AppColors.redButton,
+                                          foregroundColor: Colors.white,
+                                          icon: Icons.delete_outline_rounded,
+                                          label: 'Delete',
+                                          borderRadius: BorderRadius.circular(
+                                            10.r,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    child: TipSlipItem(
+                                      tipSlip: tipSlip,
+                                      listPosition: index + 1,
+                                      isExpanded:
+                                          provider.expandedTipSlipId ==
+                                          tipSlip.id,
+                                      onTap: () => provider.toggleTipSlipExpand(
+                                        tipSlip.id,
+                                      ),
+                                    ),
+                                  ),
                                 );
                               },
                             ),

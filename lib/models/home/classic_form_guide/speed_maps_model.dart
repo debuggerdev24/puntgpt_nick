@@ -26,15 +26,6 @@ class SpeedMapsModel {
   int distance;
   String meetingName;
   List<SpeedMap> speedMapsList;
-
-  Map<String, dynamic> toJson() => {
-    "race_id": raceId,
-    "race_number": raceNumber,
-    "race_name": raceName,
-    "distance": distance,
-    "meeting_name": meetingName,
-    "speed_maps": List<dynamic>.from(speedMapsList.map((x) => x.toJson())),
-  };
 }
 
 class SpeedMap {
@@ -70,18 +61,6 @@ class SpeedMap {
   String settlingSpeedLabel;
   String closingSpeedMeasure;
   String closingSpeedLabel;
-
-  Map<String, dynamic> toJson() => {
-    "selection": selection.toJson(),
-    "barrier_speed_measure": barrierSpeedMeasure,
-    "barrier_normalised_speed_measure": barrierNormalisedSpeedMeasure,
-    "barrier_speed_label": barrierSpeedLabel,
-    "settling_length": settlingLength,
-    "settling_width": settlingWidth,
-    "settling_speed_label": settlingSpeedLabel,
-    "closing_speed_measure": closingSpeedMeasure,
-    "closing_speed_label": closingSpeedLabel,
-  };
 }
 
 class Selection {
@@ -114,17 +93,6 @@ class Selection {
   Trainer trainer;
   String silksImage;
   String unibetFixedOddsWin;
-
-  Map<String, dynamic> toJson() => {
-    "selectionId": selectionId,
-    "number": number,
-    "barrier": barrier,
-    "horse": horse.toJson(),
-    "jockey": jockey.toJson(),
-    "trainer": trainer.toJson(),
-    "silks_image": silksImage,
-    "unibet_fixed_odds_win": unibetFixedOddsWin,
-  };
 }
 
 class Horse {

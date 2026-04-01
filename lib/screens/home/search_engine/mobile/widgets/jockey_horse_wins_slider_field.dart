@@ -17,8 +17,8 @@ class JockeyHorseWinsSliderField extends StatelessWidget {
   String _format(double value) => value.toStringAsFixed(0);
 
   String _selectedText() {
-    if (values.start == values.end) return "\$${_format(values.start)}";
-    return "\$${_format(values.start)} - \$${_format(values.end)}";
+    if (values.start == values.end) return _format(values.start);
+    return "${_format(values.start)} - ${_format(values.end)}";
   }
 
   int _stepIndexFromValue(double value) {
@@ -72,7 +72,7 @@ class JockeyHorseWinsSliderField extends StatelessWidget {
               children: _steps
                   .map(
                     (label) => Text(
-                      "\$${label.toInt()}",
+                      "${label.toInt()}",
                       style: medium(
                         fontSize: (context.isBrowserMobile) ? 24.sp : 12.sp,
                         color: AppColors.primary.withValues(alpha: 0.8),
@@ -104,8 +104,8 @@ class JockeyHorseWinsSliderField extends StatelessWidget {
               max: 4,
               values: RangeValues(startIndex, endIndex),
               labels: RangeLabels(
-                "\$${_format(values.start)}",
-                "\$${_format(values.end)}",
+                _format(values.start),
+                _format(values.end),
               ),
               divisions: 4,
               onChanged: onChanged == null

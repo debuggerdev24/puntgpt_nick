@@ -1445,4 +1445,284 @@ class HomeSectionShimmers {
     ),
   );
   }
+
+  //* Shimmer for Speed Maps: segmented tabs, track map, legend, runner cards.
+  static Widget speedMapsScreenShimmer({required BuildContext context}) {
+    final isWide = context.isBrowserMobile;
+    final hPad = 16.w;
+    final mapHeight = isWide ? 240.h : 200.h;
+    final tabH = isWide ? 52.h : 46.h;
+
+    Widget line(double widthFactor, double height) {
+      return FractionallySizedBox(
+        widthFactor: widthFactor,
+        alignment: Alignment.centerLeft,
+        child: Container(
+          height: height,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(4.r),
+          ),
+        ),
+      );
+    }
+
+    final body = SingleChildScrollView(
+      padding: EdgeInsets.fromLTRB(hPad, 16.h, hPad, 24.h),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          SizedBox(
+            height: mapHeight,
+            child: Stack(
+              clipBehavior: Clip.none,
+              children: [
+                Container(
+                  width: double.infinity,
+                  height: mapHeight,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(12.r),
+                    border: Border.all(
+                      color: AppColors.primary.withValues(alpha: 0.06),
+                    ),
+                  ),
+                ),
+                Positioned(
+                  left: 12.w,
+                  top: 14.h,
+                  child: Container(
+                    width: isWide ? 48.w : 40.w,
+                    height: 10.h,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(4.r),
+                    ),
+                  ),
+                ),
+                Positioned(
+                  left: 28.w,
+                  top: 48.h,
+                  child: Container(
+                    width: 32.w,
+                    height: 22.h,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(4.r),
+                    ),
+                  ),
+                ),
+                Positioned(
+                  right: 36.w,
+                  top: 72.h,
+                  child: Container(
+                    width: 28.w,
+                    height: 18.h,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(4.r),
+                    ),
+                  ),
+                ),
+                Positioned(
+                  left: 52.w,
+                  bottom: 40.h,
+                  child: Container(
+                    width: 36.w,
+                    height: 20.h,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(4.r),
+                    ),
+                  ),
+                ),
+                Positioned(
+                  right: 20.w,
+                  top: 36.h,
+                  child: Container(
+                    width: 30.w,
+                    height: 24.h,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(4.r),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          24.h.verticalSpace,
+          Wrap(
+            spacing: 12.w,
+            runSpacing: 8.h,
+            children: List.generate(
+              5,
+              (_) => Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
+                    width: 16.w,
+                    height: 16.w,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(3.r),
+                    ),
+                  ),
+                  6.w.horizontalSpace,
+                  Container(
+                    width: isWide ? 72.w : 56.w,
+                    height: 12.h,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(4.r),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          24.h.verticalSpace,
+          ...List.generate(
+            4,
+            (_) => Container(
+              margin: EdgeInsets.only(bottom: 12.h),
+              padding: EdgeInsets.all(14.w),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(8.r),
+                border: Border.all(
+                  color: AppColors.primary.withValues(alpha: 0.08),
+                ),
+              ),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    width: 40.w,
+                    height: 40.w,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(6.r),
+                    ),
+                  ),
+                  12.w.horizontalSpace,
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        line(0.92, isWide ? 18.h : 14.h),
+                        8.h.verticalSpace,
+                        line(0.55, isWide ? 16.h : 12.h),
+                        8.h.verticalSpace,
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Container(
+                            width: isWide ? 100.w : 80.w,
+                            height: isWide ? 22.h : 18.h,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(999),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  10.w.horizontalSpace,
+                  Container(
+                    width: isWide ? 72.w : 64.w,
+                    height: isWide ? 40.h : 36.h,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(6.r),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            hPad.horizontalSpace,
+            GestureDetector(
+              onTap: () => context.pop(),
+              child: Padding(
+                padding: EdgeInsets.only(top: 14.w),
+                child: Icon(
+                  Icons.arrow_back_ios_rounded,
+                  size: 16.w,
+                  color: AppColors.primary,
+                ),
+              ),
+            ),
+            Expanded(
+              child: Shimmer.fromColors(
+                baseColor: AppColors.shimmerBaseColor,
+                highlightColor: AppColors.shimmerHighlightColor,
+                child: Padding(
+                  padding: EdgeInsets.fromLTRB(10.w, 12.w, 16.w, 12.w),
+                  child: Container(
+                    height: tabH,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(8.r),
+                      border: Border.all(
+                        color: AppColors.primary.withValues(alpha: 0.08),
+                      ),
+                    ),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            margin: EdgeInsets.all(3.w),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(6.r),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: Container(
+                            margin: EdgeInsets.all(3.w),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(6.r),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: Container(
+                            margin: EdgeInsets.all(3.w),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(6.r),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+        Expanded(
+          child: Shimmer.fromColors(
+            baseColor: AppColors.shimmerBaseColor,
+            highlightColor: AppColors.shimmerHighlightColor,
+            child: body,
+          ),
+        ),
+      ],
+    );
+  }
 }
