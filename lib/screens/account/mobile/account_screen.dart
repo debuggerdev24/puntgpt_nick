@@ -5,6 +5,7 @@ import 'package:puntgpt_nick/main.dart';
 import 'package:puntgpt_nick/provider/auth/auth_provider.dart';
 import 'package:puntgpt_nick/provider/subscription/subscription_provider.dart';
 import 'package:puntgpt_nick/screens/auth/auth_constants.dart';
+import 'package:puntgpt_nick/services/storage/locale_storage_service.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AccountScreen extends StatelessWidget {
@@ -53,7 +54,20 @@ class AccountScreen extends StatelessWidget {
                 },
               ),
               horizontalDivider(),
-              if (!isGuest)
+              if (LocaleStorageService.loggedInUserEmail ==
+                      AppStrings.adminEmail &&
+                  !isGuest) ...[
+                accountItem(
+                  context: context,
+                  title: "Lifetime Members",
+                  onTap: () {
+                    context.read<SubscriptionProvider>().getLifetimeMembers();
+                    context.pushNamed(AppRoutes.lifeTimeMembersScreen.name);
+                  },
+                ),
+                horizontalDivider(),
+              ],
+              if (!isGuest) ...[
                 accountItem(
                   context: context,
                   title: "Log Out",
@@ -61,6 +75,9 @@ class AccountScreen extends StatelessWidget {
                     showLogOutConfirmationDialog(context: context);
                   },
                 ),
+                horizontalDivider(),
+              ],
+
               Spacer(),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 10.w),
@@ -68,25 +85,19 @@ class AccountScreen extends StatelessWidget {
                   alignment: WrapAlignment.center,
                   crossAxisAlignment: WrapCrossAlignment.center,
                   children: [
-                    Text(
-                      "Terms & Conditions",
-                      style: bold(
-                        fontSize: (context.isBrowserMobile) ? 30.sp : 14.sp,
-                        decoration: TextDecoration.underline,
-                      ),
-                    ),
-                    Container(
-                      width: 1,
-                      height: 12,
-                      color: AppColors.primary,
-                      margin: EdgeInsets.symmetric(horizontal: 10),
-                    ),
-                    Text(
-                      "AI disclaimer",
-                      style: bold(
-                        decoration: TextDecoration.underline,
-
-                        fontSize: (context.isBrowserMobile) ? 30.sp : 14.sp,
+                    OnMouseTap(
+                      onTap: () {
+                        launchUrl(
+                          Uri.parse(AppStrings.termsAndConditionsUrl),
+                          mode: LaunchMode.externalApplication,
+                        );
+                      },
+                      child: Text(
+                        "Terms & Conditions",
+                        style: bold(
+                          fontSize: (context.isBrowserMobile) ? 30.sp : 14.sp,
+                          decoration: TextDecoration.underline,
+                        ),
                       ),
                     ),
                     Container(
@@ -98,7 +109,29 @@ class AccountScreen extends StatelessWidget {
                     OnMouseTap(
                       onTap: () {
                         launchUrl(
-                          Uri.parse(kPrivacyPolicyUrl),
+                          Uri.parse(AppStrings.aiDisclaimerUrl),
+                          mode: LaunchMode.externalApplication,
+                        );
+                      },
+                      child: Text(
+                        "AI disclaimer",
+                        style: bold(
+                          decoration: TextDecoration.underline,
+                      
+                          fontSize: (context.isBrowserMobile) ? 30.sp : 14.sp,
+                        ),
+                      ),
+                    ),
+                    Container(
+                      width: 1,
+                      height: 12,
+                      color: AppColors.primary,
+                      margin: EdgeInsets.symmetric(horizontal: 10),
+                    ),
+                    OnMouseTap(
+                      onTap: () {
+                        launchUrl(
+                          Uri.parse(AppStrings.privacyPolicyUrl),
                           mode: LaunchMode.externalApplication,
                         );
                       },

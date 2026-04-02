@@ -1,4 +1,5 @@
 import 'package:puntgpt_nick/core/app_imports.dart';
+import 'package:puntgpt_nick/core/constants/app_strings.dart';
 import 'package:puntgpt_nick/screens/auth/auth_constants.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -46,11 +47,19 @@ class SignUpBottomSection extends StatelessWidget {
             alignment: WrapAlignment.center,
             crossAxisAlignment: WrapCrossAlignment.center,
             children: [
-              Text(
-                "Terms & Conditions",
-                style: bold(
-                  fontSize: 14.sp,
-                  decoration: TextDecoration.underline,
+              OnMouseTap(
+                onTap: () {
+                  launchUrl(
+                    Uri.parse(AppStrings.termsAndConditionsUrl),
+                    mode: LaunchMode.externalApplication,
+                  );
+                },
+                child: Text(
+                  "Terms & Conditions",
+                  style: bold(
+                    fontSize: 14.sp,
+                    decoration: TextDecoration.underline,
+                  ),
                 ),
               ),
               Container(
@@ -59,11 +68,19 @@ class SignUpBottomSection extends StatelessWidget {
                 color: AppColors.primary,
                 margin: EdgeInsets.symmetric(horizontal: 10),
               ),
-              Text(
-                "AI disclaimer",
-                style: bold(
-                  fontSize: 14.sp,
-                  decoration: TextDecoration.underline,
+              OnMouseTap(
+                onTap: () {
+                  launchUrl(
+                    Uri.parse(AppStrings.aiDisclaimerUrl),
+                    mode: LaunchMode.externalApplication,
+                  );
+                },
+                child: Text(
+                  "AI disclaimer",
+                  style: bold(
+                    fontSize: 14.sp,
+                    decoration: TextDecoration.underline,
+                  ),
                 ),
               ),
               Container(
@@ -76,7 +93,7 @@ class SignUpBottomSection extends StatelessWidget {
               OnMouseTap(
                 onTap: () {
                   launchUrl(
-                    Uri.parse(kPrivacyPolicyUrl),
+                    Uri.parse(AppStrings.privacyPolicyUrl),
                     mode: LaunchMode.externalApplication,
                   );
                 },

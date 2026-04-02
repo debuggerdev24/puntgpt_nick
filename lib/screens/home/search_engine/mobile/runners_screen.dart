@@ -152,7 +152,7 @@ class _RunnersListScreenState extends State<RunnersListScreen> {
                                     Future.wait([
                                       classicForm.getMeetingRaceList(
                                         meetingId: classicForm
-                                            .classicFormGuide![0]
+                                            .classicFormGuide![classicForm.selectedRace]
                                             .meetingId
                                             .toString(),
                                       ),

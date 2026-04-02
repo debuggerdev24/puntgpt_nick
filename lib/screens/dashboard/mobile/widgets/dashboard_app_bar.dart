@@ -192,18 +192,16 @@ class _DashboardAppBarState extends State<DashboardAppBar> {
         },
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 18.w),
-          
-          child: ImageWidget(
-            
-            path: AppAssets.dabbleBanner,
-            type: ImageType.asset,
-            
-            // width: context.screenWidth - 50,
+          child: Image.asset(
+            AppAssets.dabbleGIF,
+            fit: BoxFit.contain,
+            gaplessPlayback: true,
+            errorBuilder: (_, __, ___) => ImageWidget(
+              path: AppAssets.dabbleBanner,
+              type: ImageType.asset,
+              fit: BoxFit.contain,
+            ),
           ),
-          // child: Text(
-          //   "Ad",
-          //   style: regular(fontSize: (context.isBrowserMobile) ? 30.sp : 16.sp),
-          // ),
         ),
       ),
     );

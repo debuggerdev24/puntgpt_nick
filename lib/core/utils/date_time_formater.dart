@@ -42,7 +42,7 @@ class DateFormatter {
     return DateFormat('hh:mm a').format(date);
   }
 
-  // Parse time string (ISO, "yyyy-MM-dd HH:mm:ss", or "HH:mm:ss") and format as "hh:mm am/pm" (no seconds)
+  //* Parse time string (ISO, "yyyy-MM-dd HH:mm:ss", or "HH:mm:ss") and format as "hh:mm am/pm" (no seconds)
   static String formatTimeFromString(String? timeStr) {
     if (timeStr == null || timeStr.isEmpty) return '-';
     try {
@@ -97,7 +97,7 @@ class DateFormatter {
   }
 
   /// Format: 2nd February, 2026
-  static String formatDateWithOrdinal(DateTime date) {
+  static String _formatDateWithOrdinal(DateTime date) {
     final day = date.day;
     final monthYear = DateFormat('MMMM, yyyy').format(date);
     return '$day${_ordinalSuffix(day)} $monthYear';
@@ -107,7 +107,7 @@ class DateFormatter {
   static String formatRaceDateTime(String dateTimeUtc) {
     try {
       final dt = DateTime.parse(dateTimeUtc).toLocal();
-      final datePart = formatDateWithOrdinal(dt);
+      final datePart = _formatDateWithOrdinal(dt);
       final timePart = formatTimeOnly(dt);
       return '$datePart, $timePart';
     } catch (e) {

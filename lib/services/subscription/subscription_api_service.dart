@@ -39,4 +39,10 @@ class SubscriptionApiService {
       EndPoints.cancelSubscription,
     );
   }
+
+  Future<Either<ApiException, Map<String, dynamic>>> getLifetimeMembers() async {
+    return await BaseApiHelper.instance.get<Map<String, dynamic>>(
+      EndPoints.lifetimePlanHolders,
+    );
+  }
 }

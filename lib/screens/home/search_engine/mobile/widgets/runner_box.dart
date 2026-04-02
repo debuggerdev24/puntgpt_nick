@@ -5,6 +5,7 @@ import 'package:puntgpt_nick/models/home/search_engine/runner_model.dart';
 import 'package:puntgpt_nick/services/storage/locale_storage_service.dart';
 import 'package:puntgpt_nick/provider/home/search_engine/search_engine_provider.dart';
 import 'package:puntgpt_nick/screens/home/search_engine/mobile/widgets/home_section_shimmers.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 /// Placeholder until API exposes weight; swap for `runner.weightKg` when available.
 
@@ -33,6 +34,7 @@ class RunnerBox extends StatelessWidget {
   Widget build(BuildContext context) {
     final isGuest = !LocaleStorageService.isUserLoggedIn;
     final padding = EdgeInsets.fromLTRB(8.w, 0, 8.w, 3);
+    final jumpTime = runner.jumpTimeAu!.split(" ");
     return GestureDetector(
       onTap: onOpenClassicFormGuide,
       child: Container(
@@ -43,47 +45,50 @@ class RunnerBox extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            //*----------- first row section
+            //*----------- first row horse detailss
             Padding(
-              padding: EdgeInsets.fromLTRB(8.w, 12, 8.w, 3),
+              padding: EdgeInsets.fromLTRB(8.w, 12, 8.w, 3.w),
               child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text("$index. ", style: bold(fontSize: 18.sp)),
                   if ((runner.silksImage ?? '').isNotEmpty)
                     ImageWidget(
                       path: runner.silksImage!,
                       type: ImageType.svg,
-                      height: 24.w,
+                      height: 28.w,
                     ),
                   if ((runner.silksImage ?? '').isNotEmpty) 4.horizontalSpace,
-                  Text(
-                    "${runner.horseName ?? '-'} (${runner.barrier ?? '-'})",
-                    style: semiBold(fontSize: 18.sp),
+                  Expanded(
+                    child: Text(
+                      "${runner.horseName ?? '-'} (${runner.barrier ?? '-'})",
+                      style: semiBold(fontSize: 18.sp),
+                    ),
                   ),
-                  Spacer(),
                   ImageWidget(path: AppAssets.unibatLogo, height: 26.w),
                   6.w.horizontalSpace,
                   Text(
                     runner.odds != null ? "\$${runner.odds} " : '- ',
                     style: bold(fontSize: 18.sp),
                   ),
-                  GestureDetector(
-                    behavior: HitTestBehavior.opaque,
-                    onTap: () {
-                      if (isGuest) {
-                        showGuestCreateAccountSheet(
-                          context,
-                          message: AppStrings.guestSaveSearchMessage,
+                  if (!isGuest)
+                    GestureDetector(
+                      behavior: HitTestBehavior.opaque,
+                      onTap: () {
+                        if (isGuest) {
+                          showGuestCreateAccountSheet(
+                            context,
+                            message: AppStrings.guestSaveSearchMessage,
+                          );
+                          return;
+                        }
+                        _showSaveSearchDialog(
+                          context: context,
+                          onSave: onAddToSaveSearch,
                         );
-                        return;
-                      }
-                      _showSaveSearchDialog(
-                        context: context,
-                        onSave: onAddToSaveSearch,
-                      );
-                    },
-                    child: Icon(Icons.bookmark_add_outlined),
-                  ),
+                      },
+                      child: Icon(Icons.bookmark_add_outlined),
+                    ),
                 ],
               ),
             ),
@@ -100,7 +105,7 @@ class RunnerBox extends StatelessWidget {
                       runner.track ?? '-',
                       "R${runner.raceNumber ?? '-'}",
                       "${runner.distance ?? '-'}m",
-                      DateFormatter.formatTimeFromString(runner.jumpTimeAu),
+                      "${jumpTime[1].split(":")[0]}:${jumpTime[1].split(":")[1]} ${jumpTime[2]}",
                     ].join(" - "),
                     style: semiBold(fontSize: 15.sp, height: 1.25),
                   ),
@@ -132,12 +137,11 @@ class RunnerBox extends StatelessWidget {
                           children: [
                             _RunnerStatCell(
                               label: 'W',
-                              value: runner.weight ?? '-',
+                              value: "${runner.weight}" ,
                             ),
-
                             _RunnerStatCell(
                               label: 'F',
-                              value: runner.form ?? '-',
+                              value: runner.form ?? "-",
                             ),
                           ],
                         ),
@@ -157,78 +161,81 @@ class RunnerBox extends StatelessWidget {
                     "Odds may differ with :  ",
                     style: bold(fontSize: 16.sp),
                   ),
-                  ImageWidget(path: AppAssets.dabbleLogo, height: 26.w),
+                  GestureDetector(
+                    onTap: () {
+                      launchUrl(Uri.parse(AppConfig.dabbleUrl));
+                    },
+                    child: ImageWidget(
+                      path: AppAssets.dabbleLogo,
+                      height: 26.w,
+                    ),
+                  ),
                 ],
               ),
             ),
-            // Divider(color: AppColors.greyColor.withValues(alpha: 0.15)),
-            // Padding(
-            //   padding: EdgeInsets.fromLTRB(12, 6, 12, 2),
-            //   child: Text(
-            //     "Next race ${runner.nextRaceRemainTime}",
-            //     style: medium(fontSize: 16.sp),
-            //   ),
-            // ),
-            Divider(color: AppColors.primary.withValues(alpha: 0.15)),
-            Padding(
-              padding: padding,
-              child: Row(
-                spacing: 6.w,
-                children: [
-                  Expanded(
-                    child: AppFilledButton(
-                      text: "Add to Tip Slip",
-                      textStyle: semiBold(
-                        fontSize: 16.sp,
-                        color: AppColors.white,
-                      ),
-                      padding: EdgeInsets.symmetric(
-                        vertical: 12.h,
-                        horizontal: 6.w,
-                      ),
 
-                      onTap: onAddToTipSlip,
-                      // child: progressIndicator(),
-                      child: _isThisRunnerLoading(context)
-                          ? progressIndicator()
-                          : null,
-                    ),
-                  ),
-                  Expanded(
-                    child: GestureDetector(
-                      onTap: () {
-                        onCompareToField.call();
-
-                        showCompareToField(context);
-                      },
-                      child: Container(
+            if (!isGuest) ...[
+              Divider(color: AppColors.primary.withValues(alpha: 0.15)),
+              Padding(
+                padding: padding,
+                child: Row(
+                  spacing: 6.w,
+                  children: [
+                    Expanded(
+                      child: AppFilledButton(
+                        text: "Add to Tip Slip",
+                        textStyle: semiBold(
+                          fontSize: 16.sp,
+                          color: AppColors.white,
+                        ),
                         padding: EdgeInsets.symmetric(
                           vertical: 12.h,
-                          horizontal: 8.w,
+                          horizontal: 6.w,
                         ),
-                        decoration: BoxDecoration(
-                          color: AppColors.white,
-                          border: Border.all(color: AppColors.primary),
-                        ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            ImageWidget(path: AppAssets.horse, height: 24.w),
-                            Expanded(
-                              child: Text(
-                                "Compare to field",
-                                textAlign: TextAlign.center,
-                                style: bold(fontSize: 14.sp),
+
+                        onTap: onAddToTipSlip,
+                        // child: progressIndicator(),
+                        child: _isThisRunnerLoading(context)
+                            ? progressIndicator()
+                            : null,
+                      ),
+                    ),
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () {
+                          onCompareToField.call();
+
+                          showCompareToField(context);
+                        },
+                        child: Container(
+                          padding: EdgeInsets.symmetric(
+                            vertical: 12.h,
+                            horizontal: 8.w,
+                          ),
+                          decoration: BoxDecoration(
+                            color: AppColors.white,
+                            border: Border.all(color: AppColors.primary),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              ImageWidget(path: AppAssets.horse, height: 24.w),
+                              Expanded(
+                                child: Text(
+                                  "Compare to field",
+                                  textAlign: TextAlign.center,
+                                  style: bold(fontSize: 14.sp),
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
+            ],
           ],
         ),
       ),
@@ -272,7 +279,8 @@ class RunnerBox extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.fromLTRB(22.w, 10.w, 22.w, 12.w),
                       child: Text(
-                        provider.compareHorse?.summary ?? "Unable to load analysis.",
+                        provider.compareHorse?.summary ??
+                            "Unable to load analysis.",
                         style: regular(fontSize: 16.sp),
                       ),
                     ),

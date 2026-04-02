@@ -4,7 +4,9 @@ import 'dart:io';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:puntgpt_nick/core/app_imports.dart';
 import 'package:puntgpt_nick/main.dart';
+import 'package:puntgpt_nick/models/account/lifetime_member_model.dart';
 import 'package:puntgpt_nick/models/account/subscription_plan_model.dart';
+import 'package:puntgpt_nick/screens/account/mobile/lifetime_members_screen.dart';
 import 'package:puntgpt_nick/screens/dashboard/mobile/dashboard.dart'
     show indexOfTab;
 import 'package:puntgpt_nick/screens/dashboard/web/web_dashboard.dart'
@@ -34,6 +36,7 @@ class SubscriptionProvider extends ChangeNotifier {
   bool _isShowCurrentPlan = false,
       _isShowSelectedPlan = false,
       _showPurchaseSuccessToast = true;
+  List<LifeTimeMember>? lifetimeMembers;
 
   bool get showCurrentPlan => _isShowCurrentPlan;
   bool get showSelectedPlan => _isShowSelectedPlan;
@@ -292,7 +295,8 @@ class SubscriptionProvider extends ChangeNotifier {
     //* Purchase still processing; no action until status updates.
   }
 
-  //*------------- Subscriptions APIs functions --------------------------------
+  //!------------- Subscriptions APIs functions --------------------------------
+  //* Get the subscription plans
   Future<void> getSubscriptionPlans() async {
     plans = [];
     final result = await SubscriptionApiService.instance.getSubscriptionPlans();
@@ -310,6 +314,7 @@ class SubscriptionProvider extends ChangeNotifier {
     );
   }
 
+  //* Get the current subscription
   Future<bool> getCurrentSubscription() async {
     currentPlan = null;
     activeSubscriptions.clear();
@@ -568,19 +573,6 @@ class SubscriptionProvider extends ChangeNotifier {
         Logger.error(l.errorMsg);
       },
       (r) {
-        // final success = r["success"] == true;
-        // if (!success) {
-        //   final msg =
-        //       r["message"]?.toString() ??
-        //       "Could not cancel subscription. Please try again.";
-        //   if (context.mounted) {
-        //     AppToast.error(context: context, message: msg);
-        //   }
-        //   return;
-        // }
-
-        // currentPlan = null;
-        // notifyListeners();
         onSuccess.call();
       },
     );
@@ -589,10 +581,23 @@ class SubscriptionProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // Future<void> cancel(SubscriptionEnum tier) async {
-  //   _activeSubscriptions.remove(tier);
-  //   notifyListeners();
-  // }
+  //* Get the lifetime members
+  Future<void> getLifetimeMembers() async {
+    lifetimeMembers = null;
+    notifyListeners();
+    final result = await SubscriptionApiService.instance.getLifetimeMembers();
+    result.fold(
+      (l) {
+        Logger.error(l.errorMsg);
+      },
+      (r) {
+      
+        final data = r["data"] as List;
+        lifetimeMembers = data.map((e) => LifeTimeMember.fromJson(e)).toList();
+        notifyListeners();
+      },
+    );
+  }
 
   @override
   void dispose() {

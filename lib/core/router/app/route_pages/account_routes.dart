@@ -3,6 +3,7 @@ import 'package:puntgpt_nick/models/account/subscription_plan_model.dart';
 import 'package:puntgpt_nick/screens/account/mobile/account_screen.dart';
 import 'package:puntgpt_nick/screens/account/mobile/change_password_screen.dart';
 import 'package:puntgpt_nick/screens/account/mobile/current_plan_screen.dart';
+import 'package:puntgpt_nick/screens/account/mobile/lifetime_members_screen.dart';
 import 'package:puntgpt_nick/screens/account/mobile/manage_subscription_screen.dart';
 import 'package:puntgpt_nick/screens/account/mobile/personal_details_screen.dart';
 import 'package:puntgpt_nick/screens/account/mobile/selected_plan_screen.dart';
@@ -59,5 +60,13 @@ class AccountRoutes {
         return CurrentPlanScreen();
       },
     ),
+    GoRoute(
+      name: AppRoutes.lifeTimeMembersScreen.name,
+      path: AppRoutes.lifeTimeMembersScreen.path,
+      builder: (BuildContext context, GoRouterState state) {
+        return LifetimeMembersScreen();
+      },
+    ),
+
   ];
 }

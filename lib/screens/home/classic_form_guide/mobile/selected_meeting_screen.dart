@@ -239,7 +239,7 @@ class SelectedMeetingScreen extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      "R${race.number}  ${race.name}",
+                      "R${race.number} - ${race.name}",
                       style: semiBold(
                         fontSize: (context.isBrowserMobile) ? 28.sp : 14.sp,
                         color: AppColors.primary,
@@ -247,7 +247,7 @@ class SelectedMeetingScreen extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      "${race.trackCondition}  ${race.distance}m  ${DateFormatter.formatRaceDateTime(race.australianTime)}",
+                      "${race.trackCondition} - ${race.distance}m - ${DateFormatter.formatRaceDateTime(race.australianTime)}",
                       style: semiBold(
                         fontSize: (context.isBrowserMobile) ? 28.sp : 14.sp,
                         height: 1.11,
@@ -493,17 +493,6 @@ Widget _selectionCard({
                           ),
                         ],
                       ),
-
-                      // 4.w.horizontalSpace,
-                      // Text(
-                      //   '${selection.trackName} • W: ${selection.weight}',
-                      //   style: regular(
-                      //     fontSize: 12.sp,
-                      //     color: AppColors.primary.withValues(alpha: 0.5),
-                      //   ),
-                      //   maxLines: 1,
-                      //   overflow: TextOverflow.ellipsis,
-                      // ),
                     ],
                   ),
                 ),

@@ -539,7 +539,7 @@ class _SpeedMapsScreenState extends State<SpeedMapsScreen> {
                     ),
                     Expanded(
                       child: Text(
-                        "J: ${speedMap.selection.horse.name} (${speedMap.selection.barrier})",
+                        "${speedMap.selection.horse.name} (${speedMap.selection.barrier})",
                         style: semiBold(
                           fontSize: 16.sp,
                           color: _kListTextPrimary,

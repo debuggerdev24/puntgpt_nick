@@ -12,6 +12,10 @@ class AppStrings {
       "Subscribe to Pro Punter to view and manage your personal details.";
   static const String guestManageSubscriptionMessage =
       "Create an account to purchase the plan.";
-  static const String guestSaveSearchMessage =
-      "Subscribe to Pro Punter to save searches.";
+  static const String guestSaveSearchMessage = "Subscribe to Pro Punter to save searches.";
+  static const String adminEmail = "admin@mailinator.com";
+  static const String adminEmail2 = "nicklaws@puntgpt.com.au";
+  static const String termsAndConditionsUrl = "https://drive.google.com/file/d/1p4hfcjZpyHzvjq25RbFB28CX4Mrov0ek/view?usp=sharing";
+  static const String aiDisclaimerUrl = "https://drive.google.com/file/d/1BmcRRJ4FtXmSNj0gL0n3uFHka9A6xte6/view?usp=sharing";
+  static const String privacyPolicyUrl = "https://drive.google.com/file/d/163PviRafoxj2uML09QFvbE9PK3dnNZU3/view?usp=sharing";
 }

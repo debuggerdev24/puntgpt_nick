@@ -47,6 +47,19 @@ class AuthProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Onboarding plan tab selection.
+  /// 0 = Mug Punter, 1 = Pro Punter
+  int _onboardingPlanTab = 1;
+  int get onboardingPlanTab => _onboardingPlanTab;
+  bool get isOnboardingMugPunter => _onboardingPlanTab == 0;
+  bool get isOnboardingProPunter => _onboardingPlanTab == 1;
+
+  void setOnboardingPlanTab(int value) {
+    if (value == _onboardingPlanTab) return;
+    _onboardingPlanTab = value;
+    notifyListeners();
+  }
+
   String? get selectedState => _selectedState;
   set selectedState(String? value) {
     _selectedState = value;

@@ -50,7 +50,7 @@ class RaceDetails {
     trackType: json["track_type"] as String? ?? '',
     prizeMoney: json["prize_money"] as String? ?? '',
     stage: json["stage"] as String? ?? '',
-    trackCondition:json["track_condition"],
+    trackCondition:json["track_condition"] ?? "-",
     tipAnalysisText: json["tip_analysis_text"] as String? ?? '',
     tipsSourceBrand: json["tips_source_brand"] as String? ?? '',
     tipsSourceName: json["tips_source_name"] as String? ?? '',
