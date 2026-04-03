@@ -44,5 +44,6 @@ class AppAssets {
   static const dabbleLogo = "$_imagePath/dabble.jpeg";
   static const instagramLogo = "$_imagePath/instagram.png";
   static const dabbleBanner = "$_imagePath/dabble_banner.png";
+  static const dabbleAds = "$_imagePath/dabble_ads.png";
   static const dabbleGIF = "assets/gif/dabble.gif";
 }

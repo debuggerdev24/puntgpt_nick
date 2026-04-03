@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:puntgpt_nick/core/app_imports.dart';
 import 'package:puntgpt_nick/models/punt_club/club_chat_message_model.dart';
 import 'package:puntgpt_nick/provider/punt_club/punter_club_provider.dart';
@@ -23,32 +21,15 @@ class _PuntClubChatScreenState extends State<PuntClubChatScreen> {
   final ScrollController _scrollController = ScrollController();
   bool _hasInitiatedChat = false;
   bool _showGoToBottomButton = false;
-  StreamSubscription<ChatConnectionState>? _connectionSubscription;
 
   @override
   void initState() {
     super.initState();
     _scrollController.addListener(onScroll);
-    _connectionSubscription = ChatService.instance.connectionState.listen((
-      state,
-    ) {
-      if (state == ChatConnectionState.connected && mounted) {
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          if (mounted) {
-            AppToast.success(
-              context: context,
-              message: 'Chat connected successfully',
-              duration: const Duration(seconds: 2),
-            );
-          }
-        });
-      }
-    });
   }
 
   @override
   void dispose() {
-    _connectionSubscription?.cancel();
     _messageController.dispose();
     _scrollController.dispose();
     super.dispose();

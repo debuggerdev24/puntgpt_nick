@@ -1,4 +1,3 @@
-import 'dart:math';
 
 import 'package:badges/badges.dart' as badge;
 import 'package:puntgpt_nick/core/app_imports.dart';
@@ -230,7 +229,7 @@ class PunterClubScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Your Punters Clubs:",
+                  "Your Punters Clubs",
                   style: regular(
                     fontSize: (context.isBrowserMobile) ? 38.sp : 24.sp,
                     fontFamily: AppFontFamily.secondary,

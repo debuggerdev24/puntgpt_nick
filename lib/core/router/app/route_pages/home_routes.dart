@@ -42,7 +42,8 @@ class HomeRoutes {
       name: AppRoutes.selectedRace.name,
       path: AppRoutes.selectedRace.path,
       builder: (BuildContext context, GoRouterState state) {
-        return SelectedMeetingScreen();
+        final isFromSearchResult = (state.extra as bool?) ?? true;
+        return SelectedMeetingScreen(isFromClassicForm: isFromSearchResult);
       },
     ),
     GoRoute(

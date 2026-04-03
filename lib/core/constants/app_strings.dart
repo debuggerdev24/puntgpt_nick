@@ -18,4 +18,12 @@ class AppStrings {
   static const String termsAndConditionsUrl = "https://drive.google.com/file/d/1p4hfcjZpyHzvjq25RbFB28CX4Mrov0ek/view?usp=sharing";
   static const String aiDisclaimerUrl = "https://drive.google.com/file/d/1BmcRRJ4FtXmSNj0gL0n3uFHka9A6xte6/view?usp=sharing";
   static const String privacyPolicyUrl = "https://drive.google.com/file/d/163PviRafoxj2uML09QFvbE9PK3dnNZU3/view?usp=sharing";
+
+  //* Unibet partner (Unibat logo taps).
+  static const String unibetPartnerUrl =
+      "https://unibetpro.onelink.me/NQsf/5eivhteq";
+
+  //* Dabble partner (Dabble GIF / banner / ads / logo taps).
+  static const String dabblePartnerUrl =
+      "https://record.dabblepartnerships.com.au/_97LLXRU_qJKVAv0U_Fv2nWNd7ZgqdRLk/1/";
 }

@@ -16,7 +16,7 @@ class TipSlipItem extends StatelessWidget {
 
   final int listPosition;
 
-  /// Light “clean list” palette — soft greys, not solid black.
+  //* Light “clean list” palette — soft greys, not solid black.
   static const Color _textPrimary = Color(0xFF424242);
   static const Color _textMuted = Color(0xFF757575);
   static const Color _border = Color(0xFFE0E0E0);
@@ -110,14 +110,18 @@ class TipSlipItem extends StatelessWidget {
                   ),
 
                   4.5.w.horizontalSpace,
-                  ImageWidget(
-                    path: AppAssets.unibatLogo,
-                    type: ImageType.asset,
-                    height: 28.w,
+                  GestureDetector(
+                    behavior: HitTestBehavior.opaque,
+                    onTap: () => launchUnibetUrl(),
+                    child: ImageWidget(
+                      path: AppAssets.unibatLogo,
+                      type: ImageType.asset,
+                      height: 28.w,
+                    ),
                   ),
                   Container(
                     padding: EdgeInsets.symmetric(
-                      horizontal: 8.w,
+                      horizontal: 5.w,
                       vertical: 6.w,
                     ),
                     margin: EdgeInsets.only(left: 8.w),

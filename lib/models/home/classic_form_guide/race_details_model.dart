@@ -103,7 +103,7 @@ class Selection {
     trainerName: json["trainer_name"],
     silksImage: json["silks_image"] as String? ?? '',
     weight: (json["weight"] as num?)?.toDouble() ?? 0.0,
-    oddsWin: json["odds_win"],
+    oddsWin: (json["odds_win"] == null) ? "-" : json["odds_win"].toString(),
     isScratched: json["isScratched"] as bool? ?? false,
     tipPosition: json["tip_position"] as int?,
     horseStats: HorseStats.fromJson(
@@ -115,8 +115,8 @@ class Selection {
   int selectionId, number, barrier;
   String trackName, jockeyName, silksImage, horseName, trainerName, formHistory;
 
-  double weight;
-  dynamic oddsWin;
+  double? weight;
+  String? oddsWin;
   bool isScratched;
   int? tipPosition;
   HorseStats horseStats;

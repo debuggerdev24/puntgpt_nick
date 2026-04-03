@@ -91,7 +91,7 @@ class TipSlipScreen extends StatelessWidget {
 
                           _unibetDabbleCard(
                             context: context,
-                            logoHeight: context.isBrowserMobile ? 36.w : 32.w,
+                            logoHeight: context.isBrowserMobile ? 36.w : 34.w,
                           ),
                         ],
                       ),
@@ -103,7 +103,8 @@ class TipSlipScreen extends StatelessWidget {
     );
   }
 
-  Widget _unibetDabbleCard({
+  /// Web / mobile-browser: original two-column partner logos.
+  Widget _webPartnerBookmakersCard({
     required BuildContext context,
     required double logoHeight,
   }) {
@@ -118,26 +119,32 @@ class TipSlipScreen extends StatelessWidget {
       required String label,
       required String semanticsLabel,
       required String assetPath,
+      required VoidCallback onTap,
     }) {
       return Expanded(
         child: Semantics(
           label: semanticsLabel,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(label, textAlign: TextAlign.center, style: labelStyle),
-              10.w.verticalSpace,
-              Center(
-                child: ConstrainedBox(
-                  constraints: BoxConstraints(minHeight: minLogoH),
-                  child: ImageWidget(
-                    path: assetPath,
-                    type: ImageType.asset,
-                    height: logoHeight,
+          button: true,
+          child: GestureDetector(
+            behavior: HitTestBehavior.opaque,
+            onTap: onTap,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(label, textAlign: TextAlign.center, style: labelStyle),
+                10.w.verticalSpace,
+                Center(
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(minHeight: minLogoH),
+                    child: ImageWidget(
+                      path: assetPath,
+                      type: ImageType.asset,
+                      height: logoHeight,
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       );
@@ -162,21 +169,155 @@ class TipSlipScreen extends StatelessWidget {
         ),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
+          spacing: 16.w,
           children: [
             logoColumn(
               label: 'Unibet',
               semanticsLabel: 'Unibet partner logo',
               assetPath: AppAssets.unibatLogo,
+              onTap: () => launchUnibetUrl(),
             ),
-            SizedBox(width: 16.w),
             logoColumn(
               label: 'Dabble',
               semanticsLabel: 'Dabble partner logo',
               assetPath: AppAssets.dabbleLogo,
+              onTap: () => launchDabbleUrl(),
             ),
           ],
         ),
       ),
+    );
+  }
+
+  /// Native iOS/Android: responsible gambling copy + Dabble & Unibet (matches reference layout).
+  Widget _nativeMobileResponsibleGamblingBanner({
+    required BuildContext context,
+    required double logoHeight,
+  }) {
+    final labelStyle = semiBold(
+      fontSize: 12.sp,
+      color: AppColors.primary.withValues(alpha: 0.45),
+    );
+
+    Widget logoTapColumn({
+      required String label,
+      required String semanticsLabel,
+      required String assetPath,
+      required VoidCallback onTap,
+    }) {
+      return Semantics(
+        label: semanticsLabel,
+        button: true,
+        child: GestureDetector(
+          behavior: HitTestBehavior.opaque,
+          onTap: onTap,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            spacing: 6.w,
+            children: [
+              Text(label, textAlign: TextAlign.center, style: labelStyle),
+
+              ImageWidget(
+                path: assetPath,
+                type: ImageType.asset,
+                height: logoHeight,
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
+    return Semantics(
+      label:
+          'Responsible gambling message. Partner bookmakers Dabble and Unibet.',
+      container: true,
+      child: Container(
+        padding: EdgeInsets.fromLTRB(10.w, 10.h, 10.w, 10.h),
+        decoration: BoxDecoration(
+          color: AppColors.white,
+          borderRadius: BorderRadius.circular(10.r),
+          border: Border.all(color: AppColors.primary.withValues(alpha: 0.15)),
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          spacing: 10.w,
+          children: [
+            Expanded(
+              flex: 58,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                spacing: 6.w,
+                children: [
+                  Text(
+                    'THINK. IS THIS A BET YOU REALLY WANT TO PLACE?',
+                    textAlign: TextAlign.center,
+                    style: bold(
+                      fontSize: 16.sp,
+                      height: 1.1,
+                      letterSpacing: 0.1,
+                    ),
+                  ),
+                  Text(
+                    'For free and confidential support call 1800 858 858 or visit gamblinghelponline.org.au',
+                    textAlign: TextAlign.center,
+                    style: regular(
+                      fontSize: 12.sp,
+                      height: 1.1,
+                      letterSpacing: 0.1,
+
+                      color: AppColors.primary.withValues(alpha: 0.72),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+              flex: 42,
+              child: Row(
+                spacing: 8.w,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: logoTapColumn(
+                      label: 'Dabble',
+                      semanticsLabel: 'Dabble partner logo',
+                      assetPath: AppAssets.dabbleLogo,
+                      onTap: () => launchDabbleUrl(),
+                    ),
+                  ),
+                  Expanded(
+                    child: logoTapColumn(
+                      label: 'Unibet',
+                      semanticsLabel: 'Unibet partner logo',
+                      assetPath: AppAssets.unibatLogo,
+                      onTap: () => launchUnibetUrl(),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _unibetDabbleCard({
+    required BuildContext context,
+    required double logoHeight,
+  }) {
+    if (kIsWeb) {
+      return _webPartnerBookmakersCard(
+        context: context,
+        logoHeight: logoHeight,
+      );
+    }
+    return _nativeMobileResponsibleGamblingBanner(
+      context: context,
+      logoHeight: logoHeight,
     );
   }
 

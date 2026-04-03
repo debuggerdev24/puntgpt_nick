@@ -1,3 +1,4 @@
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:puntgpt_nick/core/app_imports.dart';
 import 'package:puntgpt_nick/core/constants/app_strings.dart';
 import 'package:puntgpt_nick/main.dart';
@@ -68,6 +69,7 @@ class NotificationSheetView extends StatelessWidget {
               18.w.verticalSpace,
               Expanded(
                 child: ListView.builder(
+                  clipBehavior: Clip.none,
                   itemCount: notifications.length,
                   itemBuilder: (context, index) {
                     final notification = notifications[index];
@@ -92,9 +94,7 @@ class NotificationSheetView extends StatelessWidget {
                         );
                       },
                       onAccept: () {
-                        // Capture root navigator before the async gap so it
-                        // remains valid after the notification sheet is popped.
-                        final rootNav = Navigator.of(
+                       final rootNav = Navigator.of(
                           context,
                           rootNavigator: true,
                         );
@@ -103,16 +103,13 @@ class NotificationSheetView extends StatelessWidget {
                         provider.acceptInvitation(
                           inviteId: notification.inviteId!,
                           onFailed: (error) {
-                            AppToast.error(
+                            AppToast.info(
                               context: rootNav.context,
                               message: error,
                             );
                           },
                           onSuccess: () {
-                            // Pop the notification sheet first.
-                            // Show toast and username sheet using the root
-                            // navigator's context, which is always mounted.
-                            AppToast.success(
+                          AppToast.success(
                               context: rootNav.context,
                               message:
                                   "Invite accepted. Please create a username.",
@@ -148,7 +145,16 @@ class NotificationSheetView extends StatelessWidget {
                         );
                       },
                       onDelete: () {
+                        final rootNav = Navigator.of(
+                          context,
+                          rootNavigator: true,
+                        );
                         provider.removeNotificationAt(index);
+                        AppToast.success(
+                          context: rootNav.context,
+                          message: "Removed successfully",
+                          duration: const Duration(seconds: 2),
+                        );
                         provider.deleteSingleNotification(
                           notificationId: notification.id.toString(),
                           onSuccess: () {},
@@ -191,15 +197,30 @@ class NotificationSheetView extends StatelessWidget {
     required VoidCallback onAccept,
     required VoidCallback onDelete,
   }) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 18.w, vertical: 18.w),
-      margin: EdgeInsets.only(bottom: 8.h),
-      decoration: BoxDecoration(
-        border: Border.all(color: AppColors.primary.withValues(alpha: 0.15)),
-      ),
-      child: Stack(
-        children: [
-          Row(
+    return Padding(
+      padding: EdgeInsets.only(bottom: 8.h),
+      child: Slidable(
+        key: ValueKey(notification.id),
+        endActionPane: ActionPane(
+          motion: BehindMotion(),
+          extentRatio: 0.28,
+          children: [
+            SlidableAction(
+              onPressed: (_) => onDelete(),
+              backgroundColor: AppColors.redButton,
+              foregroundColor: Colors.white,
+              icon: Icons.delete_outline_rounded,
+              label: 'Delete',
+
+            ),
+          ],
+        ),
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 18.w, vertical: 18.w),
+          decoration: BoxDecoration(
+            border: Border.all(color: AppColors.primary.withValues(alpha: 0.15)),
+          ),
+          child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
@@ -219,8 +240,7 @@ class NotificationSheetView extends StatelessWidget {
                       text: TextSpan(
                         children: [
                           TextSpan(
-                            text: notification
-                                .message, //"You’ve been invited to join Punter Club",
+                            text: notification.message,
                             style: medium(
                               fontSize: 16.sp,
                               fontFamily: AppFontFamily.primary,
@@ -274,29 +294,18 @@ class NotificationSheetView extends StatelessWidget {
                               fontSize: 14.sp,
                               color: AppColors.black,
                             ),
-
                             text: "Decline",
                             onTap: onReject,
                             margin: EdgeInsets.only(left: 10.w),
                           ),
-
-                          // Spacer(),
                         ],
                       ),
                   ],
                 ),
               ),
-              6.w.horizontalSpace,
-              Align(
-                alignment: Alignment.topRight,
-                child: GestureDetector(
-                  onTap: onDelete,
-                  child: Icon(Icons.close_rounded, size: 16),
-                ),
-              ),
             ],
           ),
-        ],
+        ),
       ),
     );
   }

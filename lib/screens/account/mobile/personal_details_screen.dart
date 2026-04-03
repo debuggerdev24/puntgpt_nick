@@ -150,10 +150,6 @@ class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
                                   ? 28.sp
                                   : 14.sp,
                             ),
-                            validator: (value) => FieldValidators().required(
-                              value,
-                              "Address Line 1",
-                            ),
                           ),
                           14.h.verticalSpace,
                           Text(
@@ -179,10 +175,6 @@ class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
                               fontSize: (context.isBrowserMobile)
                                   ? 28.sp
                                   : 14.sp,
-                            ),
-                            validator: (value) => FieldValidators().required(
-                              value,
-                              "Address Line 2",
                             ),
                           ),
                           14.h.verticalSpace,
@@ -210,8 +202,6 @@ class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
                                   ? 28.sp
                                   : 14.sp,
                             ),
-                            validator: (value) =>
-                                FieldValidators().required(value, "State"),
                           ),
                           14.w.verticalSpace,
                           Text(
@@ -239,8 +229,6 @@ class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
                                   ? 28.sp
                                   : 14.sp,
                             ),
-                            validator: (value) =>
-                                FieldValidators().required(value, "Suburb"),
                           ),
                           14.h.verticalSpace,
                           Text(
@@ -272,11 +260,9 @@ class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
                                   : 14.sp,
                             ),
                             validator: (value) {
-                              final r = FieldValidators().required(
-                                value,
-                                "Post Code",
-                              );
-                              if (r != null) return r;
+                              if (value == null || value.trim().isEmpty) {
+                                return null;
+                              }
                               final min = FieldValidators().minLength(value, 3);
                               if (min != null) return min;
                               return FieldValidators().maxLength(value, 10);

@@ -5,8 +5,6 @@ import 'package:puntgpt_nick/models/home/search_engine/runner_model.dart';
 import 'package:puntgpt_nick/services/storage/locale_storage_service.dart';
 import 'package:puntgpt_nick/provider/home/search_engine/search_engine_provider.dart';
 import 'package:puntgpt_nick/screens/home/search_engine/mobile/widgets/home_section_shimmers.dart';
-import 'package:url_launcher/url_launcher.dart';
-
 /// Placeholder until API exposes weight; swap for `runner.weightKg` when available.
 
 String _displayName(String? name) {
@@ -65,7 +63,14 @@ class RunnerBox extends StatelessWidget {
                       style: semiBold(fontSize: 18.sp),
                     ),
                   ),
-                  ImageWidget(path: AppAssets.unibatLogo, height: 26.w),
+                  GestureDetector(
+                    behavior: HitTestBehavior.opaque,
+                    onTap: () => launchUnibetUrl(),
+                    child: ImageWidget(
+                      path: AppAssets.unibatLogo,
+                      height: 26.w,
+                    ),
+                  ),
                   6.w.horizontalSpace,
                   Text(
                     runner.odds != null ? "\$${runner.odds} " : '- ',
@@ -125,7 +130,7 @@ class RunnerBox extends StatelessWidget {
 
                             _RunnerStatCell(
                               label: 'T',
-                              value: _displayName(runner.track),
+                              value: _displayName(runner.trainerName),
                             ),
                           ],
                         ),
@@ -162,9 +167,8 @@ class RunnerBox extends StatelessWidget {
                     style: bold(fontSize: 16.sp),
                   ),
                   GestureDetector(
-                    onTap: () {
-                      launchUrl(Uri.parse(AppConfig.dabbleUrl));
-                    },
+                    behavior: HitTestBehavior.opaque,
+                    onTap: () => launchDabbleUrl(),
                     child: ImageWidget(
                       path: AppAssets.dabbleLogo,
                       height: 26.w,
@@ -470,3 +474,13 @@ class _SaveSearchDialogContentState extends State<_SaveSearchDialogContent> {
     );
   }
 }
+/*
+1.Go Pro for AI chat, search & Classic Form guide.
+2.Next races, search & form — Ask PuntGPT anytime.
+3.Filter fast, save searches, ask PuntGPT.
+4.Chat with AI about racing anytime. 
+5.Create a club and start chatting about the races.
+6.Profile, subscription, and settings in one place.
+7.Edit your profile and contact info anytime.
+8.Check Pro plans and see your current one.
+*/

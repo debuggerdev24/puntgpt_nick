@@ -4,7 +4,6 @@ import 'package:puntgpt_nick/core/widgets/guest_create_account_sheet.dart';
 import 'package:puntgpt_nick/main.dart';
 import 'package:puntgpt_nick/provider/auth/auth_provider.dart';
 import 'package:puntgpt_nick/provider/subscription/subscription_provider.dart';
-import 'package:puntgpt_nick/screens/auth/auth_constants.dart';
 import 'package:puntgpt_nick/services/storage/locale_storage_service.dart';
 import 'package:url_launcher/url_launcher.dart';
 

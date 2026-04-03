@@ -187,10 +187,14 @@ class TipAndAnalysisScreen extends StatelessWidget {
           ),
           5.w.horizontalSpace,
           //* Unibet logo
-          ImageWidget(
-            path: AppAssets.unibatLogo,
-            type: ImageType.asset,
-            height: 28.w,
+          GestureDetector(
+            behavior: HitTestBehavior.opaque,
+            onTap: () => launchUnibetUrl(),
+            child: ImageWidget(
+              path: AppAssets.unibatLogo,
+              type: ImageType.asset,
+              height: 28.w,
+            ),
           ),
           10.w.horizontalSpace,
           //* Odds

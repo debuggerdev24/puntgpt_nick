@@ -573,10 +573,14 @@ class _SpeedMapsScreenState extends State<SpeedMapsScreen> {
           ),
 
           //* Odds
-          ImageWidget(
-            path: AppAssets.unibatLogo,
-            type: ImageType.asset,
-            height: 28.w,
+          GestureDetector(
+            behavior: HitTestBehavior.opaque,
+            onTap: () => launchUnibetUrl(),
+            child: ImageWidget(
+              path: AppAssets.unibatLogo,
+              type: ImageType.asset,
+              height: 28.w,
+            ),
           ),
           8.w.horizontalSpace,
           if (speedMap.selection.unibetFixedOddsWin.isNotEmpty)

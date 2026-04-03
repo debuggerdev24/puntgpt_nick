@@ -7,8 +7,8 @@ import 'package:puntgpt_nick/screens/home/search_engine/mobile/home_screen.dart'
 import 'package:puntgpt_nick/screens/home/search_engine/mobile/widgets/home_section_shimmers.dart';
 
 class SelectedMeetingScreen extends StatelessWidget {
-  const SelectedMeetingScreen({super.key});
-
+  const SelectedMeetingScreen({super.key, required this.isFromClassicForm});
+  final bool isFromClassicForm;
   @override
   Widget build(BuildContext context) {
     return Consumer<ClassicFormProvider>(
@@ -29,60 +29,61 @@ class SelectedMeetingScreen extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        //* Race selection view
-                        Padding(
-                          padding: EdgeInsets.fromLTRB(25.w, 25.w, 25.w, 0),
-                          child: SingleChildScrollView(
-                            scrollDirection: Axis.horizontal,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(color: AppColors.primary),
-                              ),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: List.generate(
-                                  provider.raceList!.races.length,
-                                  (index) {
-                                    final race =
-                                        provider.raceList!.races[index];
-                                    return GestureDetector(
-                                      onTap: () {
-                                        provider.changeSelectedRace = index;
-                                        provider.getRaceFieldDetail(
-                                          id: race.raceId.toString(),
-                                        );
-                                      },
-                                      child: AnimatedContainer(
-                                        padding: EdgeInsets.symmetric(
-                                          vertical: 12,
-                                          horizontal: 12,
-                                        ),
-                                        duration: 400.milliseconds,
-                                        decoration: BoxDecoration(
-                                          color:
-                                              (provider.selectedRace == index)
-                                              ? AppColors.primary
-                                              : null,
-                                        ),
-                                        child: Text(
-                                          "R${index + 1}",
-                                          style: semiBold(
-                                            fontSize: 16.sp,
+                        if (isFromClassicForm)...[                          //* Race selection view
+                          Padding(
+                            padding: EdgeInsets.fromLTRB(25.w, 25.w, 25.w, 0),
+                            child: SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  border: Border.all(color: AppColors.primary),
+                                ),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: List.generate(
+                                    provider.raceList!.races.length,
+                                    (index) {
+                                      final race =
+                                          provider.raceList!.races[index];
+                                      return GestureDetector(
+                                        onTap: () {
+                                          provider.changeSelectedRace = index;
+                                          provider.getRaceFieldDetail(
+                                            id: race.raceId.toString(),
+                                          );
+                                        },
+                                        child: AnimatedContainer(
+                                          padding: EdgeInsets.symmetric(
+                                            vertical: 12,
+                                            horizontal: 12,
+                                          ),
+                                          duration: 400.milliseconds,
+                                          decoration: BoxDecoration(
                                             color:
                                                 (provider.selectedRace == index)
-                                                ? AppColors.white
-                                                : AppColors.primary,
+                                                ? AppColors.primary
+                                                : null,
+                                          ),
+                                          child: Text(
+                                            "R${index + 1}",
+                                            style: semiBold(
+                                              fontSize: 16.sp,
+                                              color:
+                                                  (provider.selectedRace ==
+                                                      index)
+                                                  ? AppColors.white
+                                                  : AppColors.primary,
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                    );
-                                  },
+                                      );
+                                    },
+                                  ),
                                 ),
                               ),
                             ),
                           ),
-                        ),
-                        //* Race other details
+                        //* Tips & Analysis, Speed Maps, Barrier Map
                         Container(
                           margin: EdgeInsets.symmetric(
                             vertical: 16.w,
@@ -139,6 +140,9 @@ class SelectedMeetingScreen extends StatelessWidget {
                             ],
                           ),
                         ),
+                        ],
+                        if(!isFromClassicForm)
+                        15.w.verticalSpace,
                         //* Race table
                         RaceDetails(provider: provider),
                         120.verticalSpace,
@@ -182,7 +186,6 @@ class SelectedMeetingScreen extends StatelessWidget {
     required ClassicFormProvider provider,
     required BuildContext context,
   }) {
-    final meeting = provider.raceList!.meeting;
     final race = provider.raceDetails!;
     // if (races.isEmpty) {
     //   return Column(
@@ -231,7 +234,7 @@ class SelectedMeetingScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      meeting.name,
+                      race.selections[0].trackName,
                       style: regular(
                         fontSize: (context.isBrowserMobile) ? 36.sp : 24.sp,
                         fontFamily: AppFontFamily.secondary,
@@ -497,10 +500,14 @@ Widget _selectionCard({
                   ),
                 ),
                 //* Odds win
-                ImageWidget(
-                  path: AppAssets.unibatLogo,
-                  type: ImageType.asset,
-                  height: 28.w,
+                GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onTap: () => launchUnibetUrl(),
+                  child: ImageWidget(
+                    path: AppAssets.unibatLogo,
+                    type: ImageType.asset,
+                    height: 28.w,
+                  ),
                 ),
                 10.w.horizontalSpace,
                 _pill(text: "\$ ${selection.oddsWin}", context: context),

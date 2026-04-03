@@ -24,7 +24,7 @@ class ClassicFormGuideView extends StatelessWidget {
                   scrollDirection: Axis.horizontal,
                   child: IntrinsicHeight(
                     child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       spacing: 8.w,
                       children: List.generate(
                         nextRaces.length,
@@ -124,7 +124,7 @@ Widget _classicMeetingListItem({
       borderRadius: BorderRadius.circular(10.r),
       child: Container(
         width: double.infinity,
-        padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.w),
+        padding: EdgeInsets.fromLTRB(12.w, 10.w, 6.w, 10.w),
         decoration: BoxDecoration(
           color: AppColors.white,
           borderRadius: BorderRadius.circular(10.r),
@@ -177,7 +177,7 @@ Widget _classicMeetingListItem({
                 ),
               ),
             ),
-            10.w.horizontalSpace,
+            6.w.horizontalSpace,
             Icon(
               Icons.chevron_right_rounded,
               color: AppColors.primary.withValues(alpha: 0.35),
@@ -345,9 +345,9 @@ Widget _nextToGoItem({required NextRaceModel nextRace}) {
     ),
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+      spacing: 6.w,
       children: [
         Text(nextRace.trackName, style: semiBold(fontSize: 16.sp)),
-        6.w.verticalSpace,
         Row(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.end,
@@ -362,7 +362,7 @@ Widget _nextToGoItem({required NextRaceModel nextRace}) {
               ),
             ),
             Text(
-              "13:15",
+              nextRace.raceAustralianTime,
               style: semiBold(
                 fontSize: 14.sp,
                 color: AppColors.primary.withValues(alpha: 0.6),

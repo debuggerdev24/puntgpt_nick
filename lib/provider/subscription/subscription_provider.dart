@@ -6,7 +6,6 @@ import 'package:puntgpt_nick/core/app_imports.dart';
 import 'package:puntgpt_nick/main.dart';
 import 'package:puntgpt_nick/models/account/lifetime_member_model.dart';
 import 'package:puntgpt_nick/models/account/subscription_plan_model.dart';
-import 'package:puntgpt_nick/screens/account/mobile/lifetime_members_screen.dart';
 import 'package:puntgpt_nick/screens/dashboard/mobile/dashboard.dart'
     show indexOfTab;
 import 'package:puntgpt_nick/screens/dashboard/web/web_dashboard.dart'

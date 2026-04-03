@@ -143,9 +143,6 @@ class PersonalDetailsSectionWeb extends StatelessWidget {
                               controller: provider.addressLine1Ctr,
                               hintText: "Enter Address Line 1",
                               readOnly: readOnly,
-                              validator: (value) =>
-                                  FieldValidators().required(
-                                      value, "Address Line 1"),
                             ),
                           ],
                         ),
@@ -164,9 +161,6 @@ class PersonalDetailsSectionWeb extends StatelessWidget {
                               controller: provider.addressLine2Ctr,
                               hintText: "Enter Address Line 2",
                               readOnly: readOnly,
-                              validator: (value) =>
-                                  FieldValidators().required(
-                                      value, "Address Line 2"),
                             ),
                           ],
                         ),
@@ -185,8 +179,6 @@ class PersonalDetailsSectionWeb extends StatelessWidget {
                               controller: provider.stateCtr,
                               hintText: "Enter State",
                               readOnly: readOnly,
-                              validator: (value) =>
-                                  FieldValidators().required(value, "State"),
                             ),
                           ],
                         ),
@@ -205,8 +197,6 @@ class PersonalDetailsSectionWeb extends StatelessWidget {
                               controller: provider.suburbCtr,
                               hintText: "Enter Suburb",
                               readOnly: readOnly,
-                              validator: (value) =>
-                                  FieldValidators().required(value, "Suburb"),
                             ),
                           ],
                         ),
@@ -230,9 +220,9 @@ class PersonalDetailsSectionWeb extends StatelessWidget {
                                 FilteringTextInputFormatter.digitsOnly,
                               ],
                               validator: (value) {
-                                final r = FieldValidators()
-                                    .required(value, "Post Code");
-                                if (r != null) return r;
+                                if (value == null || value.trim().isEmpty) {
+                                  return null;
+                                }
                                 final min =
                                     FieldValidators().minLength(value, 3);
                                 if (min != null) return min;

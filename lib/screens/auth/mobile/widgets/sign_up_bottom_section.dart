@@ -1,6 +1,5 @@
 import 'package:puntgpt_nick/core/app_imports.dart';
 import 'package:puntgpt_nick/core/constants/app_strings.dart';
-import 'package:puntgpt_nick/screens/auth/auth_constants.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SignUpBottomSection extends StatelessWidget {

@@ -19,6 +19,7 @@ class GroupMembersScreen extends StatelessWidget {
                       context: context,
                     )
                   : ListView.separated(
+                    padding: EdgeInsets.zero,
                       separatorBuilder: (context, index) => Padding(
                         padding: EdgeInsets.symmetric(horizontal: 20.w),
                         child: horizontalDivider(),

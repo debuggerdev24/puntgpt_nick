@@ -3,7 +3,6 @@ import 'package:badges/badges.dart' as badges;
 import 'package:puntgpt_nick/provider/home/search_engine/search_engine_provider.dart';
 import 'package:puntgpt_nick/provider/subscription/subscription_provider.dart';
 import 'package:puntgpt_nick/screens/dashboard/mobile/dashboard.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class DashboardAppBar extends StatefulWidget {
   const DashboardAppBar({super.key, required this.navigationShell});
@@ -188,18 +187,18 @@ class _DashboardAppBarState extends State<DashboardAppBar> {
       child: GestureDetector(
         behavior: HitTestBehavior.opaque,
         onTap: () {
-          launchUrl(Uri.parse(AppConfig.dabbleUrl));
+          launchDabbleUrl();
         },
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 18.w),
-          child: Image.asset(
-            AppAssets.dabbleGIF,
-            fit: BoxFit.contain,
-            gaplessPlayback: true,
-            errorBuilder: (_, __, ___) => ImageWidget(
-              path: AppAssets.dabbleBanner,
-              type: ImageType.asset,
-              fit: BoxFit.contain,
+          child: Center(
+            child: GifAssetPlayer(
+              assetPath: AppAssets.dabbleGIF,
+              fallback: ImageWidget(
+                path: AppAssets.dabbleBanner,
+                type: ImageType.asset,
+                fit: BoxFit.contain,
+              ),
             ),
           ),
         ),

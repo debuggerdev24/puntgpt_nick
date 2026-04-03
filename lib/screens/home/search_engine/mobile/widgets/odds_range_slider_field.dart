@@ -6,20 +6,20 @@ class OddsRangeSliderField extends StatelessWidget {
   final RangeValues values;
   final ValueChanged<RangeValues>? onChanged;
   // These are the only allowed values for both thumbs.
-  static const List<double> _oddsSteps = [1, 2.5, 5, 10, 20, 25];
+  static const List<double> _oddsSteps = [1, 2.5, 5, 10, 15, 20];
   static const List<String> _scaleLabels = [
     "\$1",
     "\$2.5",
     "\$5",
     "\$10",
-    "\$20",
-    "\$25+",
+    "\$15",
+    "\$20+",
   ];
 
   /// Converts a numeric odds value into label text shown in UI.
-  /// Example: 2.5 -> "2.5", 25 -> "25+".
+  /// Example: 2.5 -> "2.5", 20 -> "20+".
   String _formatOdds(double value) {
-    if (value >= 25) return "25+";
+    if (value >= 20) return "20+";
     return value == value.roundToDouble()
         ? value.toStringAsFixed(0)
         : value.toStringAsFixed(1);

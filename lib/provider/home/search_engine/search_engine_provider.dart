@@ -835,8 +835,8 @@ class SearchEngineProvider extends ChangeNotifier {
       hasSelectedOddsRange = false;
       return;
     }
-    final normalizedStart = start.clamp(1.0, 25.0);
-    final normalizedEnd = end.clamp(1.0, 25.0);
+    final normalizedStart = start.clamp(1.0, 20.0);
+    final normalizedEnd = end.clamp(1.0, 20.0);
     oddsRangeValues = RangeValues(
       normalizedStart <= normalizedEnd ? normalizedStart : normalizedEnd,
       normalizedStart <= normalizedEnd ? normalizedEnd : normalizedStart,
@@ -853,7 +853,7 @@ class SearchEngineProvider extends ChangeNotifier {
   }
 
   String _formatBound(double value, {bool isUpper = false}) {
-    if (isUpper && value >= 25) return "25+";
+    if (isUpper && value >= 20) return "20+";
     if (value == value.roundToDouble()) {
       return value.toStringAsFixed(0);
     }
@@ -1022,6 +1022,8 @@ class SearchEngineProvider extends ChangeNotifier {
 
   //* get tip slips
   Future<void> getAllTipSlips() async {
+    tipSlips = null;
+
     if (LocaleStorageService.acccessToken.isEmpty) return;
 
     final result = await SearchEngineAPISearvice.instance.getTipSlips();

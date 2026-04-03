@@ -140,30 +140,36 @@ class _RunnersListScreenState extends State<RunnersListScreen> {
                                     );
                                   },
                                   onCompareToField: () {
-                                    provider.compareHorses(selectionId: runner.selectionId?.toString() ?? '',
+                                    provider.compareHorses(
+                                      selectionId:
+                                          runner.selectionId?.toString() ?? '',
                                     );
                                   },
                                   onOpenClassicFormGuide: () async {
                                     final classicForm = context
                                         .read<ClassicFormProvider>();
                                     classicForm.setTempLoading = true;
-                                    await classicForm.getClassicFormGuide();
+                                    // await classicForm.getClassicFormGuide();
 
-                                    Future.wait([
-                                      classicForm.getMeetingRaceList(
-                                        meetingId: classicForm
-                                            .classicFormGuide![classicForm.selectedRace]
-                                            .meetingId
-                                            .toString(),
-                                      ),
-                                      classicForm.getRaceFieldDetail(
-                                        id: runner.raceId?.toString() ?? '',
-                                      ),
-                                    ]);
+                                    // Future.wait([
+                                    //   classicForm.getMeetingRaceList(
+                                    //     meetingId: classicForm
+                                    //         .classicFormGuide![classicForm.selectedRace]
+                                    //         .meetingId
+                                    //         .toString(),
+                                    //   ),
+                                    // ]);
+                                    await classicForm.getRaceFieldDetail(
+                                      id: runner.raceId?.toString() ?? '',
+                                    );
+                                    // await classicForm.getRaceFieldDetail(
+                                    //   id: runner.raceId?.toString() ?? '',
+                                    // );
                                     classicForm.setTempLoading = false;
 
                                     context.pushNamed(
                                       AppRoutes.selectedRace.name,
+                                      extra: false,
                                     );
                                   },
                                 );
