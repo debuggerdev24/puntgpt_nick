@@ -1,5 +1,6 @@
 import 'package:puntgpt_nick/core/app_imports.dart';
 import 'package:badges/badges.dart' as badges;
+import 'package:puntgpt_nick/provider/home/classic_form/classic_form_provider.dart';
 import 'package:puntgpt_nick/provider/home/search_engine/search_engine_provider.dart';
 import 'package:puntgpt_nick/provider/subscription/subscription_provider.dart';
 import 'package:puntgpt_nick/screens/dashboard/mobile/dashboard.dart';
@@ -50,11 +51,81 @@ class _DashboardAppBarState extends State<DashboardAppBar> {
   }
 
   Widget _appLogo() {
-    return GestureDetector(
-      onTap: () {
-        indexOfTab.value = 0;
-        AppRouter.indexedStackNavigationShell?.goBranch(0);
+    return PopupMenuButton<int>(
+      padding: EdgeInsets.zero,
+      offset: Offset(-4.w, 8.w),
+      color: AppColors.white,
+      elevation: 6,
+      shadowColor: AppColors.black.withValues(alpha: 0.2),
+      shape: RoundedRectangleBorder(
+        side: BorderSide(color: AppColors.black, width: 1),
+        borderRadius: BorderRadius.circular(4.r),
+      ),
+      popUpAnimationStyle: AnimationStyle(
+        duration: const Duration(milliseconds: 300),
+        reverseDuration: const Duration(milliseconds: 220),
+        curve: Curves.easeOutCubic,
+        reverseCurve: Curves.easeInCubic,
+      ),
+      onSelected: (int value) {
+        switch (value) {
+          case 0:
+            indexOfTab.value = 0;
+            AppRouter.indexedStackNavigationShell?.goBranch(0);
+            context.read<SearchEngineProvider>().changeTab = 0;
+            break;
+          case 1:
+            indexOfTab.value = 0;
+            AppRouter.indexedStackNavigationShell?.goBranch(0);
+            final search = context.read<SearchEngineProvider>();
+            search.changeTab = 1;
+            final classic = context.read<ClassicFormProvider>();
+            classic.getClassicFormGuide();
+            classic.getNextToGo();
+            break;
+          case 2:
+            indexOfTab.value = 3;
+            AppRouter.indexedStackNavigationShell?.goBranch(3);
+            break;
+        }
       },
+      itemBuilder: (BuildContext context) => <PopupMenuEntry<int>>[
+        PopupMenuItem<int>(
+          value: 0,
+          child: Text(
+            'PuntGPT Search Engine',
+            style: medium(
+              fontSize: 14.sp,
+              color: AppColors.black,
+              height: 1.25,
+            ),
+          ),
+        ),
+        const PopupMenuDivider(height: 1),
+        PopupMenuItem<int>(
+          value: 1,
+          child: Text(
+            'Classic Form Guide',
+            style: medium(
+              fontSize: 14.sp,
+              color: AppColors.black,
+              height: 1.25,
+            ),
+          ),
+        ),
+        const PopupMenuDivider(height: 1),
+        PopupMenuItem<int>(
+          value: 2,
+          child: Text(
+            'Account Management',
+            style: medium(
+              fontSize: 14.sp,
+              color: AppColors.black,
+              height: 1.25,
+            ),
+          ),
+        ),
+      ],
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [

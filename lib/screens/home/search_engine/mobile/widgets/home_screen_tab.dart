@@ -42,44 +42,44 @@ class HomeScreenTab extends StatelessWidget {
     required String text,
     required bool isSelected,
   }) {
-    return OnMouseTap(
-      onTap: () {
-        final provider = context.read<SearchEngineProvider>();
-        provider.changeTab = index;
-        if (index == 1) {
-          final classicFormProvider = context.read<ClassicFormProvider>();
-          classicFormProvider.getClassicFormGuide();
-          classicFormProvider.getNextToGo();
-
-        }
-        if (onTap != null && index == 0) {
-          onTap!.call();
-        }
-      },
-      child: AnimatedContainer(
-        duration: Duration(milliseconds: 400),
-        alignment: Alignment.center,
-        padding: EdgeInsets.symmetric(
-          vertical: 8.h,
-          horizontal: (context.isBrowserMobile) ? 26.w : 14.w,
-        ),
-        decoration: BoxDecoration(
-          color: isSelected ? AppColors.primary : AppColors.white,
-          border: Border.all(color: AppColors.primary),
-        ),
-
-        child: Text(
-          text,
-          textAlign: TextAlign.center,
-          style: bold(
-            fontSize: context.isDesktop
-                ? 16.sp
-                : context.isTablet
-                ? 22.sp
-                : (context.isBrowserMobile)
-                ? 30.sp
-                : 15.sp,
-            color: isSelected ? AppColors.white : AppColors.primary,
+    return Expanded(
+      child: OnMouseTap(
+        onTap: () {
+          final provider = context.read<SearchEngineProvider>();
+          provider.changeTab = index;
+          if (index == 1) {
+            final classicFormProvider = context.read<ClassicFormProvider>();
+            classicFormProvider.getClassicFormGuide();
+            classicFormProvider.getNextToGo();
+          }
+          if (onTap != null && index == 0) {
+            onTap!.call();
+          }
+        },
+        child: AnimatedContainer(
+          duration: Duration(milliseconds: 400),
+          alignment: Alignment.center,
+          padding: EdgeInsets.symmetric(
+            vertical: 8.w,
+            horizontal: (context.isBrowserMobile) ? 26.w : 14.w,
+          ),
+          decoration: BoxDecoration(
+            color: isSelected ? AppColors.primary : AppColors.white,
+            border: Border.all(color: AppColors.primary),
+          ),
+          child: Text(
+            text,
+            textAlign: TextAlign.center,
+            style: bold(
+              fontSize: context.isDesktop
+                  ? 16.sp
+                  : context.isTablet
+                  ? 22.sp
+                  : (context.isBrowserMobile)
+                  ? 30.sp
+                  : 15.sp,
+              color: isSelected ? AppColors.white : AppColors.primary,
+            ),
           ),
         ),
       ),

@@ -7,8 +7,7 @@ import 'package:puntgpt_nick/screens/home/search_engine/mobile/home_screen.dart'
 import 'package:puntgpt_nick/screens/home/search_engine/mobile/widgets/home_section_shimmers.dart';
 
 class SelectedMeetingScreen extends StatelessWidget {
-  const SelectedMeetingScreen({super.key, required this.isFromClassicForm});
-  final bool isFromClassicForm;
+  const SelectedMeetingScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Consumer<ClassicFormProvider>(
@@ -29,8 +28,7 @@ class SelectedMeetingScreen extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        if (isFromClassicForm)...[                          //* Race selection view
-                          Padding(
+                        Padding(
                             padding: EdgeInsets.fromLTRB(25.w, 25.w, 25.w, 0),
                             child: SingleChildScrollView(
                               scrollDirection: Axis.horizontal,
@@ -83,66 +81,63 @@ class SelectedMeetingScreen extends StatelessWidget {
                               ),
                             ),
                           ),
-                        //* Tips & Analysis, Speed Maps, Barrier Map
-                        Container(
-                          margin: EdgeInsets.symmetric(
-                            vertical: 16.w,
-                            horizontal: 25.w,
-                          ),
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 15.w,
-                            vertical: 15.w,
-                          ),
-                          decoration: BoxDecoration(
-                            border: Border.all(color: AppColors.primary),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              _raceSubNavBar(
-                                title: 'Tips & Analysis',
-                                onTap: () {
-                                  provider.getTipsAndAnalysis(
-                                    raceId: provider.raceDetails!.raceId
-                                        .toString(),
-                                  );
-                                  context.pushNamed(
-                                    AppRoutes.tipsAndAnalysis.name,
-                                  );
-                                },
-                              ),
-                              _raceSubNavBar(
-                                title: 'Speed Maps',
-                                onTap: () {
-                                  provider.getSpeedMaps(
-                                    meetingId: provider
-                                        .raceList!
-                                        .meeting
-                                        .meetingId
-                                        .toString(),
-                                    raceId: provider.raceDetails!.raceId
-                                        .toString(),
-                                  );
-                                  context.pushNamed(AppRoutes.speedMaps.name);
-                                },
-                              ),
-                              _raceSubNavBar(
-                                title: 'Barrier Map',
-                                onTap: () {
-                                  deBouncer.run(() {
-                                    AppToast.info(
-                                      context: context,
-                                      message: 'Coming soon',
+                          //* Tips & Analysis, Speed Maps, Barrier Map
+                          Container(
+                            margin: EdgeInsets.symmetric(
+                              vertical: 16.w,
+                              horizontal: 25.w,
+                            ),
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 15.w,
+                              vertical: 15.w,
+                            ),
+                            decoration: BoxDecoration(
+                              border: Border.all(color: AppColors.primary),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                _raceSubNavBar(
+                                  title: 'Tips & Analysis',
+                                  onTap: () {
+                                    provider.getTipsAndAnalysis(
+                                      raceId: provider.raceDetails!.raceId
+                                          .toString(),
                                     );
-                                  });
-                                },
-                              ),
-                            ],
+                                    context.pushNamed(
+                                      AppRoutes.tipsAndAnalysis.name,
+                                    );
+                                  },
+                                ),
+                                _raceSubNavBar(
+                                  title: 'Speed Maps',
+                                  onTap: () {
+                                    provider.getSpeedMaps(
+                                      meetingId: provider
+                                          .raceList!
+                                          .meeting
+                                          .meetingId
+                                          .toString(),
+                                      raceId: provider.raceDetails!.raceId
+                                          .toString(),
+                                    );
+                                    context.pushNamed(AppRoutes.speedMaps.name);
+                                  },
+                                ),
+                                _raceSubNavBar(
+                                  title: 'Barrier Map',
+                                  onTap: () {
+                                    deBouncer.run(() {
+                                      AppToast.info(
+                                        context: context,
+                                        message: 'Coming soon',
+                                      );
+                                    });
+                                  },
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                        ],
-                        if(!isFromClassicForm)
-                        15.w.verticalSpace,
                         //* Race table
                         RaceDetails(provider: provider),
                         120.verticalSpace,
@@ -187,6 +182,7 @@ class SelectedMeetingScreen extends StatelessWidget {
     required BuildContext context,
   }) {
     final race = provider.raceDetails!;
+    final meeting = provider.raceList!.meeting;
     // if (races.isEmpty) {
     //   return Column(
     //     children: [
@@ -234,29 +230,32 @@ class SelectedMeetingScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      race.selections[0].trackName,
+                      meeting.name,
                       style: regular(
                         fontSize: (context.isBrowserMobile) ? 36.sp : 24.sp,
                         fontFamily: AppFontFamily.secondary,
                         height: 1.1,
                       ),
                     ),
+                    1.w.verticalSpace,
                     Text(
-                      "R${race.number} - ${race.name}",
+                      "${meeting.trackName} - R${race.number} - ${race.name}",
                       style: semiBold(
                         fontSize: (context.isBrowserMobile) ? 28.sp : 14.sp,
                         color: AppColors.primary,
-                        height: 1.2,
+                        height: 1.18,
                       ),
                     ),
+                    2.w.verticalSpace,
                     Text(
                       "${race.trackCondition} - ${race.distance}m - ${DateFormatter.formatRaceDateTime(race.australianTime)}",
                       style: semiBold(
                         fontSize: (context.isBrowserMobile) ? 28.sp : 14.sp,
-                        height: 1.11,
+                        height: 1.2,
                         color: AppColors.primary.withValues(alpha: 0.6),
                       ),
                     ),
+                    2.w.verticalSpace,
                   ],
                 ),
               ),

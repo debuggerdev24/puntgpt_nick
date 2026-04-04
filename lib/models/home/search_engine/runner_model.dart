@@ -35,6 +35,7 @@ class RunnerModel {
     this.distance,
     this.weight,
     this.form,
+    this.meetingId,
   });
 
   factory RunnerModel.fromJson(Map<String, dynamic> json) => RunnerModel(
@@ -58,9 +59,10 @@ class RunnerModel {
         : null,
     weight: json["weight"] == null ? "-" : "${json["weight"].toString()} kg",
     form: json["form"] ?? "-",
+    meetingId: json["meeting_id"],
   );
 
-  int? selectionId, selectionNumber, raceId, raceNumber, barrier,distance;
+  int? selectionId, selectionNumber, raceId,meetingId, raceNumber, barrier,distance;
   String? horseName, jockeyName, trainerName,raceName, track, jumpTimeAu, silksImage, weight, form;
   double? odds;
 }

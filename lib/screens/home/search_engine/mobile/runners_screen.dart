@@ -151,17 +151,15 @@ class _RunnersListScreenState extends State<RunnersListScreen> {
                                     classicForm.setTempLoading = true;
                                     // await classicForm.getClassicFormGuide();
 
-                                    // Future.wait([
-                                    //   classicForm.getMeetingRaceList(
-                                    //     meetingId: classicForm
-                                    //         .classicFormGuide![classicForm.selectedRace]
-                                    //         .meetingId
-                                    //         .toString(),
-                                    //   ),
-                                    // ]);
-                                    await classicForm.getRaceFieldDetail(
+                                    Future.wait([
+                                      classicForm.getMeetingRaceList(
+                                        meetingId: runner.meetingId.toString(),
+                                      ),
+                                      classicForm.getRaceFieldDetail(
                                       id: runner.raceId?.toString() ?? '',
-                                    );
+                                    ),
+                                    ]);
+                                    
                                     // await classicForm.getRaceFieldDetail(
                                     //   id: runner.raceId?.toString() ?? '',
                                     // );
@@ -169,7 +167,6 @@ class _RunnersListScreenState extends State<RunnersListScreen> {
 
                                     context.pushNamed(
                                       AppRoutes.selectedRace.name,
-                                      extra: false,
                                     );
                                   },
                                 );

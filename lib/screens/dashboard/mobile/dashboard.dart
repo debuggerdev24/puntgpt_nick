@@ -76,16 +76,17 @@ class _DashboardState extends State<Dashboard> {
               Container(
                 width: context.screenWidth,
                 color: AppColors.primary,
-                padding: EdgeInsets.symmetric(vertical: 14.w, horizontal: 10.w),
+                padding: EdgeInsets.symmetric(vertical: 15.w),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
-                  spacing: 15.w,
                   children: [
                     Consumer<SubscriptionProvider>(
                       builder: (context, subscriptionProvider, child) {
                         return _navItem(
                           onTap: () {
-                            launchUrl(Uri.parse("https://www.instagram.com/puntgpt/"));
+                            launchUrl(
+                              Uri.parse("https://www.instagram.com/puntgpt/"),
+                            );
                           },
                           text: "Instagram",
                           icon: AppAssets.instagramLogo,
@@ -133,12 +134,11 @@ class _DashboardState extends State<Dashboard> {
                     ),
                     _navItem(
                       onTap: () {
-                        indexOfTab.value = 3;
-                        AppRouter.indexedStackNavigationShell?.goBranch(3);
+                        AppToast.info(context: context, message: 'Coming soon');
                       },
-                      text: "Account",
-                      icon: AppAssets.profile,
-                      index: 3,
+                      text: "News, Tips & Content",
+                      icon: AppAssets.news,
+                      index: -2,
                     ),
                   ],
                 ),
@@ -160,33 +160,31 @@ class _DashboardState extends State<Dashboard> {
   }) {
     final currentIndex = AppRouter.indexedStackNavigationShell?.currentIndex;
     final opacity = 0.62;
-    bool isSvg = (icon.contains(".svg"));
+    final bool isSvg = icon.contains(".svg");
+    final Color inactiveColor =
+        color?.withValues(alpha: currentIndex == index ? 1 : opacity) ??
+        AppColors.white.withValues(alpha: currentIndex == index ? 1 : opacity);
     return Expanded(
       child: GestureDetector(
         behavior: HitTestBehavior.opaque,
         onTap: onTap,
         child: Column(
-          spacing: isSvg ? 0 : 3.2.w,
+          spacing: isSvg ? 2.w: 5.w,
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             ImageWidget(
               path: icon,
               type: isSvg ? ImageType.svg : ImageType.asset,
-              color:
-                  color?.withValues(
-                    alpha: currentIndex == index ? 1 : opacity,
-                  ) ??
-                  AppColors.white.withValues(
-                    alpha: currentIndex == index ? 1 : opacity,
-                  ),
-              height: isSvg ? 32.w.flexClamp(28, 36) : 28.w,
+              color: inactiveColor,
+              height: isSvg ? 28.w : 24.w,
             ),
             Text(
               text,
               textAlign: TextAlign.center,
               style: medium(
-                fontSize: 12.twelveSp(context),
+                fontSize: 12.sp,
+                height: 1.11,
                 color:
                     color?.withValues(
                       alpha: currentIndex == index ? 1 : opacity,
