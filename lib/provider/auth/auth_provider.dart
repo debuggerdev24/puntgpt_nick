@@ -10,12 +10,14 @@ import 'package:puntgpt_nick/services/storage/locale_storage_service.dart';
 class AuthProvider extends ChangeNotifier {
   TextEditingController firstNameCtr = TextEditingController(),
       lastNameCtr = TextEditingController(),
-      emailCtr = TextEditingController(),
+      emailCtr = TextEditingController(text: "guest21@mailinator.com"),
       phoneCtr = TextEditingController(),
-      passwordCtr = TextEditingController(),
+      passwordCtr = TextEditingController(text: "Test@123"),
       confirmPasswordCtr = TextEditingController(),
       forgotPasswordCtr = TextEditingController(),
       newPasswordCtr = TextEditingController(),
+      //
+
       resetConfirmPasswordCtr = TextEditingController(),
       otpCtr = TextEditingController(),
       addressLine1Ctr = TextEditingController(),
@@ -196,7 +198,7 @@ class AuthProvider extends ChangeNotifier {
         await LocaleStorageService.saveUserId(
           int.parse(data["user_id"].toString()),
         );
-        await LocaleStorageService.setIsUserLoggedIn();
+
         await LocaleStorageService.setLoggedInUserEmail(emailCtr.text.trim());
         await LocaleStorageService.setLoggedInUserPassword(
           passwordCtr.text.trim(),
@@ -385,6 +387,30 @@ class AuthProvider extends ChangeNotifier {
       },
     );
     isLogOutLoading = false;
+    notifyListeners();
+  }
+
+  bool isDeleteAccountLoading = false;
+
+  //* Permanently deletes the account on the server and clears local session.
+  Future<void> deleteAccount({
+    required VoidCallback onSuccess,
+    required Function(String error) onFailed,
+  }) async {
+    isDeleteAccountLoading = true;
+    notifyListeners();
+    final result = await AuthApiService.instance.deleteAccount();
+    result.fold(
+      (l) {
+        onFailed(l.errorMsg);
+      },
+      (r) {
+        LocaleStorageService.clearUserTokens();
+
+        onSuccess();
+      },
+    );
+    isDeleteAccountLoading = false;
     notifyListeners();
   }
 

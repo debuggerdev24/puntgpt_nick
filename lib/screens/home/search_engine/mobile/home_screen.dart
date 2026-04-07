@@ -6,6 +6,7 @@ import 'package:puntgpt_nick/screens/home/search_engine/mobile/widgets/classic_f
 import 'package:puntgpt_nick/screens/home/search_engine/mobile/widgets/home_section_shimmers.dart';
 import 'package:puntgpt_nick/screens/home/search_engine/mobile/widgets/home_screen_tab.dart';
 import 'package:puntgpt_nick/screens/home/search_engine/mobile/widgets/punt_gpt_search_engine_view.dart';
+import 'package:puntgpt_nick/screens/home/search_engine/widgets/bookie_stories_section.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -58,8 +59,10 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
             }
             return Column(
               children: [
+                BookieStoriesSection(horizontalPadding: 18.w),
+
                 Padding(
-                  padding: EdgeInsets.fromLTRB(25.w, 16.w, 25.w, 0),
+                  padding: EdgeInsets.fromLTRB(25.w, 8.w, 25.w, 0),
                   child: HomeScreenTab(selectedIndex: provider.selectedTab),
                 ),
                 16.w.verticalSpace,

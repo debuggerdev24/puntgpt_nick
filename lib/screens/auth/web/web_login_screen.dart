@@ -25,33 +25,35 @@ class WebLoginScreen extends StatelessWidget {
         child: Consumer<AuthProvider>(
           builder: (context, provider, child) {
             return SizedBox(
-              width: 360,
+              width: 375,
               child: Form(
                 key: formKey,
                 child: ListView(
+                  
                   padding: EdgeInsets.symmetric(horizontal: 25),
                   children: [
                     SizedBox(height: 80),
                     ImageWidget(
                       path: AppAssets.splashWebLogo,
                       type: ImageType.asset,
-                      width: 375,
+                      width: 360,
                     ),
 
                     SizedBox(height: 18),
                     Text(
+                      textAlign: TextAlign.center,
                       "'@PuntGPT' the talking from guide",
                       style: regular(
-                        fontSize: 24,
+                        fontSize: 20,
+                        height: 1.2 ,
                         fontFamily: AppFontFamily.secondary,
                       ),
                     ),
-                    SizedBox(height: 60),
+                    SizedBox(height: 50),
                     AppTextField(
                       controller: provider.emailCtr,
                       validator: FieldValidators().email,
                       hintText: "Email",
-
                       onSubmit: () {
                         if (formKey.currentState!.validate()) {
                           provider.login(context: context);

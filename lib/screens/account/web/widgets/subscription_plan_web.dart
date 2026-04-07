@@ -70,14 +70,14 @@ class SubscriptionPlanWeb extends StatelessWidget {
                           ? "Yearly"
                           : "Life Time",
                       style: regular(
-                        fontSize: twentyResponsive,
+                        fontSize: 18,
                         fontFamily: AppFontFamily.secondary,
                       ),
                     ),
                     TextSpan(
                       text: plan.id == 1 ? " ‘Mug Punter’" : " ‘Pro Punter’",
                       style: regular(
-                        fontSize: twentyResponsive,
+                        fontSize: 18,
                         color: plan.id == 1 ? null : AppColors.premiumYellow,
                         fontFamily: AppFontFamily.secondary,
                       ),
@@ -85,14 +85,15 @@ class SubscriptionPlanWeb extends StatelessWidget {
                     TextSpan(
                       text: " Account",
                       style: regular(
-                        fontSize: twentyResponsive,
+                        fontSize: 18,
                         fontFamily: AppFontFamily.secondary,
                       ),
                     ),
                   ],
                 ),
               ),
-              8.h.verticalSpace,
+              SizedBox(height: 8),
+
               RichText(
                 text: TextSpan(
                   children: [
@@ -101,7 +102,7 @@ class SubscriptionPlanWeb extends StatelessWidget {
                           ? "\$ ${int.parse(plan.price).toStringAsFixed(2)} "
                           : "\$ ${plan.price} ",
                       style: bold(
-                        fontSize: twentyResponsive,
+                        fontSize: 16,
                         fontFamily: AppFontFamily.primary,
                       ),
                     ),
@@ -109,7 +110,7 @@ class SubscriptionPlanWeb extends StatelessWidget {
                       text: "/ ${plan.durationLabel}",
                       style: semiBold(
                         fontFamily: AppFontFamily.primary,
-                        fontSize: fourteenResponsive,
+                        fontSize: 12,
                         color: AppColors.primary.withValues(alpha: 0.6),
                       ),
                     ),
@@ -117,7 +118,7 @@ class SubscriptionPlanWeb extends StatelessWidget {
                 ),
               ),
               16.h.verticalSpace,
-              //todo points
+              //* points
               ListView.separated(
                 shrinkWrap: true,
                 padding: EdgeInsets.all(0),
@@ -134,24 +135,25 @@ class SubscriptionPlanWeb extends StatelessWidget {
                         path: plan.id == 1 && i < 2
                             ? AppAssets.close
                             : AppAssets.done,
-                        height: context.isDesktop
-                            ? 20.w
-                            : context.isTablet
-                            ? 28.w
-                            : context.isBrowserMobile
-                            ? 36.w
-                            : 20.w,
+                        height: 20,
+                        // context.isDesktop
+                        //     ? 20.w
+                        //     : context.isTablet
+                        //     ? 28.w
+                        //     : context.isBrowserMobile
+                        //     ? 36.w
+                        //     : 20.w,
                       ),
                       Expanded(
                         child: Text(
                           features[i],
-                          style: regular(fontSize: fourteenResponsive),
+                          style: regular(fontSize: 12),
                         ),
                       ),
                     ],
                   );
                 },
-                separatorBuilder: (context, index) => 5.h.verticalSpace,
+                separatorBuilder: (context, index) => SizedBox(height: 5),
                 itemCount: plan.features.length,
               ),
             ],

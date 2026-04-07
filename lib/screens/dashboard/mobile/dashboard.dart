@@ -24,14 +24,7 @@ class _DashboardState extends State<Dashboard> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      final subsProvider = context.read<SubscriptionProvider>();
-
-      //* IAP listener must run before restore; plans must load before productId → planId mapping.
-      await subsProvider.initialize(context: context);
-      await subsProvider.getSubscriptionPlans();
-
-      await AppStartupCoordinator.run(context: context);
-      await AppStartupCoordinator.loadContent(context: context);
+      await AppStartupCoordinator.bootstrapDashboard(context: context);
     });
     super.initState();
   }

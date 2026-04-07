@@ -6,7 +6,6 @@ import 'package:puntgpt_nick/screens/home/search_engine/mobile/widgets/home_scre
 import 'package:puntgpt_nick/screens/home/search_engine/mobile/widgets/race_table.dart';
 import 'package:puntgpt_nick/screens/home/search_engine/mobile/widgets/search_section.dart';
 import 'package:puntgpt_nick/screens/home/search_engine/web/widgets/chat_section_web.dart';
-import 'package:puntgpt_nick/screens/home/search_engine/web/widgets/home_screen_tab_web.dart';
 import 'package:puntgpt_nick/screens/home/search_engine/web/widgets/race_start_timing_option_web.dart';
 import 'package:puntgpt_nick/screens/home/search_engine/web/widgets/race_table_web.dart';
 import 'package:puntgpt_nick/screens/home/search_engine/web/widgets/runners_list_web.dart';
@@ -69,9 +68,10 @@ class _HomeScreenWebState extends State<HomeScreenWeb> {
                     if (context.isMobileView) ...[
                       20.h.verticalSpace,
                       HomeScreenTab(selectedIndex: provider.selectedTab),
+                      // BookieStoriesSection(horizontalPadding: 16.w),
                     ] else ...[
                       70.h.verticalSpace,
-                      HomeScreenTabWeb(selectedIndex: provider.selectedTab),
+                      // HomeScreenTabWeb(selectedIndex: provider.selectedTab),
                     ],
                     16.h.verticalSpace,
                     Expanded(
@@ -401,20 +401,22 @@ Widget askPuntGPTButtonWeb({required BuildContext context}) {
         right: context.isMobileView ? 25.w : 100.w,
       ),
       padding: EdgeInsets.symmetric(
-        vertical: context.isDesktop
-            ? 10.w
-            : context.isTablet
-            ? 11.w
-            : (context.isBrowserMobile)
-            ? 16.w
-            : 14.w,
-        horizontal: context.isDesktop
-            ? 18.w
-            : context.isTablet
-            ? 20.w
-            : (context.isBrowserMobile)
-            ? 22.w
-            : 16.w,
+        vertical:10,
+        //  context.isDesktop
+        //     ? 10.w
+        //     : context.isTablet
+        //     ? 11.w
+        //     : (context.isBrowserMobile)
+        //     ? 16.w
+        //     : 14.w,
+        horizontal: 18,
+        // context.isDesktop
+        //     ? 18.w
+        //     : context.isTablet
+        //     ? 20.w
+        //     : (context.isBrowserMobile)
+        //     ? 22.w
+        //     : 16.w,
       ),
       decoration: BoxDecoration(
         boxShadow: [

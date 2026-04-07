@@ -20,8 +20,7 @@ import 'package:puntgpt_nick/screens/home/search_engine/web/tip_slip_screen_web.
 import 'package:puntgpt_nick/screens/punter_club/mobile/club_chat_screen.dart';
 import 'package:puntgpt_nick/screens/punter_club/web/punter_club_screen_web.dart';
 import 'package:puntgpt_nick/screens/splash/web_splash_screen.dart';
-
-import '../../../screens/account/web/account_screen_web.dart';
+import '../../../screens/account/web/web_account_screen.dart';
 import '../../../screens/bookies/web/bookies_screen_web.dart';
 import '../../../screens/home/search_engine/mobile/ask_puntgpt_screen.dart';
 import '../../../screens/home/search_engine/mobile/saved_search_screen.dart';
@@ -155,7 +154,7 @@ class WebRouter {
               ),
             ],
           ),
-          //todo account branch
+          //* account branch
           StatefulShellBranch(
             routes: [
               GoRoute(

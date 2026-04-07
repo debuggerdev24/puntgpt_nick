@@ -10,7 +10,6 @@ class LocaleStorageService {
 
   static const String _accessTokenKey = "user_token";
   static const String _refreshTokenKey = "user_refresh_token";
-  static const String _isUserLoggedInKey = "is_user_logged_in";
   static const String _loggedInUserEmailKey = "logged_in_user_email";
   static const String _loggedInUserNameKey = "logged_in_user_name";
   static const String _loggedInUserPasswordKey = "logged_in_user_password";
@@ -20,10 +19,7 @@ class LocaleStorageService {
   static const String _isProfileCreated = "is_profile_created";
   static const String _isFirstTime = "is_First_Time";
 
-  static bool get isUserLoggedIn => _pref.getBool(_isUserLoggedInKey) ?? false;
-  static Future<void> setIsUserLoggedIn({bool value = true}) async =>
-      await _pref.setBool(_isUserLoggedInKey, value);
-
+ 
   // save and get the user auth token
   static String get acccessToken => _pref.getString(_accessTokenKey) ?? "";
   static Future<void> saveUserToken(String value) async =>
@@ -57,17 +53,17 @@ class LocaleStorageService {
   static Future<void> setIsFirstTime(bool value) async =>
       await _pref.setBool(_isFirstTime, value);
 
-  //todo register customer id
+  //* register customer id
   static int get userId => _pref.getInt(_registerUserId) ?? 0;
   static Future<void> saveUserId(int value) async =>
       await _pref.setInt(_registerUserId, value);
 
-  //todo save and get the user refresh auth token
+  //* save and get the user refresh auth token
   static String get refreshToken => _pref.getString(_refreshTokenKey) ?? '';
   static Future<void> saveUserRefreshToken(String value) async =>
       await _pref.setString(_refreshTokenKey, value);
 
-  //todo get logged in customer email and password
+  //* get logged in customer email and password
   static String get loggedInCustomerEmail =>
       _pref.getString(_loggedInCustomerEmailKey) ?? '';
   static Future<void> setLoggedInCustomerEmail(String value) async =>

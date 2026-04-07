@@ -24,7 +24,7 @@ class AppScreenTopBar extends StatelessWidget {
               IconButton(
                 padding: EdgeInsets.zero,
                 onPressed: onBack ?? () => context.pop(),
-                icon: Icon(Icons.arrow_back_ios_rounded, size: 16.w),
+                icon: Icon(Icons.arrow_back_ios_rounded, size: 16.wSize),
               ),
               Expanded(
                 child: Column(

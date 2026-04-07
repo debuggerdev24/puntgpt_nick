@@ -8,6 +8,19 @@ import 'package:puntgpt_nick/provider/subscription/subscription_provider.dart';
 class AppStartupCoordinator {
   AppStartupCoordinator._();
 
+  /// Subscription init + plans, then subscription restore flow, then parallel content loads.
+  /// Call from mobile and web dashboard after first frame; **do not reorder** these awaits.
+  static Future<void> bootstrapDashboard({required BuildContext context}) async {
+    final subsProvider = context.read<SubscriptionProvider>();
+
+    //* IAP listener must run before restore; plans must load before productId → planId mapping.
+    await subsProvider.initialize(context: context);
+    await subsProvider.getSubscriptionPlans();
+
+    await run(context: context);
+    await loadContent(context: context);
+  }
+
   static Future<void> loadContent({required BuildContext context}) async {
     final accountProvider = context.read<AccountProvider>();
     final searchEngineProvider = context.read<SearchEngineProvider>();

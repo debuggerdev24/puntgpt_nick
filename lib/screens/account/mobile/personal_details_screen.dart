@@ -108,23 +108,13 @@ class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
                               hintText: "Enter Phone",
                               readOnly: true,
                               textInputAction: TextInputAction.next,
-                              textStyle: medium(
-                                fontSize: (context.isBrowserMobile)
-                                    ? 32.sp
-                                    : 16.sp,
-                              ),
-                              hintStyle: medium(
-                                fontSize: (context.isBrowserMobile)
-                                    ? 28.sp
-                                    : 14.sp,
-                              ),
                             )
                           else
                             PhoneCountryFieldForAccount(
                               provider: provider,
                               readOnly: false,
                             ),
-                          //todo --------------> address
+                          //* --------------> address
                           14.h.verticalSpace,
                           Text(
                             "Address Line 1",
@@ -222,7 +212,6 @@ class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
                               fontSize: (context.isBrowserMobile)
                                   ? 32.sp
                                   : 16.sp,
-
                             ),
                             hintStyle: medium(
                               fontSize: (context.isBrowserMobile)

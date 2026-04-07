@@ -1,6 +1,6 @@
 import 'package:puntgpt_nick/core/app_imports.dart';
 
-extension ResponsiveSize on int {
+extension ResponsiveSize on num {
   double get fSize {
     if (kIsWeb) return toDouble();
     return sp ;

@@ -29,115 +29,114 @@ class SelectedMeetingScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Padding(
-                            padding: EdgeInsets.fromLTRB(25.w, 25.w, 25.w, 0),
-                            child: SingleChildScrollView(
-                              scrollDirection: Axis.horizontal,
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  border: Border.all(color: AppColors.primary),
-                                ),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: List.generate(
-                                    provider.raceList!.races.length,
-                                    (index) {
-                                      final race =
-                                          provider.raceList!.races[index];
-                                      return GestureDetector(
-                                        onTap: () {
-                                          provider.changeSelectedRace = index;
-                                          provider.getRaceFieldDetail(
-                                            id: race.raceId.toString(),
-                                          );
-                                        },
-                                        child: AnimatedContainer(
-                                          padding: EdgeInsets.symmetric(
-                                            vertical: 12,
-                                            horizontal: 12,
-                                          ),
-                                          duration: 400.milliseconds,
-                                          decoration: BoxDecoration(
+                          padding: EdgeInsets.fromLTRB(25.w, 25.w, 25.w, 0),
+                          child: SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(color: AppColors.primary),
+                              ),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: List.generate(
+                                  provider.raceList!.races.length,
+                                  (index) {
+                                    final race =
+                                        provider.raceList!.races[index];
+                                    return GestureDetector(
+                                      onTap: () {
+                                        provider.changeSelectedRace = index;
+                                        provider.getRaceFieldDetail(
+                                          id: race.raceId.toString(),
+                                        );
+                                      },
+                                      child: AnimatedContainer(
+                                        padding: EdgeInsets.symmetric(
+                                          vertical: 12,
+                                          horizontal: 12,
+                                        ),
+                                        duration: 400.milliseconds,
+                                        decoration: BoxDecoration(
+                                          color:
+                                              (provider.selectedRace == index)
+                                              ? AppColors.primary
+                                              : null,
+                                        ),
+                                        child: Text(
+                                          "R${index + 1}",
+                                          style: semiBold(
+                                            fontSize: 16.sp,
                                             color:
                                                 (provider.selectedRace == index)
-                                                ? AppColors.primary
-                                                : null,
-                                          ),
-                                          child: Text(
-                                            "R${index + 1}",
-                                            style: semiBold(
-                                              fontSize: 16.sp,
-                                              color:
-                                                  (provider.selectedRace ==
-                                                      index)
-                                                  ? AppColors.white
-                                                  : AppColors.primary,
-                                            ),
+                                                ? AppColors.white
+                                                : AppColors.primary,
                                           ),
                                         ),
-                                      );
-                                    },
-                                  ),
+                                      ),
+                                    );
+                                  },
                                 ),
                               ),
                             ),
                           ),
-                          //* Tips & Analysis, Speed Maps, Barrier Map
-                          Container(
-                            margin: EdgeInsets.symmetric(
-                              vertical: 16.w,
-                              horizontal: 25.w,
-                            ),
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 15.w,
-                              vertical: 15.w,
-                            ),
-                            decoration: BoxDecoration(
-                              border: Border.all(color: AppColors.primary),
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                _raceSubNavBar(
-                                  title: 'Tips & Analysis',
-                                  onTap: () {
-                                    provider.getTipsAndAnalysis(
-                                      raceId: provider.raceDetails!.raceId
-                                          .toString(),
-                                    );
-                                    context.pushNamed(
-                                      AppRoutes.tipsAndAnalysis.name,
-                                    );
-                                  },
-                                ),
-                                _raceSubNavBar(
-                                  title: 'Speed Maps',
-                                  onTap: () {
-                                    provider.getSpeedMaps(
-                                      meetingId: provider
-                                          .raceList!
-                                          .meeting
-                                          .meetingId
-                                          .toString(),
-                                      raceId: provider.raceDetails!.raceId
-                                          .toString(),
-                                    );
-                                    context.pushNamed(AppRoutes.speedMaps.name);
-                                  },
-                                ),
-                                _raceSubNavBar(
-                                  title: 'Barrier Map',
-                                  onTap: () {
-                                    deBouncer.run(() {
-                                      AppToast.info(
-                                        context: context,
-                                        message: 'Coming soon',
-                                      );
-                                    });
-                                  },
-                                ),
-                              ],
-                            ),
+                        ),
+                        //* Tips & Analysis, Speed Maps, Barrier Map
+                        Container(
+                          margin: EdgeInsets.symmetric(
+                            vertical: 16.w,
+                            horizontal: 25.w,
                           ),
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 15.w,
+                            vertical: 15.w,
+                          ),
+                          decoration: BoxDecoration(
+                            border: Border.all(color: AppColors.primary),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              _raceSubNavBar(
+                                title: 'Tips & Analysis',
+                                onTap: () {
+                                  provider.getTipsAndAnalysis(
+                                    raceId: provider.raceDetails!.raceId
+                                        .toString(),
+                                  );
+                                  context.pushNamed(
+                                    AppRoutes.tipsAndAnalysis.name,
+                                  );
+                                },
+                              ),
+                              _raceSubNavBar(
+                                title: 'Speed Maps',
+                                onTap: () {
+                                  provider.getSpeedMaps(
+                                    meetingId: provider
+                                        .raceList!
+                                        .meeting
+                                        .meetingId
+                                        .toString(),
+                                    raceId: provider.raceDetails!.raceId
+                                        .toString(),
+                                  );
+                                  context.pushNamed(AppRoutes.speedMaps.name);
+                                },
+                              ),
+                              _raceSubNavBar(
+                                title: 'Barrier Map',
+                                onTap: () {
+                                  deBouncer.run(() {
+                                    AppToast.info(
+                                      context: context,
+                                      message: 'Coming soon',
+                                    );
+                                  });
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
                         //* Race table
                         RaceDetails(provider: provider),
                         120.verticalSpace,
@@ -406,8 +405,6 @@ Widget _selectionCard({
   required bool isExpanded,
   required VoidCallback onToggle,
 }) {
-  final distance =
-      context.read<ClassicFormProvider>().raceDetails?.distance ?? 0;
   final trainerStr = selection.trainerName.toString();
 
   Widget labelValue({required String label, required String value}) {
@@ -438,7 +435,7 @@ Widget _selectionCard({
       onTap: onToggle,
       borderRadius: BorderRadius.circular(12.r),
       child: Container(
-        padding: EdgeInsets.all(12.w),
+        padding: EdgeInsets.all(9.w),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(6.r),
@@ -512,6 +509,41 @@ Widget _selectionCard({
                 _pill(text: "\$ ${selection.oddsWin}", context: context),
               ],
             ),
+            // Weight / Form / Jockey / Trainer — always visible (no tap needed).
+            Padding(
+              padding: EdgeInsets.only(top: 10.w),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: Column(
+                      spacing: 6.w,
+                      children: [
+                        labelValue(
+                          label: 'Weight',
+                          value: '${selection.weight}kg',
+                        ),
+                        labelValue(label: 'Form', value: selection.formHistory),
+                      ],
+                    ),
+                  ),
+                  14.w.horizontalSpace,
+                  Expanded(
+                    child: Column(
+                      spacing: 6.w,
+                      children: [
+                        labelValue(
+                          label: 'Jockey',
+                          value: selection.jockeyName,
+                        ),
+                        labelValue(label: 'Trainer', value: trainerStr),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            // Tap row still expands career/track stats + tip slip.
             AnimatedSize(
               duration: const Duration(milliseconds: 250),
               curve: Curves.easeInOut,
@@ -523,58 +555,7 @@ Widget _selectionCard({
                         children: [
                           horizontalDivider(),
                           10.w.verticalSpace,
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Expanded(
-                                child: Column(
-                                  spacing: 6.w,
-                                  children: [
-                                    labelValue(
-                                      label: 'Weight',
-                                      value: '${selection.weight}kg',
-                                    ),
-
-                                    labelValue(
-                                      label: 'Form',
-                                      value: selection.formHistory,
-                                    ), //formStr()//formHistory.map((f) => f.resultPosition.toString()).join('-')
-                                  ],
-                                ),
-                              ),
-                              14.w.horizontalSpace,
-                              Expanded(
-                                child: Column(
-                                  spacing: 6.w,
-                                  children: [
-                                    labelValue(
-                                      label: 'Jockey',
-                                      value: selection.jockeyName,
-                                    ),
-
-                                    labelValue(
-                                      label: 'Trainer',
-                                      value: trainerStr,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Expanded(
-                                child: labelValue(
-                                  label: 'Track',
-                                  value: selection.trackName,
-                                ),
-                              ),
-                            ],
-                          ),
-
-                          10.w.verticalSpace,
-                          horizontalDivider(),
-                          10.w.verticalSpace,
-                          _ExpandedStatsContent(
-                            selection: selection,
-                            distance: distance,
-                          ),
+                          _ExpandedStatsContent(selection: selection),
                           12.w.verticalSpace,
                           SizedBox(
                             width: double.infinity,
@@ -736,12 +717,8 @@ Widget _selectionCard({
 // }
 
 class _ExpandedStatsContent extends StatelessWidget {
-  const _ExpandedStatsContent({
-    required this.selection,
-    required this.distance,
-  });
+  const _ExpandedStatsContent({required this.selection});
   final Selection selection;
-  final int distance;
 
   static String _formatStat(HorseStatsDetails value) {
     final runs = value.runs;
@@ -751,36 +728,54 @@ class _ExpandedStatsContent extends StatelessWidget {
     return '$runs : $wins-$seconds-$thirds';
   }
 
+  static String _dashIfEmpty(String s) {
+    final t = s.trim();
+    return t.isEmpty ? '—' : t;
+  }
+
+  static String _formatPrize(String raw) {
+    final t = raw.trim();
+    if (t.isEmpty) return '—';
+    if (t.startsWith(r'$')) return t;
+    return '\$$t';
+  }
+
   @override
   Widget build(BuildContext context) {
-    final stats = <String, HorseStatsDetails>{
-      'Career': selection.horseStats.career,
-      '1st Up': selection.horseStats.firstUp,
-      '2nd Up': selection.horseStats.secondUp,
-      '3rd Up': selection.horseStats.thirdUp,
-      'Firm': selection.horseStats.firm,
-      'Good': selection.horseStats.good,
-      'Soft': selection.horseStats.soft,
-      'Heavy': selection.horseStats.heavy,
-    };
+    final hs = selection.horseStats;
+    final tiles = <MapEntry<String, String>>[
+      MapEntry('Sire', _dashIfEmpty(selection.horseSire)),
+      MapEntry('Dam', _dashIfEmpty(selection.horseDam)),
+      MapEntry('Prize', _formatPrize(selection.horseTotalPrizeMoney)),
+      MapEntry('Colour', _dashIfEmpty(selection.horseColour)),
+      MapEntry('Age', _dashIfEmpty(selection.horseAge)),
+      MapEntry('Sex', _dashIfEmpty(selection.horseSex)),
+      MapEntry('Career', _formatStat(hs.career)),
+      MapEntry('1st Up', _formatStat(hs.firstUp)),
+      MapEntry('2nd Up', _formatStat(hs.secondUp)),
+      MapEntry('3rd Up', _formatStat(hs.thirdUp)),
+      MapEntry('Firm', _formatStat(hs.firm)),
+      MapEntry('Good', _formatStat(hs.good)),
+      MapEntry('Soft', _formatStat(hs.soft)),
+      MapEntry('Heavy', _formatStat(hs.heavy)),
+    ];
 
-    // Boxes take only the needed height (no fixed row height).
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        final spacing = 10.w;
-        final tileWidth = (constraints.maxWidth - (spacing * 2)) / 3;
+    final gap = 6.w;
 
-        return Wrap(
-          spacing: spacing,
-          runSpacing: spacing,
-          children: [
-            for (final e in stats.entries)
-              SizedBox(
-                width: tileWidth,
-                child: _statTile(label: e.key, value: _formatStat(e.value)),
-              ),
-          ],
-        );
+    return GridView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      padding: EdgeInsets.zero,
+      itemCount: tiles.length,
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 4,
+        mainAxisSpacing: gap,
+        crossAxisSpacing: gap,
+        mainAxisExtent: 60.w,
+      ),
+      itemBuilder: (context, index) {
+        final e = tiles[index];
+        return _statTile(label: e.key, value: e.value);
       },
     );
   }
@@ -788,17 +783,18 @@ class _ExpandedStatsContent extends StatelessWidget {
 
 Widget _statTile({required String label, required String value}) {
   return Container(
-    padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 8.w),
+    padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 4.w),
     decoration: BoxDecoration(
-      color: AppColors.primary.withValues(alpha: 0.03),
-      borderRadius: BorderRadius.circular(10.r),
-      border: Border.all(color: AppColors.primary.withValues(alpha: 0.08)),
+      color: AppColors.white,
+      borderRadius: BorderRadius.circular(4.r),
+      border: Border.all(color: AppColors.primary.withValues(alpha: 0.28)),
     ),
-    alignment: Alignment.centerLeft,
+    alignment: Alignment.topLeft,
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.center,
-      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.start,
+      mainAxisSize: MainAxisSize.max,
+      spacing: 2.w,
       children: [
         Text(
           label,
@@ -806,15 +802,20 @@ Widget _statTile({required String label, required String value}) {
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
         ),
-        4.w.verticalSpace,
-        Text(
-          value,
-          style: semiBold(
-            fontSize: 12.sp,
-            color: AppColors.primary.withValues(alpha: 0.7),
+        Expanded(
+          child: Align(
+            alignment: Alignment.topLeft,
+            child: Text(
+              value,
+              style: semiBold(
+                fontSize: 12.sp,
+                color: AppColors.primary.withValues(alpha: 0.75),
+              ),
+              softWrap: true,
+              maxLines: 4,
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
         ),
       ],
     ),

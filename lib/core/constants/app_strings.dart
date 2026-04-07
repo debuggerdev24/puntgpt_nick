@@ -13,11 +13,26 @@ class AppStrings {
   static const String guestManageSubscriptionMessage =
       "Create an account to purchase the plan.";
   static const String guestSaveSearchMessage = "Subscribe to Pro Punter to save searches.";
+
+  /// Responsible gambling reminder (shown above partner story row on home).
+  static const String safeGamblingStoryBanner =
+      "IMAGINE WHAT YOU COULD BE BUYING INSTEAD.";
   static const String adminEmail = "admin@mailinator.com";
   static const String adminEmail2 = "nicklaws@puntgpt.com.au";
   static const String termsAndConditionsUrl = "https://drive.google.com/file/d/1p4hfcjZpyHzvjq25RbFB28CX4Mrov0ek/view?usp=sharing";
   static const String aiDisclaimerUrl = "https://drive.google.com/file/d/1BmcRRJ4FtXmSNj0gL0n3uFHka9A6xte6/view?usp=sharing";
   static const String privacyPolicyUrl = "https://drive.google.com/file/d/163PviRafoxj2uML09QFvbE9PK3dnNZU3/view?usp=sharing";
+  static const String appleStandardEulaUrl =
+      "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/";
+
+  static const String deleteAccountConfirmTitle = "Delete account?";
+  static const String deleteAccountConfirmBody =
+      "This will permanently delete your PuntGPT account and associated data. "
+      "You will not be able to recover it. Are you sure?";
+
+  static const String logOutConfirmTitle = "Log out?";
+  static const String logOutConfirmBody =
+      "You will be signed out on this device. You can sign in again at any time.";
 
   //* Unibet partner (Unibat logo taps).
   static const String unibetPartnerUrl =

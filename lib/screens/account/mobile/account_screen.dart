@@ -12,6 +12,8 @@ class AccountScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final showAppleEulaLink =
+        !kIsWeb && defaultTargetPlatform == TargetPlatform.iOS;
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, result) {
@@ -75,6 +77,15 @@ class AccountScreen extends StatelessWidget {
                   },
                 ),
                 horizontalDivider(),
+                accountItem(
+                  context: context,
+                  title: "Delete Account",
+                  destructive: true,
+                  onTap: () {
+                    showDeleteAccountConfirmationDialog(context: context);
+                  },
+                ),
+                horizontalDivider(),
               ],
 
               Spacer(),
@@ -99,12 +110,7 @@ class AccountScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Container(
-                      width: 1,
-                      height: 12,
-                      color: AppColors.primary,
-                      margin: EdgeInsets.symmetric(horizontal: 10),
-                    ),
+                    verticlaDiv(),
                     OnMouseTap(
                       onTap: () {
                         launchUrl(
@@ -116,17 +122,12 @@ class AccountScreen extends StatelessWidget {
                         "AI disclaimer",
                         style: bold(
                           decoration: TextDecoration.underline,
-                      
+
                           fontSize: (context.isBrowserMobile) ? 30.sp : 14.sp,
                         ),
                       ),
                     ),
-                    Container(
-                      width: 1,
-                      height: 12,
-                      color: AppColors.primary,
-                      margin: EdgeInsets.symmetric(horizontal: 10),
-                    ),
+                    verticlaDiv(),
                     OnMouseTap(
                       onTap: () {
                         launchUrl(
@@ -142,26 +143,106 @@ class AccountScreen extends StatelessWidget {
                         ),
                       ),
                     ),
+                    if (showAppleEulaLink) ...[
+                      verticlaDiv(),
+                      OnMouseTap(
+                        onTap: () {
+                          launchUrl(
+                            Uri.parse(AppStrings.appleStandardEulaUrl),
+                            mode: LaunchMode.externalApplication,
+                          );
+                        },
+                        child: Text(
+                          "Apple EULA",
+                          style: bold(
+                            fontSize: (context.isBrowserMobile) ? 30.sp : 14.sp,
+                            decoration: TextDecoration.underline,
+                          ),
+                        ),
+                      ),
+                    ],
                   ],
                 ),
-                // Row(
-                //   mainAxisAlignment: MainAxisAlignment.spaceAround,
-                //   children: [
-                //     Text("Terms & Conditions", style: bold(fontSize: 14.sp)),
-                //     Text(" | ", style: bold(fontSize: 14.sp)),
-                //     Text("AI Disclaimer", style: bold(fontSize: 14.sp)),
-                //     Text(" | ", style: bold(fontSize: 14.sp)),
-                //     Text("Terms & Conditions", style: bold(fontSize: 14.sp)),
-                //   ],
-                // ),
+            
               ),
-              26.h.verticalSpace,
+              15.w.verticalSpace,
             ],
           ),
-          if (context.watch<AuthProvider>().isLogOutLoading)
+          if (context.watch<AuthProvider>().isLogOutLoading ||
+              context.watch<AuthProvider>().isDeleteAccountLoading)
             FullPageIndicator(),
         ],
       ),
+    );
+  }
+
+  Container verticlaDiv() {
+    return Container(
+      width: 1,
+      height: 12,
+      color: AppColors.primary,
+      margin: EdgeInsets.symmetric(horizontal: 10),
+    );
+  }
+
+  void showDeleteAccountConfirmationDialog({required BuildContext context}) {
+    showDialog(
+      context: context,
+      builder: (dialogContext) {
+        return ZoomIn(
+          child: AlertDialog(
+            backgroundColor: AppColors.white,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12.r),
+            ),
+            titlePadding: EdgeInsets.fromLTRB(24.w, 24.w, 24.w, 8.w),
+            contentPadding: EdgeInsets.fromLTRB(24.w, 0, 24.w, 8.w),
+            actionsPadding: EdgeInsets.fromLTRB(12.w, 0, 12.w, 12.h),
+            title: Text(
+              AppStrings.deleteAccountConfirmTitle,
+              style: semiBold(
+                color: AppColors.black,
+                fontSize: context.isBrowserMobile ? 22.sp : 18.sp,
+              ),
+            ),
+            content: Text(
+              AppStrings.deleteAccountConfirmBody,
+              style: regular(
+                color: AppColors.primary.withValues(alpha: 0.85),
+                fontSize: context.isBrowserMobile ? 18.sp : 14.sp,
+                height: 1.35,
+              ),
+            ),
+            actions: [
+              myActionButtonTheme(
+                onPressed: () => context.pop(),
+                title: "Cancel",
+              ),
+              myActionButtonTheme(
+                onPressed: () async {
+                  context.pop(dialogContext);
+                  await context.read<AuthProvider>().deleteAccount(
+                    onSuccess: () {
+                      AppToast.success(
+                        context: context,
+                        message: "Your account has been deleted successfully.",
+                      );
+                      context.read<SubscriptionProvider>().activeSubscriptions
+                          .clear();
+                      context.goNamed(AppRoutes.onboardingScreen.name);
+                    },
+                    onFailed: (error) {
+                      AppToast.error(context: context, message: error);
+                    },
+                  );
+                },
+                title: "Delete account",
+                destructive: true,
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 
@@ -172,18 +253,30 @@ class AccountScreen extends StatelessWidget {
         return ZoomIn(
           child: AlertDialog(
             backgroundColor: AppColors.white,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12.r),
+            ),
+            titlePadding: EdgeInsets.fromLTRB(24.w, 24.w, 24.w, 8.w),
+            contentPadding: EdgeInsets.fromLTRB(24.w, 0, 24.w, 8.w),
+            actionsPadding: EdgeInsets.fromLTRB(12.w, 0, 12.w, 12.h),
             title: Text(
-              "Are you sure you want to Log Out?",
-              style: regular(
+              AppStrings.logOutConfirmTitle,
+              style: semiBold(
                 color: AppColors.black,
-                fontSize: context.isBrowserMobile ? 65.sp : 18.sp,
+                fontSize: context.isBrowserMobile ? 22.sp : 18.sp,
+              ),
+            ),
+            content: Text(
+              AppStrings.logOutConfirmBody,
+              style: regular(
+                color: AppColors.primary.withValues(alpha: 0.85),
+                fontSize: context.isBrowserMobile ? 18.sp : 14.sp,
+                height: 1.35,
               ),
             ),
             actions: [
               myActionButtonTheme(
-                onPressed: () {
-                  context.pop();
-                },
+                onPressed: () => context.pop(),
                 title: "Cancel",
               ),
               myActionButtonTheme(
@@ -193,11 +286,10 @@ class AccountScreen extends StatelessWidget {
                     onSuccess: () {
                       AppToast.success(
                         context: context,
-                        message: "Log Out Successfully",
+                        message: "Signed out successfully",
                       );
-                      final subscriptionProvider = context
-                          .read<SubscriptionProvider>();
-                      subscriptionProvider.activeSubscriptions.clear();
+                      context.read<SubscriptionProvider>().activeSubscriptions
+                          .clear();
                       context.goNamed(AppRoutes.onboardingScreen.name);
                     },
                     onFailed: (error) {
@@ -205,7 +297,8 @@ class AccountScreen extends StatelessWidget {
                     },
                   );
                 },
-                title: "Yes",
+                title: "Log out",
+                destructive: true,
               ),
             ],
           ),
@@ -217,13 +310,15 @@ class AccountScreen extends StatelessWidget {
   Widget myActionButtonTheme({
     required VoidCallback onPressed,
     required String title,
+    bool destructive = false,
   }) {
+    final isRed = destructive;
     return TextButton(
       onPressed: onPressed,
       child: Text(
         title,
         style: regular(
-          color: (title == "Yes") ? AppColors.red : AppColors.black,
+          color: isRed ? AppColors.red : AppColors.black,
           fontSize: 16.sp,
         ),
       ),
@@ -234,7 +329,9 @@ class AccountScreen extends StatelessWidget {
     required String title,
     required VoidCallback onTap,
     required BuildContext context,
+    bool destructive = false,
   }) {
+    final red = destructive || title == "Log Out";
     return OnMouseTap(
       onTap: onTap,
       child: Padding(
@@ -249,13 +346,13 @@ class AccountScreen extends StatelessWidget {
               title,
               style: semiBold(
                 fontSize: (context.isBrowserMobile) ? 32.sp : 18.sp,
-                color: (title == "Log Out") ? AppColors.red : null,
+                color: red ? AppColors.red : null,
               ),
             ),
             Icon(
               Icons.arrow_forward_ios_rounded,
               size: 16,
-              color: (title == "Log Out") ? AppColors.red : null,
+              color: red ? AppColors.red : null,
             ),
           ],
         ),

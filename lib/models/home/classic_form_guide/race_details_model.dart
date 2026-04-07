@@ -1,23 +1,3 @@
-// class RaceDetailsModel {
-//   factory RaceDetailsModel.fromJson(Map<String, dynamic> json) =>
-//       RaceDetailsModel(
-//         race: Race.fromJson(json["race"] as Map<String, dynamic>? ?? {}),
-//         // selections: List<Selection>.from(
-//         //   ((json["selections"] as List?) ??
-//         //               ((json["race"] as Map<String, dynamic>?)?["selections"]
-//         //                   as List?))
-//         //           ?.map(
-//         //             (x) =>
-//         //                 Selection.fromJson((x ?? {}) as Map<String, dynamic>),
-//         //           ) ??
-//         //       [],
-//         // ),
-//       );
-
-//   RaceDetailsModel({required this.race});
-//   Race race;
-//   // List<Selection> selections;
-// }
 
 class RaceDetails {
   RaceDetails({
@@ -82,6 +62,13 @@ class Selection {
     required this.number,
     required this.barrier,
     required this.horseName,
+    required this.horseSire,
+    required this.horseDam,
+    required this.horseAge,
+    required this.horseSex,
+    required this.horseColour,
+    required this.horseTotalPrizeMoney,
+    required this.horseLastWin,
     required this.jockeyName,
     required this.trainerName,
     required this.silksImage,
@@ -95,12 +82,19 @@ class Selection {
 
   factory Selection.fromJson(Map<String, dynamic> json) => Selection(
     selectionId: json["selectionId"] as int? ?? 0,
-    trackName: json["track_name"],
+    trackName: json["track_name"] as String? ?? '',
     number: json["number"] as int? ?? 0,
     barrier: json["barrier"] as int? ?? 0,
     horseName: json["horse_name"] as String? ?? '',
+    horseSire: json["horse_sire"] as String? ?? '',
+    horseDam: json["horse_dam"] as String? ?? '',
+    horseAge: json["horse_age"]?.toString() ?? '',
+    horseSex: json["horse_sex"] as String? ?? '',
+    horseColour: json["horse_colour"] as String? ?? '',
+    horseTotalPrizeMoney: json["horse_total_prize_money"]?.toString() ?? '',
+    horseLastWin: json["horse_last_win"] as String? ?? '',
     jockeyName: json["jockey_name"] as String? ?? '',
-    trainerName: json["trainer_name"],
+    trainerName: json["trainer_name"] as String? ?? '',
     silksImage: json["silks_image"] as String? ?? '',
     weight: (json["weight"] as num?)?.toDouble() ?? 0.0,
     oddsWin: (json["odds_win"] == null) ? "-" : json["odds_win"].toString(),
@@ -110,10 +104,22 @@ class Selection {
       (json["horse_stats"] ?? json["horseStats"]) as Map<String, dynamic>? ??
           {},
     ),
-    formHistory: json["form_history"],
+    formHistory: json["form_history"]?.toString() ?? '',
   );
   int selectionId, number, barrier;
-  String trackName, jockeyName, silksImage, horseName, trainerName, formHistory;
+  String trackName,
+      jockeyName,
+      silksImage,
+      horseName,
+      trainerName,
+      formHistory,
+      horseSire,
+      horseDam,
+      horseAge,
+      horseSex,
+      horseColour,
+      horseTotalPrizeMoney,
+      horseLastWin;
 
   double? weight;
   String? oddsWin;

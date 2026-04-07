@@ -73,4 +73,10 @@ class AuthApiService {
       EndPoints.logOut,
     );
   }
+
+  Future<Either<ApiException, Map<String, dynamic>>> deleteAccount() async {
+    return await BaseApiHelper.instance.delete<Map<String, dynamic>>(
+      EndPoints.deleteAccount,
+    );
+  }
 }

@@ -125,9 +125,10 @@ class PhoneCountryField extends StatelessWidget {
               borderRadius: BorderRadius.zero,
               child: Container(
                 decoration: BoxDecoration(
-                  border: Border.all(color: AppColors.primary.withValues(alpha: 0.35)),
+                  border: Border.all(
+                    color: AppColors.primary.withValues(alpha: 0.35),
+                  ),
                   borderRadius: BorderRadius.circular(3),
-
                 ),
                 margin: EdgeInsets.only(
                   right: 10.adaptiveSpacing(context),
@@ -190,7 +191,7 @@ class PhoneCountryFieldForAccount extends StatelessWidget {
     super.key,
     required this.provider,
     this.readOnly = false,
-    this.hintText = 'Mobile number',
+    this.hintText = 'Enter Phone',
     this.hintStyle,
   });
 
@@ -275,15 +276,16 @@ class PhoneCountryFieldForAccount extends StatelessWidget {
             hintStyle:
                 hintStyle ??
                 medium(
-                  fontSize: context.isBrowserMobile ? 28.sp : 14.sp,
+                  fontSize: (kIsWeb) ? 12.5 : 16.sp,
+
                   color: AppColors.primary.withValues(alpha: 0.5),
                 ),
             counterText: '',
             isDense: true,
             contentPadding: EdgeInsets.symmetric(
-              horizontal: 12.w,
-              vertical: 17.adaptiveSpacing(context),
-            ),
+            horizontal: 20,
+            vertical: 19,
+          ),
             filled: true,
             fillColor: AppColors.white,
             prefixIconConstraints: BoxConstraints(minWidth: 0, minHeight: 0),
@@ -292,7 +294,7 @@ class PhoneCountryFieldForAccount extends StatelessWidget {
               child: Text(
                 '+${country.phoneCode}',
                 style: medium(
-                  fontSize: context.isBrowserMobile ? 28.sp : 16.sp,
+                  fontSize: (kIsWeb) ? 12.5 : 16.sp,//context.isBrowserMobile ? 28.sp : 16.sp,
                   color: AppColors.primary.withValues(alpha: 0.8),
                 ),
               ),
@@ -321,15 +323,16 @@ class PhoneCountryFieldForAccount extends StatelessWidget {
                             Text(
                               country.flagEmoji,
                               style: TextStyle(
-                                fontSize: context.isBrowserMobile
-                                    ? 22.sp
-                                    : 18.sp,
+                                fontSize:17.fSize,
+                                //  context.isBrowserMobile
+                                //     ? 22.sp
+                                //     : 18.sp,
                               ),
                             ),
                             4.w.horizontalSpace,
                             Icon(
                               Icons.keyboard_arrow_down_rounded,
-                              size: context.isBrowserMobile ? 22.w : 18.w,
+                              size: 18.fSize,//context.isBrowserMobile ? 22.w : 18.w,
                               color: AppColors.primary.withValues(alpha: 0.7),
                             ),
                           ],
@@ -356,7 +359,7 @@ class PhoneCountryFieldForAccount extends StatelessWidget {
               borderSide: BorderSide(color: AppColors.red, width: 1.5),
             ),
             errorStyle: medium(
-              fontSize: context.isBrowserMobile ? 24.sp : 13.sp,
+              fontSize: (kIsWeb) ? 12 : 16.sp,
               color: AppColors.red,
             ),
           ),

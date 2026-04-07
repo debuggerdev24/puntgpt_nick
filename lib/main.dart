@@ -19,7 +19,10 @@ Future<void> main() async {
   runApp(ToastificationWrapper(child: const PuntGPTApp()));
 }
 /*
-
+1. removeChina
+2. account-delet api
+3. update age rating
+4. add EULA link
  
 http://192.168.1.100:5000
 flutter run --release -d web-server --web-port=5000 --web-hostname=0.0.0.0

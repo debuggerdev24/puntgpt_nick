@@ -102,11 +102,11 @@ class AppTextField extends StatelessWidget {
           hintStyle:
               hintStyle ??
               medium(
-                fontSize: 16.fSize,
+                fontSize: (kIsWeb) ? 12.5 : 16.sp,
                 color: AppColors.primary.withValues(alpha: 0.65),
               ),
           errorStyle:
-              errorStyle ?? medium(fontSize: 14.fSize, color: AppColors.red),
+              errorStyle ?? medium(fontSize: (kIsWeb) ? 12.5 : 16.sp, color: AppColors.red),
           errorMaxLines: 5,
           // error: _currentError == null
           //     ? null

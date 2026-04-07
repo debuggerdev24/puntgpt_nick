@@ -15,6 +15,8 @@ class EndPoints {
   static const String getSubscriptionPlans = "/subscription/subscription-plan/";
   static const String refreshToken = "/accounts/token/refresh/";
   static const String logOut = "/accounts/logout/";
+  
+  static const String deleteAccount = "/accounts/account-deletion/";
 
   //* horse-race section
   static String trackDetails = "/horse-race/track-displaying/";
