@@ -6,11 +6,9 @@ class TipSlipScreenWeb extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bodyWidth = context.isBrowserMobile
-        ? double.maxFinite
-        : context.isTablet
-        ? 1000.w
-        : 900.w;
+    // final bodyWidth = context.isBrowserMobile
+    //     ? double.maxFinite
+    //     : 700;
     // final twentyResponsive = context.isDesktop
     //     ? 20.sp
     //     : context.isTablet
@@ -38,63 +36,33 @@ class TipSlipScreenWeb extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: [
-          Center(
-            child: SizedBox(
-              width: bodyWidth,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  topBar(
-                    context: context,
-                    sixteenResponsive: sixteenResponsive,
-                  ),
+          SingleChildScrollView(
+            padding: EdgeInsets.symmetric(horizontal: (context.isMobileView) ? 0 : (context.isTablet) ? 100 : 200),
+            child: Column(
 
-                  tipSlipItem(
-                    sixteenResponsive: sixteenResponsive,
-                    context: context,
-                  ),
-                  tipSlipItem(
-                    sixteenResponsive: sixteenResponsive,
-                    context: context,
-                  ),
-                  tipSlipItem(
-                    sixteenResponsive: sixteenResponsive,
-                    context: context,
-                  ),
-                  tipSlipItem(
-                    sixteenResponsive: sixteenResponsive,
-                    context: context,
-                  ),
-                  200.h.verticalSpace,
-                  AppFilledButton(
-                    isExpand: !context.isBrowserMobile ? false : true,
-                    margin: EdgeInsets.symmetric(
-                      horizontal: (!context.isMobileView)
-                          ? 0
-                          : (context.isBrowserMobile)
-                          ? 35.w
-                          : 25.w,
-                    ),
-                    padding: EdgeInsets.symmetric(
-                      vertical: 12.h,
-                      horizontal: context.isDesktop
-                          ? 20.w
-                          : context.isTablet
-                          ? 28.w
-                          : 0,
-                    ),
-                    textStyle: semiBold(
-                      color: AppColors.white,
-                      fontSize: fourteenResponsive,
-                    ),
-                    text: "Take to Bookmaker",
-                    onTap: () {},
-                  ),
-                ],
-              ),
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                topBar(
+                  context: context,
+                ),
+            
+                tipSlipItem(
+                  context: context,
+                ),
+                tipSlipItem(
+                  context: context,
+                ),
+                tipSlipItem(
+                  context: context,
+                ),
+                tipSlipItem(
+                  context: context,
+                ),
+               SizedBox(height: 60),
+              ],
             ),
           ),
-          //todo askPuntGPT button website
+          //* askPuntGPT button website
           Align(
             alignment: Alignment.bottomRight,
             child: askPuntGPTButtonWeb(context: context),
@@ -106,31 +74,23 @@ class TipSlipScreenWeb extends StatelessWidget {
 
   Widget topBar({
     required BuildContext context,
-    required double sixteenResponsive,
+
   }) {
     double horizontalPadding = (!context.isMobileView)
         ? 0
-        : (context.isBrowserMobile)
-        ? 35.w
-        : 25.w;
-    double topPadding = (kIsWeb && !context.isMobileView) ? 70.h : 22.h;
+        : 18;
+
     return Column(
       children: [
         Padding(
           padding: EdgeInsets.only(
-            top: topPadding,
-            bottom: 22.h,
+            top: (!context.isMobileView) ? 75 : 13,
+            bottom: 14,
             left: horizontalPadding,
             right: horizontalPadding,
           ),
           child: Row(
-            spacing: context.isDesktop
-                ? 14.w
-                : context.isTablet
-                ? 22.w
-                : (context.isBrowserMobile)
-                ? 26.w
-                : 14.w,
+            spacing: 14,
             children: [
               Padding(
                 padding: EdgeInsets.only(
@@ -146,99 +106,58 @@ class TipSlipScreenWeb extends StatelessWidget {
                   },
                   child: Icon(
                     Icons.arrow_back_ios_rounded,
-                    size: context.isDesktop
-                        ? 16.w
-                        : context.isTablet
-                        ? 25.w
-                        : (context.isBrowserMobile)
-                        ? 40.w
-                        : 18.w,
+                    size: 14,
                   ),
                 ),
               ),
               Text(
                 "Tip Slip",
                 style: regular(
-                  fontSize: context.isDesktop
-                      ? 24.sp
-                      : context.isTablet
-                      ? 38.sp
-                      : (context.isBrowserMobile)
-                      ? 50.sp
-                      : 24.sp,
+                  fontSize: 22,
                   fontFamily: AppFontFamily.secondary,
-                  height: 1.35,
+                  height: 1,
                 ),
               ),
-              25.h.verticalSpace,
+              SizedBox(width: 25),
             ],
           ),
         ),
         horizontalDivider(),
-        24.h.verticalSpace,
+        SizedBox(height: 20),
       ],
     );
   }
 
   Widget tipSlipItem({
-    required double sixteenResponsive,
     required BuildContext context,
   }) {
     double horizontalPadding = (!context.isMobileView)
         ? 0
-        : (context.isBrowserMobile)
-        ? 35.w
-        : 25.w;
+        : 20;
     return Container(
       margin: EdgeInsets.only(
-        bottom: 8.h,
+        bottom: 10,
         left: horizontalPadding,
         right: horizontalPadding,
       ),
       padding: EdgeInsets.symmetric(
-        vertical: context.isDesktop
-            ? 12.h
-            : context.isTablet
-            ? 10.h
-            : 8.h,
-        horizontal: context.isDesktop
-            ? 12.w
-            : context.isTablet
-            ? 18.w
-            : (context.isBrowserMobile)
-            ? 24.w
-            : 12.w,
+        vertical: 12,
+        horizontal: 12,
       ),
 
       decoration: BoxDecoration(border: Border.all(color: AppColors.primary)),
       child: Row(
         children: [
-          //todo -----------> check box
+          //* -----------> check box
           AnimatedContainer(
             duration: const Duration(milliseconds: 250),
             margin: EdgeInsets.only(
-              right: (context.isDesktop)
-                  ? 16.w
-                  : (context.isTablet)
-                  ? 18.w
-                  : 20.w,
+              right: 16,
             ),
             curve: Curves.easeInOut,
 
-            width: (context.isDesktop)
-                ? 24.w
-                : context.isTablet
-                ? 32.w
-                : (context.isBrowserMobile)
-                ? 38.w
-                : 24.w,
-            height: (context.isDesktop)
-                ? 24.w
-                : context.isTablet
-                ? 32.w
-                : (context.isBrowserMobile)
-                ? 38.w
-                : 24.w,
+            width: 22,
+            height: 22,
             // width: (kIsWeb) ? 40.w : 22.w,
             // height: (kIsWeb) ? 40.w : 22.w,
             decoration: BoxDecoration(
@@ -248,23 +167,16 @@ class TipSlipScreenWeb extends StatelessWidget {
             child: Icon(
               Icons.check_rounded,
               color: Colors.white,
-              size: context.isDesktop
-                  ? 17.w
-                  : context.isTablet
-                  ? 25.w
-                  : (context.isBrowserMobile)
-                  ? 33.sp
-                  : 17.sp,
+              size: 16,
             ),
           ),
-
           // 15.w.horizontalSpace,
-          //todo -----------> title
-          Text("8. Delicacy", style: semiBold(fontSize: sixteenResponsive)),
-          10.horizontalSpace,
+          //* -----------> title
+          Text("8. Delicacy", style: semiBold(fontSize: 15)),
+          SizedBox(width: 10),
           Icon(Icons.keyboard_arrow_down_rounded),
           Spacer(),
-          Text("\$8.50", style: bold(fontSize: sixteenResponsive)),
+          Text("\$8.50", style: bold(fontSize: 15)),
         ],
       ),
     );

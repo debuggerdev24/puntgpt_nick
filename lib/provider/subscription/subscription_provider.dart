@@ -18,7 +18,9 @@ import 'package:url_launcher/url_launcher.dart';
 class SubscriptionProvider extends ChangeNotifier {
   SubscriptionPlanModel? currentPlan;
   SubscriptionEnum? tier;
-  final Set<SubscriptionEnum> activeSubscriptions = {};
+  final Set<SubscriptionEnum> activeSubscriptions = {
+    SubscriptionEnum.monthlyPlan,
+  };
 
   bool _isSubscriptionProcessing = false;
   bool get isSubscriptionProcessing => _isSubscriptionProcessing;
@@ -424,7 +426,7 @@ class SubscriptionProvider extends ChangeNotifier {
       final ctx = _shellContextForStartup();
       if (ctx == null || !ctx.mounted) return;
 
-      await AppStartupCoordinator.run(
+      await AppStartupCoordinator.checkSubscriptionStatus(
         context: ctx,
         callRestore: false,
         shouldCallAllContent: !_silentSubscriptionFlow,

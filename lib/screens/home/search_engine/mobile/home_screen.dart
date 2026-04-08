@@ -59,10 +59,12 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
             }
             return Column(
               children: [
+                //* ---------------> bookie stories section
                 BookieStoriesSection(horizontalPadding: 18.w),
 
+                //* ---------------> home screen tab
                 Padding(
-                  padding: EdgeInsets.fromLTRB(25.w, 8.w, 25.w, 0),
+                  padding: EdgeInsets.fromLTRB(20.w, 14.w, 20.w, 0),
                   child: HomeScreenTab(selectedIndex: provider.selectedTab),
                 ),
                 16.w.verticalSpace,

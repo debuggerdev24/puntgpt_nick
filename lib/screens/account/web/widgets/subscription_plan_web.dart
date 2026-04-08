@@ -27,20 +27,20 @@ class SubscriptionPlanWeb extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final twentyResponsive = context.isDesktop
-        ? 20.sp
-        : context.isTablet
-        ? 27.5.sp
-        : context.isBrowserMobile
-        ? 36.sp
-        : 20.sp;
-    final fourteenResponsive = context.isDesktop
-        ? 14.sp
-        : context.isTablet
-        ? 21.5.sp
-        : context.isBrowserMobile
-        ? 26.sp
-        : 14.sp;
+    // final twentyResponsive = context.isDesktop
+    //     ? 20.sp
+    //     : context.isTablet
+    //     ? 27.5.sp
+    //     : context.isBrowserMobile
+    //     ? 36.sp
+    //     : 20.sp;
+    // final fourteenResponsive = context.isDesktop
+    //     ? 14.sp
+    //     : context.isTablet
+    //     ? 21.5.sp
+    //     : context.isBrowserMobile
+    //     ? 26.sp
+    //     : 14.sp;
     double subscriptionBoxWidth = context.isDesktop ? 340.w : 510.w;
 
     return Column(

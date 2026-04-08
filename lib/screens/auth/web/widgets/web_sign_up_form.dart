@@ -9,15 +9,6 @@ class WebSignUpForm extends StatelessWidget {
 
   final GlobalKey<FormState> formKey;
 
-  static TextStyle get _hintStyle => medium(
-        fontSize: 16,
-        color: AppColors.primary.setOpacity(0.4),
-      );
-
-  static TextStyle get _errorStyle => medium(
-        fontSize: 14,
-        color: AppColors.red,
-      );
 
   @override
   Widget build(BuildContext context) {
@@ -28,8 +19,6 @@ class WebSignUpForm extends StatelessWidget {
 
     return Consumer<AuthProvider>(
       builder: (context, provider, _) {
-        final hint = _hintStyle;
-        final err = _errorStyle;
 
         return Center(
           child: ConstrainedBox(
@@ -51,8 +40,6 @@ class WebSignUpForm extends StatelessWidget {
                               RegExp(r'[a-zA-Z]'),
                             ),
                           ],
-                          hintStyle: hint,
-                          errorStyle: err,
                           validator: (value) =>
                               FieldValidators().required(value, "First Name"),
                         ),
@@ -66,9 +53,7 @@ class WebSignUpForm extends StatelessWidget {
                             FilteringTextInputFormatter.allow(
                               RegExp(r'[a-zA-Z]'),
                             ),
-                          ],
-                          hintStyle: hint,
-                          errorStyle: err,
+                          ],    
                           validator: (value) =>
                               FieldValidators().required(value, "Last Name"),
                         ),
@@ -78,9 +63,7 @@ class WebSignUpForm extends StatelessWidget {
                   colGap,
                   AppTextFieldDropdown(
                     items: states,
-                    hintText: 'State',
-                    hintStyle: hint,
-                    errorStyle: err,
+                    hintText: 'State',  
                     onChange: (value) => provider.selectedState = value,
                     selectedValue: provider.selectedState,
                     validator: (value) =>
@@ -90,15 +73,11 @@ class WebSignUpForm extends StatelessWidget {
                   AppTextField(
                     controller: provider.addressLine1Ctr,
                     hintText: "Address Line 1 (Optional)",
-                    hintStyle: hint,
-                    errorStyle: err,
                   ),
                   colGap,
                   AppTextField(
                     controller: provider.addressLine2Ctr,
                     hintText: "Address Line 2 (Optional)",
-                    hintStyle: hint,
-                    errorStyle: err,
                   ),
                   colGap,
                   Row(
@@ -108,8 +87,6 @@ class WebSignUpForm extends StatelessWidget {
                         child: AppTextField(
                           controller: provider.suburbCtr,
                           hintText: "Suburb (Optional)",
-                          hintStyle: hint,
-                          errorStyle: err,
                         ),
                       ),
                       rowGap.horizontalSpace,
@@ -122,8 +99,6 @@ class WebSignUpForm extends StatelessWidget {
                             FilteringTextInputFormatter.digitsOnly,
                             LengthLimitingTextInputFormatter(4),
                           ],
-                          hintStyle: hint,
-                          errorStyle: err,
                           validator: (value) {
                             if ((value ?? "").trim().isEmpty) return null;
                             return FieldValidators().lengthValidator(value, 4);
@@ -140,8 +115,6 @@ class WebSignUpForm extends StatelessWidget {
                         child: AppTextField(
                           controller: provider.emailCtr,
                           hintText: "Email",
-                          hintStyle: hint,
-                          errorStyle: err,
                           validator: FieldValidators().email,
                         ),
                       ),
@@ -149,7 +122,6 @@ class WebSignUpForm extends StatelessWidget {
                       Expanded(
                         child: PhoneCountryField(
                           provider: provider,
-                          hintStyle: hint,
                         ),
                       ),
                     ],
@@ -158,8 +130,6 @@ class WebSignUpForm extends StatelessWidget {
                   AppTextField(
                     controller: provider.passwordCtr,
                     hintText: "Password",
-                    hintStyle: hint,
-                    errorStyle: err,
                     obscureText: provider.showSignUpPass,
                     validator: FieldValidators().password,
                     trailingIcon: provider.showSignUpPass
@@ -172,8 +142,6 @@ class WebSignUpForm extends StatelessWidget {
                   AppTextField(
                     controller: provider.confirmPasswordCtr,
                     hintText: "Confirm Password",
-                    hintStyle: hint,
-                    errorStyle: err,
                     obscureText: provider.showConfirmPass,
                     validator: (value) {
                       if (value!.isNotEmpty) {
@@ -182,7 +150,6 @@ class WebSignUpForm extends StatelessWidget {
                           return "Confirm Password should match with Original Password!";
                         }
                       }
-        
                       return FieldValidators().required(
                         value,
                         "Confirm Password",

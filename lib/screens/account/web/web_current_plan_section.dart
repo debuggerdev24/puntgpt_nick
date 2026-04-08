@@ -7,8 +7,8 @@ class CurrentPlanSectionWeb extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final fourteenResponsive = context.isDesktop ? 14.sp : 22.sp;
-    double subscriptionBoxWidth = context.isDesktop ? 340.w : 510.w;
+    // final fourteenResponsive = context.isDesktop ? 14.sp : 22.sp;
+    // double subscriptionBoxWidth = context.isDesktop ? 340.w : 510.w;
 
     return Consumer<SubscriptionProvider>(
       builder: (context, provider, child) {
@@ -32,7 +32,7 @@ class CurrentPlanSectionWeb extends StatelessWidget {
                       22.w.verticalSpace,
                       Text(
                         "Current Plan : ",
-                        style: bold(fontSize: fourteenResponsive),
+                        style: bold(fontSize: 14),
                       ),
                       12.w.verticalSpace,
                       if (currentPlan != null)
@@ -49,32 +49,32 @@ class CurrentPlanSectionWeb extends StatelessWidget {
                           ),
                         ),
 
-                      //todo renew button
+                      //* renew button
                       AppFilledButton(
-                        margin: EdgeInsets.only(top: 20.w),
+                        margin: EdgeInsets.only(top: 20),
                         text: "Renew",
-                        width: subscriptionBoxWidth,
+                        width: 340,
                         textStyle: bold(
-                          fontSize: fourteenResponsive,
+                          fontSize: 14,
 
                           color: AppColors.white,
                         ),
                         onTap: () {},
                       ),
-                      //todo change plan button
+                      //* change plan button
                       AppOutlinedButton(
                         text: "Change Plan",
                         margin: EdgeInsets.symmetric(vertical: 10.w),
-                        width: subscriptionBoxWidth,
-                        textStyle: bold(fontSize: fourteenResponsive),
+                        width: 340,
+                        textStyle: bold(fontSize: 14),
                         onTap: () {},
                       ),
 
-                      //todo cancel button
+                      //* cancel button
                       AppOutlinedButton(
                         text: "Cancel",
-                        width: subscriptionBoxWidth,
-                        textStyle: bold(fontSize: fourteenResponsive),
+                        width: 340,
+                        textStyle: bold(fontSize: 14),
                         onTap: () {},
                       ),
                     ],

@@ -60,7 +60,8 @@ class _AccountScreenWebState extends State<AccountScreenWeb> {
       backgroundColor: Color(0xffFAFAFA),
       body: Stack(
         children: [
-          Center(
+          Align(
+            alignment: Alignment.topCenter,
             child: SizedBox(
               width: bodyWidth,
               child: Consumer2<AccountProvider, SubscriptionProvider>(

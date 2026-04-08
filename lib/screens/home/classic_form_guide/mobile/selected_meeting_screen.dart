@@ -346,6 +346,7 @@ class _RaceDetailsState extends State<RaceDetails> {
       separatorBuilder: (_, __) => 10.w.verticalSpace,
       itemBuilder: (context, index) {
         final selection = selections[index];
+        print(selection.horseSex);
         final isExpanded = safeExpandedIndex == index;
         return _selectionCard(
           context: context,
@@ -527,7 +528,7 @@ Widget _selectionCard({
                       ],
                     ),
                   ),
-                  14.w.horizontalSpace,
+
                   Expanded(
                     child: Column(
                       spacing: 6.w,
@@ -548,15 +549,73 @@ Widget _selectionCard({
               duration: const Duration(milliseconds: 250),
               curve: Curves.easeInOut,
               alignment: Alignment.topCenter,
+              //* triggering the expanded stats content
               child: isExpanded
                   ? Padding(
                       padding: EdgeInsets.only(top: 10.w),
                       child: Column(
                         children: [
                           horizontalDivider(),
+
                           10.w.verticalSpace,
+                          //* Sire, Colour, Dam, Age/Sex
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Expanded(
+                                child: Column(
+                                  spacing: 4.w,
+                                  children: [
+                                    labelValue(
+                                      label: 'Sire',
+                                      value: selection.horseSire,
+                                    ),
+                                    labelValue(
+                                      label: 'Colour',
+                                      value: selection.horseColour,
+                                    ),
+                                  ],
+                                ),
+                              ),
+
+                              Expanded(
+                                child: Column(
+                                  spacing: 4.w,
+                                  children: [
+                                    labelValue(
+                                      label: 'Dam',
+                                      value: selection.horseDam,
+                                    ),
+                                    labelValue(
+                                      label: 'Age/Sex',
+                                      value:
+                                          "${selection.horseAge} yo",
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Expanded(
+                                child: Column(
+                                  spacing: 4.w,
+                                  children: [
+                                    labelValue(
+                                      label: 'Prize',
+                                      value: selection.horseTotalPrizeMoney,
+                                    ),
+                                    labelValue(
+                                      label: 'Sex',
+                                      value: selection.horseSex,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                          10.w.verticalSpace,
+                          //* Career, 1st Up, 2nd Up, 3rd Up, Firm, Good, Soft, Heavy
                           _ExpandedStatsContent(selection: selection),
                           12.w.verticalSpace,
+                          //* Add to Tip Slip button
                           SizedBox(
                             width: double.infinity,
                             child: AppFilledButton(
@@ -728,28 +787,28 @@ class _ExpandedStatsContent extends StatelessWidget {
     return '$runs : $wins-$seconds-$thirds';
   }
 
-  static String _dashIfEmpty(String s) {
-    final t = s.trim();
-    return t.isEmpty ? '—' : t;
-  }
+  // static String _dashIfEmpty(String s) {
+  //   final t = s.trim();
+  //   return t.isEmpty ? '—' : t;
+  // }
 
-  static String _formatPrize(String raw) {
-    final t = raw.trim();
-    if (t.isEmpty) return '—';
-    if (t.startsWith(r'$')) return t;
-    return '\$$t';
-  }
+  // static String _formatPrize(String raw) {
+  //   final t = raw.trim();
+  //   if (t.isEmpty) return '—';
+  //   if (t.startsWith(r'$')) return t;
+  //   return '\$$t';
+  // }
 
   @override
   Widget build(BuildContext context) {
     final hs = selection.horseStats;
     final tiles = <MapEntry<String, String>>[
-      MapEntry('Sire', _dashIfEmpty(selection.horseSire)),
-      MapEntry('Dam', _dashIfEmpty(selection.horseDam)),
-      MapEntry('Prize', _formatPrize(selection.horseTotalPrizeMoney)),
-      MapEntry('Colour', _dashIfEmpty(selection.horseColour)),
-      MapEntry('Age', _dashIfEmpty(selection.horseAge)),
-      MapEntry('Sex', _dashIfEmpty(selection.horseSex)),
+      // MapEntry('Sire', _dashIfEmpty(selection.horseSire)),
+      // MapEntry('Dam', _dashIfEmpty(selection.horseDam)),
+      // MapEntry('Prize', _formatPrize(selection.horseTotalPrizeMoney)),
+      // MapEntry('Colour', _dashIfEmpty(selection.horseColour)),
+      // MapEntry('Age', _dashIfEmpty(selection.horseAge)),
+      // MapEntry('Sex', _dashIfEmpty(selection.horseSex)),
       MapEntry('Career', _formatStat(hs.career)),
       MapEntry('1st Up', _formatStat(hs.firstUp)),
       MapEntry('2nd Up', _formatStat(hs.secondUp)),

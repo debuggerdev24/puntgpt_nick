@@ -233,7 +233,7 @@ class PunterClubScreen extends StatelessWidget {
                   style: regular(
                     fontSize: (context.isBrowserMobile) ? 38.sp : 24.sp,
                     fontFamily: AppFontFamily.secondary,
-                    height: 1,
+                    height: 1.26,
                   ),
                 ),
                 Text(
@@ -241,7 +241,7 @@ class PunterClubScreen extends StatelessWidget {
                   style: semiBold(
                     fontSize: (context.isBrowserMobile) ? 28.sp : 14.sp,
                     color: AppColors.primary.withValues(alpha: 0.6),
-                    height: 1.3,
+                    height: 1.15,
                   ),
                 ),
               ],

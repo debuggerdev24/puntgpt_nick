@@ -3,8 +3,6 @@ import 'package:puntgpt_nick/core/constants/app_strings.dart';
 import 'package:puntgpt_nick/models/home/search_engine/bookie_story_item.dart';
 import 'package:puntgpt_nick/screens/home/search_engine/widgets/bookie_story_viewer.dart';
 
-/// Home row: safe-gambling line + round avatars. Tap opens full-screen story.
-/// Black ring = not opened yet; grey ring = already viewed this session.
 class BookieStoriesSection extends StatefulWidget {
   const BookieStoriesSection({
     super.key,
@@ -31,10 +29,8 @@ class _BookieStoriesSectionState extends State<BookieStoriesSection> {
     final lastPageIndex = await Navigator.of(context).push<int>(
       MaterialPageRoute<int>(
         fullscreenDialog: true,
-        builder: (_) => BookieStoryViewer(
-          stories: list,
-          initialIndex: startIndex,
-        ),
+        builder: (_) =>
+            BookieStoryViewer(stories: list, initialIndex: startIndex),
       ),
     );
 
@@ -69,27 +65,25 @@ class _BookieStoriesSectionState extends State<BookieStoriesSection> {
             AppStrings.safeGamblingStoryBanner,
             textAlign: TextAlign.center,
             style: TextStyle(
-              fontSize: 10.sp,
+              fontSize: 13.sp,
               letterSpacing: 0.6,
               fontWeight: FontWeight.w700,
               height: 1.25,
               color: AppColors.primary.withValues(alpha: 0.75),
             ),
           ),
-          SizedBox(height: 10.h),
+          12.w.verticalSpace,
           SizedBox(
-            height: avatarSize + 22,
+            height: avatarSize ,//+22
             child: ListView.separated(
               scrollDirection: Axis.horizontal,
               padding: EdgeInsets.symmetric(horizontal: 4.w),
               itemCount: list.length,
-              separatorBuilder: (_, __) => SizedBox(width: 2.w),
+              separatorBuilder: (_, __) => SizedBox(width: 10.w),
 
               itemBuilder: (context, index) {
                 final story = list[index];
                 final isUnseen = !_seenStoryIds.contains(story.id);
-
-
                 return _StoryAvatar(
                   story: story,
                   size: avatarSize,
@@ -146,20 +140,20 @@ class _StoryAvatar extends StatelessWidget {
               child: Image.asset(story.avatarAsset, fit: BoxFit.cover),
             ),
           ),
-          SizedBox(height: 6.h),
-          SizedBox(
-            width: size + 8,
-            child: Text(
-              story.displayName,
-              textAlign: TextAlign.center,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: medium(
-                fontSize: nameFontSize,
-                color: AppColors.primary.withValues(alpha: 0.85),
-              ),
-            ),
-          ),
+          //   SizedBox(height: 6.h),
+          //   SizedBox(
+          //     width: size + 8,
+          //     child: Text(
+          //       story.displayName,
+          //       textAlign: TextAlign.center,
+          //       maxLines: 1,
+          //       overflow: TextOverflow.ellipsis,
+          //       style: medium(
+          //         fontSize: nameFontSize,
+          //         color: AppColors.primary.withValues(alpha: 0.85),
+          //       ),
+          //     ),
+          //   ),
         ],
       ),
     );

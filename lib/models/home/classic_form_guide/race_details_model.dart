@@ -1,4 +1,3 @@
-
 class RaceDetails {
   RaceDetails({
     required this.raceId,
@@ -30,7 +29,7 @@ class RaceDetails {
     trackType: json["track_type"] as String? ?? '',
     prizeMoney: json["prize_money"] as String? ?? '',
     stage: json["stage"] as String? ?? '',
-    trackCondition:json["track_condition"] ?? "-",
+    trackCondition: json["track_condition"] ?? "-",
     tipAnalysisText: json["tip_analysis_text"] as String? ?? '',
     tipsSourceBrand: json["tips_source_brand"] as String? ?? '',
     tipsSourceName: json["tips_source_name"] as String? ?? '',
@@ -51,7 +50,11 @@ class RaceDetails {
       tipAnalysisText,
       tipsSourceBrand,
       tipsSourceName,
-      tipsSourceImage,australianTime,trackType,prizeMoney,stage;
+      tipsSourceImage,
+      australianTime,
+      trackType,
+      prizeMoney,
+      stage;
   List<Selection> selections;
 }
 
@@ -78,6 +81,7 @@ class Selection {
     required this.tipPosition,
     required this.horseStats,
     required this.formHistory,
+    required this.history,
   });
 
   factory Selection.fromJson(Map<String, dynamic> json) => Selection(
@@ -89,7 +93,7 @@ class Selection {
     horseSire: json["horse_sire"] as String? ?? '',
     horseDam: json["horse_dam"] as String? ?? '',
     horseAge: json["horse_age"]?.toString() ?? '',
-    horseSex: json["horse_sex"] as String? ?? '',
+    horseSex: json["horse_sex"],
     horseColour: json["horse_colour"] as String? ?? '',
     horseTotalPrizeMoney: json["horse_total_prize_money"]?.toString() ?? '',
     horseLastWin: json["horse_last_win"] as String? ?? '',
@@ -105,6 +109,7 @@ class Selection {
           {},
     ),
     formHistory: json["form_history"]?.toString() ?? '',
+    history: (json["history"] as List).map((e) => History.fromJson(e)).toList(),
   );
   int selectionId, number, barrier;
   String trackName,
@@ -120,17 +125,13 @@ class Selection {
       horseColour,
       horseTotalPrizeMoney,
       horseLastWin;
-
   double? weight;
   String? oddsWin;
   bool isScratched;
   int? tipPosition;
   HorseStats horseStats;
+  List<History> history;
 }
-
-
-
-
 
 class HorseStats {
   HorseStats({
@@ -190,4 +191,76 @@ class HorseStatsDetails {
   double placePercentage, winPercentage, roi;
 }
 
+class History {
+  factory History.fromJson(Map<String, dynamic> json) => History(
+    date: DateTime.parse(json["date"]),
+    meetingName: json["meeting_name"],
+    trackName: json["track_name"],
+    trackState: json["track_state"],
+    raceNumber: json["race_number"],
+    raceName: json["race_name"],
+    distance: json["distance"],
+    trackCondition: json["track_condition"],
+    trackType: json["track_type"],
+    prizeMoney: json["prize_money"],
+    resultPosition: json["result_position"],
+    totalStarters: json["total_starters"],
+    margin: json["margin"],
+    weightCarried: json["weight_carried"],
+    startingPrice: json["starting_price"],
+    jockeyName: json["jockey_name"],
+    trainerName: json["trainer_name"],
+    barrier: json["barrier"],
+    winnerHorseName: json["winner_horse_name"],
+    secondHorseName: json["second_horse_name"],
+    thirdHorseName: json["third_horse_name"],
+    isTrial: json["is_trial"],
+    positionSummary: json["position_summary"],
+  );
 
+  History({
+    required this.date,
+    required this.meetingName,
+    required this.trackName,
+    required this.trackState,
+    required this.raceNumber,
+    required this.raceName,
+    required this.distance,
+    required this.trackCondition,
+    required this.trackType,
+    required this.prizeMoney,
+    required this.resultPosition,
+    required this.totalStarters,
+    required this.margin,
+    required this.weightCarried,
+    required this.startingPrice,
+    required this.jockeyName,
+    required this.trainerName,
+    required this.barrier,
+    required this.winnerHorseName,
+    required this.secondHorseName,
+    required this.thirdHorseName,
+    required this.isTrial,
+    required this.positionSummary,
+  });
+  DateTime date;
+  String? meetingName,
+      trackName,
+      trackState,
+      raceName,
+      margin,
+      weightCarried,
+      startingPrice,
+      jockeyName,
+      trainerName,
+      winnerHorseName,
+      secondHorseName,
+      thirdHorseName,
+      positionSummary,
+      trackCondition,
+      trackType,
+      prizeMoney;
+  int? raceNumber, distance, resultPosition, totalStarters, barrier;
+
+  bool isTrial;
+}

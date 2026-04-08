@@ -9,20 +9,20 @@ class PunterClubChatSectionWeb extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     
-    final twelveResponsive = context.isDesktop
-        ? 12.sp
-        : context.isTablet
-        ? 20.sp
-        : (context.isBrowserMobile)
-        ? 28.sp
-        : 12.sp;
-    final fourteenResponsive = context.isDesktop
-        ? 14.sp
-        : context.isTablet
-        ? 22.sp
-        : (context.isBrowserMobile)
-        ? 26.sp
-        : 14.sp;
+    // final twelveResponsive = context.isDesktop
+    //     ? 12.sp
+    //     : context.isTablet
+    //     ? 20.sp
+    //     : (context.isBrowserMobile)
+    //     ? 28.sp
+    //     : 12.sp;
+    // final fourteenResponsive = context.isDesktop
+    //     ? 14.sp
+    //     : context.isTablet
+    //     ? 22.sp
+    //     : (context.isBrowserMobile)
+    //     ? 26.sp
+    //     : 14.sp;
 
     return Consumer<AccountProvider>(
       builder: (context, provider, child) {
@@ -37,8 +37,8 @@ class PunterClubChatSectionWeb extends StatelessWidget {
                 ),
                 child: topBar(
                   context: context,
-                  twelveResponsive: twelveResponsive,
-                  fourteenResponsive: fourteenResponsive,
+                  // twelveResponsive: twelveResponsive,
+                  // fourteenResponsive: fourteenResponsive,
                 ),
               ),
               horizontalDivider(),
@@ -80,8 +80,8 @@ class PunterClubChatSectionWeb extends StatelessWidget {
 
   Widget topBar({
     required BuildContext context,
-    required double twelveResponsive,
-    required double fourteenResponsive,
+    // required double twelveResponsive,
+    // required double fourteenResponsive,
     // required double sixteenResponsive,
   }) {
     return Row(
@@ -101,7 +101,7 @@ class PunterClubChatSectionWeb extends StatelessWidget {
             Text(
               "11 members",
               style: semiBold(
-                fontSize: twelveResponsive,
+                fontSize: 10,
                 color: AppColors.primary.withValues(alpha: 0.6),
               ),
             ),
@@ -132,7 +132,7 @@ class PunterClubChatSectionWeb extends StatelessWidget {
               context.isDesktop ? 10.w.horizontalSpace : 20.w.horizontalSpace,
               Text(
                 "Add New Members",
-                style: semiBold(fontSize: fourteenResponsive),
+                style: semiBold(fontSize: 12),
               ),
             ],
           ),

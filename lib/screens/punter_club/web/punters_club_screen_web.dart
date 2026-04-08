@@ -56,18 +56,17 @@ class PunterClubScreenWebScreen extends StatelessWidget {
                   }
                   return Row(
                     children: [
-                      //todo ---------------> left panel
+                      //* ---------------> left panel
                       verticalDivider(),
                       SizedBox(
-                        width: context.isDesktop
-                            ? 312.w
-                            : context.isTablet
-                            ? 370.w
-                            : 512.w,
+                        width: 
+                        context.isDesktop
+                            ? 222
+                            : 190,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            //todo title
+                            //* title
                             Padding(
                               padding: EdgeInsets.symmetric(
                                 horizontal: context.isDesktop ? 26.w : 20.w,
@@ -183,7 +182,7 @@ class PunterClubScreenWebScreen extends StatelessWidget {
                         ),
                       ),
                       verticalDivider(),
-                      //todo ----------------> right panel
+                      //* ----------------> right panel
                       PunterClubChatSectionWeb(),
                       verticalDivider(),
                     ],

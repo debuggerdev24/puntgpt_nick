@@ -26,28 +26,39 @@ class PuntGptSearchEngineView extends StatelessWidget {
             padding: EdgeInsets.only(bottom: 100.w),
             child: Column(
               children: [
-                //* Saved Searches title
+                //* Tagline + Saved Searches (single row; tagline scales down if narrow)
                 Padding(
                   padding: EdgeInsets.fromLTRB(
                     bodyHorizontalPadding,
-
                     0,
                     bodyHorizontalPadding,
-                    20.w,
+                    14.w,
                   ),
                   child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    // mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Expanded(
-                        child: Text(
-                          "Search for a horse that meets your criteria:",
-                          style: bold(
-                            fontSize: (context.isBrowserMobile) ? 36.sp : 16.sp,
-                            height: 1.2,
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: FittedBox(
+                            fit: BoxFit.scaleDown,
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              "Filter through form your way",
+                              maxLines: 1,
+                              softWrap: false,
+                              style: semiBold(
+                                fontSize: (context.isBrowserMobile)
+                                    ? 28.sp
+                                    : 15.sp,
+                                height: 1.15,
+                                color: AppColors.black,
+                              ),
+                            ),
                           ),
                         ),
                       ),
+                      10.w.horizontalSpace,
                       OnMouseTap(
                         onTap: () {
                           context.pushNamed(
@@ -61,40 +72,48 @@ class PuntGptSearchEngineView extends StatelessWidget {
                             provider.getAllSaveSearch();
                           }
                         },
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            ImageWidget(
-                              type: ImageType.svg,
-                              path: AppAssets.bookmark,
-                              height: 16.w.flexClamp(14, 18),
-                            ),
-                            5.w.horizontalSpace,
-                            Text(
-                              "Saved Searches",
-                              style: bold(
-                                fontSize: (context.isBrowserMobile)
-                                    ? 36.sp
-                                    : 16.sp,
-                                decoration: TextDecoration.underline,
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(vertical: 4.w),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              ImageWidget(
+                                type: ImageType.svg,
+                                path: AppAssets.bookmark,
+                                height: 16.w.flexClamp(14, 18),
+                                color: AppColors.primary,
                               ),
-                            ),
-                          ],
+                              6.w.horizontalSpace,
+                              Text(
+                                "Saved Searches",
+                                overflow: TextOverflow.ellipsis,
+                                style: semiBold(
+                                  fontSize: (context.isBrowserMobile)
+                                      ? 26.sp
+                                      : 14.sp,
+                                  color: AppColors.primary,
+                                  decoration: TextDecoration.underline,
+                                  decorationColor: AppColors.primary,
+                                  height: 1.1,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ],
                   ),
                 ),
-               //* Race Start Timing Options (Jumps within 10 minutes) 
-               RaceStartTimingOptions(),
-               
+                //* Race Start Timing Options (Jumps within 10 minutes)
+                RaceStartTimingOptions(),
+
                 //* Search Fields
                 SearchFields(providerh: provider),
 
                 //* Search Button
                 IntrinsicWidth(
                   child: AppFilledButton(
-                    margin: EdgeInsets.only(left: 24.w,right: 24.w,top: 20.w),
+                    margin: EdgeInsets.only(left: 24.w, right: 24.w, top: 20.w),
                     text: "Search",
                     textStyle: semiBold(
                       fontSize: 16.sixteenSp(context),

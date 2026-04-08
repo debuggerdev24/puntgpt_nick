@@ -17,7 +17,7 @@ class AppStartupCoordinator {
     await subsProvider.initialize(context: context);
     await subsProvider.getSubscriptionPlans();
 
-    await run(context: context);
+    await checkSubscriptionStatus(context: context);
     await loadContent(context: context);
   }
 
@@ -32,11 +32,12 @@ class AppStartupCoordinator {
       searchEngineProvider.getDistanceDetails(),
       searchEngineProvider.getBarrierDetails(),
       puntClubProvider.getNotifications(),
+      puntClubProvider.getChatGroups(),
       searchEngineProvider.getAllTipSlips(),
     ]);
   }
 
-  static Future<void> run({
+  static Future<void> checkSubscriptionStatus({
     required BuildContext context,
     bool? callRestore,
     bool? shouldCallAllContent,

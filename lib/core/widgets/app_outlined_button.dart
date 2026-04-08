@@ -33,7 +33,7 @@ class AppOutlinedButton extends StatelessWidget {
         onTap: onTap,
         child: Container(
           margin: margin,
-                    padding: padding ?? EdgeInsets.symmetric(vertical: 10.h, horizontal: 15.w),
+          padding: EdgeInsets.symmetric(vertical: 12.wSize, horizontal: 15.w),
 
           height: height,
           width: (width == null)
