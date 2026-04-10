@@ -118,7 +118,12 @@ class PuntClubProvider extends ChangeNotifier {
     final type = (e['type'] ?? '').toString();
     switch (type) {
       case 'message':
-        chatMessages!.add(ClubChatMessageModel.fromJson(e));
+        final m = ClubChatMessageModel.fromJson(e);
+        chatMessages ??= [];
+        chatMessages!.add(m);
+        if (!isMyMessage(m)) {
+          getChatGroups();
+        }
         break;
       case 'message_edited':
         _handleMessageEdited(e);
@@ -333,7 +338,7 @@ class PuntClubProvider extends ChangeNotifier {
 
   //* get chat groups
   Future<void> getChatGroups() async {
-    chatGroupsList = null;
+
     notifyListeners();
     final response = await PuntClubApiService.instance.getChatGroups();
     response.fold(

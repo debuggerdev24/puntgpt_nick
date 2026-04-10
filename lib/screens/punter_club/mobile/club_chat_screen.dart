@@ -87,11 +87,12 @@ class _GroupChatScreenState extends State<GroupChatScreen> {
         if (didPop) return;
         if (_selectedMessageId != null) {
           setState(() => _selectedMessageId = null);
+          context.read<PuntClubProvider>().disconnectChat();
         }
       },
       child: Consumer<PuntClubProvider>(
         builder: (context, provider, child) {
-          // Connect to chat once when we have groupId (avoids infinite loop from notifyListeners → rebuild → callback)
+          //* Connect to chat once when we have groupId (avoids infinite loop from notifyListeners → rebuild → callback)
           if (!_hasInitiatedChat) {
             final gid = provider.selectedGroupId ?? provider.groupId;
             if (gid.isNotEmpty) {

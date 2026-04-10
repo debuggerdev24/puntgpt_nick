@@ -31,14 +31,14 @@ class ManageSubscriptionScreen extends StatelessWidget {
                     return GestureDetector(
                       onTap: () {
                         deBouncer.run(() {
-                          if (isGuest) {
-                            showGuestCreateAccountSheet(
-                              context,
-                              message:
-                                  AppStrings.guestManageSubscriptionMessage,
-                            );
-                            return;
-                          }
+                          // if (isGuest) {
+                          //   showGuestCreateAccountSheet(
+                          //     context,
+                          //     message:
+                          //         AppStrings.guestManageSubscriptionMessage,
+                          //   );
+                          //   return;
+                          // }
                           context.pushNamed(
                             (kIsWeb && context.isMobileView)
                                 ? WebRoutes.selectedPlanScreen.name
