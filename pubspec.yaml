@@ -36,6 +36,7 @@ dependencies:
   country_picker: ^2.0.27
   url_launcher: ^6.3.2
   flutter_slidable: ^4.0.3
+  better_player_plus: ^1.1.5
 
 dev_dependencies:
   flutter_test:
@@ -50,6 +51,7 @@ flutter:
     - assets/icons/
     - assets/images/
     - assets/gif/
+    - assets/videos/
     - .env
 
   fonts:

@@ -6,7 +6,7 @@ import 'package:puntgpt_nick/screens/home/search_engine/mobile/manage_saved_sear
 import 'package:puntgpt_nick/screens/home/search_engine/mobile/saved_search_screen.dart';
 import 'package:puntgpt_nick/screens/home/classic_form_guide/mobile/selected_meeting_screen.dart';
 import 'package:puntgpt_nick/screens/home/classic_form_guide/mobile/tips_and_analysis_screen.dart';
-import 'package:puntgpt_nick/screens/home/search_engine/mobile/runners_screen.dart';
+import 'package:puntgpt_nick/screens/home/search_engine/mobile/upcoming_runners_screen.dart';
 
 class HomeRoutes {
   static final List<RouteBase> routes = <RouteBase>[

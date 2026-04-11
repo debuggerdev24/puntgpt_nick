@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:puntgpt_nick/core/app_imports.dart';
+import 'package:puntgpt_nick/core/constants/app_strings.dart';
 import 'package:puntgpt_nick/main.dart';
 import 'package:puntgpt_nick/models/account/lifetime_member_model.dart';
 import 'package:puntgpt_nick/models/account/subscription_plan_model.dart';
@@ -220,6 +221,18 @@ class SubscriptionProvider extends ChangeNotifier {
       purchase.productID,
     );
     if (tier != null) {
+      if (isGuest) {
+        // addSubscription(tier);
+        if (purchase.pendingCompletePurchase) {
+          SubscriptionService.instance.completePurchase(purchase);
+        }
+        _isUserInitiatedPurchaseFlow = false;
+        setSubscriptionProcessStatus(status: false);
+        notifyListeners();
+        _showGuestPostPurchaseRegisterDialog();
+        return;
+      }
+
       final localData = purchase.verificationData.localVerificationData;
       final serverData = purchase.verificationData.serverVerificationData;
       final decoded = jsonDecode(localData);
@@ -274,6 +287,31 @@ class SubscriptionProvider extends ChangeNotifier {
       setSubscriptionProcessStatus(status: false);
       notifyListeners();
     }
+  }
+
+  void _showGuestPostPurchaseRegisterDialog() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final ctx = AppRouter.rootNavigatorKey.currentContext;
+      if (ctx == null || !ctx.mounted) return;
+      showDialog<void>(
+        context: ctx,
+        builder: (dialogContext) => AlertDialog(
+          content: Text(
+            AppStrings.guestPostPurchaseRegisterMessage,
+            style: regular(fontSize: 16.sp),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(dialogContext).pop(),
+              child: Text(
+                'OK',
+                style: semiBold(fontSize: 16.sp, color: AppColors.primary),
+              ),
+            ),
+          ],
+        ),
+      );
+    });
   }
 
   void _handlePurchaseStatusCanceled(PurchaseDetails purchase) {
@@ -450,8 +488,11 @@ class SubscriptionProvider extends ChangeNotifier {
     required int planId,
     Function(String error)? onFailed,
     Function(String appAccountToken)? onSuccess,
+    VoidCallback? onAlreadySubscribed,
     bool silent = false,
   }) async {
+   
+   
     if (!silent) {
       setSubscriptionProcessStatus(status: true);
       Logger.info("Subscription restored successfully.");

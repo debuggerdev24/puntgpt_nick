@@ -13,6 +13,11 @@ class ClassicFormProvider extends ChangeNotifier {
   int selectedRace = 0;
   // int selectedSubNavIndex = 0;
   List<ClassicFormModel>? _classicFormGuideList;
+  /// Set when API returns grouped `data` (`metro` / `regional` / `trial`). Null when API returns a flat list (legacy).
+  List<ClassicFormModel>? _classicFormMetro;
+  List<ClassicFormModel>? _classicFormRegional;
+  List<ClassicFormModel>? _classicFormTrial;
+
   MeetingDetailsModel? _meetingRaceList;
   RaceDetails? _raceFieldDetail;
   TipsAnalysisModel? _tipsAndAnalysis;
@@ -25,6 +30,21 @@ class ClassicFormProvider extends ChangeNotifier {
   ];
 
   List<ClassicFormModel>? get classicFormGuide => _classicFormGuideList;
+
+  /// Non-null only when the classic form API sent meetings grouped by category.
+  bool get classicFormGuideIsGrouped =>
+      _classicFormMetro != null &&
+      _classicFormRegional != null &&
+      _classicFormTrial != null;
+
+  List<ClassicFormModel> get classicFormMetroMeetings =>
+      _classicFormMetro ?? const [];
+
+  List<ClassicFormModel> get classicFormRegionalMeetings =>
+      _classicFormRegional ?? const [];
+
+  List<ClassicFormModel> get classicFormTrialMeetings =>
+      _classicFormTrial ?? const [];
   MeetingDetailsModel? get raceList => _meetingRaceList;
   List<NextRaceModel> get nextRaceList => _nextRaceList ?? [];
   RaceDetails? get raceDetails => _raceFieldDetail;
@@ -103,6 +123,9 @@ class ClassicFormProvider extends ChangeNotifier {
   //* Get classic form guide
   Future<void> getClassicFormGuide() async {
     _classicFormGuideList = null;
+    _classicFormMetro = null;
+    _classicFormRegional = null;
+    _classicFormTrial = null;
     notifyListeners();
     final response = await ClassicFormAPIService.instance.getClassicForm(
       jumpFilter: days[selectedDay].name,
@@ -112,13 +135,46 @@ class ClassicFormProvider extends ChangeNotifier {
         Logger.error(l.errorMsg);
       },
       (r) {
-        final data = r["data"];
-        _classicFormGuideList = (data as List)
-            .map((e) => ClassicFormModel.fromJson(e))
-            .toList();
+        _applyClassicFormResponseData(r["data"]);
       },
     );
     notifyListeners();
+  }
+
+  /// Supports a flat `List` of meetings (legacy) or `{ metro, regional, trial }`.
+  void _applyClassicFormResponseData(dynamic data) {
+    if (data is List) {
+      _classicFormMetro = null;
+      _classicFormRegional = null;
+      _classicFormTrial = null;
+      _classicFormGuideList = _parseMeetingMapList(data);
+      return;
+    }
+    if (data is Map) {
+      final map = Map<String, dynamic>.from(data);
+      final metro = _parseMeetingMapList(map['metro']);
+      final regional = _parseMeetingMapList(map['regional']);
+      final trial = _parseMeetingMapList(map['trial']);
+      _classicFormMetro = metro;
+      _classicFormRegional = regional;
+      _classicFormTrial = trial;
+      _classicFormGuideList = [...metro, ...regional, ...trial];
+      return;
+    }
+    _classicFormGuideList = null;
+  }
+
+  static List<ClassicFormModel> _parseMeetingMapList(dynamic raw) {
+    if (raw is! List) return [];
+    final out = <ClassicFormModel>[];
+    for (final item in raw) {
+      if (item is Map<String, dynamic>) {
+        out.add(ClassicFormModel.fromJson(item));
+      } else if (item is Map) {
+        out.add(ClassicFormModel.fromJson(Map<String, dynamic>.from(item)));
+      }
+    }
+    return out;
   }
 
   //* Get next to go

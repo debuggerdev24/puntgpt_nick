@@ -1,4 +1,5 @@
 import 'package:puntgpt_nick/core/app_imports.dart';
+import 'package:puntgpt_nick/main.dart';
 import 'package:puntgpt_nick/models/account/subscription_plan_model.dart';
 import 'package:puntgpt_nick/provider/subscription/subscription_provider.dart';
 import 'package:puntgpt_nick/screens/account/mobile/widgets/subscription_plan.dart';
@@ -45,7 +46,6 @@ class SelectedPlanScreen extends StatelessWidget {
     );
   }
 
-
   Widget topBar({required BuildContext context, required String planName}) {
     return Column(
       children: [
@@ -81,12 +81,27 @@ class SelectedPlanScreen extends StatelessWidget {
     required BuildContext context,
     required SubscriptionPlanModel plan,
   }) async {
-    Logger.info(plan.productIdAndroid.toString());
+    // Logger.info(plan.productIdAndroid.toString());
+    final subscriptionProvider = context.read<SubscriptionProvider>();
+
+    if (plan.id == subscriptionProvider.currentPlan?.id) {
+      AppToast.info(context: context, message: "You are already subscribed to this plan.");
+      return;
+    }
     final tier = SubscriptionService.instance.getTierFromProductId(
       plan.productIdAndroid.toString(),
     );
 
-    final subscriptionProvider = context.read<SubscriptionProvider>();
+    if (isGuest) {
+      subscriptionProvider.setSubscriptionProcessStatus(status: true);
+      await subscriptionProvider.buy(
+        tier: tier!,
+        context: context,
+        appAccountToken: '',
+      );
+      return;
+    }
+
     await subscriptionProvider.initiateSubscription(
       planId: plan.id,
       onSuccess: (appAccountToken) {

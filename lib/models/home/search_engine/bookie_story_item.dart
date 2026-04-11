@@ -10,6 +10,7 @@ class BookieStoryItem {
     required this.avatarAsset,
     required this.storyImageAsset,
     required this.affiliateUrl,
+    this.storyVideoAsset,
   });
 
   final String id;
@@ -17,6 +18,9 @@ class BookieStoryItem {
   final String avatarAsset;
   final String storyImageAsset;
   final String affiliateUrl;
+
+  /// When set, the fullscreen story tries to play this asset (loops); falls back to [storyImageAsset] if load fails.
+  final String? storyVideoAsset;
 }
 
 const List<BookieStoryItem> kDefaultBookieStories = [
@@ -25,6 +29,7 @@ const List<BookieStoryItem> kDefaultBookieStories = [
     displayName: 'PuntGPT',
     avatarAsset: AppAssets.puntGPTAdsLogo,
     storyImageAsset: AppAssets.puntGPTAdvertisement,
+    storyVideoAsset: AppAssets.puntGPTVideoAds,
     affiliateUrl: "",
   ),
   BookieStoryItem(

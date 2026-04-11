@@ -20,11 +20,11 @@ class SearchFields extends StatelessWidget {
         builder: (context, provider, child) => Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
-          children:[
+          children: [
             Padding(
               padding: EdgeInsets.symmetric(horizontal: bodyHorizontalPadding),
               child: Column(
-                children:[
+                children: [
                   Padding(
                     padding: EdgeInsets.symmetric(vertical: 18.w),
                     child: horizontalDivider(),
@@ -75,66 +75,78 @@ class SearchFields extends StatelessWidget {
                           : !current;
                     },
                   ),
-                  if (context.read<SubscriptionProvider>().isSubscribed) ...[
-                    //* Odds range Section
-                    horizontalDivider(),
-                    //* Win at track Section
-                    SearchCheckboxField(
-                      title: "Won at track",
-                      isChecked: provider.selectedWinsAtTrack == true,
-                      onTap: () {
-                        final current = provider.selectedWinsAtTrack;
-                        provider.setSelectedWinsAtTrack = current == null
-                            ? true
-                            : !current;
-                      },
-                    ),
-                    horizontalDivider(),
+                  Consumer<SubscriptionProvider>(
+                    builder: (context, subProvider, child) {
+                      if (subProvider.isSubscribed) {
+                        return Column(
+                          children: [
+                            //* Odds range Section
+                            horizontalDivider(),
+                            //* Win at track Section
+                            SearchCheckboxField(
+                              title: "Won at track",
+                              isChecked: provider.selectedWinsAtTrack == true,
+                              onTap: () {
+                                final current = provider.selectedWinsAtTrack;
+                                provider.setSelectedWinsAtTrack =
+                                    current == null ? true : !current;
+                              },
+                            ),
+                            horizontalDivider(),
 
-                    SearchCheckboxField(
-                      title: "Won at distance",
-                      isChecked: provider.wonAtDistance,
-                      onTap: () =>
-                          provider.toggleWonAtDistance(!provider.wonAtDistance),
-                    ),
-                    horizontalDivider(),
-                    //* Won last start Section
-                    SearchCheckboxField(
-                      title: "Won last start",
-                      isChecked: provider.wonLastStart,
-                      onTap: () =>
-                          provider.toggleWonLastStart(!provider.wonLastStart),
-                      verticalPadding: 20.w,
-                    ),
-                    horizontalDivider(),
-                    //* Won last 12 months Section
-                    SearchCheckboxField(
-                      title: "Won last 12 months",
-                      isChecked: provider.wonLast12Months,
-                      onTap: () => provider.toggleWonLast12Months(
-                        !provider.wonLast12Months,
-                      ),
-                    ),
-                    horizontalDivider(),
-                    OddsRangeSliderField(
-                      values: provider.oddsRangeValues,
-                      onChanged: provider.updateOddsRange,
-                    ),
-                    horizontalDivider(),
-                    JockeyHorseWinsSliderField(
-                      values: provider.jockeyHorseWinsRangeValues,
-                      onChanged: provider.updateJockeyHorseWinsRange,
-                    ),
-                    horizontalDivider(),
-                    BarrierRangeSliderField(
-                      values: provider.barrierRangeIndexValues,
-                      onChanged: provider.updateBarrierRange,
-                    ),
-                  ] else ...[
-                    horizontalDivider(),
-
-                    _buildLockedSearchCard(context),
-                  ],
+                            SearchCheckboxField(
+                              title: "Won at distance",
+                              isChecked: provider.wonAtDistance,
+                              onTap: () => provider.toggleWonAtDistance(
+                                !provider.wonAtDistance,
+                              ),
+                            ),
+                            horizontalDivider(),
+                            //* Won last start Section
+                            SearchCheckboxField(
+                              title: "Won last start",
+                              isChecked: provider.wonLastStart,
+                              onTap: () => provider.toggleWonLastStart(
+                                !provider.wonLastStart,
+                              ),
+                              verticalPadding: 20.w,
+                            ),
+                            horizontalDivider(),
+                            //* Won last 12 months Section
+                            SearchCheckboxField(
+                              title: "Won last 12 months",
+                              isChecked: provider.wonLast12Months,
+                              onTap: () => provider.toggleWonLast12Months(
+                                !provider.wonLast12Months,
+                              ),
+                            ),
+                            horizontalDivider(),
+                            OddsRangeSliderField(
+                              values: provider.oddsRangeValues,
+                              onChanged: provider.updateOddsRange,
+                            ),
+                            horizontalDivider(),
+                            JockeyHorseWinsSliderField(
+                              values: provider.jockeyHorseWinsRangeValues,
+                              onChanged: provider.updateJockeyHorseWinsRange,
+                            ),
+                            horizontalDivider(),
+                            BarrierRangeSliderField(
+                              values: provider.barrierRangeIndexValues,
+                              onChanged: provider.updateBarrierRange,
+                            ),
+                          ],
+                        );
+                      }
+                      return Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          horizontalDivider(),
+                          _buildLockedSearchCard(context),
+                        ],
+                      );
+                    },
+                  ),
                 ],
               ),
             ),

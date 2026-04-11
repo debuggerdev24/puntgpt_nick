@@ -56,7 +56,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           body: SingleChildScrollView(
             padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 24.w),
             child: Consumer<AuthProvider>(
-              builder: (context, auth, _) {
+              builder: (context, auth, _){
                 final selected = auth.onboardingPlanTab; // 0/1
                 return Column(
                   mainAxisSize: MainAxisSize.min,
@@ -385,7 +385,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     ),
                     AppFilledButton(
                       margin: EdgeInsets.only(top: 25.w),
-                      text: selected == 0 ? "Continue as guest" : "Subscribe",
+                      text: selected == 0 ? "Continue as guest" : "Create Account",
                       onTap: () {
                         if (selected == 0) {
                           LocaleStorageService.setIsFirstTime(false);

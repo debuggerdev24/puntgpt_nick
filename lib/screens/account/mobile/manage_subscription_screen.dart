@@ -1,5 +1,4 @@
 import 'package:puntgpt_nick/core/constants/app_strings.dart';
-import 'package:puntgpt_nick/core/widgets/guest_create_account_sheet.dart';
 import 'package:puntgpt_nick/main.dart';
 import 'package:puntgpt_nick/provider/subscription/subscription_provider.dart';
 import 'package:puntgpt_nick/screens/account/mobile/widgets/subscription_plan.dart';
@@ -31,20 +30,59 @@ class ManageSubscriptionScreen extends StatelessWidget {
                     return GestureDetector(
                       onTap: () {
                         deBouncer.run(() {
-                          // if (isGuest) {
-                          //   showGuestCreateAccountSheet(
-                          //     context,
-                          //     message:
-                          //         AppStrings.guestManageSubscriptionMessage,
-                          //   );
-                          //   return;
-                          // }
-                          context.pushNamed(
-                            (kIsWeb && context.isMobileView)
-                                ? WebRoutes.selectedPlanScreen.name
-                                : AppRoutes.selectedPlanScreen.name,
-                            extra: plan,
-                          );
+                          void openPlan() {
+                            context.pushNamed(
+                              (kIsWeb && context.isMobileView)
+                                  ? WebRoutes.selectedPlanScreen.name
+                                  : AppRoutes.selectedPlanScreen.name,
+                              extra: plan,
+                            );
+                          }
+
+                          if (isGuest) {
+                            showModalBottomSheet<void>(
+                              context: context,
+                              builder: (sheetCtx) => SafeArea(
+                                child: Padding(
+                                  padding: EdgeInsets.fromLTRB(
+                                    24.w,
+                                    16.w,
+                                    24.w,
+                                    24.w,
+                                  ),
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.stretch,
+                                    children: [
+                                      Text(
+                                        'Subscribe',
+                                        style: semiBold(
+                                          fontSize: 18.sp,
+                                          fontFamily: AppFontFamily.secondary,
+                                        ),
+                                      ),
+                                      12.w.verticalSpace,
+                                      Text(
+                                        AppStrings.guestSubscribeInfoBody,
+                                        style: regular(fontSize: 15.sp),
+                                      ),
+                                      20.w.verticalSpace,
+                                      AppFilledButton(
+                                        text: 'Continue',
+                                        onTap: () {
+                                          Navigator.of(sheetCtx).pop();
+                                          openPlan();
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            );
+                            return;
+                          }
+                          openPlan();
                         });
                       },
                       child: SubscriptionPlanMobile(plan: plan),

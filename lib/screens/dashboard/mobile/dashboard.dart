@@ -73,6 +73,19 @@ class _DashboardState extends State<Dashboard> {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
+                    _navItem(
+                      onTap: () {
+                        indexOfTab.value = 0;
+                        AppRouter.indexedStackNavigationShell?.goBranch(0);
+  
+                      },
+
+                      text: "Home",
+
+                      icon: AppAssets.homeIcon,
+                      hasLock: false,
+                      index: 1,
+                    ),
                     Consumer<SubscriptionProvider>(
                       builder: (context, subscriptionProvider, child) {
                         return _navItem(

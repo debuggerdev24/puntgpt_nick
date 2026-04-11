@@ -5,7 +5,7 @@ import 'package:puntgpt_nick/main.dart';
 import 'package:puntgpt_nick/models/home/search_engine/runner_model.dart';
 import 'package:puntgpt_nick/provider/home/search_engine/search_engine_provider.dart';
 import 'package:puntgpt_nick/screens/home/search_engine/mobile/widgets/home_section_shimmers.dart';
-/// Placeholder until API exposes weight; swap for `runner.weightKg` when available.
+
 
 String _displayName(String? name) {
   final t = name?.trim();
@@ -119,6 +119,22 @@ class RunnerBox extends StatelessWidget {
                     children: [
                       Expanded(
                         child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          spacing: 6,
+                          children: [
+                            _RunnerStatCell(
+                              label: 'W',
+                              value: "${runner.weight}" ,
+                            ),
+                            _RunnerStatCell(
+                              label: 'F',
+                              value: runner.form ?? "-",
+                            ),
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        child: Column(
                           spacing: 6,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -134,22 +150,7 @@ class RunnerBox extends StatelessWidget {
                           ],
                         ),
                       ),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          spacing: 6,
-                          children: [
-                            _RunnerStatCell(
-                              label: 'W',
-                              value: "${runner.weight}" ,
-                            ),
-                            _RunnerStatCell(
-                              label: 'F',
-                              value: runner.form ?? "-",
-                            ),
-                          ],
-                        ),
-                      ),
+                      
                     ],
                   ),
                 ],

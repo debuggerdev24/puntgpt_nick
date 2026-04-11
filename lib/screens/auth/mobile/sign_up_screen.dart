@@ -23,7 +23,6 @@ class SignUpScreen extends StatelessWidget {
             child: Consumer<AuthProvider>(
               builder: (context, provider, child) {
                 Logger.info(provider.isSignUpLoading.toString());
-
                 return Stack(
                   children: [
                     SingleChildScrollView(

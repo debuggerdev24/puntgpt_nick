@@ -1,5 +1,6 @@
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:puntgpt_nick/core/app_imports.dart';
+import 'package:puntgpt_nick/models/home/classic_form_guide/classic_form_model.dart';
 import 'package:puntgpt_nick/models/home/classic_form_guide/next_race_model.dart';
 import 'package:puntgpt_nick/provider/home/classic_form/classic_form_provider.dart';
 
@@ -77,31 +78,9 @@ class ClassicFormGuideView extends StatelessWidget {
           ),
           provider.classicFormGuide!.isEmpty
               ? _buildRaceTableEmptyState(context: context, provider: provider)
-              : ListView.separated(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
+              : Padding(
                   padding: EdgeInsets.only(bottom: 55.w),
-                  itemCount: provider.classicFormGuide!.length,
-                  separatorBuilder: (_, __) => 10.w.verticalSpace,
-                  itemBuilder: (context, index) {
-                    final classicForm = provider.classicFormGuide![index];
-                    return _classicMeetingListItem(
-                      context: context,
-                      meetingName: classicForm.meetingName,
-                      meetingDate: classicForm.country,
-                      meetingTime: classicForm.meetingAustralianTime,
-                      onTap: () {
-                        provider.getMeetingRaceList(
-                          meetingId: classicForm.meetingId.toString(),
-                        );
-                        provider.getRaceFieldDetail(
-                          id: classicForm.races[provider.selectedRace].raceId
-                              .toString(),
-                        );
-                        context.pushNamed(AppRoutes.selectedRace.name);
-                      },
-                    );
-                  },
+                  child: _ClassicFormMeetingsBlock(provider: provider),
                 ),
           25.w.verticalSpace,
         ],
@@ -110,86 +89,208 @@ class ClassicFormGuideView extends StatelessWidget {
   }
 }
 
-Widget _classicMeetingListItem({
-  required BuildContext context,
-  required String meetingName,
-  required String meetingDate,
-  required String meetingTime,
-  required VoidCallback onTap,
-}) {
-  return Material(
-    color: Colors.transparent,
-    child: InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(10.r),
-      child: Container(
-        width: double.infinity,
-        padding: EdgeInsets.fromLTRB(12.w, 10.w, 6.w, 10.w),
-        decoration: BoxDecoration(
-          color: AppColors.white,
-          borderRadius: BorderRadius.circular(10.r),
-          border: Border.all(color: AppColors.primary.withValues(alpha: 0.12)),
-          boxShadow: [
-            BoxShadow(
-              color: AppColors.black.withValues(alpha: 0.04),
-              blurRadius: 10,
-              offset: const Offset(0, 2),
+/// Metro → Regional → Trials meeting list (grouped API) or one list (legacy API).
+class _ClassicFormMeetingsBlock extends StatelessWidget {
+  const _ClassicFormMeetingsBlock({required this.provider});
+
+  final ClassicFormProvider provider;
+
+  void _openMeeting(BuildContext context, ClassicFormModel meeting) {
+    provider.getMeetingRaceList(meetingId: meeting.meetingId.toString());
+    if (meeting.races.isEmpty) return;
+    final raceIndex = provider.selectedRace.clamp(0, meeting.races.length - 1);
+    provider.getRaceFieldDetail(
+      id: meeting.races[raceIndex].raceId.toString(),
+    );
+    context.pushNamed(AppRoutes.selectedRace.name);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (provider.classicFormGuideIsGrouped) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          if (provider.classicFormMetroMeetings.isNotEmpty) ...[
+            const _ClassicFormSectionTitle(label: 'Metro'),
+            ..._tilesFor(
+              context,
+              provider.classicFormMetroMeetings,
             ),
           ],
-        ),
-        child: Row(
-          children: [
-            Expanded(
-              child: Column(
-                spacing: 4.w,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    meetingName,
-                    style: semiBold(fontSize: 16.sp, color: AppColors.primary),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  Text(
-                    meetingDate,
-                    style: regular(
-                      fontSize: 13.sp,
-                      color: AppColors.primary.withValues(alpha: 0.55),
-                    ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ],
-              ),
-            ),
-            10.w.horizontalSpace,
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 6.h),
-              decoration: BoxDecoration(
-                color: AppColors.primary.withValues(alpha: 0.06),
-                borderRadius: BorderRadius.circular(8.r),
-              ),
-              child: Text(
-                meetingTime,
-                style: semiBold(
-                  fontSize: 12.sp,
-                  color: AppColors.primary.withValues(alpha: 0.8),
-                ),
-              ),
-            ),
-            6.w.horizontalSpace,
-            Icon(
-              Icons.chevron_right_rounded,
-              color: AppColors.primary.withValues(alpha: 0.35),
+          if (provider.classicFormRegionalMeetings.isNotEmpty) ...[
+            if (provider.classicFormMetroMeetings.isNotEmpty) 14.h.verticalSpace,
+            const _ClassicFormSectionTitle(label: 'Regional'),
+            ..._tilesFor(
+              context,
+              provider.classicFormRegionalMeetings,
             ),
           ],
+          if (provider.classicFormTrialMeetings.isNotEmpty) ...[
+            if (provider.classicFormMetroMeetings.isNotEmpty ||
+                provider.classicFormRegionalMeetings.isNotEmpty)
+              14.h.verticalSpace,
+            const _ClassicFormSectionTitle(label: 'Trials'),
+            ..._tilesFor(
+              context,
+              provider.classicFormTrialMeetings,
+            ),
+          ],
+        ],
+      );
+    }
+
+    // Use a Column here, not a ListView. This widget sits inside a parent
+    // SingleChildScrollView; a normal ListView wants infinite height and throws
+    // "Vertical viewport was given unbounded height" unless shrinkWrap is used.
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        for (var i = 0; i < provider.classicFormGuide!.length; i++) ...[
+          if (i > 0) 10.h.verticalSpace,
+          _ClassicFormMeetingTile(
+            meeting: provider.classicFormGuide![i],
+            onTap: () => _openMeeting(context, provider.classicFormGuide![i]),
+          ),
+        ],
+      ],
+    );
+  }
+
+  List<Widget> _tilesFor(
+    BuildContext context,
+    List<ClassicFormModel> meetings,
+  ) {
+    return [
+      for (var i = 0; i < meetings.length; i++) ...[
+        if (i > 0) 8.h.verticalSpace,
+        _ClassicFormMeetingTile(
+          meeting: meetings[i],
+          onTap: () => _openMeeting(context, meetings[i]),
         ),
-      ),
-    ),
-  );
+      ],
+    ];
+  }
 }
 
-// SingleChildScrollView(
+class _ClassicFormSectionTitle extends StatelessWidget {
+  const _ClassicFormSectionTitle({required this.label});
+
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(bottom: 10.h, top: 4.h),
+      child: Text(
+        label,
+        style: semiBold(
+          fontSize: 16.sp.clamp(15, 18),
+          color: AppColors.black,
+          fontFamily: AppFontFamily.primary,
+        ),
+      ),
+    );
+  }
+}
+
+/// One meeting row: track name, country under it, first-race time on the right, chevron.
+class _ClassicFormMeetingTile extends StatelessWidget {
+  const _ClassicFormMeetingTile({
+    required this.meeting,
+    required this.onTap,
+  });
+
+  final ClassicFormModel meeting;
+  final VoidCallback onTap;
+
+  String get _displayName =>
+      meeting.trackName.trim().isNotEmpty ? meeting.trackName : meeting.meetingName;
+
+  String get _countryOrEmpty => meeting.country.trim();
+
+  @override
+  Widget build(BuildContext context) {
+    final timeText = meeting.meetingAustralianTime.trim().isNotEmpty
+        ? meeting.meetingAustralianTime
+        : (meeting.races.isNotEmpty
+            ? meeting.races.first.raceAustralianTime
+            : '');
+
+    return Material(
+      color: AppColors.white,
+      borderRadius: BorderRadius.circular(12.r),
+      clipBehavior: Clip.antiAlias,
+      child: InkWell(
+        onTap: onTap,
+        child: Container(
+          width: double.infinity,
+          padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 12.h),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12.r),
+            border: Border.all(
+              color: AppColors.primary.setOpacity(0.1),
+            ),
+          ),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      _displayName,
+                      style: semiBold(
+                        fontSize: 15.sp.clamp(14, 17),
+                        color: AppColors.black,
+                        fontFamily: AppFontFamily.primary,
+                      ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    if (_countryOrEmpty.isNotEmpty) ...[
+                      4.h.verticalSpace,
+                      Text(
+                        _countryOrEmpty,
+                        style: regular(
+                          fontSize: 12.sp.clamp(11, 14),
+                          color: AppColors.primary.withValues(alpha: 0.45),
+                          fontFamily: AppFontFamily.primary,
+                        ),
+                      ),
+                    ],
+                  ],
+                ),
+              ),
+              if (timeText.isNotEmpty) ...[
+                8.w.horizontalSpace,
+                Text(
+                  timeText,
+                  style: semiBold(
+                    fontSize: 14.sp.clamp(13, 16),
+                    color: AppColors.black,
+                    fontFamily: AppFontFamily.primary,
+                  ),
+                ),
+              ],
+              Icon(
+                Icons.chevron_right_rounded,
+                size: 22.sp,
+                color: AppColors.primary.withValues(alpha: 0.28),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+
 //   scrollDirection: Axis.horizontal,
 //   child: Container(
 //     width: 1.4.sw,

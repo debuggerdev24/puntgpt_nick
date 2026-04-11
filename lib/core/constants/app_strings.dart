@@ -12,6 +12,16 @@ class AppStrings {
       "Subscribe to Pro Punter to view and manage your personal details.";
   static const String guestManageSubscriptionMessage =
       "Create an account to purchase the plan.";
+
+  /// Shown on a sheet before a guest continues to the plan checkout screen.
+  static const String guestSubscribeInfoBody =
+      "You can subscribe with your Apple or Google account. "
+      "After purchase, you can register anytime to use your subscription on all your devices.";
+
+  /// Shown after a successful guest-only store purchase (no backend account yet).
+  static const String guestPostPurchaseRegisterMessage =
+      "Register now to access your purchased content on all your device. "
+      "You can do this anytime later.";
   static const String guestSaveSearchMessage = "Subscribe to Pro Punter to save searches.";
 
   /// Responsible gambling reminder (shown above partner story row on home).

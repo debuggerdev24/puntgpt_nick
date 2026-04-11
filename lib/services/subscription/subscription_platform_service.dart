@@ -86,7 +86,11 @@ class SubscriptionService {
         orElse: () => throw Exception("Product not found"),
       );
       Logger.info("appAccountToken: $appAccountToken");
-      final param = PurchaseParam(productDetails: product,applicationUserName: appAccountToken);
+      final param = PurchaseParam(
+        productDetails: product,
+        applicationUserName:
+            appAccountToken.isEmpty ? null : appAccountToken,
+      );
 
       await _iap.buyNonConsumable(purchaseParam: param, );
       return true;

@@ -53,8 +53,7 @@ class AuthProvider extends ChangeNotifier {
   /// 0 = Mug Punter, 1 = Pro Punter
   int _onboardingPlanTab = 1;
   int get onboardingPlanTab => _onboardingPlanTab;
-  bool get isOnboardingMugPunter => _onboardingPlanTab == 0;
-  bool get isOnboardingProPunter => _onboardingPlanTab == 1;
+  // bool get isOnboardingProPunter => _onboardingPlanTab == 1;
 
   void setOnboardingPlanTab(int value) {
     if (value == _onboardingPlanTab) return;

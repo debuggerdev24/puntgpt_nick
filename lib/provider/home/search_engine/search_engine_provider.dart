@@ -21,7 +21,8 @@ class SearchEngineProvider extends ChangeNotifier {
   JumpType _selectedRaceTimingEnum = JumpType.jumps_within_10mins;
   JumpType get selectedRaceTimingEnum => _selectedRaceTimingEnum;
 
-  final Map<String, List<String>> _tracksPack = {}; // key: today/tomorrow
+  /// Cached track payload per date key (`today` / `tomorrow`): combined list + optional metro/regional groups for UI.
+  final Map<String, _CachedTrackLists> _tracksPack = {};
 
   TextEditingController oddsRangeCtr = TextEditingController(),
       jockeyHorseWinsCtr = TextEditingController();
@@ -35,6 +36,11 @@ class SearchEngineProvider extends ChangeNotifier {
 
   List<SaveSearchModel>? saveSearches;
   List<String>? trackList, distanceDetails, searchFilterDetails, barrierList;
+
+  //* When the API returns `{ metro: [], regional: [] }`, these mirror those lists (order: Metro → Regional in the UI).
+  //* If the API returns a flat list instead, both stay `null` and only [trackList] is used.
+  List<String>? metroTrackList;
+  List<String>? regionalTrackList;
   SaveSearchModel? selectedSaveSearch;
   List<RunnerModel>? runnersList;
   CompareHorseModel? compareHorse;
@@ -267,32 +273,32 @@ class SearchEngineProvider extends ChangeNotifier {
     final dateKey = _trackDateKeyFromJumpType(selectedRaceTimingEnum);
 
     if (!force && _tracksPack.containsKey(dateKey)) {
-      trackList = _tracksPack[dateKey];
+      final cached = _tracksPack[dateKey]!;
+      trackList = cached.all;
+      metroTrackList = cached.metro;
+      regionalTrackList = cached.regional;
       notifyListeners();
       return;
     }
 
-    // final requestId = ++_trackRequestId;
-    // isLoadingTrackList = true;
     notifyListeners();
 
     final result = await SearchEngineAPISearvice.instance.getTracList(
       queryParameters: {"date": dateKey},
     );
-    // Logger.info("getTrackList result: $requestId");
-    // Logger.info("_trackRequestId: $_trackRequestId");
-    // If user changed filter while we were loading, ignore this response.
-    // if (requestId != _trackRequestId) return;
 
     result.fold((l) => Logger.error(l.errorMsg), (r) {
-      final data = r["data"];
-      if (data is List) {
-        final list = data.map((e) => e.toString()).toList();
-        _tracksPack[dateKey] = list;
-        trackList = list;
-      } else {
+      final parsed = _parseTrackResponseData(r["data"]);
+      if (parsed == null) {
         trackList = null;
+        metroTrackList = null;
+        regionalTrackList = null;
+        return;
       }
+      _tracksPack[dateKey] = parsed;
+      trackList = parsed.all;
+      metroTrackList = parsed.metro;
+      regionalTrackList = parsed.regional;
     });
 
     // isLoadingTrackList = false;
@@ -1080,4 +1086,47 @@ class SearchEngineProvider extends ChangeNotifier {
       },
     );
   }
+}
+
+/// Parses `data` from the track list API: either a flat `List` or `{ "metro": [], "regional": [] }`.
+_CachedTrackLists? _parseTrackResponseData(dynamic data) {
+  List<String> stringsFromList(dynamic v) {
+    if (v is! List) return [];
+    return v
+        .map((e) => e.toString().trim())
+        .where((s) => s.isNotEmpty)
+        .toList();
+  }
+
+  if (data is Map) {
+    final raw = Map<String, dynamic>.from(data);
+    final metro = stringsFromList(raw['metro']);
+    final regional = stringsFromList(raw['regional']);
+    final all = [...metro, ...regional];
+    if (all.isEmpty) return null;
+    return _CachedTrackLists(all: all, metro: metro, regional: regional);
+  }
+
+  if (data is List) {
+    final all = data
+        .map((e) => e.toString().trim())
+        .where((s) => s.isNotEmpty)
+        .toList();
+    if (all.isEmpty) return null;
+    return _CachedTrackLists(all: all, metro: null, regional: null);
+  }
+
+  return null;
+}
+
+class _CachedTrackLists {
+  const _CachedTrackLists({
+    required this.all,
+    this.metro,
+    this.regional,
+  });
+
+  final List<String> all;
+  final List<String>? metro;
+  final List<String>? regional;
 }

@@ -1,6 +1,5 @@
 import 'package:puntgpt_nick/core/app_imports.dart';
 import 'package:puntgpt_nick/core/constants/app_strings.dart';
-import 'package:puntgpt_nick/core/widgets/guest_create_account_sheet.dart';
 import 'package:puntgpt_nick/main.dart';
 import 'package:puntgpt_nick/provider/subscription/subscription_provider.dart';
 import 'package:puntgpt_nick/screens/account/web/widgets/subscription_plan_web.dart';
@@ -48,10 +47,50 @@ class ManageSubscriptionSectionWeb extends StatelessWidget {
                           return OnMouseTap(
                             onTap: () {
                               if (isGuest) {
-                                showGuestCreateAccountSheet(
-                                  context,
-                                  message:
-                                      AppStrings.guestManageSubscriptionMessage,
+                                showDialog<void>(
+                                  context: context,
+                                  builder: (dialogCtx) => AlertDialog(
+                                    title: Text(
+                                      'Subscribe',
+                                      style: semiBold(
+                                        fontSize: 18.sp,
+                                        fontFamily: AppFontFamily.secondary,
+                                      ),
+                                    ),
+                                    content: Text(
+                                      AppStrings.guestSubscribeInfoBody,
+                                      style: regular(fontSize: 15.sp),
+                                    ),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () =>
+                                            Navigator.of(dialogCtx).pop(),
+                                        child: Text(
+                                          'Cancel',
+                                          style: semiBold(
+                                            fontSize: 14.sp,
+                                            color: AppColors.primary,
+                                          ),
+                                        ),
+                                      ),
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.of(dialogCtx).pop();
+                                          provider.setIsShowSelectedPlan(
+                                            showSelectedPlan: true,
+                                            planIndex: plans[index].id,
+                                          );
+                                        },
+                                        child: Text(
+                                          'Continue',
+                                          style: semiBold(
+                                            fontSize: 14.sp,
+                                            color: AppColors.primary,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 );
                                 return;
                               }

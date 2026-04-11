@@ -29,6 +29,8 @@ class AppAssets {
 
   // images
   static const _imagePath = "assets/images";
+  static const _gifsPath = "assets/gif";
+  static const _videosPath = "assets/videos";
   static const splashAppLogo = "$_imagePath/splash_app_logo.png";
   static const splashWebLogo = "$_imagePath/splash_web_logo.png";
   static const addMember = "$_imagePath/addMember.png";
@@ -42,6 +44,7 @@ class AppAssets {
   static const onBoardingImage = "$_imagePath/on_boarding_image.png";
   static const unibatLogo = "$_imagePath/unibat_logo.png";
   static const dabbleLogo = "$_imagePath/dabble.jpeg";
+  static const homeIcon = "$_imagePath/home.png";
   static const instagramLogo = "$_imagePath/instagram.png";
   static const news = "$_imagePath/news.png";
   static const dabbleBanner = "$_imagePath/dabble_banner.png";
@@ -49,5 +52,9 @@ class AppAssets {
   static const unibatAdvertisement = "$_imagePath/unibat_ads.png";
   static const puntGPTAdsLogo = "$_imagePath/puntgpt_ads_logo.png";
   static const puntGPTAdvertisement = "$_imagePath/puntgpt_ads.png";
-  static const dabbleGIF = "assets/gif/dabble.gif";
+  static const dabbleGIF = "$_gifsPath/dabble.gif";
+  /// PuntGPT story reel — must live under [assets/videos] and that folder must be listed in pubspec.yaml.
+  static const puntGPTVideoAds = "$_videosPath/puntgpt_story_ad.mp4";
+  static const dummyVid = "$_videosPath/dummy.mp4";
+  
 }

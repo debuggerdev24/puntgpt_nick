@@ -51,9 +51,8 @@ class AppMultiSelectTrackDropdown extends StatelessWidget {
     final screenH = MediaQuery.sizeOf(context).height;
     final screenW = MediaQuery.sizeOf(context).width;
 
-    // Panel opens under the field. Max height = space down to screen bottom (capped).
     final top = fieldTopLeft.dy + fieldSize.height;
-    final maxHeight = (screenH - top - 16).clamp(120.0, 320.0);
+    final maxHeight = (screenH - top - 24).clamp(200.0, screenH * 0.55);
     final left = fieldTopLeft.dx.clamp(0.0, screenW - fieldSize.width);
 
     await showDialog<void>(
@@ -76,108 +75,59 @@ class AppMultiSelectTrackDropdown extends StatelessWidget {
                 left: left,
                 top: top,
                 child: Material(
-                  elevation: 4,
-                  borderRadius: BorderRadius.circular(borderRadius ?? 0),
+                  elevation: 6,
+                  borderRadius: BorderRadius.circular(borderRadius ?? 12.r),
                   color: AppColors.white,
                   child: Container(
                     width: fieldSize.width,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(borderRadius ?? 0),
-                      color: AppColors.white,
+                      borderRadius: BorderRadius.circular(borderRadius ?? 12.r),
+                      color: AppColors.backGroundColor,
                       border: Border.all(
-                        color: AppColors.primary.setOpacity(0.1),
+                        color: AppColors.primary.setOpacity(0.12),
                       ),
                     ),
-                    //* One scroll area: short list = short panel; long list = scroll inside maxHeight.
                     child: ConstrainedBox(
                       constraints: BoxConstraints(maxHeight: maxHeight),
                       child: SingleChildScrollView(
+                        padding: EdgeInsets.symmetric(vertical: 8.h),
                         child: Consumer<SearchEngineProvider>(
                           builder: (context, provider, _) {
-                            final selected = provider.selectedTracks;
-                            final itemStyle =
-                                textStyle ??
-                                medium(
-                                  fontSize: 16.sp.clamp(14, 18),
-                                  color: AppColors.black,
-                                );
-
                             return Column(
                               crossAxisAlignment: CrossAxisAlignment.stretch,
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                12.w.verticalSpace,
-                                if (selected.isNotEmpty)
+                                if (provider.selectedTracks.isNotEmpty)
                                   Align(
                                     alignment: Alignment.centerRight,
-                                    child: GestureDetector(
-                                      onTap: () =>
-                                          provider.clearSelectedTracks(),
-                                      child: Text(
-                                        'Clear all    ',
-                                        style: medium(
-                                          fontSize: 14.sp.clamp(12, 16),
-                                          color: AppColors.primary,
+                                    child: Padding(
+                                      padding: EdgeInsets.only(
+                                        right: 12.w,
+                                        bottom: 4.h,
+                                      ),
+                                      child: GestureDetector(
+                                        onTap: () =>
+                                            provider.clearSelectedTracks(),
+                                        child: Text(
+                                          'Clear all',
+                                          style: medium(
+                                            fontSize: 14.sp.clamp(12, 16),
+                                            color: AppColors.primary,
+                                          ),
                                         ),
                                       ),
                                     ),
                                   ),
-                                if (items.isEmpty)
-                                  Padding(
-                                    padding: EdgeInsets.all(20.w),
-                                    child: Text(
-                                      'No tracks available',
-                                      style: medium(
-                                        fontSize: 14.sp.clamp(14, 18),
-                                        color: AppColors.primary.withValues(
-                                          alpha: 0.5,
-                                        ),
-                                      ),
-                                    ),
-                                  )
-                                else
-                                  for (final item in items)
-                                    InkWell(
-                                      onTap: () =>
-                                          provider.toggleSelectedTrack(item),
-                                      child: Padding(
-                                        padding: EdgeInsets.fromLTRB(
-                                          12.w,0,12.w,12.w
-                                        ),
-                                        child: Row(
-                                          children: [
-                                            SizedBox(
-                                              width: 24.w,
-                                              height: 24.w,
-                                              child: Checkbox(
-
-                                                checkColor: AppColors.white,
-                                                activeColor: AppColors.primary,
-                                                value: selected.contains(item),
-                                                materialTapTargetSize:
-                                                    MaterialTapTargetSize
-                                                        .shrinkWrap,
-                                                visualDensity:
-                                                    VisualDensity.compact,
-                                                onChanged: (_) => provider
-                                                    .toggleSelectedTrack(item),
-                                              ),
-                                            ),
-                                            8.w.horizontalSpace,
-                                            Expanded(
-                                              child: Text(
-                                                item,
-                                                style: itemStyle,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                12.w.verticalSpace,
+                                _TrackListBody(
+                                  provider: provider,
+                                  textStyle: textStyle,
+                                ),
+                                8.w
+                                .verticalSpace,
                                 horizontalDivider(),
                                 TextButton(
-                                  onPressed: () => Navigator.pop(dialogContext),
+                                  onPressed: () =>
+                                      Navigator.pop(dialogContext),
                                   child: Text(
                                     'Done',
                                     style: semiBold(
@@ -199,6 +149,199 @@ class AppMultiSelectTrackDropdown extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+}
+
+/// Lists tracks: grouped (Metro → Regional) or one block if the API returned a flat list.
+class _TrackListBody extends StatelessWidget {
+  const _TrackListBody({
+    required this.provider,
+    this.textStyle,
+  });
+
+  final SearchEngineProvider provider;
+  final TextStyle? textStyle;
+
+  @override
+  Widget build(BuildContext context) {
+    final metro = provider.metroTrackList;
+    final regional = provider.regionalTrackList;
+    final grouped = metro != null && regional != null;
+
+    final namesForFlat = provider.trackList ?? [];
+    if (!grouped && namesForFlat.isEmpty) {
+      return Padding(
+        padding: EdgeInsets.all(20.w),
+        child: Text(
+          'No tracks available',
+          style: medium(
+            fontSize: 14.sp.clamp(14, 18),
+            color: AppColors.primary.withValues(alpha: 0.5),
+          ),
+        ),
+      );
+    }
+
+    if (grouped && metro.isEmpty && regional.isEmpty) {
+      return Padding(
+        padding: EdgeInsets.all(20.w),
+        child: Text(
+          'No tracks available',
+          style: medium(
+            fontSize: 14.sp.clamp(14, 18),
+            color: AppColors.primary.withValues(alpha: 0.5),
+          ),
+        ),
+      );
+    }
+
+    final nameStyle =
+        textStyle ??
+        semiBold(
+          fontSize: 15.sp.clamp(14, 17),
+          color: AppColors.black,
+          fontFamily: AppFontFamily.primary,
+        );
+
+    if (grouped) {
+      return Padding(
+        padding: EdgeInsets.symmetric(horizontal: 8.w),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (metro.isNotEmpty) ...[
+              _SectionHeader(title: 'Metro'),
+              ...metro.map(
+                (name) => _TrackPickCard(
+                  trackName: name,
+                  nameStyle: nameStyle,
+                  isSelected: provider.selectedTracks.contains(name),
+                  onToggle: () => provider.toggleSelectedTrack(name),
+                ),
+              ),
+            ],
+            if (regional.isNotEmpty) ...[
+              if (metro.isNotEmpty) 12.h.verticalSpace,
+              _SectionHeader(title: 'Regional'),
+              ...regional.map(
+                (name) => _TrackPickCard(
+                  trackName: name,
+                  nameStyle: nameStyle,
+                  isSelected: provider.selectedTracks.contains(name),
+                  onToggle: () => provider.toggleSelectedTrack(name),
+                ),
+              ),
+            ],
+          ],
+        ),
+      );
+    }
+
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 8.w),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          for (final name in namesForFlat)
+            _TrackPickCard(
+              trackName: name,
+              nameStyle: nameStyle,
+              isSelected: provider.selectedTracks.contains(name),
+              onToggle: () => provider.toggleSelectedTrack(name),
+            ),
+        ],
+      ),
+    );
+  }
+}
+
+class _SectionHeader extends StatelessWidget {
+  const _SectionHeader({required this.title});
+
+  final String title;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.fromLTRB(8.w, 4.h, 8.w, 8.h),
+      child: Text(
+        title,
+        style: semiBold(
+          fontSize: 16.sp.clamp(14, 18),
+          color: AppColors.black,
+          fontFamily: AppFontFamily.primary,
+        ),
+      ),
+    );
+  }
+}
+
+/// One row: track name + region hint on the left; checkbox + chevron on the right (matches reference layout).
+class _TrackPickCard extends StatelessWidget {
+  const _TrackPickCard({
+    required this.trackName,
+    required this.nameStyle,
+    required this.isSelected,
+    required this.onToggle,
+  });
+
+  final String trackName;
+  final TextStyle nameStyle;
+  final bool isSelected;
+  final VoidCallback onToggle;
+
+  @override
+  Widget build(BuildContext context) {
+    final subtitleColor = AppColors.primary.withValues(alpha: 0.45);
+
+    return Padding(
+      padding: EdgeInsets.only(bottom: 8.h),
+      child: Material(
+        color: AppColors.white,
+        borderRadius: BorderRadius.circular(12.r),
+        clipBehavior: Clip.antiAlias,
+        child: InkWell(
+          onTap: onToggle,
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(trackName, style: nameStyle),
+                      2.h.verticalSpace,
+                      Text(
+                        'AU',
+                        style: regular(
+                          fontSize: 12.sp.clamp(11, 14),
+                          color: subtitleColor,
+                          fontFamily: AppFontFamily.primary,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Checkbox(
+                  value: isSelected,
+                  checkColor: AppColors.white,
+                  activeColor: AppColors.primary,
+                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  visualDensity: VisualDensity.compact,
+                  onChanged: (_) => onToggle(),
+                ),
+                
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

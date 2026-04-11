@@ -183,40 +183,11 @@ class SelectedMeetingScreen extends StatelessWidget {
   }) {
     final race = provider.raceDetails!;
     final meeting = provider.raceList!.meeting;
-    // if (races.isEmpty) {
-    //   return Column(
-    //     children: [
-    //       Padding(
-    //         padding: EdgeInsets.fromLTRB(6.w, 6.w, 10.w, 6.w),
-    //         child: Row(
-    //           children: [
-    //             IconButton(
-    //               padding: EdgeInsets.zero,
-    //               onPressed: () => context.pop(),
-    //               icon: Icon(Icons.arrow_back_ios_rounded, size: 16.h),
-    //             ),
-    //             Expanded(
-    //               child: Text(
-    //                 meeting.name,
-    //                 style: regular(
-    //                   fontSize: 24.sp,
-    //                   fontFamily: AppFontFamily.secondary,
-    //                   height: 1,
-    //                 ),
-    //               ),
-    //             ),
-    //           ],
-    //         ),
-    //       ),
-    //       horizontalDivider(),
-    //     ],
-    //   );
-    // }
 
     return Column(
       children: [
         Padding(
-          padding: EdgeInsets.fromLTRB(2.w, 7.w, 2.w, 7.w),
+          padding: EdgeInsets.fromLTRB(2.w, 7.w, 8.w, 7.w),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -229,17 +200,31 @@ class SelectedMeetingScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      meeting.name,
-                      style: regular(
-                        fontSize: (context.isBrowserMobile) ? 36.sp : 24.sp,
-                        fontFamily: AppFontFamily.secondary,
-                        height: 1.1,
-                      ),
+                    //* Race name and track condition
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "${meeting.trackName} - R${race.number} - ${race.distance}m",
+                          style: regular(
+                            fontSize: (context.isBrowserMobile) ? 36.sp : 21.sp,
+                            fontFamily: AppFontFamily.secondary,
+                            height: 1.1,
+                          ),
+                        ),
+                        Text(
+                          "${race.trackCondition}",
+                          style: semiBold(
+                            fontSize: (context.isBrowserMobile) ? 28.sp : 14.sp,
+                            color: AppColors.primary,
+                          ),
+                        ),
+                      ],
                     ),
                     1.w.verticalSpace,
                     Text(
-                      "${meeting.trackName} - R${race.number} - ${race.name}",
+                      "Rail Position : ",
+                      // "${meeting.trackName} - R${race.number} - ${race.name}",
                       style: semiBold(
                         fontSize: (context.isBrowserMobile) ? 28.sp : 14.sp,
                         color: AppColors.primary,
@@ -248,11 +233,20 @@ class SelectedMeetingScreen extends StatelessWidget {
                     ),
                     2.w.verticalSpace,
                     Text(
-                      "${race.trackCondition} - ${race.distance}m - ${DateFormatter.formatRaceDateTime(race.australianTime)}",
+                      race.name,//*Sponser and class data: - ${race.distance}m - ${DateFormatter.formatRaceDateTime(race.australianTime)}",
                       style: semiBold(
                         fontSize: (context.isBrowserMobile) ? 28.sp : 14.sp,
                         height: 1.2,
-                        color: AppColors.primary.withValues(alpha: 0.6),
+                        color: AppColors.primary,//.withValues(alpha: 0.6),
+                      ),
+                    ),
+                    2.w.verticalSpace,
+                    Text(
+                      DateFormatter.formatRaceDateTime(race.australianTime),
+                      style: semiBold(
+                        fontSize: (context.isBrowserMobile) ? 28.sp : 14.sp,
+                        height: 1.2,
+                        color: AppColors.primary,//.withValues(alpha: 0.6),
                       ),
                     ),
                     2.w.verticalSpace,
@@ -265,49 +259,6 @@ class SelectedMeetingScreen extends StatelessWidget {
         horizontalDivider(),
       ],
     );
-
-    // return Column(
-    //   children: [
-    //     Padding(
-    //       padding: EdgeInsets.fromLTRB(6.w, 7.w, 25.w, 7.w),
-    //       child: Row(
-    //         crossAxisAlignment: CrossAxisAlignment.start,
-    //         children: [
-    //           IconButton(
-    //             padding: EdgeInsets.zero,
-    //             onPressed: () {
-    //               context.pop();
-    //             },
-    //             icon: Icon(Icons.arrow_back_ios_rounded, size: 16.w),
-    //           ),
-    //           Expanded(
-    //             child: Column(
-    //               crossAxisAlignment: CrossAxisAlignment.start,
-    //               children: [
-    //                 Text(
-    //                   meeting.name,
-    //                   style: regular(
-    //                     fontSize: 24.sp,
-    //                     fontFamily: AppFontFamily.secondary,
-    //                     height: 1.2,
-    //                   ),
-    //                 ),
-    //                 Text(
-    //                   "PuntGPT Legends Stakes ${race.distance} ${race.distanceUnits}, ${DateFormatter.formatRaceDateTime(race.startTimeUtc)}",
-    //                   style: semiBold(
-    //                     fontSize: 14.sp,
-    //                     color: AppColors.primary.withValues(alpha: 0.6),
-    //                   ),
-    //                 ),
-    //               ],
-    //             ),
-    //           ),
-    //         ],
-    //       ),
-    //     ),
-    //     horizontalDivider(),
-    //   ],
-    // );
   }
 }
 
@@ -320,6 +271,46 @@ class RaceDetails extends StatefulWidget {
 }
 
 class _RaceDetailsState extends State<RaceDetails> {
+  // Which runner row is expanded to show pedigree + stats + tip slip + long-form controls.
+  int? _runnerDetailOpenIndex;
+  // Within that row only: whether form history (long form) is visible.
+  int? _longFormOpenIndex;
+
+  @override
+  void didUpdateWidget(covariant RaceDetails oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    final oldRace = oldWidget.provider.raceDetails?.raceId;
+    final newRace = widget.provider.raceDetails?.raceId;
+    if (oldRace != newRace) {
+      _runnerDetailOpenIndex = null;
+      _longFormOpenIndex = null;
+    }
+  }
+
+  /// First tap opens this runner’s full card; tap again on the same header closes it.
+  void _onRunnerHeaderTap(int index) {
+    setState(() {
+      if (_runnerDetailOpenIndex == index) {
+        _runnerDetailOpenIndex = null;
+        _longFormOpenIndex = null;
+      } else {
+        _runnerDetailOpenIndex = index;
+        _longFormOpenIndex = null;
+      }
+    });
+  }
+
+  /// "See Long Form" — still only toggles form history (unchanged behaviour).
+  void _toggleLongFormForRow(int index) {
+    setState(() {
+      if (_longFormOpenIndex == index) {
+        _longFormOpenIndex = null;
+      } else {
+        _longFormOpenIndex = index;
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final selections = widget.provider.raceDetails!.selections;
@@ -331,92 +322,23 @@ class _RaceDetailsState extends State<RaceDetails> {
       separatorBuilder: (_, __) => 10.w.verticalSpace,
       itemBuilder: (context, index) {
         final selection = selections[index];
-        return _selectionCard(
+        final hasFormHistory = selection.history.isNotEmpty;
+        final isDetailOpen = _runnerDetailOpenIndex == index;
+
+        return _raceCard(
           context: context,
           index: index,
           selection: selection,
-          onOpenDetail: () =>
-              _openSelectionDetailDialog(context, selection, index),
+          isRunnerDetailOpen: isDetailOpen,
+          onRunnerHeaderTap: () => _onRunnerHeaderTap(index),
+          isLongFormOpen: _longFormOpenIndex == index,
+          onSeeLongFormTap: (isDetailOpen && hasFormHistory)
+              ? () => _toggleLongFormForRow(index)
+              : null,
         );
       },
     );
   }
-
-  void _openSelectionDetailDialog(
-    BuildContext context,
-    Selection selection,
-    int index,
-  ) {
-    showModalBottomSheet<void>(
-      context: context,
-      useRootNavigator: true,
-      backgroundColor: AppColors.white,
-      // Let the sheet fill the screen; inner [SafeArea] keeps content clear of notch/status bar.
-      // useSafeArea: true,
-      isScrollControlled: true,
-      builder: (dialogContext) {
-        final sheetH = MediaQuery.sizeOf(dialogContext).height - 95.w;
-        return SizedBox(
-          height: sheetH,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              //*Bottom sheet dialogue title
-              Padding(
-                padding: EdgeInsets.fromLTRB(22.w, 4.w, 5.w, 2.w),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Expanded(
-                      child: Text(
-                        '${index + 1}. ${selection.horseName} (${selection.barrier})',
-                        style: semiBold(
-                          fontSize: (context.isBrowserMobile) ? 30.sp : 16.sp,
-                          color: AppColors.primary,
-                        ),
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                    IconButton(
-                      icon: Icon(
-                        Icons.close_rounded,
-                        color: AppColors.primary,
-                        size: (context.isBrowserMobile) ? 28.w : 24.w,
-                      ),
-                      onPressed: () => Navigator.of(dialogContext).pop(),
-                    ),
-                  ],
-                ),
-              ),
-              horizontalDivider(),
-              //* Bottom sheet body
-              Expanded(
-                child: Padding(
-                  padding: EdgeInsets.fromLTRB(22.w, 12.w, 22.w, 2.w),
-                  child: _SelectionDetailes(selection: selection),
-                ),
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
-
-  //   return Container(
-  //     padding: EdgeInsets.symmetric(vertical: 6.h, horizontal: 10.w),
-  //     decoration: BoxDecoration(
-  //       color: Colors.white,
-  //       border: Border.all(color: AppColors.primary.withValues(alpha: 0.2)),
-  //       borderRadius: BorderRadius.circular(6.r),
-  //     ),
-  //     child: Text(
-  //       label,
-  //       style: semiBold(fontSize: 13.sp, color: AppColors.primary),
-  //     ),
-  //   );
-  // }
 }
 
 Widget _pill({
@@ -426,7 +348,8 @@ Widget _pill({
   Color? fg,
 }) {
   return Container(
-    padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 7.w),
+    padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 4.w),
+
     decoration: BoxDecoration(
       color: bg ?? AppColors.primary.withValues(alpha: 0.06),
       borderRadius: BorderRadius.circular(8.r),
@@ -435,7 +358,7 @@ Widget _pill({
     child: Text(
       text,
       style: semiBold(
-        fontSize: 12.sp,
+        fontSize: 14.sp,
         color: fg ?? AppColors.primary.withValues(alpha: 0.85),
       ),
     ),
@@ -549,11 +472,11 @@ class _FormHistoryCard extends StatelessWidget {
 
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.fromLTRB(14.w, 12.w, 14.w, 0.w),
+      padding: EdgeInsets.fromLTRB(8.w, 9.w, 8.w, 6.w),
       decoration: BoxDecoration(
         color: AppColors.white,
-        borderRadius: BorderRadius.circular(12.r),
-        border: Border.all(color: AppColors.primary.withValues(alpha: 0.08)),
+        borderRadius: BorderRadius.circular(6.r),
+        border: Border.all(color: AppColors.primary.withValues(alpha: 0.2)),
         boxShadow: [
           BoxShadow(
             color: AppColors.black.withValues(alpha: 0.05),
@@ -651,230 +574,301 @@ class _FormHistoryCard extends StatelessWidget {
   }
 }
 
-/// Same content as the former in-card expanded section (Sire/Dam/stats + tip slip).
-class _SelectionDetailes extends StatelessWidget {
-  const _SelectionDetailes({required this.selection});
-
-  final Selection selection;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Row(
+/// Sire / Dam / Prize row — same facts we used to show in the bottom sheet.
+Widget _pedigreeThreeColumns(Selection selection) {
+  return Row(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Expanded(
+        child: Column(
+          spacing: 4.w,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Expanded(
-              child: Column(
-                spacing: 4.w,
-                children: [
-                  _detailLabelValue(label: 'Sire', value: selection.horseSire),
-                  _detailLabelValue(
-                    label: 'Colour',
-                    value: selection.horseColour,
-                  ),
-                ],
-              ),
-            ),
-            Expanded(
-              child: Column(
-                spacing: 4.w,
-                children: [
-                  _detailLabelValue(label: 'Dam', value: selection.horseDam),
-                  _detailLabelValue(
-                    label: 'Age/Sex',
-                    value: "${selection.horseAge} yo",
-                  ),
-                ],
-              ),
-            ),
-            Expanded(
-              child: Column(
-                spacing: 4.w,
-                children: [
-                  _detailLabelValue(
-                    label: 'Prize',
-                    value: selection.horseTotalPrizeMoney,
-                  ),
-                  _detailLabelValue(label: 'Sex', value: selection.horseSex),
-                ],
-              ),
-            ),
+            _detailLabelValue(label: 'Sire', value: selection.horseSire),
+            _detailLabelValue(label: 'Colour', value: selection.horseColour),
           ],
         ),
-        10.w.verticalSpace,
-        //* Horse status content
-        _HorseStatusContent(selection: selection),
-        12.w.verticalSpace,
-
-        AppFilledButton(
-          text: 'Add to Tip Slip',
-          textStyle: semiBold(fontSize: 14.sp, color: AppColors.white),
-          padding: EdgeInsets.symmetric(vertical: 12.w),
-          onTap: () {
-            context.read<SearchEngineProvider>().createTipSlip(
-              context: context,
-              selectionId: selection.selectionId.toString(),
-            );
-          },
-        ),
-        if (selection.history.isNotEmpty) ...[
-          20.w.verticalSpace,
-          Text(
-            'Form history',
-            style: bold(fontSize: 14.sp, color: AppColors.primary),
-          ),
-          10.w.verticalSpace,
-          Expanded(
-            child: ListView.separated(
-              padding: EdgeInsets.zero,
-              itemCount: selection.history.length,
-              separatorBuilder: (_, __) => 12.w.verticalSpace,
-              itemBuilder: (context, index) {
-                return _FormHistoryCard(history: selection.history[index]);
-              },
-            ),
-          ),
-        ],
-      ],
-    );
-  }
-}
-
-//* Selection card
-Widget _selectionCard({
-  required BuildContext context,
-  required int index,
-  required Selection selection,
-  required VoidCallback onOpenDetail,
-}) {
-  final trainerStr = selection.trainerName.toString();
-
-  return Material(
-    color: Colors.transparent,
-    child: InkWell(
-      onTap: onOpenDetail,
-      borderRadius: BorderRadius.circular(12.r),
-      child: Container(
-        padding: EdgeInsets.all(9.w),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(6.r),
-          border: Border.all(
-            color: AppColors.primary.withValues(alpha: 0.2),
-            width: 1,
-          ),
-          boxShadow: [
-            BoxShadow(
-              color: AppColors.black.withValues(alpha: 0.04),
-              blurRadius: 10,
-              offset: const Offset(0, 2),
-            ),
-          ],
-        ),
+      ),
+      Expanded(
         child: Column(
+          spacing: 4.w,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                //* Silks image, horse name and barrier
-                Expanded(
-                  child: Column(
-                    spacing: 4.w,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      //* Horse name and barrier
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Text(
-                            "${index + 1}. ",
-                            style: semiBold(
-                              fontSize: 15.sp,
-                              color: AppColors.primary,
-                              height: 1.2,
-                            ),
-                          ),
-                          ImageWidget(
-                            path: selection.silksImage,
-                            type: ImageType.svg,
-                            height: 25.w,
-                          ),
-                          4.w.horizontalSpace,
-                          Text(
-                            "${selection.horseName} (${selection.barrier})",
-                            style: semiBold(
-                              fontSize: 15.sp,
-                              color: AppColors.primary,
-                              height: 1.2,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                //* Odds win
-                GestureDetector(
-                  behavior: HitTestBehavior.opaque,
-                  onTap: () => launchUnibetUrl(),
-                  child: ImageWidget(
-                    path: AppAssets.unibatLogo,
-                    type: ImageType.asset,
-                    height: 28.w,
-                  ),
-                ),
-                10.w.horizontalSpace,
-                _pill(text: "\$ ${selection.oddsWin}", context: context),
-              ],
-            ),
-            // Weight / Form / Jockey / Trainer — always visible (no tap needed).
-            Padding(
-              padding: EdgeInsets.only(top: 10.w),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    child: Column(
-                      spacing: 6.w,
-                      children: [
-                        _detailLabelValue(
-                          label: 'Weight',
-                          value: '${selection.weight}kg',
-                          maxLines: 1,
-                        ),
-                        _detailLabelValue(
-                          label: 'Form',
-                          value: selection.formHistory,
-                          maxLines: 1,
-                        ),
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    child: Column(
-                      spacing: 6.w,
-                      children: [
-                        _detailLabelValue(
-                          label: 'Jockey',
-                          value: selection.jockeyName,
-                          maxLines: 1,
-                        ),
-                        _detailLabelValue(
-                          label: 'Trainer',
-                          value: trainerStr,
-                          maxLines: 1,
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
+            _detailLabelValue(label: 'Dam', value: selection.horseDam),
+            _detailLabelValue(
+              label: 'Age/Sex',
+              value: '${selection.horseAge} yo',
             ),
           ],
         ),
       ),
+      Expanded(
+        child: Column(
+          spacing: 4.w,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _detailLabelValue(
+              label: 'Prize',
+              value: selection.horseTotalPrizeMoney,
+            ),
+            _detailLabelValue(label: 'Sex', value: selection.horseSex),
+          ],
+        ),
+      ),
+    ],
+  );
+}
+
+/// One card per past run. Uses a [Column] (not a nested [ListView]) so it scrolls with the race screen.
+Widget _formHistoryColumn(List<History> history) {
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.stretch,
+    children: [
+      for (var i = 0; i < history.length; i++) ...[
+        if (i > 0) 12.w.verticalSpace,
+        _FormHistoryCard(history: history[i]),
+      ],
+    ],
+  );
+}
+
+Widget _raceCard({
+  required BuildContext context,
+  required int index,
+  required Selection selection,
+  required bool isRunnerDetailOpen,
+  required VoidCallback onRunnerHeaderTap,
+  required bool isLongFormOpen,
+  required VoidCallback? onSeeLongFormTap,
+}) {
+  final trainerStr = selection.trainerName.toString();
+
+  final hintStyle = semiBold(
+    fontSize: 12.sp,
+    color: AppColors.primary.withValues(alpha: 0.45),
+  );
+
+  return Container(
+    padding: EdgeInsets.fromLTRB(11.w, 10.w, 11.w, 7.w),
+    decoration: BoxDecoration(
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(6.r),
+      border: Border.all(
+        color: AppColors.primary.withValues(alpha: 0.2),
+        width: 1,
+      ),
+      boxShadow: [
+        BoxShadow(
+          color: AppColors.black.withValues(alpha: 0.04),
+          blurRadius: 10,
+          offset: const Offset(0, 2),
+        ),
+      ],
+    ),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        //* Tappable summary (Unibet + odds stay separate so taps go to the partner link / price).
+        InkWell(
+          onTap: onRunnerHeaderTap,
+          borderRadius: BorderRadius.circular(8.r),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    '${index + 1}. ',
+                    style: semiBold(
+                      fontSize: 16.sp,
+                      color: AppColors.primary,
+                      height: 1.2,
+                    ),
+                  ),
+                  ImageWidget(
+                    path: selection.silksImage,
+                    type: ImageType.svg,
+                    height: 25.w,
+                  ),
+                  4.w.horizontalSpace,
+                  Expanded(
+                    child: Text(
+                      '${selection.horseName} (${selection.barrier})',
+                      style: semiBold(
+                        fontSize: 16.sp,
+                        color: AppColors.primary,
+                        height: 1.2,
+                      ),
+                    ),
+                  ),
+                  5.w.horizontalSpace,
+                  GestureDetector(
+                    behavior: HitTestBehavior.opaque,
+                    onTap: () => launchUnibetUrl(),
+                    child: ImageWidget(
+                      path: AppAssets.unibatLogo,
+                      type: ImageType.asset,
+                      height: 28.w,
+                    ),
+                  ),
+                  8.w.horizontalSpace,
+                  _pill(text: '\$ ${selection.oddsWin}', context: context),
+                ],
+              ),
+              //* weight, jockey, trainer and form
+              Padding(
+                padding: EdgeInsets.only(top: 6.w),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      child: Column(
+                        spacing: 4.w,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          _detailLabelValue(
+                            label: 'Weight',
+                            value: '${selection.weight}kg',
+                            maxLines: 1,
+                          ),
+                          _detailLabelValue(
+                            label: 'Form',
+                            value: selection.formHistory,
+                            maxLines: 1,
+                          ),
+                        ],
+                      ),
+                    ),
+                    Expanded(
+                      child: Column(
+                        spacing: 4.w,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          _detailLabelValue(
+                            label: 'Jockey',
+                            value: selection.jockeyName,
+                            maxLines: 1,
+                          ),
+                          _detailLabelValue(
+                            label: 'Trainer',
+                            value: trainerStr,
+                            maxLines: 1,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              if (!isRunnerDetailOpen) ...[
+                4.w.verticalSpace,
+                Row(
+                  children: [
+                    Icon(
+                      Icons.expand_more_rounded,
+                      size: 20.w,
+                      color: AppColors.primary.withValues(alpha: 0.4),
+                    ),
+                    4.w.horizontalSpace,
+                    Text('Tap for full form', style: hintStyle),
+                  ],
+                ),
+              ],
+            ],
+          ),
+        ),
+
+        //* Race Expanded details
+        AnimatedSize(
+          duration: const Duration(milliseconds: 250),
+          curve: Curves.easeInOut,
+          alignment: Alignment.topCenter,
+          child: isRunnerDetailOpen
+              ? Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    8.w.verticalSpace,
+                    horizontalDivider(),
+                    8.w.verticalSpace,
+                    _pedigreeThreeColumns(selection),
+                    12.w.verticalSpace,
+                    _HorseStatusContent(selection: selection),
+                    12.w.verticalSpace,
+                    AppFilledButton(
+                      text: 'Add to Tip Slip',
+                      textStyle: semiBold(
+                        fontSize: 14.sp,
+                        color: AppColors.white,
+                      ),
+                      padding: EdgeInsets.symmetric(vertical: 12.w),
+                      onTap: () {
+                        context.read<SearchEngineProvider>().createTipSlip(
+                          context: context,
+                          selectionId: selection.selectionId.toString(),
+                        );
+                      },
+                    ),
+                    if (onSeeLongFormTap != null) ...[
+                      AnimatedSize(
+                        duration: const Duration(milliseconds: 900),
+                        curve: Curves.easeInOut,
+                        alignment: Alignment.topCenter,
+                        child: isLongFormOpen
+                            ? Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: [
+                                  10.w.verticalSpace,
+                                  Text(
+                                    'Form history :',
+                                    style: bold(
+                                      fontSize: 14.sp,
+                                      color: AppColors.primary,
+                                    ),
+                                  ),
+                                  10.w.verticalSpace,
+                                  _formHistoryColumn(selection.history),
+                                ],
+                              )
+                            : const SizedBox.shrink(),
+                      ),
+
+                      AppOutlinedButton(
+                        text: '',
+                        onTap: onSeeLongFormTap,
+                        textStyle: semiBold(
+                          fontSize: 14.sp,
+                          color: AppColors.primary,
+                        ),
+                        margin: EdgeInsets.only(top: 12.w, bottom: 4.w),
+                        child: Row(
+                          spacing: 6.w,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'See Long Form',
+                              style: semiBold(
+                                fontSize: 14.sp,
+                                color: AppColors.primary,
+                              ),
+                            ),
+
+                            Icon(
+                              isLongFormOpen
+                                  ? Icons.keyboard_arrow_up_rounded
+                                  : Icons.keyboard_arrow_down_rounded,
+                              color: AppColors.primary,
+                              size: 22.w,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ],
+                )
+              : const SizedBox.shrink(),
+        ),
+      ],
     ),
   );
 }

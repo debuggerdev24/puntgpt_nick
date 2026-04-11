@@ -1,9 +1,10 @@
 import 'package:puntgpt_nick/core/app_imports.dart';
 import 'package:badges/badges.dart' as badges;
-import 'package:puntgpt_nick/provider/home/classic_form/classic_form_provider.dart';
 import 'package:puntgpt_nick/provider/home/search_engine/search_engine_provider.dart';
 import 'package:puntgpt_nick/provider/subscription/subscription_provider.dart';
 import 'package:puntgpt_nick/screens/dashboard/mobile/dashboard.dart';
+import 'package:puntgpt_nick/screens/dashboard/web/web_dashboard.dart'
+    show indexOfWebTab;
 
 class DashboardAppBar extends StatefulWidget {
   const DashboardAppBar({super.key, required this.navigationShell});
@@ -21,7 +22,6 @@ class _DashboardAppBarState extends State<DashboardAppBar> {
       width: double.maxFinite,
       padding: EdgeInsets.fromLTRB(
         (context.isBrowserMobile) ? 40.w : 16.w,
-
         5,
         (context.isBrowserMobile) ? 40.w : 16.w,
         8,
@@ -50,146 +50,103 @@ class _DashboardAppBarState extends State<DashboardAppBar> {
     );
   }
 
-  Widget _appLogo() {
-    return PopupMenuButton<int>(
-      padding: EdgeInsets.zero,
-      offset: Offset(-4.w, 8.w),
-      color: AppColors.white,
-      elevation: 6,
-      shadowColor: AppColors.black.withValues(alpha: 0.2),
-      shape: RoundedRectangleBorder(
-        side: BorderSide(color: AppColors.black, width: 1),
-        borderRadius: BorderRadius.circular(4.r),
-      ),
-      popUpAnimationStyle: AnimationStyle(
-        duration: const Duration(milliseconds: 300),
-        reverseDuration: const Duration(milliseconds: 220),
-        curve: Curves.easeOutCubic,
-        reverseCurve: Curves.easeInCubic,
-      ),
-      onSelected: (int value) {
-        switch (value) {
-          case 0:
-            indexOfTab.value = 0;
-            AppRouter.indexedStackNavigationShell?.goBranch(0);
-            context.read<SearchEngineProvider>().changeTab = 0;
-            break;
-          case 1:
-            indexOfTab.value = 0;
-            AppRouter.indexedStackNavigationShell?.goBranch(0);
-            final search = context.read<SearchEngineProvider>();
-            search.changeTab = 1;
-            final classic = context.read<ClassicFormProvider>();
-            classic.getClassicFormGuide();
-            classic.getNextToGo();
-            break;
-          case 2:
-            indexOfTab.value = 3;
-            AppRouter.indexedStackNavigationShell?.goBranch(3);
-            break;
-        }
-      },
-      itemBuilder: (BuildContext context) => <PopupMenuEntry<int>>[
-        PopupMenuItem<int>(
-          value: 0,
-          child: Text(
-            'PuntGPT Search Engine',
-            style: medium(
-              fontSize: 14.sp,
-              color: AppColors.black,
-              height: 1.25,
-            ),
-          ),
-        ),
-        const PopupMenuDivider(height: 1),
-        PopupMenuItem<int>(
-          value: 1,
-          child: Text(
-            'Classic Form Guide',
-            style: medium(
-              fontSize: 14.sp,
-              color: AppColors.black,
-              height: 1.25,
-            ),
-          ),
-        ),
-        const PopupMenuDivider(height: 1),
-        PopupMenuItem<int>(
-          value: 2,
-          child: Text(
-            'Account Management',
-            style: medium(
-              fontSize: 14.sp,
-              color: AppColors.black,
-              height: 1.25,
-            ),
-          ),
-        ),
-      ],
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          ImageWidget(
-            path: AppAssets.horse,
-            width: context.isTablet
-                ? 55.sp
-                : (context.isBrowserMobile)
-                ? 62.w
-                : 32.w,
-            color: AppColors.white,
-          ),
-          1.5.verticalSpace,
-          Text(
-            "PuntGPT",
-            style: regular(
-              fontSize: context.isTablet
-                  ? 32.sp
-                  : (context.isBrowserMobile)
-                  ? 48.sp
-                  : 14.sp,
-              height: 1,
-              fontFamily: AppFontFamily.secondary,
-              color: AppColors.white,
-            ),
-          ),
-          Consumer<SubscriptionProvider>(
-            builder: (context, subscriptionProvider, child) {
-              if (subscriptionProvider.isSubscribed) {
-                return Text(
-                  textAlign: TextAlign.center,
-                  "Pro", // : "Upgrade to\nPro Punter",
-                  style: regular(
-                    height: 1,
-                    fontSize: 14.sp,
-                    // context.isTablet
-                    //     ? 32.sp
-                    //     : (context.isBrowserMobile)
-                    //     ? 48.sp
-                    //     : 14.sp,
-                    fontFamily: AppFontFamily.secondary,
-                    color: AppColors.premiumYellow,
-                  ),
-                );
-              }
-              return Text(
-                textAlign: TextAlign.center,
-                "Upgrade to\nPro Punter",
-                style: regular(
-                  height: 1,
-                  fontSize: 12.sp,
+  void _navigateToAccountFromLogo() {
+    if (kIsWeb) {
+      indexOfWebTab.value = 3;
+      WebRouter.indexedStackNavigationShell?.goBranch(3);
+      return;
+    }
+    indexOfTab.value = 3;
+    AppRouter.indexedStackNavigationShell?.goBranch(3);
+  }
 
-                  // context.isTablet
-                  //     ? 32.sp
-                  //     : (context.isBrowserMobile)
-                  //     ? 48.sp
-                  //     : 14.sp,
+  Widget _appLogo() {
+    // Previous: [PopupMenuButton] with PuntGPT Search Engine / Classic Form Guide / Account.
+    // Logo tap now opens Account only (same as former "Account Management" item).
+    //
+    // return PopupMenuButton<int>(
+    //   padding: EdgeInsets.zero,
+    //   offset: Offset(-4.w, 8.w),
+    //   color: AppColors.white,
+    //   elevation: 6,
+    //   shadowColor: AppColors.black.withValues(alpha: 0.2),
+    //   shape: RoundedRectangleBorder(
+    //     side: BorderSide(color: AppColors.black, width: 1),
+    //     borderRadius: BorderRadius.circular(4.r),
+    //   ),
+    //   popUpAnimationStyle: AnimationStyle(
+    //     duration: const Duration(milliseconds: 300),
+    //     reverseDuration: const Duration(milliseconds: 220),
+    //     curve: Curves.easeOutCubic,
+    //     reverseCurve: Curves.easeInCubic,
+    //   ),
+    //   onSelected: (int value) { ... },
+    //   itemBuilder: (BuildContext context) => <PopupMenuEntry<int>>[ ... ],
+    //   child: Column(...),
+    // );
+
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: _navigateToAccountFromLogo,
+        borderRadius: BorderRadius.circular(8.r),
+        child: Padding(
+          padding: EdgeInsets.symmetric(vertical: 2.w, horizontal: 4.w),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ImageWidget(
+                path: AppAssets.horse,
+                width: context.isTablet
+                    ? 55.sp
+                    : (context.isBrowserMobile)
+                    ? 62.w
+                    : 32.w,
+                color: AppColors.white,
+              ),
+              1.5.verticalSpace,
+              Text(
+                "PuntGPT",
+                style: regular(
+                  fontSize: context.isTablet
+                      ? 32.sp
+                      : (context.isBrowserMobile)
+                      ? 48.sp
+                      : 14.sp,
+                  height: 1,
                   fontFamily: AppFontFamily.secondary,
-                  color: AppColors.premiumYellow,
+                  color: AppColors.white,
                 ),
-              );
-            },
+              ),
+              Consumer<SubscriptionProvider>(
+                builder: (context, subscriptionProvider, child) {
+                  if (subscriptionProvider.isSubscribed) {
+                    return Text(
+                      textAlign: TextAlign.center,
+                      "Pro",
+                      style: regular(
+                        height: 1,
+                        fontSize: 14.sp,
+                        fontFamily: AppFontFamily.secondary,
+                        color: AppColors.premiumYellow,
+                      ),
+                    );
+                  }
+                  return Text(
+                    textAlign: TextAlign.center,
+                    "Upgrade to\nPro Punter",
+                    style: regular(
+                      height: 1,
+                      fontSize: 12.sp,
+                      fontFamily: AppFontFamily.secondary,
+                      color: AppColors.premiumYellow,
+                    ),
+                  );
+                },
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
