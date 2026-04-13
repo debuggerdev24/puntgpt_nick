@@ -17,10 +17,11 @@ Widget verticalDivider({
   double? width,
   double? indent,
   double? endIndent,
+  double? opacity,
 }) {
   return height == null
       ? VerticalDivider(
-          color: AppColors.primary.withValues(alpha: 0.2),
+          color: AppColors.primary.withValues(alpha: opacity ?? 0.2),
           width: width ?? 1,
           indent: indent,
           endIndent: endIndent,

@@ -29,10 +29,11 @@ class MeetingDetailsModel {
 class Meeting {
   factory Meeting.fromJson(Map<String, dynamic> json) => Meeting(
     meetingId: json["meetingId"],
-    date: DateTime.parse(json["date"]),
+    date: json["date"],
     trackName: json["track_name"],
     trackCountry: json["track_country"],
     name: json["name"],
+    railPosition: json["rail_position"],
   );
 
   Meeting({
@@ -41,12 +42,11 @@ class Meeting {
     required this.trackName,
     required this.trackCountry,
     required this.name,
+    required this.railPosition,
   });
   int meetingId;
-  DateTime date;
-  String trackName;
-  String trackCountry;
-  String name;
+
+  String trackName, date, trackCountry, name, railPosition;
 }
 
 class Race {

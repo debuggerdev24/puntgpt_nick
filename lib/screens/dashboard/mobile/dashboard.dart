@@ -84,7 +84,7 @@ class _DashboardState extends State<Dashboard> {
 
                       icon: AppAssets.homeIcon,
                       hasLock: false,
-                      index: 1,
+                      index: 0,
                     ),
                     Consumer<SubscriptionProvider>(
                       builder: (context, subscriptionProvider, child) {

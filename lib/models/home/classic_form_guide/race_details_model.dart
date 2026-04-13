@@ -15,6 +15,9 @@ class RaceDetails {
     required this.trackType,
     required this.prizeMoney,
     required this.stage,
+    required this.railPosition,
+    required this.trackConditionRating,
+    required this.weatherEmoji
   });
 
   factory RaceDetails.fromJson(Map<String, dynamic> json) => RaceDetails(
@@ -34,19 +37,23 @@ class RaceDetails {
     tipsSourceBrand: json["tips_source_brand"] as String? ?? '',
     tipsSourceName: json["tips_source_name"] as String? ?? '',
     tipsSourceImage: json["tips_source_image"] as String? ?? '',
+    railPosition: json["rail_position"],
+    weatherEmoji: json["weather_emoji"],
     selections: List<Selection>.from(
       (json["selections"] as List?)?.map(
             (x) => Selection.fromJson((x ?? {}) as Map<String, dynamic>),
           ) ??
           [],
     ),
+      trackConditionRating: json["track_condition_rating"]
   );
-  int raceId, distance, number;
+  int raceId, distance, number,trackConditionRating;
 
   DateTime startTimeUtc;
 
   String name,
       trackCondition,
+      weatherEmoji,
       tipAnalysisText,
       tipsSourceBrand,
       tipsSourceName,
@@ -54,7 +61,7 @@ class RaceDetails {
       australianTime,
       trackType,
       prizeMoney,
-      stage;
+      stage,railPosition;
   List<Selection> selections;
 }
 
@@ -82,6 +89,7 @@ class Selection {
     required this.horseStats,
     required this.formHistory,
     required this.history,
+
   });
 
   factory Selection.fromJson(Map<String, dynamic> json) => Selection(

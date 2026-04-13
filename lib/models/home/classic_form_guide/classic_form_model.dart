@@ -7,6 +7,9 @@ class ClassicFormModel {
     required this.races,
     required this.meetingAustralianTime,
     required this.country,
+    required this.railPosition,
+    required this.weatherEmoji,
+    required this.weatherCondition,
   });
 
   factory ClassicFormModel.fromJson(Map<String, dynamic> json) =>
@@ -23,9 +26,17 @@ class ClassicFormModel {
                 ?.map((x) => Race.fromJson(x as Map<String, dynamic>))
                 .toList() ??
             [],
+        railPosition: json["rail_position"],
+        weatherEmoji: json["weather_emoji"],
+        weatherCondition: json["weather_condition"] ,
       );
   int meetingId;
-  String meetingName, trackName, meetingDate, meetingAustralianTime,country;
+  String meetingName,
+      trackName,
+      meetingDate,
+      meetingAustralianTime,
+      country,
+      railPosition,weatherEmoji,weatherCondition;
   List<Race> races;
 }
 
@@ -36,32 +47,22 @@ class Race {
     required this.raceNumber,
     required this.raceTimeUtc,
     required this.raceAustralianTime,
+    required this.trackCondition,
   });
 
   factory Race.fromJson(Map<String, dynamic> json) {
-    final raceTimeUtc = json["race_time_utc"] ?? json["raceTimeUtc"];
+
     return Race(
       raceId: (json["race_id"] ?? json["raceId"]) as int? ?? 0,
       raceName: (json["race_name"] ?? json["raceName"]) as String? ?? "",
       raceNumber: (json["race_number"] ?? json["raceNumber"]) as int? ?? 0,
-      raceTimeUtc: raceTimeUtc != null
-          ? DateTime.tryParse(raceTimeUtc.toString()) ?? DateTime.now()
-          : DateTime.now(),
-      raceAustralianTime:
-          (json["race_australian_time"] ?? json["raceAustralianTime"])
-              as String? ??
-          "",
+      raceTimeUtc: json["race_australian_time"] ?? "",
+      raceAustralianTime:json["race_australian_time"] ?? "",
+      trackCondition: json["track_condition"] ?? "",
     );
   }
   int raceId, raceNumber;
-  DateTime raceTimeUtc;
-  String raceAustralianTime, raceName;
 
-  Map<String, dynamic> toJson() => {
-    "raceId": raceId,
-    "race_name": raceName,
-    "race_number": raceNumber,
-    "race_time_utc": raceTimeUtc.toIso8601String(),
-    "race_australian_time": raceAustralianTime,
-  };
+  String raceAustralianTime, raceName,raceTimeUtc,trackCondition;
+
 }

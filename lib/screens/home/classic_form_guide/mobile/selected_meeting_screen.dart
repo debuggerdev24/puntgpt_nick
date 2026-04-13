@@ -30,52 +30,64 @@ class SelectedMeetingScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Padding(
-                          padding: EdgeInsets.fromLTRB(25.w, 25.w, 25.w, 0),
+                          padding: EdgeInsets.fromLTRB(25.w, 15.w, 25.w, 0),
                           child: SingleChildScrollView(
                             scrollDirection: Axis.horizontal,
                             child: Container(
                               decoration: BoxDecoration(
                                 border: Border.all(color: AppColors.primary),
                               ),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: List.generate(
-                                  provider.raceList!.races.length,
-                                  (index) {
-                                    final race =
-                                        provider.raceList!.races[index];
-                                    return GestureDetector(
-                                      onTap: () {
-                                        provider.changeSelectedRace = index;
-                                        provider.getRaceFieldDetail(
-                                          id: race.raceId.toString(),
-                                        );
-                                      },
-                                      child: AnimatedContainer(
-                                        padding: EdgeInsets.symmetric(
-                                          vertical: 12,
-                                          horizontal: 12,
-                                        ),
-                                        duration: 400.milliseconds,
-                                        decoration: BoxDecoration(
-                                          color:
-                                              (provider.selectedRace == index)
-                                              ? AppColors.primary
-                                              : null,
-                                        ),
-                                        child: Text(
-                                          "R${index + 1}",
-                                          style: semiBold(
-                                            fontSize: 16.sp,
+                              child: IntrinsicHeight(
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    for (
+                                      var index = 0;
+                                      index <
+                                          provider.raceList!.races.length;
+                                      index++
+                                    ) ...[
+                                      if (index > 0)
+                                        verticalDivider(width: 1,opacity: 1),
+                                      GestureDetector(
+                                        onTap: () {
+                                          provider.changeSelectedRace = index;
+                                          provider.getRaceFieldDetail(
+                                            id: provider
+                                                .raceList!
+                                                .races[index]
+                                                .raceId
+                                                .toString(),
+                                          );
+                                        },
+                                        child: AnimatedContainer(
+                                          padding: EdgeInsets.symmetric(
+                                            vertical: 12,
+                                            horizontal: 12,
+                                          ),
+                                          duration: 400.milliseconds,
+                                          decoration: BoxDecoration(
                                             color:
-                                                (provider.selectedRace == index)
-                                                ? AppColors.white
-                                                : AppColors.primary,
+                                                (provider.selectedRace ==
+                                                    index)
+                                                ? AppColors.primary
+                                                : null,
+                                          ),
+                                          child: Text(
+                                            "R${index + 1}",
+                                            style: semiBold(
+                                              fontSize: 16.sp,
+                                              color:
+                                                  (provider.selectedRace ==
+                                                      index)
+                                                  ? AppColors.white
+                                                  : AppColors.primary,
+                                            ),
                                           ),
                                         ),
                                       ),
-                                    );
-                                  },
+                                    ],
+                                  ],
                                 ),
                               ),
                             ),
@@ -182,48 +194,62 @@ class SelectedMeetingScreen extends StatelessWidget {
     required BuildContext context,
   }) {
     final race = provider.raceDetails!;
-    final meeting = provider.raceList!.meeting;
-
+    final trackCond = race.trackCondition.toLowerCase();
     return Column(
       children: [
         Padding(
-          padding: EdgeInsets.fromLTRB(2.w, 7.w, 8.w, 7.w),
+          padding: EdgeInsets.fromLTRB(13.w, 7.w, 12.w, 7.w),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              IconButton(
-                padding: EdgeInsets.zero,
-                onPressed: () => context.pop(),
-                icon: Icon(Icons.arrow_back_ios_rounded, size: 16.w),
+              Padding(
+                padding: EdgeInsets.only(top: 8.w),
+                child: GestureDetector(
+                  onTap: () => context.pop(),
+                  child: Icon(Icons.arrow_back_ios_rounded, size: 16.w),
+                ),
               ),
+              12.w.horizontalSpace,
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     //* Race name and track condition
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          "${meeting.trackName} - R${race.number} - ${race.distance}m",
-                          style: regular(
-                            fontSize: (context.isBrowserMobile) ? 36.sp : 21.sp,
-                            fontFamily: AppFontFamily.secondary,
-                            height: 1.1,
+                        Expanded(
+                          child: Text(
+                            "${race.selections[0].trackName} - R${race.number} - ${race.distance}m dssdfsfdsfsf",
+                            style: regular(
+                              fontSize: (context.isBrowserMobile)
+                                  ? 36.sp
+                                  : 21.sp,
+                              fontFamily: AppFontFamily.secondary,
+                              height: 1.1,
+                            ),
                           ),
                         ),
                         Text(
-                          "${race.trackCondition}",
+                          race.weatherEmoji,
+                          style: semiBold(fontSize: 18.5.sp),
+                        ),
+                        Text(
+                          " ${race.trackCondition} ${race.trackConditionRating}",
                           style: semiBold(
                             fontSize: (context.isBrowserMobile) ? 28.sp : 14.sp,
-                            color: AppColors.primary,
+                            color: trackCond.contains('good')
+                                ? AppColors.green
+                                : trackCond.toLowerCase().contains('soft')
+                                ? Colors.blue
+                                : AppColors.red,
                           ),
                         ),
                       ],
                     ),
                     1.w.verticalSpace,
                     Text(
-                      "Rail Position : ",
+                      "Rail Position : ${race.railPosition}",
                       // "${meeting.trackName} - R${race.number} - ${race.name}",
                       style: semiBold(
                         fontSize: (context.isBrowserMobile) ? 28.sp : 14.sp,
@@ -233,11 +259,11 @@ class SelectedMeetingScreen extends StatelessWidget {
                     ),
                     2.w.verticalSpace,
                     Text(
-                      race.name,//*Sponser and class data: - ${race.distance}m - ${DateFormatter.formatRaceDateTime(race.australianTime)}",
+                      race.name, //*Sponser and class data: - ${race.distance}m - ${DateFormatter.formatRaceDateTime(race.australianTime)}",
                       style: semiBold(
                         fontSize: (context.isBrowserMobile) ? 28.sp : 14.sp,
                         height: 1.2,
-                        color: AppColors.primary,//.withValues(alpha: 0.6),
+                        color: AppColors.primary, //.withValues(alpha: 0.6),
                       ),
                     ),
                     2.w.verticalSpace,
@@ -246,7 +272,7 @@ class SelectedMeetingScreen extends StatelessWidget {
                       style: semiBold(
                         fontSize: (context.isBrowserMobile) ? 28.sp : 14.sp,
                         height: 1.2,
-                        color: AppColors.primary,//.withValues(alpha: 0.6),
+                        color: AppColors.primary, //.withValues(alpha: 0.6),
                       ),
                     ),
                     2.w.verticalSpace,
@@ -341,30 +367,6 @@ class _RaceDetailsState extends State<RaceDetails> {
   }
 }
 
-Widget _pill({
-  required String text,
-  required BuildContext context,
-  Color? bg,
-  Color? fg,
-}) {
-  return Container(
-    padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 4.w),
-
-    decoration: BoxDecoration(
-      color: bg ?? AppColors.primary.withValues(alpha: 0.06),
-      borderRadius: BorderRadius.circular(8.r),
-      border: Border.all(color: AppColors.primary.withValues(alpha: 0.08)),
-    ),
-    child: Text(
-      text,
-      style: semiBold(
-        fontSize: 14.sp,
-        color: fg ?? AppColors.primary.withValues(alpha: 0.85),
-      ),
-    ),
-  );
-}
-
 Widget _detailLabelValue({
   required String label,
   required String value,
@@ -391,10 +393,7 @@ Widget _detailLabelValue({
   );
 }
 
-/// Accent for track condition / distance line (reference-style blue).
-
-Color _kFormHistoryTrackBlue = Color(0xFF1565C0);
-
+//* Form history card
 class _FormHistoryCard extends StatelessWidget {
   const _FormHistoryCard({required this.history});
 
@@ -539,18 +538,22 @@ class _FormHistoryCard extends StatelessWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Icon(
-                Icons.waves_rounded,
-                size: 18.w,
-                color: _kFormHistoryTrackBlue,
-              ),
-              6.w.horizontalSpace,
+              // Icon(
+              //   Icons.waves_rounded,
+              //   size: 18.w,
+              //   color: _kFormHistoryTrackBlue,
+              // ),
+              // 6.w.horizontalSpace,
               Expanded(
                 child: Text(
                   condDist,
                   style: semiBold(
                     fontSize: 12.5.sp,
-                    color: _kFormHistoryTrackBlue,
+                    color: condDist.toLowerCase().contains('good')
+                        ? AppColors.green
+                        : condDist.toLowerCase().contains('soft')
+                        ? Colors.blue
+                        : AppColors.red,
                     height: 1.3,
                   ),
                 ),
@@ -574,10 +577,11 @@ class _FormHistoryCard extends StatelessWidget {
   }
 }
 
-/// Sire / Dam / Prize row — same facts we used to show in the bottom sheet.
+//* Sire / Dam / Prize row — same facts we used to show in the bottom sheet.
 Widget _pedigreeThreeColumns(Selection selection) {
   return Row(
     crossAxisAlignment: CrossAxisAlignment.start,
+    spacing: 10.w,
     children: [
       Expanded(
         child: Column(
@@ -595,10 +599,7 @@ Widget _pedigreeThreeColumns(Selection selection) {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _detailLabelValue(label: 'Dam', value: selection.horseDam),
-            _detailLabelValue(
-              label: 'Age/Sex',
-              value: '${selection.horseAge} yo',
-            ),
+            _detailLabelValue(label: 'Age', value: '${selection.horseAge} yo'),
           ],
         ),
       ),
@@ -654,7 +655,7 @@ Widget _raceCard({
       color: Colors.white,
       borderRadius: BorderRadius.circular(6.r),
       border: Border.all(
-        color: AppColors.primary.withValues(alpha: 0.2),
+
         width: 1,
       ),
       boxShadow: [
@@ -713,7 +714,7 @@ Widget _raceCard({
                     ),
                   ),
                   8.w.horizontalSpace,
-                  _pill(text: '\$ ${selection.oddsWin}', context: context),
+                  Text("\$ ${selection.oddsWin}", style: bold(fontSize: 17.sp)),
                 ],
               ),
               //* weight, jockey, trainer and form
@@ -789,7 +790,7 @@ Widget _raceCard({
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     8.w.verticalSpace,
-                    horizontalDivider(),
+                    horizontalDivider(opacity: 0.5),
                     8.w.verticalSpace,
                     _pedigreeThreeColumns(selection),
                     12.w.verticalSpace,
@@ -889,25 +890,18 @@ class _HorseStatusContent extends StatelessWidget {
   Widget build(BuildContext context) {
     final hs = selection.horseStats;
     final tiles = <MapEntry<String, String>>[
-      // MapEntry('Sire', _dashIfEmpty(selection.horseSire)),
-      // MapEntry('Dam', _dashIfEmpty(selection.horseDam)),
-      // MapEntry('Prize', _formatPrize(selection.horseTotalPrizeMoney)),
-      // MapEntry('Colour', _dashIfEmpty(selection.horseColour)),
-      // MapEntry('Age', _dashIfEmpty(selection.horseAge)),
-      // MapEntry('Sex', _dashIfEmpty(selection.horseSex)),
-      // MapEntry('12 Months', _formatStat(hs.twelveMonths)),
-      MapEntry('12 months', _formatStat(hs.last12Months)),
       MapEntry('Career', _formatStat(hs.career)),
-      MapEntry('1st Up', _formatStat(hs.firstUp)),
-      MapEntry('2nd Up', _formatStat(hs.secondUp)),
-      MapEntry('3rd Up', _formatStat(hs.thirdUp)),
+      MapEntry('12 months', _formatStat(hs.last12Months)),
+      MapEntry('Track', _formatStat(hs.track)),
+      MapEntry('Distance', _formatStat(hs.distance)),
       MapEntry('Firm', _formatStat(hs.firm)),
       MapEntry('Good', _formatStat(hs.good)),
       MapEntry('Soft', _formatStat(hs.soft)),
       MapEntry('Heavy', _formatStat(hs.heavy)),
-      MapEntry('Track', _formatStat(hs.track)),
+      MapEntry('1st Up', _formatStat(hs.firstUp)),
+      MapEntry('2nd Up', _formatStat(hs.secondUp)),
+      MapEntry('3rd Up', _formatStat(hs.thirdUp)),
       //
-      MapEntry('Distance', _formatStat(hs.distance)),
     ];
 
     final gap = 6.w;
@@ -938,7 +932,7 @@ Widget _statTile({required String label, required String value}) {
     decoration: BoxDecoration(
       color: AppColors.white,
       borderRadius: BorderRadius.circular(4.r),
-      border: Border.all(color: AppColors.primary.withValues(alpha: 0.28)),
+      border: Border.all(color: AppColors.primary.withValues(alpha: 0.5)),
     ),
     alignment: Alignment.topLeft,
     child: Column(

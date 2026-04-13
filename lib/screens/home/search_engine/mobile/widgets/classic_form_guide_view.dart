@@ -45,11 +45,7 @@ class ClassicFormGuideView extends StatelessWidget {
                   },
                   child: AnimatedContainer(
                     duration: 400.milliseconds,
-                    margin: EdgeInsets.only(
-                      top: 24.w,
-                      bottom: 16.w,
-                      right: 8.w,
-                    ),
+                    margin: EdgeInsets.only(top: 14.w, right: 8.w),
                     padding: EdgeInsets.symmetric(
                       vertical: 12.w,
                       horizontal: 18.w,
@@ -76,9 +72,14 @@ class ClassicFormGuideView extends StatelessWidget {
               }),
             ),
           ),
+
           provider.classicFormGuide!.isEmpty
-              ? _buildRaceTableEmptyState(context: context, provider: provider)
-              : Padding(
+              ?
+                //* Race table empty state
+                _buildRaceTableEmptyState(context: context, provider: provider)
+              :
+                //* classic form meetings block
+                Padding(
                   padding: EdgeInsets.only(bottom: 55.w),
                   child: _ClassicFormMeetingsBlock(provider: provider),
                 ),
@@ -89,7 +90,7 @@ class ClassicFormGuideView extends StatelessWidget {
   }
 }
 
-/// Metro → Regional → Trials meeting list (grouped API) or one list (legacy API).
+//* Metro → Regional → Trials meeting list (grouped API) or one list (legacy API).
 class _ClassicFormMeetingsBlock extends StatelessWidget {
   const _ClassicFormMeetingsBlock({required this.provider});
 
@@ -99,9 +100,7 @@ class _ClassicFormMeetingsBlock extends StatelessWidget {
     provider.getMeetingRaceList(meetingId: meeting.meetingId.toString());
     if (meeting.races.isEmpty) return;
     final raceIndex = provider.selectedRace.clamp(0, meeting.races.length - 1);
-    provider.getRaceFieldDetail(
-      id: meeting.races[raceIndex].raceId.toString(),
-    );
+    provider.getRaceFieldDetail(id: meeting.races[raceIndex].raceId.toString());
     context.pushNamed(AppRoutes.selectedRace.name);
   }
 
@@ -113,29 +112,19 @@ class _ClassicFormMeetingsBlock extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           if (provider.classicFormMetroMeetings.isNotEmpty) ...[
+            8.w.verticalSpace,
             const _ClassicFormSectionTitle(label: 'Metro'),
-            ..._tilesFor(
-              context,
-              provider.classicFormMetroMeetings,
-            ),
+            ..._tilesFor(context, provider.classicFormMetroMeetings),
           ],
           if (provider.classicFormRegionalMeetings.isNotEmpty) ...[
-            if (provider.classicFormMetroMeetings.isNotEmpty) 14.h.verticalSpace,
+            8.w.verticalSpace,
             const _ClassicFormSectionTitle(label: 'Regional'),
-            ..._tilesFor(
-              context,
-              provider.classicFormRegionalMeetings,
-            ),
+            ..._tilesFor(context, provider.classicFormRegionalMeetings),
           ],
           if (provider.classicFormTrialMeetings.isNotEmpty) ...[
-            if (provider.classicFormMetroMeetings.isNotEmpty ||
-                provider.classicFormRegionalMeetings.isNotEmpty)
-              14.h.verticalSpace,
+            8.w.verticalSpace,
             const _ClassicFormSectionTitle(label: 'Trials'),
-            ..._tilesFor(
-              context,
-              provider.classicFormTrialMeetings,
-            ),
+            ..._tilesFor(context, provider.classicFormTrialMeetings),
           ],
         ],
       );
@@ -149,7 +138,7 @@ class _ClassicFormMeetingsBlock extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         for (var i = 0; i < provider.classicFormGuide!.length; i++) ...[
-          if (i > 0) 10.h.verticalSpace,
+          if (i > 0) 10.w.verticalSpace,
           _ClassicFormMeetingTile(
             meeting: provider.classicFormGuide![i],
             onTap: () => _openMeeting(context, provider.classicFormGuide![i]),
@@ -198,98 +187,127 @@ class _ClassicFormSectionTitle extends StatelessWidget {
 
 /// One meeting row: track name, country under it, first-race time on the right, chevron.
 class _ClassicFormMeetingTile extends StatelessWidget {
-  const _ClassicFormMeetingTile({
-    required this.meeting,
-    required this.onTap,
-  });
+  const _ClassicFormMeetingTile({required this.meeting, required this.onTap});
 
   final ClassicFormModel meeting;
   final VoidCallback onTap;
 
-  String get _displayName =>
-      meeting.trackName.trim().isNotEmpty ? meeting.trackName : meeting.meetingName;
+  String get _displayName => meeting.meetingName.trim().isNotEmpty
+      ? meeting.trackName
+      : meeting.meetingName;
 
-  String get _countryOrEmpty => meeting.country.trim();
+  String get _trackCondition =>
+      meeting.races.first.trackCondition.toLowerCase();
 
   @override
   Widget build(BuildContext context) {
-    final timeText = meeting.meetingAustralianTime.trim().isNotEmpty
-        ? meeting.meetingAustralianTime
-        : (meeting.races.isNotEmpty
-            ? meeting.races.first.raceAustralianTime
-            : '');
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        width: double.infinity,
+        padding: EdgeInsets.symmetric(horizontal: 9.w, vertical: 8.w),
+        decoration: BoxDecoration(
+          color: AppColors.white,
+          borderRadius: BorderRadius.circular(6.r),
+          border: Border.all(color: AppColors.primary.setOpacity(0.5)),
+        ),
+        child: Row(
+          children: [
+            //*left side part for the classic forms meeting
+            Expanded(
+              child: Column(
+                crossAxisAlignment: .start,
+                mainAxisSize: .min,
+                children: [
+                  Text(
+                    _displayName,
+                    style: semiBold(
+                      fontSize: 15.sp,
+                      color: AppColors.black,
+                      fontFamily: AppFontFamily.primary,
+                    ),
+                    maxLines: 3,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  2.w.verticalSpace,
 
-    return Material(
-      color: AppColors.white,
-      borderRadius: BorderRadius.circular(12.r),
-      clipBehavior: Clip.antiAlias,
-      child: InkWell(
-        onTap: onTap,
-        child: Container(
-          width: double.infinity,
-          padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 12.h),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(12.r),
-            border: Border.all(
-              color: AppColors.primary.setOpacity(0.1),
-            ),
-          ),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
+                  if (meeting.country.isNotEmpty) ...[
                     Text(
-                      _displayName,
-                      style: semiBold(
-                        fontSize: 15.sp.clamp(14, 17),
-                        color: AppColors.black,
+                      "Country : ${meeting.country}",
+                      style: regular(
+                        fontSize: 12.sp,
+                        color: AppColors.primary.withValues(alpha: 0.85),
+                        fontFamily: AppFontFamily.primary,
+                        height: 1.2,
+                      ),
+                    ),
+                  ],
+                  if (meeting.railPosition.isNotEmpty) ...[
+                    Text(
+                      "Rail Pos. : ${meeting.railPosition}",
+                      style: regular(
+                        fontSize: 12.sp.clamp(11, 14),
+                        color: AppColors.primary.withValues(alpha: 0.85),
                         fontFamily: AppFontFamily.primary,
                       ),
                       maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
                     ),
-                    if (_countryOrEmpty.isNotEmpty) ...[
-                      4.h.verticalSpace,
-                      Text(
-                        _countryOrEmpty,
-                        style: regular(
-                          fontSize: 12.sp.clamp(11, 14),
-                          color: AppColors.primary.withValues(alpha: 0.45),
-                          fontFamily: AppFontFamily.primary,
-                        ),
+                  ],
+                ],
+              ),
+            ),
+
+            //*right side part for the classic forms meeting
+            8.w.horizontalSpace,
+            Column(
+              mainAxisAlignment: .spaceBetween,
+              crossAxisAlignment: .end,
+              spacing: 5.w,
+
+              children: [
+                Row(
+                  mainAxisSize: .min,
+                  children: [
+                    Text(
+                      "${meeting.weatherEmoji} ",
+                      style: semiBold(
+                        fontSize: 18.6.sp,
+                        color: AppColors.primary.withValues(alpha: 0.85),
+                        fontFamily: AppFontFamily.primary,
                       ),
-                    ],
+                    ),
+                    Text(
+                      meeting.races.first.trackCondition,
+                      style: semiBold(
+                        fontSize: 13.5.sp,
+                        color: _trackCondition.contains('good')
+                            ? AppColors.green
+                            : _trackCondition.contains('soft')
+                            ? Colors.blue
+                            : AppColors.red,
+                        fontFamily: AppFontFamily.primary,
+                      ),
+                    ),
                   ],
                 ),
-              ),
-              if (timeText.isNotEmpty) ...[
-                8.w.horizontalSpace,
-                Text(
-                  timeText,
-                  style: semiBold(
-                    fontSize: 14.sp.clamp(13, 16),
-                    color: AppColors.black,
-                    fontFamily: AppFontFamily.primary,
+
+                if (meeting.meetingAustralianTime.isNotEmpty)
+                  Text(
+                    meeting.meetingAustralianTime,
+                    style: semiBold(
+                      fontSize: 14.5.sp,
+                      color: AppColors.black,
+                      fontFamily: AppFontFamily.primary,
+                    ),
                   ),
-                ),
               ],
-              Icon(
-                Icons.chevron_right_rounded,
-                size: 22.sp,
-                color: AppColors.primary.withValues(alpha: 0.28),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
   }
 }
-
 
 //   scrollDirection: Axis.horizontal,
 //   child: Container(

@@ -22,11 +22,6 @@ class DateFormatter {
     return DateFormat('EEEE, MMMM d, yyyy').format(date);
   }
 
-  // Format: 01/07/2025
-  static String formatSlash(DateTime date) {
-    return DateFormat('dd/MM/yyyy').format(date);
-  }
-
   // Format: 01-07-2025
   static String formatDash(DateTime date) {
     return DateFormat('dd-MM-yyyy').format(date);
@@ -108,8 +103,8 @@ class DateFormatter {
     try {
       final dt = DateTime.parse(dateTimeUtc).toLocal();
       final datePart = _formatDateWithOrdinal(dt);
-      final timePart = formatTimeOnly(dt);
-      return '$datePart, $timePart';
+      final timePart = dateTimeUtc.split(' ')[1];
+      return '$datePart - $timePart';
     } catch (e) {
       return dateTimeUtc;
     }

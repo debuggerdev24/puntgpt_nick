@@ -3,8 +3,7 @@ import 'package:puntgpt_nick/core/app_imports.dart';
 import 'package:puntgpt_nick/models/home/search_engine/bookie_story_item.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-/// Full-screen story: swipe sideways between partners, tap the ad image for the
-/// affiliate link, swipe down or tap X to close. Returns the last page index.
+// Full-screen story: swipe sideways between partners, tap the ad image for the
 class BookieStoryViewer extends StatefulWidget {
   const BookieStoryViewer({
     super.key,
@@ -83,7 +82,7 @@ class _BookieStoryViewerState extends State<BookieStoryViewer> {
               currentPage: _currentPage,
             ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(4, 0, 4, 4),
+              padding: EdgeInsets.fromLTRB(12.w, 0, 0.w, 4.w),
               child: Row(
                 children: [
                   Expanded(
@@ -191,10 +190,7 @@ class _StoryAdPage extends StatelessWidget {
       child: Center(
         child: GestureDetector(
           onTap: onTapImage,
-          child: Image.asset(
-            imageAsset,
-            fit: BoxFit.contain,
-          ),
+          child: Image.asset(imageAsset, fit: BoxFit.contain),
         ),
       ),
     );
@@ -278,7 +274,7 @@ class _StoryVideoPageState extends State<_StoryVideoPage> {
         // [fit] only applies inside the player’s box. [expandToFill] makes that box fill the parent;
         // otherwise the player stays small and cover looks like it “does nothing”.
         fit: BoxFit.cover,
-        expandToFill: true,
+        expandToFill: false,
         handleLifecycle: true,
         eventListener: _onBetterPlayerEvent,
         controlsConfiguration: const BetterPlayerControlsConfiguration(
@@ -307,10 +303,7 @@ class _StoryVideoPageState extends State<_StoryVideoPage> {
         ),
       );
 
-      _player = BetterPlayerController(
-        config,
-        betterPlayerDataSource: source,
-      );
+      _player = BetterPlayerController(config, betterPlayerDataSource: source);
       setState(() => _ready = true);
 
       if (widget.isActive) {
@@ -388,7 +381,16 @@ class _StoryVideoPageState extends State<_StoryVideoPage> {
                 SizedBox(
                   width: constraints.maxWidth,
                   height: constraints.maxHeight,
-                  child: BetterPlayer(controller: _player!),
+                  child: ClipRect(
+                    // ← Add ClipRect
+                    child: OverflowBox(
+                      // ← Wrap with OverflowBox
+                      maxWidth: constraints.maxWidth,
+                      maxHeight: constraints.maxHeight,
+                      child: BetterPlayer(controller: _player!),
+                    ),
+                  ),
+                  // child: BetterPlayer(controller: _player!),
                 ),
               ],
             );

@@ -14,30 +14,30 @@ class PunterClubScreenWebScreen extends StatelessWidget {
     final bodyWidth = context.isBrowserMobile
         ? double.maxFinite
         : context.isTablet
-        ? 1240.w
+        ? double.maxFinite
         : 1040.w;
-    final twentyResponsive = context.isDesktop
-        ? 20.sp
-        : context.isTablet
-        ? 28.sp
-        : context.isBrowserMobile
-        ? 36.sp
-        : 20.sp;
+    // final twentyResponsive = context.isDesktop
+    //     ? 20.sp
+    //     : context.isTablet
+    //     ? 28.sp
+    //     : context.isBrowserMobile
+    //     ? 36.sp
+    //     : 20.sp;
 
-    final fourteenResponsive = context.isDesktop
-        ? 14.sp
-        : context.isTablet
-        ? 20.sp
-        : context.isBrowserMobile
-        ? 28.sp
-        : 14.sp;
-    final sixteenResponsive = context.isDesktop
-        ? 16.sp
-        : context.isTablet
-        ? 24.sp
-        : (context.isBrowserMobile)
-        ? 32.sp
-        : 16.sp;
+    // final fourteenResponsive = context.isDesktop
+    //     ? 14.sp
+    //     : context.isTablet
+    //     ? 20.sp
+    //     : context.isBrowserMobile
+    //     ? 28.sp
+    //     : 14.sp;
+    // final sixteenResponsive = context.isDesktop
+    //     ? 16.sp
+    //     : context.isTablet
+    //     ? 24.sp
+    //     : (context.isBrowserMobile)
+    //     ? 32.sp
+    //     : 16.sp;
     return Scaffold(
       body: Stack(
         children: [
@@ -59,10 +59,10 @@ class PunterClubScreenWebScreen extends StatelessWidget {
                       //* ---------------> left panel
                       verticalDivider(),
                       SizedBox(
-                        width: 
+                        width:
                         context.isDesktop
                             ? 222
-                            : 190,
+                            : 195,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -77,7 +77,7 @@ class PunterClubScreenWebScreen extends StatelessWidget {
                                   Text(
                                     "Club Chat:",
                                     style: regular(
-                                      fontSize: twentyResponsive,
+                                      fontSize: 16,
                                       fontFamily: AppFontFamily.secondary,
                                     ),
                                   ),
@@ -94,16 +94,17 @@ class PunterClubScreenWebScreen extends StatelessWidget {
                                       showModalSideSheet(
                                         context: context,
                                         useRootNavigator: false,
-                                        width: context.isDesktop
-                                            ? 530.w
-                                            : 590.w,
+                                        width: 530,
+                                        // context.isDesktop
+                                        //     ? 530.w
+                                        //     : 590.w,
                                         withCloseControll: true,
                                         body: _notificationSideSheet(
                                           context: context,
                                           provider: provider,
-                                          sixteenResponsive: sixteenResponsive,
-                                          fourteenResponsive:
-                                              fourteenResponsive,
+                                          // sixteenResponsive: sixteenResponsive,
+                                          // fourteenResponsive:
+                                          //     fourteenResponsive,
                                         ),
                                       );
                                     },
@@ -134,10 +135,10 @@ class PunterClubScreenWebScreen extends StatelessWidget {
                             4.h.verticalSpace,
                             horizontalDivider(),
 
-                            //todo chat tabs
+                            //* chat tabs
                             _chatTabs(
                               title: "‘Top Punters’",
-                              fourteenResponsive: fourteenResponsive,
+                              // fourteenResponsive: fourteenResponsive,
                               color: (provider.selectedPunterWeb == 0)
                                   ? AppColors.primary
                                   : null,
@@ -149,7 +150,7 @@ class PunterClubScreenWebScreen extends StatelessWidget {
                             horizontalDivider(),
                             _chatTabs(
                               title: "‘PuntGPT Legends’",
-                              fourteenResponsive: fourteenResponsive,
+                              // fourteenResponsive: fourteenResponsive,
                               color: (provider.selectedPunterWeb == 1)
                                   ? AppColors.primary
                                   : null,
@@ -161,7 +162,7 @@ class PunterClubScreenWebScreen extends StatelessWidget {
                             horizontalDivider(),
                             _chatTabs(
                               title: "‘Mug Punters Crew’",
-                              fourteenResponsive: fourteenResponsive,
+                              // fourteenResponsive: fourteenResponsive,
                               color: (provider.selectedPunterWeb == 2)
                                   ? AppColors.primary
                                   : null,
@@ -174,7 +175,7 @@ class PunterClubScreenWebScreen extends StatelessWidget {
                             Spacer(),
                             AppOutlinedButton(
                               margin: EdgeInsets.all(24.w),
-                              textStyle: semiBold(fontSize: fourteenResponsive),
+                              // textStyle: semiBold(fontSize: fourteenResponsive),
                               text: "Create New Club",
                               onTap: () {},
                             ),
@@ -202,7 +203,7 @@ class PunterClubScreenWebScreen extends StatelessWidget {
 
   Widget _chatTabs({
     required String title,
-    required double fourteenResponsive,
+    // required double fourteenResponsive,
     Color? color,
     required VoidCallback onTap,
     required BuildContext context,
@@ -221,7 +222,7 @@ class PunterClubScreenWebScreen extends StatelessWidget {
             Text(
               title,
               style: bold(
-                fontSize: fourteenResponsive,
+                fontSize: 12,//fourteenResponsive,
                 color: color == AppColors.primary ? AppColors.white : null,
               ),
             ),
@@ -490,8 +491,8 @@ class PunterClubScreenWebScreen extends StatelessWidget {
   Widget _notificationSideSheet({
     required BuildContext context,
     required PuntClubProvider provider,
-    required double sixteenResponsive,
-    required double fourteenResponsive,
+    // required double sixteenResponsive,
+    // required double fourteenResponsive,
   }) {
     return ColoredBox(
       color: AppColors.white,
@@ -513,14 +514,14 @@ class PunterClubScreenWebScreen extends StatelessWidget {
             24.w.verticalSpace,
             horizontalDivider(),
             _notificationBox(
-              fourteenResponsive: fourteenResponsive,
-              sixteenResponsive: sixteenResponsive,
+              // fourteenResponsive: fourteenResponsive,
+              // sixteenResponsive: sixteenResponsive,
               context: context,
               provider: provider,
             ),
             _notificationBox(
-              fourteenResponsive: fourteenResponsive,
-              sixteenResponsive: sixteenResponsive,
+              // fourteenResponsive: fourteenResponsive,
+              // sixteenResponsive: sixteenResponsive,
               context: context,
               provider: provider,
             ),
@@ -545,8 +546,8 @@ class PunterClubScreenWebScreen extends StatelessWidget {
   Widget _notificationBox({
     required BuildContext context,
     required PuntClubProvider provider,
-    required double sixteenResponsive,
-    required double fourteenResponsive,
+    // required double sixteenResponsive,
+    // required double fourteenResponsive,
   }) {
     return Container(
       padding: EdgeInsets.symmetric(
@@ -573,14 +574,14 @@ class PunterClubScreenWebScreen extends StatelessWidget {
                   TextSpan(
                     text: "You’ve been invited to join Punter Club",
                     style: medium(
-                      fontSize: sixteenResponsive,
+                      fontSize: 14,
                       fontFamily: AppFontFamily.primary,
                     ),
                   ),
                   TextSpan(
                     text: " PuntGPT Legends",
                     style: bold(
-                      fontSize: sixteenResponsive,
+                      fontSize: 14,
                       fontFamily: AppFontFamily.primary,
                     ),
                   ),
@@ -598,7 +599,7 @@ class PunterClubScreenWebScreen extends StatelessWidget {
                 isExpand: false,
                 text: "Join",
                 textStyle: semiBold(
-                  fontSize: fourteenResponsive,
+                  fontSize: 12,
                   color: AppColors.white,
                 ),
                 onTap: () {
