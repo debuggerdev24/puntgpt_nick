@@ -1,7 +1,6 @@
 import 'package:puntgpt_nick/core/app_imports.dart';
 import 'package:toastification/toastification.dart';
 
-
 class AppToast {
   // Base show method
   static void show({
@@ -28,7 +27,7 @@ class AppToast {
         overflow: TextOverflow.ellipsis,
         style: medium(
           color: textColor ?? AppColors.white,
-          fontSize: 18.fSize,
+          fontSize: (kIsWeb) ? 16 : 18.sp,
         ),
       ),
     );

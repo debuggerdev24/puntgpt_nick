@@ -8,7 +8,6 @@ class PunterClubChatSectionWeb extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    
     // final twelveResponsive = context.isDesktop
     //     ? 12.sp
     //     : context.isTablet
@@ -32,10 +31,12 @@ class PunterClubChatSectionWeb extends StatelessWidget {
             children: [
               Padding(
                 padding: EdgeInsets.symmetric(
-                  horizontal: context.isDesktop ? 24.w : 30.w,
-                  vertical: context.isDesktop ? 11.w : 17.w,
+                  horizontal: context.isDesktop
+                      ? 16.adaptiveSpacing(context)
+                      : 17.adaptiveSpacing(context),
+                  vertical:8.adaptiveSpacing(context),
                 ),
-                child: topBar(
+                child: _topBar(
                   context: context,
                   // twelveResponsive: twelveResponsive,
                   // fourteenResponsive: fourteenResponsive,
@@ -46,9 +47,9 @@ class PunterClubChatSectionWeb extends StatelessWidget {
                 child: ListView(
                   padding: EdgeInsets.zero,
                   children: [
-                    ChatSectionWeb(),
-                    ChatSectionWeb(),
-                    ChatSectionWeb(),
+                    ChatBubbleWeb(),
+                    ChatBubbleWeb(),
+                    ChatBubbleWeb(),
                   ],
                 ),
               ),
@@ -61,7 +62,7 @@ class PunterClubChatSectionWeb extends StatelessWidget {
                   hintText: "Type your message...",
                   hintStyle: medium(
                     fontStyle: FontStyle.italic,
-                    fontSize: 16.sixteenSp(context),
+                    fontSize: 11.5,
                     color: AppColors.primary.withValues(alpha: 0.6),
                   ),
                 ),
@@ -78,7 +79,7 @@ class PunterClubChatSectionWeb extends StatelessWidget {
     );
   }
 
-  Widget topBar({
+  Widget _topBar({
     required BuildContext context,
     // required double twelveResponsive,
     // required double fourteenResponsive,
@@ -93,9 +94,14 @@ class PunterClubChatSectionWeb extends StatelessWidget {
             Text(
               "‘PuntGPT Legends’",
               style: regular(
-                fontSize: context.isDesktop ? 24.sp : (context.isBrowserMobile) ? 24.sp : 30.sp,
+                fontSize: 20,
+                // context.isDesktop
+                //     ? 24.sp
+                //     : (context.isBrowserMobile)
+                //     ? 24.sp
+                //     : 30.sp,
                 fontFamily: AppFontFamily.secondary,
-                height: 1.35,
+                height: 1.3,
               ),
             ),
             Text(
@@ -113,7 +119,7 @@ class PunterClubChatSectionWeb extends StatelessWidget {
             showModalSideSheet(
               context: context,
               useRootNavigator: false,
-              width: context.isDesktop ? 530.w : 580.w,
+              width: context.isDesktop ? 500 : 550,
               withCloseControll: true,
               body: _inviteUserSheet(
                 // sixteenResponsive: sixteenResponsive,
@@ -127,17 +133,15 @@ class PunterClubChatSectionWeb extends StatelessWidget {
                 path: AppAssets.addClubMember,
                 type: ImageType.svg,
                 color: AppColors.primary,
-                height: context.isDesktop ? 20.w : 28.w,
+                height: 14.5
+                ,//context.isDesktop ? 20.w : 28.w,
               ),
-              context.isDesktop ? 10.w.horizontalSpace : 20.w.horizontalSpace,
-              Text(
-                "Add New Members",
-                style: semiBold(fontSize: 12),
-              ),
+              SizedBox(width: 5),//context.isDesktop ? 10.w.horizontalSpace : 20.w.horizontalSpace,
+              if(!context.isTablet)Text("Add New Members", style: semiBold(fontSize: 12)),
             ],
           ),
         ),
-        28.w.horizontalSpace,
+        SizedBox(width: context.isDesktop ? 16 : 10),//28.w.horizontalSpace,
         MouseRegion(
           cursor: SystemMouseCursors.click,
           child: GestureDetector(
@@ -174,14 +178,10 @@ class PunterClubChatSectionWeb extends StatelessWidget {
                 Offset.zero & overlay.size, // Screen bounds
               );
 
-              popUpMenu(
-                context: context,
-                position: position,
-                
-              );
+              popUpMenu(context: context, position: position);
             },
             child: ImageWidget(
-              height: context.isDesktop ? 20.w : 28.w,
+              height: 14.5,//context.isDesktop ? 20.w : 28.w,
               path: AppAssets.option,
               type: ImageType.svg,
             ),
@@ -208,10 +208,7 @@ class PunterClubChatSectionWeb extends StatelessWidget {
               useRootNavigator: false,
               width: context.isDesktop ? 530.w : 580.w,
               withCloseControll: true,
-              body: _inviteUserSheet(
-                context: context,
-                
-              ),
+              body: _inviteUserSheet(context: context),
             );
           },
           value: "view",
@@ -219,10 +216,7 @@ class PunterClubChatSectionWeb extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                "View Members",
-                style: semiBold(fontSize: 14.fSize),
-              ),
+              Text("View Members", style: semiBold(fontSize: 14.fSize)),
               Icon(Icons.chevron_right, size: 18),
             ],
           ),
@@ -234,10 +228,7 @@ class PunterClubChatSectionWeb extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                "Change Name",
-                style: semiBold(fontSize: 14.fSize),
-              ),
+              Text("Change Name", style: semiBold(fontSize: 14.fSize)),
               Icon(Icons.chevron_right, size: 18),
             ],
           ),
@@ -253,10 +244,7 @@ class PunterClubChatSectionWeb extends StatelessWidget {
             ),
             margin: EdgeInsets.only(top: 35.w, bottom: 20.w),
             text: "Leave Group",
-            textStyle: semiBold(
-              fontSize: 14.fSize,
-              color: AppColors.redButton,
-            ),
+            textStyle: semiBold(fontSize: 14.fSize, color: AppColors.redButton),
             borderColor: AppColors.redButton,
             onTap: () {},
           ),
@@ -279,23 +267,23 @@ class PunterClubChatSectionWeb extends StatelessWidget {
             Text(
               "Invite Users",
               style: regular(
-                fontSize: context.isDesktop ? 20.sp : 30.sp,
+                fontSize: 20,//context.isDesktop ? 20.sp : 30.sp,
                 fontFamily: AppFontFamily.secondary,
                 height: 1.35,
               ),
             ),
-            21.w.verticalSpace,
+            SizedBox(height: 21),
             horizontalDivider(),
-            21.w.verticalSpace,
+            SizedBox(height: 21),
             AppTextField(
               controller: TextEditingController(),
               hintText: "Search by username",
               trailingIcon: AppAssets.searchIcon,
               //(Icons.search),
             ),
-            24.verticalSpace,
+            SizedBox(height: 24),
             _userBox(context: context),
-            10.verticalSpace,
+            SizedBox(height: 10),
             _userBox(context: context),
             Spacer(),
           ],
@@ -304,9 +292,7 @@ class PunterClubChatSectionWeb extends StatelessWidget {
     );
   }
 
-  Widget _userBox({
-    required BuildContext context,
-  }) {
+  Widget _userBox({required BuildContext context}) {
     final boxSize = context.isDesktop
         ? 48.w
         : context.isTablet

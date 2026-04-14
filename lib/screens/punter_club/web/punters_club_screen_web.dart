@@ -59,23 +59,20 @@ class PunterClubScreenWebScreen extends StatelessWidget {
                       //* ---------------> left panel
                       verticalDivider(),
                       SizedBox(
-                        width:
-                        context.isDesktop
-                            ? 222
-                            : 195,
+                        width: context.isDesktop ? 222 : 200,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             //* title
                             Padding(
                               padding: EdgeInsets.symmetric(
-                                horizontal: context.isDesktop ? 26.w : 20.w,
-                                vertical: context.isDesktop ? 26.w : 20.w,
+                                horizontal: context.isDesktop ? 16 : 12,
+                                vertical: context.isDesktop ? 16 : 12,
                               ),
                               child: Row(
                                 children: [
                                   Text(
-                                    "Club Chat:",
+                                    "Club Chat",
                                     style: regular(
                                       fontSize: 16,
                                       fontFamily: AppFontFamily.secondary,
@@ -132,7 +129,7 @@ class PunterClubScreenWebScreen extends StatelessWidget {
                                 ],
                               ),
                             ),
-                            4.h.verticalSpace,
+                            4.w.verticalSpace,
                             horizontalDivider(),
 
                             //* chat tabs
@@ -175,7 +172,10 @@ class PunterClubScreenWebScreen extends StatelessWidget {
                             Spacer(),
                             AppOutlinedButton(
                               margin: EdgeInsets.all(24.w),
-                              // textStyle: semiBold(fontSize: fourteenResponsive),
+                              textStyle: semiBold(
+                                fontSize: 14,
+                                color: AppColors.primary,
+                              ),
                               text: "Create New Club",
                               onTap: () {},
                             ),
@@ -222,7 +222,7 @@ class PunterClubScreenWebScreen extends StatelessWidget {
             Text(
               title,
               style: bold(
-                fontSize: 12,//fourteenResponsive,
+                fontSize: 12, //fourteenResponsive,
                 color: color == AppColors.primary ? AppColors.white : null,
               ),
             ),
@@ -232,7 +232,7 @@ class PunterClubScreenWebScreen extends StatelessWidget {
     );
   }
 
-  //todo create club dialogue
+  //* create club dialogue
   void _createClubDialogue({
     required BuildContext context,
     required PuntClubProvider provider,
@@ -450,7 +450,7 @@ class PunterClubScreenWebScreen extends StatelessWidget {
     );
   }
 
-  //todo user name box
+  //* user name box
   Widget _userBox({required double fieldWidth, required BuildContext context}) {
     final boxSize = context.isDesktop ? 48.w : 70.w;
     return Container(
@@ -487,7 +487,7 @@ class PunterClubScreenWebScreen extends StatelessWidget {
     );
   }
 
-  //todo notification side sheet
+  //* notification side sheet
   Widget _notificationSideSheet({
     required BuildContext context,
     required PuntClubProvider provider,
@@ -598,10 +598,7 @@ class PunterClubScreenWebScreen extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: 18.w, vertical: 9.h),
                 isExpand: false,
                 text: "Join",
-                textStyle: semiBold(
-                  fontSize: 12,
-                  color: AppColors.white,
-                ),
+                textStyle: semiBold(fontSize: 12, color: AppColors.white),
                 onTap: () {
                   context.pop();
                   _enterUserNameDialogue(context: context, provider: provider);

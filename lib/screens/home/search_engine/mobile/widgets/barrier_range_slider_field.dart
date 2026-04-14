@@ -10,8 +10,13 @@ class BarrierRangeSliderField extends StatelessWidget {
   final RangeValues values; // stores indexes (0..5)
   final ValueChanged<RangeValues>? onChanged;
 
-  // Single-value points shown on UI (no range labels).
+  // Single-value points shown on UI (no range labels). Last tick is shown as "16+".
   static const List<int> _points = [1, 4, 7, 10, 13, 16];
+
+  static String _formatBarrierTick(int value) {
+    if (value == _points.last) return '${_points.last}+';
+    return '$value';
+  }
 
   String _selectedText() {
     final start = values.start.round();
@@ -20,8 +25,10 @@ class BarrierRangeSliderField extends StatelessWidget {
     final upper = start <= end ? end : start;
     final minValue = _points[lower];
     final maxValue = _points[upper];
-    if (minValue == maxValue) return "$minValue";
-    return "$minValue - $maxValue";
+    final a = _formatBarrierTick(minValue);
+    final b = _formatBarrierTick(maxValue);
+    if (minValue == maxValue) return a;
+    return "$a - $b";
   }
 
   @override
@@ -57,7 +64,7 @@ class BarrierRangeSliderField extends StatelessWidget {
               children: _points
                   .map(
                     (value) => Text(
-                      "$value",
+                      _formatBarrierTick(value),
                       style: medium(
                         fontSize: (context.isBrowserMobile) ? 24.sp : 12.sp,
                         color: AppColors.primary.withValues(alpha: 0.8),
@@ -89,8 +96,8 @@ class BarrierRangeSliderField extends StatelessWidget {
               max: 5,
               values: values,
               labels: RangeLabels(
-                "${_points[values.start.round()]}",
-                "${_points[values.end.round()]}",
+                _formatBarrierTick(_points[values.start.round()]),
+                _formatBarrierTick(_points[values.end.round()]),
               ),
               // 6 fixed points.
               divisions: 5,

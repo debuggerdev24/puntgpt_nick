@@ -308,7 +308,7 @@ class _RunnersListScreenState extends State<RunnersListScreen> {
             Text(
               "No runners found",
               style: semiBold(
-                fontSize: (context.isBrowserMobile) ? 28.sp : 18.sp,
+                fontSize: (context.isBrowserMobile) ? 28.sp : 22.sp,
                 fontFamily: AppFontFamily.secondary,
                 color: AppColors.primary,
               ),
@@ -327,7 +327,7 @@ class _RunnersListScreenState extends State<RunnersListScreen> {
             28.h.verticalSpace,
             OutlinedButton.icon(
               onPressed: () => context.pop(),
-              icon: Icon(Icons.tune_rounded, size: 20.sp),
+              icon: Icon(Icons.tune_rounded, size: 20.sp,color: AppColors.primary,),
               label: Text(
                 "Adjust search filters",
                 style: semiBold(fontSize: 14.sp, color: AppColors.primary),

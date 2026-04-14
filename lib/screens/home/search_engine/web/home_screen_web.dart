@@ -507,7 +507,7 @@ Widget askPuntGPTSheetView(BuildContext context) {
       Expanded(
         child: ListView(
           padding: EdgeInsets.zero,
-          children: [ChatSectionWeb(), ChatSectionWeb()],
+          children: [ChatBubbleWeb(), ChatBubbleWeb()],
         ),
       ),
       horizontalDivider(),

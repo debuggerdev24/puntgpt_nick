@@ -33,7 +33,7 @@ class AppOutlinedButton extends StatelessWidget {
         onTap: onTap,
         child: Container(
           margin: margin,
-          padding: EdgeInsets.symmetric(vertical: 12.wSize, horizontal: 15.w),
+          padding: EdgeInsets.symmetric(vertical: 12.wSize, horizontal: 15.wSize),
 
           height: height,
           width: (width == null)
@@ -47,6 +47,7 @@ class AppOutlinedButton extends StatelessWidget {
             color: AppColors.white,
             border: Border.all(color: borderColor ?? AppColors.primary),
           ),
+
           alignment: AlignmentGeometry.center,
           child:
               child ??
@@ -54,6 +55,7 @@ class AppOutlinedButton extends StatelessWidget {
                 text,
                 textAlign: TextAlign.center,
                 style:
+                
                     textStyle ??
                     semiBold(fontSize: 18.fSize, color: AppColors.primary),
               ),

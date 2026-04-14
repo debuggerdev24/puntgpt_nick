@@ -220,7 +220,7 @@ class SelectedMeetingScreen extends StatelessWidget {
                       children: [
                         Expanded(
                           child: Text(
-                            "${race.selections[0].trackName} - R${race.number} - ${race.distance}m dssdfsfdsfsf",
+                            "${race.selections[0].trackName} - R${race.number} - ${race.distance}m",
                             style: regular(
                               fontSize: (context.isBrowserMobile)
                                   ? 36.sp
@@ -230,7 +230,10 @@ class SelectedMeetingScreen extends StatelessWidget {
                             ),
                           ),
                         ),
-                        Text(
+                        Row(
+                          crossAxisAlignment: .center,
+                          children: [
+                            Text(
                           race.weatherEmoji,
                           style: semiBold(fontSize: 18.5.sp),
                         ),
@@ -244,6 +247,8 @@ class SelectedMeetingScreen extends StatelessWidget {
                                 ? Colors.blue
                                 : AppColors.red,
                           ),
+                        ),
+                          ],
                         ),
                       ],
                     ),
