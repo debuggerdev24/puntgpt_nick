@@ -172,7 +172,7 @@ class _AskPuntGptScreenState extends State<AskPuntGptScreen> {
                           enabled: !provider.isLoading,
                           onSubmitted: (_) => _sendMessage(provider),
                           style: medium(
-                            fontSize: (context.isBrowserMobile)
+                            fontSize: (context.isMobileWeb)
                                 ? 17.sp
                                 : 15.sp,
                             color: AppColors.primary,
@@ -199,7 +199,7 @@ class _AskPuntGptScreenState extends State<AskPuntGptScreen> {
                             // `medium()` defaults to fontSize 20; use .sp so hint matches input scale.
                             hintStyle: medium(
                               fontStyle: FontStyle.italic,
-                              fontSize: (context.isBrowserMobile)
+                              fontSize: (context.isMobileWeb)
                                   ? 17.sp
                                   : 14.sp,
                               color:
@@ -229,14 +229,14 @@ class _AskPuntGptScreenState extends State<AskPuntGptScreen> {
         children: [
           45.verticalSpace,
           Container(
-            padding: EdgeInsets.all((context.isBrowserMobile) ? 28.w : 20.w),
+            padding: EdgeInsets.all((context.isMobileWeb) ? 28.w : 20.w),
             decoration: BoxDecoration(
               color: AppColors.primary.withValues(alpha: 0.04),
               shape: BoxShape.circle,
             ),
             child: Icon(
               Icons.smart_toy_rounded,
-              size: (context.isBrowserMobile) ? 80.w : 56.w,
+              size: (context.isMobileWeb) ? 80.w : 56.w,
               color: AppColors.primary.withValues(alpha: 0.5),
             ),
           ),
@@ -244,7 +244,7 @@ class _AskPuntGptScreenState extends State<AskPuntGptScreen> {
           Text(
             "Start the conversation",
             style: semiBold(
-              fontSize: (context.isBrowserMobile) ? 28.sp : 20.sp,
+              fontSize: (context.isMobileWeb) ? 28.sp : 20.sp,
               fontFamily: AppFontFamily.secondary,
               color: AppColors.primary,
             ),
@@ -254,7 +254,7 @@ class _AskPuntGptScreenState extends State<AskPuntGptScreen> {
           Text(
             "Ask me anything about horse racing—tips, form guides, track conditions, or which races to watch today.",
             style: regular(
-              fontSize: (context.isBrowserMobile) ? 24.sp : 14.sp,
+              fontSize: (context.isMobileWeb) ? 24.sp : 14.sp,
               color: AppColors.primary.withValues(alpha: 0.6),
               height: 1.5,
             ),
@@ -294,8 +294,8 @@ class _AskPuntGptScreenState extends State<AskPuntGptScreen> {
         width: double.infinity,
         alignment: Alignment.centerLeft,
         padding: EdgeInsets.symmetric(
-          horizontal: (context.isBrowserMobile) ? 20.w : 14.w,
-          vertical: (context.isBrowserMobile) ? 14.h : 10.h,
+          horizontal: (context.isMobileWeb) ? 20.w : 14.w,
+          vertical: (context.isMobileWeb) ? 14.h : 10.h,
         ),
         decoration: BoxDecoration(
           color: AppColors.primary.withValues(alpha: 0.06),
@@ -306,7 +306,7 @@ class _AskPuntGptScreenState extends State<AskPuntGptScreen> {
           label,
           textAlign: TextAlign.left,
           style: medium(
-            fontSize: (context.isBrowserMobile) ? 22.sp : 13.sp,
+            fontSize: (context.isMobileWeb) ? 22.sp : 13.sp,
             color: AppColors.primary.withValues(alpha: 0.8),
             height: 1.3,
           ),

@@ -49,13 +49,12 @@ class AppTextField extends StatelessWidget {
     return Padding(
       padding: margin ?? EdgeInsets.zero,
       child: TextFormField(
+        
         onChanged: onChanged,
         onTap: onTap,
         readOnly: readOnly ?? false,
         controller: controller,
         cursorColor: AppColors.primary,
-
-        // textStyle: medium(fontSize: (kIsWeb) ? 28.sp : 16.sp),
         obscureText: obscureText,
         autovalidateMode: autovalidateMode,
         enabled: enabled,
@@ -80,21 +79,19 @@ class AppTextField extends StatelessWidget {
         },
         style: textStyle ?? medium(fontSize: 16.fSize),
         decoration: InputDecoration(
-          suffixIconConstraints: BoxConstraints(
-            maxHeight: 28,
-            minHeight: 28,
-            maxWidth: 28.adaptiveSpacing(context) + 20,
-            minWidth: 28.adaptiveSpacing(context) + 20,
-          ),
-          suffixIcon: trailingIcon == null
+          
+          suffixIcon: 
+          trailingIcon == null
               ? const SizedBox()
               : GestureDetector(
                   onTap: onTrailingIconTap,
-                  child: ImageWidget(
-                    type: ImageType.svg,
-                    height: 10,
-                    width: 10, //widget.trailingIconWidth,
-                    path: trailingIcon!,
+                  child: Padding(
+                    padding: EdgeInsets.fromLTRB(0, 11.wSize, 0, 11.wSize),
+                    child: ImageWidget(
+                      type: ImageType.svg,
+                     //widget.trailingIconWidth,
+                      path: trailingIcon!,
+                    ),
                   ),
                 ),
           hintText: hintText,
@@ -102,7 +99,7 @@ class AppTextField extends StatelessWidget {
           hintStyle:
               hintStyle ??
               medium(
-                fontSize: (kIsWeb) ? 12.5 : 16.sp,
+                fontSize: (kIsWeb) ? 12.5 : 15.sp,
                 color: AppColors.primary.withValues(alpha: 0.65),
               ),
           errorStyle:

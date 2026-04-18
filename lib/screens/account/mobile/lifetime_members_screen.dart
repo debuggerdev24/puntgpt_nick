@@ -118,7 +118,7 @@ class _LifetimeMembersScreenState extends State<LifetimeMembersScreen> {
           child: Text(
             "Members :",
             style: semiBold(
-              fontSize: context.isBrowserMobile ? 28.sp : 18.sp,
+              fontSize: context.isMobileWeb ? 28.sp : 18.sp,
               color: AppColors.primary,
             ),
           ),
@@ -135,7 +135,7 @@ class _LifetimeMembersScreenState extends State<LifetimeMembersScreen> {
           child: Text(
             "$countText total",
             style: semiBold(
-              fontSize: context.isBrowserMobile ? 20.sp : 12.sp,
+              fontSize: context.isMobileWeb ? 20.sp : 12.sp,
               color: AppColors.primary.withValues(alpha: 0.75),
             ),
           ),
@@ -165,7 +165,7 @@ class _LifetimeMembersScreenState extends State<LifetimeMembersScreen> {
               controller: _searchController,
               onChanged: (v) => setState(() => _query = v),
               style: regular(
-                fontSize: context.isBrowserMobile ? 22.sp : 14.sp,
+                fontSize: context.isMobileWeb ? 22.sp : 14.sp,
                 color: AppColors.primary,
               ),
               decoration: InputDecoration(
@@ -173,7 +173,7 @@ class _LifetimeMembersScreenState extends State<LifetimeMembersScreen> {
                 border: InputBorder.none,
                 hintText: "Search name, email, phone, state…",
                 hintStyle: regular(
-                  fontSize: context.isBrowserMobile ? 22.sp : 14.sp,
+                  fontSize: context.isMobileWeb ? 22.sp : 14.sp,
                   color: AppColors.primary.withValues(alpha: 0.45),
                 ),
               ),
@@ -227,7 +227,7 @@ class _LifetimeMembersScreenState extends State<LifetimeMembersScreen> {
                 ),
                 child: Icon(
                   Icons.admin_panel_settings_rounded,
-                  size: context.isBrowserMobile ? 50.sp : 34.sp,
+                  size: context.isMobileWeb ? 50.sp : 34.sp,
                   color: AppColors.primary.withValues(alpha: 0.55),
                 ),
               ),
@@ -236,7 +236,7 @@ class _LifetimeMembersScreenState extends State<LifetimeMembersScreen> {
                 title,
                 textAlign: TextAlign.center,
                 style: semiBold(
-                  fontSize: context.isBrowserMobile ? 28.sp : 18.sp,
+                  fontSize: context.isMobileWeb ? 28.sp : 18.sp,
                   fontFamily: AppFontFamily.secondary,
                   color: AppColors.primary,
                 ),
@@ -246,7 +246,7 @@ class _LifetimeMembersScreenState extends State<LifetimeMembersScreen> {
                 subtitle,
                 textAlign: TextAlign.center,
                 style: regular(
-                  fontSize: context.isBrowserMobile ? 22.sp : 13.sp,
+                  fontSize: context.isMobileWeb ? 22.sp : 13.sp,
                   color: AppColors.primary.withValues(alpha: 0.65),
                   height: 1.35,
                 ),
@@ -266,7 +266,7 @@ class _LifetimeMembersShimmer extends StatelessWidget {
 
   @override
   Widget build(BuildContext _) {
-    final isWide = context.isBrowserMobile;
+    final isWide = context.isMobileWeb;
     return Shimmer.fromColors(
       baseColor: AppColors.shimmerBaseColor,
       highlightColor: AppColors.shimmerHighlightColor,

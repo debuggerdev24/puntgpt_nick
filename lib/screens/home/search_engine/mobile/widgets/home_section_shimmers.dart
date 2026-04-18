@@ -5,10 +5,10 @@ class HomeSectionShimmers {
 
   /// Shimmer for the Search Detail screen (home_screen)
   static Widget homeScreenShimmer({required BuildContext context}) {
-    final bodyPad = (context.isBrowserMobile) ? 50.w : 25.w;
+    final bodyPad = (context.isMobileWeb) ? 50.w : 25.w;
     const storyPad = 18.0;
     const tabPad = 20.0;
-    final isWide = context.isBrowserMobile;
+    final isWide = context.isMobileWeb;
 
     return Shimmer.fromColors(
       baseColor: AppColors.shimmerBaseColor,
@@ -314,8 +314,8 @@ class HomeSectionShimmers {
   static Widget searchedItemShimmer({required BuildContext context}) {
   return Padding(
     padding: EdgeInsets.symmetric(
-      horizontal: (context.isBrowserMobile) ? 35.w : 25.w,
-      vertical: (context.isBrowserMobile) ? 24.w : 14.h,
+      horizontal: (context.isMobileWeb) ? 35.w : 25.w,
+      vertical: (context.isMobileWeb) ? 24.w : 14.h,
     ),
     child: Shimmer.fromColors(
       baseColor: AppColors.shimmerBaseColor,
@@ -328,8 +328,8 @@ class HomeSectionShimmers {
             children: [
               // Title shimmer
               Container(
-                width: (context.isBrowserMobile) ? 200.w : 100.w,
-                height: (context.isBrowserMobile) ? 40.h : 20.h,
+                width: (context.isMobileWeb) ? 200.w : 100.w,
+                height: (context.isMobileWeb) ? 40.h : 20.h,
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(4),
@@ -338,8 +338,8 @@ class HomeSectionShimmers {
               SizedBox(height: 6.5.h),
               // Date shimmer
               Container(
-                width: (context.isBrowserMobile) ? 150.w : 80.w,
-                height: (context.isBrowserMobile) ? 30.h : 12.h,
+                width: (context.isMobileWeb) ? 150.w : 80.w,
+                height: (context.isMobileWeb) ? 30.h : 12.h,
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(4),
@@ -348,8 +348,8 @@ class HomeSectionShimmers {
               SizedBox(height: 6.5.h),
               // Description shimmer
               Container(
-                width: (context.isBrowserMobile) ? 350.w : 180.w,
-                height: (context.isBrowserMobile) ? 40.h : 20.h,
+                width: (context.isMobileWeb) ? 350.w : 180.w,
+                height: (context.isMobileWeb) ? 40.h : 20.h,
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(4),
@@ -359,8 +359,8 @@ class HomeSectionShimmers {
           ),
           // Arrow icon shimmer
           Container(
-            width: (context.isBrowserMobile) ? 40.w : 14.w,
-            height: (context.isBrowserMobile) ? 40.w : 14.w,
+            width: (context.isMobileWeb) ? 40.w : 14.w,
+            height: (context.isMobileWeb) ? 40.w : 14.w,
             decoration: BoxDecoration(
               color: Colors.white,
               shape: BoxShape.circle,
@@ -400,7 +400,7 @@ class HomeSectionShimmers {
                 children: [
                   // Title placeholder
                   Container(
-                    width: (context.isBrowserMobile) ? 180.w : 120.w,
+                    width: (context.isMobileWeb) ? 180.w : 120.w,
                     height: 20.h,
                     decoration: BoxDecoration(
                       color: Colors.white,
@@ -410,7 +410,7 @@ class HomeSectionShimmers {
                   SizedBox(height: 8.h),
                   // Subtitle placeholder
                   Container(
-                    width: (context.isBrowserMobile) ? 220.w : 160.w,
+                    width: (context.isMobileWeb) ? 220.w : 160.w,
                     height: 14.h,
                     decoration: BoxDecoration(
                       color: Colors.white,
@@ -1112,8 +1112,8 @@ class HomeSectionShimmers {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    width: context.isBrowserMobile ? 120.w : 70.w,
-                    height: context.isBrowserMobile ? 32.h : 20.h,
+                    width: context.isMobileWeb ? 120.w : 70.w,
+                    height: context.isMobileWeb ? 32.h : 20.h,
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(4.r),
@@ -1121,7 +1121,7 @@ class HomeSectionShimmers {
                   ),
                   SizedBox(height: 6.h),
                   Container(
-                    width: context.isBrowserMobile ? 260.w : 180.w,
+                    width: context.isMobileWeb ? 260.w : 180.w,
                     height: 14.h,
                     decoration: BoxDecoration(
                       color: Colors.white,
@@ -1219,8 +1219,8 @@ class HomeSectionShimmers {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                width: context.isBrowserMobile ? 140.w : 100.w,
-                height: context.isBrowserMobile ? 20.h : 16.h,
+                width: context.isMobileWeb ? 140.w : 100.w,
+                height: context.isMobileWeb ? 20.h : 16.h,
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(4.r),
@@ -1228,8 +1228,8 @@ class HomeSectionShimmers {
               ),
               4.h.verticalSpace,
               Container(
-                width: context.isBrowserMobile ? 100.w : 80.w,
-                height: context.isBrowserMobile ? 16.h : 13.h,
+                width: context.isMobileWeb ? 100.w : 80.w,
+                height: context.isMobileWeb ? 16.h : 13.h,
                 decoration: BoxDecoration(
                   color: Colors.white.withValues(alpha: 0.8),
                   borderRadius: BorderRadius.circular(4.r),
@@ -1519,7 +1519,7 @@ class HomeSectionShimmers {
     /// Shimmer for bot response loading in Ask @PuntGPT chat.
   /// Matches ChatSection layout: sender label, timestamp, content lines.
   static Widget chatMessageShimmer({required BuildContext context}) {
-  final horizontalPadding = (context.isBrowserMobile) ? 35.w : 25.w;
+  final horizontalPadding = (context.isMobileWeb) ? 35.w : 25.w;
   return Shimmer.fromColors(
     baseColor: AppColors.shimmerBaseColor,
     highlightColor: AppColors.shimmerHighlightColor,
@@ -1529,8 +1529,8 @@ class HomeSectionShimmers {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            width: (context.isBrowserMobile) ? 120.w : 80.w,
-            height: (context.isBrowserMobile) ? 32.h : 18.h,
+            width: (context.isMobileWeb) ? 120.w : 80.w,
+            height: (context.isMobileWeb) ? 32.h : 18.h,
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(4),
@@ -1538,8 +1538,8 @@ class HomeSectionShimmers {
           ),
           SizedBox(height: 4.h),
           Container(
-            width: (context.isBrowserMobile) ? 100.w : 70.w,
-            height: (context.isBrowserMobile) ? 26.h : 14.h,
+            width: (context.isMobileWeb) ? 100.w : 70.w,
+            height: (context.isMobileWeb) ? 26.h : 14.h,
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(4),
@@ -1552,7 +1552,7 @@ class HomeSectionShimmers {
               padding: EdgeInsets.only(bottom: 6.h),
               child: Container(
                 width: i == 2 ? 200.w : double.infinity,
-                height: (context.isBrowserMobile) ? 32.h : 16.h,
+                height: (context.isMobileWeb) ? 32.h : 16.h,
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(4),
@@ -1570,7 +1570,7 @@ class HomeSectionShimmers {
 
   //* Shimmer for Speed Maps: segmented tabs, track map, legend, runner cards.
   static Widget speedMapsScreenShimmer({required BuildContext context}) {
-    final isWide = context.isBrowserMobile;
+    final isWide = context.isMobileWeb;
     final hPad = 16.w;
     final mapHeight = isWide ? 240.h : 200.h;
     final tabH = isWide ? 52.h : 46.h;

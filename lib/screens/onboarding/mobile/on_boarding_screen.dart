@@ -177,7 +177,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                                       "*no payment details required*",
                                       textAlign: TextAlign.center,
                                       style: regular(
-                                        fontSize: context.isBrowserMobile
+                                        fontSize: context.isMobileWeb
                                             ? 14.sp
                                             : 12.sp,
                                         color: AppColors.primary.withValues(
@@ -205,11 +205,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                                             path: included
                                                 ? AppAssets.done
                                                 : AppAssets.close,
-                                            height: context.isBrowserMobile
+                                            height: context.isMobileWeb
                                                 ? 32.w
                                                 : 20.w,
                                           ),
-                                          (context.isBrowserMobile)
+                                          (context.isMobileWeb)
                                               ? 14.w.horizontalSpace
                                               : 10.w.horizontalSpace,
                                           Expanded(
@@ -217,7 +217,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                                               _mugPunterFeatureLines[i],
                                               style: regular(
                                                 fontSize:
-                                                    context.isBrowserMobile
+                                                    context.isMobileWeb
                                                     ? 28.sp
                                                     : 16.sp,
                                               ),
@@ -237,7 +237,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                                     children: [
                                       ImageWidget(
                                         path: AppAssets.onBoardingImage,
-                                        height: context.isBrowserMobile
+                                        height: context.isMobileWeb
                                             ? 100.w
                                             : 80.w,
                                       ),
@@ -250,7 +250,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                                             "First 100 Life Memberships",
                                             style: semiBold(
                                               height: 1,
-                                              fontSize: context.isBrowserMobile
+                                              fontSize: context.isMobileWeb
                                                   ? 22.sp
                                                   : 18.sp,
                                               fontFamily:
@@ -261,7 +261,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                                           Text(
                                             "get individual Baggy Black #1-100",
                                             style: regular(
-                                              fontSize: context.isBrowserMobile
+                                              fontSize: context.isMobileWeb
                                                   ? 16.sp
                                                   : 13.sp,
                                               color: AppColors.primary
@@ -283,7 +283,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                                             borderColor:
                                                 AppColors.premiumYellow,
                                             textStyle: semiBold(
-                                              fontSize: context.isBrowserMobile
+                                              fontSize: context.isMobileWeb
                                                   ? 18.sp
                                                   : 14.sp,
                                               color: AppColors.premiumYellow,

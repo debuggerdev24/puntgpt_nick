@@ -47,7 +47,7 @@ class CurrentPlanScreen extends StatelessWidget {
                 margin: EdgeInsets.only(bottom: 12.w, left: 25.w, right: 25.w),
                 text: "Cancel",
                 textStyle: semiBold(
-                  fontSize: (context.isBrowserMobile) ? 30.sp : 18.sp,
+                  fontSize: (context.isMobileWeb) ? 30.sp : 18.sp,
                 ),
                 onTap: () async {
                   await provider.cnacelSubcripton(
@@ -90,7 +90,7 @@ class CurrentPlanScreen extends StatelessWidget {
                   Text(
                     "Current Plan",
                     style: regular(
-                      fontSize: (context.isBrowserMobile) ? 36.sp : 24.sp,
+                      fontSize: (context.isMobileWeb) ? 36.sp : 24.sp,
                       fontFamily: AppFontFamily.secondary,
                       height: 1,
                     ),
@@ -98,7 +98,7 @@ class CurrentPlanScreen extends StatelessWidget {
                   Text(
                     "Review your active plan and billing status",
                     style: semiBold(
-                      fontSize: (context.isBrowserMobile) ? 28.sp : 14.sp,
+                      fontSize: (context.isMobileWeb) ? 28.sp : 14.sp,
                       color: AppColors.primary.withValues(alpha: 0.6),
                     ),
                   ),
@@ -151,7 +151,7 @@ class CurrentPlanScreen extends StatelessWidget {
             "No Active Plan",
             textAlign: TextAlign.center,
             style: semiBold(
-              fontSize: (context.isBrowserMobile) ? 30.sp : 18.sp,
+              fontSize: (context.isMobileWeb) ? 30.sp : 18.sp,
               color: AppColors.primary,
             ),
           ),
@@ -160,7 +160,7 @@ class CurrentPlanScreen extends StatelessWidget {
             "You are currently on the free plan. Choose a subscription plan to unlock premium features.",
             textAlign: TextAlign.center,
             style: regular(
-              fontSize: (context.isBrowserMobile) ? 24.sp : 13.sp,
+              fontSize: (context.isMobileWeb) ? 24.sp : 13.sp,
               color: AppColors.primary.withValues(alpha: 0.7),
               height: 1.45,
             ),

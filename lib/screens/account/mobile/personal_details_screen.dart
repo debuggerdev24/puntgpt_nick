@@ -1,6 +1,7 @@
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:puntgpt_nick/core/app_imports.dart';
 import 'package:puntgpt_nick/provider/account/account_provider.dart';
+import 'package:puntgpt_nick/screens/auth/auth_constants.dart';
 
 class PersonalDetailsScreen extends StatefulWidget {
   const PersonalDetailsScreen({super.key});
@@ -14,6 +15,10 @@ class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final hintStyle = medium(
+      fontSize: (context.isMobileWeb) ? 28.sp : 14.sp,
+      color: AppColors.primary.withValues(alpha: 0.65),
+    );
     return Form(
       key: _formKey,
       child: Consumer<AccountProvider>(
@@ -21,12 +26,12 @@ class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
           bool readOnly = (provider.isEdit) ? false : true;
           return Stack(
             children: [
-              //todo screen
+              //* screen
               Column(
                 children: [
-                  //todo top bar
+                  //* top bar
                   topBar(context, provider),
-                  //todo personal details
+                  //* personal details
                   Expanded(
                     child: SingleChildScrollView(
                       padding: EdgeInsets.symmetric(horizontal: 25.h),
@@ -34,74 +39,58 @@ class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           28.h.verticalSpace,
-                          //todo --------------> name
+                          //* --------------> name
                           Text(
-                            "Name",
+                            "Name *",
                             style: semiBold(
-                              fontSize: (context.isBrowserMobile)
+                              fontSize: (context.isMobileWeb)
                                   ? 28.sp
                                   : 14.sp,
                             ),
                           ),
-                          6.h.verticalSpace,
+                          6.w.verticalSpace,
                           AppTextField(
                             controller: provider.nameCtr,
                             hintText: "Enter Your Name",
                             textInputAction: TextInputAction.next,
-                            textStyle: medium(
-                              fontSize: (context.isBrowserMobile)
-                                  ? 32.sp
-                                  : 16.sp,
-                            ),
+
                             readOnly: readOnly,
-                            hintStyle: medium(
-                              fontSize: (context.isBrowserMobile)
-                                  ? 28.sp
-                                  : 14.sp,
-                            ),
+                            hintStyle: hintStyle,
                             validator: (value) =>
                                 FieldValidators().name(value, "Name"),
                           ),
-                          //todo --------------> email
-                          14.h.verticalSpace,
+                          //* --------------> email
+                          14.w.verticalSpace,
                           Text(
-                            "Email",
+                            "Email *",
                             style: semiBold(
-                              fontSize: (context.isBrowserMobile)
+                              fontSize: (context.isMobileWeb)
                                   ? 28.sp
                                   : 14.sp,
                             ),
                           ),
-                          6.h.verticalSpace,
+                          6.w.verticalSpace,
                           AppTextField(
                             controller: provider.emailCtr,
                             hintText: "Enter Your Email",
                             textInputAction: TextInputAction.next,
-                            textStyle: medium(
-                              fontSize: (context.isBrowserMobile)
-                                  ? 32.sp
-                                  : 16.sp,
-                            ),
                             readOnly: readOnly,
-                            hintStyle: medium(
-                              fontSize: (context.isBrowserMobile)
-                                  ? 28.sp
-                                  : 14.sp,
-                            ),
+
+                            hintStyle: hintStyle,
                             validator: (value) =>
                                 FieldValidators().email(value),
                           ),
                           //* --------------> phone
                           14.w.verticalSpace,
                           Text(
-                            "Phone",
+                            "Phone (Optional)",
                             style: semiBold(
-                              fontSize: (context.isBrowserMobile)
+                              fontSize: (context.isMobileWeb)
                                   ? 28.sp
                                   : 14.sp,
                             ),
                           ),
-                          6.h.verticalSpace,
+                          6.w.verticalSpace,
                           if (readOnly)
                             AppTextField(
                               controller: provider.phoneCtr,
@@ -115,11 +104,11 @@ class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
                               readOnly: false,
                             ),
                           //* --------------> address
-                          14.h.verticalSpace,
+                          14.w.verticalSpace,
                           Text(
-                            "Address Line 1",
+                            "Address Line 1 (Optional)",
                             style: semiBold(
-                              fontSize: (context.isBrowserMobile)
+                              fontSize: (context.isMobileWeb)
                                   ? 28.sp
                                   : 14.sp,
                             ),
@@ -130,22 +119,13 @@ class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
                             hintText: "Enter Address Line 1",
                             readOnly: readOnly,
                             textInputAction: TextInputAction.next,
-                            textStyle: medium(
-                              fontSize: (context.isBrowserMobile)
-                                  ? 32.sp
-                                  : 16.sp,
-                            ),
-                            hintStyle: medium(
-                              fontSize: (context.isBrowserMobile)
-                                  ? 28.sp
-                                  : 14.sp,
-                            ),
+                            hintStyle: hintStyle,
                           ),
-                          14.h.verticalSpace,
+                          14.w.verticalSpace,
                           Text(
-                            "Address Line 2",
+                            "Address Line 2 (Optional)",
                             style: semiBold(
-                              fontSize: (context.isBrowserMobile)
+                              fontSize: (context.isMobileWeb)
                                   ? 28.sp
                                   : 14.sp,
                             ),
@@ -156,74 +136,44 @@ class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
                             hintText: "Enter Address Line 2",
                             readOnly: readOnly,
                             textInputAction: TextInputAction.next,
-                            textStyle: medium(
-                              fontSize: (context.isBrowserMobile)
-                                  ? 32.sp
-                                  : 16.sp,
-                            ),
-                            hintStyle: medium(
-                              fontSize: (context.isBrowserMobile)
-                                  ? 28.sp
-                                  : 14.sp,
-                            ),
+                            hintStyle: hintStyle,
                           ),
-                          14.h.verticalSpace,
+                          14.w.verticalSpace,
                           Text(
-                            "State",
+                            "State (Optional)",
                             style: semiBold(
-                              fontSize: (context.isBrowserMobile)
+                              fontSize: (context.isMobileWeb)
                                   ? 28.sp
                                   : 14.sp,
                             ),
                           ),
                           6.w.verticalSpace,
-                          AppTextField(
-                            controller: provider.stateCtr,
-                            hintText: "Enter State",
-                            readOnly: readOnly,
-                            textInputAction: TextInputAction.next,
-                            textStyle: medium(
-                              fontSize: (context.isBrowserMobile)
-                                  ? 32.sp
-                                  : 16.sp,
+                          if (readOnly)
+                            AppTextField(
+                              controller: provider.stateCtr,
+                              hintText: "Enter State",
+                              readOnly: true,
+                              textInputAction: TextInputAction.next,
+                            )
+                          else
+                            AppTextFieldDropdown(
+                              items: states,
+                              hintText: 'State',
+                              selectedValue: provider.stateCtr.text.isEmpty
+                                  ? null
+                                  : provider.stateCtr.text,
+                              onChange: (value) {
+                                setState(() {
+                                  provider.stateCtr.text = value;
+                                });
+                              },
+                              hintStyle: hintStyle,
                             ),
-                            hintStyle: medium(
-                              fontSize: (context.isBrowserMobile)
-                                  ? 28.sp
-                                  : 14.sp,
-                            ),
-                          ),
                           14.w.verticalSpace,
                           Text(
-                            "Suburb",
+                            "Post Code (Optional)",
                             style: semiBold(
-                              fontSize: (context.isBrowserMobile)
-                                  ? 28.sp
-                                  : 14.sp,
-                            ),
-                          ),
-                          6.h.verticalSpace,
-                          AppTextField(
-                            controller: provider.suburbCtr,
-                            hintText: "Enter Suburb",
-                            readOnly: readOnly,
-                            textInputAction: TextInputAction.next,
-                            textStyle: medium(
-                              fontSize: (context.isBrowserMobile)
-                                  ? 32.sp
-                                  : 16.sp,
-                            ),
-                            hintStyle: medium(
-                              fontSize: (context.isBrowserMobile)
-                                  ? 28.sp
-                                  : 14.sp,
-                            ),
-                          ),
-                          14.h.verticalSpace,
-                          Text(
-                            "Post Code",
-                            style: semiBold(
-                              fontSize: (context.isBrowserMobile)
+                              fontSize: (context.isMobileWeb)
                                   ? 28.sp
                                   : 14.sp,
                             ),
@@ -238,31 +188,14 @@ class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
                             inputFormatter: [
                               FilteringTextInputFormatter.digitsOnly,
                             ],
-                            textStyle: medium(
-                              fontSize: (context.isBrowserMobile)
-                                  ? 32.sp
-                                  : 16.sp,
-                            ),
-                            hintStyle: medium(
-                              fontSize: (context.isBrowserMobile)
-                                  ? 28.sp
-                                  : 14.sp,
-                            ),
-                            validator: (value) {
-                              if (value == null || value.trim().isEmpty) {
-                                return null;
-                              }
-                              final min = FieldValidators().minLength(value, 3);
-                              if (min != null) return min;
-                              return FieldValidators().maxLength(value, 10);
-                            },
+                            hintStyle: hintStyle,
                           ),
-                          // Spacer(),
+
                           if (provider.isEdit)
                             AppFilledButton(
                               text: "Save Changes",
                               textStyle: semiBold(
-                                fontSize: (context.isBrowserMobile)
+                                fontSize: (context.isMobileWeb)
                                     ? 28.sp
                                     : 18.sp,
                                 color: AppColors.white,
@@ -305,7 +238,7 @@ class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
                             },
 
                             textStyle: semiBold(
-                              fontSize: (context.isBrowserMobile)
+                              fontSize: (context.isMobileWeb)
                                   ? 28.sp
                                   : 18.sp,
                             ),
@@ -350,7 +283,7 @@ class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
                   Text(
                     "Personal Details",
                     style: regular(
-                      fontSize: (context.isBrowserMobile) ? 40.sp : 24.sp,
+                      fontSize: (context.isMobileWeb) ? 40.sp : 24.sp,
                       fontFamily: AppFontFamily.secondary,
                       height: 1.11,
                     ),
@@ -358,7 +291,7 @@ class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
                   Text(
                     "Manage your name, email, etc.",
                     style: semiBold(
-                      fontSize: (context.isBrowserMobile) ? 26.sp : 14.sp,
+                      fontSize: (context.isMobileWeb) ? 26.sp : 14.sp,
 
                       color: AppColors.primary.withValues(alpha: 0.6),
                     ),
@@ -377,7 +310,7 @@ class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
                   child: Text(
                     "Cancel",
                     style: bold(
-                      fontSize: (context.isBrowserMobile) ? 32.sp : 16.sp,
+                      fontSize: (context.isMobileWeb) ? 32.sp : 16.sp,
                       color: AppColors.primary,
                     ),
                   ),
@@ -390,16 +323,16 @@ class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
                     },
                     behavior: HitTestBehavior.opaque,
                     child: Row(
-                      spacing: (context.isBrowserMobile) ? 8 : 6.w,
+                      spacing: (context.isMobileWeb) ? 8 : 6.w,
                       children: [
                         SvgPicture.asset(
                           AppAssets.edit,
-                          width: (context.isBrowserMobile) ? 32.w : 16.w,
+                          width: (context.isMobileWeb) ? 32.w : 16.w,
                         ),
                         Text(
                           "Edit",
                           style: bold(
-                            fontSize: (context.isBrowserMobile) ? 32.sp : 17.sp,
+                            fontSize: (context.isMobileWeb) ? 32.sp : 17.sp,
                           ),
                         ),
                       ],

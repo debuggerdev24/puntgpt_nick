@@ -53,7 +53,7 @@ class ClubChatMessageBubble extends StatelessWidget {
 
     return Padding(
       padding: EdgeInsets.symmetric(
-        horizontal: (context.isBrowserMobile) ? 35.w : 16.w,
+        horizontal: (context.isMobileWeb) ? 35.w : 16.w,
         // vertical: 4.w,
       ),
       child: Column(
@@ -85,7 +85,7 @@ class ClubChatMessageBubble extends StatelessWidget {
                           child: Text(
                             senderLabel,
                             style: semiBold(
-                              fontSize: context.isBrowserMobile
+                              fontSize: context.isMobileWeb
                                   ? 32.sp
                                   : 16.sp,
                               color: labelColor,
@@ -96,7 +96,7 @@ class ClubChatMessageBubble extends StatelessWidget {
                         Text(
                           DateFormatter.formatTimeOnly(message.createdAt),
                           style: regular(
-                            fontSize: context.isBrowserMobile ? 22.sp : 11.sp,
+                            fontSize: context.isMobileWeb ? 22.sp : 11.sp,
                             color: timeColor,
                           ),
                         ),
@@ -104,7 +104,7 @@ class ClubChatMessageBubble extends StatelessWidget {
                           Text(
                             '(edited)',
                             style: regular(
-                              fontSize: context.isBrowserMobile ? 22.sp : 12.sp,
+                              fontSize: context.isMobileWeb ? 22.sp : 12.sp,
                               color: editedColor,
                               fontStyle: FontStyle.italic,
                             ),
@@ -115,7 +115,7 @@ class ClubChatMessageBubble extends StatelessWidget {
                     Text(
                       message.content,
                       style: regular(
-                        fontSize: context.isBrowserMobile ? 30.sp : 15.sp,
+                        fontSize: context.isMobileWeb ? 30.sp : 15.sp,
                         color: msgColor,
                         height: 1.45,
                       ),

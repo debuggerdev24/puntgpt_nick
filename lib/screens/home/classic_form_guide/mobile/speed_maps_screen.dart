@@ -96,7 +96,7 @@ class _SpeedMapsScreenState extends State<SpeedMapsScreen> {
             children: [
               Container(
                 padding: EdgeInsets.all(
-                  (context.isBrowserMobile) ? 22.w : 16.w,
+                  (context.isMobileWeb) ? 22.w : 16.w,
                 ),
                 decoration: BoxDecoration(
                   color: AppColors.primary.withValues(alpha: 0.08),
@@ -104,7 +104,7 @@ class _SpeedMapsScreenState extends State<SpeedMapsScreen> {
                 ),
                 child: Icon(
                   Icons.insights_rounded,
-                  size: (context.isBrowserMobile) ? 56.sp : 40.sp,
+                  size: (context.isMobileWeb) ? 56.sp : 40.sp,
                   color: AppColors.primary.withValues(alpha: 0.55),
                 ),
               ),
@@ -113,7 +113,7 @@ class _SpeedMapsScreenState extends State<SpeedMapsScreen> {
                 "No speed map data available",
                 textAlign: TextAlign.center,
                 style: semiBold(
-                  fontSize: (context.isBrowserMobile) ? 30.sp : 20.sp,
+                  fontSize: (context.isMobileWeb) ? 30.sp : 20.sp,
                   fontFamily: AppFontFamily.secondary,
                   color: AppColors.primary,
                 ),
@@ -123,7 +123,7 @@ class _SpeedMapsScreenState extends State<SpeedMapsScreen> {
                 "No speed map data is available for this race yet. Please check back shortly.",
                 textAlign: TextAlign.center,
                 style: regular(
-                  fontSize: (context.isBrowserMobile) ? 24.sp : 14.sp,
+                  fontSize: (context.isMobileWeb) ? 24.sp : 14.sp,
                   color: AppColors.primary.withValues(alpha: 0.65),
                   height: 1.45,
                 ),

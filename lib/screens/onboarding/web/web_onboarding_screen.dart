@@ -103,7 +103,7 @@ class WebOnboardingScreen extends StatelessWidget {
                           //     : context.isBrowserMobile
                           //     ? 62.sp
                           //     : 48.sp,
-                          height: context.isPhysicalMobile ? 1 : null,
+                          height: context.isMobile ? 1 : null,
 
                           fontFamily: AppFontFamily.secondary,
                         ),
@@ -120,7 +120,7 @@ class WebOnboardingScreen extends StatelessWidget {
                           //     ? 62.sp
                           //     : 48.sp,
                           fontFamily: AppFontFamily.secondary,
-                          height: context.isPhysicalMobile ? 1 : null,
+                          height: context.isMobile ? 1 : null,
                           color: AppColors.premiumYellow,
                         ),
                       ),

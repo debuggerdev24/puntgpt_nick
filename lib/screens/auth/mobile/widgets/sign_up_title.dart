@@ -22,7 +22,7 @@ class SignUpTitle extends StatelessWidget {
                   TextSpan(
                     text: "Create",
                     style: regular(
-                      height: 1.2,
+                      height: 1,
                       fontSize: 36.sp,
                       fontFamily: AppFontFamily.secondary,
                     ),
@@ -30,7 +30,7 @@ class SignUpTitle extends StatelessWidget {
                   TextSpan(
                     text: " “Pro Punter” ",
                     style: regular(
-                      height: 1.2,
+                      height: 1,
                       fontSize: 36.sp,
                       fontFamily: AppFontFamily.secondary,
                       color: AppColors.premiumYellow,
@@ -39,7 +39,7 @@ class SignUpTitle extends StatelessWidget {
                   TextSpan(
                     text: "Account",
                     style: regular(
-                      height: 1.2,
+                      height: 1,
                       fontSize: 36.sp,
                       fontFamily: AppFontFamily.secondary,
                     ),

@@ -35,14 +35,14 @@ class NotificationSheetView extends StatelessWidget {
                 children: [
                   Icon(
                     Icons.notifications_active_outlined,
-                    size: context.isBrowserMobile ? 64.w : 48.w,
+                    size: context.isMobileWeb ? 64.w : 48.w,
                     color: AppColors.primary.withValues(alpha: 0.4),
                   ),
                   16.h.verticalSpace,
                   Text(
                     "No notifications found!",
                     style: medium(
-                      fontSize: context.isBrowserMobile ? 28.sp : 16.sp,
+                      fontSize: context.isMobileWeb ? 28.sp : 16.sp,
                       color: AppColors.primary.withValues(alpha: 0.6),
                     ),
                     textAlign: TextAlign.center,

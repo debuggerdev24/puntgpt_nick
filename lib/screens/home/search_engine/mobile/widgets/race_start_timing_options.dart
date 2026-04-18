@@ -43,7 +43,7 @@ class RaceStartTimingOptions extends StatelessWidget {
                       ),
                     )
                   : ListView.separated(
-                      padding: EdgeInsets.symmetric(horizontal: 25.w),
+                      padding: EdgeInsets.symmetric(horizontal: 16.w),
                       scrollDirection: Axis.horizontal,
                       itemBuilder: (context, index) => _item(
                         context: context,

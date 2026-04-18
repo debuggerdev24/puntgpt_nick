@@ -73,7 +73,7 @@ class WebResetPasswordScreen extends StatelessWidget {
                     },
                     child:
                         (provider.isResetPasswordLoading &&
-                            !context.isBrowserMobile)
+                            !context.isMobileWeb)
                         ? webProgressIndicator(context)
                         : null,
                   ),

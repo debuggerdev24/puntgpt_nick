@@ -38,6 +38,7 @@ void showGuestCreateAccountSheet(
               child: ImageWidget(
                 type: ImageType.svg,
                 path: AppAssets.profile,
+                color: AppColors.primary,
                 height: 48.w,
               ),
             ),

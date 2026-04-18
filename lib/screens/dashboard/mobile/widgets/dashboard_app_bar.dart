@@ -21,9 +21,9 @@ class _DashboardAppBarState extends State<DashboardAppBar> {
       decoration: BoxDecoration(color: AppColors.primary),
       width: double.maxFinite,
       padding: EdgeInsets.fromLTRB(
-        (context.isBrowserMobile) ? 40.w : 16.w,
+        (context.isMobileWeb) ? 40.w : 16.w,
         5,
-        (context.isBrowserMobile) ? 40.w : 16.w,
+        (context.isMobileWeb) ? 40.w : 16.w,
         8,
       ),
       child: SafeArea(
@@ -101,7 +101,7 @@ class _DashboardAppBarState extends State<DashboardAppBar> {
                   path: AppAssets.horse,
                   width: context.isTablet
                       ? 55.sp
-                      : (context.isBrowserMobile)
+                      : (context.isMobileWeb)
                       ? 62.w
                       : 32.w,
                   color: AppColors.white,
@@ -112,7 +112,7 @@ class _DashboardAppBarState extends State<DashboardAppBar> {
                   style: regular(
                     fontSize: context.isTablet
                         ? 32.sp
-                        : (context.isBrowserMobile)
+                        : (context.isMobileWeb)
                         ? 48.sp
                         : 14.sp,
                     height: 1,
@@ -175,7 +175,7 @@ class _DashboardAppBarState extends State<DashboardAppBar> {
                 showBadge: provider.tipSlips?.isNotEmpty ?? false,
                 position: badges.BadgePosition.topEnd(
                   top: -11,
-                  end: context.isBrowserMobile ? -14.w : -5,
+                  end: context.isMobileWeb ? -14.w : -5,
                 ),
                 badgeStyle: badges.BadgeStyle(
                   badgeColor: AppColors.white,
@@ -187,7 +187,7 @@ class _DashboardAppBarState extends State<DashboardAppBar> {
                   style: semiBold(
                     fontSize: context.isTablet
                         ? 18.sp
-                        : (context.isBrowserMobile)
+                        : (context.isMobileWeb)
                         ? 24.sp
                         : 12.sp,
                     color: AppColors.black,
@@ -201,7 +201,7 @@ class _DashboardAppBarState extends State<DashboardAppBar> {
                       height: 1.2,
                       fontSize: context.isTablet
                           ? 32.sp
-                          : (context.isBrowserMobile)
+                          : (context.isMobileWeb)
                           ? 40.sp
                           : 18.sp,
                       color: AppColors.white,

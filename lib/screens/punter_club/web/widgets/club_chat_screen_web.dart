@@ -168,7 +168,7 @@ class PunterClubChatSectionWeb extends StatelessWidget {
                           ? -5.w
                           : context.isTablet
                           ? 0.w
-                          : context.isBrowserMobile
+                          : context.isMobileWeb
                           ? 10.w
                           : 35.w),
                   offset.dy - 20,

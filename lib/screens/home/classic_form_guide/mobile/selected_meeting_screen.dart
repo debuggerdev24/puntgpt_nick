@@ -222,7 +222,7 @@ class SelectedMeetingScreen extends StatelessWidget {
                           child: Text(
                             "${race.selections[0].trackName} - R${race.number} - ${race.distance}m",
                             style: regular(
-                              fontSize: (context.isBrowserMobile)
+                              fontSize: (context.isMobileWeb)
                                   ? 36.sp
                                   : 21.sp,
                               fontFamily: AppFontFamily.secondary,
@@ -240,7 +240,7 @@ class SelectedMeetingScreen extends StatelessWidget {
                         Text(
                           " ${race.trackCondition} ${race.trackConditionRating}",
                           style: semiBold(
-                            fontSize: (context.isBrowserMobile) ? 28.sp : 14.sp,
+                            fontSize: (context.isMobileWeb) ? 28.sp : 14.sp,
                             color: trackCond.contains('good')
                                 ? AppColors.green
                                 : trackCond.toLowerCase().contains('soft')
@@ -257,7 +257,7 @@ class SelectedMeetingScreen extends StatelessWidget {
                       "Rail Position : ${race.railPosition}",
                       // "${meeting.trackName} - R${race.number} - ${race.name}",
                       style: semiBold(
-                        fontSize: (context.isBrowserMobile) ? 28.sp : 14.sp,
+                        fontSize: (context.isMobileWeb) ? 28.sp : 14.sp,
                         color: AppColors.primary,
                         height: 1.18,
                       ),
@@ -266,7 +266,7 @@ class SelectedMeetingScreen extends StatelessWidget {
                     Text(
                       race.name, //*Sponser and class data: - ${race.distance}m - ${DateFormatter.formatRaceDateTime(race.australianTime)}",
                       style: semiBold(
-                        fontSize: (context.isBrowserMobile) ? 28.sp : 14.sp,
+                        fontSize: (context.isMobileWeb) ? 28.sp : 14.sp,
                         height: 1.2,
                         color: AppColors.primary, //.withValues(alpha: 0.6),
                       ),
@@ -275,7 +275,7 @@ class SelectedMeetingScreen extends StatelessWidget {
                     Text(
                       DateFormatter.formatRaceDateTime(race.australianTime),
                       style: semiBold(
-                        fontSize: (context.isBrowserMobile) ? 28.sp : 14.sp,
+                        fontSize: (context.isMobileWeb) ? 28.sp : 14.sp,
                         height: 1.2,
                         color: AppColors.primary, //.withValues(alpha: 0.6),
                       ),
@@ -432,14 +432,17 @@ class _FormHistoryCard extends StatelessWidget {
   String _historyDateCompact(History h) =>
       DateFormat('dd MMM, yyyy').format(h.date.toLocal());
 
-  String _historyConditionDistanceLine(History h) {
-    final cond = (h.trackCondition ?? '').trim();
+  String _historyDistanceSuffix(History h) {
     final d = h.distance;
-    final dist = d != null ? '${d}m' : '';
-    if (cond.isEmpty && dist.isEmpty) return '—';
-    if (cond.isEmpty) return dist;
-    if (dist.isEmpty) return cond;
-    return '$cond $dist';
+    if (d == null) return '';
+    return " ${d}m";
+  }
+
+  Color _historyTrackConditionColor(String condition) {
+    final c = condition.toLowerCase();
+    if (c.contains('good')) return AppColors.green;
+    if (c.contains('soft')) return Colors.blue;
+    return AppColors.red;
   }
 
   String _historyDetailBody(History h) {
@@ -471,7 +474,8 @@ class _FormHistoryCard extends StatelessWidget {
     final resultLine = _historyResultHeadline(h);
     final dateLine = _historyDateCompact(h);
 
-    final condDist = _historyConditionDistanceLine(h);
+    final condition = (h.trackCondition ?? " ").trim();
+    final dist = _historyDistanceSuffix(h);
     final detail = _historyDetailBody(h);
 
     return Container(
@@ -543,25 +547,42 @@ class _FormHistoryCard extends StatelessWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Icon(
-              //   Icons.waves_rounded,
-              //   size: 18.w,
-              //   color: _kFormHistoryTrackBlue,
-              // ),
-              // 6.w.horizontalSpace,
               Expanded(
-                child: Text(
-                  condDist,
-                  style: semiBold(
-                    fontSize: 12.5.sp,
-                    color: condDist.toLowerCase().contains('good')
-                        ? AppColors.green
-                        : condDist.toLowerCase().contains('soft')
-                        ? Colors.blue
-                        : AppColors.red,
-                    height: 1.3,
-                  ),
-                ),
+                child: condition.isEmpty && dist.isEmpty
+                    ? Text(
+                        '—',
+                        style: semiBold(
+                          fontSize: 12.5.sp,
+                          color: AppColors.primary.withValues(alpha: 0.55),
+                          height: 1.3,
+                        ),
+                      )
+                    : Text.rich(
+                        TextSpan(
+                          style: semiBold(
+                            fontSize: 12.5.sp,
+                            height: 1.3,
+                          ),
+                          children: [
+                            if (condition.isNotEmpty)
+                              TextSpan(
+                                text: condition,
+                                style: TextStyle(
+                                  color: _historyTrackConditionColor(condition),
+                                ),
+                              ),
+                            if (condition.isNotEmpty && dist.isNotEmpty)
+                              const TextSpan(text: ' '),
+                            if (dist.isNotEmpty)
+                              TextSpan(
+                                text: dist,
+                                style: const TextStyle(
+                                  color: AppColors.primary,
+                                ),
+                              ),
+                          ],
+                        ),
+                      ),
               ),
             ],
           ),

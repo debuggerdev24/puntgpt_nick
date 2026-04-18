@@ -12,7 +12,7 @@ class SearchFields extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bodyHorizontalPadding = (context.isBrowserMobile) ? 50.w : 25.w;
+    final bodyHorizontalPadding = (context.isMobileWeb) ? 50.w : 20.w;
     // final provider = context.read<SearchEngineProvider>();
     return SizedBox(
       width: double.maxFinite,
@@ -162,8 +162,8 @@ class SearchFields extends StatelessWidget {
       width: double.maxFinite,
       margin: EdgeInsets.symmetric(vertical: 20.w),
       padding: EdgeInsets.symmetric(
-        horizontal: (context.isBrowserMobile) ? 28.w : 20.w,
-        vertical: (context.isBrowserMobile) ? 28.h : 22.h,
+        horizontal: (context.isMobileWeb) ? 28.w : 20.w,
+        vertical: (context.isMobileWeb) ? 28.h : 22.h,
       ),
       decoration: BoxDecoration(
         color: AppColors.primary.withValues(alpha: 0.04),
@@ -177,14 +177,14 @@ class SearchFields extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Container(
-            padding: EdgeInsets.all((context.isBrowserMobile) ? 20.w : 14.w),
+            padding: EdgeInsets.all((context.isMobileWeb) ? 20.w : 14.w),
             decoration: BoxDecoration(
               color: AppColors.primary.withValues(alpha: 0.08),
               shape: BoxShape.circle,
             ),
             child: Icon(
               Icons.lock_rounded,
-              size: (context.isBrowserMobile) ? 44.w : 32.w,
+              size: (context.isMobileWeb) ? 44.w : 32.w,
               color: AppColors.primary.withValues(alpha: 0.7),
             ),
           ),
@@ -192,7 +192,7 @@ class SearchFields extends StatelessWidget {
           Text(
             "Subscribe to use all features",
             style: semiBold(
-              fontSize: (context.isBrowserMobile) ? 28.sp : 16.sp,
+              fontSize: (context.isMobileWeb) ? 28.sp : 16.sp,
               fontFamily: AppFontFamily.secondary,
               color: AppColors.primary,
             ),
@@ -202,7 +202,7 @@ class SearchFields extends StatelessWidget {
           Text(
             "Unlock the full search engine and get access to all filters and criteria.",
             style: regular(
-              fontSize: (context.isBrowserMobile) ? 22.sp : 13.sp,
+              fontSize: (context.isMobileWeb) ? 22.sp : 13.sp,
               color: AppColors.primary.withValues(alpha: 0.6),
               height: 1.4,
             ),
@@ -221,7 +221,7 @@ class SearchFields extends StatelessWidget {
               },
               text: "Subscribe to Pro",
               textStyle: semiBold(
-                fontSize: (context.isBrowserMobile) ? 24.sp : 14.sp,
+                fontSize: (context.isMobileWeb) ? 24.sp : 14.sp,
                 color: AppColors.white,
               ),
               padding: EdgeInsets.symmetric(vertical: 12.h),

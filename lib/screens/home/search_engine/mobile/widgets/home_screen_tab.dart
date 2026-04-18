@@ -61,7 +61,7 @@ class HomeScreenTab extends StatelessWidget {
           alignment: Alignment.center,
           padding: EdgeInsets.symmetric(
             vertical: 8.w,
-            horizontal: (context.isBrowserMobile) ? 26.w : 14.w,
+            horizontal: (context.isMobileWeb) ? 26.w : 14.w,
           ),
           decoration: BoxDecoration(
             color: isSelected ? AppColors.primary : AppColors.white,
@@ -75,7 +75,7 @@ class HomeScreenTab extends StatelessWidget {
                   ? 16.sp
                   : context.isTablet
                   ? 22.sp
-                  : (context.isBrowserMobile)
+                  : (context.isMobileWeb)
                   ? 30.sp
                   : 15.sp,
               color: isSelected ? AppColors.white : AppColors.primary,

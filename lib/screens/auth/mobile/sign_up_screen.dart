@@ -63,7 +63,6 @@ class SignUpScreen extends StatelessWidget {
                                     ),
                                   ),
                                 ),
-
                               ],
                             ),
                           ),

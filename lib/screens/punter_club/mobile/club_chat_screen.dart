@@ -131,7 +131,7 @@ class _GroupChatScreenState extends State<GroupChatScreen> {
                       _topBar(context: context, provider: provider),
                       Expanded(
                         child: (provider.chatMessages!.isEmpty)
-                            ? _buildEmptyState(context)
+                            ? Center(child: _buildEmptyState(context))
                             :
                               //* Message list
                               ListView.builder(
@@ -202,29 +202,27 @@ class _GroupChatScreenState extends State<GroupChatScreen> {
   Widget _buildEmptyState(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 40.w),
-      child: ListView(
-        padding: EdgeInsets.zero,
+      child: Column(
+        mainAxisSize: .min,
         children: [
           45.verticalSpace,
-          Center(
-            child: Container(
-              padding: EdgeInsets.all((context.isBrowserMobile) ? 28.w : 20.w),
-              decoration: BoxDecoration(
-                color: AppColors.primary.withValues(alpha: 0.04),
-                shape: BoxShape.circle,
-              ),
-              child: Icon(
-                Icons.chat_bubble_outline_rounded,
-                size: (context.isBrowserMobile) ? 80.w : 56.w,
-                color: AppColors.primary.withValues(alpha: 0.5),
-              ),
+          Container(
+            padding: EdgeInsets.all((context.isMobileWeb) ? 28.w : 20.w),
+            decoration: BoxDecoration(
+              color: AppColors.primary.withValues(alpha: 0.04),
+              shape: BoxShape.circle,
+            ),
+            child: Icon(
+              Icons.chat_outlined,
+              size: (context.isMobileWeb) ? 80.w : 56.w,
+              color: AppColors.primary.withValues(alpha: 0.5),
             ),
           ),
           24.w.verticalSpace,
           Text(
             "Start the conversation",
             style: semiBold(
-              fontSize: (context.isBrowserMobile) ? 28.sp : 20.sp,
+              fontSize: (context.isMobileWeb) ? 28.sp : 20.sp,
               fontFamily: AppFontFamily.secondary,
               color: AppColors.primary,
             ),
@@ -234,7 +232,7 @@ class _GroupChatScreenState extends State<GroupChatScreen> {
           Text(
             "No messages yet—say hello and get the group talking.",
             style: regular(
-              fontSize: (context.isBrowserMobile) ? 24.sp : 14.sp,
+              fontSize: (context.isMobileWeb) ? 24.sp : 14.sp,
               color: AppColors.primary.withValues(alpha: 0.6),
               height: 1.5,
             ),
@@ -266,7 +264,7 @@ class _GroupChatScreenState extends State<GroupChatScreen> {
       text,
       style: semiBold(
         height: 1.5,
-        fontSize: (context.isBrowserMobile) ? 30.sp : 14.sp,
+        fontSize: (context.isMobileWeb) ? 30.sp : 14.sp,
         color: hasTyping
             ? AppColors.primary.withValues(alpha: 0.8)
             : AppColors.primary.withValues(alpha: 0.6),
@@ -312,7 +310,7 @@ class _GroupChatScreenState extends State<GroupChatScreen> {
           keyboardType: TextInputType.multiline,
           textInputAction: TextInputAction.send,
           style: medium(
-            fontSize: (context.isBrowserMobile) ? 17.sp : 15.sp,
+            fontSize: (context.isMobileWeb) ? 17.sp : 15.sp,
             color: AppColors.primary,
           ),
           decoration: InputDecoration(
@@ -331,7 +329,7 @@ class _GroupChatScreenState extends State<GroupChatScreen> {
             hintText: "Type your message...",
             hintStyle: medium(
               fontStyle: FontStyle.italic,
-              fontSize: (context.isBrowserMobile) ? 17.sp : 14.sp,
+              fontSize: (context.isMobileWeb) ? 17.sp : 14.sp,
               color: AppColors.primary.withValues(alpha: 0.45),
             ),
           ),
@@ -450,14 +448,14 @@ class _GroupChatScreenState extends State<GroupChatScreen> {
             'Delete message',
             style: semiBold(
               color: AppColors.black,
-              fontSize: context.isBrowserMobile ? 22.sp : 18.sp,
+              fontSize: context.isMobileWeb ? 22.sp : 18.sp,
             ),
           ),
           content: Text(
             'Are you sure you want to delete this message?',
             style: regular(
               color: AppColors.primary.withValues(alpha: 0.85),
-              fontSize: context.isBrowserMobile ? 18.sp : 14.sp,
+              fontSize: context.isMobileWeb ? 18.sp : 14.sp,
               height: 1.35,
             ),
           ),
@@ -488,7 +486,6 @@ class _GroupChatScreenState extends State<GroupChatScreen> {
     required PuntClubProvider provider,
   }) {
     final sel = getSelectedMsgData(provider);
-
     return Column(
       children: [
         Padding(
@@ -501,6 +498,7 @@ class _GroupChatScreenState extends State<GroupChatScreen> {
                   if (sel != null) {
                     _clearMessageSelection();
                   } else {
+                    provider.getChatGroups();
                     provider.disconnectChat();
                     context.pop();
                   }
@@ -519,7 +517,7 @@ class _GroupChatScreenState extends State<GroupChatScreen> {
                       Text(
                         'Message selected',
                         style: semiBold(
-                          fontSize: (context.isBrowserMobile) ? 36.sp : 21.sp,
+                          fontSize: (context.isMobileWeb) ? 36.sp : 21.sp,
                           fontFamily: AppFontFamily.secondary,
                           height: 1,
                           color: AppColors.primary,
@@ -529,7 +527,7 @@ class _GroupChatScreenState extends State<GroupChatScreen> {
                       Text(
                         'Tap a message or back to cancel',
                         style: regular(
-                          fontSize: (context.isBrowserMobile) ? 22.sp : 13.sp,
+                          fontSize: (context.isMobileWeb) ? 22.sp : 13.sp,
                           color: AppColors.primary.withValues(alpha: 0.55),
                         ),
                       ),
@@ -545,7 +543,7 @@ class _GroupChatScreenState extends State<GroupChatScreen> {
                         child: Text(
                           widget.title,
                           style: regular(
-                            fontSize: (context.isBrowserMobile) ? 50.sp : 24.sp,
+                            fontSize: (context.isMobileWeb) ? 50.sp : 24.sp,
                             fontFamily: AppFontFamily.secondary,
                             height: 1,
                           ),
@@ -561,7 +559,7 @@ class _GroupChatScreenState extends State<GroupChatScreen> {
                   GestureDetector(
                     onTap: () => _showEditDialog(context, provider, sel),
                     child: Icon(
-                      size: (context.isBrowserMobile) ? 36.w : 26.w,
+                      size: (context.isMobileWeb) ? 36.w : 26.w,
                       Icons.edit,
                       color: AppColors.primary,
                     ),
@@ -572,7 +570,7 @@ class _GroupChatScreenState extends State<GroupChatScreen> {
                   child: Icon(
                     Icons.delete,
                     color: AppColors.red,
-                    size: (context.isBrowserMobile) ? 36.w : 26.w,
+                    size: (context.isMobileWeb) ? 36.w : 26.w,
                   ),
                 ),
               ] else ...[
@@ -591,13 +589,13 @@ class _GroupChatScreenState extends State<GroupChatScreen> {
                     );
                   },
                   child: ImageWidget(
-                    width: (context.isBrowserMobile) ? 60.w : 28.w,
+                    width: (context.isMobileWeb) ? 60.w : 28.w,
                     path: AppAssets.addClubMember,
                     type: ImageType.svg,
                     color: AppColors.primary,
                   ),
                 ),
-                (context.isBrowserMobile)
+                (context.isMobileWeb)
                     ? 40.w.horizontalSpace
                     : 20.w.horizontalSpace,
                 GestureDetector(
@@ -615,7 +613,7 @@ class _GroupChatScreenState extends State<GroupChatScreen> {
                     );
                   },
                   child: ImageWidget(
-                    width: (context.isBrowserMobile) ? 60.w : 28.w,
+                    width: (context.isMobileWeb) ? 60.w : 28.w,
                     path: AppAssets.option,
                     type: ImageType.svg,
                     color: AppColors.primary,
@@ -642,7 +640,7 @@ class OptionsSheetView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final spacing = (context.isBrowserMobile)
+    final spacing = (context.isMobileWeb)
         ? 40.w.verticalSpace
         : 24.w.verticalSpace;
     return SizedBox(
@@ -778,7 +776,7 @@ class OptionsSheetView extends StatelessWidget {
               "Are you sure you want to Quit Group?",
               style: regular(
                 color: AppColors.black,
-                fontSize: context.isBrowserMobile ? 65.sp : 19.sp,
+                fontSize: context.isMobileWeb ? 65.sp : 19.sp,
               ),
             ),
             actions: [

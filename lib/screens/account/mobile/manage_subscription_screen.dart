@@ -96,7 +96,7 @@ class ManageSubscriptionScreen extends StatelessWidget {
                   margin: EdgeInsets.fromLTRB(25.w, 5.w, 25.w, 10.w),
                   text: "See Current Plan",
                   textStyle: semiBold(
-                    fontSize: (context.isBrowserMobile) ? 30.sp : 18.sp,
+                    fontSize: (context.isMobileWeb) ? 30.sp : 18.sp,
                     color: AppColors.white,
                   ),
                   onTap: () {

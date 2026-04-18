@@ -72,7 +72,7 @@ class GroupMembersScreen extends StatelessWidget {
       padding: EdgeInsets.fromLTRB(
         0,
         13.w,
-        (context.isBrowserMobile) ? 35.w : 25.w,
+        (context.isMobileWeb) ? 35.w : 25.w,
         11.w,
       ),
 
@@ -97,7 +97,7 @@ class GroupMembersScreen extends StatelessWidget {
               Text(
                 "Group Members",
                 style: regular(
-                  fontSize: (context.isBrowserMobile) ? 38.sp : 24.sp,
+                  fontSize: (context.isMobileWeb) ? 38.sp : 24.sp,
                   fontFamily: AppFontFamily.secondary,
                   height: 1,
                 ),
@@ -106,7 +106,7 @@ class GroupMembersScreen extends StatelessWidget {
                 "${provider.groupMembersList?.length} Member",
                 style: semiBold(
                   height: 1.6,
-                  fontSize: (context.isBrowserMobile) ? 30.sp : 14.sp,
+                  fontSize: (context.isMobileWeb) ? 30.sp : 14.sp,
                   color: AppColors.primary.withValues(alpha: 0.6),
                 ),
               ),

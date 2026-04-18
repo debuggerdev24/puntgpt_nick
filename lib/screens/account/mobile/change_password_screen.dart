@@ -36,14 +36,14 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          28.h.verticalSpace,
+                          28.w.verticalSpace,
 
-                          //todo ------------> Current Password
+                          //* ------------> Current Password
                           Text(
                             "Current Password",
                             style: semiBold(fontSize: 14.sp),
                           ),
-                          6.h.verticalSpace,
+                          6.w.verticalSpace,
                           AppTextField(
                             controller: provider.currentPassCtr,
                             obscureText: provider.currentPassObscure,
@@ -59,13 +59,13 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                             validator: (value) =>
                                 FieldValidators().password(value),
                           ),
-                          //todo ------------> New Password
-                          14.h.verticalSpace,
+                          //* ------------> New Password
+                          14.w.verticalSpace,
                           Text(
                             "New Password",
                             style: semiBold(fontSize: 14.sp),
                           ),
-                          6.h.verticalSpace,
+                          6.w.verticalSpace,
                           AppTextField(
                             controller: provider.newPassCtr,
                             obscureText: provider.newPassObscure,
@@ -83,13 +83,13 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                                 FieldValidators().password(value),
                           ),
 
-                          //todo ------------> Confirm Password
-                          14.h.verticalSpace,
+                          //* ------------> Confirm Password
+                          14.w.verticalSpace,
                           Text(
                             "Confirm Password",
                             style: semiBold(fontSize: 14.sp),
                           ),
-                          6.h.verticalSpace,
+                          6.w.verticalSpace,
                           AppTextField(
                             controller: provider.confirmPassCtr,
                             obscureText: provider.confirmPassObscure,
@@ -98,7 +98,6 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                             trailingIcon: provider.confirmPassObscure
                                 ? AppAssets.hide
                                 : AppAssets.show,
-
                             onTrailingIconTap: () {
                               provider.confirmPassObscure =
                                   !provider.confirmPassObscure;
@@ -138,7 +137,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                                 });
                               },
                               margin: EdgeInsets.only(
-                                bottom: 25.h,
+                                bottom: 20.w,
                               ), // top: 200.h
                             ),
                           ),

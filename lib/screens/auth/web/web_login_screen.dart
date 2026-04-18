@@ -107,7 +107,7 @@ class WebLoginScreen extends StatelessWidget {
                       textStyle: semiBold(fontSize: 16, color: AppColors.white),
                       margin: EdgeInsets.only(bottom: 18),
                       child:
-                          (provider.isLoginLoading && !context.isBrowserMobile)
+                          (provider.isLoginLoading && !context.isMobileWeb)
                           ? webProgressIndicator(context)
                           : null,
                     ),

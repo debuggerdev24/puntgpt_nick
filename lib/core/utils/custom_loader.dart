@@ -23,7 +23,7 @@ class FullPageIndicator extends StatelessWidget {
           (kIsWeb && context.isMobileView) ? 24 : 12,
         ).r,
         child: CupertinoActivityIndicator(
-          radius: (kIsWeb && context.isBrowserMobile) ? 20.h : 19.w,
+          radius: (kIsWeb) ? 20.w : 19.w,
           color: AppColors.primary,
         ),
       ),

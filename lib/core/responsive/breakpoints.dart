@@ -6,7 +6,10 @@ class Breakpoints {
   // Mobile: 0 - 599 px
   static const double mobile = 0;
 
-  static const double mobileBrowser = 415;
+  /// Upper bound for narrow layout (`isMobile`: width \< this).
+  /// `isMobileWeb` is: width **\>** [mobileWeb] and width \< [tablet] (see [Responsive.isMobileWeb]).
+  /// iPhone 17 / 16 Pro Max portrait ≈ **440pt** — need [mobileWeb] \< 440 or `440 > mobileWeb` fails.
+  static const double mobileWeb = 445;
 
   static const double tablet = 515;
 

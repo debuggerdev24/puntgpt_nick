@@ -11,7 +11,7 @@ class PunterClubScreenWebScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bodyWidth = context.isBrowserMobile
+    final bodyWidth = context.isMobileWeb
         ? double.maxFinite
         : context.isTablet
         ? double.maxFinite

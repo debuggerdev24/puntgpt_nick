@@ -64,7 +64,7 @@ class SelectedPlanScreen extends StatelessWidget {
                 child: Text(
                   planName,
                   style: regular(
-                    fontSize: (context.isBrowserMobile) ? 34.sp : 22.sp,
+                    fontSize: (context.isMobileWeb) ? 34.sp : 22.sp,
                     fontFamily: AppFontFamily.secondary,
                   ),
                 ),

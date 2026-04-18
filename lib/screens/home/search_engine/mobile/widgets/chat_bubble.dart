@@ -38,7 +38,7 @@ class ChatBubble extends StatelessWidget {
 
     return Padding(
       padding: EdgeInsets.symmetric(
-        horizontal: (context.isBrowserMobile) ? 35.w : 16.w,
+        horizontal: (context.isMobileWeb) ? 35.w : 16.w,
         vertical: 6.w,
       ),
       child: Column(
@@ -68,14 +68,14 @@ class ChatBubble extends StatelessWidget {
                         Text(
                           message.senderLabel,
                           style: semiBold(
-                            fontSize: context.isBrowserMobile ? 32.sp : 16.sp,
+                            fontSize: context.isMobileWeb ? 32.sp : 16.sp,
                             color: labelColor,
                           ),
                         ),
                         Text(
                           DateFormatter.formatTimeOnly(message.timestamp),
                           style: regular(
-                            fontSize: context.isBrowserMobile ? 22.sp : 11.sp,
+                            fontSize: context.isMobileWeb ? 22.sp : 11.sp,
                             color: timeColor,
                           ),
                         ),
@@ -85,7 +85,7 @@ class ChatBubble extends StatelessWidget {
                     Text(
                       message.content,
                       style: regular(
-                        fontSize: context.isBrowserMobile ? 30.sp : 15.sp,
+                        fontSize: context.isMobileWeb ? 30.sp : 15.sp,
                         color: msgColor,
                         height: 1.45,
                       ),

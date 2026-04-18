@@ -34,7 +34,7 @@ class AppScreenTopBar extends StatelessWidget {
                     Text(
                       title,
                       style: regular(
-                        fontSize: (context.isBrowserMobile) ? 36.sp : 24.sp,
+                        fontSize: 24.fSize,
                         fontFamily: AppFontFamily.secondary,
                         height: 1.1,
                       ),
@@ -42,7 +42,7 @@ class AppScreenTopBar extends StatelessWidget {
                     Text(
                       slogan,
                       style: semiBold(
-                        fontSize: (context.isBrowserMobile) ? 28.sp : 14.sp,
+                        fontSize: 14.fSize,
                         color: AppColors.primary.withValues(alpha: 0.6),
                       ),
                     ),

@@ -1,4 +1,6 @@
 import 'package:puntgpt_nick/core/app_imports.dart';
+import 'package:puntgpt_nick/core/widgets/guest_create_account_sheet.dart';
+import 'package:puntgpt_nick/main.dart';
 import 'package:puntgpt_nick/provider/home/search_engine/search_engine_provider.dart';
 import 'package:puntgpt_nick/screens/home/search_engine/mobile/widgets/home_section_shimmers.dart';
 import 'package:puntgpt_nick/screens/home/search_engine/mobile/widgets/tip_slip.dart';
@@ -9,6 +11,20 @@ class TipSlipScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (isGuest) {
+      return Column(
+        children: [
+          topBar(context),
+          Expanded(
+            child: Padding(
+              padding: EdgeInsets.fromLTRB(25.w, 0, 25.w, 20.w),
+              child: _buildGuestView(context),
+            ),
+          ),
+        ],
+      );
+    }
+
     return Consumer<SearchEngineProvider>(
       builder: (context, provider, child) {
         final tipSlips = provider.tipSlips;
@@ -91,7 +107,7 @@ class TipSlipScreen extends StatelessWidget {
 
                           _unibetDabbleCard(
                             context: context,
-                            logoHeight: context.isBrowserMobile ? 36.w : 34.w,
+                            logoHeight: context.isMobileWeb ? 36.w : 34.w,
                           ),
                         ],
                       ),
@@ -103,12 +119,64 @@ class TipSlipScreen extends StatelessWidget {
     );
   }
 
+  Widget _buildGuestView(BuildContext context) {
+    return Center(
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              padding: EdgeInsets.all(22.w),
+              decoration: BoxDecoration(
+                color: AppColors.primary.withValues(alpha: 0.08),
+                shape: BoxShape.circle,
+              ),
+              child: Icon(
+                Icons.lock_outline_rounded,
+                size: context.isMobileWeb ? 64.sp : 42.sp,
+                color: AppColors.primary,
+              ),
+            ),
+            20.w.verticalSpace,
+            Text(
+              "Tip Slip is available for account users",
+              textAlign: TextAlign.center,
+              style: semiBold(
+                fontSize: context.isMobileWeb ? 34.sp : 22.sp,
+                fontFamily: AppFontFamily.secondary,
+              ),
+            ),
+            10.w.verticalSpace,
+            Text(
+              "Create an account to save and manage your race picks in Tip Slip.",
+              textAlign: TextAlign.center,
+              style: regular(
+                fontSize: context.isMobileWeb ? 26.sp : 14.sp,
+                color: AppColors.primary.withValues(alpha: 0.7),
+                height: 1.35,
+              ),
+            ),
+            22.w.verticalSpace,
+            AppFilledButton(
+              text: "Create account",
+              onTap: () => showGuestCreateAccountSheet(
+                context,
+                message:
+                    "Create your account to unlock Tip Slip and keep your picks synced.",
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   /// Web / mobile-browser: original two-column partner logos.
   Widget _webPartnerBookmakersCard({
     required BuildContext context,
     required double logoHeight,
   }) {
-    final isWideMobile = context.isBrowserMobile;
+    final isWideMobile = context.isMobileWeb;
     final labelStyle = semiBold(
       fontSize: isWideMobile ? 22.sp : 12.sp,
       color: AppColors.primary.withValues(alpha: 0.5),
@@ -322,6 +390,7 @@ class TipSlipScreen extends StatelessWidget {
   }
 
   Widget _buildEmptyState(BuildContext context) {
+
     return Center(
       child: SingleChildScrollView(
         padding: EdgeInsets.symmetric(horizontal: 32.w, vertical: 24.h),
@@ -353,7 +422,7 @@ class TipSlipScreen extends StatelessWidget {
               "Your tip slip is empty",
               textAlign: TextAlign.center,
               style: bold(
-                fontSize: context.isBrowserMobile ? 36.sp : 22.sp,
+                fontSize: context.isMobileWeb ? 36.sp : 22.sp,
                 color: AppColors.primary,
               ),
             ),
@@ -362,7 +431,7 @@ class TipSlipScreen extends StatelessWidget {
               "Add picks from races to build your slip and track your selections",
               textAlign: TextAlign.center,
               style: regular(
-                fontSize: context.isBrowserMobile ? 28.sp : 14.sp,
+                fontSize: context.isMobileWeb ? 28.sp : 14.sp,
                 color: AppColors.primary.withValues(alpha: 0.6),
                 height: 1.4,
               ),
@@ -394,7 +463,7 @@ class TipSlipScreen extends StatelessWidget {
                   Text(
                     "Your picks will appear here",
                     style: medium(
-                      fontSize: context.isBrowserMobile ? 26.sp : 13.sp,
+                      fontSize: context.isMobileWeb ? 26.sp : 13.sp,
                       color: AppColors.primary.withValues(alpha: 0.5),
                     ),
                   ),
@@ -691,47 +760,6 @@ class TipSlipScreen extends StatelessWidget {
   // }
 
   Widget topBar(BuildContext context) {
-    return Column(
-      children: [
-        Padding(
-          padding: EdgeInsets.fromLTRB(5.w, 6.w, 25.w, 8.w),
-
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            // spacing: 14.w,
-            children: [
-              IconButton(
-                onPressed: () {
-                  context.pop();
-                },
-                icon: Icon(Icons.arrow_back_ios_rounded, size: 16.h),
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Tip Slip",
-                    style: regular(
-                      fontSize: (context.isBrowserMobile) ? 48.sp : 24.sp,
-                      fontFamily: AppFontFamily.secondary,
-                      height: 1.35,
-                    ),
-                  ),
-                  Text(
-                    "Your selected picks for the next race",
-                    style: medium(
-                      fontSize: 14.fourteenSp(context),
-                      color: AppColors.primary.withValues(alpha: 0.6),
-                    ),
-                  ),
-                ],
-              ),
-              25.w.verticalSpace,
-            ],
-          ),
-        ),
-        horizontalDivider(),
-      ],
-    );
-  }
+    return AppScreenTopBar(title: "Tip Slip", slogan: "Your selected tips for the next race");
+   }
 }

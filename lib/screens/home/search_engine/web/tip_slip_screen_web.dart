@@ -78,9 +78,9 @@ class TipSlipScreenWeb extends StatelessWidget {
             children: [
               Padding(
                 padding: EdgeInsets.only(
-                  top: (!context.isBrowserMobile)
+                  top: (!context.isMobileWeb)
                       ? 4
-                      : (context.isBrowserMobile)
+                      : (context.isMobileWeb)
                       ? 2
                       : 0,
                 ),

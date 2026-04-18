@@ -18,7 +18,7 @@ class VideoWidget extends StatelessWidget {
       child: Text(
         "Video",
         style: regular(
-          fontSize: (context.isBrowserMobile) ? 62.sp : 32.sp,
+          fontSize: (context.isMobileWeb) ? 62.sp : 32.sp,
           fontFamily: AppFontFamily.secondary,
         ),
       ),

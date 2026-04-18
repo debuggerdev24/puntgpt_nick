@@ -95,7 +95,7 @@ class WebVerifyOtpScreen extends StatelessWidget {
                     },
                     child:
                         (provider.isVerifyOtpLoading &&
-                            !context.isBrowserMobile)
+                            !context.isMobileWeb)
                         ? webProgressIndicator(context)
                         : null,
                   ),

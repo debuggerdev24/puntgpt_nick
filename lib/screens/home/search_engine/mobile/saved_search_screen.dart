@@ -49,7 +49,7 @@ class _SavedSearchScreenState extends State<SavedSearchScreen> {
             "Saved Searches",
             style: TextStyle(
               fontFamily: AppFontFamily.secondary,
-              fontSize: (context.isBrowserMobile) ? 50.sp : 24.sp,
+              fontSize: (context.isMobileWeb) ? 50.sp : 24.sp,
             ),
           ),
           if (!isSubscribed) ...[
@@ -120,7 +120,7 @@ class _SavedSearchScreenState extends State<SavedSearchScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              padding: EdgeInsets.all((context.isBrowserMobile) ? 28.w : 22.w),
+              padding: EdgeInsets.all((context.isMobileWeb) ? 28.w : 22.w),
               decoration: BoxDecoration(
                 color: AppColors.primary.withValues(alpha: 0.06),
                 shape: BoxShape.circle,
@@ -131,7 +131,7 @@ class _SavedSearchScreenState extends State<SavedSearchScreen> {
               ),
               child: Icon(
                 Icons.bookmark_border_rounded,
-                size: (context.isBrowserMobile) ? 64.sp : 48.sp,
+                size: (context.isMobileWeb) ? 64.sp : 48.sp,
                 color: AppColors.primary.withValues(alpha: 0.5),
               ),
             ),
@@ -139,7 +139,7 @@ class _SavedSearchScreenState extends State<SavedSearchScreen> {
             Text(
               "No saved searches yet",
               style: semiBold(
-                fontSize: (context.isBrowserMobile) ? 28.sp : 18.sp,
+                fontSize: (context.isMobileWeb) ? 28.sp : 18.sp,
                 fontFamily: AppFontFamily.secondary,
                 color: AppColors.primary,
               ),
@@ -149,7 +149,7 @@ class _SavedSearchScreenState extends State<SavedSearchScreen> {
             Text(
               "Save your favourite filters from the Search Engine so they’re ready every time you open the app.",
               style: regular(
-                fontSize: (context.isBrowserMobile) ? 24.sp : 14.sp,
+                fontSize: (context.isMobileWeb) ? 24.sp : 14.sp,
                 color: AppColors.primary.withValues(alpha: 0.6),
                 height: 1.4,
               ),
@@ -202,7 +202,7 @@ class _SavedSearchScreenState extends State<SavedSearchScreen> {
   Widget _buildUpgradeCard(BuildContext context) {
     return Container(
       width: double.maxFinite,
-      padding: EdgeInsets.all((context.isBrowserMobile) ? 24.w : 20.w),
+      padding: EdgeInsets.all((context.isMobileWeb) ? 24.w : 20.w),
       decoration: BoxDecoration(
         color: AppColors.primary.withValues(alpha: 0.04),
         borderRadius: BorderRadius.circular(12.r),
@@ -233,7 +233,7 @@ class _SavedSearchScreenState extends State<SavedSearchScreen> {
                 child: Text(
                   "Upgrade to Pro Punter to save your custom searches",
                   style: semiBold(
-                    fontSize: (context.isBrowserMobile) ? 26.sp : 15.sp,
+                    fontSize: (context.isMobileWeb) ? 26.sp : 15.sp,
                     color: AppColors.primary,
                   ),
                 ),
@@ -263,7 +263,7 @@ class _SavedSearchScreenState extends State<SavedSearchScreen> {
               },
               text: "Upgrade to Pro",
               textStyle: semiBold(
-                fontSize: (context.isBrowserMobile) ? 24.sp : 14.sp,
+                fontSize: (context.isMobileWeb) ? 24.sp : 14.sp,
                 color: AppColors.white,
               ),
               color: AppColors.primary,
@@ -282,7 +282,7 @@ class _SavedSearchScreenState extends State<SavedSearchScreen> {
         Text(
           "• ",
           style: medium(
-            fontSize: (context.isBrowserMobile) ? 24.sp : 14.sp,
+            fontSize: (context.isMobileWeb) ? 24.sp : 14.sp,
             color: AppColors.primary.withValues(alpha: 0.7),
           ),
         ),
@@ -290,7 +290,7 @@ class _SavedSearchScreenState extends State<SavedSearchScreen> {
           child: Text(
             text,
             style: regular(
-              fontSize: (context.isBrowserMobile) ? 24.sp : 14.sp,
+              fontSize: (context.isMobileWeb) ? 24.sp : 14.sp,
               color: AppColors.primary.withValues(alpha: 0.8),
               height: 1.4,
             ),
@@ -314,8 +314,8 @@ class _StaticSavedSearchPlaceholder extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(
-        horizontal: (context.isBrowserMobile) ? 10.w : 0,
-        vertical: (context.isBrowserMobile) ? 20.w : 12.h,
+        horizontal: (context.isMobileWeb) ? 10.w : 0,
+        vertical: (context.isMobileWeb) ? 20.w : 12.h,
       ),
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
@@ -328,7 +328,7 @@ class _StaticSavedSearchPlaceholder extends StatelessWidget {
           children: [
             Icon(
               Icons.lock_outline_rounded,
-              size: (context.isBrowserMobile) ? 32.sp : 18.sp,
+              size: (context.isMobileWeb) ? 32.sp : 18.sp,
               color: AppColors.primary.withValues(alpha: 0.35),
             ),
             12.w.horizontalSpace,
@@ -339,7 +339,7 @@ class _StaticSavedSearchPlaceholder extends StatelessWidget {
                   Text(
                     name,
                     style: semiBold(
-                      fontSize: (context.isBrowserMobile) ? 36.sp : 18.sp,
+                      fontSize: (context.isMobileWeb) ? 36.sp : 18.sp,
                       color: AppColors.primary.withValues(alpha: 0.4),
                     ),
                   ),
@@ -347,7 +347,7 @@ class _StaticSavedSearchPlaceholder extends StatelessWidget {
                   Text(
                     comment,
                     style: regular(
-                      fontSize: (context.isBrowserMobile) ? 26.sp : 13.sp,
+                      fontSize: (context.isMobileWeb) ? 26.sp : 13.sp,
                       color: AppColors.primary.withValues(alpha: 0.25),
                     ),
                     maxLines: 1,
@@ -358,7 +358,7 @@ class _StaticSavedSearchPlaceholder extends StatelessWidget {
             ),
             Icon(
               Icons.arrow_forward_ios_rounded,
-              size: (context.isBrowserMobile) ? 28.w : 14.w,
+              size: (context.isMobileWeb) ? 28.w : 14.w,
               color: AppColors.primary.withValues(alpha: 0.25),
             ),
           ],
@@ -377,8 +377,8 @@ class SearchedItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(
-        horizontal: (context.isBrowserMobile) ? 35.w : 25.w,
-        vertical: (context.isBrowserMobile) ? 24.w : 14.h,
+        horizontal: (context.isMobileWeb) ? 35.w : 25.w,
+        vertical: (context.isMobileWeb) ? 24.w : 14.h,
       ),
       child: GestureDetector(
         onTap: () {
@@ -395,14 +395,14 @@ class SearchedItem extends StatelessWidget {
                   Text(
                     search.name,
                     style: semiBold(
-                      fontSize: (context.isBrowserMobile) ? 40.sp : 20.sp,
+                      fontSize: (context.isMobileWeb) ? 40.sp : 20.sp,
                       color: AppColors.primary,
                     ),
                   ),
                   Text(
                     DateFormatter.formatDateLong(search.createdAt),
                     style: semiBold(
-                      fontSize: (context.isBrowserMobile) ? 30.sp : 12.sp,
+                      fontSize: (context.isMobileWeb) ? 30.sp : 12.sp,
                       color: AppColors.primary,
                     ),
                   ),
@@ -411,7 +411,7 @@ class SearchedItem extends StatelessWidget {
                   Text(
                     search.comment,
                     style: regular(
-                      fontSize: (context.isBrowserMobile) ? 40.sp : 20.sp,
+                      fontSize: (context.isMobileWeb) ? 40.sp : 20.sp,
                       color: AppColors.primary,
                     ),
                     maxLines: 2,
@@ -423,7 +423,7 @@ class SearchedItem extends StatelessWidget {
             Icon(
               Icons.arrow_forward_ios_rounded,
               color: AppColors.black,
-              size: (context.isBrowserMobile) ? 40.w : 14.w,
+              size: (context.isMobileWeb) ? 40.w : 14.w,
             ),
           ],
         ),

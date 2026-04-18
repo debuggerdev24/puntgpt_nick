@@ -17,7 +17,7 @@ class _SelectedRaceTableScreenWebState
 
   @override
   Widget build(BuildContext context) {
-    final bodyWidth = context.isBrowserMobile
+    final bodyWidth = context.isMobileWeb
         ? 1.4.sw
         : context.isTablet
         ? 1100.w
@@ -27,21 +27,21 @@ class _SelectedRaceTableScreenWebState
         ? 16.sp
         : context.isTablet
         ? 24.sp
-        : (context.isBrowserMobile)
+        : (context.isMobileWeb)
         ? 32.sp
         : 16.sp;
     final eighteenResponsive = context.isDesktop
         ? 18.sp
         : context.isTablet
         ? 26.sp
-        : (context.isBrowserMobile)
+        : (context.isMobileWeb)
         ? 34.sp
         : 16.sp;
     final fourteenResponsive = context.isDesktop
         ? 14.sp
         : context.isTablet
         ? 22.sp
-        : (context.isBrowserMobile)
+        : (context.isMobileWeb)
         ? 26.sp
         : 14.sp;
     return Scaffold(
@@ -55,7 +55,7 @@ class _SelectedRaceTableScreenWebState
               width: bodyWidth,
               child: SingleChildScrollView(
                 padding: EdgeInsets.symmetric(
-                  horizontal: (context.isBrowserMobile) ? 55.w : 25.w,
+                  horizontal: (context.isMobileWeb) ? 55.w : 25.w,
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -158,7 +158,7 @@ class _SelectedRaceTableScreenWebState
                           ? 20.sp
                           : context.isTablet
                           ? 28.sp
-                          : (context.isBrowserMobile)
+                          : (context.isMobileWeb)
                           ? 36.sp
                           : 20.sp,
                       fontFamily: AppFontFamily.secondary,
@@ -172,7 +172,7 @@ class _SelectedRaceTableScreenWebState
                           ? 12.sp
                           : context.isTablet
                           ? 20.sp
-                          : (context.isBrowserMobile)
+                          : (context.isMobileWeb)
                           ? 24.sp
                           : 12.sp,
                       color: AppColors.primary.withValues(alpha: 0.6),

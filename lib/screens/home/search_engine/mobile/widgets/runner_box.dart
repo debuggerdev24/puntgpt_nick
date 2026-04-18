@@ -72,7 +72,7 @@ class RunnerBox extends StatelessWidget {
                   ),
                   6.w.horizontalSpace,
                   Text(
-                    runner.odds != null ? "\$${runner.odds} " : '- ',
+                    runner.odds != null ? "\$${runner.odds} " : "- ",
                     style: bold(fontSize: 18.sp),
                   ),
                   if (!isGuest)

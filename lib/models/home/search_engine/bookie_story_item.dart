@@ -84,7 +84,7 @@ const List<BookieStoryItem> kDefaultBookieStories = [
     displayName: 'Unibet',
     avatarAsset: AppAssets.unibatLogo,
     storyImageAssets: [
-      AppAssets.unibatAdvertisement1,
+      // AppAssets.unibatAdvertisement1,
       AppAssets.unibatAdvertisement2,
       AppAssets.unibatAdvertisement3,
     ],

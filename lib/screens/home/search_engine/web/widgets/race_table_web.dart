@@ -124,7 +124,7 @@ class RaceTableWeb extends StatelessWidget {
         ? 16.sp
         : context.isTablet
         ? 24.sp
-        : (context.isBrowserMobile)
+        : (context.isMobileWeb)
         ? 32.sp
         : 16.sp;
     return TableRow(

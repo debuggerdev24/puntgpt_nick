@@ -151,13 +151,10 @@ class FieldValidators {
   }
 
   /// Validates phone number for the selected country (from country_picker).
-  /// [nationalNumber] is digits only (no country code). [country] must be non-null.
-  String? phoneNumberForCountry(String? nationalNumber, dynamic country) {
-    if (country == null) {
-      return 'Select a country';
-    }
-    if (nationalNumber == null || nationalNumber.trim().isEmpty) {
-      return 'Mobile number is required!';
+  /// [nationalNumber] is digits only (no country code). Empty or null is valid (optional).
+  String? phoneNumberForCountry(String nationalNumber, dynamic country) {
+    if (nationalNumber.trim().isEmpty) {
+      return null;
     }
     final digits = nationalNumber.replaceAll(RegExp(r'[^0-9]'), '');
     final example = (country.example?.toString() ?? '');

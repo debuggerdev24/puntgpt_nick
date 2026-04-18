@@ -21,7 +21,7 @@ class RaceStartTimingOptionsWeb extends StatelessWidget {
             return Center(
               child: SingleChildScrollView(
                 padding: EdgeInsets.symmetric(
-                  horizontal: (context.isBrowserMobile) ? 35.w : 25.w,
+                  horizontal: (context.isMobileWeb) ? 35.w : 25.w,
                 ),
 
                 scrollDirection: Axis.horizontal,
@@ -106,7 +106,7 @@ class RaceStartTimingOptionsWeb extends StatelessWidget {
                 ? 14.sp
                 : context.isTablet
                 ? 22.sp
-                : (context.isBrowserMobile)
+                : (context.isMobileWeb)
                 ? 34.sp
                 : 14.sp,
             color: isSelected ? AppColors.white : AppColors.primary,

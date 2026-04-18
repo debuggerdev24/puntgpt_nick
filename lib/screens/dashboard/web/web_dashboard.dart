@@ -29,10 +29,10 @@ class _WebDashboardState extends State<WebDashboard> {
   @override
   Widget build(BuildContext context) {
     Logger.info(
-      "is Physical Mobile ${context.isPhysicalMobile} ${context.screenWidth}",
+      "is Physical Mobile ${context.isMobile} ${context.screenWidth}",
     );
     Logger.info(
-      "is Browser Mobile  ${context.isBrowserMobile} ${context.screenWidth}",
+      "is Browser Mobile  ${context.isMobileWeb} ${context.screenWidth}",
     );
     Logger.info("is Tablet ${context.isTablet} ${context.screenWidth}");
     Logger.info("is Desktop ${context.isDesktop} ${context.screenWidth}");
@@ -107,7 +107,7 @@ class _WebDashboardState extends State<WebDashboard> {
           color: AppColors.white,
           height: context.isTablet
               ? 42.w
-              : (context.isBrowserMobile)
+              : (context.isMobileWeb)
               ? 58.w
               : 30.w,
         ),
@@ -117,7 +117,7 @@ class _WebDashboardState extends State<WebDashboard> {
             color: AppColors.white,
             fontSize: context.isTablet
                 ? 22.sp
-                : (context.isBrowserMobile)
+                : (context.isMobileWeb)
                 ? 35.sp
                 : 18.sp,
           ),
@@ -142,7 +142,7 @@ class _WebDashboardState extends State<WebDashboard> {
         mainAxisSize: MainAxisSize.min,
         spacing: context.isTablet
             ? 24.w
-            : (context.isBrowserMobile)
+            : (context.isMobileWeb)
             ? 30.w
             : 6.5.h,
         children: [
@@ -247,7 +247,7 @@ class _WebDashboardState extends State<WebDashboard> {
                   color: color ?? AppColors.white,
                   height: context.isTablet
                       ? 42.w
-                      : (context.isBrowserMobile)
+                      : (context.isMobileWeb)
                       ? 58.w
                       : 32.w,
                 ),
@@ -257,7 +257,7 @@ class _WebDashboardState extends State<WebDashboard> {
                     style: medium(
                       fontSize: context.isTablet
                           ? 22.sp
-                          : (context.isBrowserMobile)
+                          : (context.isMobileWeb)
                           ? 35.sp
                           : 18.sp,
                       color: color ?? AppColors.white,

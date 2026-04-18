@@ -53,7 +53,7 @@ class _LifetimeMemberCardState extends State<LifetimeMemberCard> {
                       Text(
                         fullName.isEmpty ? '—' : fullName,
                         style: semiBold(
-                          fontSize: context.isBrowserMobile ? 26.sp : 16.sp,
+                          fontSize: context.isMobileWeb ? 26.sp : 16.sp,
                           color: AppColors.primary,
                           height: 1.2,
                         ),
@@ -241,14 +241,14 @@ class _LifetimeMemberCardState extends State<LifetimeMemberCard> {
             6.w.horizontalSpace,
             ConstrainedBox(
               constraints: BoxConstraints(
-                maxWidth: context.isBrowserMobile ? 240.w : 160.w,
+                maxWidth: context.isMobileWeb ? 240.w : 160.w,
               ),
               child: Text(
                 text,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: medium(
-                  fontSize: context.isBrowserMobile ? 20.sp : 12.sp,
+                  fontSize: context.isMobileWeb ? 20.sp : 12.sp,
                   color: clickable
                       ? AppColors.primary.withValues(alpha: 0.85)
                       : AppColors.primary.withValues(alpha: 0.7),
@@ -278,11 +278,11 @@ class _LifetimeMemberCardState extends State<LifetimeMemberCard> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox(
-          width: context.isBrowserMobile ? 120.w : 90.w,
+          width: context.isMobileWeb ? 120.w : 90.w,
           child: Text(
             label,
             style: semiBold(
-              fontSize: context.isBrowserMobile ? 20.sp : 12.sp,
+              fontSize: context.isMobileWeb ? 20.sp : 12.sp,
               color: AppColors.primary.withValues(alpha: 0.55),
             ),
           ),
@@ -291,7 +291,7 @@ class _LifetimeMemberCardState extends State<LifetimeMemberCard> {
           child: Text(
             value,
             style: regular(
-              fontSize: context.isBrowserMobile ? 20.sp : 12.sp,
+              fontSize: context.isMobileWeb ? 20.sp : 12.sp,
               color: AppColors.primary.withValues(alpha: 0.85),
               height: 1.35,
             ),
@@ -325,7 +325,7 @@ class _LifetimeMemberCardState extends State<LifetimeMemberCard> {
             Text(
               label,
               style: semiBold(
-                fontSize: context.isBrowserMobile ? 20.sp : 12.sp,
+                fontSize: context.isMobileWeb ? 20.sp : 12.sp,
                 color: AppColors.primary,
               ),
             ),

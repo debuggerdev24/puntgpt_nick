@@ -1,4 +1,3 @@
-
 import 'package:badges/badges.dart' as badge;
 import 'package:puntgpt_nick/core/app_imports.dart';
 import 'package:puntgpt_nick/core/widgets/subscription_gate_view.dart';
@@ -30,7 +29,8 @@ class PunterClubScreen extends StatelessWidget {
                 Expanded(
                   child: SubscriptionGateView(
                     featureTitle: "Subscribe to access Punter Club",
-                    featureDescription: "Create and join clubs, chat with members, and share tips.",
+                    featureDescription:
+                        "Create and join clubs, chat with members, and share tips.",
                     icon: Icons.groups_rounded,
                   ),
                 ),
@@ -97,7 +97,7 @@ class PunterClubScreen extends StatelessWidget {
                                                 chatGroup.name,
                                                 style: bold(
                                                   fontSize:
-                                                      (context.isBrowserMobile)
+                                                      (context.isMobileWeb)
                                                       ? 32.sp
                                                       : 16.sp,
                                                 ),
@@ -127,7 +127,7 @@ class PunterClubScreen extends StatelessWidget {
                                                   style: semiBold(
                                                     fontSize:
                                                         (context
-                                                            .isBrowserMobile)
+                                                            .isMobileWeb)
                                                         ? 24.sp
                                                         : 12.sp,
                                                     color: AppColors.white,
@@ -160,7 +160,7 @@ class PunterClubScreen extends StatelessWidget {
                                             "Admin",
                                             style: semiBold(
                                               fontSize:
-                                                  (context.isBrowserMobile)
+                                                  (context.isMobileWeb)
                                                   ? 22.sp
                                                   : 11.sp,
                                               color: AppColors.primary,
@@ -205,9 +205,11 @@ class PunterClubScreen extends StatelessWidget {
     required PuntClubProvider provider,
   }) {
     return Padding(
-      padding: EdgeInsets.symmetric(
-        horizontal: (context.isBrowserMobile) ? 35.w : 24.w,
-        vertical: 7.w,
+      padding: EdgeInsets.fromLTRB(
+        (context.isMobileWeb) ? 35.w : 20.w,
+        7.w,
+        (context.isMobileWeb) ? 35.w : 20.w,
+        11.w,
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -217,12 +219,12 @@ class PunterClubScreen extends StatelessWidget {
             child: ImageWidget(
               path: AppAssets.groupIcon,
               type: ImageType.svg,
-              height: (context.isBrowserMobile) ? 42.w : null,
+              height: (context.isMobileWeb) ? 42.w : null,
             ),
           ),
-          (context.isBrowserMobile)
+          (context.isMobileWeb)
               ? 60.w.horizontalSpace
-              : 12.w.horizontalSpace,
+              : 16.w.horizontalSpace,
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -230,7 +232,7 @@ class PunterClubScreen extends StatelessWidget {
                 Text(
                   "Your Punters Clubs",
                   style: regular(
-                    fontSize: (context.isBrowserMobile) ? 38.sp : 24.sp,
+                    fontSize: (context.isMobileWeb) ? 38.sp : 24.sp,
                     fontFamily: AppFontFamily.secondary,
                     height: 1.26,
                   ),
@@ -238,7 +240,7 @@ class PunterClubScreen extends StatelessWidget {
                 Text(
                   "Start a Punters Club chat — @puntgpt for AI tips.",
                   style: semiBold(
-                    fontSize: (context.isBrowserMobile) ? 28.sp : 14.sp,
+                    fontSize: (context.isMobileWeb) ? 28.sp : 14.sp,
                     color: AppColors.primary.withValues(alpha: 0.6),
                     height: 1.15,
                   ),
@@ -266,14 +268,14 @@ class PunterClubScreen extends StatelessWidget {
               showBadge: (provider.notificationCount) > 0,
               position: badge.BadgePosition.topStart(
                 top: -10,
-                start: context.isBrowserMobile ? 48.w : 20.w,
+                start: context.isMobileWeb ? 48.w : 20.w,
               ),
               badgeStyle: badge.BadgeStyle(badgeColor: AppColors.black),
               badgeContent: Text(
                 provider.notificationCount.toString(),
                 style: TextStyle(
                   color: Colors.white,
-                  fontSize: context.isBrowserMobile ? 9 : 10,
+                  fontSize: context.isMobileWeb ? 9 : 10,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -285,7 +287,7 @@ class PunterClubScreen extends StatelessWidget {
               ),
             ),
           ),
-          context.isBrowserMobile ? 14.w.horizontalSpace : 0.horizontalSpace,
+          context.isMobileWeb ? 14.w.horizontalSpace : 0.horizontalSpace,
           //* Create Punter Club Button
           GestureDetector(
             onTap: () {
@@ -329,14 +331,14 @@ class PunterClubScreen extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Container(
-              padding: EdgeInsets.all((context.isBrowserMobile) ? 32.w : 24.w),
+              padding: EdgeInsets.all((context.isMobileWeb) ? 32.w : 24.w),
               decoration: BoxDecoration(
                 color: AppColors.primary.withValues(alpha: 0.06),
                 shape: BoxShape.circle,
               ),
               child: Icon(
                 Icons.add_circle_outline_rounded,
-                size: (context.isBrowserMobile) ? 80.w : 56.w,
+                size: (context.isMobileWeb) ? 80.w : 56.w,
                 color: AppColors.primary.withValues(alpha: 0.6),
               ),
             ),
@@ -344,7 +346,7 @@ class PunterClubScreen extends StatelessWidget {
             Text(
               "Create your first chat group",
               style: semiBold(
-                fontSize: (context.isBrowserMobile) ? 28.sp : 20.sp,
+                fontSize: (context.isMobileWeb) ? 28.sp : 20.sp,
                 fontFamily: AppFontFamily.secondary,
                 color: AppColors.primary,
               ),
@@ -354,7 +356,7 @@ class PunterClubScreen extends StatelessWidget {
             Text(
               "Start a club to chat with friends, share tips and discuss races.",
               style: regular(
-                fontSize: (context.isBrowserMobile) ? 24.sp : 14.sp,
+                fontSize: (context.isMobileWeb) ? 24.sp : 14.sp,
                 color: AppColors.primary.withValues(alpha: 0.6),
                 height: 1.45,
               ),
@@ -376,7 +378,7 @@ class PunterClubScreen extends StatelessWidget {
               },
               text: "Create chat group",
               textStyle: semiBold(
-                fontSize: (context.isBrowserMobile) ? 26.sp : 16.sp,
+                fontSize: (context.isMobileWeb) ? 26.sp : 16.sp,
                 color: AppColors.white,
               ),
               padding: EdgeInsets.symmetric(horizontal: 28.w, vertical: 14.h),

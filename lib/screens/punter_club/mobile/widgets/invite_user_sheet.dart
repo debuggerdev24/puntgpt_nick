@@ -191,10 +191,10 @@ class InviteUserSheet extends StatelessWidget {
     required bool canInvite,
     required VoidCallback onTap,
   }) {
-    final height = (context.isBrowserMobile) ? 96.w : 48.w;
-    final width = (context.isBrowserMobile) ? 68.w : 48.w;
+    final height = (context.isMobileWeb) ? 96.w : 48.w;
+    final width = (context.isMobileWeb) ? 68.w : 48.w;
     final status = _normalizedStatus(user.membershipStatus);
-    final displayName = "@${user.name.trim()}";
+    final displayName = user.name.trim();
 
     return GestureDetector(
       onTap: onTap,
@@ -220,7 +220,7 @@ class InviteUserSheet extends StatelessWidget {
               decoration: BoxDecoration(color: AppColors.greyColor),
               child: ImageWidget(type: ImageType.svg, path: AppAssets.userIcon),
             ),
-            (context.isBrowserMobile)
+            (context.isMobileWeb)
                 ? 80.w.horizontalSpace
                 : 15.w.horizontalSpace,
             //* Username
@@ -262,7 +262,7 @@ class InviteUserSheet extends StatelessWidget {
         child: Icon(
           Icons.check_rounded,
           color: AppColors.white,
-          size: (context.isBrowserMobile) ? 36 : 22,
+          size: (context.isMobileWeb) ? 36 : 22,
         ),
       );
     }
@@ -279,7 +279,7 @@ class InviteUserSheet extends StatelessWidget {
           Text(
             'Left',
             style: semiBold(
-              fontSize: (context.isBrowserMobile) ? 24.sp : 13.sp,
+              fontSize: (context.isMobileWeb) ? 24.sp : 13.sp,
               color: AppColors.primary.withValues(alpha: 0.55),
             ),
           ),
@@ -341,7 +341,7 @@ class InviteUserSheet extends StatelessWidget {
         Text(
           label,
           style: semiBold(
-            fontSize: (context.isBrowserMobile) ? 24.sp : 13.sp,
+            fontSize: (context.isMobileWeb) ? 24.sp : 13.sp,
             color: color,
           ),
         ),
@@ -349,7 +349,7 @@ class InviteUserSheet extends StatelessWidget {
           6.w.horizontalSpace,
           Icon(
             Icons.info_outline_rounded,
-            size: (context.isBrowserMobile) ? 22.w : 18.w,
+            size: (context.isMobileWeb) ? 22.w : 18.w,
             color: AppColors.primary.withValues(alpha: 0.5),
           ),
         ],

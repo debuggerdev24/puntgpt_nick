@@ -49,7 +49,7 @@ class SearchDetailScreen extends StatelessWidget {
               if (!provider.isEditSavedSearch) ...[
                 AppFilledButton(
                   textStyle: semiBold(
-                    fontSize: 16.sixteenSp(context),
+                    fontSize: 16.fSize,
                     color: AppColors.white,
                   ),
                   text: "Edit",
@@ -141,7 +141,7 @@ class SearchDetailScreen extends StatelessWidget {
     required BuildContext context,
     required SearchEngineProvider provider,
   }) {
-    final bodyHorizontalPadding = (context.isBrowserMobile) ? 50.w : 25.w;
+    final bodyHorizontalPadding = (context.isMobileWeb) ? 50.w : 25.w;
     final isEditMode = provider.isEditSavedSearch;
 
     return Padding(
@@ -288,7 +288,7 @@ class SearchDetailScreen extends StatelessWidget {
               "Are you sure you want to delete this search?",
               style: regular(
                 color: AppColors.black,
-                fontSize: context.isBrowserMobile ? 65.sp : 19.sp,
+                fontSize: context.isMobileWeb ? 65.sp : 19.sp,
               ),
             ),
             actions: [

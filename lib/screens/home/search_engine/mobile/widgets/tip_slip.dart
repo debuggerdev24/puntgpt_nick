@@ -47,12 +47,12 @@ class TipSlipItem extends StatelessWidget {
               child: Row(
                 children: [
                   SizedBox(
-                    width: context.isBrowserMobile ? 32.w : 22.w,
+                    width: context.isMobileWeb ? 32.w : 22.w,
                     child: Center(
                       child: Text(
                         '$listPosition.',
                         style: semiBold(
-                          fontSize: context.isBrowserMobile ? 26.sp : 14.sp,
+                          fontSize: context.isMobileWeb ? 26.sp : 14.sp,
                           color: _textMuted,
                         ),
                       ),
@@ -75,7 +75,7 @@ class TipSlipItem extends StatelessWidget {
                             Text(
                               '${selection.number}. ',
                               style: semiBold(
-                                fontSize: context.isBrowserMobile
+                                fontSize: context.isMobileWeb
                                     ? 32.sp
                                     : 16.sp,
                                 color: _textPrimary,
@@ -85,7 +85,7 @@ class TipSlipItem extends StatelessWidget {
                               child: Text(
                                 "${selection.horseName} (${selection.barrier})",
                                 style: semiBold(
-                                  fontSize: context.isBrowserMobile
+                                  fontSize: context.isMobileWeb
                                       ? 32.sp
                                       : 16.sp,
                                   color: _textPrimary,
@@ -100,7 +100,7 @@ class TipSlipItem extends StatelessWidget {
                         Text(
                           '${selection.trackName} • R${selection.raceNumber} • ${selection.distance}m',
                           style: regular(
-                            fontSize: context.isBrowserMobile ? 26.sp : 13.sp,
+                            fontSize: context.isMobileWeb ? 26.sp : 13.sp,
                             color: _textMuted,
                           ),
                           overflow: TextOverflow.ellipsis,
@@ -133,7 +133,7 @@ class TipSlipItem extends StatelessWidget {
                     child: Text(
                       '\$${selection.unibetFixedOddsWin}',
                       style: bold(
-                        fontSize: context.isBrowserMobile ? 32.sp : 16.sp,
+                        fontSize: context.isMobileWeb ? 32.sp : 16.sp,
                         color: _textPrimary,
                       ),
                     ),
@@ -175,7 +175,7 @@ class TipSlipItem extends StatelessWidget {
                               child: Text(
                                 selection.raceName,
                                 style: medium(
-                                  fontSize: context.isBrowserMobile
+                                  fontSize: context.isMobileWeb
                                       ? 24.sp
                                       : 12.sp,
                                   color: _textPrimary,
@@ -226,7 +226,7 @@ class TipSlipItem extends StatelessWidget {
                                 Text(
                                   'Added ${_formatAddedTime(tipSlip.addedAt)}',
                                   style: regular(
-                                    fontSize: context.isBrowserMobile
+                                    fontSize: context.isMobileWeb
                                         ? 22.sp
                                         : 11.sp,
                                     color: _textMuted,
@@ -297,7 +297,7 @@ class TipSlipItem extends StatelessWidget {
         Text(
           '$label: ',
           style: semiBold(
-            fontSize: context.isBrowserMobile ? 24.sp : 12.sp,
+            fontSize: context.isMobileWeb ? 24.sp : 12.sp,
             color: _textMuted,
           ),
         ),
@@ -305,7 +305,7 @@ class TipSlipItem extends StatelessWidget {
           child: Text(
             value,
             style: regular(
-              fontSize: context.isBrowserMobile ? 24.sp : 12.sp,
+              fontSize: context.isMobileWeb ? 24.sp : 12.sp,
               color: _textPrimary,
             ),
             overflow: TextOverflow.ellipsis,

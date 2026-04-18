@@ -130,7 +130,7 @@ class _WebDashboardAppBarState extends State<WebDashboardAppBar> {
               decoration: BoxDecoration(color: AppColors.primary),
               width: double.maxFinite,
               padding: EdgeInsets.symmetric(
-                horizontal: (context.isBrowserMobile) ? 40.w : 16.w,
+                horizontal: (context.isMobileWeb) ? 40.w : 16.w,
                 vertical: 8.h,
               ),
               child: Row(
@@ -161,7 +161,7 @@ class _WebDashboardAppBarState extends State<WebDashboardAppBar> {
             color: AppColors.white,
             size: (context.isTablet)
                 ? 42.w
-                : (context.isBrowserMobile)
+                : (context.isMobileWeb)
                 ? 45.w
                 : 33.w,
           ),
@@ -251,7 +251,7 @@ class _WebDashboardAppBarState extends State<WebDashboardAppBar> {
       height: 55.h,
       width: context.isTablet
           ? 650.w
-          : context.isBrowserMobile
+          : context.isMobileWeb
           ? 700.w
           : 200.w,
       // margin: EdgeInsets.symmetric(horizontal: (context.isMobileView) ? 200.w : 25.w),
@@ -262,7 +262,7 @@ class _WebDashboardAppBarState extends State<WebDashboardAppBar> {
       alignment: Alignment.center,
       child: Text(
         "Ad",
-        style: regular(fontSize: (context.isBrowserMobile) ? 30.sp : 16.sp),
+        style: regular(fontSize: (context.isMobileWeb) ? 30.sp : 16.sp),
       ),
     );
   }

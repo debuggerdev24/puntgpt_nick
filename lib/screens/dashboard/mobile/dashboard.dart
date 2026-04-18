@@ -77,7 +77,6 @@ class _DashboardState extends State<Dashboard> {
                       onTap: () {
                         indexOfTab.value = 0;
                         AppRouter.indexedStackNavigationShell?.goBranch(0);
-  
                       },
 
                       text: "Home",
@@ -117,6 +116,7 @@ class _DashboardState extends State<Dashboard> {
                       onTap: () {
                         indexOfTab.value = 1;
                         AppRouter.indexedStackNavigationShell?.goBranch(1);
+                        if (isGuest) return;
                         final provider = context.read<PuntClubProvider>();
                         provider.getChatGroups();
                         provider.getNotifications();

@@ -105,7 +105,7 @@ class AccountScreen extends StatelessWidget {
                       child: Text(
                         "Terms & Conditions",
                         style: bold(
-                          fontSize: (context.isBrowserMobile) ? 30.sp : 14.sp,
+                          fontSize: (context.isMobileWeb) ? 30.sp : 14.sp,
                           decoration: TextDecoration.underline,
                         ),
                       ),
@@ -123,7 +123,7 @@ class AccountScreen extends StatelessWidget {
                         style: bold(
                           decoration: TextDecoration.underline,
 
-                          fontSize: (context.isBrowserMobile) ? 30.sp : 14.sp,
+                          fontSize: (context.isMobileWeb) ? 30.sp : 14.sp,
                         ),
                       ),
                     ),
@@ -138,7 +138,7 @@ class AccountScreen extends StatelessWidget {
                       child: Text(
                         "Privacy Policy",
                         style: bold(
-                          fontSize: (context.isBrowserMobile) ? 30.sp : 14.sp,
+                          fontSize: (context.isMobileWeb) ? 30.sp : 14.sp,
                           decoration: TextDecoration.underline,
                         ),
                       ),
@@ -155,7 +155,7 @@ class AccountScreen extends StatelessWidget {
                         child: Text(
                           "Apple EULA",
                           style: bold(
-                            fontSize: (context.isBrowserMobile) ? 30.sp : 14.sp,
+                            fontSize: (context.isMobileWeb) ? 30.sp : 14.sp,
                             decoration: TextDecoration.underline,
                           ),
                         ),
@@ -202,14 +202,14 @@ class AccountScreen extends StatelessWidget {
               AppStrings.deleteAccountConfirmTitle,
               style: semiBold(
                 color: AppColors.black,
-                fontSize: context.isBrowserMobile ? 22.sp : 18.sp,
+                fontSize: context.isMobileWeb ? 22.sp : 18.sp,
               ),
             ),
             content: Text(
               AppStrings.deleteAccountConfirmBody,
               style: regular(
                 color: AppColors.primary.withValues(alpha: 0.85),
-                fontSize: context.isBrowserMobile ? 18.sp : 14.sp,
+                fontSize: context.isMobileWeb ? 18.sp : 14.sp,
                 height: 1.35,
               ),
             ),
@@ -263,14 +263,14 @@ class AccountScreen extends StatelessWidget {
               AppStrings.logOutConfirmTitle,
               style: semiBold(
                 color: AppColors.black,
-                fontSize: context.isBrowserMobile ? 22.sp : 18.sp,
+                fontSize: context.isMobileWeb ? 22.sp : 18.sp,
               ),
             ),
             content: Text(
               AppStrings.logOutConfirmBody,
               style: regular(
                 color: AppColors.primary.withValues(alpha: 0.85),
-                fontSize: context.isBrowserMobile ? 18.sp : 14.sp,
+                fontSize: context.isMobileWeb ? 18.sp : 14.sp,
                 height: 1.35,
               ),
             ),
@@ -336,7 +336,7 @@ class AccountScreen extends StatelessWidget {
       onTap: onTap,
       child: Padding(
         padding: EdgeInsets.symmetric(
-          horizontal: (context.isBrowserMobile) ? 38.w : 25.w,
+          horizontal: (context.isMobileWeb) ? 38.w : 25.w,
           vertical: 18.h,
         ),
         child: Row(
@@ -345,7 +345,7 @@ class AccountScreen extends StatelessWidget {
             Text(
               title,
               style: semiBold(
-                fontSize: (context.isBrowserMobile) ? 32.sp : 18.sp,
+                fontSize: (context.isMobileWeb) ? 32.sp : 18.sp,
                 color: red ? AppColors.red : null,
               ),
             ),

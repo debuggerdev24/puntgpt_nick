@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:puntgpt_nick/core/app_imports.dart';
@@ -16,8 +15,6 @@ class AuthProvider extends ChangeNotifier {
       confirmPasswordCtr = TextEditingController(),
       forgotPasswordCtr = TextEditingController(),
       newPasswordCtr = TextEditingController(),
-      //
-
       resetConfirmPasswordCtr = TextEditingController(),
       otpCtr = TextEditingController(),
       addressLine1Ctr = TextEditingController(),

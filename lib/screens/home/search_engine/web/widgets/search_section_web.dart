@@ -56,7 +56,7 @@ class _SearchSectionWebState extends State<SearchSectionWeb> {
                         ? 16.sp
                         : context.isTablet
                         ? 24.sp
-                        : (context.isBrowserMobile)
+                        : (context.isMobileWeb)
                         ? 40.sp
                         : 16.sp,
                     height: 1.2,
@@ -371,7 +371,7 @@ class _SearchSectionWebState extends State<SearchSectionWeb> {
                       top: provider.isSearched ? 12.h : 0,
                     ),
                     text: "Search",
-                    padding: (!context.isBrowserMobile)
+                    padding: (!context.isMobileWeb)
                         ? EdgeInsets.symmetric(
                             vertical: (context.isDesktop) ? 12.w : 11.w,
                           )
@@ -400,7 +400,7 @@ class _SearchSectionWebState extends State<SearchSectionWeb> {
                       right: 12.w,
                     ),
                     text: "Save this Search",
-                    padding: (!context.isBrowserMobile)
+                    padding: (!context.isMobileWeb)
                         ? EdgeInsets.symmetric(vertical: 12.w)
                         : null, // (context.isDesktop) ? 12.w : 11.w,
                     textStyle: semiBold(

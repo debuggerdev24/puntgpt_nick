@@ -41,21 +41,21 @@ class SignUpBottomSection extends StatelessWidget {
           onTap: onSignUpTap,
           margin: EdgeInsets.symmetric(horizontal: 25.w),
         ),
-        10.w.verticalSpace,
-        OnMouseTap(
-          onTap: onContinueAsGuestTap,
-          child: Text(
-            "Continue as guest",
-            style: medium(
-              fontSize: 14.sp,
-              color: AppColors.primary.withValues(alpha: 0.85),
-              decoration: TextDecoration.underline,
-            ),
-          ),
-        ),
-        20.w.verticalSpace,
+        // 10.w.verticalSpace,
+        // OnMouseTap(
+        //   onTap: onContinueAsGuestTap,
+        //   child: Text(
+        //     "Continue as guest",
+        //     style: medium(
+        //       fontSize: 14.sp,
+        //       color: AppColors.primary.withValues(alpha: 0.85),
+        //       decoration: TextDecoration.underline,
+        //     ),
+        //   ),
+        // ),
+
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 5),
+          padding: EdgeInsets.fromLTRB(5.w, 20.w, 5.w, 0),
           child: Wrap(
             alignment: WrapAlignment.center,
             crossAxisAlignment: WrapCrossAlignment.center,

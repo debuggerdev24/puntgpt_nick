@@ -64,7 +64,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
                 //* ---------------> home screen tab
                 Padding(
-                  padding: EdgeInsets.fromLTRB(20.w, 14.w, 20.w, 0),
+                  padding: EdgeInsets.fromLTRB(20.w, 14.w,20.w, 0),
                   child: HomeScreenTab(selectedIndex: provider.selectedTab),
                 ),
                 16.w.verticalSpace,
@@ -157,14 +157,14 @@ Widget askPuntGPTButton({required BuildContext context, EdgeInsets? margin}) {
         children: [
           ImageWidget(
             path: AppAssets.horse,
-            height: (context.isBrowserMobile) ? 42.w : 30.w,
+            height: (context.isMobileWeb) ? 42.w : 30.w,
           ),
           10.w.horizontalSpace,
           Text(
             "Ask @ PuntGPT",
             textAlign: TextAlign.center,
             style: semiBold(
-              fontSize: (context.isBrowserMobile) ? 38.sp : 20.sp,
+              fontSize: (context.isMobileWeb) ? 38.sp : 20.sp,
               fontFamily: AppFontFamily.secondary,
             ),
           ),

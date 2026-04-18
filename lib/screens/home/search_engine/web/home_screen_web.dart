@@ -38,11 +38,11 @@ class _HomeScreenWebState extends State<HomeScreenWeb> {
   Widget build(BuildContext context) {
     GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
-    if (isSearchDialogOpen && context.isBrowserMobile) {
+    if (isSearchDialogOpen && context.isMobileWeb) {
       context.pop();
       isSearchDialogOpen = false;
     }
-    if (context.isBrowserMobile && isSheetOpen) {
+    if (context.isMobileWeb && isSheetOpen) {
       context.pop();
       isSheetOpen = false;
     }
@@ -147,7 +147,7 @@ class _HomeScreenWebState extends State<HomeScreenWeb> {
                                   text: "Search",
                                   textStyle: semiBold(
                                     color: AppColors.white,
-                                    fontSize: (context.isBrowserMobile)
+                                    fontSize: (context.isMobileWeb)
                                         ? 42.sp
                                         : 20.sp,
                                   ),
@@ -173,7 +173,7 @@ class _HomeScreenWebState extends State<HomeScreenWeb> {
                     Text(
                       "Next to go",
                       style: bold(
-                        fontSize: (context.isBrowserMobile) ? 32.sp : 16.sp,
+                        fontSize: (context.isMobileWeb) ? 32.sp : 16.sp,
                       ),
                     ),
                     10.h.verticalSpace,
@@ -204,7 +204,7 @@ class _HomeScreenWebState extends State<HomeScreenWeb> {
     required SearchEngineProvider provider,
     required GlobalKey<FormState> formKey,
   }) {
-    final bodyWidth = context.isBrowserMobile
+    final bodyWidth = context.isMobileWeb
         ? 1.6.sw
         : context.isTablet
         ? 1200.w
@@ -213,7 +213,7 @@ class _HomeScreenWebState extends State<HomeScreenWeb> {
         ? 16.sp
         : context.isTablet
         ? 24.sp
-        : (context.isBrowserMobile)
+        : (context.isMobileWeb)
         ? 32.sp
         : 16.sp;
     return Stack(
@@ -293,7 +293,7 @@ class _HomeScreenWebState extends State<HomeScreenWeb> {
           Text(
             "Morphettville",
             style: semiBold(
-              fontSize: (context.isBrowserMobile) ? 32.sp : 16.sp,
+              fontSize: (context.isMobileWeb) ? 32.sp : 16.sp,
             ),
           ),
           6.h.verticalSpace,
@@ -304,14 +304,14 @@ class _HomeScreenWebState extends State<HomeScreenWeb> {
               Text(
                 "Race 1",
                 style: semiBold(
-                  fontSize: (context.isBrowserMobile) ? 28.sp : 14.sp,
+                  fontSize: (context.isMobileWeb) ? 28.sp : 14.sp,
                   color: AppColors.primary.withValues(alpha: 0.6),
                 ),
               ),
               Text(
                 "13:15",
                 style: semiBold(
-                  fontSize: (context.isBrowserMobile) ? 28.sp : 14.sp,
+                  fontSize: (context.isMobileWeb) ? 28.sp : 14.sp,
                   color: AppColors.primary.withValues(alpha: 0.6),
                 ),
               ),
@@ -327,14 +327,14 @@ class _HomeScreenWebState extends State<HomeScreenWeb> {
         ? 16.sp
         : context.isTablet
         ? 24.sp
-        : (context.isBrowserMobile)
+        : (context.isMobileWeb)
         ? 32.sp
         : 16.sp;
     final fourteenFontSize = context.isDesktop
         ? 14.sp
         : context.isTablet
         ? 22.sp
-        : (context.isBrowserMobile)
+        : (context.isMobileWeb)
         ? 30.sp
         : 14.sp;
     return Container(
@@ -441,7 +441,7 @@ Widget askPuntGPTButtonWeb({required BuildContext context}) {
                 ? 34.w
                 : context.isTablet
                 ? 28.w
-                : (context.isBrowserMobile)
+                : (context.isMobileWeb)
                 ? 40.w
                 : 30.w,
           ),
@@ -464,7 +464,7 @@ Widget askPuntGPTButtonWeb({required BuildContext context}) {
                   ? 18.sp
                   : context.isTablet
                   ? 25.sp
-                  : (context.isBrowserMobile)
+                  : (context.isMobileWeb)
                   ? 35.sp
                   : 20.sp,
               fontFamily: AppFontFamily.secondary,

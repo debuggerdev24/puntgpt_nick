@@ -4,7 +4,7 @@ class PunterClubShimmers {
   // Shimmer for the Punter Club screen. Matches layout: top bar ("Your Punters Clubs:"
   /// + icons), divider, list of club rows, divider, empty area, and "Ask @ PuntGPT" FAB.
   static Widget punterClubScreenShimmer({required BuildContext context}) {
-    final horizontalPadding = (context.isBrowserMobile) ? 35.w : 25.w;
+    final horizontalPadding = (context.isMobileWeb) ? 35.w : 25.w;
     final listHorizontalPadding = 25.w;
     final listVerticalPadding = 20.h;
 
@@ -23,17 +23,17 @@ class PunterClubShimmers {
             child: Row(
               children: [
                 Container(
-                  height: (context.isBrowserMobile) ? 42.w : 28.h,
-                  width: (context.isBrowserMobile) ? 42.w : 28.w,
+                  height: (context.isMobileWeb) ? 42.w : 28.h,
+                  width: (context.isMobileWeb) ? 42.w : 28.w,
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(6),
                   ),
                 ),
-                SizedBox(width: (context.isBrowserMobile) ? 60.w : 12.w),
+                SizedBox(width: (context.isMobileWeb) ? 60.w : 12.w),
                 Expanded(
                   child: Container(
-                    height: (context.isBrowserMobile) ? 32.h : 22.h,
+                    height: (context.isMobileWeb) ? 32.h : 22.h,
                     width: double.infinity,
                     decoration: BoxDecoration(
                       color: Colors.white,
@@ -80,8 +80,8 @@ class PunterClubShimmers {
               child: Row(
                 children: [
                   Container(
-                    height: (context.isBrowserMobile) ? 28.h : 18.h,
-                    width: (context.isBrowserMobile) ? 180.w : 120.w,
+                    height: (context.isMobileWeb) ? 28.h : 18.h,
+                    width: (context.isMobileWeb) ? 180.w : 120.w,
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(4),
@@ -103,7 +103,7 @@ class PunterClubShimmers {
               padding: EdgeInsets.symmetric(horizontal: 25.w, vertical: 25.h),
               child: Container(
                 height: 48.h,
-                width: (context.isBrowserMobile) ? 220.w : 160.w,
+                width: (context.isMobileWeb) ? 220.w : 160.w,
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(8),
@@ -202,7 +202,7 @@ class PunterClubShimmers {
                 // Text lines shimmer
                 Container(
                   height: 16.h,
-                  width: (context.isBrowserMobile) ? 260.w : 180.w,
+                  width: (context.isMobileWeb) ? 260.w : 180.w,
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(4),
@@ -210,7 +210,7 @@ class PunterClubShimmers {
                 ),
                 Container(
                   height: 16.h,
-                  width: (context.isBrowserMobile) ? 220.w : 150.w,
+                  width: (context.isMobileWeb) ? 220.w : 150.w,
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(4),
@@ -260,8 +260,8 @@ class PunterClubShimmers {
   /// "Invite Users" title, divider, search bar, and repeating user rows
   /// (avatar + username + invite button).
   static Widget inviteUserSheetShimmer({required BuildContext context}) {
-    final userHeight = (context.isBrowserMobile) ? 96.w : 48.w;
-    final userWidth = (context.isBrowserMobile) ? 68.w : 48.w;
+    final userHeight = (context.isMobileWeb) ? 96.w : 48.w;
+    final userWidth = (context.isMobileWeb) ? 68.w : 48.w;
 
     return Shimmer.fromColors(
       baseColor: AppColors.shimmerBaseColor,
@@ -354,7 +354,7 @@ class PunterClubShimmers {
               borderRadius: BorderRadius.circular(4),
             ),
           ),
-          SizedBox(width: (context.isBrowserMobile) ? 80.w : 15.w),
+          SizedBox(width: (context.isMobileWeb) ? 80.w : 15.w),
           Expanded(
             child: Container(
               margin: EdgeInsets.only(right: 8.w),
@@ -383,7 +383,7 @@ class PunterClubShimmers {
   /// content bubbles), and input bar (divider + text field + send button).
   /// Display until chat history is loaded and socket is connected.
   static Widget clubChatScreenShimmer({required BuildContext context}) {
-    final horizontalPadding = (context.isBrowserMobile) ? 35.w : 25.w;
+    final horizontalPadding = (context.isMobileWeb) ? 35.w : 25.w;
     return Shimmer.fromColors(
       baseColor: AppColors.shimmerBaseColor,
       highlightColor: AppColors.shimmerHighlightColor,
@@ -407,8 +407,8 @@ class PunterClubShimmers {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
-                      height: (context.isBrowserMobile) ? 28.h : 18.h,
-                      width: (context.isBrowserMobile) ? 120.w : 80.w,
+                      height: (context.isMobileWeb) ? 28.h : 18.h,
+                      width: (context.isMobileWeb) ? 120.w : 80.w,
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(4),
@@ -416,8 +416,8 @@ class PunterClubShimmers {
                     ),
                     SizedBox(height: 4.h),
                     Container(
-                      height: (context.isBrowserMobile) ? 18.h : 12.h,
-                      width: (context.isBrowserMobile) ? 100.w : 60.w,
+                      height: (context.isMobileWeb) ? 18.h : 12.h,
+                      width: (context.isMobileWeb) ? 100.w : 60.w,
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(4),
@@ -427,17 +427,17 @@ class PunterClubShimmers {
                 ),
                 const Spacer(),
                 Container(
-                  height: (context.isBrowserMobile) ? 28.w : 22.w,
-                  width: (context.isBrowserMobile) ? 28.w : 22.w,
+                  height: (context.isMobileWeb) ? 28.w : 22.w,
+                  width: (context.isMobileWeb) ? 28.w : 22.w,
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(4),
                   ),
                 ),
-                SizedBox(width: (context.isBrowserMobile) ? 20.w : 12.w),
+                SizedBox(width: (context.isMobileWeb) ? 20.w : 12.w),
                 Container(
-                  height: (context.isBrowserMobile) ? 28.w : 22.w,
-                  width: (context.isBrowserMobile) ? 28.w : 22.w,
+                  height: (context.isMobileWeb) ? 28.w : 22.w,
+                  width: (context.isMobileWeb) ? 28.w : 22.w,
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(4),
@@ -470,7 +470,7 @@ class PunterClubShimmers {
               children: [
                 Expanded(
                   child: Container(
-                    height: (context.isBrowserMobile) ? 56.h : 44.h,
+                    height: (context.isMobileWeb) ? 56.h : 44.h,
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(8),
@@ -482,8 +482,8 @@ class PunterClubShimmers {
                 ),
                 SizedBox(width: 8.w),
                 Container(
-                  height: (context.isBrowserMobile) ? 44.w : 36.w,
-                  width: (context.isBrowserMobile) ? 44.w : 36.w,
+                  height: (context.isMobileWeb) ? 44.w : 36.w,
+                  width: (context.isMobileWeb) ? 44.w : 36.w,
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(8),
@@ -498,7 +498,7 @@ class PunterClubShimmers {
   }
 
   static Widget _clubChatMessageShimmer(BuildContext context, double widthFraction) {
-    final msgPadding = (context.isBrowserMobile) ? 35.w : 25.w;
+    final msgPadding = (context.isMobileWeb) ? 35.w : 25.w;
     return Padding(
       padding: EdgeInsets.fromLTRB(msgPadding, 12.h, 25.w, 0),
       child: Column(
@@ -507,8 +507,8 @@ class PunterClubShimmers {
           Row(
             children: [
               Container(
-                height: (context.isBrowserMobile) ? 20.h : 16.h,
-                width: (context.isBrowserMobile) ? 100.w : 70.w,
+                height: (context.isMobileWeb) ? 20.h : 16.h,
+                width: (context.isMobileWeb) ? 100.w : 70.w,
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(4),
@@ -516,8 +516,8 @@ class PunterClubShimmers {
               ),
               SizedBox(width: 8.w),
               Container(
-                height: (context.isBrowserMobile) ? 18.h : 14.h,
-                width: (context.isBrowserMobile) ? 70.w : 50.w,
+                height: (context.isMobileWeb) ? 18.h : 14.h,
+                width: (context.isMobileWeb) ? 70.w : 50.w,
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(4),
@@ -527,7 +527,7 @@ class PunterClubShimmers {
           ),
           6.h.verticalSpace,
           Container(
-            height: (context.isBrowserMobile) ? 20.h : 16.h,
+            height: (context.isMobileWeb) ? 20.h : 16.h,
             width: MediaQuery.sizeOf(context).width * widthFraction,
             decoration: BoxDecoration(
               color: Colors.white,
@@ -576,7 +576,7 @@ class PunterClubShimmers {
                             children: [
                               Container(
                                 height: 16.h,
-                                width: (context.isBrowserMobile) ? 160.w : 100.w,
+                                width: (context.isMobileWeb) ? 160.w : 100.w,
                                 decoration: BoxDecoration(
                                   color: Colors.white,
                                   borderRadius: BorderRadius.circular(4),
@@ -584,7 +584,7 @@ class PunterClubShimmers {
                               ),
                               Container(
                                 height: 14.h,
-                                width: (context.isBrowserMobile) ? 220.w : 180.w,
+                                width: (context.isMobileWeb) ? 220.w : 180.w,
                                 decoration: BoxDecoration(
                                   color: Colors.white,
                                   borderRadius: BorderRadius.circular(4),

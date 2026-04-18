@@ -14,7 +14,7 @@ class RunnersListWeb extends StatelessWidget {
             25.w,
             0.h,
             25.w,
-            (context.isBrowserMobile) ? 8.h : 12.h,
+            (context.isMobileWeb) ? 8.h : 12.h,
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -22,7 +22,7 @@ class RunnersListWeb extends StatelessWidget {
               Text(
                 "Total Runners: (20)",
                 style: bold(
-                  fontSize: (context.isBrowserMobile) ? 25.sp : 16.sp,
+                  fontSize: (context.isMobileWeb) ? 25.sp : 16.sp,
                 ),
               ),
               GestureDetector(
@@ -39,13 +39,13 @@ class RunnersListWeb extends StatelessWidget {
                     ImageWidget(
                       type: ImageType.svg,
                       path: AppAssets.bookmark,
-                      height: (context.isBrowserMobile) ? 25.sp : 16.sp,
+                      height: (context.isMobileWeb) ? 25.sp : 16.sp,
                     ),
                     5.horizontalSpace,
                     Text(
                       "Saved Searches",
                       style: bold(
-                        fontSize: (context.isBrowserMobile) ? 25.sp : 16.sp,
+                        fontSize: (context.isMobileWeb) ? 25.sp : 16.sp,
                         decoration: TextDecoration.underline,
                       ),
                     ),
@@ -83,18 +83,18 @@ class RunnerWidget extends StatelessWidget {
         ? 16.sp
         : context.isTablet
         ? 22.sp
-        : (context.isBrowserMobile)
+        : (context.isMobileWeb)
         ? 30.sp
         : 16.sp;
     final fourteenFontSize = context.isDesktop
         ? 14.sp
         : context.isTablet
         ? 22.sp
-        : (context.isBrowserMobile)
+        : (context.isMobileWeb)
         ? 26.sp
         : 14.sp;
     return Container(
-      margin: EdgeInsets.only(bottom: (context.isBrowserMobile) ? 0 : 16.h),
+      margin: EdgeInsets.only(bottom: (context.isMobileWeb) ? 0 : 16.h),
       decoration: BoxDecoration(
         border: Border.all(color: AppColors.primary.withValues(alpha: 0.15)),
       ),
@@ -181,12 +181,12 @@ class RunnerWidget extends StatelessWidget {
                           ? 14.sp
                           : context.isTablet
                           ? 20.sp
-                          : (context.isBrowserMobile)
+                          : (context.isMobileWeb)
                           ? 26.sp
                           : 14.sp,
                       color: AppColors.white,
                     ),
-                    padding: (!context.isBrowserMobile)
+                    padding: (!context.isMobileWeb)
                         ? EdgeInsets.symmetric(
                             vertical: (context.isDesktop) ? 12.w : 10.h,
                             horizontal: 6.w,
@@ -251,7 +251,7 @@ class RunnerWidget extends StatelessWidget {
                       );
                     },
                     child: Container(
-                      padding: (!context.isBrowserMobile)
+                      padding: (!context.isMobileWeb)
                           ? EdgeInsets.symmetric(
                               vertical: (context.isDesktop) ? 9.w : 8.h,
                               horizontal: 6.w,
@@ -275,7 +275,7 @@ class RunnerWidget extends StatelessWidget {
                                   ? 14.sp
                                   : context.isTablet
                                   ? 20.sp
-                                  : (context.isBrowserMobile)
+                                  : (context.isMobileWeb)
                                   ? 26.sp
                                   : 14.sp,
                             ),

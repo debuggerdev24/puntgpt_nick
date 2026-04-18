@@ -16,7 +16,7 @@ class PuntGptSearchEngineView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bodyHorizontalPadding = (context.isBrowserMobile) ? 50.w : 25.w;
+    final bodyHorizontalPadding = (context.isMobileWeb) ? 50.w : 20.w;
 
     return Column(
       spacing: 16,
@@ -48,7 +48,7 @@ class PuntGptSearchEngineView extends StatelessWidget {
                               maxLines: 1,
                               softWrap: false,
                               style: semiBold(
-                                fontSize: (context.isBrowserMobile)
+                                fontSize: (context.isMobileWeb)
                                     ? 28.sp
                                     : 15.sp,
                                 height: 1.15,
@@ -62,7 +62,7 @@ class PuntGptSearchEngineView extends StatelessWidget {
                       OnMouseTap(
                         onTap: () {
                           context.pushNamed(
-                            (context.isPhysicalMobile)
+                            (context.isMobile)
                                 ? AppRoutes.savedSearchedScreen.name
                                 : WebRoutes.savedSearchedScreen.name,
                           );
@@ -88,7 +88,7 @@ class PuntGptSearchEngineView extends StatelessWidget {
                                 "Saved Searches",
                                 overflow: TextOverflow.ellipsis,
                                 style: semiBold(
-                                  fontSize: (context.isBrowserMobile)
+                                  fontSize: (context.isMobileWeb)
                                       ? 26.sp
                                       : 14.sp,
                                   color: AppColors.primary,

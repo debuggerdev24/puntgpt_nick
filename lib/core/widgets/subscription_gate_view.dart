@@ -32,14 +32,14 @@ class SubscriptionGateView extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Container(
-              padding: EdgeInsets.all((context.isBrowserMobile) ? 28.w : 22.w),
+              padding: EdgeInsets.all(22.wSize),
               decoration: BoxDecoration(
                 color: AppColors.primary.withValues(alpha: 0.08),
                 shape: BoxShape.circle,
               ),
               child: Icon(
                 icon,
-                size: (context.isBrowserMobile) ? 72.w : 52.w,
+                size: 52.fSize,
                 color: AppColors.primary.withValues(alpha: 0.7),
               ),
             ),
@@ -47,7 +47,7 @@ class SubscriptionGateView extends StatelessWidget {
             Text(
               featureTitle,
               style: semiBold(
-                fontSize: (context.isBrowserMobile) ? 28.sp : 20.sp,
+                fontSize: 20.fSize,
                 fontFamily: AppFontFamily.secondary,
                 color: AppColors.primary,
               ),
@@ -57,7 +57,7 @@ class SubscriptionGateView extends StatelessWidget {
             Text(
               featureDescription,
               style: regular(
-                fontSize: (context.isBrowserMobile) ? 24.sp : 14.sp,
+                fontSize: 14.fSize,
                 color: AppColors.primary.withValues(alpha: 0.65),
                 height: 1.5,
               ),
@@ -68,7 +68,7 @@ class SubscriptionGateView extends StatelessWidget {
               onTap: () => _openManageSubscription(context),
               text: "Subscribe to Pro",
               textStyle: semiBold(
-                fontSize: (context.isBrowserMobile) ? 26.sp : 16.sp,
+                fontSize: 16.fSize,
                 color: AppColors.white,
               ),
               padding: EdgeInsets.symmetric(

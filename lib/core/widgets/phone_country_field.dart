@@ -7,7 +7,7 @@ class PhoneCountryField extends StatelessWidget {
   const PhoneCountryField({
     super.key,
     required this.provider,
-    this.hintText = 'Mobile number',
+    this.hintText = 'Phone no. (Optional)',
     this.hintStyle,
   });
 
@@ -83,14 +83,12 @@ class PhoneCountryField extends StatelessWidget {
 
           style: medium(fontSize: 16.fSize),
           decoration: InputDecoration(
-            hintText: (country.fullExampleWithPlusSign ?? '')
-                .replaceFirst('+${country.phoneCode}', '')
-                .trim(),
+            hintText: hintText,
             hintStyle:
                 hintStyle ??
                 medium(
-                  fontSize: 14.fSize,
-                  color: AppColors.primary.withValues(alpha: 0.5),
+                  fontSize: (kIsWeb) ? 12.5 : 15.sp,
+                  color: AppColors.primary.withValues(alpha: 0.65),
                 ),
             counterText: '',
             isDense: true,
@@ -148,7 +146,6 @@ class PhoneCountryField extends StatelessWidget {
                       country.flagEmoji,
                       style: const TextStyle(fontSize: 18),
                     ),
-
                     Icon(
                       Icons.keyboard_arrow_down_rounded,
                       size: 22,
@@ -191,7 +188,7 @@ class PhoneCountryFieldForAccount extends StatelessWidget {
     super.key,
     required this.provider,
     this.readOnly = false,
-    this.hintText = 'Enter Phone',
+    this.hintText = 'Phone no.',
     this.hintStyle,
   });
 
@@ -268,75 +265,79 @@ class PhoneCountryFieldForAccount extends StatelessWidget {
                   accountProvider.phoneCtr.text.trim(),
                   country,
                 ),
-          style: medium(fontSize: context.isBrowserMobile ? 28.sp : 16.sp),
+          style: medium(fontSize: 16.fSize),
           decoration: InputDecoration(
-            hintText: (country.fullExampleWithPlusSign ?? '')
-                .replaceFirst('+${country.phoneCode}', '')
-                .trim(),
+            hintText: hintText,
             hintStyle:
                 hintStyle ??
                 medium(
-                  fontSize: (kIsWeb) ? 12.5 : 16.sp,
+                  fontSize: (kIsWeb) ? 12.5 : 14.sp,
 
                   color: AppColors.primary.withValues(alpha: 0.5),
                 ),
             counterText: '',
             isDense: true,
             contentPadding: EdgeInsets.symmetric(
-            horizontal: 20,
-            vertical: 19,
-          ),
+              horizontal: 12.adaptiveSpacing(context),
+              vertical: 17.adaptiveSpacing(context),
+            ),
             filled: true,
             fillColor: AppColors.white,
             prefixIconConstraints: BoxConstraints(minWidth: 0, minHeight: 0),
             prefixIcon: Padding(
-              padding: EdgeInsets.only(left: 23.w, right: 8.w),
+              padding: EdgeInsets.only(
+                left: 23.adaptiveSpacing(context),
+                right: 8.adaptiveSpacing(context),
+              ),
               child: Text(
                 '+${country.phoneCode}',
                 style: medium(
-                  fontSize: (kIsWeb) ? 12.5 : 16.sp,//context.isBrowserMobile ? 28.sp : 16.sp,
+                  fontSize: (kIsWeb)
+                      ? 12.5
+                      : 16.sp, //context.isBrowserMobile ? 28.sp : 16.sp,
                   color: AppColors.primary.withValues(alpha: 0.8),
                 ),
               ),
             ),
-            suffixIconConstraints: readOnly
-                ? null
-                : BoxConstraints(
-                    minHeight: 28.adaptiveSpacing(context),
-                    maxHeight: 28.adaptiveSpacing(context),
-                    minWidth: 48.adaptiveSpacing(context),
-                    maxWidth: 80.adaptiveSpacing(context),
-                  ),
             suffixIcon: readOnly
                 ? null
-                : Material(
-                    color: Colors.transparent,
-                    child: InkWell(
-                      onTap: () => _openCountryPicker(context),
-                      borderRadius: BorderRadius.zero,
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 6.w),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              country.flagEmoji,
-                              style: TextStyle(
-                                fontSize:17.fSize,
-                                //  context.isBrowserMobile
-                                //     ? 22.sp
-                                //     : 18.sp,
-                              ),
-                            ),
-                            4.w.horizontalSpace,
-                            Icon(
-                              Icons.keyboard_arrow_down_rounded,
-                              size: 18.fSize,//context.isBrowserMobile ? 22.w : 18.w,
-                              color: AppColors.primary.withValues(alpha: 0.7),
-                            ),
-                          ],
+                : InkWell(
+                    onTap: () => _openCountryPicker(context),
+                    borderRadius: BorderRadius.zero,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: AppColors.primary.withValues(alpha: 0.35),
                         ),
+                        borderRadius: BorderRadius.circular(3),
+                      ),
+                      margin: EdgeInsets.only(
+                        right: 10.adaptiveSpacing(context),
+                        top: 10.adaptiveSpacing(context),
+                        bottom: 10.adaptiveSpacing(context),
+                      ),
+                      padding: EdgeInsets.only(
+                        left: 6.adaptiveSpacing(context),
+                        right: 3.adaptiveSpacing(context),
+                      ),
+
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        spacing: 6.adaptiveSpacing(context),
+                        children: [
+                          Text(
+                            country.flagEmoji,
+                            style: TextStyle(fontSize: 17.fSize),
+                          ),
+
+                          Icon(
+                            Icons.keyboard_arrow_down_rounded,
+                            size: 18
+                                .fSize, //context.isBrowserMobile ? 22.w : 18.w,
+                            color: AppColors.primary.withValues(alpha: 0.7),
+                          ),
+                        ],
                       ),
                     ),
                   ),

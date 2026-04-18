@@ -23,7 +23,7 @@ class AccountScreenWeb extends StatefulWidget {
 class _AccountScreenWebState extends State<AccountScreenWeb> {
   @override
   Widget build(BuildContext context) {
-    final bodyWidth = context.isBrowserMobile
+    final bodyWidth = context.isMobileWeb
         ? double.maxFinite
         : context.isTablet
         ? double.maxFinite

@@ -66,13 +66,13 @@ class OddsRangeSliderField extends StatelessWidget {
               Text(
                 "Odds Range",
                 style: semiBold(
-                  fontSize: (context.isBrowserMobile) ? 36.sp : 16.sp,
+                  fontSize: (context.isMobileWeb) ? 36.sp : 16.sp,
                 ),
               ),
               Text(
                 _selectedRangeText(),
                 style: medium(
-                  fontSize: (context.isBrowserMobile) ? 30.sp : 14.sp,
+                  fontSize: (context.isMobileWeb) ? 30.sp : 14.sp,
                   color: AppColors.primary,
                 ),
               ),
@@ -136,7 +136,7 @@ class OddsRangeSliderField extends StatelessWidget {
     return Text(
       text,
       style: medium(
-        fontSize: (context.isBrowserMobile) ? 24.sp : 12.sp,
+        fontSize: (context.isMobileWeb) ? 24.sp : 12.sp,
         color: AppColors.primary.withValues(alpha: 0.8),
       ),
     );

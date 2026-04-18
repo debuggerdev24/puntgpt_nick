@@ -289,7 +289,7 @@ class _RunnersListScreenState extends State<RunnersListScreen> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Container(
-              padding: EdgeInsets.all((context.isBrowserMobile) ? 28.w : 22.w),
+              padding: EdgeInsets.all((context.isMobileWeb) ? 28.w : 22.w),
               decoration: BoxDecoration(
                 color: AppColors.primary.withValues(alpha: 0.06),
                 shape: BoxShape.circle,
@@ -300,7 +300,7 @@ class _RunnersListScreenState extends State<RunnersListScreen> {
               ),
               child: Icon(
                 Icons.search_off_rounded,
-                size: (context.isBrowserMobile) ? 64.sp : 48.sp,
+                size: (context.isMobileWeb) ? 64.sp : 48.sp,
                 color: AppColors.primary.withValues(alpha: 0.45),
               ),
             ),
@@ -308,7 +308,7 @@ class _RunnersListScreenState extends State<RunnersListScreen> {
             Text(
               "No runners found",
               style: semiBold(
-                fontSize: (context.isBrowserMobile) ? 28.sp : 22.sp,
+                fontSize: (context.isMobileWeb) ? 28.sp : 22.sp,
                 fontFamily: AppFontFamily.secondary,
                 color: AppColors.primary,
               ),
@@ -318,7 +318,7 @@ class _RunnersListScreenState extends State<RunnersListScreen> {
             Text(
               "No horses match your current search criteria. Try adjusting your filters or track selection to see more results.",
               style: regular(
-                fontSize: (context.isBrowserMobile) ? 24.sp : 14.sp,
+                fontSize: (context.isMobileWeb) ? 24.sp : 14.sp,
                 color: AppColors.primary.withValues(alpha: 0.6),
                 height: 1.4,
               ),
