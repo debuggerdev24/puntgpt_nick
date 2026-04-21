@@ -43,15 +43,15 @@ class SelectedMeetingScreen extends StatelessWidget {
                                   children: [
                                     for (
                                       var index = 0;
-                                      index <
-                                          provider.raceList!.races.length;
+                                      index < provider.raceList!.races.length;
                                       index++
                                     ) ...[
                                       if (index > 0)
-                                        verticalDivider(width: 1,opacity: 1),
+                                        verticalDivider(width: 1, opacity: 1),
                                       GestureDetector(
                                         onTap: () {
-                                          provider.changeSelectedRace = index;
+                                          Logger.info('index: $index');
+                                          // provider.changeSelectedRace = index;
                                           provider.getRaceFieldDetail(
                                             id: provider
                                                 .raceList!
@@ -69,7 +69,7 @@ class SelectedMeetingScreen extends StatelessWidget {
                                           decoration: BoxDecoration(
                                             color:
                                                 (provider.selectedRace ==
-                                                    index)
+                                                    (index + 1))
                                                 ? AppColors.primary
                                                 : null,
                                           ),
@@ -79,7 +79,7 @@ class SelectedMeetingScreen extends StatelessWidget {
                                               fontSize: 16.sp,
                                               color:
                                                   (provider.selectedRace ==
-                                                      index)
+                                                      (index + 1))
                                                   ? AppColors.white
                                                   : AppColors.primary,
                                             ),
@@ -222,9 +222,7 @@ class SelectedMeetingScreen extends StatelessWidget {
                           child: Text(
                             "${race.selections[0].trackName} - R${race.number} - ${race.distance}m",
                             style: regular(
-                              fontSize: (context.isMobileWeb)
-                                  ? 36.sp
-                                  : 21.sp,
+                              fontSize: (context.isMobileWeb) ? 36.sp : 21.sp,
                               fontFamily: AppFontFamily.secondary,
                               height: 1.1,
                             ),
@@ -234,20 +232,20 @@ class SelectedMeetingScreen extends StatelessWidget {
                           crossAxisAlignment: .center,
                           children: [
                             Text(
-                          race.weatherEmoji,
-                          style: semiBold(fontSize: 18.5.sp),
-                        ),
-                        Text(
-                          " ${race.trackCondition} ${race.trackConditionRating}",
-                          style: semiBold(
-                            fontSize: (context.isMobileWeb) ? 28.sp : 14.sp,
-                            color: trackCond.contains('good')
-                                ? AppColors.green
-                                : trackCond.toLowerCase().contains('soft')
-                                ? Colors.blue
-                                : AppColors.red,
-                          ),
-                        ),
+                              race.weatherEmoji,
+                              style: semiBold(fontSize: 18.5.sp),
+                            ),
+                            Text(
+                              " ${race.trackCondition} ${race.trackConditionRating}",
+                              style: semiBold(
+                                fontSize: (context.isMobileWeb) ? 28.sp : 14.sp,
+                                color: trackCond.contains('good')
+                                    ? AppColors.green
+                                    : trackCond.toLowerCase().contains('soft')
+                                    ? Colors.blue
+                                    : AppColors.red,
+                              ),
+                            ),
                           ],
                         ),
                       ],
@@ -559,10 +557,7 @@ class _FormHistoryCard extends StatelessWidget {
                       )
                     : Text.rich(
                         TextSpan(
-                          style: semiBold(
-                            fontSize: 12.5.sp,
-                            height: 1.3,
-                          ),
+                          style: semiBold(fontSize: 12.5.sp, height: 1.3),
                           children: [
                             if (condition.isNotEmpty)
                               TextSpan(
@@ -680,10 +675,7 @@ Widget _raceCard({
     decoration: BoxDecoration(
       color: Colors.white,
       borderRadius: BorderRadius.circular(6.r),
-      border: Border.all(
-
-        width: 1,
-      ),
+      border: Border.all(width: 1),
       boxShadow: [
         BoxShadow(
           color: AppColors.black.withValues(alpha: 0.04),
@@ -717,6 +709,19 @@ Widget _raceCard({
                     path: selection.silksImage,
                     type: ImageType.svg,
                     height: 25.w,
+                    placeholder: Shimmer.fromColors(
+                      baseColor: AppColors.shimmerBaseColor,
+                      highlightColor: AppColors.shimmerHighlightColor,
+                      child: Container(
+                        width: 22.w,
+                        height: 21.w,
+                        margin: EdgeInsets.symmetric(horizontal: 3.w),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                      ),
+                    ),
                   ),
                   4.w.horizontalSpace,
                   Expanded(

@@ -49,7 +49,7 @@ class WebLoginScreen extends StatelessWidget {
                         fontFamily: AppFontFamily.secondary,
                       ),
                     ),
-                    SizedBox(height: 50),
+                    SizedBox(height: 20),
                     AppTextField(
                       controller: provider.emailCtr,
                       validator: FieldValidators().email,
@@ -80,7 +80,7 @@ class WebLoginScreen extends StatelessWidget {
                       onTrailingIconTap: () =>
                           provider.showLoginPass = !provider.showLoginPass,
                     ),
-                    SizedBox(height: 12),
+                    SizedBox(height: 10),
                     Align(
                       alignment: Alignment.centerRight,
                       child: OnMouseTap(
@@ -96,7 +96,7 @@ class WebLoginScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SizedBox(height: 40),
+                    SizedBox(height: 25),
                     AppFilledButton(
                       text: "Login",
                       onTap: () {

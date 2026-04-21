@@ -15,7 +15,7 @@ class EndPoints {
   static const String getSubscriptionPlans = "/subscription/subscription-plan/";
   static const String refreshToken = "/accounts/token/refresh/";
   static const String logOut = "/accounts/logout/";
-  
+
   static const String deleteAccount = "/accounts/account-deletion/";
 
   //* horse-race section
@@ -43,8 +43,9 @@ class EndPoints {
   static String deleteTipSlip({required String tipSlipId}) {
     return "/horse-race/tip-slip/9/";
   }
+
   static const String compareHorses = "/bot/compare/";
-  
+
   static String getSingleTipSlipDetails({required String id}) {
     return "/horse-race/tip-slip/$id/";
   }
@@ -83,26 +84,29 @@ class EndPoints {
 
   //* notification
   static const String getAllNotification = "/chat-group/notification/";
-  static String deleteSingleNotification({required String notificationId}) => "/chat-group/notification/$notificationId/delete/";
-  static const String deleteAllNotification = "/chat-group/notification/clear-all/";
+  static String deleteSingleNotification({required String notificationId}) =>
+      "/chat-group/notification/$notificationId/delete/";
+  static const String deleteAllNotification =
+      "/chat-group/notification/clear-all/";
 
   //* chat group
   static const String createChatGroup = "/chat-group/create-group/";
   static String getChatGroups = "/chat-group/list-groups/";
-  static String inviteUser({required String groupId}) => "/chat-group/invite-user-to-group/$groupId/";
+  static String inviteUser({required String groupId}) =>
+      "/chat-group/invite-user-to-group/$groupId/";
   static String getUserInviteList({required String groupId}) =>
       "/chat-group/invitation-user-list/?group_id=$groupId";
   static String acceptInvitation({required String inviteId}) =>
       "/chat-group/invite/$inviteId/accept/";
   static String rejectInvitation({required String rejectId}) =>
-       "/chat-group/invite/$rejectId/reject/";
+      "/chat-group/invite/$rejectId/reject/";
   static String userNameSetup({required String groupId}) =>
       "/chat-group/username-setup/$groupId/";
   static String getGroupMemberInfo({required String id}) =>
       "/chat-group/group-member-info/$id/";
   static String leaveGroup({required String groupId}) =>
       "/chat-group/leave-group/$groupId/";
-  static String getChatGroupHistory({required String groupId})=>
+  static String getChatGroupHistory({required String groupId}) =>
       "/chat-group/history/$groupId/";
   static String groupMembersList({required String groupId}) =>
       "/chat-group/group-member-info/$groupId/";
@@ -110,9 +114,21 @@ class EndPoints {
   static const String bot = "/bot/chat/";
 
   //* subscription
-  static const String initiateSubscription = "/subscription/initiate-subscription/";
-  static const String validateSubscription = "/subscription/validate-subscription/";
-  static const String currentSubscription = "/subscription/current-subscription/";
+  static const String initiateSubscription =
+      "/subscription/initiate-subscription/";
+  static const String validateSubscription =
+      "/subscription/validate-subscription/";
+  static const String currentSubscription =
+      "/subscription/current-subscription/";
   static const String cancelSubscription = "/subscription/cancel-subscription/";
   static const String lifetimePlanHolders = "/puntgpt-admin/lifetime-user";
+
+  //* story
+  static const String getStory = "/horse-race/stories/";
+  static const String updateStoryContent = "/horse-race/stories/media/";
+  static String deleteMedia({required String id}) =>
+      "/horse-race/stories/media/{$id}/";
+  static String createSection = "/horse-race/stories/section/";
+  static String updateStorySection({required String section}) => "/horse-race/stories/section/$section/";
+
 }

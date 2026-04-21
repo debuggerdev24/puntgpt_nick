@@ -2,6 +2,7 @@ import 'package:puntgpt_nick/core/app_imports.dart';
 import 'package:puntgpt_nick/main.dart';
 import 'package:puntgpt_nick/provider/account/account_provider.dart';
 import 'package:puntgpt_nick/provider/home/search_engine/search_engine_provider.dart';
+import 'package:puntgpt_nick/provider/home/story/story_provider.dart';
 import 'package:puntgpt_nick/provider/punt_club/punter_club_provider.dart';
 import 'package:puntgpt_nick/provider/subscription/subscription_provider.dart';
 
@@ -25,6 +26,7 @@ class AppStartupCoordinator {
     final accountProvider = context.read<AccountProvider>();
     final searchEngineProvider = context.read<SearchEngineProvider>();
     final puntClubProvider = context.read<PuntClubProvider>();
+    final storyProvider = context.read<StoryProvider>();
 
     await Future.wait(<Future<dynamic>>[
       if (!isGuest) accountProvider.getProfile(),
@@ -34,6 +36,7 @@ class AppStartupCoordinator {
       puntClubProvider.getNotifications(),
       puntClubProvider.getChatGroups(),
       searchEngineProvider.getAllTipSlips(),
+      storyProvider.getStories(),
     ]);
   }
 

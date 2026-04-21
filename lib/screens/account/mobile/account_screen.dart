@@ -56,7 +56,7 @@ class AccountScreen extends StatelessWidget {
               ),
               horizontalDivider(),
               if (LocaleStorageService.loggedInUserEmail ==
-                      AppStrings.adminEmail &&
+                      AppStrings.adminEmail1 &&
                   !isGuest) ...[
                 accountItem(
                   context: context,

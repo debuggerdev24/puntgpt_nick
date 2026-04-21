@@ -104,7 +104,7 @@ class ClassicFormProvider extends ChangeNotifier {
 
   set changeSelectedRace(int value) {
     selectedRace = value;
-    notifyListeners();
+    // notifyListeners();
   }
 
   set changeSelectedDay(int value) {
@@ -232,6 +232,9 @@ class ClassicFormProvider extends ChangeNotifier {
         _raceFieldDetail = data is Map<String, dynamic>
             ? RaceDetails.fromJson(data["race"])
             : null;
+            if(_raceFieldDetail != null) {
+              changeSelectedRace = _raceFieldDetail!.number;
+            }
       },
     );
     notifyListeners();

@@ -1,4 +1,3 @@
-
 import 'package:puntgpt_nick/core/app_imports.dart';
 import 'package:puntgpt_nick/provider/home/classic_form/classic_form_provider.dart';
 import 'package:puntgpt_nick/provider/home/search_engine/search_engine_provider.dart';
@@ -81,7 +80,6 @@ class _RunnersListScreenState extends State<RunnersListScreen> {
                               type: ImageType.svg,
                               path: AppAssets.bookmark,
                               height: 15.w,
-                              
                             ),
 
                             Text(
@@ -158,10 +156,11 @@ class _RunnersListScreenState extends State<RunnersListScreen> {
                                         meetingId: runner.meetingId.toString(),
                                       ),
                                       classicForm.getRaceFieldDetail(
-                                      id: runner.raceId?.toString() ?? '',
-                                    ),
+                                        id: runner.raceId?.toString() ?? '',
+                                      ),
                                     ]);
-                                    
+                                    // classicForm.changeSelectedRace = classicForm.raceDetails!.number;
+
                                     // await classicForm.getRaceFieldDetail(
                                     //   id: runner.raceId?.toString() ?? '',
                                     // );
@@ -327,7 +326,11 @@ class _RunnersListScreenState extends State<RunnersListScreen> {
             28.h.verticalSpace,
             OutlinedButton.icon(
               onPressed: () => context.pop(),
-              icon: Icon(Icons.tune_rounded, size: 20.sp,color: AppColors.primary,),
+              icon: Icon(
+                Icons.tune_rounded,
+                size: 20.sp,
+                color: AppColors.primary,
+              ),
               label: Text(
                 "Adjust search filters",
                 style: semiBold(fontSize: 14.sp, color: AppColors.primary),

@@ -390,7 +390,7 @@ class PuntClubProvider extends ChangeNotifier {
   List<UserInvitesList> get filteredUserList {
     final query = searchNameCtr.text.trim().toLowerCase();
     if (userInvitesList == null) return [];
-    if (query.isEmpty) return userInvitesList!;
+    if (query.isEmpty) return [];
     return userInvitesList!
         .where((u) => u.name.toLowerCase().contains(query))
         .toList();

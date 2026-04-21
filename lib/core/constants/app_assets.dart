@@ -43,16 +43,16 @@ class AppAssets {
   static const webLogo = "$_imagePath/webLogo.png";
   static const onBoardingImage = "$_imagePath/on_boarding_image.png";
   static const unibatLogo = "$_imagePath/unibat_logo.png";
-  static const dabbleLogo = "$_imagePath/dabble.jpeg";
+  static const dabbleLogo = "$_imagePath/dabble_logo.jpeg";
   static const homeIcon = "$_imagePath/home.png";
   static const instagramLogo = "$_imagePath/instagram.png";
   static const news = "$_imagePath/news.png";
   static const dabbleBanner = "$_imagePath/dabble_banner.png";
-  static const dabbleAdvertisement1 = "$_imagePath/dabble_ads.png";
+  static const dabbleAdvertisement1 = "$_imagePath/dabble_ads1.png";
   static const dabbleAdvertisement2 = "$_imagePath/dabble_ads2.png";
   static const dabbleAdvertisement3 = "$_imagePath/dabble_ads3.png";
-  static const dabbleAdvertisement4 = "$_imagePath/dabble_ads4.png";
-  static const unibatAdvertisement1 = "$_imagePath/unibat_ads.png";
+  // static const dabbleAdvertisement4 = "$_imagePath/dabble_ads4.png";
+
   static const unibatAdvertisement2 = "$_imagePath/unibat_ads_2.png";
   static const unibatAdvertisement3 = "$_imagePath/unibat_ads_3.png";
   static const puntGPTAdsLogo = "$_imagePath/puntgpt_ads_logo.png";

@@ -466,7 +466,7 @@ Widget _nextToGoItem({required NextRaceModel nextRace}) {
       crossAxisAlignment: CrossAxisAlignment.start,
       spacing: 6.w,
       children: [
-        Text(nextRace.trackName, style: semiBold(fontSize: 16.sp)),
+        Text("${nextRace.trackName} - R${nextRace.raceNumber} - ${nextRace.raceDistance}m", style: semiBold(fontSize: 16.sp)),
         Row(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.end,

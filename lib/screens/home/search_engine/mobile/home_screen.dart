@@ -1,7 +1,7 @@
-
 import 'package:puntgpt_nick/core/app_imports.dart';
 import 'package:puntgpt_nick/provider/home/classic_form/classic_form_provider.dart';
 import 'package:puntgpt_nick/provider/home/search_engine/search_engine_provider.dart';
+import 'package:puntgpt_nick/provider/home/story/story_provider.dart';
 import 'package:puntgpt_nick/screens/home/search_engine/mobile/widgets/classic_form_guide_view.dart';
 import 'package:puntgpt_nick/screens/home/search_engine/mobile/widgets/home_section_shimmers.dart';
 import 'package:puntgpt_nick/screens/home/search_engine/mobile/widgets/home_screen_tab.dart';
@@ -51,20 +51,20 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       },
       child: Scaffold(
         // resizeToAvoidBottomInset: true,
-        body: Consumer<SearchEngineProvider>(
-          builder: (context, provider, child) {
+        body: Consumer2<SearchEngineProvider, StoryProvider>(
+          builder: (context, provider, storyProvider, child) {
             if (provider.trackList == null ||
-                provider.distanceDetails == null) {
+                provider.distanceDetails == null ||
+                storyProvider.stories == null) {
               return HomeSectionShimmers.homeScreenShimmer(context: context);
             }
             return Column(
               children: [
                 //* ---------------> bookie stories section
-                BookieStoriesSection(horizontalPadding: 18.w),
-
+                BookieStoriesSection(horizontalPadding: 18.w, stories: storyProvider.stories,),
                 //* ---------------> home screen tab
                 Padding(
-                  padding: EdgeInsets.fromLTRB(20.w, 14.w,20.w, 0),
+                  padding: EdgeInsets.fromLTRB(20.w, 14.w, 20.w, 0),
                   child: HomeScreenTab(selectedIndex: provider.selectedTab),
                 ),
                 16.w.verticalSpace,
@@ -122,7 +122,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       ),
     );
   }
-
 }
 
 Widget askPuntGPTButton({required BuildContext context, EdgeInsets? margin}) {

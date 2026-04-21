@@ -7,6 +7,9 @@ import 'package:puntgpt_nick/screens/home/search_engine/mobile/saved_search_scre
 import 'package:puntgpt_nick/screens/home/classic_form_guide/mobile/selected_meeting_screen.dart';
 import 'package:puntgpt_nick/screens/home/classic_form_guide/mobile/tips_and_analysis_screen.dart';
 import 'package:puntgpt_nick/screens/home/search_engine/mobile/upcoming_runners_screen.dart';
+import 'package:puntgpt_nick/screens/home/story/edit_option_screen.dart';
+import 'package:puntgpt_nick/screens/home/story/upload_story_content.dart';
+import 'package:puntgpt_nick/screens/home/story/upload_story_data.dart';
 
 class HomeRoutes {
   static final List<RouteBase> routes = <RouteBase>[
@@ -67,6 +70,27 @@ class HomeRoutes {
       path: AppRoutes.speedMaps.path,
       builder: (BuildContext context, GoRouterState state) {
         return SpeedMapsScreen();
+      },
+    ),
+    GoRoute(
+      name: AppRoutes.editStoryOption.name,
+      path: AppRoutes.editStoryOption.path,
+      builder: (BuildContext context, GoRouterState state) {
+        return EditStoryOptionScreen();
+      },
+    ),
+    GoRoute(
+      name: AppRoutes.uploadStoryContent.name,
+      path: AppRoutes.uploadStoryContent.path,
+      builder: (BuildContext context, GoRouterState state) {
+        return UploadStoryContent();
+      },
+    ),
+    GoRoute(
+      name: AppRoutes.uploadStoryData.name,
+      path: AppRoutes.uploadStoryData.path,
+      builder: (BuildContext context, GoRouterState state) {
+        return UploadStoryData();
       },
     ),
   ];

@@ -7,6 +7,7 @@ class NextRaceModel {
     raceTimeUtc: DateTime.parse(json["race_time_utc"]),
     raceAustralianTime: json["race_australian_time"],
     meetingDate: DateTime.parse(json["meeting_date"]),
+    raceDistance: json["race_distance"],
   );
 
   NextRaceModel({
@@ -17,9 +18,9 @@ class NextRaceModel {
     required this.raceTimeUtc,
     required this.raceAustralianTime,
     required this.meetingDate,
+    required this.raceDistance,
   });
-  int raceId, raceNumber;
+  int raceId, raceNumber,raceDistance;
   String raceName, raceAustralianTime, trackName;
-
   DateTime raceTimeUtc, meetingDate;
 }

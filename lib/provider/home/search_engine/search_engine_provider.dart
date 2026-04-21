@@ -1038,7 +1038,7 @@ class SearchEngineProvider extends ChangeNotifier {
         Logger.error(l.errorMsg);
       },
       (r) {
-        Logger.info(r.toString());
+
         final data = r["data"];
         tipSlips = (data != null)
             ? (data["tip_slips"] as List)

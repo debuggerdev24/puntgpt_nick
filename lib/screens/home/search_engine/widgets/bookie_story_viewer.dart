@@ -1,32 +1,10 @@
 import 'package:better_player_plus/better_player_plus.dart';
 import 'package:puntgpt_nick/core/app_imports.dart';
-import 'package:puntgpt_nick/models/home/search_engine/bookie_story_item.dart';
+import 'package:puntgpt_nick/models/home/story/story_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-/// One entry in the fullscreen PageView (one image; swipe = next slide or next partner).
-class _StorySlide {
-  const _StorySlide({
-    required this.channel,
-    required this.imageAsset,
-    this.videoAsset,
-    required this.slideIndexInChannel,
-    required this.slideCountInChannel,
-  });
 
-  final BookieStoryItem channel;
-  final String imageAsset;
-
-  /// Only the first slide of a channel can play video; others are images only.
-  final String? videoAsset;
-
-  /// 0-based index within this channel only (for the top progress bar).
-  final int slideIndexInChannel;
-
-  /// How many slides this channel has (same on every slide of that channel).
-  final int slideCountInChannel;
-}
-
-// Full-screen story: swipe sideways between slides (multiple per channel), tap for link.
+//* Full-screen story: swipe sideways between slides (multiple per channel), tap for link.
 class BookieStoryViewer extends StatefulWidget {
   const BookieStoryViewer({
     super.key,
@@ -34,7 +12,7 @@ class BookieStoryViewer extends StatefulWidget {
     this.initialIndex = 0,
   });
 
-  final List<BookieStoryItem> stories;
+  final List<StoryModel> stories;
   final int initialIndex;
 
   @override
@@ -50,18 +28,33 @@ class _BookieStoryViewerState extends State<BookieStoryViewer> {
   void initState() {
     super.initState();
     _slides = [];
-    for (final channel in widget.stories) {
-      final paths = channel.storyImageAssets;
-      if (paths.isEmpty) continue;
-      final slideCount = paths.length;
-      for (var i = 0; i < slideCount; i++) {
+    for (final story in widget.stories) {
+      final images = story.imageAdsList;
+      if (images.isEmpty) continue;
+
+      final videos = story.videoAdsList;
+      final howManySlides = story.slideCount;
+
+      for (var slideIndex = 0; slideIndex < howManySlides; slideIndex++) {
+        // Image for this slide (reuse last image if we only added extra videos)
+        final imageForSlide = slideIndex < images.length
+            ? images[slideIndex]
+            : images.last;
+
+        // Video for this slide (same index; no video = show image only)
+        String? videoForSlide;
+        if (slideIndex < videos.length) {
+          final path = videos[slideIndex].trim();
+          if (path.isNotEmpty) videoForSlide = path;
+        }
+
         _slides.add(
           _StorySlide(
-            channel: channel,
-            imageAsset: paths[i],
-            videoAsset: i == 0 ? channel.storyVideoAsset : null,
-            slideIndexInChannel: i,
-            slideCountInChannel: slideCount,
+            channel: story,
+            imageAsset: imageForSlide,
+            videoAsset: videoForSlide,
+            slideIndexInChannel: slideIndex,
+            slideCountInChannel: howManySlides,
           ),
         );
       }
@@ -97,7 +90,7 @@ class _BookieStoryViewerState extends State<BookieStoryViewer> {
 
   //*
   // First story (PuntGPT, `id: puntgpt`): open Manage Subscription instead of a URL.
-  void _onStoryImageTap(BookieStoryItem story) {
+  void _onStoryImageTap(StoryModel story) {
     if (story.id == 'puntgpt') {
       final routeName = (context.isMobileView && kIsWeb)
           ? WebRoutes.manageSubscriptionScreen.name
@@ -135,7 +128,7 @@ class _BookieStoryViewerState extends State<BookieStoryViewer> {
                 children: [
                   Expanded(
                     child: Text(
-                      _slides[_currentPage].channel.displayName,
+                      _slides[_currentPage].channel.title,
                       style: bold(fontSize: 15, color: AppColors.white),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
@@ -160,7 +153,9 @@ class _BookieStoryViewerState extends State<BookieStoryViewer> {
                   final videoPath = slide.videoAsset;
                   if (videoPath != null && videoPath.isNotEmpty) {
                     return _StoryVideoPage(
+                      key: ValueKey('story-video-${channel.id}-$i-$videoPath'),
                       story: channel,
+                      posterAsset: slide.imageAsset,
                       videoAssetPath: videoPath,
                       isActive: isActive,
                       onTapImage: () => _onStoryImageTap(channel),
@@ -181,6 +176,32 @@ class _BookieStoryViewerState extends State<BookieStoryViewer> {
     );
   }
 }
+
+
+
+//* One entry in the fullscreen PageView (one image; swipe = next slide or next partner).
+class _StorySlide {
+  const _StorySlide({
+    required this.channel,
+    required this.imageAsset,
+    this.videoAsset,
+    required this.slideIndexInChannel,
+    required this.slideCountInChannel,
+  });
+
+  final StoryModel channel;
+  final String imageAsset;
+
+  /// If set, this slide plays bundled video; otherwise [imageAsset] only.
+  final String? videoAsset;
+
+  /// 0-based index within this channel only (for the top progress bar).
+  final int slideIndexInChannel;
+
+  /// How many slides this channel has (same on every slide of that channel).
+  final int slideCountInChannel;
+}
+
 
 /// White bars at the top: filled up to and including the active page.
 class _SegmentProgressRow extends StatelessWidget {
@@ -239,7 +260,19 @@ class _StoryAdPage extends StatelessWidget {
       child: Center(
         child: GestureDetector(
           onTap: onTapImage,
-          child: Image.asset(imageAsset, fit: BoxFit.contain),
+          child: Image.network(
+            "${AppConfig.baseurl}$imageAsset",
+            fit: BoxFit.contain,
+            loadingBuilder: (context, child, progress) {
+              if (progress == null) return child;
+              return const CircularProgressIndicator(color: Colors.white54);
+            },
+            errorBuilder: (_, __, ___) => const Icon(
+              Icons.broken_image_outlined,
+              color: Colors.white54,
+              size: 42,
+            ),
+          ),
         ),
       ),
     );
@@ -249,14 +282,17 @@ class _StoryAdPage extends StatelessWidget {
 /// Plays a bundled story video when possible; otherwise shows the first story image.
 class _StoryVideoPage extends StatefulWidget {
   const _StoryVideoPage({
+    super.key,
     required this.story,
+    required this.posterAsset,
     required this.videoAssetPath,
     required this.isActive,
     required this.onTapImage,
     required this.onSwipeDown,
   });
 
-  final BookieStoryItem story;
+  final StoryModel story;
+  final String posterAsset;
   final String videoAssetPath;
   final bool isActive;
   final VoidCallback onTapImage;
@@ -275,12 +311,6 @@ class _StoryVideoPageState extends State<_StoryVideoPage> {
   void initState() {
     super.initState();
     _bootstrapBetterPlayer();
-  }
-
-  String _videoExtension(String path) {
-    final i = path.lastIndexOf('.');
-    if (i < 0 || i >= path.length - 1) return 'mp4';
-    return path.substring(i + 1).toLowerCase();
   }
 
   void _onBetterPlayerEvent(BetterPlayerEvent event) {
@@ -311,10 +341,6 @@ class _StoryVideoPageState extends State<_StoryVideoPage> {
       return;
     }
     try {
-      final data = await rootBundle.load(widget.videoAssetPath);
-      final bytes = data.buffer
-          .asUint8List(data.offsetInBytes, data.lengthInBytes)
-          .toList();
       if (!mounted) return;
 
       final config = BetterPlayerConfiguration(
@@ -344,9 +370,9 @@ class _StoryVideoPageState extends State<_StoryVideoPage> {
         ),
       );
 
-      final source = BetterPlayerDataSource.memory(
-        bytes,
-        videoExtension: _videoExtension(widget.videoAssetPath),
+      final source = BetterPlayerDataSource(
+        BetterPlayerDataSourceType.network,
+        "${AppConfig.baseurl}${widget.videoAssetPath}",
         notificationConfiguration: const BetterPlayerNotificationConfiguration(
           showNotification: false,
         ),
@@ -396,7 +422,7 @@ class _StoryVideoPageState extends State<_StoryVideoPage> {
   Widget build(BuildContext context) {
     if (_useImageFallback) {
       return _StoryAdPage(
-        imageAsset: widget.story.storyImageAssets.first,
+        imageAsset: widget.posterAsset,
         onTapImage: widget.onTapImage,
         onSwipeDown: widget.onSwipeDown,
       );

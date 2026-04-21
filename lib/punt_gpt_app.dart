@@ -12,6 +12,7 @@ import 'package:puntgpt_nick/provider/account/account_provider.dart';
 import 'package:puntgpt_nick/provider/auth/auth_provider.dart';
 import 'package:puntgpt_nick/provider/bot/bot_provider.dart';
 import 'package:puntgpt_nick/provider/home/classic_form/classic_form_provider.dart';
+import 'package:puntgpt_nick/provider/home/story/story_provider.dart';
 import 'package:puntgpt_nick/provider/punt_club/punter_club_provider.dart';
 import 'package:puntgpt_nick/provider/home/search_engine/search_engine_provider.dart';
 import 'package:puntgpt_nick/provider/subscription/subscription_provider.dart';
@@ -35,6 +36,7 @@ class PuntGPTApp extends StatelessWidget {
           ChangeNotifierProvider(create: (context) => PuntClubProvider()),
           ChangeNotifierProvider(create: (context) => SubscriptionProvider()),
           ChangeNotifierProvider(create: (context) => BotProvider()),
+          ChangeNotifierProvider(create: (context) => StoryProvider()),
         ],
         child: AnnotatedRegion<SystemUiOverlayStyle>(
           value: SystemUiOverlayStyle(

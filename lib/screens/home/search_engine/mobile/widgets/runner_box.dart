@@ -6,11 +6,29 @@ import 'package:puntgpt_nick/models/home/search_engine/runner_model.dart';
 import 'package:puntgpt_nick/provider/home/search_engine/search_engine_provider.dart';
 import 'package:puntgpt_nick/screens/home/search_engine/mobile/widgets/home_section_shimmers.dart';
 
-
 String _displayName(String? name) {
   final t = name?.trim();
   if (t == null || t.isEmpty) return '—';
   return t;
+}
+
+
+Widget _silkLoadingShimmer(double side) {
+  return Padding(
+    padding: EdgeInsets.symmetric(horizontal: 3.w),
+    child: Shimmer.fromColors(
+      baseColor: AppColors.shimmerBaseColor,
+      highlightColor: AppColors.shimmerHighlightColor,
+      child: Container(
+        width: side,
+        height: side,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(4),
+        ),
+      ),
+    ),
+  );
 }
 
 class RunnerBox extends StatelessWidget {
@@ -50,10 +68,13 @@ class RunnerBox extends StatelessWidget {
                 children: [
                   Text("$index. ", style: bold(fontSize: 18.sp)),
                   if ((runner.silksImage ?? '').isNotEmpty)
+                    
                     ImageWidget(
                       path: runner.silksImage!,
                       type: ImageType.svg,
                       height: 28.w,
+                      width: 28.w,
+                      placeholder: _silkLoadingShimmer(22.w),
                     ),
                   if ((runner.silksImage ?? '').isNotEmpty) 4.horizontalSpace,
                   Expanded(
@@ -109,10 +130,9 @@ class RunnerBox extends StatelessWidget {
                       runner.track ?? '-',
                       "R${runner.raceNumber ?? '-'}",
                       "${runner.distance ?? '-'}m",
-                     (jumpTime != null) ? "${jumpTime[1].split(":")[0]}:${jumpTime[1].split(":")[1]} ${jumpTime[2]}" : "-",
+                      "${jumpTime[1].split(":")[0]}:${jumpTime[1].split(":")[1]} ${jumpTime[2]}",
                     ].join(" - "),
-                    style: semiBold(fontSize: 15.sp, height: 1.25
-                    ),
+                    style: semiBold(fontSize: 15.sp, height: 1.25),
                   ),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -125,7 +145,7 @@ class RunnerBox extends StatelessWidget {
                           children: [
                             _RunnerStatCell(
                               label: 'W',
-                              value: "${runner.weight}" ,
+                              value: "${runner.weight}",
                             ),
                             _RunnerStatCell(
                               label: 'F',
@@ -151,7 +171,6 @@ class RunnerBox extends StatelessWidget {
                           ],
                         ),
                       ),
-                      
                     ],
                   ),
                 ],

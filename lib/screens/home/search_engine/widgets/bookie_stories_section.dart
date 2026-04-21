@@ -1,16 +1,16 @@
 import 'package:puntgpt_nick/core/app_imports.dart';
 import 'package:puntgpt_nick/core/constants/app_strings.dart';
-import 'package:puntgpt_nick/models/home/search_engine/bookie_story_item.dart';
+import 'package:puntgpt_nick/models/home/story/story_model.dart';
 import 'package:puntgpt_nick/screens/home/search_engine/widgets/bookie_story_viewer.dart';
 
 class BookieStoriesSection extends StatefulWidget {
   const BookieStoriesSection({
     super.key,
-    this.stories = kDefaultBookieStories,
+    this.stories,
     this.horizontalPadding = 0,
   });
 
-  final List<BookieStoryItem> stories;
+  final List<StoryModel>? stories;
   final double horizontalPadding;
 
   @override
@@ -29,14 +29,14 @@ class _BookieStoriesSectionState extends State<BookieStoriesSection> {
       MaterialPageRoute<int>(
         fullscreenDialog: true,
         builder: (_) =>
-            BookieStoryViewer(stories: list, initialIndex: startIndex),
+            BookieStoryViewer(stories: list!, initialIndex: startIndex),
       ),
     );
 
     if (!mounted) return;
 
     // Flat page indices: one swipe can move across several slides and partners.
-    final startFlat = flatSlideIndexForChannel(list, startIndex);
+    final startFlat = flatSlideIndexForChannel(list!, startIndex);
     final endFlat = lastPageIndex ?? startFlat;
 
     setState(() {
@@ -47,7 +47,8 @@ class _BookieStoriesSectionState extends State<BookieStoriesSection> {
   @override
   Widget build(BuildContext context) {
     final list = widget.stories;
-    if (list.isEmpty) return const SizedBox.shrink();
+
+    if (list!.isEmpty) return SizedBox();
 
     final avatarSize = 64.w;
 
@@ -70,24 +71,69 @@ class _BookieStoriesSectionState extends State<BookieStoriesSection> {
           ),
           12.w.verticalSpace,
           SizedBox(
-            height: avatarSize ,//+22
-            child: ListView.separated(
-              scrollDirection: Axis.horizontal,
-              padding: EdgeInsets.symmetric(horizontal: 4.w),
-              itemCount: list.length,
-              separatorBuilder: (_, __) => SizedBox(width: 10.w),
+            height: avatarSize, //+22
+            child: Row(
+              children: [
+                Expanded(
+                  child: ListView.separated(
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    padding: EdgeInsets.symmetric(horizontal: 4.w),
+                    itemCount: list.length,
+                    separatorBuilder: (_, __) => SizedBox(width: 10.w),
 
-              itemBuilder: (context, index) {
-                final story = list[index];
-                final isUnseen = !_seenStoryIds.contains(story.id);
-                return _StoryAvatar(
-                  story: story,
-                  size: avatarSize,
-                  nameFontSize: 11.sp,
-                  isUnseen: isUnseen,
-                  onTap: () => _onAvatarTapped(index),
-                );
-              },
+                    itemBuilder: (context, index) {
+                      final story = list[index];
+                      final isUnseen = !_seenStoryIds.contains(story.id);
+                      return _StoryAvatar(
+                        story: story,
+                        size: avatarSize,
+                        nameFontSize: 11.sp,
+                        isUnseen: isUnseen,
+                        onTap: () => _onAvatarTapped(index),
+                      );
+                    },
+                  ),
+                ),
+                //* Edit story button
+                InkWell(
+                  onTap: () {
+                    context.pushNamed(AppRoutes.editStoryOption.name);
+                  },
+                  child: Container(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 8.w,
+                      vertical: 6.w,
+                    ),
+                    decoration: BoxDecoration(
+
+                      border: Border.all(
+                        color: AppColors.primary,
+                      ),
+                      borderRadius: BorderRadius.circular(4.r),
+                    ),
+                    child: Row(
+                      spacing: 4.w,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          Icons.edit_note_rounded,
+                          color: AppColors.primary,
+                          size: context.isMobileWeb ? 28.sp : 18.sp,
+                        ),
+
+                        Text(
+                          "Edit Story",
+                          style: semiBold(
+                            fontSize: context.isMobileWeb ? 20.sp : 12.sp,
+                            color: AppColors.primary,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         ],
@@ -105,7 +151,7 @@ class _StoryAvatar extends StatelessWidget {
     required this.onTap,
   });
 
-  final BookieStoryItem story;
+  final StoryModel story;
   final double size;
   final double nameFontSize;
   final bool isUnseen;
@@ -133,7 +179,7 @@ class _StoryAvatar extends StatelessWidget {
               ),
             ),
             child: ClipOval(
-              child: Image.asset(story.avatarAsset, fit: BoxFit.cover),
+              child: Image.network(story.logo, fit: BoxFit.cover),
             ),
           ),
           //   SizedBox(height: 6.h),

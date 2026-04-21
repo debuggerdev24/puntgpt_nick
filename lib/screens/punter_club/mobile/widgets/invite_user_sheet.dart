@@ -47,9 +47,9 @@ class InviteUserSheet extends StatelessWidget {
                             fontFamily: AppFontFamily.secondary,
                           ),
                         ),
-                        20.h.verticalSpace,
+                        20.w.verticalSpace,
                         horizontalDivider(),
-                        20.h.verticalSpace,
+                        20.w.verticalSpace,
                         // Search field
                         AppTextField(
                           controller: provider.searchNameCtr,
@@ -64,7 +64,7 @@ class InviteUserSheet extends StatelessWidget {
                                   child: Text(
                                     isSearching
                                         ? 'No users found for "${provider.searchNameCtr.text.trim()}"'
-                                        : "No users to invite",
+                                        : "Search the username to invite",
                                   ),
                                 )
                               : ListView.builder(
