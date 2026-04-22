@@ -15,18 +15,18 @@ class EditStoryOptionScreen extends StatelessWidget {
         ),
         Expanded(
           child: SingleChildScrollView(
-            padding: EdgeInsets.fromLTRB(16.w, 8.w, 16.w, 24.w),
+            padding: EdgeInsets.fromLTRB(16.w, 12.w, 16.w, 24.w),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 _EditOptionTile(
                   icon: Icons.perm_media_outlined,
-                  title: 'Update story content',
+                  title: 'Upload story content',
                   subtitle: 'Upload or replace the image and video shown in the story.',
                   onTap: () =>
                       context.pushNamed(AppRoutes.uploadStoryContent.name),
                 ),
-                12.w.verticalSpace,
+                16.w.verticalSpace,
                 _EditOptionTile(
                   icon: Icons.edit_note_rounded,
                   title: 'Update story data',
@@ -58,12 +58,18 @@ class _EditOptionTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      color: AppColors.white,
-      borderRadius: BorderRadius.circular(16.w),
-      clipBehavior: Clip.antiAlias,
-      elevation: 2,
-      shadowColor: AppColors.primary.withValues(alpha: 0.08),
+    return Container  (
+      decoration: BoxDecoration(
+        color: AppColors.white,
+        borderRadius: BorderRadius.circular(16.w),
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.primary.withValues(alpha: 0.08),
+            blurRadius: 24,
+            offset: const Offset(0, 0),
+          ),
+        ]
+      ),
       child: InkWell(
         onTap: onTap,
         child: Padding(

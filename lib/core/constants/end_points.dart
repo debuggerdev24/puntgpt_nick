@@ -129,6 +129,6 @@ class EndPoints {
   static String deleteMedia({required String id}) =>
       "/horse-race/stories/media/{$id}/";
   static String createSection = "/horse-race/stories/section/";
-  static String updateStorySection({required String section}) => "/horse-race/stories/section/$section/";
-
+  static String updateStorySection({required String section}) =>
+      "/horse-race/stories/section/$section/";
 }

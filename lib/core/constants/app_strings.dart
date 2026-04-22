@@ -52,3 +52,11 @@ class AppStrings {
   static const String dabblePartnerUrl =
       "https://record.dabblepartnerships.com.au/_97LLXRU_qJKVAv0U_Fv2nWNd7ZgqdRLk/1/";
 }
+/*
+{
+"section":"unibet"
+"display_name":" Unibet"
+"avatar":"https://puntgpt.co.uk/media/avatars/unibat_logo.png"
+"affiliate_url":"https://unibetpro.onelink.me/NQsf/5eivhteq"
+}
+*/

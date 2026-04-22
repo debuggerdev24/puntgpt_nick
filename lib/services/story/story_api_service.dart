@@ -2,7 +2,6 @@ import 'package:dartz/dartz.dart';
 import 'package:puntgpt_nick/core/constants/end_points.dart';
 import 'package:puntgpt_nick/core/helper/base_api_helper.dart';
 
-
 class StoryApiService {
   factory StoryApiService() => _instance;
   StoryApiService._internal();
@@ -11,25 +10,26 @@ class StoryApiService {
   static StoryApiService get instance => _instance;
 
   Future<Either<ApiException, List>> getStories() async {
-    return await BaseApiHelper.instance.get(
-      EndPoints.getStory,
-    );
+    return await BaseApiHelper.instance.get(EndPoints.getStory);
   }
 
-  Future<Either<ApiException, List>> updateStoryContent({required Map<String, dynamic> data}) async {
+  Future<Either<ApiException, Map<String, dynamic>>> uploadStoryContent({
+    required dynamic data,
+
+  }) async {
     return await BaseApiHelper.instance.post(
       EndPoints.updateStoryContent,
       data: data,
     );
   }
-  
-  Future<Either<ApiException, List>> updateStorySection({required String section, required Map<String, dynamic> data}) async {
+
+  Future<Either<ApiException, Map<String, dynamic>>> updateStorySection({
+    required String section,
+    required dynamic data,
+  }) async {
     return await BaseApiHelper.instance.patch(
       EndPoints.updateStorySection(section: section),
       data: data,
     );
   }
-
-
 }
-

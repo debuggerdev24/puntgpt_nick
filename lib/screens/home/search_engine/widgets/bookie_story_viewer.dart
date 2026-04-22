@@ -30,21 +30,22 @@ class _BookieStoryViewerState extends State<BookieStoryViewer> {
     _slides = [];
     for (final story in widget.stories) {
       final images = story.imageAdsList;
-      if (images.isEmpty) continue;
-
       final videos = story.videoAdsList;
       final howManySlides = story.slideCount;
+      if (howManySlides == 0) continue;
 
       for (var slideIndex = 0; slideIndex < howManySlides; slideIndex++) {
-        // Image for this slide (reuse last image if we only added extra videos)
-        final imageForSlide = slideIndex < images.length
-            ? images[slideIndex]
-            : images.last;
+        // Use image asset when available, otherwise fallback to story avatar/logo.
+        final isImageSlide = slideIndex < images.length;
+        // Keep every image as its own slide; append videos after images.
+        final imageForSlide = images.isEmpty
+            ? story.logo
+            : (isImageSlide ? images[slideIndex].url : images.last.url);
 
-        // Video for this slide (same index; no video = show image only)
         String? videoForSlide;
-        if (slideIndex < videos.length) {
-          final path = videos[slideIndex].trim();
+        if (!isImageSlide) {
+          final videoIndex = slideIndex - images.length;
+          final path = videos[videoIndex].url.trim();
           if (path.isNotEmpty) videoForSlide = path;
         }
 
@@ -85,13 +86,18 @@ class _BookieStoryViewerState extends State<BookieStoryViewer> {
     final uri = Uri.parse(url);
     if (await canLaunchUrl(uri)) {
       await launchUrl(uri, mode: LaunchMode.externalApplication);
-    }
+    } 
+
   }
 
-  //*
-  // First story (PuntGPT, `id: puntgpt`): open Manage Subscription instead of a URL.
+  //* Story tap behavior:
+  //* - If affiliate URL exists, always open it (including PuntGPT).
+  //* - If PuntGPT has no URL configured, fallback to Manage Subscription.
   void _onStoryImageTap(StoryModel story) {
-    if (story.id == 'puntgpt') {
+    
+    Logger.info('Story section: ${story.section}');
+    Logger.info('Story affiliate URL: ${story.affiliateUrl}');
+    if (story.section == 'puntgpt') {
       final routeName = (context.isMobileView && kIsWeb)
           ? WebRoutes.manageSubscriptionScreen.name
           : AppRoutes.manageSubscriptionScreen.name;
@@ -101,9 +107,12 @@ class _BookieStoryViewerState extends State<BookieStoryViewer> {
       });
       return;
     }
-    final url = story.affiliateUrl;
-    if (url.isEmpty) return;
-    _openAffiliateLink(url);
+
+    final url = story.affiliateUrl.trim();
+    if (url.isNotEmpty) {
+      _openAffiliateLink(url);
+      return;
+    }
   }
 
   @override
@@ -153,7 +162,7 @@ class _BookieStoryViewerState extends State<BookieStoryViewer> {
                   final videoPath = slide.videoAsset;
                   if (videoPath != null && videoPath.isNotEmpty) {
                     return _StoryVideoPage(
-                      key: ValueKey('story-video-${channel.id}-$i-$videoPath'),
+                      key: ValueKey('story-video-${channel.section}-$i-$videoPath'),
                       story: channel,
                       posterAsset: slide.imageAsset,
                       videoAssetPath: videoPath,
@@ -260,12 +269,22 @@ class _StoryAdPage extends StatelessWidget {
       child: Center(
         child: GestureDetector(
           onTap: onTapImage,
+          behavior: HitTestBehavior.opaque,
           child: Image.network(
             "${AppConfig.baseurl}$imageAsset",
             fit: BoxFit.contain,
             loadingBuilder: (context, child, progress) {
               if (progress == null) return child;
-              return const CircularProgressIndicator(color: Colors.white54);
+              final expected = progress.expectedTotalBytes;
+              final value = (expected == null || expected == 0)
+                  ? null
+                  : progress.cumulativeBytesLoaded / expected;
+              return Center(
+                child: CircularProgressIndicator(
+                  color: Colors.white70,
+                  value: value,
+                ),
+              );
             },
             errorBuilder: (_, __, ___) => const Icon(
               Icons.broken_image_outlined,
@@ -306,6 +325,7 @@ class _StoryVideoPageState extends State<_StoryVideoPage> {
   BetterPlayerController? _player;
   bool _ready = false;
   bool _useImageFallback = false;
+  bool _isBuffering = true;
 
   @override
   void initState() {
@@ -326,9 +346,16 @@ class _StoryVideoPageState extends State<_StoryVideoPage> {
         });
         return;
       case BetterPlayerEventType.initialized:
+        setState(() => _isBuffering = false);
         if (widget.isActive) {
           _player?.play();
         }
+        return;
+      case BetterPlayerEventType.bufferingStart:
+        setState(() => _isBuffering = true);
+        return;
+      case BetterPlayerEventType.bufferingEnd:
+        setState(() => _isBuffering = false);
         return;
       default:
         return;
@@ -344,7 +371,7 @@ class _StoryVideoPageState extends State<_StoryVideoPage> {
       if (!mounted) return;
 
       final config = BetterPlayerConfiguration(
-        autoPlay: false,
+        autoPlay: true,
         looping: true,
         // [fit] only applies inside the player’s box. [expandToFill] makes that box fill the parent;
         // otherwise the player stays small and cover looks like it “does nothing”.
@@ -434,7 +461,7 @@ class _StoryVideoPageState extends State<_StoryVideoPage> {
           if (v > 300) widget.onSwipeDown();
         },
         child: const Center(
-          child: CircularProgressIndicator(color: Colors.white54),
+          child: CircularProgressIndicator(color: Colors.white70),
         ),
       );
     }
@@ -467,6 +494,10 @@ class _StoryVideoPageState extends State<_StoryVideoPage> {
                   ),
                   // child: BetterPlayer(controller: _player!),
                 ),
+                if (_isBuffering)
+                  const Center(
+                    child: CircularProgressIndicator(color: Colors.white70),
+                  ),
               ],
             );
           },

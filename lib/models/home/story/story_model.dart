@@ -1,32 +1,62 @@
 class StoryModel {
   factory StoryModel.fromJson(Map<String, dynamic> json) => StoryModel(
-    id: json["section"],
+    id: json["id"],
+    section: json["section"],
     title: json["display_name"],
     logo: json["avatar"],
     affiliateUrl: json["affiliate_url"],
-
-    videoAdsList: json["storyVideoAssets"],
-    imageAdsList: json["storyImageAssets"],
+    videoAdsList: (json["storyVideoAssets"] as List)
+        .map((e) => ContentModel.fromJson(e))
+        .toList(),
+    imageAdsList: (json["storyImageAssets"] as List)
+        .map((e) => ContentModel.fromJson(e))
+        .toList(),
   );
-  StoryModel({
-    required this.id,
-    required this.title,
 
+  StoryModel({
+    required this.section,
+    required this.title,
     required this.affiliateUrl,
     required this.logo,
     required this.videoAdsList,
     required this.imageAdsList,
+    required this.id,
   });
-  final String id, title, logo, affiliateUrl;
-  List<dynamic> videoAdsList, imageAdsList;
+
+  final String section, title, logo, affiliateUrl;
+  final int id;
+
+  /// API: `[{ "id": 1, "url": "/media/..." }]` or `[]`.
+  final List<ContentModel> videoAdsList, imageAdsList;
 
   int get slideCount {
-    if (imageAdsList.isEmpty) return 0;
     final nImages = imageAdsList.length;
     final nVideos = videoAdsList.length;
-    if (nVideos > nImages) return nVideos;
-    return nImages;
+    if (nImages == 0) return nVideos;
+    if (nVideos == 0) return nImages;
+    // Show all images and all videos as separate slides.
+    return nImages + nVideos;
   }
+}
+
+/// One row from `storyImageAssets` / `storyVideoAssets` (`id` + `url`).
+class ContentModel {
+  ContentModel({required this.id, required this.url});
+
+  factory ContentModel.fromJson(Map<String, dynamic> json) => ContentModel(
+    id: _idToString(json['id']),
+    url: json['url'] is String ? (json['url'] as String).trim() : '',
+  );
+
+  static String _idToString(dynamic v) {
+    if (v == null) return '';
+    if (v is String) return v;
+    if (v is num) return v.toString();
+    return '';
+  }
+
+  final String id;
+  final String url;
 }
 
 /// Returns the starting flat PageView index for a given story channel.
@@ -54,7 +84,7 @@ Set<String> channelIdsInFlatPageRange(
     final start = flat;
     final end = flat + len - 1;
     if (end >= lo && start <= hi) {
-      ids.add(s.id);
+      ids.add(s.section);
     }
     flat += len;
   }

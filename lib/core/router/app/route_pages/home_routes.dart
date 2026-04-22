@@ -8,8 +8,9 @@ import 'package:puntgpt_nick/screens/home/classic_form_guide/mobile/selected_mee
 import 'package:puntgpt_nick/screens/home/classic_form_guide/mobile/tips_and_analysis_screen.dart';
 import 'package:puntgpt_nick/screens/home/search_engine/mobile/upcoming_runners_screen.dart';
 import 'package:puntgpt_nick/screens/home/story/edit_option_screen.dart';
+import 'package:puntgpt_nick/screens/home/story/section_selection_screen.dart';
 import 'package:puntgpt_nick/screens/home/story/upload_story_content.dart';
-import 'package:puntgpt_nick/screens/home/story/upload_story_data.dart';
+import 'package:puntgpt_nick/screens/home/story/update_story_data.dart';
 
 class HomeRoutes {
   static final List<RouteBase> routes = <RouteBase>[
@@ -70,6 +71,13 @@ class HomeRoutes {
       path: AppRoutes.speedMaps.path,
       builder: (BuildContext context, GoRouterState state) {
         return SpeedMapsScreen();
+      },
+    ),
+    GoRoute(
+      name: AppRoutes.editStorySection.name,
+      path: AppRoutes.editStorySection.path,
+      builder: (BuildContext context, GoRouterState state) {
+        return SectionSelectionScreen();
       },
     ),
     GoRoute(

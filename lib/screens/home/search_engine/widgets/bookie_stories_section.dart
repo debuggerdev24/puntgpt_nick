@@ -84,7 +84,7 @@ class _BookieStoriesSectionState extends State<BookieStoriesSection> {
 
                     itemBuilder: (context, index) {
                       final story = list[index];
-                      final isUnseen = !_seenStoryIds.contains(story.id);
+                      final isUnseen = !_seenStoryIds.contains(story.section);
                       return _StoryAvatar(
                         story: story,
                         size: avatarSize,
@@ -98,7 +98,7 @@ class _BookieStoriesSectionState extends State<BookieStoriesSection> {
                 //* Edit story button
                 InkWell(
                   onTap: () {
-                    context.pushNamed(AppRoutes.editStoryOption.name);
+                    context.pushNamed(AppRoutes.editStorySection.name);
                   },
                   child: Container(
                     padding: EdgeInsets.symmetric(
@@ -179,7 +179,32 @@ class _StoryAvatar extends StatelessWidget {
               ),
             ),
             child: ClipOval(
-              child: Image.network(story.logo, fit: BoxFit.cover),
+              child: Image.network(
+                story.logo,
+                fit: BoxFit.cover,
+                loadingBuilder: (context, child, loadingProgress) {
+                  if (loadingProgress == null) return child;
+                  final expected = loadingProgress.expectedTotalBytes;
+                  final value = (expected == null || expected == 0)
+                      ? null
+                      : loadingProgress.cumulativeBytesLoaded / expected;
+                  return Center(
+                    child: SizedBox(
+                      width: 18.w,
+                      height: 18.w,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                        color: AppColors.primary,
+                        value: value,
+                      ),
+                    ),
+                  );
+                },
+                errorBuilder: (_, __, ___) => const ColoredBox(
+                  color: Colors.black12,
+                  child: Icon(Icons.broken_image_outlined, color: Colors.black38),
+                ),
+              ),
             ),
           ),
           //   SizedBox(height: 6.h),

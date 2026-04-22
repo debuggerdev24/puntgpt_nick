@@ -1,4 +1,3 @@
-import 'dart:ui';
 import 'package:puntgpt_nick/core/app_imports.dart';
 
 class AppCheckBox extends StatelessWidget {
@@ -25,9 +24,6 @@ class AppCheckBox extends StatelessWidget {
       onTap: () => onChanged(!value),
       child: Semantics(
         container: true,
-        role: value
-            ? SemanticsRole.menuItemCheckbox
-            : SemanticsRole.menuItemCheckbox,
         checked: value,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
