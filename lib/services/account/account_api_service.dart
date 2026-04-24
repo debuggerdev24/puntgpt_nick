@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 
-import '../../core/constants/end_points.dart';
+import '../../core/constants/backend_apis.dart';
 import '../../core/helper/base_api_helper.dart';
 
 class AccountApiService {

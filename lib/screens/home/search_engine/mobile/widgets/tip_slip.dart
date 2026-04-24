@@ -119,25 +119,16 @@ class TipSlipItem extends StatelessWidget {
                       height: 28.w,
                     ),
                   ),
-                  Container(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 5.w,
-                      vertical: 6.w,
-                    ),
-                    margin: EdgeInsets.only(left: 8.w),
-                    decoration: BoxDecoration(
-                      color: _oddsBg,
-                      borderRadius: BorderRadius.circular(6.r),
-                      border: Border.all(color: _border),
-                    ),
-                    child: Text(
+                  6.w.horizontalSpace,
+
+                  Text(
                       '\$${selection.unibetFixedOddsWin}',
                       style: bold(
                         fontSize: context.isMobileWeb ? 32.sp : 16.sp,
                         color: _textPrimary,
                       ),
                     ),
-                  ),
+                  
                 ],
               ),
             ),

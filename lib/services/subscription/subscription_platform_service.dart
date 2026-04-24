@@ -12,7 +12,7 @@ class SubscriptionService {
     SubscriptionEnum.monthlyPlan: "com.puntgpt.propunter.monthly",
     SubscriptionEnum.annualPlan: "com.puntgpt.propunter.yearly",
     SubscriptionEnum.lifeTimePlan: "com.puntgpt.propunter.lifetime",
-  };  
+  };
 
   List<ProductDetails> _products = [];
 
@@ -60,8 +60,6 @@ class SubscriptionService {
       Logger.error(e.toString());
     }
 
-
-
     for (var product in _products) {
       Logger.info("Products loaded: ${product.id}");
       Logger.info("Products loaded: ${product.title}");
@@ -88,17 +86,13 @@ class SubscriptionService {
       Logger.info("appAccountToken: $appAccountToken");
       final param = PurchaseParam(
         productDetails: product,
-        applicationUserName:
-            appAccountToken.isEmpty ? null : appAccountToken,
+        applicationUserName: appAccountToken.isEmpty ? null : appAccountToken,
       );
 
-      await _iap.buyNonConsumable(purchaseParam: param, );
+      await _iap.buyNonConsumable(purchaseParam: param);
       return true;
     } catch (e, s) {
-
-        Logger.error("Buy error: $e\n$s");
-
-
+      Logger.error("Buy error: $e\n$s");
       return false;
     }
   }

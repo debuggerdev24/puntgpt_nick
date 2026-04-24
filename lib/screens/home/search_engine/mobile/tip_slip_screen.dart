@@ -31,89 +31,96 @@ class TipSlipScreen extends StatelessWidget {
         if (tipSlips == null) {
           return HomeSectionShimmers.tipSlipScreenShimmer(context: context);
         }
-        return Column(
-          children: [
-            topBar(context),
+        return RefreshIndicator(
+          color: AppColors.primary,
+          
+          onRefresh: () async {
+            await provider.getAllTipSlips();
+          },
+          child: Column(
+            children: [
+              topBar(context),
+              
+              Expanded(
+                child: Padding(
+                  padding: EdgeInsets.fromLTRB(25.w, 0, 25.w, 10.w),
+                  child: tipSlips.isEmpty
+                      ? _buildEmptyState(context)
+                      : Column(
+                          children: [
+                            Expanded(
+                              child: ListView.builder(
 
-            Expanded(
-              child: Padding(
-                padding: EdgeInsets.fromLTRB(25.w, 0, 25.w, 10.w),
-                child: tipSlips.isEmpty
-                    ? _buildEmptyState(context)
-                    : Column(
-                        children: [
-                          Expanded(
-                            child: ListView.builder(
-                              clipBehavior: Clip.none,
-                              padding: EdgeInsets.symmetric(vertical: 15.w),
-                              itemCount: tipSlips.length,
-                              itemBuilder: (context, index) {
-                                final tipSlip = tipSlips[index];
-                                void remove() {
-                                  final removedId = tipSlips[index].id;
-                                  if (provider.expandedTipSlipId == removedId) {
-                                    provider.toggleTipSlipExpand(removedId);
+                                padding: EdgeInsets.symmetric(vertical: 15.w),
+                                itemCount: tipSlips.length,
+                                itemBuilder: (context, index) {
+                                  final tipSlip = tipSlips[index];
+                                  void remove() {
+                                    final removedId = tipSlips[index].id;
+                                    if (provider.expandedTipSlipId == removedId) {
+                                      provider.toggleTipSlipExpand(removedId);
+                                    }
+                                    provider.removeTipSlipAt(index);
+                                    AppToast.success(
+                                      context: context,
+                                      message:
+                                          "Removed from tip slip successfully",
+                                    );
+                                    provider.removeFromTipSlip(
+                                      tipSlipId: removedId.toString(),
+                                    );
                                   }
-                                  provider.removeTipSlipAt(index);
-                                  AppToast.success(
-                                    context: context,
-                                    message:
-                                        "Removed from tip slip successfully",
-                                  );
-                                  provider.removeFromTipSlip(
-                                    tipSlipId: removedId.toString(),
-                                  );
-                                }
-
-                                return Padding(
-                                  padding: EdgeInsets.only(bottom: 12.w),
-                                  child: Slidable(
-                                    key: ValueKey(tipSlip.id),
-                                    endActionPane: ActionPane(
-                                      motion: BehindMotion(),
-                                      extentRatio: 0.28,
-                                      children: [
-                                        SlidableAction(
-                                          onPressed: (_) =>
-                                              TipSlipItem.showRemoveConfirmationDialog(
-                                                context: context,
-                                                onConfirmRemove: remove,
-                                              ),
-                                          backgroundColor: AppColors.redButton,
-                                          foregroundColor: Colors.white,
-                                          icon: Icons.delete_outline_rounded,
-                                          label: 'Delete',
-                                          borderRadius: BorderRadius.circular(
-                                            10.r,
+              
+                                  return Padding(
+                                    padding: EdgeInsets.only(bottom: 12.w),
+                                    child: Slidable(
+                                      key: ValueKey(tipSlip.id),
+                                      endActionPane: ActionPane(
+                                        motion: BehindMotion(),
+                                        extentRatio: 0.28,
+                                        children: [
+                                          SlidableAction(
+                                            onPressed: (_) =>
+                                                TipSlipItem.showRemoveConfirmationDialog(
+                                                  context: context,
+                                                  onConfirmRemove: remove,
+                                                ),
+                                            backgroundColor: AppColors.redButton,
+                                            foregroundColor: Colors.white,
+                                            icon: Icons.delete_outline_rounded,
+                                            label: 'Delete',
+                                            borderRadius: BorderRadius.circular(
+                                              10.r,
+                                            ),
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                    child: TipSlipItem(
-                                      tipSlip: tipSlip,
-                                      listPosition: index + 1,
-                                      isExpanded:
-                                          provider.expandedTipSlipId ==
+                                        ],
+                                      ),
+                                      child: TipSlipItem(
+                                        tipSlip: tipSlip,
+                                        listPosition: index + 1,
+                                        isExpanded:
+                                            provider.expandedTipSlipId ==
+                                            tipSlip.id,
+                                        onTap: () => provider.toggleTipSlipExpand(
                                           tipSlip.id,
-                                      onTap: () => provider.toggleTipSlipExpand(
-                                        tipSlip.id,
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                );
-                              },
+                                  );
+                                },
+                              ),
                             ),
-                          ),
-
-                          _unibetDabbleCard(
-                            context: context,
-                            logoHeight: context.isMobileWeb ? 36.w : 34.w,
-                          ),
-                        ],
-                      ),
+              
+                            _unibetDabbleCard(
+                              context: context,
+                              logoHeight: context.isMobileWeb ? 36.w : 34.w,
+                            ),
+                          ],
+                        ),
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         );
       },
     );

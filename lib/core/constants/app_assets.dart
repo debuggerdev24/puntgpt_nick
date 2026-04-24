@@ -5,11 +5,9 @@ class AppAssets {
   static const _iconPath = "assets/icons";
   static const close = "$_iconPath/delete.svg";
   static const done = "$_iconPath/done.svg";
-  static const back = "$_iconPath/back.svg";
   static const hide = "$_iconPath/hide.svg";
   static const show = "$_iconPath/show.svg";
   static const arrowDown = "$_iconPath/arrow_down.svg";
-  static const lock = "$_iconPath/lock.svg";
   static const trophy = "$_iconPath/trophy.svg";
   static const group = "$_iconPath/group.svg";
   static const bookings = "$_iconPath/bookings.svg";
@@ -30,16 +28,10 @@ class AppAssets {
   // images
   static const _imagePath = "assets/images";
   static const _gifsPath = "assets/gif";
-  static const _videosPath = "assets/videos";
   static const splashAppLogo = "$_imagePath/splash_app_logo.png";
   static const splashWebLogo = "$_imagePath/splash_web_logo.png";
   static const addMember = "$_imagePath/addMember.png";
-  static const appBarLogo = "$_imagePath/app_bar_logo.png";
   static const horse = "$_imagePath/horse.png";
-  static const horse2 = "$_imagePath/horse2.png";
-  static const b1 = "$_imagePath/b1.png";
-  static const b2 = "$_imagePath/b2.png";
-  static const b3 = "$_imagePath/b3.png";
   static const webLogo = "$_imagePath/webLogo.png";
   static const onBoardingImage = "$_imagePath/on_boarding_image.png";
   static const unibatLogo = "$_imagePath/unibat_logo.png";
@@ -48,18 +40,7 @@ class AppAssets {
   static const instagramLogo = "$_imagePath/instagram.png";
   static const news = "$_imagePath/news.png";
   static const dabbleBanner = "$_imagePath/dabble_banner.png";
-  static const dabbleAdvertisement1 = "$_imagePath/dabble_ads1.png";
-  static const dabbleAdvertisement2 = "$_imagePath/dabble_ads2.png";
-  static const dabbleAdvertisement3 = "$_imagePath/dabble_ads3.png";
-  // static const dabbleAdvertisement4 = "$_imagePath/dabble_ads4.png";
-
-  static const unibatAdvertisement2 = "$_imagePath/unibat_ads_2.png";
-  static const unibatAdvertisement3 = "$_imagePath/unibat_ads_3.png";
-  static const puntGPTAdsLogo = "$_imagePath/puntgpt_ads_logo.png";
-  static const puntGPTAdvertisement = "$_imagePath/puntgpt_ads.png";
+  static const dabbleAdvertisement = "$_imagePath/dabble_ads1.png";
   static const dabbleGIF = "$_gifsPath/dabble.gif";
-  
-  static const puntGPTVideoAds = "$_videosPath/puntgpt_story_ad.mp4";
-  static const dummyVid = "$_videosPath/dummy.mp4";
-  
+
 }

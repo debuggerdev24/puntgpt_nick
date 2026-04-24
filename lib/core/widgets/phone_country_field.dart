@@ -140,15 +140,15 @@ class PhoneCountryField extends StatelessWidget {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.center,
-                  spacing: 6.adaptiveSpacing(context),
+                  spacing: 4.w,
                   children: [
                     Text(
                       country.flagEmoji,
-                      style: const TextStyle(fontSize: 18),
+                      style: TextStyle(fontSize: 20.fSize),
                     ),
                     Icon(
                       Icons.keyboard_arrow_down_rounded,
-                      size: 22,
+                      size: 22.fSize,
                       color: AppColors.primary.withValues(alpha: 0.7),
                     ),
                   ],

@@ -93,7 +93,7 @@ class _DashboardAppBarState extends State<DashboardAppBar> {
           onTap: _navigateToAccountFromLogo,
           borderRadius: BorderRadius.circular(8.r),
           child: Padding(
-            padding: EdgeInsets.symmetric(vertical: 2.w, horizontal: 4.w),
+            padding: EdgeInsets.symmetric(horizontal: 4.w),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [

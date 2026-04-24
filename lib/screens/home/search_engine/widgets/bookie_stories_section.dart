@@ -2,6 +2,7 @@ import 'package:puntgpt_nick/core/app_imports.dart';
 import 'package:puntgpt_nick/core/constants/app_strings.dart';
 import 'package:puntgpt_nick/models/home/story/story_model.dart';
 import 'package:puntgpt_nick/screens/home/search_engine/widgets/bookie_story_viewer.dart';
+import 'package:puntgpt_nick/services/storage/locale_storage_service.dart';
 
 class BookieStoriesSection extends StatefulWidget {
   const BookieStoriesSection({
@@ -133,6 +134,7 @@ class _BookieStoriesSectionState extends State<BookieStoriesSection> {
                     },
                   ),
                   //* Edit story button
+                  if(LocaleStorageService.loggedInCustomerEmail == AppStrings.adminEmail)
                   InkWell(
                     onTap: () {
                       context.pushNamed(AppRoutes.bookieSelection.name);

@@ -254,7 +254,7 @@ class SubscriptionProvider extends ChangeNotifier {
           try {
             Logger.info("Decode data : $decoded");
             if (decoded is Map) {
-              backendValidationToken = decoded["transactionId"]?.toString();
+              backendValidationToken = decoded["transactionId"]?.toString();//originalTransactionId
             }
           } catch (_) {
             Logger.error("iOS localVerificationData decode failed");

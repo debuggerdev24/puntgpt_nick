@@ -994,6 +994,7 @@ class SearchEngineProvider extends ChangeNotifier {
     required String selectionId,
     required BuildContext context,
   }) async {
+    if (isCreatingTipSlip) return;
     isCreatingTipSlip = true;
     creatingForSelectionId = selectionId;
     notifyListeners();
@@ -1008,11 +1009,14 @@ class SearchEngineProvider extends ChangeNotifier {
       (r) {
         final data = r["data"];
         if (data == null) {
-          AppToast.info(context: context, message: "Already added to tip slip");
+          AppToast.info(
+            durationSecond: 3,
+            context: context, message: "Already added to tip slip");
           return;
         }
         if (data["tip_slip"] != null) {
           AppToast.success(
+            duration: const Duration(seconds: 3),
             context: context,
             message: "Added to tip slip successfully",
           );

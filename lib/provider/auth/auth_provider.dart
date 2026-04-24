@@ -121,13 +121,15 @@ class AuthProvider extends ChangeNotifier {
     final registerData = <String, dynamic>{
       "first_name": firstNameCtr.text.trim(),
       "last_name": lastNameCtr.text.trim(),
-      "state": selectedState!,
+      
       "email": emailCtr.text.trim(),
       "phone":
           '+${country.phoneCode}${phoneCtr.text.replaceAll(RegExp(r'[^0-9]'), '')}',
       "password": passwordCtr.text.trim(),
       "confirm_password": confirmPasswordCtr.text.trim(),
       "agreed_to_terms": isReadTermsAndConditions.toString(),
+      if (selectedState != null)
+      "state": selectedState,
       if (addressLine1Ctr.text.trim().isNotEmpty)
         "address_line_1": addressLine1Ctr.text.trim(),
       if (addressLine2Ctr.text.trim().isNotEmpty)

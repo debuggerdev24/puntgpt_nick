@@ -55,7 +55,7 @@ class Selection {
     selectionId: json["selectionId"] ?? 0,
     number: json["number"] ?? 0,
     silksImage: json["silks_image"] ?? "",
-    unibetFixedOddsWin: json["unibet_fixed_odds_win"] ?? "-",
+    unibetFixedOddsWin: json["unibet_fixed_odds_win"] ?? "  -",
     barrier: json["barrier"] ?? 0,
     distance: json["race_distance"] ?? 0,
   );

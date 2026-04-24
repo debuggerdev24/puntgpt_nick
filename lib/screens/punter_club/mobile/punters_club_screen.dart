@@ -27,11 +27,24 @@ class PunterClubScreen extends StatelessWidget {
                 _topBar(context: context, provider: provider),
                 horizontalDivider(),
                 Expanded(
-                  child: SubscriptionGateView(
-                    featureTitle: "Subscribe to access Punter Club",
-                    featureDescription:
-                        "Create and join clubs, chat with members, and share tips.",
-                    icon: Icons.groups_rounded,
+                  child: RefreshIndicator(
+                    color: AppColors.primary,
+                    onRefresh: () => provider.getChatGroups(),
+                    child: ListView(
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      padding: EdgeInsets.zero,
+                      children: [
+                        SizedBox(
+                          // height: MediaQuery.sizeOf(context).height * 0.62,
+                          child: SubscriptionGateView(
+                            featureTitle: "Subscribe to access Punter Club",
+                            featureDescription:
+                                "Create and join clubs, chat with members, and share tips.",
+                            icon: Icons.groups_rounded,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],
@@ -51,127 +64,132 @@ class PunterClubScreen extends StatelessWidget {
                   horizontalDivider(),
                   Expanded(
                     child: (provider.chatGroupsList!.isEmpty)
-                        ? _buildEmptyStateCreateFirstGroup(
-                            context: context,
-                            provider: provider,
-                          )
-                        : ListView.separated(
-                            separatorBuilder: (context, index) => Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 20.w),
-                              child: horizontalDivider(),
+                        ? Center(
+                            child: _buildEmptyStateCreateFirstGroup(
+                              context: context,
+                              provider: provider,
                             ),
-                            shrinkWrap: true,
-                            itemCount: provider.chatGroupsList!.length + 1,
-                            padding: EdgeInsets.zero,
+                          )
+                        : RefreshIndicator(
+                            color: AppColors.primary,
+                            onRefresh: () => provider.getChatGroups(),
+                            child: ListView.separated(
+                              physics: const AlwaysScrollableScrollPhysics(),
+                              separatorBuilder: (context, index) => Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 20.w),
+                                child: horizontalDivider(),
+                              ),
+                              shrinkWrap: true,
+                              itemCount: provider.chatGroupsList!.length + 1,
+                              padding: EdgeInsets.zero,
 
-                            itemBuilder: (context, index) {
-                              if (index == provider.chatGroupsList!.length) {
-                                return const SizedBox.shrink();
-                              }
-                              final chatGroup = provider.chatGroupsList![index];
-                              Logger.info('chat group id: ${chatGroup.id}');
-                              return GestureDetector(
-                                behavior: HitTestBehavior.opaque,
-                                onTap: () {
-                                  provider.setSelectedChatGroupIndex = index;
-                                  context.pushNamed(
-                                    (context.isMobileView && kIsWeb)
-                                        ? WebRoutes.punterClubChatScreen.name
-                                        : AppRoutes.punterClubChatScreen.name,
-                                    extra: chatGroup.name,
-                                  );
-                                  provider.getChatGroups();
-                                },
-                                child: Padding(
-                                  padding: EdgeInsets.symmetric(
-                                    horizontal: 25.w,
-                                    vertical: 20.w,
-                                  ),
-                                  child: Row(
-                                    children: [
-                                      Expanded(
-                                        child: Row(
-                                          children: [
-                                            Flexible(
-                                              child: Text(
-                                                chatGroup.name,
-                                                style: bold(
-                                                  fontSize:
-                                                      (context.isMobileWeb)
-                                                      ? 32.sp
-                                                      : 16.sp,
-                                                ),
-                                                overflow: TextOverflow.ellipsis,
-                                              ),
-                                            ),
-                                            if (chatGroup.unreadMessageCount >
-                                                0) ...[
-                                              8.w.horizontalSpace,
-                                              Container(
-                                                padding: EdgeInsets.symmetric(
-                                                  horizontal: 8.w,
-                                                  vertical: 4.h,
-                                                ),
-                                                decoration: BoxDecoration(
-                                                  color: AppColors.primary,
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                        12.r,
-                                                      ),
-                                                ),
+                              itemBuilder: (context, index) {
+                                if (index == provider.chatGroupsList!.length) {
+                                  return const SizedBox.shrink();
+                                }
+                                final chatGroup =
+                                    provider.chatGroupsList![index];
+                                Logger.info('chat group id: ${chatGroup.id}');
+                                return GestureDetector(
+                                  behavior: HitTestBehavior.opaque,
+                                  onTap: () {
+                                    provider.setSelectedChatGroupIndex = index;
+                                    context.pushNamed(
+                                      (context.isMobileView && kIsWeb)
+                                          ? WebRoutes.punterClubChatScreen.name
+                                          : AppRoutes.punterClubChatScreen.name,
+                                      extra: chatGroup.name,
+                                    );
+                                    provider.getChatGroups();
+                                  },
+                                  child: Padding(
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: 25.w,
+                                      vertical: 20.w,
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        Expanded(
+                                          child: Row(
+                                            children: [
+                                              Flexible(
                                                 child: Text(
-                                                  chatGroup.unreadMessageCount >
-                                                          99
-                                                      ? "99+"
-                                                      : "${chatGroup.unreadMessageCount}",
-                                                  style: semiBold(
+                                                  chatGroup.name,
+                                                  style: bold(
                                                     fontSize:
-                                                        (context
-                                                            .isMobileWeb)
-                                                        ? 24.sp
-                                                        : 12.sp,
-                                                    color: AppColors.white,
+                                                        (context.isMobileWeb)
+                                                        ? 32.sp
+                                                        : 16.sp,
+                                                  ),
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                ),
+                                              ),
+                                              if (chatGroup.unreadMessageCount >
+                                                  0) ...[
+                                                8.w.horizontalSpace,
+                                                Container(
+                                                  padding: EdgeInsets.symmetric(
+                                                    horizontal: 8.w,
+                                                    vertical: 4.h,
+                                                  ),
+                                                  decoration: BoxDecoration(
+                                                    color: AppColors.primary,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                          12.r,
+                                                        ),
+                                                  ),
+                                                  child: Text(
+                                                    chatGroup.unreadMessageCount >
+                                                            99
+                                                        ? "99+"
+                                                        : "${chatGroup.unreadMessageCount}",
+                                                    style: semiBold(
+                                                      fontSize:
+                                                          (context.isMobileWeb)
+                                                          ? 24.sp
+                                                          : 12.sp,
+                                                      color: AppColors.white,
+                                                    ),
                                                   ),
                                                 ),
-                                              ),
+                                              ],
                                             ],
-                                          ],
-                                        ),
-                                      ),
-                                      if (chatGroup.isAdmin)
-                                        Container(
-                                          padding: EdgeInsets.symmetric(
-                                            horizontal: 8.w,
-                                            vertical: 4.h,
                                           ),
-                                          decoration: BoxDecoration(
-                                            color: AppColors.primary.withValues(
-                                              alpha: 0.08,
+                                        ),
+                                        if (chatGroup.isAdmin)
+                                          Container(
+                                            padding: EdgeInsets.symmetric(
+                                              horizontal: 8.w,
+                                              vertical: 4.h,
                                             ),
-                                            borderRadius: BorderRadius.circular(
-                                              6.r,
-                                            ),
-                                            border: Border.all(
+                                            decoration: BoxDecoration(
                                               color: AppColors.primary
-                                                  .withValues(alpha: 0.25),
+                                                  .withValues(alpha: 0.08),
+                                              borderRadius:
+                                                  BorderRadius.circular(6.r),
+                                              border: Border.all(
+                                                color: AppColors.primary
+                                                    .withValues(alpha: 0.25),
+                                              ),
+                                            ),
+                                            child: Text(
+                                              "Admin",
+                                              style: semiBold(
+                                                fontSize: (context.isMobileWeb)
+                                                    ? 22.sp
+                                                    : 11.sp,
+                                                color: AppColors.primary,
+                                              ),
                                             ),
                                           ),
-                                          child: Text(
-                                            "Admin",
-                                            style: semiBold(
-                                              fontSize:
-                                                  (context.isMobileWeb)
-                                                  ? 22.sp
-                                                  : 11.sp,
-                                              color: AppColors.primary,
-                                            ),
-                                          ),
-                                        ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              );
-                            },
+                                );
+                              },
+                            ),
                           ),
                   ),
 
@@ -222,9 +240,7 @@ class PunterClubScreen extends StatelessWidget {
               height: (context.isMobileWeb) ? 42.w : null,
             ),
           ),
-          (context.isMobileWeb)
-              ? 60.w.horizontalSpace
-              : 16.w.horizontalSpace,
+          (context.isMobileWeb) ? 60.w.horizontalSpace : 16.w.horizontalSpace,
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -248,7 +264,7 @@ class PunterClubScreen extends StatelessWidget {
               ],
             ),
           ),
-
+          3.w.horizontalSpace,
           //* Notification sheet button
           GestureDetector(
             onTap: () {

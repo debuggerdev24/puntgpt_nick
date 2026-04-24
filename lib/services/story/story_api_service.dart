@@ -1,5 +1,5 @@
 import 'package:dartz/dartz.dart';
-import 'package:puntgpt_nick/core/constants/end_points.dart';
+import 'package:puntgpt_nick/core/constants/backend_apis.dart';
 import 'package:puntgpt_nick/core/helper/base_api_helper.dart';
 
 class StoryApiService {
