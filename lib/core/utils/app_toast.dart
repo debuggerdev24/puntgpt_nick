@@ -19,7 +19,8 @@ class AppToast {
       type: type,
       backgroundColor: backgroundColor,
       autoCloseDuration: duration ?? const Duration(seconds: 3),
-      alignment: Alignment.topCenter,
+      alignment: kIsWeb ? Alignment.topRight : Alignment.topCenter,
+      // margin: kIsWeb ? const EdgeInsets.only(top: 12, right: 12) : null,
       icon: icon,
       title: Text(
         message,

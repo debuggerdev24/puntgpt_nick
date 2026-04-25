@@ -1,5 +1,6 @@
 import 'package:modal_side_sheet/modal_side_sheet.dart';
 import 'package:puntgpt_nick/core/widgets/subscription_gate_view.dart';
+import 'package:puntgpt_nick/core/widgets/subscription_gate_view_web.dart';
 import 'package:puntgpt_nick/provider/punt_club/punter_club_provider.dart';
 import 'package:puntgpt_nick/provider/subscription/subscription_provider.dart';
 import 'package:puntgpt_nick/screens/punter_club/web/widgets/club_chat_screen_web.dart';
@@ -38,166 +39,164 @@ class PunterClubScreenWebScreen extends StatelessWidget {
     //     : (context.isBrowserMobile)
     //     ? 32.sp
     //     : 16.sp;
-    return Scaffold(
-      body: Stack(
-        children: [
-          Center(
-            child: SizedBox(
-              width: bodyWidth,
-              child: Consumer2<PuntClubProvider, SubscriptionProvider>(
-                builder: (context, provider, subProvider, child) {
-                  if (!subProvider.isSubscribed) {
-                    return SubscriptionGateView(
-                      featureTitle: "Subscribe to access Punter Club",
-                      featureDescription:
-                          "Create and join clubs, chat with members, and share tips.",
-                      icon: Icons.groups_rounded,
-                    );
-                  }
-                  return Row(
-                    children: [
-                      //* ---------------> left panel
-                      verticalDivider(),
-                      SizedBox(
-                        width: context.isDesktop ? 222 : 200,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            //* title
-                            Padding(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: context.isDesktop ? 16 : 12,
-                                vertical: context.isDesktop ? 16 : 12,
-                              ),
-                              child: Row(
-                                children: [
-                                  Text(
-                                    "Club Chat",
-                                    style: regular(
-                                      fontSize: 16,
-                                      fontFamily: AppFontFamily.secondary,
-                                    ),
+    return Stack(
+      children: [
+        Center(
+          child: SizedBox(
+            width: bodyWidth,
+            child: Consumer2<PuntClubProvider, SubscriptionProvider>(
+              builder: (context, provider, subProvider, child) {
+                if (!subProvider.isSubscribed) {
+                  return SubscriptionGateViewWeb(
+                    featureTitle: "Subscribe to access Punter Club",
+                    featureDescription: "Create and join clubs, chat with members, and share tips.",
+                    icon: Icons.groups_rounded,
+                    subscribeButtonWidth: 380,
+                  );
+                }
+                return Row(
+                  children: [
+                    //* ---------------> left panel
+                    verticalDivider(),
+                    SizedBox(
+                      width: context.isDesktop ? 222 : 200,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          //* title
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: context.isDesktop ? 16 : 12,
+                              vertical: context.isDesktop ? 16 : 12,
+                            ),
+                            child: Row(
+                              children: [
+                                Text(
+                                  "Club Chat",
+                                  style: regular(
+                                    fontSize: 16,
+                                    fontFamily: AppFontFamily.secondary,
                                   ),
-                                  Spacer(),
-                                  OnMouseTap(
-                                    onTap: () {
-                                      if (context.isMobileView) {
-                                        context.pushNamed(
-                                          WebRoutes.askPuntGptScreen.name,
-                                        );
-                                        return;
-                                      }
-                                      isSheetOpen = true;
-                                      showModalSideSheet(
-                                        context: context,
-                                        useRootNavigator: false,
-                                        width: 530,
-                                        // context.isDesktop
-                                        //     ? 530.w
-                                        //     : 590.w,
-                                        withCloseControll: true,
-                                        body: _notificationSideSheet(
-                                          context: context,
-                                          provider: provider,
-                                          // sixteenResponsive: sixteenResponsive,
-                                          // fourteenResponsive:
-                                          //     fourteenResponsive,
-                                        ),
+                                ),
+                                Spacer(),
+                                OnMouseTap(
+                                  onTap: () {
+                                    if (context.isMobileView) {
+                                      context.pushNamed(
+                                        WebRoutes.askPuntGptScreen.name,
                                       );
-                                    },
+                                      return;
+                                    }
+                                    isSheetOpen = true;
+                                    showModalSideSheet(
+                                      context: context,
+                                      useRootNavigator: false,
+                                      width: 530,
+                                      // context.isDesktop
+                                      //     ? 530.w
+                                      //     : 590.w,
+                                      withCloseControll: true,
+                                      body: _notificationSideSheet(
+                                        context: context,
+                                        provider: provider,
+                                        // sixteenResponsive: sixteenResponsive,
+                                        // fourteenResponsive:
+                                        //     fourteenResponsive,
+                                      ),
+                                    );
+                                  },
+                                  child: ImageWidget(
+                                    path: AppAssets.webNotification,
+                                    type: ImageType.svg,
+                                  ),
+                                ),
+                                OnMouseTap(
+                                  onTap: () => _createClubDialogue(
+                                    context: context,
+                                    provider: provider,
+                                  ),
+                                  child: Container(
+                                    color: AppColors.primary,
+                                    height: 21,
+                                    width: 23,
+                                    margin: EdgeInsets.only(left: 12.w),
                                     child: ImageWidget(
-                                      path: AppAssets.webNotification,
+                                      path: AppAssets.addIcon,
                                       type: ImageType.svg,
                                     ),
                                   ),
-                                  OnMouseTap(
-                                    onTap: () => _createClubDialogue(
-                                      context: context,
-                                      provider: provider,
-                                    ),
-                                    child: Container(
-                                      color: AppColors.primary,
-                                      height: 21,
-                                      width: 23,
-                                      margin: EdgeInsets.only(left: 12.w),
-                                      child: ImageWidget(
-                                        path: AppAssets.addIcon,
-                                        type: ImageType.svg,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
-                            4.w.verticalSpace,
-                            horizontalDivider(),
+                          ),
+                          4.w.verticalSpace,
+                          horizontalDivider(),
 
-                            //* chat tabs
-                            _chatTabs(
-                              title: "‘Top Punters’",
-                              // fourteenResponsive: fourteenResponsive,
-                              color: (provider.selectedPunterWeb == 0)
-                                  ? AppColors.primary
-                                  : null,
-                              onTap: () {
-                                provider.setPunterIndex = 0;
-                              },
-                              context: context,
+                          //* chat tabs
+                          _chatTabs(
+                            title: "‘Top Punters’",
+                            // fourteenResponsive: fourteenResponsive,
+                            color: (provider.selectedPunterWeb == 0)
+                                ? AppColors.primary
+                                : null,
+                            onTap: () {
+                              provider.setPunterIndex = 0;
+                            },
+                            context: context,
+                          ),
+                          horizontalDivider(),
+                          _chatTabs(
+                            title: "‘PuntGPT Legends’",
+                            // fourteenResponsive: fourteenResponsive,
+                            color: (provider.selectedPunterWeb == 1)
+                                ? AppColors.primary
+                                : null,
+                            onTap: () {
+                              provider.setPunterIndex = 1;
+                            },
+                            context: context,
+                          ),
+                          horizontalDivider(),
+                          _chatTabs(
+                            title: "‘Mug Punters Crew’",
+                            // fourteenResponsive: fourteenResponsive,
+                            color: (provider.selectedPunterWeb == 2)
+                                ? AppColors.primary
+                                : null,
+                            onTap: () {
+                              provider.setPunterIndex = 2;
+                            },
+                            context: context,
+                          ),
+                          horizontalDivider(),
+                          Spacer(),
+                          AppOutlinedButton(
+                            margin: EdgeInsets.all(24.w),
+                            textStyle: semiBold(
+                              fontSize: 14,
+                              color: AppColors.primary,
                             ),
-                            horizontalDivider(),
-                            _chatTabs(
-                              title: "‘PuntGPT Legends’",
-                              // fourteenResponsive: fourteenResponsive,
-                              color: (provider.selectedPunterWeb == 1)
-                                  ? AppColors.primary
-                                  : null,
-                              onTap: () {
-                                provider.setPunterIndex = 1;
-                              },
-                              context: context,
-                            ),
-                            horizontalDivider(),
-                            _chatTabs(
-                              title: "‘Mug Punters Crew’",
-                              // fourteenResponsive: fourteenResponsive,
-                              color: (provider.selectedPunterWeb == 2)
-                                  ? AppColors.primary
-                                  : null,
-                              onTap: () {
-                                provider.setPunterIndex = 2;
-                              },
-                              context: context,
-                            ),
-                            horizontalDivider(),
-                            Spacer(),
-                            AppOutlinedButton(
-                              margin: EdgeInsets.all(24.w),
-                              textStyle: semiBold(
-                                fontSize: 14,
-                                color: AppColors.primary,
-                              ),
-                              text: "Create New Club",
-                              onTap: () {},
-                            ),
-                          ],
-                        ),
+                            text: "Create New Club",
+                            onTap: () {},
+                          ),
+                        ],
                       ),
-                      verticalDivider(),
-                      //* ----------------> right panel
-                      PunterClubChatSectionWeb(),
-                      verticalDivider(),
-                    ],
-                  );
-                },
-              ),
+                    ),
+                    verticalDivider(),
+                    //* ----------------> right panel
+                    PunterClubChatSectionWeb(),
+                    verticalDivider(),
+                  ],
+                );
+              },
             ),
           ),
-          Align(
-            alignment: AlignmentGeometry.bottomRight,
-            child: askPuntGPTButtonWeb(context: context),
-          ),
-        ],
-      ),
+        ),
+        Align(
+          alignment: AlignmentGeometry.bottomRight,
+          child: askPuntGPTButtonWeb(context: context),
+        ),
+      ],
     );
   }
 

@@ -29,22 +29,21 @@ class AppFilledButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final resolvedWidth =
+        (width == null) ? ((isExpand ?? true) ? double.maxFinite : null) : width;
+
     return MouseRegion(
       cursor: SystemMouseCursors.click,
       child: GestureDetector(
         onTap: onTap,
         child: Container(
           margin: margin,
-          alignment: AlignmentGeometry.center,
+          alignment: resolvedWidth == null ? null : Alignment.center,
           padding:
               padding ??
-              EdgeInsets.symmetric(vertical: 12.wSize, horizontal: 15.w),
+              EdgeInsets.symmetric(vertical: 12.wSize, horizontal: 15.wSize),
           height: height,
-          width: (width == null)
-              ? (isExpand ?? true)
-                    ? double.maxFinite
-                    : null
-              : width,
+          width: resolvedWidth,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(borderRadius ?? 0),
             color: color ?? AppColors.primary,

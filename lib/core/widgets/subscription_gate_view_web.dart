@@ -1,21 +1,20 @@
-
 import 'package:puntgpt_nick/core/app_imports.dart';
 
-class SubscriptionGateView extends StatelessWidget {
-  const SubscriptionGateView({
+class SubscriptionGateViewWeb extends StatelessWidget {
+  const SubscriptionGateViewWeb({
     super.key,
     required this.featureTitle,
     required this.featureDescription,
     this.icon = Icons.workspace_premium_rounded,
+    this.subscribeButtonWidth = 360,
   });
 
-  final String featureTitle, featureDescription;
+  final String featureTitle,featureDescription;
   final IconData icon;
+  final double subscribeButtonWidth;
 
   void _openManageSubscription(BuildContext context) {
-    context.pushNamed(
-      AppRoutes.manageSubscriptionScreen.name,
-    );
+    context.pushNamed(WebRoutes.manageSubscriptionScreen.name);
   }
 
   @override
@@ -24,7 +23,6 @@ class SubscriptionGateView extends StatelessWidget {
       child: SingleChildScrollView(
         padding: EdgeInsets.symmetric(horizontal: 32.w),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: [
             Container(
@@ -39,7 +37,7 @@ class SubscriptionGateView extends StatelessWidget {
                 color: AppColors.primary.withValues(alpha: 0.7),
               ),
             ),
-            24.wSize.verticalSpace,
+            SizedBox(height: 24),
             Text(
               featureTitle,
               style: semiBold(
@@ -49,7 +47,7 @@ class SubscriptionGateView extends StatelessWidget {
               ),
               textAlign: TextAlign.center,
             ),
-            12.wSize.verticalSpace,
+            SizedBox(height: 6),
             Text(
               featureDescription,
               style: regular(
@@ -59,19 +57,16 @@ class SubscriptionGateView extends StatelessWidget {
               ),
               textAlign: TextAlign.center,
             ),
-            28.wSize.verticalSpace,
+            SizedBox(height: 22),
             AppFilledButton(
-              isExpand: true,
+              isExpand: false,
+              width: subscribeButtonWidth,
               onTap: () => _openManageSubscription(context),
               text: "Subscribe to Pro",
               textStyle: semiBold(
                 fontSize: 16.fSize,
                 color: AppColors.white,
               ),
-              // padding: EdgeInsets.symmetric(
-              //   horizontal: 32.wSize,
-              //   vertical: 14.wSize,
-              // ),
             ),
           ],
         ),

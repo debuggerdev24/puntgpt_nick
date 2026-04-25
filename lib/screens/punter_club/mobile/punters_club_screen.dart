@@ -27,23 +27,12 @@ class PunterClubScreen extends StatelessWidget {
                 _topBar(context: context, provider: provider),
                 horizontalDivider(),
                 Expanded(
-                  child: RefreshIndicator(
-                    color: AppColors.primary,
-                    onRefresh: () => provider.getChatGroups(),
-                    child: ListView(
-                      physics: const AlwaysScrollableScrollPhysics(),
-                      padding: EdgeInsets.zero,
-                      children: [
-                        SizedBox(
-                          // height: MediaQuery.sizeOf(context).height * 0.62,
-                          child: SubscriptionGateView(
-                            featureTitle: "Subscribe to access Punter Club",
-                            featureDescription:
-                                "Create and join clubs, chat with members, and share tips.",
-                            icon: Icons.groups_rounded,
-                          ),
-                        ),
-                      ],
+                  child: Center(
+                    child: SubscriptionGateView(
+                      featureTitle: "Subscribe to access Punter Club",
+                      featureDescription:
+                          "Create and join clubs, chat with members, and share tips.",
+                      icon: Icons.groups_rounded,
                     ),
                   ),
                 ),
@@ -224,14 +213,14 @@ class PunterClubScreen extends StatelessWidget {
   }) {
     return Padding(
       padding: EdgeInsets.fromLTRB(
-        (context.isMobileWeb) ? 35.w : 20.w,
-        7.w,
-        (context.isMobileWeb) ? 35.w : 20.w,
-        11.w,
+        (context.isMobileWeb) ? 15 : 20.w,
+        7.wSize,
+        (context.isMobileWeb) ? 15 : 20.w,
+        10.wSize,
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
+        children:[
           Padding(
             padding: EdgeInsets.only(bottom: 24.w),
             child: ImageWidget(

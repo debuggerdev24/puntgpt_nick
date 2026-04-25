@@ -17,7 +17,10 @@ Future<void> main() async {
   await Future.wait([LocaleStorageService.init()]);
   runApp(ToastificationWrapper(child: const PuntGPT()));
 }
+
 /*
+
+
 http://192.168.1.100:5000
 flutter run --release -d web-server --web-port=5000 --web-hostname=0.0.0.0
 */

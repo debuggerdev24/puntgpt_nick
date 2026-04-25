@@ -19,7 +19,7 @@ import 'package:url_launcher/url_launcher.dart';
 class SubscriptionProvider extends ChangeNotifier {
   SubscriptionPlanModel? currentPlan;
   final Set<SubscriptionEnum> activeSubscriptions = {
-
+    SubscriptionEnum.monthlyPlan,
   };
 
   bool _isSubscriptionProcessing = false,
@@ -42,8 +42,6 @@ class SubscriptionProvider extends ChangeNotifier {
 
   bool get showCurrentPlan => _isShowCurrentPlan;
   bool get showSelectedPlan => _isShowSelectedPlan;
-
- 
 
   void setIsShowSelectedPlan({required bool showSelectedPlan, int? planIndex}) {
     _isShowSelectedPlan = showSelectedPlan;
