@@ -94,7 +94,7 @@ class _HomeScreenWebState extends State<HomeScreenWeb> {
           ? Column(
               spacing: 16,
               children: [
-                //todo timing buttons
+                //* timing buttons
                 RaceStartTimingOptionsWeb(),
                 Expanded(
                   child: (provider.isSearched)

@@ -90,7 +90,7 @@ class AppMultiSelectTrackDropdown extends StatelessWidget {
                     child: ConstrainedBox(
                       constraints: BoxConstraints(maxHeight: maxHeight),
                       child: SingleChildScrollView(
-                        padding: EdgeInsets.symmetric(vertical: 8.h),
+                        padding: EdgeInsets.only(top: 8.w),
                         child: Consumer<SearchEngineProvider>(
                           builder: (context, provider, _) {
                             return Column(
@@ -122,12 +122,11 @@ class AppMultiSelectTrackDropdown extends StatelessWidget {
                                   provider: provider,
                                   textStyle: textStyle,
                                 ),
-                                8.w
-                                .verticalSpace,
+                                8.w.verticalSpace,
                                 horizontalDivider(),
+                                8.w.verticalSpace,
                                 TextButton(
-                                  onPressed: () =>
-                                      Navigator.pop(dialogContext),
+                                  onPressed: () => dialogContext.pop(),
                                   child: Text(
                                     'Done',
                                     style: semiBold(
@@ -155,10 +154,7 @@ class AppMultiSelectTrackDropdown extends StatelessWidget {
 
 /// Lists tracks: grouped (Metro → Regional) or one block if the API returned a flat list.
 class _TrackListBody extends StatelessWidget {
-  const _TrackListBody({
-    required this.provider,
-    this.textStyle,
-  });
+  const _TrackListBody({required this.provider, this.textStyle});
 
   final SearchEngineProvider provider;
   final TextStyle? textStyle;
@@ -223,7 +219,7 @@ class _TrackListBody extends StatelessWidget {
               ),
             ],
             if (regional.isNotEmpty) ...[
-              if (metro.isNotEmpty) 12.h.verticalSpace,
+              if (metro.isNotEmpty) 12.w.verticalSpace,
               _SectionHeader(title: 'Regional'),
               ...regional.map(
                 (name) => _TrackPickCard(
@@ -299,46 +295,47 @@ class _TrackPickCard extends StatelessWidget {
 
     return Padding(
       padding: EdgeInsets.only(bottom: 8.h),
-      child: Material(
-        color: AppColors.white,
-        borderRadius: BorderRadius.circular(12.r),
-        clipBehavior: Clip.antiAlias,
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.wSize),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12.r),
+          border: Border.all(
+            color: AppColors.primary.setOpacity(0.12),
+          ),
+        ),
         child: InkWell(
           onTap: onToggle,
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(trackName, style: nameStyle),
-                      2.h.verticalSpace,
-                      Text(
-                        'AU',
-                        style: regular(
-                          fontSize: 12.sp.clamp(11, 14),
-                          color: subtitleColor,
-                          fontFamily: AppFontFamily.primary,
-                        ),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(trackName, style: nameStyle),
+                    SizedBox(height: 2.wSize),
+                    // 2.h.verticalSpace,
+                    Text(
+                      "AU",
+                      style: regular(
+                        fontSize: (kIsWeb) ? 12.fSize : 12.sp.clamp(11, 14),
+                        color: subtitleColor,
+                        fontFamily: AppFontFamily.primary,
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-                Checkbox(
-                  value: isSelected,
-                  checkColor: AppColors.white,
-                  activeColor: AppColors.primary,
-                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  visualDensity: VisualDensity.compact,
-                  onChanged: (_) => onToggle(),
-                ),
-                
-              ],
-            ),
+              ),
+              Checkbox(
+                value: isSelected,
+                checkColor: AppColors.white,
+                activeColor: AppColors.primary,
+                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                visualDensity: VisualDensity.compact,
+                onChanged: (_) => onToggle(),
+              ),
+            ],
           ),
         ),
       ),

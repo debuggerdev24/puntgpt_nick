@@ -32,7 +32,7 @@ class _WebSplashScreenState extends State<WebSplashScreen> {
 
 
       _startTimer();
-      Future.delayed(3.seconds).then((value) async {
+      Future.delayed(1.seconds).then((value) async {
         // return;
 
         if (isNetworkConnected.value) {

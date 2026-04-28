@@ -10,53 +10,63 @@ class WebOnboardingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const proBenefits = <String>[
+      "Chat function with PuntGPT",
+      "Access to PuntGPT Punters Club",
+      "Full use of PuntGPT Search Engine",
+      "Access to Classic Form Guide",
+      "Save PuntGPT Search Engine filters for quick form",
+    ];
+    const mugPunterFeatureLines = <String>[
+      "Message PuntGPT and talk horse racing",
+      "Save PuntGPT customised searches",
+      "PuntGPT Punters Club group chats with AI",
+      "Limited use of PuntGPT Search Engine",
+      "Limited AI analysis of Horse Selections",
+      "Classic Form Guide",
+    ];
+    const mugPunterFeatureIncluded = <bool>[
+      false,
+      false,
+      false,
+      true,
+      true,
+      true,
+    ];
+
     List<Map> planData = [
       {
         "title": "Free 'Mug Punter' Account",
         "price": "",
-        "points": [
-          {"icon": AppAssets.close, "text": "No chat function with PuntGPT"},
-          {
-            "icon": AppAssets.close,
-            "text": "No access to PuntGPT Punters Club",
-          },
-          {
-            "icon": AppAssets.done,
-            "text": "Limited PuntGPT Search Engine Filters",
-          },
-          {"icon": AppAssets.done, "text": "Limited AI analysis of horses"},
-          {"icon": AppAssets.done, "text": "Access to Classic Form Guide"},
-        ],
+        "points": List.generate(mugPunterFeatureLines.length, (index) {
+          return {
+            "icon": mugPunterFeatureIncluded[index]
+                ? AppAssets.done
+                : AppAssets.close,
+            "text": mugPunterFeatureLines[index],
+          };
+        }),
       },
       {
         "title": "Monthly",
         "price": "9.99",
-        "points": [
-          {"icon": AppAssets.done, "text": "Chat function with PuntGPT"},
-          {"icon": AppAssets.done, "text": "Access to PuntGPT Punters Club"},
-          {"icon": AppAssets.done, "text": "Full use of PuntGPT Search Engine"},
-          {"icon": AppAssets.done, "text": "Access to Classic Form Guide"},
-        ],
+        "points": List.generate(proBenefits.length, (index) {
+          return {"icon": AppAssets.done, "text": proBenefits[index]};
+        }),
       },
       {
         "title": "Yearly",
         "price": "59.99",
-        "points": [
-          {"icon": AppAssets.done, "text": "Chat function with PuntGPT"},
-          {"icon": AppAssets.done, "text": "Access to PuntGPT Punters Club"},
-          {"icon": AppAssets.done, "text": "Full use of PuntGPT Search Engine"},
-          {"icon": AppAssets.done, "text": "Access to Classic Form Guide"},
-        ],
+        "points": List.generate(proBenefits.length, (index) {
+          return {"icon": AppAssets.done, "text": proBenefits[index]};
+        }),
       },
       {
         "title": "Lifetime",
         "price": "159.99",
-        "points": [
-          {"icon": AppAssets.done, "text": "Chat function with PuntGPT"},
-          {"icon": AppAssets.done, "text": "Access to PuntGPT Punters Club"},
-          {"icon": AppAssets.done, "text": "Full use of PuntGPT Search Engine"},
-          {"icon": AppAssets.done, "text": "Access to Classic Form Guide"},
-        ],
+        "points": List.generate(proBenefits.length, (index) {
+          return {"icon": AppAssets.done, "text": proBenefits[index]};
+        }),
       },
     ];
     Logger.info(
@@ -83,10 +93,6 @@ class WebOnboardingScreen extends StatelessWidget {
                 spacing: 50.w,
                 runSpacing: 20.w,
                 children: [
-                  VideoWidget(
-                    height: 240.w.flexClamp(220, 260),
-                    width: 390.w.flexClamp(370, 410),
-                  ),
                   Column(
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -95,7 +101,6 @@ class WebOnboardingScreen extends StatelessWidget {
                         "Mug Punter?",
                         style: regular(
                           fontSize: 38,
-
                           // context.isDesktop
                           //     ? 38.sp
                           //     : context.isTablet
@@ -103,8 +108,7 @@ class WebOnboardingScreen extends StatelessWidget {
                           //     : context.isBrowserMobile
                           //     ? 62.sp
                           //     : 48.sp,
-                          height: context.isMobile ? 1 : null,
-
+                          height: 1,
                           fontFamily: AppFontFamily.secondary,
                         ),
                       ),
@@ -120,7 +124,7 @@ class WebOnboardingScreen extends StatelessWidget {
                           //     ? 62.sp
                           //     : 48.sp,
                           fontFamily: AppFontFamily.secondary,
-                          height: context.isMobile ? 1 : null,
+                          height: 1,
                           color: AppColors.premiumYellow,
                         ),
                       ),

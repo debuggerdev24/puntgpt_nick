@@ -24,7 +24,7 @@ class _DashboardState extends State<Dashboard> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await AppStartupCoordinator.startup(context: context);
+      await AppStartupCoordinator.appStartup(context: context);
     });
     super.initState();
   }

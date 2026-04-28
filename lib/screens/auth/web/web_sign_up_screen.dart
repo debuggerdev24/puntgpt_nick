@@ -23,18 +23,15 @@ class WebSignUpScreen extends StatelessWidget {
                 children: [
                   _webSignUpTitle(context),
                   SizedBox(height: 40),
-
-
                   (context.isMobileView)
                       ? Padding(
                           padding: EdgeInsets.symmetric(horizontal: 25),
-
                           child: SignUpForm(formKey: formKey),
                         )
                       : WebSignUpForm(formKey: formKey),
 
                   //   SignUpForm(formKey: formKey) : WebSignUpForm(formKey: formKey),
-                  20.verticalSpace,
+                  SizedBox(height: 16),
                   WebSignUpBottomSection(
                     onLoginTap: () {
                       provider.clearLoginControllers();
@@ -70,56 +67,39 @@ Widget _webSignUpTitle(BuildContext context) {
       mainAxisSize: MainAxisSize.min,
       children: [
         SizedBox(height: 30),
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            OnMouseTap(
-              onTap: () => context.pop(),
-              child: SizedBox(
-                width: kBackTapWidth,
-                height: kBackTapWidth,
-                child: Center(
-                  child: Icon(Icons.arrow_back_ios_rounded, size: 22),
+        RichText(
+          textAlign: TextAlign.center,
+          text: TextSpan(
+            children: [
+              TextSpan(
+                text: "Create",
+                style: regular(
+                  height: 1,
+                  fontSize: 36,
+                  fontFamily: AppFontFamily.secondary,
                 ),
               ),
-            ),
-            Expanded(
-              child: RichText(
-                textAlign: TextAlign.center,
-                text: TextSpan(
-                  children: [
-                    TextSpan(
-                      text: "Create",
-                      style: regular(
-                        height: 1,
-                        fontSize: 36,
-                        fontFamily: AppFontFamily.secondary,
-                      ),
-                    ),
-                    TextSpan(
-                      text: " “Pro Punter” ",
-                      style: regular(
-                        height: 1,
-                        fontSize: 36,
-                        fontFamily: AppFontFamily.secondary,
-                        color: AppColors.premiumYellow,
-                      ),
-                    ),
-                    TextSpan(
-                      text: "Account",
-                      style: regular(
-                        height: 1,
-                        fontSize: 36,
-                        fontFamily: AppFontFamily.secondary,
-                      ),
-                    ),
-                  ],
+              TextSpan(
+                text: " “Pro Punter” ",
+                style: regular(
+                  height: 1,
+                  fontSize: 36,
+                  fontFamily: AppFontFamily.secondary,
+                  color: AppColors.premiumYellow,
                 ),
               ),
-            ),
-            kBackTapWidth.horizontalSpace,
-          ],
+              TextSpan(
+                text: "Account",
+                style: regular(
+                  height: 1,
+                  fontSize: 36,
+                  fontFamily: AppFontFamily.secondary,
+                ),
+              ),
+            ],
+          ),
         ),
+        kBackTapWidth.horizontalSpace,
         SizedBox(height: 10),
         Text(
           "Cancel Subscription anytime",

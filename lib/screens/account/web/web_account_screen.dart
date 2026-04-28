@@ -69,6 +69,7 @@ class _AccountScreenWebState extends State<AccountScreenWeb> {
                     (context, accountProvider, subscriptionProvider, child) {
                       final provider = accountProvider;
                       return Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           //* ---------------> left panel
                           verticalDivider(),

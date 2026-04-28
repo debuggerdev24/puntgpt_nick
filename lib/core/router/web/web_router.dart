@@ -36,8 +36,7 @@ class WebRouter {
   static StatefulNavigationShell? indexedStackNavigationShell;
 
   static final GoRouter router = GoRouter(
-    navigatorKey: rootNavigatorKey,
-    initialLocation: WebRoutes.splashScreen.path,
+    navigatorKey: rootNavigatorKey,    initialLocation: WebRoutes.splashScreen.path,
     debugLogDiagnostics: true,
     routes: [
       GoRoute(

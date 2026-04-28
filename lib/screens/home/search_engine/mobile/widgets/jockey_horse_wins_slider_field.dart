@@ -41,8 +41,7 @@ class JockeyHorseWinsSliderField extends StatelessWidget {
     final endIndex = _stepIndexFromValue(values.end).toDouble();
 
     return Padding(
-      padding: EdgeInsets.only(top: 14.w, bottom: 7.w),
-      
+      padding: EdgeInsets.only(top:  14.wSize, bottom: 7.wSize),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -52,19 +51,19 @@ class JockeyHorseWinsSliderField extends StatelessWidget {
               Text(
                 "Jockey / Horse wins",
                 style: semiBold(
-                  fontSize: (context.isMobileWeb) ? 36.sp : 16.sp,
+                  fontSize: (context.isMobileWeb) ? 36.sp : (kIsWeb) ? 14 : 16.sp,
                 ),
               ),
               Text(
                 _selectedText(),
                 style: medium(
-                  fontSize: (context.isMobileWeb) ? 30.sp : 14.sp,
+                  fontSize: (context.isMobileWeb) ? 30.sp : (kIsWeb) ? 14 : 16.sp,
                   color: AppColors.primary,
                 ),
               ),
             ],
           ),
-          10.w.verticalSpace,
+          SizedBox(height: 10.wSize),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 22),
             child: Row(
@@ -74,7 +73,7 @@ class JockeyHorseWinsSliderField extends StatelessWidget {
                     (label) => Text(
                       "${label.toInt()}",
                       style: medium(
-                        fontSize: (context.isMobileWeb) ? 24.sp : 12.sp,
+                        fontSize: (context.isMobileWeb) ? 24.sp : (kIsWeb) ? 11 : 12.sp,
                         color: AppColors.primary.withValues(alpha: 0.8),
                       ),
                     ),

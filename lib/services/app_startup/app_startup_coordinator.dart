@@ -11,7 +11,7 @@ class AppStartupCoordinator {
 
   /// Subscription init + plans, then subscription restore flow, then parallel content loads.
   /// Call from mobile and web dashboard after first frame; **do not reorder** these awaits.
-  static Future<void> startup({required BuildContext context}) async {
+  static Future<void> appStartup({required BuildContext context}) async {
     final subsProvider = context.read<SubscriptionProvider>();
 
     //* IAP listener must run before restore; plans must load before productId → planId mapping.
@@ -22,12 +22,16 @@ class AppStartupCoordinator {
     await loadContent(context: context);
   }
 
+  //*webStartup
+  static Future<void> webStartup({required BuildContext context}) async {
+    await loadContent(context: context);
+  }
+
   static Future<void> loadContent({required BuildContext context}) async {
     final accountProvider = context.read<AccountProvider>();
     final searchEngineProvider = context.read<SearchEngineProvider>();
     final puntClubProvider = context.read<PuntClubProvider>();
     final storyProvider = context.read<StoryProvider>();
-
     await Future.wait(<Future<dynamic>>[
       if (!isGuest) accountProvider.getProfile(),
       searchEngineProvider.getTrackList(),

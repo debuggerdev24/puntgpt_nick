@@ -1,5 +1,9 @@
 import 'package:puntgpt_nick/core/app_imports.dart';
 import 'package:puntgpt_nick/provider/home/search_engine/search_engine_provider.dart';
+import 'package:puntgpt_nick/screens/home/search_engine/mobile/widgets/barrier_range_slider_field.dart';
+import 'package:puntgpt_nick/screens/home/search_engine/mobile/widgets/jockey_horse_wins_slider_field.dart';
+import 'package:puntgpt_nick/screens/home/search_engine/mobile/widgets/odds_range_slider_field.dart';
+import 'package:puntgpt_nick/screens/home/search_engine/mobile/widgets/search_checkbox_field.dart';
 
 bool isSearchDialogOpen = false;
 
@@ -36,15 +40,16 @@ class _SearchSectionWebState extends State<SearchSectionWeb> {
   Widget build(BuildContext context) {
     return Consumer<SearchEngineProvider>(
       builder: (context, provider, child) => SizedBox(
-        // width: 
+        // width:
         // Responsive.isMobileWeb(context)
         //     ? double.maxFinite
         //     : context.isTablet
         //     ? 1200.w
         //     : 1100.w,
-
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: context.isDesktop ? 121 : 60),
+          padding: EdgeInsets.symmetric(
+            horizontal: context.isDesktop ? 121 : 60,
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
@@ -52,11 +57,13 @@ class _SearchSectionWebState extends State<SearchSectionWeb> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  if(!context.isDesktop)...[
-                    Icon(Icons.filter_alt_outlined, size: 20),
-                    SizedBox(width: 8),
+                  if (!context.isDesktop) ...[
+                    OnMouseTap(
+                      onTap: () => _openFilterSideSheet(provider),
+                      child: Icon(Icons.tune_outlined, size: 20),
+                    ),
+                    SizedBox(width: 6),
                   ],
-
                   Expanded(
                     child: Text(
                       "Filter through form your way",
@@ -110,8 +117,8 @@ class _SearchSectionWebState extends State<SearchSectionWeb> {
                   ),
                 ],
               ),
-              SizedBox(height: 16),
-              //todo filter view
+              SizedBox(height: 12),
+              //* filter view
               _buildSearchView(),
             ],
           ),
@@ -129,29 +136,150 @@ class _SearchSectionWebState extends State<SearchSectionWeb> {
       children: [
         horizontalDivider(),
         Row(
+          spacing: 6,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            if(context.isDesktop) 
-            //* left panel
-            SizedBox(
-              width: 250,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Theme(
-                    data: Theme.of(
-                      context,
-                    ).copyWith(dividerColor: AppColors.transparent),
-                    child: ExpansionTile(
-                      childrenPadding: EdgeInsets.only(
-                        left: 25,
-                        right: 25,
-                        bottom: 8,
+            if (context.isDesktop)
+              //* --------------------> left panel
+              SizedBox(
+                width: 250,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: 12),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 12.w),
+                      child: AppMultiSelectTrackDropdown(
+                        items: provider.trackList ?? const [],
+                        hintText: "All Tracks",
                       ),
-                      tilePadding: EdgeInsets.symmetric(horizontal: 25.w),
-                      iconColor: AppColors.primary,
-                      title: Text(
-                        "Track",
+                    ),
+                    SizedBox(height: 12),
+                    horizontalDivider(),
+
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 12.w),
+                      child: SearchCheckboxField(
+                        title: "Placed last start",
+                        isChecked: provider.placedLastStart,
+                        onTap: () => provider.togglePlacedLastStart(
+                          !provider.placedLastStart,
+                        ),
+                        verticalPadding: 12,
+                      ),
+                    ),
+                    horizontalDivider(),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 12.w),
+                      child: SearchCheckboxField(
+                        title: "Placed at distance",
+                        isChecked: provider.placedAtDistance,
+                        onTap: () => provider.togglePlacedAtDistance(
+                          !provider.placedAtDistance,
+                        ),
+                        verticalPadding: 12,
+                      ),
+                    ),
+
+                    horizontalDivider(),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 12.w),
+                      child: SearchCheckboxField(
+                        title: "Placed at track",
+                        isChecked: provider.placeAtTrack == true,
+                        onTap: () {
+                          final current = provider.placeAtTrack;
+                          provider.setSelectedPlaceAtTrack = current == null
+                              ? true
+                              : !current;
+                        },
+                        verticalPadding: 12,
+                      ),
+                    ),
+                    horizontalDivider(),
+                    Column(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 12.w),
+                          child: SearchCheckboxField(
+                            title: "Won at track",
+                            isChecked: provider.selectedWinsAtTrack == true,
+                            onTap: () {
+                              final current = provider.selectedWinsAtTrack;
+                              provider.setSelectedWinsAtTrack = current == null
+                                  ? true
+                                  : !current;
+                            },
+                            verticalPadding: 12,
+                          ),
+                        ),
+                        horizontalDivider(),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 12.w),
+                          child: SearchCheckboxField(
+                            title: "Won at distance",
+                            isChecked: provider.wonAtDistance,
+                            onTap: () => provider.toggleWonAtDistance(
+                              !provider.wonAtDistance,
+                            ),
+                            verticalPadding: 12,
+                          ),
+                        ),
+                        horizontalDivider(),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 12.w),
+                          child: SearchCheckboxField(
+                            title: "Won last start",
+                            isChecked: provider.wonLastStart,
+                            onTap: () => provider.toggleWonLastStart(
+                              !provider.wonLastStart,
+                            ),
+                            verticalPadding: 12,
+                          ),
+                        ),
+                        horizontalDivider(),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 12.w),
+                          child: SearchCheckboxField(
+                            title: "Won last 12 months",
+                            isChecked: provider.wonLast12Months,
+                            onTap: () => provider.toggleWonLast12Months(
+                              !provider.wonLast12Months,
+                            ),
+                            verticalPadding: 12,
+                          ),
+                        ),
+                        horizontalDivider(),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 12.w),
+                          child: OddsRangeSliderField(
+                            values: provider.oddsRangeValues,
+                            onChanged: provider.updateOddsRange,
+                          ),
+                        ),
+                        horizontalDivider(),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 12.w),
+                          child: JockeyHorseWinsSliderField(
+                            values: provider.jockeyHorseWinsRangeValues,
+                            onChanged: provider.updateJockeyHorseWinsRange,
+                          ),
+                        ),
+                        horizontalDivider(),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 12.w),
+                          child: BarrierRangeSliderField(
+                            values: provider.barrierRangeIndexValues,
+                            onChanged: provider.updateBarrierRange,
+                          ),
+                        ),
+                        horizontalDivider(),
+                      ],
+                    ),
+                    SizedBox(height: 70),
+                    if (provider.isSearched)
+                      Text(
+                        "Total Runners: (20)",
                         style: semiBold(
                           fontSize: 13,
                           // context.isDesktop
@@ -161,220 +289,34 @@ class _SearchSectionWebState extends State<SearchSectionWeb> {
                           //     : (kIsWeb)
                           //     ? 26.sp
                           //     : 14.sp,
+                          color: AppColors.primary.withValues(alpha: 0.6),
                         ),
                       ),
-                      children: [
-                        //* Placed last start
-                        InkWell(
-                          onTap: () {
-                            provider.togglePlacedLastStart(!provider.placedLastStart);
-                          },
-                          splashColor: Colors.transparent,
-                          highlightColor: Colors.transparent,
-                          child: Column(
-                            children: [
-                              Divider(
-                                color: AppColors.primary.withValues(
-                                  alpha: 0.2,
-                                ),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.symmetric(vertical: 8),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      "Placed last start",
-                                      style: semiBold(
-                                        fontSize: 12, //13
-                                        // context.isDesktop
-                                        //     ? 14.sp
-                                        //     : context.isTablet
-                                        //     ? 22.sp
-                                        //     : (kIsWeb)
-                                        //     ? 26.sp
-                                        //     : 14.sp,
-                                      ),
-                                    ),
-                                    AnimatedContainer(
-                                      duration: const Duration(
-                                        milliseconds: 250,
-                                      ),
-                                      curve: Curves.easeInOut,
-                                      width: 18,
-                                      height: 18,
-                                      decoration: BoxDecoration(
-                                        border: Border.all(
-                                          color: provider.placedLastStart
-                                              ? Colors.green
-                                              : AppColors.primary.setOpacity(
-                                                  0.15,
-                                                ),
-                                        ),
-                                        borderRadius: BorderRadius.circular(1),
-                                        color: provider.placedLastStart
-                                            ? Colors.green
-                                            : Colors.transparent,
-                                      ),
-                                      child: provider.placedLastStart
-                                          ? Icon(
-                                              Icons.check,
-                                              color: Colors.white,
-                                              size: 16,
-                                            )
-                                          : null,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        //* Won last start
-                        InkWell(
-                          onTap: () {
-                            provider.toggleWonLastStart(!provider.wonLastStart);
-                          },
-                          splashColor: Colors.transparent,
-                          highlightColor: Colors.transparent,
-                          child: Column(
-                            children: [
-                              Divider(
-                                color: AppColors.primary.withValues(
-                                  alpha: 0.2,
-                                ),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.symmetric(vertical: 8),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      "Won last start",
-                                      style: semiBold(
-                                        fontSize: 12, //13
-                                        // context.isDesktop
-                                        //     ? 14.sp
-                                        //     : context.isTablet
-                                        //     ? 22.sp
-                                        //     : (kIsWeb)
-                                        //     ? 26.sp
-                                        //     : 14.sp,
-                                      ),
-                                    ),
-                                    AnimatedContainer(
-                                      duration: const Duration(
-                                        milliseconds: 250,
-                                      ),
-                                      curve: Curves.easeInOut,
-                                      width: 18,
-                                      height: 18,
-                                      decoration: BoxDecoration(
-                                        border: Border.all(
-                                          color: provider.wonLastStart
-                                              ? Colors.green
-                                              : AppColors.primary.setOpacity(
-                                                  0.15,
-                                                ),
-                                        ),
-                                        borderRadius: BorderRadius.circular(1),
-                                        color: provider.wonLastStart
-                                            ? Colors.green
-                                            : Colors.transparent,
-                                      ),
-                                      child: provider.wonLastStart
-                                          ? Icon(
-                                              Icons.check,
-                                              color: Colors.white,
-                                              size: 16,
-                                            )
-                                          : null,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        //* Won last 12 months
-                        InkWell(
-                          onTap: () {
-                            provider.toggleWonLast12Months(!provider.wonLast12Months);
-                          },
-                          splashColor: Colors.transparent,
-                          highlightColor: Colors.transparent,
-                          child: Column(
-                            children: [
-                              Divider(
-                                color: AppColors.primary.withValues(
-                                  alpha: 0.2,
-                                ),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.symmetric(vertical: 8),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      "Won last 12 months",
-                                      style: semiBold(
-                                        fontSize: 12, //13
-                                        // context.isDesktop
-                                        //     ? 14.sp
-                                        //     : context.isTablet
-                                        //     ? 22.sp
-                                        //     : (kIsWeb)
-                                        //     ? 26.sp
-                                        //     : 14.sp,
-                                      ),
-                                    ),
-                                    AnimatedContainer(
-                                      duration: const Duration(
-                                        milliseconds: 250,
-                                      ),
-                                      curve: Curves.easeInOut,
-                                        width: 18,
-                                      height: 18,
-                                      decoration: BoxDecoration(
-                                        border: Border.all(
-                                          color: provider.wonLast12Months
-                                              ? Colors.green
-                                              : AppColors.primary.setOpacity(
-                                                  0.15,
-                                                ),
-                                        ),
-                                        borderRadius: BorderRadius.circular(1),
-                                        color: provider.wonLast12Months
-                                            ? Colors.green
-                                            : Colors.transparent,
-                                      ),
-                                      child: provider.wonLast12Months
-                                          ? Icon(
-                                              Icons.check,
-                                              color: Colors.white,
-                                              size: 14,   //15
-                                            )
-                                          : null,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
+                    AppFilledButton(
+                      margin: EdgeInsets.only(
+                        right: 12,
+                        top: provider.isSearched ? 12 : 0,
+                      ),
+                      text: "Search",
+
+                      textStyle: semiBold(color: AppColors.white, fontSize: 12),
+                      onTap: () {
+                        // formKey.currentState!.validate();
+                        // provider.setIsSearched(value: !provider.isSearched);
+                        provider.getUpcomingRunner(onSuccess: () {
+                          
+                        });
+                      },
                     ),
-                  ),
-                  horizontalDivider(endIndent: 22),
-                  SizedBox(height: 70),
-                  if (provider.isSearched)
-                    Text(
-                      "Total Runners: (20)",
-                      style: semiBold(
-                        fontSize: 13,
+
+                    AppOutlinedButton(
+                      margin: EdgeInsets.only(top: 6, bottom: 50, right: 10),
+                      text: "Save this Search",
+                      padding: (!context.isMobileWeb)
+                          ? EdgeInsets.symmetric(vertical: 12)
+                          : null, // (context.isDesktop) ? 12.w : 11.w,
+                      textStyle: semiBold(
+                        fontSize: 12,
                         // context.isDesktop
                         //     ? 14.sp
                         //     : context.isTablet
@@ -382,99 +324,54 @@ class _SearchSectionWebState extends State<SearchSectionWeb> {
                         //     : (kIsWeb)
                         //     ? 26.sp
                         //     : 14.sp,
-                        color: AppColors.primary.withValues(alpha: 0.6),
                       ),
-                    ),
-                  AppFilledButton(
-                    margin: EdgeInsets.only(
-                      right: 12,
-                      top: provider.isSearched ? 12 : 0,
-                    ),
-                    text: "Search",
-                    padding: (!context.isMobileWeb)
-                        ? EdgeInsets.symmetric(
-                            vertical: 12,
-                          )
-                        : null,
 
-                    textStyle: semiBold(
-                      color: AppColors.white,
-                      fontSize: 13,
-                      // context.isDesktop
-                      //     ? 14.sp
-                      //     : context.isTablet
-                      //     ? 22.sp
-                      //     : (kIsWeb)
-                      //     ? 26.sp
-                      //     : 14.sp,
+                      onTap: () {
+                        // formKey.currentState!.validate();
+                        provider.setIsSearched(value: true);
+                      },
                     ),
-                    onTap: () {
-                      // formKey.currentState!.validate();
-                      provider.setIsSearched(value: !provider.isSearched);
-                    },
-                  ),
-
-                  AppOutlinedButton(
-                    margin: EdgeInsets.only(
-                      top: 6,
-                      bottom: 50,
-                      right: 10,
-                    ),
-                    text: "Save this Search",
-                    padding: (!context.isMobileWeb)
-                        ? EdgeInsets.symmetric(vertical: 12)
-                        : null, // (context.isDesktop) ? 12.w : 11.w,
-                    textStyle: semiBold(
-                      fontSize: 13,
-                      // context.isDesktop
-                      //     ? 14.sp
-                      //     : context.isTablet
-                      //     ? 22.sp
-                      //     : (kIsWeb)
-                      //     ? 26.sp
-                      //     : 14.sp,
-                    ),
-
-                    onTap: () {
-                      // formKey.currentState!.validate();
-                      provider.setIsSearched(value: true);
-                    },
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-            //* right panel (Grid view)
+            //* --------------------> right panel (Grid view)
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  20.h.verticalSpace,
-                  Text(
-                    "Total Runners: (20)",
-                    style: semiBold(
-                      fontSize: 14,
-                      // context.isDesktop
-                      //     ? 14.sp
-                      //     : context.isTablet
-                      //     ? 22.sp
-                      //     : (kIsWeb)
-                      //     ? 26.sp
-                      //     : 14.sp,
-                      color: AppColors.primary.withValues(alpha: 0.6),
+                  SizedBox(height: 14),
+                  if (provider.isGettingRunners)
+                    SizedBox.shrink()
+                  else if (provider.runnersList?.isEmpty ?? true)
+                    Center(
+                      child: Text(
+                        "No runners found!",
+                        style: semiBold(
+                          fontSize: 14,
+                          color: AppColors.primary.withValues(alpha: 0.6),
+                        ),
+                      ),
+                    )
+                  else
+                    Text(
+                      "Total Runners: (20)",
+                      style: semiBold(
+                        fontSize: 14,
+                        color: AppColors.primary.withValues(alpha: 0.6),
+                      ),
                     ),
-                  ),
                   SizedBox(height: 20),
                   GridView.builder(
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
-                      childAspectRatio: context.isDesktop ? 1.55.w : 2.w,
-                      crossAxisSpacing: 16.w,
-                      mainAxisSpacing: 16.h,
+                      childAspectRatio: 1.5,
+                      crossAxisSpacing: 12,
+                      mainAxisSpacing: 12,
                     ),
                     itemBuilder: (context, index) {
-                      return SizedBox.shrink();//Runner(runner: provider.runnersList[0]);
+                      return SizedBox.shrink(); //Runner(runner: provider.runnersList[0]);
                     },
                     itemCount: 10,
                   ),
@@ -484,6 +381,172 @@ class _SearchSectionWebState extends State<SearchSectionWeb> {
           ],
         ),
       ],
+    );
+  }
+
+  void _openFilterSideSheet(SearchEngineProvider provider) {
+    showGeneralDialog<void>(
+      context: context,
+      useRootNavigator: false,
+      barrierDismissible: true,
+      barrierLabel: "Filter Panel",
+      barrierColor: const Color(0x80000000),
+      transitionDuration: const Duration(milliseconds: 280),
+      pageBuilder: (ctx, _, __) {
+        return Align(
+          alignment: Alignment.centerLeft,
+          child: Container(
+            width: 340,
+            height: MediaQuery.sizeOf(context).height,
+            padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+            color: AppColors.white,
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        "Filters",
+                        style: semiBold(
+                          fontSize: 16,
+                          fontFamily: AppFontFamily.secondary,
+                        ),
+                      ),
+                    ),
+                    IconButton(
+                      onPressed: () => Navigator.of(ctx).pop(),
+                      icon: const Icon(Icons.close),
+                    ),
+                  ],
+                ),
+                horizontalDivider(),
+                Expanded(
+                  child: SingleChildScrollView(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 14.w,
+                      vertical: 10.h,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        AppMultiSelectTrackDropdown(
+                          items: provider.trackList ?? const [],
+                          hintText: "All Tracks",
+                        ),
+                        horizontalDivider(),
+                        SearchCheckboxField(
+                          title: "Placed last start",
+                          isChecked: provider.placedLastStart,
+                          onTap: () => provider.togglePlacedLastStart(
+                            !provider.placedLastStart,
+                          ),
+                          verticalPadding: 16,
+                        ),
+                        horizontalDivider(),
+                        SearchCheckboxField(
+                          title: "Placed at distance",
+                          isChecked: provider.placedAtDistance,
+                          onTap: () => provider.togglePlacedAtDistance(
+                            !provider.placedAtDistance,
+                          ),
+                          verticalPadding: 16,
+                        ),
+                        horizontalDivider(),
+                        SearchCheckboxField(
+                          title: "Placed at track",
+                          isChecked: provider.placeAtTrack == true,
+                          onTap: () {
+                            final current = provider.placeAtTrack;
+                            provider.setSelectedPlaceAtTrack = current == null
+                                ? true
+                                : !current;
+                          },
+                          verticalPadding: 16,
+                        ),
+                        horizontalDivider(),
+                        Column(
+                          children: [
+                            SearchCheckboxField(
+                              title: "Won at track",
+                              isChecked: provider.selectedWinsAtTrack == true,
+                              onTap: () {
+                                final current = provider.selectedWinsAtTrack;
+                                provider.setSelectedWinsAtTrack =
+                                    current == null ? true : !current;
+                              },
+                              verticalPadding: 16,
+                            ),
+                            horizontalDivider(),
+                            SearchCheckboxField(
+                              title: "Won at distance",
+                              isChecked: provider.wonAtDistance,
+                              onTap: () => provider.toggleWonAtDistance(
+                                !provider.wonAtDistance,
+                              ),
+                              verticalPadding: 16,
+                            ),
+                            horizontalDivider(),
+                            SearchCheckboxField(
+                              title: "Won last start",
+                              isChecked: provider.wonLastStart,
+                              onTap: () => provider.toggleWonLastStart(
+                                !provider.wonLastStart,
+                              ),
+                              verticalPadding: 16,
+                            ),
+                            horizontalDivider(),
+                            SearchCheckboxField(
+                              title: "Won last 12 months",
+                              isChecked: provider.wonLast12Months,
+                              onTap: () => provider.toggleWonLast12Months(
+                                !provider.wonLast12Months,
+                              ),
+                              verticalPadding: 16,
+                            ),
+                            horizontalDivider(),
+                            OddsRangeSliderField(
+                              values: provider.oddsRangeValues,
+                              onChanged: provider.updateOddsRange,
+                            ),
+                            horizontalDivider(),
+                            JockeyHorseWinsSliderField(
+                              values: provider.jockeyHorseWinsRangeValues,
+                              onChanged: provider.updateJockeyHorseWinsRange,
+                            ),
+                            horizontalDivider(),
+                            BarrierRangeSliderField(
+                              values: provider.barrierRangeIndexValues,
+                              onChanged: provider.updateBarrierRange,
+                            ),
+                            horizontalDivider(),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                AppFilledButton(
+                  text: "Apply",
+                  onTap: () {
+                    provider.setIsSearched(value: true);
+                    ctx.pop();
+                  },
+                  textStyle: semiBold(color: AppColors.white, fontSize: 14),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+      transitionBuilder: (_, animation, __, child) {
+        return SlideTransition(
+          position: Tween<Offset>(
+            begin: const Offset(-1, 0),
+            end: Offset.zero,
+          ).animate(animation),
+          child: child,
+        );
+      },
     );
   }
 

@@ -27,17 +27,31 @@ class SearchCheckboxField extends StatelessWidget {
             Text(
               title,
               style: semiBold(
-                fontSize: (context.isMobileWeb) ? 36.sp : 16.sp,
+                fontSize: (context.isMobileWeb)
+                    ? 36.fSize
+                    : (kIsWeb)
+                    ? 14
+                    : 16.sp,
               ),
             ),
             AnimatedContainer(
               duration: const Duration(milliseconds: 250),
               curve: Curves.easeInOut,
-              width: (context.isMobileWeb) ? 40.sp : 22.sp,
-              height: (context.isMobileWeb) ? 40.sp : 22.sp,
+              width: (context.isMobileWeb)
+                  ? 40.sp
+                  : (kIsWeb)
+                  ? 20
+                  : 22.sp,
+              height: (context.isMobileWeb)
+                  ? 40.sp
+                  : (kIsWeb)
+                  ? 20
+                  : 22.sp,
               decoration: BoxDecoration(
                 border: Border.all(
-                  color: isChecked ? Colors.green : AppColors.primary.setOpacity(0.15),
+                  color: isChecked
+                      ? Colors.green
+                      : AppColors.primary.setOpacity(0.15),
                 ),
                 borderRadius: BorderRadius.circular(1),
                 color: isChecked ? Colors.green : Colors.transparent,
@@ -46,7 +60,11 @@ class SearchCheckboxField extends StatelessWidget {
                   ? Icon(
                       Icons.check,
                       color: Colors.white,
-                      size: (context.isMobileWeb) ? 30.sp : 18.sp,
+                      size: (context.isMobileWeb)
+                          ? 30.sp
+                          : (kIsWeb)
+                          ? 16
+                          : 18.sp,
                     )
                   : null,
             ),

@@ -345,10 +345,12 @@ class SearchEngineProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  bool isGettingRunners = false;
   Future<void> getUpcomingRunner({required VoidCallback onSuccess}) async {
     runnersList = null;
     totalRunners = null;
     totalPages = null;
+    isGettingRunners = true;
     _runnersCurrentPage = 1;
     notifyListeners();
 
@@ -376,6 +378,7 @@ class SearchEngineProvider extends ChangeNotifier {
         onSuccess.call();
       },
     );
+    isGettingRunners = false;
     notifyListeners();
   }
 
