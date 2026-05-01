@@ -68,7 +68,7 @@ class ChatBubbleWeb extends StatelessWidget {
                       children: [
                         Text(
                           message.senderLabel,
-                          style: semiBold(fontSize: 16, color: labelColor),
+                          style: semiBold(fontSize: 15, color: labelColor),
                         ),
                         const SizedBox(width: 8),
                         Text(
@@ -81,9 +81,9 @@ class ChatBubbleWeb extends StatelessWidget {
                     Text(
                       message.content,
                       style: regular(
-                        fontSize: 15,
+                        fontSize: 16,
                         color: messageColor,
-                        height: 1.45,
+                        height: 1.21,
                       ),
                     ),
                   ],

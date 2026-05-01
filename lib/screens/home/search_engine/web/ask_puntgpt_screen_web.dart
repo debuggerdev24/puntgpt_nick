@@ -67,12 +67,12 @@ class _AskPuntGptScreenWebState extends State<AskPuntGptScreenWeb> {
   Widget build(BuildContext context) {
     return Consumer2<BotProvider, SubscriptionProvider>(
       builder: (context, provider, subProvider, child) {
-        if (provider.errorMessage != null) {
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            AppToast.error(context: context, message: provider.errorMessage!);
-            provider.clearError();
-          });
-        }
+        // if (provider.errorMessage != null) {
+        //   WidgetsBinding.instance.addPostFrameCallback((_) {
+        //     AppToast.error(context: context, message: provider.errorMessage!);
+        //     provider.clearError();
+        //   });
+        // }
 
         if (!subProvider.isSubscribed) {
           return Column(
@@ -91,104 +91,120 @@ class _AskPuntGptScreenWebState extends State<AskPuntGptScreenWeb> {
           );
         }
 
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _topBar(context),
-            Expanded(
-              child: Stack(
-                children: [
-                  if (provider.messages.isEmpty && !provider.isLoading)
-                    _emptyState(context)
-                  else
-                    ListView.builder(
-                      controller: _scrollController,
-                      padding: const EdgeInsets.only(bottom: 80),
-                      itemCount:
-                          provider.messages.length + (provider.isLoading ? 1 : 0),
-                      itemBuilder: (context, index) {
-                        if (index < provider.messages.length) {
-                          return ChatBubbleWeb(
-                            message: provider.messages[index],
-                            isUser: provider.messages[index].isUser,
+        return ColoredBox(
+          color: AppColors.white,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _topBar(context),
+              Expanded(
+                child: Stack(
+                  children: [
+                    if (provider.messages.isEmpty && !provider.isLoading)
+                      _emptyState(context)
+                    else
+                      ListView.builder(
+                        controller: _scrollController,
+                        padding: const EdgeInsets.only(bottom: 80),
+                        itemCount:
+                            provider.messages.length +
+                            (provider.isLoading ? 1 : 0),
+                        itemBuilder: (context, index) {
+                          if (index < provider.messages.length) {
+                            return ChatBubbleWeb(
+                              message: provider.messages[index],
+                              isUser: provider.messages[index].isUser,
+                            );
+                          }
+                          return HomeSectionShimmers.chatMessageShimmer(
+                            context: context,
                           );
-                        }
-                        return HomeSectionShimmers.chatMessageShimmer(
-                          context: context,
-                        );
-                      },
-                    ),
-                  Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        if (provider.messages.isNotEmpty && _showScrollToBottom)
-                          Align(
-                            alignment: Alignment.centerRight,
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                right: 18,
-                                bottom: 17,
-                              ),
-                              child: Material(
-                                color: AppColors.primary.withValues(alpha: 0.9),
-                                borderRadius: BorderRadius.circular(50),
-                                elevation: 4,
-                                child: InkWell(
-                                  onTap: _scrollToBottom,
-                                  borderRadius: BorderRadius.circular(24),
-                                  child: const Padding(
-                                    padding: EdgeInsets.all(10),
-                                    child: Icon(
-                                      Icons.keyboard_arrow_down_rounded,
-                                      size: 24,
-                                      color: AppColors.white,
+                        },
+                      ),
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          if (provider.messages.isNotEmpty &&
+                              _showScrollToBottom)
+                            Align(
+                              alignment: Alignment.centerRight,
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                  right: 18,
+                                  bottom: 17,
+                                ),
+                                child: Material(
+                                  color: AppColors.primary.withValues(
+                                    alpha: 0.9,
+                                  ),
+                                  borderRadius: BorderRadius.circular(50),
+                                  elevation: 4,
+                                  child: InkWell(
+                                    onTap: _scrollToBottom,
+                                    borderRadius: BorderRadius.circular(24),
+                                    child: const Padding(
+                                      padding: EdgeInsets.all(10),
+                                      child: Icon(
+                                        Icons.keyboard_arrow_down_rounded,
+                                        size: 24,
+                                        color: AppColors.white,
+                                      ),
                                     ),
                                   ),
                                 ),
                               ),
                             ),
-                          ),
-                        horizontalDivider(),
-                        TextField(
-                          controller: _controller,
-                          enabled: !provider.isLoading,
-                          onSubmitted: (_) => _sendMessage(provider),
-                          style: medium(fontSize: 15, color: AppColors.primary),
-                          decoration: InputDecoration(
-                            border: UnderlineInputBorder(
-                              borderSide: BorderSide(color: AppColors.primary),
+                          horizontalDivider(),
+                          TextField(
+                            controller: _controller,
+                            enabled: !provider.isLoading,
+                            onSubmitted: (_) => _sendMessage(provider),
+                            style: medium(
+                              fontSize: 15,
+                              color: AppColors.primary,
                             ),
-                            focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(
-                                color: AppColors.primary,
-                                width: 1.5,
+                            textAlignVertical: TextAlignVertical.center,
+                            decoration: InputDecoration(
+                              
+                              border: UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: AppColors.primary,
+                                ),
+                              ),
+                              focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: AppColors.primary,
+                                  width: 1.5,
+                                ),
+                              ),
+                              filled: true,
+                              fillColor: AppColors.white,
+                              suffixIcon: IconButton(
+                                onPressed: provider.isLoading
+                                    ? null
+                                    : () => _sendMessage(provider),
+                                icon: const Icon(Icons.send_rounded, size: 22),
+                              ),
+                              hintText: "Type your message...",
+                              hintStyle: medium(
+                                fontStyle: FontStyle.italic,
+                                fontSize: 14,
+                                color: AppColors.primary.withValues(
+                                  alpha: 0.45,
+                                ),
                               ),
                             ),
-                            filled: true,
-                            fillColor: AppColors.white,
-                            suffixIcon: IconButton(
-                              onPressed: provider.isLoading
-                                  ? null
-                                  : () => _sendMessage(provider),
-                              icon: const Icon(Icons.send_rounded, size: 22),
-                            ),
-                            hintText: "Type your message...",
-                            hintStyle: medium(
-                              fontStyle: FontStyle.italic,
-                              fontSize: 14,
-                              color: AppColors.primary.withValues(alpha: 0.45),
-                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         );
       },
     );
@@ -198,14 +214,14 @@ class _AskPuntGptScreenWebState extends State<AskPuntGptScreenWeb> {
     return Column(
       children: [
         Padding(
-          padding: EdgeInsets.fromLTRB(4.w, 6.w, 25.w, 5.w),
+          padding: EdgeInsets.fromLTRB(0, 3.4, 30,6),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               IconButton(
                 padding: EdgeInsets.zero,
-                onPressed:() => context.pop(),
-                icon: Icon(Icons.arrow_back_ios_rounded, size: 16.wSize),
+                onPressed: () => context.pop(),
+                icon: Icon(Icons.arrow_back_ios_rounded, size: 16),
               ),
               Expanded(
                 child: Column(
@@ -215,18 +231,18 @@ class _AskPuntGptScreenWebState extends State<AskPuntGptScreenWeb> {
                     Text(
                       "Ask @ PuntGPT",
                       style: regular(
-                        fontSize: 16.fSize,
+                        fontSize: 18.fSize,
                         fontFamily: AppFontFamily.secondary,
                         height: 1.2,
                       ),
                     ),
-                    1.w.verticalSpace,
+                    SizedBox(height: 1),
                     Text(
                       "Tips, form guides & race analysis",
                       style: semiBold(
-                        fontSize: 14.fSize,
+                        fontSize: 12.fSize,
                         height: 1.1,
-
+          
                         color: AppColors.primary.withValues(alpha: 0.6),
                       ),
                     ),

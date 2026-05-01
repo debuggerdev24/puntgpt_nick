@@ -12,6 +12,112 @@ class WebSectionShimmers {
     return HomeSectionShimmers.fieldComparisonShimmer(context: context);
   }
 
+  /// Shimmer for the web right-panel "AI Analysis and Field Comparison" sheet.
+  /// Static sizes only (no ScreenUtil / .sp).
+  static Widget compareFieldSideSheetShimmer() {
+    const lineH = 12.0;
+    const lineGap = 8.0;
+    const padH = 22.0;
+    final paragraphWidths = <double>[
+      double.infinity,
+      double.infinity,
+      248,
+      double.infinity,
+      double.infinity,
+      210,
+      double.infinity,
+      double.infinity,
+      262,
+      double.infinity,
+      132,
+    ];
+
+    Widget lineBar(double w) {
+      final bar = Container(
+        height: lineH,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(4),
+        ),
+      );
+      if (w == double.infinity) {
+        return SizedBox(width: double.infinity, child: bar);
+      }
+      return SizedBox(width: w, child: bar);
+    }
+
+    return Shimmer.fromColors(
+      baseColor: AppColors.shimmerBaseColor,
+      highlightColor: AppColors.shimmerHighlightColor,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(11, 15, 11, 9),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const SizedBox(width: 26),
+                Expanded(
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: Container(
+                      height: 18,
+                      width: 236,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                    ),
+                  ),
+                ),
+                // Container(
+                //   width: 22,
+                //   height: 22,
+                //   decoration: BoxDecoration(
+                //     color: Colors.white,
+                //     borderRadius: BorderRadius.circular(4),
+                //   ),
+                // ),
+              ],
+            ),
+          ),
+          Container(
+            height: 1,
+            margin: const EdgeInsets.only(bottom: 10),
+            color: Colors.white,
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(padH, 4, padH, 18),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                for (var i = 0; i < paragraphWidths.length; i++) ...[
+                  if (i > 0) const SizedBox(height: lineGap),
+                  lineBar(paragraphWidths[i]),
+                ],
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(padH, 0, padH, 20),
+            child: Container(
+              height: 44,
+              width: double.infinity,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                border: Border.all(
+                  color: AppColors.shimmerBaseColor.withValues(alpha: 0.55),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   //* Shimmer for web Saved Searches screen (top bar + list cards).
   static Widget savedSearchesShimmer({required BuildContext context}) {
     return Shimmer.fromColors(

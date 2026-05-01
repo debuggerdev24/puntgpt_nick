@@ -475,12 +475,15 @@ class SearchEngineProvider extends ChangeNotifier {
     return filters;
   }
 
+  int uniqueSearchId = 0;
   Future<void> createSaveSearch({
     required String name,
     required Function(String error) onError,
     required VoidCallback onSuccess,
+    int? index,
   }) async {
     isCreatingSaveSearch = true;
+    uniqueSearchId = index ?? uniqueSearchId;
     notifyListeners();
     final data = {
       "name": name,

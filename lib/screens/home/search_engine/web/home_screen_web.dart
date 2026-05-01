@@ -1,15 +1,15 @@
-import 'package:modal_side_sheet/modal_side_sheet.dart';
 import 'package:flutter/gestures.dart';
+import 'package:modal_side_sheet/modal_side_sheet.dart';
 import 'package:puntgpt_nick/core/app_imports.dart';
+import 'package:puntgpt_nick/models/home/classic_form_guide/next_race_model.dart';
+import 'package:puntgpt_nick/provider/home/classic_form/classic_form_provider.dart';
 import 'package:puntgpt_nick/provider/home/search_engine/search_engine_provider.dart';
 import 'package:puntgpt_nick/screens/home/search_engine/mobile/home_screen.dart';
 import 'package:puntgpt_nick/screens/home/search_engine/mobile/widgets/race_table.dart';
 import 'package:puntgpt_nick/screens/home/search_engine/web/ask_puntgpt_screen_web.dart';
-import 'package:puntgpt_nick/screens/home/search_engine/mobile/widgets/search_section.dart';
 import 'package:puntgpt_nick/screens/home/search_engine/web/widgets/home_screen_tab_web.dart';
 import 'package:puntgpt_nick/screens/home/search_engine/web/widgets/race_start_timing_option_web.dart';
 import 'package:puntgpt_nick/screens/home/search_engine/web/widgets/race_table_web.dart';
-import 'package:puntgpt_nick/screens/home/search_engine/web/widgets/runners_list_web.dart';
 import 'package:puntgpt_nick/screens/home/search_engine/web/widgets/search_section_web.dart';
 
 class HomeScreenWeb extends StatefulWidget {
@@ -21,10 +21,34 @@ class HomeScreenWeb extends StatefulWidget {
 
 class _HomeScreenWebState extends State<HomeScreenWeb> {
   bool _keyboardVisible = false;
+  final ScrollController _webBodyScrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
+    _webBodyScrollController.addListener(_onWebBodyScroll);
+  }
+
+  @override
+  void dispose() {
+    _webBodyScrollController.removeListener(_onWebBodyScroll);
+    _webBodyScrollController.dispose();
+    super.dispose();
+  }
+
+  void _onWebBodyScroll() {
+    if (!mounted || !_webBodyScrollController.hasClients) return;
+    final provider = context.read<SearchEngineProvider>();
+    if (provider.selectedTab != 0 ||
+        !provider.isSearched ||
+        provider.runnersList == null) {
+      return;
+    }
+    if (!provider.hasMoreRunners || provider.isLoadingMoreRunners) return;
+    final pos = _webBodyScrollController.position;
+    if (pos.maxScrollExtent > 0 && pos.pixels >= pos.maxScrollExtent - 200) {
+      provider.loadNextRunners();
+    }
   }
 
   void didChangeMetrics() {
@@ -90,11 +114,12 @@ class _HomeScreenWebState extends State<HomeScreenWeb> {
               children: [
                 //* timing buttons
                 RaceStartTimingOptionsWeb(),
-                Expanded(
-                  child: (provider.isSearched)
-                      ? RunnersListWeb(runnersList: provider.runnersList!)
-                      : SearchFields(providerh: provider),
-                ),
+                // Expanded(
+                // child: SearchFields(providerh: provider),
+                // (provider.isSearched)
+                //     ? RunnersListWeb(runnersList: provider.runnersList!)
+                //     : SearchFields(providerh: provider),
+                // ),
                 Align(
                   alignment: AlignmentGeometry.bottomCenter,
                   child: (provider.isSearched)
@@ -209,6 +234,7 @@ class _HomeScreenWebState extends State<HomeScreenWeb> {
     return Stack(
       children: [
         SingleChildScrollView(
+          controller: _webBodyScrollController,
           child: FadeInUp(
             curve: Curves.easeInOut,
             from: 4,
@@ -231,43 +257,50 @@ class _HomeScreenWebState extends State<HomeScreenWeb> {
                         child: SizedBox(
                           width: bodyWidth,
                           child: SingleChildScrollView(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text("Next to go", style: bold(fontSize: 16)),
-                                SizedBox(height: 10,),
-
-                                //* race list
-                                ScrollConfiguration(
-                                  behavior: const MaterialScrollBehavior().copyWith(
-                                    dragDevices: {
-                                      PointerDeviceKind.touch,
-                                      PointerDeviceKind.mouse,
-                                      PointerDeviceKind.trackpad,
-                                      PointerDeviceKind.stylus,
-                                      PointerDeviceKind.unknown,
-                                    },
-                                  ),
-                                  child: SingleChildScrollView(
-                                    scrollDirection: Axis.horizontal,
-                                    child: Row(
-                                      spacing: 8,
-                                      children: [
-                                        raceItemWeb(context: context),
-                                        raceItemWeb(context: context),
-                                        raceItemWeb(context: context),
-                                        raceItemWeb(context: context),
-                                        raceItemWeb(context: context),
-                                        raceItemWeb(context: context),
-                                        raceItemWeb(context: context),
-                                        raceItemWeb(context: context),
-                                      ],
+                            child: Consumer<ClassicFormProvider>(
+                              builder: (context, classicForm, _) {
+                                final list = classicForm.nextRaceList;
+                                return Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Next to go",
+                                      style: bold(fontSize: 16),
                                     ),
-                                  ),
-                                ),
-                                //* race table
-                                RaceTableWeb(tableWidth: bodyWidth),
-                              ],
+                                    const SizedBox(height: 10),
+                                    if (list.isEmpty)
+                                      _nextToGoEmptyWebStatic()
+                                    else
+                                      ScrollConfiguration(
+                                        behavior:
+                                            const MaterialScrollBehavior()
+                                                .copyWith(
+                                          dragDevices: {
+                                            PointerDeviceKind.touch,
+                                            PointerDeviceKind.mouse,
+                                            PointerDeviceKind.trackpad,
+                                          },
+                                        ),
+                                        child: SingleChildScrollView(
+                                          scrollDirection: Axis.horizontal,
+                                          child: Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            spacing: 6,
+                                            children: List.generate(
+                                              list.length,
+                                              (index) => _nextToGoItemWeb(
+                                                nextRace: list[index],
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    //* race table
+                                    RaceTableWeb(tableWidth: bodyWidth),
+                                  ],
+                                );
+                              },
                             ),
                           ),
                         ),
@@ -282,6 +315,84 @@ class _HomeScreenWebState extends State<HomeScreenWeb> {
           child: askPuntGPTButtonWeb(context: context),
         ),
       ],
+    );
+  }
+
+  Widget _nextToGoItemWeb({required NextRaceModel nextRace}) {
+    return Container(
+      width: 200,
+      padding: const EdgeInsets.fromLTRB(7, 7, 7, 7),
+      decoration: BoxDecoration(
+        border: Border.all(color: AppColors.primary.withValues(alpha: 0.6)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        spacing: 6,
+        children: [
+          Text(
+            '${nextRace.trackName} - R${nextRace.raceNumber} - ${nextRace.raceDistance}m',
+            style: semiBold(fontSize: 14),
+          ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Expanded(
+                child: _NextToGoRaceNameBlock(
+                  raceName: nextRace.raceName,
+                  nameStyle: semiBold(
+                    fontSize: 14,
+                    color: AppColors.primary.withValues(alpha: 0.6),
+                  ),
+                ),
+              ),
+              const SizedBox(width: 8),
+              Text(
+                nextRace.raceAustralianTime,
+                style: semiBold(
+                  fontSize: 12,
+                  color: AppColors.primary.withValues(alpha: 0.6),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _nextToGoEmptyWebStatic() {
+    return Container(
+      width: double.infinity,
+      margin: const EdgeInsets.only(bottom: 4),
+      padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 20),
+      decoration: BoxDecoration(
+        color: AppColors.primary.withValues(alpha: 0.03),
+        border: Border.all(
+          color: AppColors.primary.withValues(alpha: 0.12),
+          width: 1.5,
+        ),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            Icons.flag_outlined,
+            size: 22,
+            color: AppColors.primary.withValues(alpha: 0.45),
+          ),
+          const SizedBox(width: 10),
+          Text(
+            'NO races found',
+            style: semiBold(
+              fontSize: 15,
+              fontFamily: AppFontFamily.secondary,
+              color: AppColors.primary,
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -323,54 +434,72 @@ class _HomeScreenWebState extends State<HomeScreenWeb> {
       ),
     );
   }
+}
 
-  Widget raceItemWeb({required BuildContext context}) {
-    // final sixteenFontSize = context.isDesktop
-    //     ? 16.sp
-    //     : context.isTablet
-    //     ? 24.sp
-    //     : (context.isMobileWeb)
-    //     ? 32.sp
-    //     : 16.sp;
-    // final fourteenFontSize = context.isDesktop
-    //     ? 14.sp
-    //     : context.isTablet
-    //     ? 22.sp
-    //     : (context.isMobileWeb)
-    //     ? 30.sp
-    //     : 14.sp;
-    return Container(
-      padding: EdgeInsets.fromLTRB(12, 10, 10, 10),
-      decoration: BoxDecoration(
-        border: Border.all(color: AppColors.primary.withValues(alpha: 0.6)),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text("Morphettville", style: semiBold(fontSize: 14)),
-          SizedBox(height: 5),
-          Row(
-            spacing: 55,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                "Race 1",
-                style: semiBold(
-                  fontSize: 14    ,
-                  color: AppColors.primary.withValues(alpha: 0.6),
+/// Race name: up to 2 lines + ellipsis; full "Show more" / "Show less" on their
+/// own line so the action text is never cut off.
+class _NextToGoRaceNameBlock extends StatefulWidget {
+  const _NextToGoRaceNameBlock({
+    required this.raceName,
+    required this.nameStyle,
+  });
+
+  final String raceName;
+  final TextStyle nameStyle;
+
+  @override
+  State<_NextToGoRaceNameBlock> createState() => _NextToGoRaceNameBlockState();
+}
+
+class _NextToGoRaceNameBlockState extends State<_NextToGoRaceNameBlock> {
+  bool _expanded = false;
+
+  bool _overflowsTwoLines(double maxWidth, BuildContext context) {
+    if (maxWidth <= 0) return false;
+    final tp = TextPainter(
+      text: TextSpan(text: widget.raceName, style: widget.nameStyle),
+      textDirection: Directionality.of(context),
+      maxLines: 2,
+      textScaler: MediaQuery.textScalerOf(context),
+      locale: Localizations.maybeLocaleOf(context),
+    )..layout(maxWidth: maxWidth);
+    return tp.didExceedMaxLines;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final maxW = constraints.maxWidth;
+        final overflows = _overflowsTwoLines(maxW, context);
+        final linkStyle =
+            semiBold(fontSize: 12, color: AppColors.primary);
+
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              widget.raceName,
+              style: widget.nameStyle,
+              maxLines: _expanded ? null : 2,
+              overflow:
+                  _expanded ? TextOverflow.visible : TextOverflow.ellipsis,
+            ),
+            if (overflows || _expanded)
+              GestureDetector(
+                onTap: () => setState(() => _expanded = !_expanded),
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 2),
+                  child: Text(
+                    _expanded ? 'Show less' : 'Show more',
+                    style: linkStyle,
+                  ),
                 ),
               ),
-              Text(
-                "13:15",
-                style: semiBold(
-                  fontSize: 14,
-                  color: AppColors.primary.withValues(alpha: 0.6),
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
+          ],
+        );
+      },
     );
   }
 }
@@ -392,20 +521,18 @@ Widget askPuntGPTButtonWeb({required BuildContext context}) {
       showModalSideSheet(
         context: context,
         useRootNavigator: false,
-        width: context.isDesktop ? 450.w : 600.w,
+        width: context.isDesktop ? 370 : 325,
         withCloseControll: true,
+
         body: const AskPuntGptScreenWeb(),
       );
     },
     child: Container(
       margin: EdgeInsets.only(
-        bottom: 80.w,
+        bottom: 55,
         right: context.isMobileView ? 25.w : 100.w,
       ),
-      padding: EdgeInsets.symmetric(
-        vertical: 10,
-        horizontal: 18,
-      ),
+      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 18),
       decoration: BoxDecoration(
         boxShadow: [
           BoxShadow(
@@ -462,4 +589,3 @@ Widget askPuntGPTButtonWeb({required BuildContext context}) {
     ),
   );
 }
-

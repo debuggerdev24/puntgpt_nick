@@ -1,3 +1,4 @@
+import 'package:modal_side_sheet/modal_side_sheet.dart';
 import 'package:puntgpt_nick/core/app_imports.dart';
 import 'package:puntgpt_nick/main.dart';
 import 'package:puntgpt_nick/models/home/search_engine/runner_model.dart';
@@ -5,119 +6,146 @@ import 'package:puntgpt_nick/provider/home/classic_form/classic_form_provider.da
 import 'package:puntgpt_nick/provider/home/search_engine/search_engine_provider.dart';
 import 'package:puntgpt_nick/screens/home/search_engine/web/widgets/home_section_shimmers_web.dart';
 
-class RunnersListWeb extends StatelessWidget {
-  const RunnersListWeb({super.key, required this.runnersList});
-  final List<RunnerModel> runnersList;
+Future<void> openClassicFormHandler({
+  required BuildContext sheetContext,
+  required BuildContext context,
+  required RunnerModel runner,
+}) async {
+  sheetContext.pop();
+  final classicForm = context.read<ClassicFormProvider>();
+  classicForm.setTempLoading = true;
+  await Future.wait([
+    classicForm.getMeetingRaceList(meetingId: runner.meetingId.toString()),
+    classicForm.getRaceFieldDetail(id: runner.raceId?.toString() ?? ''),
+  ]);
+  classicForm.setTempLoading = false;
+  if (!context.mounted) {
+    return;
+  }
+  context.pushNamed(
+    kIsWeb ? WebRoutes.selectedRace.name : AppRoutes.selectedRace.name,
+  );
+}
+
+class CompareFieldSideSheetBody extends StatelessWidget {
+  const CompareFieldSideSheetBody({
+    super.key,
+    required this.sheetContext,
+    required this.pageContext,
+    required this.runner,
+  });
+
+  final BuildContext sheetContext;
+  final BuildContext pageContext;
+  final RunnerModel runner;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Padding(
-          padding: EdgeInsets.fromLTRB(
-            25.w,
-            0.h,
-            25.w,
-            (context.isMobileWeb) ? 8.h : 12.h,
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Container(
+      height: MediaQuery.sizeOf(sheetContext).height,
+      width: double.infinity,
+      decoration: BoxDecoration(
+        color: AppColors.backGroundColor,
+        border: Border.all(color: AppColors.primary.withValues(alpha: 0.15)),
+      ),
+      child: Consumer<SearchEngineProvider>(
+        builder: (_, p, __) {
+          if (p.compareHorse == null) {
+            return WebSectionShimmers.compareFieldSideSheetShimmer();
+          }
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisSize: MainAxisSize.min,
             children: [
-              Text(
-                "Total Runners: (20)",
-                style: bold(fontSize: (context.isMobileWeb) ? 25.sp : 16.sp),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(11, 15, 11, 9),
+                child: Text(
+                  'AI Analysis and Field Comparison',
+                  style: semiBold(fontSize: 13),
+                  textAlign: TextAlign.center,
+                ),
               ),
-              GestureDetector(
-                onTap: () {
-                  context.pushNamed(
-                    (context.isMobileView && !kIsWeb)
-                        ? WebRoutes.savedSearchedScreen.name
-                        : AppRoutes.savedSearchedScreen.name,
-                  );
-                },
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    ImageWidget(
-                      type: ImageType.svg,
-                      path: AppAssets.bookmark,
-                      height: (context.isMobileWeb) ? 25.sp : 16.sp,
+              Divider(color: AppColors.primary.withValues(alpha: 0.2)),
+              Padding(
+                padding: EdgeInsets.fromLTRB(18, 10, 18, 10),
+                child: Text(
+                  p.compareHorse?.summary ?? 'Unable to load analysis.',
+                  style: regular(fontSize: 14),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(22, 0, 22, 20),
+                child: OnMouseTap(
+                  onTap: () async {
+                    await openClassicFormHandler(
+                      sheetContext: sheetContext,
+                      context: pageContext,
+                      runner: runner,
+                    );
+                  },
+                  child: Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.symmetric(vertical: 8),
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      color: AppColors.backGroundColor,
+                      border: Border.all(color: AppColors.primary),
                     ),
-                    5.horizontalSpace,
-                    Text(
-                      "Saved Searches",
-                      style: bold(
-                        fontSize: (context.isMobileWeb) ? 25.sp : 16.sp,
-                        decoration: TextDecoration.underline,
-                      ),
+                    child: Text(
+                      'Open Classic Form Guide',
+                      style: semiBold(fontSize: 14),
                     ),
-                  ],
+                  ),
                 ),
               ),
             ],
-          ),
-        ),
-        Expanded(
-          child: ListView.separated(
-            padding: EdgeInsets.symmetric(horizontal: 25.w),
-            itemCount: runnersList.length,
-            separatorBuilder: (context, index) => 16.h.verticalSpace,
-            itemBuilder: (context, index) {
-              return RunnerBoxWeb(
-                displayIndex: index + 1,
-                runner: runnersList[index],
-                onAddToTipSlip: () {},
-                onCompareToField: () {},
-                onSaveSearch: () {},
-              );
-            },
-          ),
-        ),
-      ],
+          );
+        },
+      ),
     );
   }
 }
 
-/// Web runner card — same sections as mobile [RunnerBox], with web font sizes.
+//* Web runner card — same sections as mobile [RunnerBox], with web font sizes.
 class RunnerBoxWeb extends StatelessWidget {
   const RunnerBoxWeb({
     super.key,
     required this.runner,
-    required this.displayIndex,
+    required this.index,
     required this.onAddToTipSlip,
     required this.onCompareToField,
     required this.onSaveSearch,
   });
 
   final RunnerModel runner;
-  final int displayIndex;
-  final VoidCallback onAddToTipSlip, onCompareToField, onSaveSearch;
-
+  final int index;
+  final VoidCallback onAddToTipSlip, onCompareToField;
+  final Function(String name) onSaveSearch;
   @override
   Widget build(BuildContext context) {
     final titleFs = 13.0;
     final metaFs = 11.0;
     final silkSize = 22.0;
-    final padH = 10.0;
-
+    final padH = 8.0;
+    final nameController = TextEditingController();
     // Same race line idea as mobile: track - R# - distance - time
     String raceLine;
-    final jumpTime = runner.jumpTimeAu!.split(' ');
-    if (jumpTime.length >= 3) {
-      final t = jumpTime[1].split(':');
-      if (t.length >= 2) {
-        raceLine =
-            '${runner.track ?? '-'} - R${runner.raceNumber ?? '-'} - ${runner.distance ?? '-'}m - ${t[0]}:${t[1]} ${jumpTime[2]}';
-      } else {
-        raceLine =
-            '${runner.track ?? '-'} - R${runner.raceNumber ?? '-'} - ${runner.distance ?? '-'}m';
-      }
-    } else {
-      raceLine =
-          '${runner.track ?? '-'} - R${runner.raceNumber ?? '-'} - ${runner.distance ?? '-'}m';
-    }
+    final jumpTime = runner.jumpTimeAu!.split(" ");
+    // if (jumpTime.length >= 3) {
+    final t = jumpTime[1].split(":");
+    // if (t.length >= 2) {
+    raceLine =
+        "${runner.track ?? "-"} - R${runner.raceNumber ?? "-"} - ${runner.distance ?? "-"}m - ${t[0]}:${t[1]} ${jumpTime[2]}";
+    // } else {
+    //   raceLine =
+    //       '${runner.track ?? '-'} - R${runner.raceNumber ?? '-'} - ${runner.distance ?? '-'}m';
+    // }
+    // } else {
+    //   raceLine =
+    //       '${runner.track ?? '-'} - R${runner.raceNumber ?? '-'} - ${runner.distance ?? '-'}m';
+    // }
 
-    return GestureDetector(
+    return OnMouseTap(
       onTap: () async {
         final classicForm = context.read<ClassicFormProvider>();
         classicForm.setTempLoading = true;
@@ -147,10 +175,11 @@ class RunnerBoxWeb extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.fromLTRB(padH, 10, padH, 6),
                 child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('$displayIndex. ', style: bold(fontSize: titleFs)),
+                    Text('${index + 1}. ', style: bold(fontSize: titleFs)),
                     if ((runner.silksImage ?? '').isNotEmpty) ...[
+                      //* silks image
                       ImageWidget(
                         path: runner.silksImage!,
                         type: ImageType.svg,
@@ -174,34 +203,41 @@ class RunnerBoxWeb extends StatelessWidget {
                       ),
                       SizedBox(width: 6),
                     ],
+                    //* horse name and barrier
                     Expanded(
                       child: Text(
                         '${runner.horseName ?? '-'} (${runner.barrier ?? '-'})',
                         style: semiBold(fontSize: titleFs, height: 1.2),
                       ),
                     ),
+                    //* unibet logo
                     OnMouseTap(
                       onTap: () => launchUnibetUrl(),
                       child: ImageWidget(
                         path: AppAssets.unibatLogo,
-                        height: context.isDesktop ? 22.0 : 24.w,
+                        height: 22,
                       ),
                     ),
                     SizedBox(width: 6),
+                    //* odds
                     Text(
                       runner.odds != null ? '\$${runner.odds} ' : '- ',
                       style: bold(fontSize: titleFs),
                     ),
+                    //* bookmark button (save search)
                     if (!isGuest)
                       OnMouseTap(
                         onTap: () {
-                          final nameController = TextEditingController();
+                          nameController.clear();
                           showDialog<void>(
                             context: context,
                             builder: (dialogContext) {
                               return ZoomIn(
                                 child: AlertDialog(
                                   backgroundColor: AppColors.white,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.zero,
+                                  ),
                                   title: Text(
                                     'Save Search',
                                     style: semiBold(
@@ -220,8 +256,7 @@ class RunnerBoxWeb extends StatelessWidget {
                                   actions: [
                                     TextButton(
                                       onPressed: () {
-                                        context.pop(dialogContext);
-                                        nameController.dispose();
+                                        dialogContext.pop();
                                       },
                                       child: Text(
                                         'Cancel',
@@ -239,26 +274,9 @@ class RunnerBoxWeb extends StatelessWidget {
                                           );
                                           return;
                                         }
-                                        context.pop(dialogContext);
-                                        nameController.dispose();
-                                        context
-                                            .read<SearchEngineProvider>()
-                                            .createSaveSearch(
-                                              name: name,
-                                              onError: (error) {
-                                                AppToast.error(
-                                                  context: context,
-                                                  message: error,
-                                                );
-                                              },
-                                              onSuccess: () {
-                                                AppToast.success(
-                                                  context: context,
-                                                  message:
-                                                      'Search saved successfully',
-                                                );
-                                              },
-                                            );
+                                        dialogContext.pop();
+
+                                        onSaveSearch(name).call();
                                       },
                                       child: Text(
                                         'Yes',
@@ -273,10 +291,23 @@ class RunnerBoxWeb extends StatelessWidget {
                         },
                         child: Padding(
                           padding: const EdgeInsets.only(left: 4),
-                          child: Icon(
-                            Icons.bookmark_add_outlined,
-                            size: context.isDesktop ? 20 : 22.w,
-                            color: AppColors.primary,
+                          child: Consumer<SearchEngineProvider>(
+                            builder: (context, provider, child) {
+                              final loading =
+                                  provider.isCreatingSaveSearch &&
+                                  provider.uniqueSearchId == index;
+                              if (loading) {
+                                return progressIndicator(
+                                  color: AppColors.primary,
+                                  size: 17,
+                                );
+                              }
+                              return Icon(
+                                Icons.bookmark_add_outlined,
+                                size: 20,
+                                color: AppColors.primary,
+                              );
+                            },
                           ),
                         ),
                       ),
@@ -447,11 +478,13 @@ class RunnerBoxWeb extends StatelessWidget {
                 ),
               ),
 
+              //* Row 4: add to tip slip and compare field
               if (!isGuest) ...[
                 horizontalDivider(opacity: 0.15),
                 Padding(
                   padding: EdgeInsets.fromLTRB(padH, 10, padH, 10),
                   child: Row(
+                    spacing: 6,
                     children: [
                       //* Add to Tip Slip button
                       Expanded(
@@ -464,9 +497,7 @@ class RunnerBoxWeb extends StatelessWidget {
                             return AppFilledButton(
                               text: 'Add to Tip Slip',
                               textStyle: semiBold(
-                                fontSize: 
-                                     12.0
-                                    ,
+                                fontSize: 12.0,
                                 color: AppColors.white,
                               ),
                               padding: EdgeInsets.symmetric(
@@ -485,153 +516,43 @@ class RunnerBoxWeb extends StatelessWidget {
                           },
                         ),
                       ),
-                      SizedBox(width: 6),
+
                       Expanded(
                         child: OnMouseTap(
                           onTap: () async {
                             final provider = context
                                 .read<SearchEngineProvider>();
-                            await provider.compareHorses(
+                            provider.compareHorses(
                               selectionId: runner.selectionId?.toString() ?? '',
                             );
                             if (!context.mounted) return;
 
-                            await showModalBottomSheet<void>(
-                              showDragHandle: true,
-                              isScrollControlled: true,
+                            //* Right panel pattern and width as Ask @ PuntGPT.
+                            final sideSheetWidth = context.isDesktop
+                                ? 370.0
+                                : 325.0;
+
+                            showModalSideSheet<void>(
                               context: context,
-                              builder: (modalContext) {
-                                return Container(
-                                  margin: EdgeInsets.all(18),
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                      color: AppColors.primary.withValues(
-                                        alpha: 0.15,
-                                      ),
-                                    ),
-                                  ),
-                                  child: Consumer<SearchEngineProvider>(
-                                    builder: (_, p, __) {
-                                      if (p.compareHorse == null) {
-                                        return WebSectionShimmers.fieldComparisonShimmer(
-                                          context: modalContext,
-                                        );
-                                      }
-                                      return SingleChildScrollView(
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.min,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.stretch,
-                                          children: [
-                                            Padding(
-                                              padding: EdgeInsets.fromLTRB(
-                                                14.w,
-                                                18.h,
-                                                14.w,
-                                                12.h,
-                                              ),
-                                              child: Text(
-                                                'AI Analysis and Field Comparison',
-                                                style: semiBold(fontSize: 13),
-                                                textAlign: TextAlign.center,
-                                              ),
-                                            ),
-                                            Divider(
-                                              color: AppColors.primary
-                                                  .withValues(alpha: 0.2),
-                                            ),
-                                            Padding(
-                                              padding: EdgeInsets.fromLTRB(
-                                                22.w,
-                                                10.h,
-                                                22.w,
-                                                12.h,
-                                              ),
-                                              child: Text(
-                                                p.compareHorse?.summary ??
-                                                    'Unable to load analysis.',
-                                                style: regular(fontSize: 14),
-                                              ),
-                                            ),
-                                            Padding(
-                                              padding: EdgeInsets.fromLTRB(
-                                                22.w,
-                                                0,
-                                                22.w,
-                                                20.h,
-                                              ),
-                                              child: OnMouseTap(
-                                                onTap: () async {
-                                                  modalContext.pop();
-                                                  final classicForm = context
-                                                      .read<
-                                                        ClassicFormProvider
-                                                      >();
-                                                  classicForm.setTempLoading =
-                                                      true;
-                                                  await Future.wait([
-                                                    classicForm
-                                                        .getMeetingRaceList(
-                                                          meetingId: runner
-                                                              .meetingId
-                                                              .toString(),
-                                                        ),
-                                                    classicForm
-                                                        .getRaceFieldDetail(
-                                                          id:
-                                                              runner.raceId
-                                                                  ?.toString() ??
-                                                              '',
-                                                        ),
-                                                  ]);
-                                                  classicForm.setTempLoading =
-                                                      false;
-                                                  if (!context.mounted) return;
-                                                  context.pushNamed(
-                                                    kIsWeb
-                                                        ? WebRoutes
-                                                              .selectedRace
-                                                              .name
-                                                        : AppRoutes
-                                                              .selectedRace
-                                                              .name,
-                                                  );
-                                                },
-                                                child: Container(
-                                                  width: double.infinity,
-                                                  padding: EdgeInsets.symmetric(
-                                                    vertical: 12.h,
-                                                  ),
-                                                  alignment: Alignment.center,
-                                                  decoration: BoxDecoration(
-                                                    color: AppColors.white,
-                                                    border: Border.all(
-                                                      color: AppColors.primary,
-                                                    ),
-                                                  ),
-                                                  child: Text(
-                                                    'Open Classic Form Guide',
-                                                    style: semiBold(
-                                                      fontSize: 14,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                );
-                              },
+                              useRootNavigator: false,
+                              withCloseControll: true,
+                              width: sideSheetWidth,
+                              body: Builder(
+                                builder: (sheetContext) {
+                                  return CompareFieldSideSheetBody(
+                                    sheetContext: sheetContext,
+                                    pageContext: context,
+                                    runner: runner,
+                                  );
+                                },
+                              ),
                             );
                           },
                           child: Container(
                             padding: EdgeInsets.symmetric(
-                                vertical: 10,
-                                horizontal: 4,
-                              ),
+                              vertical: 10,
+                              horizontal: 4,
+                            ),
                             decoration: BoxDecoration(
                               color: AppColors.white,
                               border: Border.all(color: AppColors.primary),
@@ -646,8 +567,7 @@ class RunnerBoxWeb extends StatelessWidget {
                                     textAlign: TextAlign.center,
                                     maxLines: 2,
                                     overflow: TextOverflow.ellipsis,
-                                    style: bold(
-                                      fontSize: 12),
+                                    style: bold(fontSize: 12),
                                   ),
                                 ),
                               ],
@@ -666,3 +586,90 @@ class RunnerBoxWeb extends StatelessWidget {
     );
   }
 }
+
+// class RunnersListWeb extends StatelessWidget {
+//   const RunnersListWeb({super.key, required this.runnersList});
+//   final List<RunnerModel> runnersList;
+//   @override
+//   Widget build(BuildContext context) {
+//     return Column(
+//       children: [
+//         Padding(
+//           padding: EdgeInsets.fromLTRB(
+//             25.w,
+//             0.h,
+//             25.w,
+//             (context.isMobileWeb) ? 8.h : 12.h,
+//           ),
+//           child: Row(
+//             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//             children: [
+//               Text(
+//                 "Total Runners: (20)",
+//                 style: bold(fontSize: (context.isMobileWeb) ? 25.sp : 16.sp),
+//               ),
+//               GestureDetector(
+//                 onTap: () {
+//                   context.pushNamed(
+//                     (context.isMobileView && !kIsWeb)
+//                         ? WebRoutes.savedSearchedScreen.name
+//                         : AppRoutes.savedSearchedScreen.name,
+//                   );
+//                 },
+//                 child: Row(
+//                   mainAxisSize: MainAxisSize.min,
+//                   children: [
+//                     ImageWidget(
+//                       type: ImageType.svg,
+//                       path: AppAssets.bookmark,
+//                       height: (context.isMobileWeb) ? 25.sp : 16.sp,
+//                     ),
+//                     5.horizontalSpace,
+//                     Text(
+//                       "Saved Searches",
+//                       style: bold(
+//                         fontSize: (context.isMobileWeb) ? 25.sp : 16.sp,
+//                         decoration: TextDecoration.underline,
+//                       ),
+//                     ),
+//                   ],
+//                 ),
+//               ),
+//             ],
+//           ),
+//         ),
+//         Expanded(
+//           child: ListView.separated(
+//             padding: EdgeInsets.symmetric(horizontal: 25.w),
+//             itemCount: runnersList.length,
+//             separatorBuilder: (context, index) => 16.h.verticalSpace,
+//             itemBuilder: (context, index) {
+//               return RunnerBoxWeb(
+//                 index: index,
+//                 runner: runnersList[index],
+//                 onAddToTipSlip: () {},
+//                 onCompareToField: () {},
+//                 onSaveSearch: (String name) {
+//                   context.read<SearchEngineProvider>().createSaveSearch(
+//                     name: name,
+//                     onError: (error) {
+//                       if (!context.mounted) return;
+//                       AppToast.error(context: context, message: error);
+//                     },
+//                     onSuccess: () {
+//                       if (!context.mounted) return;
+//                       AppToast.success(
+//                         context: context,
+//                         message: 'Search saved successfully',
+//                       );
+//                     },
+//                   );
+//                 },
+//               );
+//             },
+//           ),
+//         ),
+//       ],
+//     );
+//   }
+// }

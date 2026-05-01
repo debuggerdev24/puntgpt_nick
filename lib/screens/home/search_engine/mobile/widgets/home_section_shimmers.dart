@@ -1263,7 +1263,7 @@ class HomeSectionShimmers {
   );
   }
 
-    /// Shimmer for the Analysis and Field Comparison modal bottom sheet.
+  /// Shimmer for the Analysis and Field Comparison modal bottom sheet.
   /// Matches layout: title area, divider, body paragraph area.
   /// Height sized to fill the modal body like the actual analysis text.
   static Widget fieldComparisonShimmer({required BuildContext context}) {

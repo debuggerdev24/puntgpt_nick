@@ -19,6 +19,10 @@ class SearchSectionWeb extends StatefulWidget {
 class _SearchSectionWebState extends State<SearchSectionWeb> {
   final Map<String, TextEditingController> _controllers = {};
 
+  /// Avoids calling [SearchEngineProvider.loadNextRunners] on every rebuild (spam).
+  /// We only auto-load once per distinct [runnersList.length] when the last cell builds.
+  int _lastAutoPaginateForRunnerCount = 0;
+
   @override
   void dispose() {
     for (var controller in _controllers.values) {
@@ -37,6 +41,9 @@ class _SearchSectionWebState extends State<SearchSectionWeb> {
   Widget build(BuildContext context) {
     return Consumer<SearchEngineProvider>(
       builder: (context, provider, child) {
+        if (provider.runnersList == null) {
+          _lastAutoPaginateForRunnerCount = 0;
+        }
         return SizedBox(
           child: Padding(
             padding: EdgeInsets.symmetric(
@@ -49,9 +56,9 @@ class _SearchSectionWebState extends State<SearchSectionWeb> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    if (!context.isDesktop) ...[
+                    if (context.screenWidth < 980) ...[
                       OnMouseTap(
-                        onTap: () => _openFilterSideSheet(provider),
+                        onTap: _openFilterSideSheet,
                         child: Icon(Icons.tune_outlined, size: 20),
                       ),
                       SizedBox(width: 6),
@@ -108,10 +115,10 @@ class _SearchSectionWebState extends State<SearchSectionWeb> {
           spacing: 6,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            if (context.isDesktop)
+            if (context.screenWidth > 980)
               //* --------------------> left panel
               SizedBox(
-                width: 250,
+                width: 220,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -313,7 +320,7 @@ class _SearchSectionWebState extends State<SearchSectionWeb> {
                         color: AppColors.primary.withValues(alpha: 0.6),
                       ),
                     ),
-                  SizedBox(height: 20),
+                  SizedBox(height: 10),
                   if (provider.runnersList != null &&
                       provider.runnersList!.isNotEmpty)
                     GridView.builder(
@@ -323,9 +330,11 @@ class _SearchSectionWebState extends State<SearchSectionWeb> {
                           provider.runnersList!.length +
                           (provider.isLoadingMoreRunners ? 2 : 0),
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        childAspectRatio: 1.08,
-                        crossAxisSpacing: 12,
+                        crossAxisCount: (context.screenWidth > 980) ? 2 : 3,
+                        childAspectRatio: (context.screenWidth > 980)
+                            ? 1.09
+                            : 0.95,
+                        crossAxisSpacing: 8,
                         mainAxisSpacing: 12,
                       ),
                       itemBuilder: (context, index) {
@@ -346,11 +355,25 @@ class _SearchSectionWebState extends State<SearchSectionWeb> {
                             ),
                           );
                         }
-                        if (index == provider.runnersList!.length - 1) {
-                          provider.loadNextRunners();
+                        final runnerCount = provider.runnersList!.length;
+                        if (index == runnerCount - 1 &&
+                            provider.hasMoreRunners &&
+                            !provider.isLoadingMoreRunners &&
+                            runnerCount != _lastAutoPaginateForRunnerCount) {
+                          _lastAutoPaginateForRunnerCount = runnerCount;
+                          WidgetsBinding.instance.addPostFrameCallback((_) {
+                            if (!mounted) return;
+                            final p = context.read<SearchEngineProvider>();
+                            if (p.runnersList == null ||
+                                !p.hasMoreRunners ||
+                                p.isLoadingMoreRunners) {
+                              return;
+                            }
+                            p.loadNextRunners();
+                          });
                         }
                         return RunnerBoxWeb(
-                          displayIndex: index + 1,
+                          index: index ,
                           runner: provider.runnersList![index],
                           onAddToTipSlip: () {
                             provider.createTipSlip(
@@ -369,10 +392,22 @@ class _SearchSectionWebState extends State<SearchSectionWeb> {
                                   .toString(),
                             );
                           },
-                          onSaveSearch: () {
-                            // provider.createSaveSearch(
-                            //   name: provider.runnersList![index].name,
-                            // );
+                          onSaveSearch: (String name) {
+                            provider.createSaveSearch(
+                              name: name,
+                              onError: (error) {
+                                AppToast.error(
+                                  context: context,
+                                  message: error,
+                                );
+                              },
+                              onSuccess: () {
+                                AppToast.success(
+                                  context: context,
+                                  message: 'Search saved successfully',
+                                );
+                              },
+                            );
                           },
                         );
                       },
@@ -386,7 +421,7 @@ class _SearchSectionWebState extends State<SearchSectionWeb> {
     );
   }
 
-  void _openFilterSideSheet(SearchEngineProvider provider) {
+  void _openFilterSideSheet() {
     showGeneralDialog<void>(
       context: context,
       useRootNavigator: false,
@@ -395,148 +430,156 @@ class _SearchSectionWebState extends State<SearchSectionWeb> {
       barrierColor: const Color(0x80000000),
       transitionDuration: const Duration(milliseconds: 280),
       pageBuilder: (ctx, _, __) {
+        // Consumer rebuilds this panel when SearchEngineProvider notifies
+        // (checkbox toggles, sliders, track list), so UI updates in real time.
         return Align(
           alignment: Alignment.centerLeft,
-          child: Container(
-            width: 340,
-            height: MediaQuery.sizeOf(context).height,
-            padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
-            color: AppColors.white,
-            child: Column(
-              children: [
-                Row(
+          child: Consumer<SearchEngineProvider>(
+            builder: (dialogContext, provider, _) {
+              return Container(
+                width: 340,
+                height: MediaQuery.sizeOf(context).height,
+                padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                color: AppColors.white,
+                child: Column(
                   children: [
-                    Expanded(
-                      child: Text(
-                        "Filters",
-                        style: semiBold(
-                          fontSize: 16,
-                          fontFamily: AppFontFamily.secondary,
-                        ),
-                      ),
-                    ),
-                    IconButton(
-                      onPressed: () => Navigator.of(ctx).pop(),
-                      icon: const Icon(Icons.close),
-                    ),
-                  ],
-                ),
-                horizontalDivider(),
-                Expanded(
-                  child: SingleChildScrollView(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 14.w,
-                      vertical: 10.h,
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                    Row(
                       children: [
-                        AppMultiSelectTrackDropdown(
-                          items: provider.trackList ?? const [],
-                          hintText: "All Tracks",
-                        ),
-                        horizontalDivider(),
-                        SearchCheckboxField(
-                          title: "Placed last start",
-                          isChecked: provider.placedLastStart,
-                          onTap: () => provider.togglePlacedLastStart(
-                            !provider.placedLastStart,
+                        Expanded(
+                          child: Text(
+                            "Filters",
+                            style: semiBold(
+                              fontSize: 16,
+                              fontFamily: AppFontFamily.secondary,
+                            ),
                           ),
-                          verticalPadding: 16,
                         ),
-                        horizontalDivider(),
-                        SearchCheckboxField(
-                          title: "Placed at distance",
-                          isChecked: provider.placedAtDistance,
-                          onTap: () => provider.togglePlacedAtDistance(
-                            !provider.placedAtDistance,
-                          ),
-                          verticalPadding: 16,
+                        IconButton(
+                          onPressed: () => Navigator.of(ctx).pop(),
+                          icon: const Icon(Icons.close),
                         ),
-                        horizontalDivider(),
-                        SearchCheckboxField(
-                          title: "Placed at track",
-                          isChecked: provider.placeAtTrack == true,
-                          onTap: () {
-                            final current = provider.placeAtTrack;
-                            provider.setSelectedPlaceAtTrack = current == null
-                                ? true
-                                : !current;
-                          },
-                          verticalPadding: 16,
+                      ],
+                    ),
+                    horizontalDivider(),
+                    Expanded(
+                      child: SingleChildScrollView(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 14.w,
+                          vertical: 10.h,
                         ),
-                        horizontalDivider(),
-                        Column(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+                            AppMultiSelectTrackDropdown(
+                              items: provider.trackList ?? const [],
+                              hintText: "All Tracks",
+                            ),
+                            horizontalDivider(),
                             SearchCheckboxField(
-                              title: "Won at track",
-                              isChecked: provider.selectedWinsAtTrack == true,
+                              title: "Placed last start",
+                              isChecked: provider.placedLastStart,
+                              onTap: () => provider.togglePlacedLastStart(
+                                !provider.placedLastStart,
+                              ),
+                              verticalPadding: 16,
+                            ),
+                            horizontalDivider(),
+                            SearchCheckboxField(
+                              title: "Placed at distance",
+                              isChecked: provider.placedAtDistance,
+                              onTap: () => provider.togglePlacedAtDistance(
+                                !provider.placedAtDistance,
+                              ),
+                              verticalPadding: 16,
+                            ),
+                            horizontalDivider(),
+                            SearchCheckboxField(
+                              title: "Placed at track",
+                              isChecked: provider.placeAtTrack == true,
                               onTap: () {
-                                final current = provider.selectedWinsAtTrack;
-                                provider.setSelectedWinsAtTrack =
+                                final current = provider.placeAtTrack;
+                                provider.setSelectedPlaceAtTrack =
                                     current == null ? true : !current;
                               },
                               verticalPadding: 16,
                             ),
                             horizontalDivider(),
-                            SearchCheckboxField(
-                              title: "Won at distance",
-                              isChecked: provider.wonAtDistance,
-                              onTap: () => provider.toggleWonAtDistance(
-                                !provider.wonAtDistance,
-                              ),
-                              verticalPadding: 16,
+                            Column(
+                              children: [
+                                SearchCheckboxField(
+                                  title: "Won at track",
+                                  isChecked:
+                                      provider.selectedWinsAtTrack == true,
+                                  onTap: () {
+                                    final current =
+                                        provider.selectedWinsAtTrack;
+                                    provider.setSelectedWinsAtTrack =
+                                        current == null ? true : !current;
+                                  },
+                                  verticalPadding: 16,
+                                ),
+                                horizontalDivider(),
+                                SearchCheckboxField(
+                                  title: "Won at distance",
+                                  isChecked: provider.wonAtDistance,
+                                  onTap: () => provider.toggleWonAtDistance(
+                                    !provider.wonAtDistance,
+                                  ),
+                                  verticalPadding: 16,
+                                ),
+                                horizontalDivider(),
+                                SearchCheckboxField(
+                                  title: "Won last start",
+                                  isChecked: provider.wonLastStart,
+                                  onTap: () => provider.toggleWonLastStart(
+                                    !provider.wonLastStart,
+                                  ),
+                                  verticalPadding: 16,
+                                ),
+                                horizontalDivider(),
+                                SearchCheckboxField(
+                                  title: "Won last 12 months",
+                                  isChecked: provider.wonLast12Months,
+                                  onTap: () => provider.toggleWonLast12Months(
+                                    !provider.wonLast12Months,
+                                  ),
+                                  verticalPadding: 16,
+                                ),
+                                horizontalDivider(),
+                                OddsRangeSliderField(
+                                  values: provider.oddsRangeValues,
+                                  onChanged: provider.updateOddsRange,
+                                ),
+                                horizontalDivider(),
+                                JockeyHorseWinsSliderField(
+                                  values: provider.jockeyHorseWinsRangeValues,
+                                  onChanged:
+                                      provider.updateJockeyHorseWinsRange,
+                                ),
+                                horizontalDivider(),
+                                BarrierRangeSliderField(
+                                  values: provider.barrierRangeIndexValues,
+                                  onChanged: provider.updateBarrierRange,
+                                ),
+                                horizontalDivider(),
+                              ],
                             ),
-                            horizontalDivider(),
-                            SearchCheckboxField(
-                              title: "Won last start",
-                              isChecked: provider.wonLastStart,
-                              onTap: () => provider.toggleWonLastStart(
-                                !provider.wonLastStart,
-                              ),
-                              verticalPadding: 16,
-                            ),
-                            horizontalDivider(),
-                            SearchCheckboxField(
-                              title: "Won last 12 months",
-                              isChecked: provider.wonLast12Months,
-                              onTap: () => provider.toggleWonLast12Months(
-                                !provider.wonLast12Months,
-                              ),
-                              verticalPadding: 16,
-                            ),
-                            horizontalDivider(),
-                            OddsRangeSliderField(
-                              values: provider.oddsRangeValues,
-                              onChanged: provider.updateOddsRange,
-                            ),
-                            horizontalDivider(),
-                            JockeyHorseWinsSliderField(
-                              values: provider.jockeyHorseWinsRangeValues,
-                              onChanged: provider.updateJockeyHorseWinsRange,
-                            ),
-                            horizontalDivider(),
-                            BarrierRangeSliderField(
-                              values: provider.barrierRangeIndexValues,
-                              onChanged: provider.updateBarrierRange,
-                            ),
-                            horizontalDivider(),
                           ],
                         ),
-                      ],
+                      ),
                     ),
-                  ),
+                    AppFilledButton(
+                      text: "Apply",
+                      onTap: () {
+                        provider.setIsSearched(value: true);
+                        ctx.pop();
+                      },
+                      textStyle: semiBold(color: AppColors.white, fontSize: 14),
+                    ),
+                  ],
                 ),
-                AppFilledButton(
-                  text: "Apply",
-                  onTap: () {
-                    provider.setIsSearched(value: true);
-                    ctx.pop();
-                  },
-                  textStyle: semiBold(color: AppColors.white, fontSize: 14),
-                ),
-              ],
-            ),
+              );
+            },
           ),
         );
       },
