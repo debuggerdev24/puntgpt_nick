@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:puntgpt_nick/core/app_imports.dart';
 import 'package:puntgpt_nick/main.dart';
 import 'package:puntgpt_nick/models/account/subscription_plan_model.dart';
@@ -36,7 +38,7 @@ class SelectedPlanScreen extends StatelessWidget {
         ),
         Consumer<SubscriptionProvider>(
           builder: (context, provider, child) {
-            if (!provider.isSubscriptionProcessing) {
+            if (!provider.isSubscriptionProcessing || (Platform.isIOS)) {
               return SizedBox.shrink();
             }
             return FullPageIndicator();
