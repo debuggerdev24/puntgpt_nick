@@ -15,6 +15,7 @@ class SubscriptionService {
   };
 
   List<ProductDetails> _products = [];
+  List<ProductDetails> get products => _products;
 
   //* Purchase stream for the provider to listen to.
   Stream<List<PurchaseDetails>> get purchaseStream => _iap.purchaseStream;

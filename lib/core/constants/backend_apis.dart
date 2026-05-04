@@ -20,6 +20,8 @@ class EndPoints {
 
   //* horse-race section
   static String trackDetails = "/horse-race/track-displaying/";
+  static String trainerDisplay = "/horse-race/trainer-displaying/";
+  static String jockeyDisplay = "/horse-race/jockey-displaying/";
   static String distanceDetails = "/horse-race/distance-displaying/";
   static String searchFilterDetails = "/horse-race/search-filter-display/";
   static String barrierDetails = "/horse-race/barrier-display/";
@@ -133,5 +135,4 @@ class EndPoints {
       "/horse-race/stories/section/$section/del/";
   static String updateStorySection({required String section}) =>
       "/horse-race/stories/section/$section/";
-
 }

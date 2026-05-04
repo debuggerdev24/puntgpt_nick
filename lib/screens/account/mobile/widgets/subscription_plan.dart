@@ -1,5 +1,6 @@
 import 'package:puntgpt_nick/core/app_imports.dart';
 import 'package:puntgpt_nick/models/account/subscription_plan_model.dart';
+import 'package:puntgpt_nick/services/subscription/subscription_platform_service.dart';
 
 class SubscriptionPlanMobile extends StatelessWidget {
   const SubscriptionPlanMobile({super.key, required this.plan});
@@ -7,6 +8,7 @@ class SubscriptionPlanMobile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final price = SubscriptionService.instance.products.firstWhere((element) => element.id == plan.productIdIos).price.toString();
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 25.w, vertical: 12.h),
       padding: EdgeInsets.symmetric(horizontal: 18.w, vertical: 22.h),
