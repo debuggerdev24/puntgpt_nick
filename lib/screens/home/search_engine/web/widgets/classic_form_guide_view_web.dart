@@ -4,7 +4,6 @@ import 'package:puntgpt_nick/models/home/classic_form_guide/next_race_model.dart
 import 'package:puntgpt_nick/provider/home/classic_form/classic_form_provider.dart';
 import 'package:puntgpt_nick/screens/home/search_engine/web/widgets/classic_form_meetings_block_web.dart';
 import 'package:puntgpt_nick/screens/home/search_engine/web/widgets/home_section_shimmers_web.dart';
-import 'package:puntgpt_nick/screens/home/search_engine/web/widgets/race_table_web.dart';
 
 class ClassicFormGuideViewWeb extends StatelessWidget {
   const ClassicFormGuideViewWeb({super.key, required this.bodyWidth});
