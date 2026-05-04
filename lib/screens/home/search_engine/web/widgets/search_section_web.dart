@@ -45,7 +45,7 @@ class _SearchSectionWebState extends State<SearchSectionWeb> {
         return SizedBox(
           child: Padding(
             padding: EdgeInsets.symmetric(
-              horizontal: context.isDesktop ?  60 : 25,
+              horizontal: context.isDesktop ? 60 : 25,
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -113,9 +113,7 @@ class _SearchSectionWebState extends State<SearchSectionWeb> {
     if (index >= provider.runnersList!.length) {
       return Container(
         decoration: BoxDecoration(
-          border: Border.all(
-            color: AppColors.primary.withValues(alpha: 0.4),
-          ),
+          border: Border.all(color: AppColors.primary.withValues(alpha: 0.4)),
         ),
         child: const Center(
           child: CircularProgressIndicator(
@@ -148,14 +146,12 @@ class _SearchSectionWebState extends State<SearchSectionWeb> {
       onAddToTipSlip: () {
         provider.createTipSlip(
           context: context,
-          selectionId:
-              provider.runnersList![index].selectionId.toString(),
+          selectionId: provider.runnersList![index].selectionId.toString(),
         );
       },
       onCompareToField: () {
         provider.compareHorses(
-          selectionId:
-              provider.runnersList![index].selectionId.toString(),
+          selectionId: provider.runnersList![index].selectionId.toString(),
         );
       },
       onSaveSearch: (String name) {
@@ -179,7 +175,13 @@ class _SearchSectionWebState extends State<SearchSectionWeb> {
     required BuildContext context,
     required SearchEngineProvider provider,
   }) {
-    final cross = context.screenWidth > 980 ? 2 : 3;
+    final cross = context.screenWidth > 980
+        ?
+          // conte
+          context.screenWidth > 1135
+              ? 3
+              : 2
+        : 1;
     const horizontalGap = 8.0;
     const verticalGap = 6.0;
     final extra = provider.isLoadingMoreRunners ? 2 : 0;
@@ -198,7 +200,9 @@ class _SearchSectionWebState extends State<SearchSectionWeb> {
               final i = start + slot;
               return Expanded(
                 child: Padding(
-                  padding: EdgeInsets.only(right: slot < cross - 1 ? horizontalGap : 0),
+                  padding: EdgeInsets.only(
+                    right: slot < cross - 1 ? horizontalGap : 0,
+                  ),
                   child: i < total
                       ? _runnerBoxWebAtIndex(
                           context: context,
