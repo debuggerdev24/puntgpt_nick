@@ -175,13 +175,7 @@ class _SearchSectionWebState extends State<SearchSectionWeb> {
     required BuildContext context,
     required SearchEngineProvider provider,
   }) {
-    final cross = context.screenWidth > 980
-        ?
-          // conte
-          context.screenWidth > 1135
-              ? 3
-              : 2
-        : 1;
+    final cross = context.screenWidth > 980 ? 2 : 3;
     const horizontalGap = 8.0;
     const verticalGap = 6.0;
     final extra = provider.isLoadingMoreRunners ? 2 : 0;
