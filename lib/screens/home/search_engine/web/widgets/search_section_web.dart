@@ -175,7 +175,11 @@ class _SearchSectionWebState extends State<SearchSectionWeb> {
     required BuildContext context,
     required SearchEngineProvider provider,
   }) {
-    final cross = context.screenWidth > 980 ? 2 : 3;
+    final cross = context.screenWidth > 980
+        ? context.screenWidth > 1135
+              ? 3
+              : 2
+        : 1;
     const horizontalGap = 8.0;
     const verticalGap = 6.0;
     final extra = provider.isLoadingMoreRunners ? 2 : 0;
@@ -227,7 +231,7 @@ class _SearchSectionWebState extends State<SearchSectionWeb> {
           spacing: 6,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            if (context.screenWidth > 980)
+            if (context.screenWidth > context.screenWidth - 50)
               //* --------------------> left panel
               SizedBox(
                 width: 260,
