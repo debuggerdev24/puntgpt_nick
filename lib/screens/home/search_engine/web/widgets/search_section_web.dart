@@ -19,8 +19,6 @@ class SearchSectionWeb extends StatefulWidget {
 class _SearchSectionWebState extends State<SearchSectionWeb> {
   final Map<String, TextEditingController> _controllers = {};
 
-  /// Avoids calling [SearchEngineProvider.loadNextRunners] on every rebuild (spam).
-  /// We only auto-load once per distinct [runnersList.length] when the last cell builds.
   int _lastAutoPaginateForRunnerCount = 0;
 
   @override
@@ -47,7 +45,7 @@ class _SearchSectionWebState extends State<SearchSectionWeb> {
         return SizedBox(
           child: Padding(
             padding: EdgeInsets.symmetric(
-              horizontal: context.isDesktop ? 121 : 60,
+              horizontal: context.isDesktop ?  60 : 25,
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -105,6 +103,122 @@ class _SearchSectionWebState extends State<SearchSectionWeb> {
     );
   }
 
+  /// One cell: loading placeholder or runner card. No fixed aspect — height is
+  /// whatever the child needs.
+  Widget _runnerBoxWebAtIndex({
+    required BuildContext context,
+    required SearchEngineProvider provider,
+    required int index,
+  }) {
+    if (index >= provider.runnersList!.length) {
+      return Container(
+        decoration: BoxDecoration(
+          border: Border.all(
+            color: AppColors.primary.withValues(alpha: 0.4),
+          ),
+        ),
+        child: const Center(
+          child: CircularProgressIndicator(
+            strokeWidth: 2,
+            color: AppColors.primary,
+          ),
+        ),
+      );
+    }
+    final runnerCount = provider.runnersList!.length;
+    if (index == runnerCount - 1 &&
+        provider.hasMoreRunners &&
+        !provider.isLoadingMoreRunners &&
+        runnerCount != _lastAutoPaginateForRunnerCount) {
+      _lastAutoPaginateForRunnerCount = runnerCount;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted) return;
+        final p = context.read<SearchEngineProvider>();
+        if (p.runnersList == null ||
+            !p.hasMoreRunners ||
+            p.isLoadingMoreRunners) {
+          return;
+        }
+        p.loadNextRunners();
+      });
+    }
+    return RunnerBoxWeb(
+      index: index,
+      runner: provider.runnersList![index],
+      onAddToTipSlip: () {
+        provider.createTipSlip(
+          context: context,
+          selectionId:
+              provider.runnersList![index].selectionId.toString(),
+        );
+      },
+      onCompareToField: () {
+        provider.compareHorses(
+          selectionId:
+              provider.runnersList![index].selectionId.toString(),
+        );
+      },
+      onSaveSearch: (String name) {
+        provider.createSaveSearch(
+          name: name,
+          onError: (error) {
+            AppToast.error(context: context, message: error);
+          },
+          onSuccess: () {
+            AppToast.success(
+              context: context,
+              message: 'Search saved successfully',
+            );
+          },
+        );
+      },
+    );
+  }
+
+  Widget _runnersWebRows({
+    required BuildContext context,
+    required SearchEngineProvider provider,
+  }) {
+    final cross = context.screenWidth > 980 ? 2 : 3;
+    const horizontalGap = 8.0;
+    const verticalGap = 6.0;
+    final extra = provider.isLoadingMoreRunners ? 2 : 0;
+    final total = provider.runnersList!.length + extra;
+
+    final rows = <Widget>[];
+    for (var start = 0; start < total; start += cross) {
+      rows.add(
+        Padding(
+          padding: EdgeInsets.only(
+            bottom: start + cross < total ? verticalGap : 0,
+          ),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: List.generate(cross, (slot) {
+              final i = start + slot;
+              return Expanded(
+                child: Padding(
+                  padding: EdgeInsets.only(right: slot < cross - 1 ? horizontalGap : 0),
+                  child: i < total
+                      ? _runnerBoxWebAtIndex(
+                          context: context,
+                          provider: provider,
+                          index: i,
+                        )
+                      : const SizedBox.shrink(),
+                ),
+              );
+            }),
+          ),
+        ),
+      );
+    }
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: rows,
+    );
+  }
+
   /// For Mobile
 
   Widget _buildSearchView({required SearchEngineProvider provider}) {
@@ -118,7 +232,7 @@ class _SearchSectionWebState extends State<SearchSectionWeb> {
             if (context.screenWidth > 980)
               //* --------------------> left panel
               SizedBox(
-                width: 220,
+                width: 260,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -256,6 +370,7 @@ class _SearchSectionWebState extends State<SearchSectionWeb> {
                       margin: EdgeInsets.only(
                         right: 12,
                         top: provider.isSearched ? 12 : 0,
+                        bottom: 14,
                       ),
                       text: "Search",
 
@@ -323,95 +438,7 @@ class _SearchSectionWebState extends State<SearchSectionWeb> {
                   SizedBox(height: 10),
                   if (provider.runnersList != null &&
                       provider.runnersList!.isNotEmpty)
-                    GridView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount:
-                          provider.runnersList!.length +
-                          (provider.isLoadingMoreRunners ? 2 : 0),
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: (context.screenWidth > 980) ? 2 : 3,
-                        childAspectRatio: (context.screenWidth > 980)
-                            ? 1.09
-                            : 0.95,
-                        crossAxisSpacing: 8,
-                        mainAxisSpacing: 12,
-                      ),
-                      itemBuilder: (context, index) {
-                        if (index >= provider.runnersList!.length) {
-                          return Container(
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                color: AppColors.primary.withValues(
-                                  alpha: 0.15,
-                                ),
-                              ),
-                            ),
-                            child: Center(
-                              child: CircularProgressIndicator(
-                                strokeWidth: 2,
-                                color: AppColors.primary,
-                              ),
-                            ),
-                          );
-                        }
-                        final runnerCount = provider.runnersList!.length;
-                        if (index == runnerCount - 1 &&
-                            provider.hasMoreRunners &&
-                            !provider.isLoadingMoreRunners &&
-                            runnerCount != _lastAutoPaginateForRunnerCount) {
-                          _lastAutoPaginateForRunnerCount = runnerCount;
-                          WidgetsBinding.instance.addPostFrameCallback((_) {
-                            if (!mounted) return;
-                            final p = context.read<SearchEngineProvider>();
-                            if (p.runnersList == null ||
-                                !p.hasMoreRunners ||
-                                p.isLoadingMoreRunners) {
-                              return;
-                            }
-                            p.loadNextRunners();
-                          });
-                        }
-                        return RunnerBoxWeb(
-                          index: index ,
-                          runner: provider.runnersList![index],
-                          onAddToTipSlip: () {
-                            provider.createTipSlip(
-                              context: context,
-                              selectionId: provider
-                                  .runnersList![index]
-                                  .selectionId
-                                  .toString(),
-                            );
-                          },
-                          onCompareToField: () {
-                            provider.compareHorses(
-                              selectionId: provider
-                                  .runnersList![index]
-                                  .selectionId
-                                  .toString(),
-                            );
-                          },
-                          onSaveSearch: (String name) {
-                            provider.createSaveSearch(
-                              name: name,
-                              onError: (error) {
-                                AppToast.error(
-                                  context: context,
-                                  message: error,
-                                );
-                              },
-                              onSuccess: () {
-                                AppToast.success(
-                                  context: context,
-                                  message: 'Search saved successfully',
-                                );
-                              },
-                            );
-                          },
-                        );
-                      },
-                    ),
+                    _runnersWebRows(context: context, provider: provider),
                 ],
               ),
             ),

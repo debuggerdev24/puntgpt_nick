@@ -164,7 +164,7 @@ class RunnerBoxWeb extends StatelessWidget {
       child: Container(
         margin: EdgeInsets.only(bottom: (context.isMobileWeb) ? 0 : 13),
         decoration: BoxDecoration(
-          border: Border.all(color: AppColors.primary.withValues(alpha: 0.15)),
+          border: Border.all(color: AppColors.primary.withValues(alpha: 0.4)),
         ),
         child: SingleChildScrollView(
           child: Column(
