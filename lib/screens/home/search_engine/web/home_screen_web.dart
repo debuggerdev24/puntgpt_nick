@@ -9,6 +9,7 @@ import 'package:puntgpt_nick/screens/home/search_engine/mobile/widgets/race_tabl
 import 'package:puntgpt_nick/screens/home/search_engine/web/ask_puntgpt_screen_web.dart';
 import 'package:puntgpt_nick/screens/home/search_engine/web/widgets/home_screen_tab_web.dart';
 import 'package:puntgpt_nick/screens/home/search_engine/web/widgets/race_start_timing_option_web.dart';
+import 'package:puntgpt_nick/screens/home/search_engine/web/widgets/home_section_shimmers_web.dart';
 import 'package:puntgpt_nick/screens/home/search_engine/web/widgets/race_table_web.dart';
 import 'package:puntgpt_nick/screens/home/search_engine/web/widgets/search_section_web.dart';
 
@@ -268,19 +269,20 @@ class _HomeScreenWebState extends State<HomeScreenWeb> {
                                       style: bold(fontSize: 16),
                                     ),
                                     const SizedBox(height: 10),
-                                    if (list.isEmpty)
+                                    if (list == null)
+                                      WebHomeSectionShimmers.nextToGoWebShimmer()
+                                    else if (list.isEmpty)
                                       _nextToGoEmptyWebStatic()
                                     else
                                       ScrollConfiguration(
-                                        behavior:
-                                            const MaterialScrollBehavior()
-                                                .copyWith(
-                                          dragDevices: {
-                                            PointerDeviceKind.touch,
-                                            PointerDeviceKind.mouse,
-                                            PointerDeviceKind.trackpad,
-                                          },
-                                        ),
+                                        behavior: const MaterialScrollBehavior()
+                                            .copyWith(
+                                              dragDevices: {
+                                                PointerDeviceKind.touch,
+                                                PointerDeviceKind.mouse,
+                                                PointerDeviceKind.trackpad,
+                                              },
+                                            ),
                                         child: SingleChildScrollView(
                                           scrollDirection: Axis.horizontal,
                                           child: Row(
@@ -296,6 +298,9 @@ class _HomeScreenWebState extends State<HomeScreenWeb> {
                                           ),
                                         ),
                                       ),
+                                    _classicFormDayTabsAndRegionalHeader(
+                                      classicForm,
+                                    ),
                                     //* race table
                                     RaceTableWeb(tableWidth: bodyWidth),
                                   ],
@@ -318,10 +323,71 @@ class _HomeScreenWebState extends State<HomeScreenWeb> {
     );
   }
 
+  /// Yesterday / Today / Tomorrow (same behaviour as mobile) + Regional title.
+  Widget _classicFormDayTabsAndRegionalHeader(
+    ClassicFormProvider provider,
+  ) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 14),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          ScrollConfiguration(
+            behavior: const MaterialScrollBehavior().copyWith(
+              dragDevices: {
+                PointerDeviceKind.touch,
+                PointerDeviceKind.mouse,
+                PointerDeviceKind.trackpad,
+              },
+            ),
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: List.generate(provider.days.length, (index) {
+                  final selected = provider.selectedDay == index;
+                  return Padding(
+                    padding: EdgeInsets.only(
+                      right: index < provider.days.length - 1 ? 8 : 0,
+                    ),
+                    child: GestureDetector(
+                      onTap: () => provider.changeSelectedDay = index,
+                      child: AnimatedContainer(
+                        duration: const Duration(milliseconds: 400),
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 12,
+                          horizontal: 18,
+                        ),
+                        decoration: BoxDecoration(
+                          color: selected ? AppColors.primary : null,
+                          border: Border.all(
+                            color: AppColors.primary.withValues(alpha: 0.15),
+                          ),
+                        ),
+                        child: Text(
+                          provider.days[index].value,
+                          style: semiBold(
+                            fontSize: 16,
+                            color: selected ? AppColors.white : AppColors.primary,
+                          ),
+                        ),
+                      ),
+                    ),
+                  );
+                }),
+              ),
+            ),
+          ),
+          const SizedBox(height: 8),
+          Text('Regional', style: bold(fontSize: 16)),
+        ],
+      ),
+    );
+  }
+
   Widget _nextToGoItemWeb({required NextRaceModel nextRace}) {
     return Container(
-      width: 200,
-      padding: const EdgeInsets.fromLTRB(7, 7, 7, 7),
+      width: 190,
+      padding: const EdgeInsets.fromLTRB(6, 5, 7, 7),
       decoration: BoxDecoration(
         border: Border.all(color: AppColors.primary.withValues(alpha: 0.6)),
       ),
@@ -341,6 +407,8 @@ class _HomeScreenWebState extends State<HomeScreenWeb> {
                 child: _NextToGoRaceNameBlock(
                   raceName: nextRace.raceName,
                   nameStyle: semiBold(
+                    height: 1.2,
+
                     fontSize: 14,
                     color: AppColors.primary.withValues(alpha: 0.6),
                   ),
@@ -473,8 +541,6 @@ class _NextToGoRaceNameBlockState extends State<_NextToGoRaceNameBlock> {
         final maxW = constraints.maxWidth;
         final overflows = _overflowsTwoLines(maxW, context);
 
-            
-
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
@@ -483,8 +549,9 @@ class _NextToGoRaceNameBlockState extends State<_NextToGoRaceNameBlock> {
               widget.raceName,
               style: widget.nameStyle,
               maxLines: _expanded ? null : 2,
-              overflow:
-                  _expanded ? TextOverflow.visible : TextOverflow.ellipsis,
+              overflow: _expanded
+                  ? TextOverflow.visible
+                  : TextOverflow.ellipsis,
             ),
             if (overflows || _expanded)
               GestureDetector(
@@ -493,7 +560,14 @@ class _NextToGoRaceNameBlockState extends State<_NextToGoRaceNameBlock> {
                   padding: const EdgeInsets.only(top: 2),
                   child: Text(
                     _expanded ? 'Show less' : 'Show more',
-                    style: semiBold(fontSize: 12, color: AppColors.primary,decoration: TextDecoration.underline,decorationColor: AppColors.primary),
+
+                    style: semiBold(
+                      height: 1,
+                      fontSize: 12,
+                      color: AppColors.primary,
+                      decoration: TextDecoration.underline,
+                      decorationColor: AppColors.primary,
+                    ),
                   ),
                 ),
               ),

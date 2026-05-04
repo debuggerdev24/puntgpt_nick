@@ -11,7 +11,7 @@ class ClassicFormGuideView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final nextRaces = provider.nextRaceList;
+    final nextRaces = provider.nextRaceList!;
     return SingleChildScrollView(
       padding: EdgeInsets.symmetric(horizontal: 25.w),
       child: Column(

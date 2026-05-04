@@ -46,7 +46,7 @@ class ClassicFormProvider extends ChangeNotifier {
   List<ClassicFormModel> get classicFormTrialMeetings =>
       _classicFormTrial ?? const [];
   MeetingDetailsModel? get raceList => _meetingRaceList;
-  List<NextRaceModel> get nextRaceList => _nextRaceList ?? [];
+  List<NextRaceModel>? get nextRaceList => _nextRaceList;
   RaceDetails? get raceDetails => _raceFieldDetail;
   TipsAnalysisModel? get tipsAndAnalysis => _tipsAndAnalysis;
   SpeedMapsModel? get speedMaps => _speedMaps;
@@ -183,6 +183,7 @@ class ClassicFormProvider extends ChangeNotifier {
     response.fold(
       (l) {
         Logger.error(l.errorMsg);
+        _nextRaceList = [];
       },
       (r) {
         final data = r["data"] as List;

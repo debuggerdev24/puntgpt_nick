@@ -50,7 +50,7 @@ class _SavedSearchesWebState extends State<SavedSearchesWeb> {
                   if (items == null)
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 30),
-                      child: WebSectionShimmers.savedSearchesShimmer(
+                      child: WebHomeSectionShimmers.savedSearchesShimmer(
                         context: context,
                       ),
                     )

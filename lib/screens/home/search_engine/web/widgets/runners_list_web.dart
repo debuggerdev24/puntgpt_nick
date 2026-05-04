@@ -51,7 +51,7 @@ class CompareFieldSideSheetBody extends StatelessWidget {
       child: Consumer<SearchEngineProvider>(
         builder: (_, p, __) {
           if (p.compareHorse == null) {
-            return WebSectionShimmers.compareFieldSideSheetShimmer();
+            return WebHomeSectionShimmers.compareFieldSideSheetShimmer();
           }
           return Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,

@@ -1,8 +1,8 @@
 import 'package:puntgpt_nick/core/app_imports.dart';
 import 'package:puntgpt_nick/screens/home/search_engine/mobile/widgets/home_section_shimmers.dart';
 
-class WebSectionShimmers {
-  WebSectionShimmers._();
+class WebHomeSectionShimmers {
+  WebHomeSectionShimmers._();
 
   static Widget tipSlipScreenShimmer({required BuildContext context}) {
     return HomeSectionShimmers.tipSlipScreenShimmer(context: context);
@@ -137,6 +137,71 @@ class WebSectionShimmers {
               ),
             ),
           ),
+        ),
+      ),
+    );
+  }
+
+  /// Shimmer for classic tab "Next to go" horizontal cards (static sizes).
+  static Widget nextToGoWebShimmer() {
+    const cardW = 200.0;
+    const pad = 7.0;
+    const innerW = cardW - pad * 2;
+    const gap = 6.0;
+
+    Widget line(double width, double height) {
+      return Container(
+        width: width,
+        height: height,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(4),
+        ),
+      );
+    }
+
+    Widget oneCard() {
+      return SizedBox(
+        width: cardW,
+        child: Container(
+          padding: const EdgeInsets.all(pad),
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: AppColors.shimmerBaseColor.withValues(alpha: 0.45),
+            ),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              line(innerW * 0.88, 14),
+              SizedBox(height: gap),
+              line(innerW * 0.95, 12),
+              const SizedBox(height: 5),
+              line(innerW * 0.62, 12),
+              const SizedBox(height: 8),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  line(78, 12),
+                  line(52, 12),
+                ],
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
+    return Shimmer.fromColors(
+      baseColor: AppColors.shimmerBaseColor,
+      highlightColor: AppColors.shimmerHighlightColor,
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          spacing: gap,
+          children: List.generate(4, (_) => oneCard()),
         ),
       ),
     );

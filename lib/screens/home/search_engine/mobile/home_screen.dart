@@ -93,7 +93,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                           )
                         : Consumer<ClassicFormProvider>(
                             builder: (context, provider, child) =>
-                                provider.classicFormGuide == null
+                                provider.classicFormGuide == null || provider.nextRaceList == null
                                 ? HomeSectionShimmers.classicFormGuideShimmer(
                                     context: context,
                                   )

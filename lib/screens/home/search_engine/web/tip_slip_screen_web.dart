@@ -33,7 +33,7 @@ class TipSlipScreenWeb extends StatelessWidget {
           child: Consumer<SearchEngineProvider>(
             builder: (context, provider, child) {
               if (provider.tipSlips == null) {
-                return WebSectionShimmers.tipSlipScreenShimmer(
+                return WebHomeSectionShimmers.tipSlipScreenShimmer(
                   context: context,
                 );
               }
