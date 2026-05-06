@@ -1,8 +1,8 @@
 import 'package:flutter/gestures.dart';
 import 'package:puntgpt_nick/core/app_imports.dart';
+import 'package:puntgpt_nick/models/home/classic_form_guide/classic_form_model.dart';
 import 'package:puntgpt_nick/models/home/classic_form_guide/next_race_model.dart';
 import 'package:puntgpt_nick/provider/home/classic_form/classic_form_provider.dart';
-import 'package:puntgpt_nick/screens/home/search_engine/web/widgets/classic_form_meetings_block_web.dart';
 import 'package:puntgpt_nick/screens/home/search_engine/web/widgets/home_section_shimmers_web.dart';
 
 class ClassicFormGuideViewWeb extends StatelessWidget {
@@ -19,6 +19,167 @@ class ClassicFormGuideViewWeb extends StatelessWidget {
           child: Consumer<ClassicFormProvider>(
             builder: (context, provider, _) {
               final list = provider.nextRaceList;
+              final guide = provider.classicFormGuide;
+
+              void openMeeting(ClassicFormModel meeting) {
+                provider.getMeetingRaceList(
+                  meetingId: meeting.meetingId.toString(),
+                );
+                if (meeting.races.isEmpty) return;
+                final raceIndex = provider.selectedRace.clamp(
+                  0,
+                  meeting.races.length - 1,
+                );
+                provider.getRaceFieldDetail(
+                  id: meeting.races[raceIndex].raceId.toString(),
+                );
+                context.pushNamed(WebRoutes.selectedRace.name);
+              }
+
+              Widget meetingTile(ClassicFormModel meeting) {
+                final trackCondition = meeting.races.isEmpty
+                    ? ''
+                    : meeting.races.first.trackCondition.toLowerCase();
+                return OnMouseTap(
+                  onTap: () => openMeeting(meeting),
+                  child: Container(
+                    width: context.fullScreenWidth * 0.22,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 9,
+                      vertical: 8,
+                    ),
+                    decoration: BoxDecoration(
+                      color: AppColors.white,
+                      borderRadius: BorderRadius.circular(5),
+                      border: Border.all(
+                        color: AppColors.primary.withValues(alpha: 0.5),
+                      ),
+                    ),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                meeting.trackName,
+                                style: semiBold(
+                                  fontSize: 15,
+                                  color: AppColors.black,
+                                  fontFamily: AppFontFamily.primary,
+                                ),
+                                maxLines: 3,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              const SizedBox(height: 2),
+                              if (meeting.country.isNotEmpty)
+                                Text(
+                                  'Country : ${meeting.country}',
+                                  style: regular(
+                                    fontSize: 12,
+                                    color: AppColors.primary.withValues(
+                                      alpha: 0.85,
+                                    ),
+                                    fontFamily: AppFontFamily.primary,
+                                    height: 1.2,
+                                  ),
+                                ),
+                              ...[
+                                const SizedBox(height: 2),
+                                Text(
+                                  'Rail Pos. : ${(meeting.railPosition.isNotEmpty) ? meeting.railPosition : '-'}',
+                                  style: regular(
+                                    fontSize: 12,
+                                    color: AppColors.primary.withValues(
+                                      alpha: 0.85,
+                                    ),
+                                    fontFamily: AppFontFamily.primary,
+                                  ),
+                                  maxLines: 2,
+                                ),
+                              ],
+                            ],
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                if (meeting.races.isNotEmpty)
+                                  Text(
+                                    '${meeting.weatherEmoji} ',
+                                    style: semiBold(
+                                      fontSize: 18,
+                                      color: AppColors.primary.withValues(
+                                        alpha: 0.85,
+                                      ),
+                                      fontFamily: AppFontFamily.primary,
+                                    ),
+                                  ),
+                                if (meeting.races.isNotEmpty)
+                                  Text(
+                                    meeting.races.first.trackCondition,
+                                    style: semiBold(
+                                      fontSize: 13.5,
+                                      color: trackCondition.contains('good')
+                                          ? AppColors.green
+                                          : trackCondition.contains('soft')
+                                              ? Colors.blue
+                                              : AppColors.red,
+                                      fontFamily: AppFontFamily.primary,
+                                    ),
+                                  ),
+                              ],
+                            ),
+                            if (meeting.meetingAustralianTime.isNotEmpty) ...[
+                              const SizedBox(height: 5),
+                              Text(
+                                meeting.meetingAustralianTime,
+                                style: semiBold(
+                                  fontSize: 14.5,
+                                  color: AppColors.black,
+                                  fontFamily: AppFontFamily.primary,
+                                ),
+                              ),
+                            ],
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              }
+
+              Widget section(String label, List<ClassicFormModel> items) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 10, top: 4),
+                      child: Text(
+                        label,
+                        style: semiBold(
+                          fontSize: 16,
+                          color: AppColors.black,
+                          fontFamily: AppFontFamily.primary,
+                        ),
+                      ),
+                    ),
+                    for (var i = 0; i < items.length; i++) ...[
+                      if (i > 0) const SizedBox(height: 8),
+                      meetingTile(items[i]),
+                    ],
+                  ],
+                );
+              }
+
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -50,7 +211,111 @@ class ClassicFormGuideViewWeb extends StatelessWidget {
                       ),
                     ),
                   _classicFormDayTabs(provider: provider),
-                  ClassicFormMeetingsBlockWeb(provider: provider),
+                  if (guide == null)
+                    const Padding(
+                      padding: EdgeInsets.only(top: 16, bottom: 24),
+                      child: Center(
+                        child: SizedBox(
+                          width: 28,
+                          height: 28,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            color: AppColors.primary,
+                          ),
+                        ),
+                      ),
+                    )
+                  else if (guide.isEmpty)
+                    Container(
+                      width: double.infinity,
+                      margin: const EdgeInsets.only(bottom: 24),
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 28,
+                        horizontal: 20,
+                      ),
+                      decoration: BoxDecoration(
+                        color: AppColors.primary.withValues(alpha: 0.03),
+                        border: Border.all(
+                          color: AppColors.primary.withValues(alpha: 0.15),
+                        ),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.all(14),
+                            decoration: BoxDecoration(
+                              color: AppColors.green.withValues(alpha: 0.1),
+                              shape: BoxShape.circle,
+                              border: Border.all(
+                                color: AppColors.green.withValues(alpha: 0.22),
+                              ),
+                            ),
+                            child: Icon(
+                              Icons.calendar_today_outlined,
+                              size: 30,
+                              color: AppColors.primary.withValues(alpha: 0.55),
+                            ),
+                          ),
+                          const SizedBox(height: 14),
+                          Text(
+                            'No races for ${provider.days[provider.selectedDay].value.toLowerCase()}',
+                            style: semiBold(
+                              fontSize: 16,
+                              fontFamily: AppFontFamily.secondary,
+                              color: AppColors.primary,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
+                      ),
+                    )
+                  else
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8, bottom: 32),
+                      child: provider.classicFormGuideIsGrouped
+                          ? Wrap(
+                              spacing: 4,
+                              runSpacing: 6,
+                              children: [
+                                if (provider.classicFormMetroMeetings.isNotEmpty)
+                                  ...[
+                                    const SizedBox(height: 6),
+                                    section(
+                                      'Metro',
+                                      provider.classicFormMetroMeetings,
+                                    ),
+                                  ],
+                                if (provider
+                                    .classicFormRegionalMeetings.isNotEmpty) ...[
+                                  const SizedBox(height: 6),
+                                  section(
+                                    'Regional',
+                                    provider.classicFormRegionalMeetings,
+                                  ),
+                                ],
+                                if (provider.classicFormTrialMeetings.isNotEmpty)
+                                  ...[
+                                    const SizedBox(height: 6),
+                                    section(
+                                      'Trials',
+                                      provider.classicFormTrialMeetings,
+                                    ),
+                                  ],
+                              ],
+                            )
+                          : Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                for (var i = 0; i < guide.length; i++) ...[
+                                  if (i > 0) const SizedBox(height: 10),
+                                  meetingTile(guide[i]),
+                                ],
+                              ],
+                            ),
+                    ),
                   // RaceTableWeb(tableWidth: bodyWidth),
                 ],
               );
@@ -191,6 +456,7 @@ class ClassicFormGuideViewWeb extends StatelessWidget {
       ),
     );
   }
+
 }
 
 class _NextToGoRaceNameBlock extends StatefulWidget {
