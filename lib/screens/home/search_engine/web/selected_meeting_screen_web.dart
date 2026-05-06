@@ -68,76 +68,81 @@ class _SelectedMeetingScreenWebState extends State<SelectedMeetingScreenWeb> {
                   //* Race selection (dropdown) + sub-nav (matches mobile layout)
                   Padding(
                     padding: const EdgeInsets.fromLTRB(25, 15, 25, 0),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                          width: 210,
-                          child: AppTextFieldDropdown(
-                            textStyle: medium(fontSize: 12),
-                            items: List.generate(
-                              classicForm.raceList!.races.length,
-                              (i) => "R${i + 1}",
-                            ),
-                            selectedValue: _selectedRaceLabel,
-                            onChange: (value) {
-                              setState(() => _selectedRaceLabel = value);
-                              final idx =
-                                  int.tryParse(
-                                    value.replaceAll('R', '').trim(),
-                                  ) ??
-                                  1;
-                              final raceIndex = (idx - 1).clamp(
-                                0,
-                                classicForm.raceList!.races.length - 1,
-                              );
-                              classicForm.getRaceFieldDetail(
-                                id: classicForm
-                                    .raceList!
-                                    .races[raceIndex]
-                                    .raceId
-                                    .toString(),
-                              );
-                            },
-                            hintText: "R1",
-                          ),
-                        ),
-                        const SizedBox(width: 14),
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 15,
-                            vertical: 12,
-                          ),
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: AppColors.primary.withValues(alpha: 0.2),
-                            ),
-                          ),
-                          child: Row(
-                            spacing: 17,
-                            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "Tips & Analysis",
-                                style: semiBold(fontSize: 14),
+                    child: IntrinsicHeight(
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          SizedBox(
+                            width: 210,
+                            child: AppTextFieldDropdown(
+                              textStyle: medium(fontSize: 12),
+                              items: List.generate(
+                                classicForm.raceList!.races.length,
+                                (i) => "R${i + 1}",
                               ),
-                              Text("Speed Maps", style: semiBold(fontSize: 14)),
-                              OnMouseTap(
-                                onTap: () {
-                                  AppToast.info(
-                                    context: context,
-                                    message: 'Coming soon',
-                                  );
-                                },
-                                child: Text(
-                                  "Barrier Map",
+                              selectedValue: _selectedRaceLabel,
+                              onChange: (value) {
+                                setState(() => _selectedRaceLabel = value);
+                                final idx =
+                                    int.tryParse(
+                                      value.replaceAll('R', '').trim(),
+                                    ) ??
+                                    1;
+                                final raceIndex = (idx - 1).clamp(
+                                  0,
+                                  classicForm.raceList!.races.length - 1,
+                                );
+                                classicForm.getRaceFieldDetail(
+                                  id: classicForm
+                                      .raceList!
+                                      .races[raceIndex]
+                                      .raceId
+                                      .toString(),
+                                );
+                              },
+                              hintText: "R1",
+                            ),
+                          ),
+                          const SizedBox(width: 14),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 15,
+                              vertical: 15,
+                            ),
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: AppColors.primary.withValues(alpha: 0.2),
+                              ),
+                            ),
+                            child: Row(
+                              spacing: context.fullScreenWidth * 0.02,
+                              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "Tips & Analysis",
                                   style: semiBold(fontSize: 14),
                                 ),
-                              ),
-                            ],
+                                Text(
+                                  "Speed Maps",
+                                  style: semiBold(fontSize: 14),
+                                ),
+                                OnMouseTap(
+                                  onTap: () {
+                                    AppToast.info(
+                                      context: context,
+                                      message: 'Coming soon',
+                                    );
+                                  },
+                                  child: Text(
+                                    "Barrier Map",
+                                    style: semiBold(fontSize: 14),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                   SelectedRaceTableWeb(
@@ -560,7 +565,7 @@ class _SelectedRaceTableWebState extends State<SelectedRaceTableWeb> {
                           color: AppColors.primary.withValues(alpha: 0.7),
                         ),
                       ),
-                       const SizedBox(height: 7),
+                      const SizedBox(height: 7),
                     ],
                   ],
                 ),
