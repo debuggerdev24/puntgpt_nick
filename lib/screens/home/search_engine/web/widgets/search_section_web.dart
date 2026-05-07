@@ -241,7 +241,7 @@ class _SearchSectionWebState extends State<SearchSectionWeb> {
             if (isShowingFilterPanel)
               //* --------------------> left panel
               SizedBox(
-                width: (context.fullScreenWidth * 23) / 100,
+                width: 250,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [

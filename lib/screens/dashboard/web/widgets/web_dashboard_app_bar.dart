@@ -1,5 +1,6 @@
 import 'package:puntgpt_nick/core/app_imports.dart';
 import 'package:badges/badges.dart' as badges;
+import 'package:puntgpt_nick/main.dart';
 import 'package:puntgpt_nick/provider/account/account_provider.dart';
 import 'package:puntgpt_nick/provider/home/search_engine/search_engine_provider.dart';
 import 'package:puntgpt_nick/provider/punt_club/punter_club_provider.dart';
@@ -58,7 +59,10 @@ class _WebDashboardAppBarState extends State<WebDashboardAppBar> {
                         onTap: () {
                           indexOfWebTab.value = 1;
                           WebRouter.indexedStackNavigationShell!.goBranch(1);
-                          context.read<PuntClubProvider>().getChatGroups();
+                          if (isGuest) return;
+                          final provider = context.read<PuntClubProvider>();
+                          provider.getChatGroups();
+                          provider.getNotifications();
                         },
                         isSelected: 1 == value,
                         text: "PuntGPT\nPunter Club",

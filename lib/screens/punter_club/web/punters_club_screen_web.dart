@@ -48,7 +48,8 @@ class PunterClubScreenWebScreen extends StatelessWidget {
                 if (!subProvider.isSubscribed) {
                   return SubscriptionGateViewWeb(
                     featureTitle: "Subscribe to access Punter Club",
-                    featureDescription: "Create and join clubs, chat with members, and share tips.",
+                    featureDescription:
+                        "Create and join clubs, chat with members, and share tips.",
                     icon: Icons.groups_rounded,
                     subscribeButtonWidth: 380,
                   );
@@ -128,47 +129,31 @@ class PunterClubScreenWebScreen extends StatelessWidget {
                               ],
                             ),
                           ),
-                          4.w.verticalSpace,
+                          SizedBox(height: 4),
                           horizontalDivider(),
 
                           //* chat tabs
-                          _chatTabs(
-                            title: "‘Top Punters’",
-                            // fourteenResponsive: fourteenResponsive,
-                            color: (provider.selectedPunterWeb == 0)
-                                ? AppColors.primary
-                                : null,
-                            onTap: () {
-                              provider.setPunterIndex = 0;
-                            },
-                            context: context,
+                          Expanded(
+                            child: ListView.separated(
+                              itemBuilder: (context, index) {
+                                final chatGroup =
+                                    provider.chatGroupsList![index];
+                                return _chatTabs(
+                                  title: chatGroup.name,
+                                  onTap: () {
+                                    provider.setSelectedChatGroupIndex = index;
+                                  },
+                                  context: context,
+                                );
+                              },
+                              separatorBuilder: (context, index) {
+                                return horizontalDivider();
+                              },
+                              addRepaintBoundaries: true,
+                              itemCount: provider.chatGroupsList!.length,
+                            ),
                           ),
                           horizontalDivider(),
-                          _chatTabs(
-                            title: "‘PuntGPT Legends’",
-                            // fourteenResponsive: fourteenResponsive,
-                            color: (provider.selectedPunterWeb == 1)
-                                ? AppColors.primary
-                                : null,
-                            onTap: () {
-                              provider.setPunterIndex = 1;
-                            },
-                            context: context,
-                          ),
-                          horizontalDivider(),
-                          _chatTabs(
-                            title: "‘Mug Punters Crew’",
-                            // fourteenResponsive: fourteenResponsive,
-                            color: (provider.selectedPunterWeb == 2)
-                                ? AppColors.primary
-                                : null,
-                            onTap: () {
-                              provider.setPunterIndex = 2;
-                            },
-                            context: context,
-                          ),
-                          horizontalDivider(),
-                          Spacer(),
                           AppOutlinedButton(
                             margin: EdgeInsets.all(24.w),
                             textStyle: semiBold(

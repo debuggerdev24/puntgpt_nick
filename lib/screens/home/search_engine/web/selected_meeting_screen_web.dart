@@ -145,10 +145,7 @@ class _SelectedMeetingScreenWebState extends State<SelectedMeetingScreenWeb> {
                       ),
                     ),
                   ),
-                  SelectedRaceTableWeb(
-                    bodyWidth: bodyWidth,
-                    provider: classicForm,
-                  ),
+                  RaceListWeb(bodyWidth: bodyWidth, provider: classicForm),
                 ],
               ),
             ),
@@ -264,8 +261,8 @@ class _SelectedMeetingScreenWebState extends State<SelectedMeetingScreenWeb> {
   }
 }
 
-class SelectedRaceTableWeb extends StatefulWidget {
-  const SelectedRaceTableWeb({
+class RaceListWeb extends StatefulWidget {
+  const RaceListWeb({
     super.key,
     required this.bodyWidth,
     required this.provider,
@@ -275,10 +272,10 @@ class SelectedRaceTableWeb extends StatefulWidget {
   final ClassicFormProvider provider;
 
   @override
-  State<SelectedRaceTableWeb> createState() => _SelectedRaceTableWebState();
+  State<RaceListWeb> createState() => _RaceListWebState();
 }
 
-class _SelectedRaceTableWebState extends State<SelectedRaceTableWeb> {
+class _RaceListWebState extends State<RaceListWeb> {
   int? expandedIndex;
 
   static String _formatStat(HorseStatsDetails value) {
@@ -378,7 +375,7 @@ class _SelectedRaceTableWebState extends State<SelectedRaceTableWeb> {
         color: isExpanded
             ? AppColors.primary.withValues(alpha: 0.035)
             : AppColors.white,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(6.r),
         border: Border.all(
           color: isExpanded
               ? AppColors.primary.withValues(alpha: 0.35)
@@ -452,35 +449,61 @@ class _SelectedRaceTableWebState extends State<SelectedRaceTableWeb> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 10,
-                        vertical: 6,
-                      ),
-                      decoration: BoxDecoration(
-                        color: AppColors.primary,
-                        borderRadius: BorderRadius.circular(999),
-                      ),
-                      child: Text(
-                        odds.startsWith('\$') ? odds : '\$$odds',
-                        style: semiBold(fontSize: 12, color: AppColors.white),
-                      ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      spacing: 6,
+                      children: [
+                        GestureDetector(
+                          behavior: HitTestBehavior.opaque,
+                          onTap: () => launchUnibetUrl(),
+                          child: ImageWidget(
+                            path: AppAssets.unibatLogo,
+                            type: ImageType.asset,
+                            height: 22,
+                          ),
+                        ),
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 10,
+                            vertical: 6,
+                          ),
+                          decoration: BoxDecoration(
+                            color: AppColors.primary,
+                            borderRadius: BorderRadius.circular(999),
+                          ),
+                          child: Text(
+                            odds.startsWith('\$') ? odds : "\$ $odds",
+                            style: semiBold(fontSize: 12, color: AppColors.white),
+                          ),
+                        ),
+                      ],
                     ),
                     const SizedBox(height: 8),
                     SizedBox(
                       height: 34,
-                      child: AppFilledButton(
-                        margin: EdgeInsets.zero,
-                        text: "Add to Tip Slip",
-                        textStyle: semiBold(
-                          fontSize: 12,
-                          color: AppColors.white,
-                        ),
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 12,
-                          vertical: 8,
-                        ),
-                        onTap: () {},
+                      child: Consumer<SearchEngineProvider>(
+                        builder: (context, provider, child) {
+                          return AppFilledButton(
+                            margin: EdgeInsets.zero,
+                            text: "Add to Tip Slip",
+                            textStyle: semiBold(
+                              fontSize: 12,
+                              color: AppColors.white,
+                            ),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 12,
+                              vertical: 8,
+                            ),
+                            onTap: () {
+                              provider.createTipSlip(
+                                context: context,
+                                selectionId: selection.selectionId.toString(),
+                              );
+                            },
+                          child: provider.isCreatingTipSlip && provider.creatingForSelectionId == selection.selectionId.toString() ? progressIndicator() : null,
+
+                          );
+                        },
                       ),
                     ),
                   ],

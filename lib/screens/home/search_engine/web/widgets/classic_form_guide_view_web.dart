@@ -43,14 +43,13 @@ class ClassicFormGuideViewWeb extends StatelessWidget {
               }
 
               Widget meetingTile(ClassicFormModel meeting) {
-                final screenWidth = context.fullScreenWidth;
                 final trackCondition = meeting.races.isEmpty
                     ? ''
                     : meeting.races.first.trackCondition.toLowerCase();
                 return OnMouseTap(
                   onTap: () => openMeeting(meeting),
                   child: Container(
-                    width: screenWidth * 0.23,//context.fullScreenWidth * ((screenWidth > 1450) ? 0.22 : (screenWidth > 900) ? 0.26 : 0.3),
+                    width: ((context.screenWidth > 1450) ? 360 : (context.screenWidth > 900) ? 320 : 300),
                     padding: const EdgeInsets.symmetric(
                       horizontal: 9,
                       vertical: 8,

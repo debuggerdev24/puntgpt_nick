@@ -1139,7 +1139,6 @@ class SearchEngineProvider extends ChangeNotifier {
             context: context,
             message: "Added to tip slip successfully",
           );
-          // tipSlipCount++;
           getAllTipSlips();
         }
       },

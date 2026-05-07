@@ -6,11 +6,11 @@ import 'package:puntgpt_nick/main.dart';
 import 'package:puntgpt_nick/provider/account/account_provider.dart';
 import 'package:puntgpt_nick/provider/auth/auth_provider.dart';
 import 'package:puntgpt_nick/provider/subscription/subscription_provider.dart';
-import 'package:puntgpt_nick/screens/account/web/web_change_password_section.dart';
-import 'package:puntgpt_nick/screens/account/web/web_current_plan_section.dart';
-import 'package:puntgpt_nick/screens/account/web/web_manage_subscription_section.dart';
-import 'package:puntgpt_nick/screens/account/web/web_personal_details_section.dart';
-import 'package:puntgpt_nick/screens/account/web/web_selected_plan_section.dart';
+import 'package:puntgpt_nick/screens/account/web/change_password_section_web.dart';
+import 'package:puntgpt_nick/screens/account/web/current_plan_section_web.dart';
+import 'package:puntgpt_nick/screens/account/web/manage_subscription_section_web.dart';
+import 'package:puntgpt_nick/screens/account/web/personal_details_section_web.dart';
+import 'package:puntgpt_nick/screens/account/web/selected_plan_section_web.dart';
 import 'package:puntgpt_nick/screens/home/search_engine/web/home_screen_web.dart';
 
 class AccountScreenWeb extends StatefulWidget {
